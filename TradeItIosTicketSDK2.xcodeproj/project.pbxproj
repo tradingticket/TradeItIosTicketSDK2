@@ -7,13 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FAFD2E5B1D4BA75F00B882DB /* TradeItIosTicketSDK2.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
+		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */; };
 		FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E661D4BA75F00B882DB /* TestTest.swift */; };
 		FAFD2E721D4BA7B300B882DB /* MyClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E711D4BA7B300B882DB /* MyClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FACE83011D4BBED000AC2297 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 08CD8B851B338A7500F7E530;
+			remoteInfo = TradeItIosEmsApi;
+		};
+		FACE83031D4BBED000AC2297 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 08CD8B901B338A7500F7E530;
+			remoteInfo = TradeItIosEmsApiTests;
+		};
+		FACE83061D4BBF3D00AC2297 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
+			remoteInfo = TradeItIosEmsApi;
+		};
 		FAFD2E631D4BA75F00B882DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAFD2E4E1D4BA75E00B882DB /* Project object */;
@@ -24,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
+		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2.h; sourceTree = "<group>"; };
 		FAFD2E5C1D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,9 +77,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FACE82FC1D4BBED000AC2297 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */,
+				FACE83041D4BBED000AC2297 /* TradeItIosEmsApiTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
+				FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */,
 				FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */,
 				FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
 				FAFD2E581D4BA75E00B882DB /* Products */,
@@ -76,9 +111,9 @@
 				FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */,
 				FAFD2E5C1D4BA75F00B882DB /* Info.plist */,
 				FAFD2E711D4BA7B300B882DB /* MyClass.swift */,
+				FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */,
 			);
-			name = TradeItIosTicketSDK2;
-			path = TradeItSDK;
+			path = TradeItIosTicketSDK2;
 			sourceTree = "<group>";
 		};
 		FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
@@ -98,7 +133,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E5B1D4BA75F00B882DB /* TradeItIosTicketSDK2.h in Headers */,
+				FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +152,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FACE83071D4BBF3D00AC2297 /* PBXTargetDependency */,
 			);
 			name = TradeItIosTicketSDK2;
 			productName = TradeItSDK;
@@ -169,6 +205,12 @@
 			mainGroup = FAFD2E4D1D4BA75E00B882DB;
 			productRefGroup = FAFD2E581D4BA75E00B882DB /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FACE82FC1D4BBED000AC2297 /* Products */;
+					ProjectRef = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */,
@@ -176,6 +218,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTradeItIosEmsApi.a;
+			remoteRef = FACE83011D4BBED000AC2297 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FACE83041D4BBED000AC2297 /* TradeItIosEmsApiTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = TradeItIosEmsApiTests.xctest;
+			remoteRef = FACE83031D4BBED000AC2297 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FAFD2E551D4BA75E00B882DB /* Resources */ = {
@@ -214,6 +273,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FACE83071D4BBF3D00AC2297 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TradeItIosEmsApi;
+			targetProxy = FACE83061D4BBF3D00AC2297 /* PBXContainerItemProxy */;
+		};
 		FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */;
@@ -321,12 +385,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TradeItSDK/Info.plist;
+				INFOPLIST_FILE = TradeItIosTicketSDK2/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -339,12 +404,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TradeItSDK/Info.plist;
+				INFOPLIST_FILE = TradeItIosTicketSDK2/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 			};
 			name = Release;
 		};

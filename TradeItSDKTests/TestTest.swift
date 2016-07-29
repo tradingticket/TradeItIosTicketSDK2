@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import TradeItSDK
+@testable import TradeItIosTicketSDK2
 
-class TradeItSDKTests: XCTestCase {
+class TestTest: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FAFD2E5B1D4BA75F00B882DB /* TradeItSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFD2E5A1D4BA75F00B882DB /* TradeItSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAFD2E621D4BA75F00B882DB /* TradeItSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItSDK.framework */; };
-		FAFD2E671D4BA75F00B882DB /* TradeItSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E661D4BA75F00B882DB /* TradeItSDKTests.swift */; };
+		FAFD2E5B1D4BA75F00B882DB /* TradeItIosTicketSDK2.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */; };
+		FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E661D4BA75F00B882DB /* TestTest.swift */; };
 		FAFD2E721D4BA7B300B882DB /* MyClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E711D4BA7B300B882DB /* MyClass.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,11 +24,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FAFD2E571D4BA75E00B882DB /* TradeItSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAFD2E5A1D4BA75F00B882DB /* TradeItSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItSDK.h; sourceTree = "<group>"; };
+		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2.h; sourceTree = "<group>"; };
 		FAFD2E5C1D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAFD2E611D4BA75F00B882DB /* TradeItSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeItSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAFD2E661D4BA75F00B882DB /* TradeItSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItSDKTests.swift; sourceTree = "<group>"; };
+		FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeItIosTicketSDK2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAFD2E661D4BA75F00B882DB /* TestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTest.swift; sourceTree = "<group>"; };
 		FAFD2E681D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAFD2E711D4BA7B300B882DB /* MyClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E621D4BA75F00B882DB /* TradeItSDK.framework in Frameworks */,
+				FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +55,8 @@
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
-				FAFD2E591D4BA75F00B882DB /* TradeItSDK */,
-				FAFD2E651D4BA75F00B882DB /* TradeItSDKTests */,
+				FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */,
+				FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
 				FAFD2E581D4BA75E00B882DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,28 +64,30 @@
 		FAFD2E581D4BA75E00B882DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FAFD2E571D4BA75E00B882DB /* TradeItSDK.framework */,
-				FAFD2E611D4BA75F00B882DB /* TradeItSDKTests.xctest */,
+				FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */,
+				FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FAFD2E591D4BA75F00B882DB /* TradeItSDK */ = {
+		FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */ = {
 			isa = PBXGroup;
 			children = (
-				FAFD2E5A1D4BA75F00B882DB /* TradeItSDK.h */,
+				FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */,
 				FAFD2E5C1D4BA75F00B882DB /* Info.plist */,
 				FAFD2E711D4BA7B300B882DB /* MyClass.swift */,
 			);
+			name = TradeItIosTicketSDK2;
 			path = TradeItSDK;
 			sourceTree = "<group>";
 		};
-		FAFD2E651D4BA75F00B882DB /* TradeItSDKTests */ = {
+		FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXGroup;
 			children = (
-				FAFD2E661D4BA75F00B882DB /* TradeItSDKTests.swift */,
+				FAFD2E661D4BA75F00B882DB /* TestTest.swift */,
 				FAFD2E681D4BA75F00B882DB /* Info.plist */,
 			);
+			name = TradeItIosTicketSDK2Tests;
 			path = TradeItSDKTests;
 			sourceTree = "<group>";
 		};
@@ -96,16 +98,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E5B1D4BA75F00B882DB /* TradeItSDK.h in Headers */,
+				FAFD2E5B1D4BA75F00B882DB /* TradeItIosTicketSDK2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		FAFD2E561D4BA75E00B882DB /* TradeItSDK */ = {
+		FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItSDK" */;
+			buildConfigurationList = FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2" */;
 			buildPhases = (
 				FAFD2E521D4BA75E00B882DB /* Sources */,
 				FAFD2E531D4BA75E00B882DB /* Frameworks */,
@@ -116,14 +118,14 @@
 			);
 			dependencies = (
 			);
-			name = TradeItSDK;
+			name = TradeItIosTicketSDK2;
 			productName = TradeItSDK;
-			productReference = FAFD2E571D4BA75E00B882DB /* TradeItSDK.framework */;
+			productReference = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FAFD2E601D4BA75F00B882DB /* TradeItSDKTests */ = {
+		FAFD2E601D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAFD2E6E1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItSDKTests" */;
+			buildConfigurationList = FAFD2E6E1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2Tests" */;
 			buildPhases = (
 				FAFD2E5D1D4BA75F00B882DB /* Sources */,
 				FAFD2E5E1D4BA75F00B882DB /* Frameworks */,
@@ -134,9 +136,9 @@
 			dependencies = (
 				FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */,
 			);
-			name = TradeItSDKTests;
+			name = TradeItIosTicketSDK2Tests;
 			productName = TradeItSDKTests;
-			productReference = FAFD2E611D4BA75F00B882DB /* TradeItSDKTests.xctest */;
+			productReference = FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -157,7 +159,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FAFD2E511D4BA75E00B882DB /* Build configuration list for PBXProject "TradeItSDK" */;
+			buildConfigurationList = FAFD2E511D4BA75E00B882DB /* Build configuration list for PBXProject "TradeItIosTicketSDK2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -169,8 +171,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FAFD2E561D4BA75E00B882DB /* TradeItSDK */,
-				FAFD2E601D4BA75F00B882DB /* TradeItSDKTests */,
+				FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */,
+				FAFD2E601D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -205,7 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E671D4BA75F00B882DB /* TradeItSDKTests.swift in Sources */,
+				FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,7 +216,7 @@
 /* Begin PBXTargetDependency section */
 		FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FAFD2E561D4BA75E00B882DB /* TradeItSDK */;
+			target = FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */;
 			targetProxy = FAFD2E631D4BA75F00B882DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -322,8 +324,8 @@
 				INFOPLIST_FILE = TradeItSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDK;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2;
+				PRODUCT_NAME = TradeItIosTicketSDK2;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -340,8 +342,8 @@
 				INFOPLIST_FILE = TradeItSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDK;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2;
+				PRODUCT_NAME = TradeItIosTicketSDK2;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -352,7 +354,7 @@
 				INFOPLIST_FILE = TradeItSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDKTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TradeItIosTicketSDK2;
 			};
 			name = Debug;
 		};
@@ -362,14 +364,14 @@
 				INFOPLIST_FILE = TradeItSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDKTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TradeItIosTicketSDK2;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FAFD2E511D4BA75E00B882DB /* Build configuration list for PBXProject "TradeItSDK" */ = {
+		FAFD2E511D4BA75E00B882DB /* Build configuration list for PBXProject "TradeItIosTicketSDK2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAFD2E691D4BA75F00B882DB /* Debug */,
@@ -378,21 +380,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItSDK" */ = {
+		FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAFD2E6C1D4BA75F00B882DB /* Debug */,
 				FAFD2E6D1D4BA75F00B882DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		FAFD2E6E1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItSDKTests" */ = {
+		FAFD2E6E1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAFD2E6F1D4BA75F00B882DB /* Debug */,
 				FAFD2E701D4BA75F00B882DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

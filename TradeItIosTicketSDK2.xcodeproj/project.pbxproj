@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
+		FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
+		FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */; };
 		FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E661D4BA75F00B882DB /* TestTest.swift */; };
-		FAFD2E721D4BA7B300B882DB /* MyClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E711D4BA7B300B882DB /* MyClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
+		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
 		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
 		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,7 +58,6 @@
 		FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeItIosTicketSDK2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFD2E661D4BA75F00B882DB /* TestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTest.swift; sourceTree = "<group>"; };
 		FAFD2E681D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAFD2E711D4BA7B300B882DB /* MyClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +113,9 @@
 			children = (
 				FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */,
 				FAFD2E5C1D4BA75F00B882DB /* Info.plist */,
-				FAFD2E711D4BA7B300B882DB /* MyClass.swift */,
 				FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */,
+				FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */,
+				FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */,
 			);
 			path = TradeItIosTicketSDK2;
 			sourceTree = "<group>";
@@ -241,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E721D4BA7B300B882DB /* MyClass.swift in Sources */,
+				FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */,
+				FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

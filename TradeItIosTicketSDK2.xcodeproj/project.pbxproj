@@ -10,6 +10,7 @@
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
+		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
 		FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */; };
 		FA9760231D4FE9B800AC0C7E /* TradeItLauncherSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */; };
@@ -171,6 +172,7 @@
 /* Begin PBXFileReference section */
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
+		FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewController.swift; sourceTree = "<group>"; };
 		FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = submodules/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = submodules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncherSpec.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */,
 				FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */,
 				FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */,
+				FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */,
 			);
 			path = TradeItIosTicketSDK2;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */,
 				FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

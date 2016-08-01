@@ -46,21 +46,6 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fri-XE-ZRO">
-                                <rect key="frame" x="178" y="382" width="245" height="40"/>
-                                <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
-                                </constraints>
-                                <state key="normal" title="Get Started Now">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="4T4-ZR-clB" userLabel="List View">
                                 <rect key="frame" x="178" y="186" width="245" height="146"/>
                                 <subviews>
@@ -199,6 +184,24 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fri-XE-ZRO">
+                                <rect key="frame" x="178" y="382" width="245" height="40"/>
+                                <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
+                                </constraints>
+                                <state key="normal" title="Get Started Now">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="xYJ-xj-EpF" kind="show" id="TRv-df-83B"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -220,6 +223,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fFP-9k-GYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="945" y="-600"/>
+        </scene>
+        <!--Select Your Broker-->
+        <scene sceneID="IXX-En-peW">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tMX-1x-5GL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jki-nr-TvV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aUA-LR-llV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0rh-GM-L5c">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="xYJ-xj-EpF" id="uRl-P4-lel"/>
+                                    <outlet property="delegate" destination="xYJ-xj-EpF" id="1pe-HV-f91"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Jki-nr-TvV" firstAttribute="top" secondItem="0rh-GM-L5c" secondAttribute="bottom" id="SJc-UY-nsU"/>
+                            <constraint firstItem="0rh-GM-L5c" firstAttribute="top" secondItem="tMX-1x-5GL" secondAttribute="bottom" id="cYb-C1-Ic1"/>
+                            <constraint firstItem="0rh-GM-L5c" firstAttribute="leading" secondItem="aUA-LR-llV" secondAttribute="leading" id="gNI-gA-uQm"/>
+                            <constraint firstAttribute="trailing" secondItem="0rh-GM-L5c" secondAttribute="trailing" id="yWU-gI-chD"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX"/>
+                    <connections>
+                        <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1625" y="-600"/>
         </scene>
     </scenes>
 </document>

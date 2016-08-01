@@ -10,13 +10,134 @@
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
+		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
+		FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */; };
+		FA9760231D4FE9B800AC0C7E /* TradeItLauncherSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */; };
 		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */; };
-		FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFD2E661D4BA75F00B882DB /* TestTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FA975FF01D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74291940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		FA975FF21D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74341940169200FFFC47;
+			remoteInfo = "Nimble-iOSTests";
+		};
+		FA975FF41D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EAD195C0D6300ED456B;
+			remoteInfo = "Nimble-OSX";
+		};
+		FA975FF61D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
+			remoteInfo = "Nimble-OSXTests";
+		};
+		FA975FF81D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF1551BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOS";
+		};
+		FA975FFA1D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF15E1BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOSTests";
+		};
+		FA97600A1D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B8E1943873100289F44;
+			remoteInfo = "Quick-OSX";
+		};
+		FA97600C1D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B991943873100289F44;
+			remoteInfo = "Quick-OSXTests";
+		};
+		FA97600E1D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5663E81A4C8D8500193C88;
+			remoteInfo = "QuickFocused-OSXTests";
+		};
+		FA9760101D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D117C19473F2100F6D13D;
+			remoteInfo = "Quick-iOS";
+		};
+		FA9760121D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D118619473F2100F6D13D;
+			remoteInfo = "Quick-iOSTests";
+		};
+		FA9760141D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA9876B21A4C70EB0004AA17;
+			remoteInfo = "QuickFocused-iOSTests";
+		};
+		FA9760161D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CD51BDCA4AB005013A2;
+			remoteInfo = "Quick-tvOS";
+		};
+		FA9760181D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CDE1BDCA4AB005013A2;
+			remoteInfo = "Quick-tvOSTests";
+		};
+		FA97601A1D4FE8F200AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CF01BDCA4BB005013A2;
+			remoteInfo = "QuickFocused-tvOSTests";
+		};
+		FA97601C1D4FE90B00AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F1A74281940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		FA97601E1D4FE91100AC0C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A5D117B19473F2100F6D13D;
+			remoteInfo = "Quick-iOS";
+		};
 		FACE83011D4BBED000AC2297 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
@@ -50,13 +171,15 @@
 /* Begin PBXFileReference section */
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
+		FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = submodules/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
+		FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = submodules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncherSpec.swift; sourceTree = "<group>"; };
 		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
 		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2.h; sourceTree = "<group>"; };
 		FAFD2E5C1D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeItIosTicketSDK2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAFD2E661D4BA75F00B882DB /* TestTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTest.swift; sourceTree = "<group>"; };
 		FAFD2E681D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,6 +196,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */,
+				FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */,
 				FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,6 +205,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA975FE81D4FE8DB00AC0C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */,
+				FA975FF31D4FE8DB00AC0C7E /* NimbleTests.xctest */,
+				FA975FF51D4FE8DB00AC0C7E /* Nimble.framework */,
+				FA975FF71D4FE8DB00AC0C7E /* NimbleTests.xctest */,
+				FA975FF91D4FE8DB00AC0C7E /* Nimble.framework */,
+				FA975FFB1D4FE8DB00AC0C7E /* NimbleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA975FFF1D4FE8F200AC0C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA97600B1D4FE8F200AC0C7E /* Quick.framework */,
+				FA97600D1D4FE8F200AC0C7E /* Quick-OSXTests.xctest */,
+				FA97600F1D4FE8F200AC0C7E /* QuickFocused-OSXTests.xctest */,
+				FA9760111D4FE8F200AC0C7E /* Quick.framework */,
+				FA9760131D4FE8F200AC0C7E /* Quick-iOSTests.xctest */,
+				FA9760151D4FE8F200AC0C7E /* QuickFocused-iOSTests.xctest */,
+				FA9760171D4FE8F200AC0C7E /* Quick.framework */,
+				FA9760191D4FE8F200AC0C7E /* Quick-tvOSTests.xctest */,
+				FA97601B1D4FE8F200AC0C7E /* QuickFocused-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FACE82FC1D4BBED000AC2297 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +246,8 @@
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
+				FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */,
+				FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */,
 				FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */,
 				FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */,
 				FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
@@ -123,11 +279,10 @@
 		FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXGroup;
 			children = (
-				FAFD2E661D4BA75F00B882DB /* TestTest.swift */,
+				FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */,
 				FAFD2E681D4BA75F00B882DB /* Info.plist */,
 			);
-			name = TradeItIosTicketSDK2Tests;
-			path = TradeItSDKTests;
+			path = TradeItIosTicketSDK2Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,6 +329,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				FA97601F1D4FE91100AC0C7E /* PBXTargetDependency */,
+				FA97601D1D4FE90B00AC0C7E /* PBXTargetDependency */,
 				FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */,
 			);
 			name = TradeItIosTicketSDK2Tests;
@@ -211,6 +368,14 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = FA975FE81D4FE8DB00AC0C7E /* Products */;
+					ProjectRef = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
+				},
+				{
+					ProductGroup = FA975FFF1D4FE8F200AC0C7E /* Products */;
+					ProjectRef = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
+				},
+				{
 					ProductGroup = FACE82FC1D4BBED000AC2297 /* Products */;
 					ProjectRef = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
 				},
@@ -224,6 +389,111 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = FA975FF01D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA975FF31D4FE8DB00AC0C7E /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = FA975FF21D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA975FF51D4FE8DB00AC0C7E /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = FA975FF41D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA975FF71D4FE8DB00AC0C7E /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = FA975FF61D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA975FF91D4FE8DB00AC0C7E /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = FA975FF81D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA975FFB1D4FE8DB00AC0C7E /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = FA975FFA1D4FE8DB00AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA97600B1D4FE8F200AC0C7E /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = FA97600A1D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA97600D1D4FE8F200AC0C7E /* Quick-OSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-OSXTests.xctest";
+			remoteRef = FA97600C1D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA97600F1D4FE8F200AC0C7E /* QuickFocused-OSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-OSXTests.xctest";
+			remoteRef = FA97600E1D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA9760111D4FE8F200AC0C7E /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = FA9760101D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA9760131D4FE8F200AC0C7E /* Quick-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-iOSTests.xctest";
+			remoteRef = FA9760121D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA9760151D4FE8F200AC0C7E /* QuickFocused-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-iOSTests.xctest";
+			remoteRef = FA9760141D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA9760171D4FE8F200AC0C7E /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = FA9760161D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA9760191D4FE8F200AC0C7E /* Quick-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-tvOSTests.xctest";
+			remoteRef = FA9760181D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA97601B1D4FE8F200AC0C7E /* QuickFocused-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-tvOSTests.xctest";
+			remoteRef = FA97601A1D4FE8F200AC0C7E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -271,7 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFD2E671D4BA75F00B882DB /* TestTest.swift in Sources */,
+				FA9760231D4FE9B800AC0C7E /* TradeItLauncherSpec.swift in Sources */,
 				FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +549,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FA97601D1D4FE90B00AC0C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Nimble-iOS";
+			targetProxy = FA97601C1D4FE90B00AC0C7E /* PBXContainerItemProxy */;
+		};
+		FA97601F1D4FE91100AC0C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Quick-iOS";
+			targetProxy = FA97601E1D4FE91100AC0C7E /* PBXContainerItemProxy */;
+		};
 		FACE83071D4BBF3D00AC2297 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TradeItIosEmsApi;
@@ -423,9 +703,9 @@
 		FAFD2E6F1D4BA75F00B882DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = TradeItSDKTests/Info.plist;
+				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
 			};
 			name = Debug;
@@ -433,9 +713,9 @@
 		FAFD2E701D4BA75F00B882DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = TradeItSDKTests/Info.plist;
+				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
 			};
 			name = Release;

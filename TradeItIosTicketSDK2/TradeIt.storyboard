@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="NRU-dQ-4Et" kind="relationship" relationship="rootViewController" id="YCr-fB-yYs"/>
+                        <segue destination="NRU-dQ-4Et" kind="relationship" relationship="rootViewController" id="Z6g-o9-4UN"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Uo-Ms-0px" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -37,17 +37,17 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link your broker account" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="scP-dm-Rke">
                                 <rect key="frame" x="20" y="94" width="560" height="26"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to enable:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K22-rs-P91">
                                 <rect key="frame" x="20" y="120" width="560" height="26"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fri-XE-ZRO">
-                                <rect key="frame" x="178" y="362" width="245" height="40"/>
+                                <rect key="frame" x="178" y="382" width="245" height="40"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
@@ -62,29 +62,29 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <view autoresizesSubviews="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="4T4-ZR-clB" userLabel="List View">
-                                <rect key="frame" x="178" y="176" width="245" height="146"/>
+                                <rect key="frame" x="178" y="186" width="245" height="146"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Fast and easy trading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEI-35-Ec2">
-                                        <rect key="frame" x="9" y="0.0" width="181" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fast and easy trading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEI-35-Ec2">
+                                        <rect key="frame" x="9" y="0.0" width="171" height="22"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="View all of your accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JsF-n8-Tap">
-                                        <rect key="frame" x="9" y="32" width="199" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View all of your accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JsF-n8-Tap">
+                                        <rect key="frame" x="9" y="32" width="188" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Comprehensive security" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gb-J7-cGP">
-                                        <rect key="frame" x="9" y="63" width="195" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comprehensive security" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gb-J7-cGP">
+                                        <rect key="frame" x="9" y="63" width="184" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Convenient logins via TouchID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l33-GS-HM4">
-                                        <rect key="frame" x="9" y="94" width="240" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Convenient logins via TouchID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l33-GS-HM4">
+                                        <rect key="frame" x="9" y="94" width="227" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w1u-jX-Oma" userLabel="Bullet">
@@ -152,10 +152,10 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="755" misplaced="YES" text="All major US brokers supported" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qtm-Pq-T2V">
-                                        <rect key="frame" x="9" y="125" width="250" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="755" text="All major US brokers supported" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qtm-Pq-T2V">
+                                        <rect key="frame" x="9" y="125" width="236" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -203,7 +203,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="K22-rs-P91" firstAttribute="leading" secondItem="DNd-LD-WeB" secondAttribute="leadingMargin" id="31p-kw-uBe"/>
-                            <constraint firstItem="Fri-XE-ZRO" firstAttribute="top" secondItem="4T4-ZR-clB" secondAttribute="bottom" constant="40" id="5Sp-BP-psK"/>
+                            <constraint firstItem="Fri-XE-ZRO" firstAttribute="top" secondItem="4T4-ZR-clB" secondAttribute="bottom" constant="50" id="5Sp-BP-psK"/>
                             <constraint firstItem="scP-dm-Rke" firstAttribute="leading" secondItem="DNd-LD-WeB" secondAttribute="leadingMargin" id="DDK-hI-NaC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="K22-rs-P91" secondAttribute="trailing" id="Dol-o2-2dg"/>
                             <constraint firstItem="Fri-XE-ZRO" firstAttribute="centerX" secondItem="DNd-LD-WeB" secondAttribute="centerX" id="JYX-y9-How"/>
@@ -211,7 +211,7 @@
                             <constraint firstItem="Fri-XE-ZRO" firstAttribute="width" secondItem="4T4-ZR-clB" secondAttribute="width" id="gwR-gG-7HC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="scP-dm-Rke" secondAttribute="trailing" id="oXB-AJ-Ssl"/>
                             <constraint firstItem="K22-rs-P91" firstAttribute="top" secondItem="scP-dm-Rke" secondAttribute="bottom" id="pZz-Zr-kzk"/>
-                            <constraint firstItem="4T4-ZR-clB" firstAttribute="top" secondItem="K22-rs-P91" secondAttribute="bottom" constant="30" id="r7D-Nz-2TN"/>
+                            <constraint firstItem="4T4-ZR-clB" firstAttribute="top" secondItem="K22-rs-P91" secondAttribute="bottom" constant="40" id="r7D-Nz-2TN"/>
                             <constraint firstItem="scP-dm-Rke" firstAttribute="top" secondItem="hku-7I-B6Y" secondAttribute="bottom" constant="30" id="yeK-yh-Pb7"/>
                         </constraints>
                     </view>

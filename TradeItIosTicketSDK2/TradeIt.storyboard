@@ -227,7 +227,7 @@
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tMX-1x-5GL"/>
                         <viewControllerLayoutGuide type="bottom" id="Jki-nr-TvV"/>

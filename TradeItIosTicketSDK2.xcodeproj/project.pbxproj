@@ -7,19 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
+		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
+		B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */; };
+		FA16B09A1D51345E00752C2D /* FakeTradeItConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */; };
+		FA16B0A51D5145C600752C2D /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */; };
+		FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
-		FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
 		FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */; };
-		FA9760231D4FE9B800AC0C7E /* TradeItLauncherSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */; };
+		FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC73A3F1D51189600464BC6 /* SpecHelper.swift */; };
 		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FA16B0A31D51455000752C2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
+			remoteInfo = TradeItIosEmsApi;
+		};
 		FA975FF01D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
@@ -160,22 +171,19 @@
 			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
 			remoteInfo = TradeItIosEmsApi;
 		};
-		FAFD2E631D4BA75F00B882DB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FAFD2E4E1D4BA75E00B882DB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FAFD2E561D4BA75E00B882DB;
-			remoteInfo = TradeItSDK;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewControllerSpec.swift; sourceTree = "<group>"; };
+		FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItConnector.swift; sourceTree = "<group>"; };
+		FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTradeItIosEmsApi.a; path = "../../../../Library/Developer/Xcode/DerivedData/TradeItIosTicketSdkExample-hfvbwarbigqktwdslaikzqqeaser/Build/Products/Debug-iphonesimulator/libTradeItIosEmsApi.a"; sourceTree = "<group>"; };
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
 		FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewController.swift; sourceTree = "<group>"; };
 		FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = submodules/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = submodules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncherSpec.swift; sourceTree = "<group>"; };
+		FAC73A3F1D51189600464BC6 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
 		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
 		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,15 +206,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA16B0A51D5145C600752C2D /* libTradeItIosEmsApi.a in Frameworks */,
 				FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */,
 				FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */,
-				FAFD2E621D4BA75F00B882DB /* TradeItIosTicketSDK2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA16B0981D51344600752C2D /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */,
+			);
+			name = Fakes;
+			sourceTree = "<group>";
+		};
 		FA975FE81D4FE8DB00AC0C7E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +252,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		FAC73A471D5130F300464BC6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		FACE82FC1D4BBED000AC2297 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +272,7 @@
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
+				FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */,
 				FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */,
 				FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */,
 				FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */,
@@ -269,12 +294,12 @@
 		FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */ = {
 			isa = PBXGroup;
 			children = (
+				FAC73A471D5130F300464BC6 /* Controllers */,
 				FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */,
 				FAFD2E5C1D4BA75F00B882DB /* Info.plist */,
 				FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */,
 				FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */,
 				FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */,
-				FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */,
 			);
 			path = TradeItIosTicketSDK2;
 			sourceTree = "<group>";
@@ -282,8 +307,11 @@
 		FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXGroup;
 			children = (
+				FA16B0981D51344600752C2D /* Fakes */,
 				FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */,
 				FAFD2E681D4BA75F00B882DB /* Info.plist */,
+				B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */,
+				FAC73A3F1D51189600464BC6 /* SpecHelper.swift */,
 			);
 			path = TradeItIosTicketSDK2Tests;
 			sourceTree = "<group>";
@@ -332,9 +360,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				FA16B0A41D51455000752C2D /* PBXTargetDependency */,
 				FA97601F1D4FE91100AC0C7E /* PBXTargetDependency */,
 				FA97601D1D4FE90B00AC0C7E /* PBXTargetDependency */,
-				FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */,
 			);
 			name = TradeItIosTicketSDK2Tests;
 			productName = TradeItSDKTests;
@@ -526,6 +554,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,14 +574,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA9760231D4FE9B800AC0C7E /* TradeItLauncherSpec.swift in Sources */,
-				FA6CAAD11D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
+				FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */,
+				FA16B09A1D51345E00752C2D /* FakeTradeItConnector.swift in Sources */,
+				B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */,
+				FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */,
+				B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FA16B0A41D51455000752C2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TradeItIosEmsApi;
+			targetProxy = FA16B0A31D51455000752C2D /* PBXContainerItemProxy */;
+		};
 		FA97601D1D4FE90B00AC0C7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Nimble-iOS";
@@ -567,11 +604,6 @@
 			isa = PBXTargetDependency;
 			name = TradeItIosEmsApi;
 			targetProxy = FACE83061D4BBF3D00AC2297 /* PBXContainerItemProxy */;
-		};
-		FAFD2E641D4BA75F00B882DB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */;
-			targetProxy = FAFD2E631D4BA75F00B882DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -711,6 +743,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -721,6 +754,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 			};
 			name = Release;
 		};

@@ -5,22 +5,23 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
     var tradeItConnector: TradeItConnector = TradeItConnector.init(apiKey: "tradeit-test-api-key")
     let activityIndicator = UIActivityIndicatorView()
-    var brokers: [String] = []
-
+    var brokers: [[String : AnyObject]] = []
+    let segueLoginViewControllerId = "SEGUE_LOGIN_CONTROLLER"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tradeItConnector.environment = TradeItEmsTestEnv
+        self.tradeItConnector.environment = TradeItEmsTestEnv
 
-        initializeActivityIndicator()
+        self.initializeActivityIndicator()
 
-        activityIndicator.startAnimating()
+        self.activityIndicator.startAnimating()
 
-        tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [AnyObject]?) in
+        self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [AnyObject]!) in
             if let availableBrokers = availableBrokers {
                 for broker in availableBrokers {
-                    if let name = broker["longName"] as? String {
-                        self.brokers.append(name)
+                    if let broker = broker as? Dictionary<String, AnyObject> {
+                        self.brokers.append(broker)
                     }
                 }
             }
@@ -35,6 +36,8 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("SELECTED: \(indexPath.row) \(self.brokers[indexPath.row])")
+        self.performSegueWithIdentifier(segueLoginViewControllerId, sender: self)
+        self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     // Mark: - UITableViewDataSource
@@ -54,19 +57,29 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
             cell?.textLabel?.textColor = UIColor.darkTextColor()
         }
 
-        cell?.textLabel?.text = self.brokers[indexPath.row]
+        cell?.textLabel?.text = self.brokers[indexPath.row]["longName"] as? String
         
         return cell!
     }
 
-    // Mark - private
+    // Mark: - private
 
     private func initializeActivityIndicator() {
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        activityIndicator.color = UIColor.darkGrayColor()
-        activityIndicator.center = CGPointMake(self.view.center.x, self.view.center.y)
-        activityIndicator.hidesWhenStopped = true
+        self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.activityIndicator.color = UIColor.darkGrayColor()
+        self.activityIndicator.center = CGPointMake(self.view.center.x, self.view.center.y)
+        self.activityIndicator.hidesWhenStopped = true
         self.view.addSubview(activityIndicator)
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == segueLoginViewControllerId {
+            if let indexPath = self.brokerTable.indexPathForSelectedRow, let brokerSelected = self.brokers[indexPath.row] as [String : AnyObject]!  {
+                let destinationViewController = segue.destinationViewController as! TradeItLoginViewController
+                destinationViewController.selectedBroker = brokerSelected
+            }
+        }
     }
 
 }

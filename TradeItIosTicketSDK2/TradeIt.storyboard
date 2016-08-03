@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -256,11 +256,130 @@
                     <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX"/>
                     <connections>
                         <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
+                        <segue destination="Pi3-6E-5Lo" kind="show" identifier="SEGUE_LOGIN_CONTROLLER" id="Yp9-vB-2xK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1625" y="-600"/>
         </scene>
+        <!--Login-->
+        <scene sceneID="Qhc-jK-80Q">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" title="Login" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mco-d5-7JZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="rML-h2-sYO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jxT-Jj-bAX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in to BROKERNAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G82-1O-5AF">
+                                <rect key="frame" x="187" y="94" width="225" height="25.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" translatesAutoresizingMaskIntoConstraints="NO" id="9XT-OQ-rfl">
+                                <rect key="frame" x="157" y="93" width="22" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="FSs-hE-JZs"/>
+                                    <constraint firstAttribute="width" constant="22" id="K5I-yk-xUG"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fq3-UI-bvo">
+                                <rect key="frame" x="0.0" y="0.0" width="25" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Broker Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-Sv-WRs">
+                                <rect key="frame" x="199" y="149" width="200" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="BROKER_USERNAME_ID"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="5rW-Zd-Uuv"/>
+                                    <constraint firstAttribute="width" constant="200" id="uTV-1V-zIT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="userNameOnEditingChanged:" destination="Pi3-6E-5Lo" eventType="editingChanged" id="nZq-us-TaG"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Broker Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uaH-TC-Asd">
+                                <rect key="frame" x="199" y="191" width="200" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="BROKER_PASSWORD_ID"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="WF4-uC-GxJ"/>
+                                    <constraint firstAttribute="height" constant="32" id="jbb-sL-PRZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <action selector="passwordOnEditingChanged:" destination="Pi3-6E-5Lo" eventType="editingChanged" id="Kvc-I2-ATY"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yrz-pv-MdF">
+                                <rect key="frame" x="187" y="323" width="225" height="40"/>
+                                <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7vl-e6-c4z"/>
+                                </constraints>
+                                <state key="normal" title="Link Account">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="linkButtonClick:" destination="Pi3-6E-5Lo" eventType="touchUpInside" id="M6A-DH-FGe"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="G82-1O-5AF" firstAttribute="leading" secondItem="jxT-Jj-bAX" secondAttribute="leadingMargin" constant="121" id="1ux-KE-Sbl"/>
+                            <constraint firstItem="G82-1O-5AF" firstAttribute="centerX" secondItem="jxT-Jj-bAX" secondAttribute="centerX" id="2bf-sI-AeW"/>
+                            <constraint firstItem="rML-h2-sYO" firstAttribute="top" secondItem="Yrz-pv-MdF" secondAttribute="bottom" constant="50" id="43e-71-ldl"/>
+                            <constraint firstItem="G82-1O-5AF" firstAttribute="leading" secondItem="9XT-OQ-rfl" secondAttribute="trailing" constant="8" id="87V-Tl-vgo"/>
+                            <constraint firstItem="G82-1O-5AF" firstAttribute="top" secondItem="Mco-d5-7JZ" secondAttribute="bottom" constant="40" id="BBR-Es-4bS"/>
+                            <constraint firstItem="9XT-OQ-rfl" firstAttribute="width" secondItem="jxT-Jj-bAX" secondAttribute="width" id="CIX-4S-Dbb"/>
+                            <constraint firstItem="5Gp-Sv-WRs" firstAttribute="top" secondItem="G82-1O-5AF" secondAttribute="bottom" constant="30" id="CoX-yS-UHk"/>
+                            <constraint firstItem="Yrz-pv-MdF" firstAttribute="top" secondItem="uaH-TC-Asd" secondAttribute="bottom" constant="100" id="E3e-n4-nUB"/>
+                            <constraint firstItem="uaH-TC-Asd" firstAttribute="centerX" secondItem="G82-1O-5AF" secondAttribute="centerX" id="NhR-UI-T9j"/>
+                            <constraint firstItem="Yrz-pv-MdF" firstAttribute="width" secondItem="G82-1O-5AF" secondAttribute="width" id="OSG-QV-cT9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="G82-1O-5AF" secondAttribute="trailing" constant="252" id="Vhw-1W-cDd"/>
+                            <constraint firstItem="9XT-OQ-rfl" firstAttribute="centerY" secondItem="G82-1O-5AF" secondAttribute="centerY" id="dRr-fa-P0t"/>
+                            <constraint firstItem="uaH-TC-Asd" firstAttribute="top" secondItem="5Gp-Sv-WRs" secondAttribute="bottom" constant="10" id="fKB-fp-eMH"/>
+                            <constraint firstItem="5Gp-Sv-WRs" firstAttribute="centerX" secondItem="G82-1O-5AF" secondAttribute="centerX" id="gEr-6t-nuh"/>
+                            <constraint firstItem="Yrz-pv-MdF" firstAttribute="centerX" secondItem="G82-1O-5AF" secondAttribute="centerX" id="sq2-OD-SMP"/>
+                            <constraint firstItem="G82-1O-5AF" firstAttribute="top" secondItem="Mco-d5-7JZ" secondAttribute="bottom" constant="30" id="wca-TF-y9Q"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="CIX-4S-Dbb"/>
+                                <exclude reference="1ux-KE-Sbl"/>
+                                <exclude reference="BBR-Es-4bS"/>
+                                <exclude reference="Vhw-1W-cDd"/>
+                                <exclude reference="43e-71-ldl"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="linkButton" destination="Yrz-pv-MdF" id="W2V-W4-dND"/>
+                        <outlet property="loginLabel" destination="G82-1O-5AF" id="5vh-gE-AnI"/>
+                        <outlet property="passwordInput" destination="uaH-TC-Asd" id="s5m-py-aQP"/>
+                        <outlet property="userNameInput" destination="5Gp-Sv-WRs" id="Wdz-GZ-7qO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2265" y="-600"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="lock.png" width="69" height="93"/>
+    </resources>
 </document>

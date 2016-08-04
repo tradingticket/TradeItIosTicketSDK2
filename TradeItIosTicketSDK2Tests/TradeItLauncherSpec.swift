@@ -5,13 +5,16 @@ class TradeItLauncherSpec : QuickSpec {
     override func spec() {
         var tradeItLauncher: TradeItLauncher!
         var viewController: UIViewController!
-
+        var window: UIWindow!
+        
         describe("TradeItLauncher") {
             beforeEach {
+                window = UIWindow()
                 tradeItLauncher = TradeItLauncher()
                 viewController = UIViewController()
 
                 expect(viewController.view).notTo(beNil())
+                window.addSubview(viewController.view)
             }
 
             describe("launchTradeItFromViewController") {

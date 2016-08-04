@@ -244,17 +244,23 @@
                                     <outlet property="delegate" destination="xYJ-xj-EpF" id="1pe-HV-f91"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" restorationIdentifier="ACTIVITY_INDICATOR_ID" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Wxr-lk-aDK">
+                                <rect key="frame" x="290" y="322" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Wxr-lk-aDK" firstAttribute="centerX" secondItem="0rh-GM-L5c" secondAttribute="centerX" id="1AH-OG-lSd"/>
                             <constraint firstItem="Jki-nr-TvV" firstAttribute="top" secondItem="0rh-GM-L5c" secondAttribute="bottom" id="SJc-UY-nsU"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="top" secondItem="tMX-1x-5GL" secondAttribute="bottom" id="cYb-C1-Ic1"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="leading" secondItem="aUA-LR-llV" secondAttribute="leading" id="gNI-gA-uQm"/>
+                            <constraint firstItem="Wxr-lk-aDK" firstAttribute="centerY" secondItem="0rh-GM-L5c" secondAttribute="centerY" id="vYf-yL-mC4"/>
                             <constraint firstAttribute="trailing" secondItem="0rh-GM-L5c" secondAttribute="trailing" id="yWU-gI-chD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Wxr-lk-aDK" id="vnc-MF-vvP"/>
                         <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
                         <segue destination="Pi3-6E-5Lo" kind="show" identifier="SEGUE_LOGIN_CONTROLLER" id="Yp9-vB-2xK"/>
                     </connections>
@@ -337,6 +343,10 @@
                                     <action selector="linkButtonClick:" destination="Pi3-6E-5Lo" eventType="touchUpInside" id="M6A-DH-FGe"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NCp-xr-27R">
+                                <rect key="frame" x="372" y="333" width="20" height="20"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -350,6 +360,8 @@
                             <constraint firstItem="Yrz-pv-MdF" firstAttribute="top" secondItem="uaH-TC-Asd" secondAttribute="bottom" constant="100" id="E3e-n4-nUB"/>
                             <constraint firstItem="uaH-TC-Asd" firstAttribute="centerX" secondItem="G82-1O-5AF" secondAttribute="centerX" id="NhR-UI-T9j"/>
                             <constraint firstItem="Yrz-pv-MdF" firstAttribute="width" secondItem="G82-1O-5AF" secondAttribute="width" id="OSG-QV-cT9"/>
+                            <constraint firstItem="NCp-xr-27R" firstAttribute="centerY" secondItem="Yrz-pv-MdF" secondAttribute="centerY" id="PYw-9u-pzA"/>
+                            <constraint firstItem="NCp-xr-27R" firstAttribute="leading" secondItem="Yrz-pv-MdF" secondAttribute="trailing" constant="-40" id="UYE-99-I4X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G82-1O-5AF" secondAttribute="trailing" constant="252" id="Vhw-1W-cDd"/>
                             <constraint firstItem="9XT-OQ-rfl" firstAttribute="centerY" secondItem="G82-1O-5AF" secondAttribute="centerY" id="dRr-fa-P0t"/>
                             <constraint firstItem="uaH-TC-Asd" firstAttribute="top" secondItem="5Gp-Sv-WRs" secondAttribute="bottom" constant="10" id="fKB-fp-eMH"/>
@@ -368,15 +380,35 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="NCp-xr-27R" id="atD-fe-E4d"/>
                         <outlet property="linkButton" destination="Yrz-pv-MdF" id="W2V-W4-dND"/>
                         <outlet property="loginLabel" destination="G82-1O-5AF" id="5vh-gE-AnI"/>
                         <outlet property="passwordInput" destination="uaH-TC-Asd" id="s5m-py-aQP"/>
                         <outlet property="userNameInput" destination="5Gp-Sv-WRs" id="Wdz-GZ-7qO"/>
+                        <segue destination="bUI-w2-wjN" kind="show" identifier="SEGUE_ACCOUNT_CONTROLLER" id="UDl-f2-lho"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2265" y="-600"/>
+        </scene>
+        <!--Accounts-->
+        <scene sceneID="U2E-Rt-uec">
+            <objects>
+                <viewController title="Accounts" id="bUI-w2-wjN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wCc-Fh-MXb"/>
+                        <viewControllerLayoutGuide type="bottom" id="HnD-M4-Q13"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oqc-AE-0p4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2938" y="-600"/>
         </scene>
     </scenes>
     <resources>

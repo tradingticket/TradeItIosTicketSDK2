@@ -11,6 +11,7 @@
 		B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
+		B58720F31D53CE9B0061314F /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */; };
 		B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D82C2E1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift */; };
 		B5D82C321D529B5800AF3B6F /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
@@ -18,7 +19,6 @@
 		FA16B0A51D5145C600752C2D /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */; };
 		FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
-		FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
 		FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */; };
@@ -592,9 +592,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B58720F31D53CE9B0061314F /* TradeItLauncher.swift in Sources */,
 				B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */,
 				FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */,
-				FA6CAAD01D4BF53F00570F45 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

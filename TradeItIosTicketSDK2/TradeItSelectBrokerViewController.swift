@@ -2,9 +2,9 @@ import UIKit
 
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var tradeItConnector: TradeItConnector = TradeItConnector.init(apiKey: "tradeit-test-api-key")
-    let activityIndicator = UIActivityIndicatorView()
     var brokers: [[String : AnyObject]] = []
     let segueLoginViewControllerId = "SEGUE_LOGIN_CONTROLLER"
     
@@ -13,8 +13,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
         self.tradeItConnector.environment = TradeItEmsTestEnv
 
-        self.initializeActivityIndicator()
-
+        self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.startAnimating()
 
         self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [AnyObject]!) in
@@ -24,6 +23,11 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
                         self.brokers.append(broker)
                     }
                 }
+            }
+            else {
+                let alert = UIAlertController(title: "Could not fetch brokers", message: "Could not fetch the brokers list. Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
 
             self.brokerTable.reloadData()
@@ -35,7 +39,6 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     // Mark: - UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("SELECTED: \(indexPath.row) \(self.brokers[indexPath.row])")
         self.performSegueWithIdentifier(segueLoginViewControllerId, sender: self)
         self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
@@ -61,23 +64,13 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
         
         return cell!
     }
-
-    // Mark: - private
-
-    private func initializeActivityIndicator() {
-        self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        self.activityIndicator.color = UIColor.darkGrayColor()
-        self.activityIndicator.center = CGPointMake(self.view.center.x, self.view.center.y)
-        self.activityIndicator.hidesWhenStopped = true
-        self.view.addSubview(activityIndicator)
-    }
-    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == segueLoginViewControllerId {
-            if let indexPath = self.brokerTable.indexPathForSelectedRow, let brokerSelected = self.brokers[indexPath.row] as [String : AnyObject]!  {
+            if let indexPath = self.brokerTable.indexPathForSelectedRow, let selectedBroker = self.brokers[indexPath.row] as [String : AnyObject]!  {
                 let destinationViewController = segue.destinationViewController as! TradeItLoginViewController
-                destinationViewController.selectedBroker = brokerSelected
+                destinationViewController.selectedBroker = selectedBroker
+                destinationViewController.tradeItConnector = tradeItConnector
             }
         }
     }

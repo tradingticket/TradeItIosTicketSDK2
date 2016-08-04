@@ -3,29 +3,29 @@ import Nimble
 
 class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
-    class FakeTradeItConnector: TradeItConnector {
-        let calls = InvocationStack()
-        var completionBlock: (([AnyObject]!) -> Void)!
-
-        override func getAvailableBrokersWithCompletionBlock(completionBlock: (([AnyObject]!) -> Void)!) {
-            calls.invoke(#function, args: completionBlock)
-            self.completionBlock = completionBlock
-        }
-    }
-
     override func spec() {
         var controller: TradeItSelectBrokerViewController!
         let tradeItConnector = FakeTradeItConnector()
-
+        var window: UIWindow!
+        var nav: UINavigationController!
+        
         describe("initialization") {
             beforeEach {
+                window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_SELECT_BROKER_VIEW") as! TradeItSelectBrokerViewController
 
                 controller.tradeItConnector = tradeItConnector
+               
+                nav = UINavigationController(rootViewController: controller)
+                
                 expect(controller.view).toNot(beNil())
+                expect(nav.view).toNot(beNil())
+                
+                window.addSubview(nav.view)
+                NSRunLoop.currentRunLoop().runUntilDate(NSDate())
             }
 
             it("fetches the available brokers") {
@@ -38,7 +38,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
             context("when request to get brokers fails") {
                 beforeEach {
-                    tradeItConnector.completionBlock(nil)
+                    tradeItConnector.completionBlockAvailableBrokers(nil)
                 }
 
                 it("hides the spinner") {
@@ -51,7 +51,8 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 }
 
                 it("shows an error alert") {
-                    // TODO:
+                    expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                    expect(controller.presentedViewController?.title).to(equal("Could not fetch brokers"))
                 }
             }
 
@@ -62,7 +63,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                         ["longName": "Broker #2"]
                     ]
 
-                    tradeItConnector.completionBlock(brokersResponse)
+                    tradeItConnector.completionBlockAvailableBrokers(brokersResponse)
                 }
 
                 it("hides the spinner") {
@@ -82,6 +83,12 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                                                 cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
 
                     expect(cell.textLabel?.text).to(equal("Broker #2"))
+                }
+                
+                it("goes to the login controller") {
+                    controller.tableView(controller.brokerTable, didSelectRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
+                    let loginController = nav.topViewController as! TradeItLoginViewController
+                    expect(loginController.title).to(equal("Login"))
                 }
             }
         }

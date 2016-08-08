@@ -29,14 +29,15 @@
 		FAC8E7241D555A200024D693 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FAC8E7251D555A2A0024D693 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
 		FAC8E7281D555A700024D693 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
+		FAC8E7341D5902370024D693 /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8E7331D5902370024D693 /* UITestHelper.swift */; };
 		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAEC84F61D55277500EC32C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC84F51D55277500EC32C7 /* AppDelegate.swift */; };
-		FAEC84F81D55277500EC32C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC84F71D55277500EC32C7 /* ViewController.swift */; };
+		FAEC84F81D55277500EC32C7 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC84F71D55277500EC32C7 /* ExampleViewController.swift */; };
 		FAEC84FB1D55277500EC32C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84F91D55277500EC32C7 /* Main.storyboard */; };
 		FAEC84FD1D55277500EC32C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84FC1D55277500EC32C7 /* Assets.xcassets */; };
 		FAEC85001D55277500EC32C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84FE1D55277500EC32C7 /* LaunchScreen.storyboard */; };
-		FAEC850B1D55277500EC32C7 /* ExampleAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */; };
+		FAEC850B1D55277500EC32C7 /* TradeItIosTicketSDK2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC850A1D55277500EC32C7 /* TradeItIosTicketSDK2UITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,17 +230,18 @@
 		FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = submodules/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
 		FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncherSpec.swift; sourceTree = "<group>"; };
 		FAC73A3F1D51189600464BC6 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
+		FAC8E7331D5902370024D693 /* UITestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestHelper.swift; sourceTree = "<group>"; };
 		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
 		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAEC84F31D55277500EC32C7 /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC84F51D55277500EC32C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FAEC84F71D55277500EC32C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FAEC84F71D55277500EC32C7 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		FAEC84FA1D55277500EC32C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FAEC84FC1D55277500EC32C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAEC84FF1D55277500EC32C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAEC85011D55277500EC32C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAEC85061D55277500EC32C7 /* ExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAppUITests.swift; sourceTree = "<group>"; };
+		FAEC850A1D55277500EC32C7 /* TradeItIosTicketSDK2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItIosTicketSDK2UITests.swift; sourceTree = "<group>"; };
 		FAEC850C1D55277500EC32C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2.h; sourceTree = "<group>"; };
@@ -360,7 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				FAEC84F51D55277500EC32C7 /* AppDelegate.swift */,
-				FAEC84F71D55277500EC32C7 /* ViewController.swift */,
+				FAEC84F71D55277500EC32C7 /* ExampleViewController.swift */,
 				FAEC84F91D55277500EC32C7 /* Main.storyboard */,
 				FAEC84FC1D55277500EC32C7 /* Assets.xcassets */,
 				FAEC84FE1D55277500EC32C7 /* LaunchScreen.storyboard */,
@@ -372,8 +374,9 @@
 		FAEC85091D55277500EC32C7 /* ExampleAppUITests */ = {
 			isa = PBXGroup;
 			children = (
-				FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */,
+				FAEC850A1D55277500EC32C7 /* TradeItIosTicketSDK2UITests.swift */,
 				FAEC850C1D55277500EC32C7 /* Info.plist */,
+				FAC8E7331D5902370024D693 /* UITestHelper.swift */,
 			);
 			path = ExampleAppUITests;
 			sourceTree = "<group>";
@@ -747,7 +750,7 @@
 			files = (
 				FAC8E7201D5559EC0024D693 /* TradeItLauncher.swift in Sources */,
 				FAC8E7231D555A0F0024D693 /* TradeItLoginViewController.swift in Sources */,
-				FAEC84F81D55277500EC32C7 /* ViewController.swift in Sources */,
+				FAEC84F81D55277500EC32C7 /* ExampleViewController.swift in Sources */,
 				FAEC84F61D55277500EC32C7 /* AppDelegate.swift in Sources */,
 				FAC8E7221D555A0C0024D693 /* TradeItSelectBrokerViewController.swift in Sources */,
 			);
@@ -757,7 +760,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAEC850B1D55277500EC32C7 /* ExampleAppUITests.swift in Sources */,
+				FAEC850B1D55277500EC32C7 /* TradeItIosTicketSDK2UITests.swift in Sources */,
+				FAC8E7341D5902370024D693 /* UITestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,7 @@ enum Action: Int {
     case ENUM_COUNT
 }
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
 
     let tradeItLauncher: TradeItLauncher = TradeItLauncher()

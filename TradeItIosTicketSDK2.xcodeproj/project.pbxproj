@@ -16,15 +16,27 @@
 		B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D82C2E1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift */; };
 		B5D82C321D529B5800AF3B6F /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
 		FA16B09A1D51345E00752C2D /* FakeTradeItConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */; };
-		FA16B0A51D5145C600752C2D /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */; };
 		FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
 		FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */; };
 		FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC73A3F1D51189600464BC6 /* SpecHelper.swift */; };
+		FAC8E7201D5559EC0024D693 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
+		FAC8E7211D5559F30024D693 /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
+		FAC8E7221D555A0C0024D693 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
+		FAC8E7231D555A0F0024D693 /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
+		FAC8E7241D555A200024D693 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
+		FAC8E7251D555A2A0024D693 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
+		FAC8E7281D555A700024D693 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FACE83171D4BC23E00AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAEC84F61D55277500EC32C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC84F51D55277500EC32C7 /* AppDelegate.swift */; };
+		FAEC84F81D55277500EC32C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC84F71D55277500EC32C7 /* ViewController.swift */; };
+		FAEC84FB1D55277500EC32C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84F91D55277500EC32C7 /* Main.storyboard */; };
+		FAEC84FD1D55277500EC32C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84FC1D55277500EC32C7 /* Assets.xcassets */; };
+		FAEC85001D55277500EC32C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAEC84FE1D55277500EC32C7 /* LaunchScreen.storyboard */; };
+		FAEC850B1D55277500EC32C7 /* ExampleAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +166,13 @@
 			remoteGlobalIDString = 5A5D117B19473F2100F6D13D;
 			remoteInfo = "Quick-iOS";
 		};
+		FAC8E7261D555A600024D693 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
+			remoteInfo = TradeItIosEmsApi;
+		};
 		FACE83011D4BBED000AC2297 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */;
@@ -175,7 +194,27 @@
 			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
 			remoteInfo = TradeItIosEmsApi;
 		};
+		FAEC85071D55277500EC32C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAFD2E4E1D4BA75E00B882DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAEC84F21D55277500EC32C7;
+			remoteInfo = ExampleApp;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FAC8E71E1D5559680024D693 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
@@ -183,7 +222,6 @@
 		B5D82C2E1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewControllerSpec.swift; sourceTree = "<group>"; };
 		B5D82C311D529B5800AF3B6F /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItConnector.swift; sourceTree = "<group>"; };
-		FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTradeItIosEmsApi.a; path = "../../../../Library/Developer/Xcode/DerivedData/TradeItIosTicketSdkExample-hfvbwarbigqktwdslaikzqqeaser/Build/Products/Debug-iphonesimulator/libTradeItIosEmsApi.a"; sourceTree = "<group>"; };
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
 		FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +231,16 @@
 		FAC73A3F1D51189600464BC6 /* SpecHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
 		FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TradeItIosEmsApi.xcodeproj; path = submodules/TradeItIosEmsApi/TradeItIosEmsApi.xcodeproj; sourceTree = "<group>"; };
 		FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TradeItIosTicketSDK2-Bridging-Header.h"; sourceTree = "<group>"; };
+		FAEC84F31D55277500EC32C7 /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAEC84F51D55277500EC32C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAEC84F71D55277500EC32C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FAEC84FA1D55277500EC32C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FAEC84FC1D55277500EC32C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAEC84FF1D55277500EC32C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FAEC85011D55277500EC32C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAEC85061D55277500EC32C7 /* ExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleAppUITests.swift; sourceTree = "<group>"; };
+		FAEC850C1D55277500EC32C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFD2E5A1D4BA75F00B882DB /* TradeItIosTicketSDK2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2.h; sourceTree = "<group>"; };
 		FAFD2E5C1D4BA75F00B882DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -201,6 +249,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FAEC84F01D55277500EC32C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC8E7281D555A700024D693 /* libTradeItIosEmsApi.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAEC85031D55277500EC32C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAFD2E531D4BA75E00B882DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,7 +276,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA16B0A51D5145C600752C2D /* libTradeItIosEmsApi.a in Frameworks */,
 				FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */,
 				FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */,
 			);
@@ -294,15 +356,38 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		FAEC84F41D55277500EC32C7 /* ExampleApp */ = {
+			isa = PBXGroup;
+			children = (
+				FAEC84F51D55277500EC32C7 /* AppDelegate.swift */,
+				FAEC84F71D55277500EC32C7 /* ViewController.swift */,
+				FAEC84F91D55277500EC32C7 /* Main.storyboard */,
+				FAEC84FC1D55277500EC32C7 /* Assets.xcassets */,
+				FAEC84FE1D55277500EC32C7 /* LaunchScreen.storyboard */,
+				FAEC85011D55277500EC32C7 /* Info.plist */,
+			);
+			path = ExampleApp;
+			sourceTree = "<group>";
+		};
+		FAEC85091D55277500EC32C7 /* ExampleAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FAEC850A1D55277500EC32C7 /* ExampleAppUITests.swift */,
+				FAEC850C1D55277500EC32C7 /* Info.plist */,
+			);
+			path = ExampleAppUITests;
+			sourceTree = "<group>";
+		};
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
-				FA16B0A11D51454200752C2D /* libTradeItIosEmsApi.a */,
 				FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */,
 				FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */,
 				FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */,
 				FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */,
 				FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
+				FAEC84F41D55277500EC32C7 /* ExampleApp */,
+				FAEC85091D55277500EC32C7 /* ExampleAppUITests */,
 				FAFD2E581D4BA75E00B882DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -312,6 +397,8 @@
 			children = (
 				FAFD2E571D4BA75E00B882DB /* TradeItIosTicketSDK2.framework */,
 				FAFD2E611D4BA75F00B882DB /* TradeItIosTicketSDK2.xctest */,
+				FAEC84F31D55277500EC32C7 /* ExampleApp.app */,
+				FAEC85061D55277500EC32C7 /* ExampleAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -356,6 +443,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		FAEC84F21D55277500EC32C7 /* ExampleApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAEC850D1D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleApp" */;
+			buildPhases = (
+				FAEC84EF1D55277500EC32C7 /* Sources */,
+				FAEC84F01D55277500EC32C7 /* Frameworks */,
+				FAEC84F11D55277500EC32C7 /* Resources */,
+				FAC8E71E1D5559680024D693 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAC8E7271D555A600024D693 /* PBXTargetDependency */,
+			);
+			name = ExampleApp;
+			productName = ExampleApp;
+			productReference = FAEC84F31D55277500EC32C7 /* ExampleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FAEC85051D55277500EC32C7 /* ExampleAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAEC85101D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleAppUITests" */;
+			buildPhases = (
+				FAEC85021D55277500EC32C7 /* Sources */,
+				FAEC85031D55277500EC32C7 /* Frameworks */,
+				FAEC85041D55277500EC32C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAEC85081D55277500EC32C7 /* PBXTargetDependency */,
+			);
+			name = ExampleAppUITests;
+			productName = ExampleAppUITests;
+			productReference = FAEC85061D55277500EC32C7 /* ExampleAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2" */;
@@ -405,6 +529,13 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Trading Ticket Inc.";
 				TargetAttributes = {
+					FAEC84F21D55277500EC32C7 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					FAEC85051D55277500EC32C7 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = FAEC84F21D55277500EC32C7;
+					};
 					FAFD2E561D4BA75E00B882DB = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -419,6 +550,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = FAFD2E4D1D4BA75E00B882DB;
 			productRefGroup = FAFD2E581D4BA75E00B882DB /* Products */;
@@ -441,6 +573,8 @@
 			targets = (
 				FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */,
 				FAFD2E601D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */,
+				FAEC84F21D55277500EC32C7 /* ExampleApp */,
+				FAEC85051D55277500EC32C7 /* ExampleAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -568,6 +702,25 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FAEC84F11D55277500EC32C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAEC85001D55277500EC32C7 /* LaunchScreen.storyboard in Resources */,
+				FAC8E7251D555A2A0024D693 /* lock.png in Resources */,
+				FAEC84FD1D55277500EC32C7 /* Assets.xcassets in Resources */,
+				FAC8E7241D555A200024D693 /* TradeIt.storyboard in Resources */,
+				FAEC84FB1D55277500EC32C7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAEC85041D55277500EC32C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAFD2E551D4BA75E00B882DB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -588,6 +741,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FAEC84EF1D55277500EC32C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC8E7201D5559EC0024D693 /* TradeItLauncher.swift in Sources */,
+				FAC8E7231D555A0F0024D693 /* TradeItLoginViewController.swift in Sources */,
+				FAEC84F81D55277500EC32C7 /* ViewController.swift in Sources */,
+				FAEC84F61D55277500EC32C7 /* AppDelegate.swift in Sources */,
+				FAC8E7221D555A0C0024D693 /* TradeItSelectBrokerViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAEC85021D55277500EC32C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAEC850B1D55277500EC32C7 /* ExampleAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FAFD2E521D4BA75E00B882DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -609,6 +782,7 @@
 				B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */,
 				FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */,
 				B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */,
+				FAC8E7211D5559F30024D693 /* TradeItLauncher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,14 +804,91 @@
 			name = "Quick-iOS";
 			targetProxy = FA97601E1D4FE91100AC0C7E /* PBXContainerItemProxy */;
 		};
+		FAC8E7271D555A600024D693 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TradeItIosEmsApi;
+			targetProxy = FAC8E7261D555A600024D693 /* PBXContainerItemProxy */;
+		};
 		FACE83071D4BBF3D00AC2297 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TradeItIosEmsApi;
 			targetProxy = FACE83061D4BBF3D00AC2297 /* PBXContainerItemProxy */;
 		};
+		FAEC85081D55277500EC32C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAEC84F21D55277500EC32C7 /* ExampleApp */;
+			targetProxy = FAEC85071D55277500EC32C7 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		FAEC84F91D55277500EC32C7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAEC84FA1D55277500EC32C7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FAEC84FE1D55277500EC32C7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAEC84FF1D55277500EC32C7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		FAEC850E1D55277500EC32C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = ExampleApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
+			};
+			name = Debug;
+		};
+		FAEC850F1D55277500EC32C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = ExampleApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		FAEC85111D55277500EC32C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ExampleApp;
+			};
+			name = Debug;
+		};
+		FAEC85121D55277500EC32C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ExampleApp;
+			};
+			name = Release;
+		};
 		FAFD2E691D4BA75F00B882DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -791,6 +1042,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FAEC850D1D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAEC850E1D55277500EC32C7 /* Debug */,
+				FAEC850F1D55277500EC32C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAEC85101D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAEC85111D55277500EC32C7 /* Debug */,
+				FAEC85121D55277500EC32C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FAFD2E511D4BA75E00B882DB /* Build configuration list for PBXProject "TradeItIosTicketSDK2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

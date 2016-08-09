@@ -2,9 +2,9 @@ import UIKit
 
 class TradeItLoginViewController: UIViewController {
 
-    var tradeItConnector: TradeItConnector!
+    var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
     var tradeItSession: TradeItSession!
-    var selectedBroker: [String:AnyObject] = [:]
+    var selectedBroker: TradeItBroker?
     let segueAccountsViewControllerId = "SEGUE_ACCOUNT_CONTROLLER"
     
     @IBOutlet weak var loginLabel: UILabel!
@@ -15,35 +15,43 @@ class TradeItLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.tradeItSession = TradeItSession(connector: tradeItConnector)
+
         self.userNameInput.becomeFirstResponder()
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true
         
-        if let brokerName = selectedBroker["longName"] as! String! {
+        if let brokerName = selectedBroker?.brokerLongName {
             self.loginLabel.text = "Login in to \(brokerName)"
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
     }
+
+    // MARK: IBActions
     
-    @IBAction func linkButtonClick(sender: UIButton) {
+    @IBAction func linkButtonWasTapped(sender: UIButton) {
+        guard let brokerShortName = self.selectedBroker?.brokerShortName else { return }
+
         self.activityIndicator.startAnimating()
-        let brokerShortName = self.selectedBroker["shortName"] as! String!
-        let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text, andPassword: self.passwordInput.text, andBroker: brokerShortName)
+        self.disableLinkButton()
         
-        tradeItConnector.linkBrokerWithAuthenticationInfo(tradeItAuthenticationInfo, andCompletionBlock: { (tradeItResult: TradeItResult?) in
-            if let tradeItResult = tradeItResult as? TradeItErrorResult {
-                let alert = UIAlertController(title: tradeItResult.shortMessage, message: (tradeItResult.longMessages as! [String]).joinWithSeparator(" "), preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-            else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
+        let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text,
+                                                                  andPassword: self.passwordInput.text,
+                                                                  andBroker: brokerShortName)
+        
+        self.tradeItConnector.linkBrokerWithAuthenticationInfo(tradeItAuthenticationInfo,
+                                                          andCompletionBlock: { (tradeItResult: TradeItResult?) in
+            self.activityIndicator.stopAnimating()
+            self.enableLinkButton()
+            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+                self.showTradeItErrorResultAlert(tradeItErrorResult)
+            } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
                 self.tradeItConnector.saveLinkToKeychain(tradeItResult, withBroker: brokerShortName)
-//                self.tradeItSession.authenticate(<#T##linkedLogin: TradeItLinkedLogin!##TradeItLinkedLogin!#>, withCompletionBlock: <#T##((TradeItResult!) -> Void)!##((TradeItResult!) -> Void)!##(TradeItResult!) -> Void#>)
+                // TODO: self.tradeItSession.authenticate(linkedLogin: TradeItLinkedLogin!, withCompletionBlock: ((TradeItResult!) -> Void)!)
                 self.performSegueWithIdentifier(self.segueAccountsViewControllerId, sender: self)
             }
-            self.activityIndicator.stopAnimating()
         })
     }
     
@@ -54,7 +62,23 @@ class TradeItLoginViewController: UIViewController {
     @IBAction func passwordOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
     }
-    
+
+    // MARK: Private
+
+    private func showTradeItErrorResultAlert(tradeItErrorResult: TradeItErrorResult, completion: () -> Void = {}) {
+        let alertController = UIAlertController(title: tradeItErrorResult.shortMessage,
+                                                message: (tradeItErrorResult.longMessages as! [String]).joinWithSeparator(" "),
+                                                preferredStyle: UIAlertControllerStyle.Alert)
+
+        let okAction = UIAlertAction(title: "OK",
+                                     style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            completion()
+        }
+
+        alertController.addAction(okAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
     private func processLinkButtonEnability() {
         if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.enabled) {
             self.enableLinkButton()

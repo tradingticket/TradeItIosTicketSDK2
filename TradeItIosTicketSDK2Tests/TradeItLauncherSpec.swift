@@ -10,7 +10,7 @@ class TradeItLauncherSpec : QuickSpec {
         describe("TradeItLauncher") {
             beforeEach {
                 window = UIWindow()
-                tradeItLauncher = TradeItLauncher()
+                tradeItLauncher = TradeItLauncher(withEnvironment: TradeItEmsTestEnv)
                 viewController = UIViewController()
 
                 expect(viewController.view).notTo(beNil())

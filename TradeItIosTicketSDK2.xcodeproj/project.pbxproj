@@ -17,6 +17,7 @@
 		B5D82C321D529B5800AF3B6F /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
 		FA16B09A1D51345E00752C2D /* FakeTradeItConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */; };
 		FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE83161D4BC19300AC2297 /* TradeItIosTicketSDK2-Bridging-Header.h */; };
+		FA61AC1B1D59231B00DEC7C4 /* libTradeItIosEmsApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FACE83021D4BBED000AC2297 /* libTradeItIosEmsApi.a */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9760111D4FE8F200AC0C7E /* Quick.framework */; };
@@ -47,6 +48,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 08CD8B841B338A7500F7E530;
 			remoteInfo = TradeItIosEmsApi;
+		};
+		FA5417761D5A8B95008FE97C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAFD2E4E1D4BA75E00B882DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAFD2E561D4BA75E00B882DB;
+			remoteInfo = TradeItIosTicketSDK2;
 		};
 		FA975FF01D4FE8DB00AC0C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -278,6 +286,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA61AC1B1D59231B00DEC7C4 /* libTradeItIosEmsApi.a in Frameworks */,
 				FA9760211D4FE92800AC0C7E /* Nimble.framework in Frameworks */,
 				FA9760201D4FE92100AC0C7E /* Quick.framework in Frameworks */,
 			);
@@ -458,6 +467,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FA5417771D5A8B95008FE97C /* PBXTargetDependency */,
 				FAC8E7271D555A600024D693 /* PBXTargetDependency */,
 			);
 			name = ExampleApp;
@@ -798,6 +808,11 @@
 			name = TradeItIosEmsApi;
 			targetProxy = FA16B0A31D51455000752C2D /* PBXContainerItemProxy */;
 		};
+		FA5417771D5A8B95008FE97C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */;
+			targetProxy = FA5417761D5A8B95008FE97C /* PBXContainerItemProxy */;
+		};
 		FA97601D1D4FE90B00AC0C7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Nimble-iOS";
@@ -935,6 +950,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -977,6 +993,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1028,6 +1045,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 			};
 			name = Debug;
@@ -1039,6 +1057,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
 				PRODUCT_NAME = TradeItIosTicketSDK2;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
 			};
 			name = Release;

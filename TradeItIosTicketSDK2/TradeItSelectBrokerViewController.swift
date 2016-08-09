@@ -3,47 +3,45 @@ import UIKit
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    var tradeItConnector: TradeItConnector = TradeItConnector.init(apiKey: "tradeit-test-api-key")
-    var brokers: [[String : AnyObject]] = []
-    let segueLoginViewControllerId = "SEGUE_LOGIN_CONTROLLER"
+
+    var brokers: [TradeItBroker] = []
+    let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
+    var selectedBroker: TradeItBroker?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tradeItConnector.environment = TradeItEmsTestEnv
+        self.selectedBroker = nil
 
         self.activityIndicator.hidesWhenStopped = true
         self.activityIndicator.startAnimating()
 
-        self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [AnyObject]!) in
+        TradeItLauncher.tradeItConnector.getAvailableBrokersAsObjectsWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
-                for broker in availableBrokers {
-                    if let broker = broker as? Dictionary<String, AnyObject> {
-                        self.brokers.append(broker)
-                    }
-                }
-            }
-            else {
-                let alert = UIAlertController(title: "Could not fetch brokers", message: "Could not fetch the brokers list. Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                self.brokers = availableBrokers
+                self.brokerTable.reloadData()
+            } else {
+                let alert = UIAlertController(title: "Could not fetch brokers",
+                                              message: "Could not fetch the brokers list. Please try again later.",
+                                              preferredStyle: UIAlertControllerStyle.Alert)
+
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-
-            self.brokerTable.reloadData()
 
             self.activityIndicator.stopAnimating()
         }
     }
 
-    // Mark: - UITableViewDelegate
+    // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier(segueLoginViewControllerId, sender: self)
+        self.selectedBroker = self.brokers[indexPath.row]
+        self.performSegueWithIdentifier(toLoginScreenSegueId, sender: self)
         self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
-    // Mark: - UITableViewDataSource
+    // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.brokers.count
@@ -60,17 +58,18 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
             cell?.textLabel?.textColor = UIColor.darkTextColor()
         }
 
-        cell?.textLabel?.text = self.brokers[indexPath.row]["longName"] as? String
+        if let brokerLongName = self.brokers[indexPath.row].brokerLongName {
+            cell?.textLabel?.text = brokerLongName
+        }
         
         return cell!
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == segueLoginViewControllerId {
-            if let indexPath = self.brokerTable.indexPathForSelectedRow, let selectedBroker = self.brokers[indexPath.row] as [String : AnyObject]!  {
-                let destinationViewController = segue.destinationViewController as! TradeItLoginViewController
-                destinationViewController.selectedBroker = selectedBroker
-                destinationViewController.tradeItConnector = tradeItConnector
+        if segue.identifier == toLoginScreenSegueId {
+            if let destinationViewController = segue.destinationViewController as? TradeItLoginViewController,
+                broker = self.selectedBroker {
+                destinationViewController.selectedBroker = broker
             }
         }
     }

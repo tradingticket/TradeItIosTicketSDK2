@@ -21,13 +21,13 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         // Launch ticket
         let app = self.application
 
-        // Welcome screen
+        // See Welcome screen
         app.tables.staticTexts["LaunchSdk"].tap()
         XCTAssert(app.navigationBars["Welcome"].exists)
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
         app.buttons["Get Started Now"].tap()
 
-        // Broker selection screen
+        // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
 
         var activityIndicator = app.activityIndicators.element
@@ -41,25 +41,25 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 
         app.tables.staticTexts["Dummy Broker"].tap()
 
-        //Login screen
+        // Submit valid credentials on the Login screen
         XCTAssert(app.navigationBars["Login"].exists)
         XCTAssert(app.staticTexts["Login in to Dummy Broker"].exists)
 
-        XCTAssert(app.textFields["BROKER_USERNAME_ID"].exists)
-        XCTAssert(app.secureTextFields["BROKER_PASSWORD_ID"].exists)
+        let usernameTextField = app.textFields["Dummy Broker Username"]
+        let passwordTextField = app.secureTextFields["Dummy Broker Password"]
 
-        XCTAssertTrue(app.textFields["BROKER_USERNAME_ID"].placeholderValue == "Dummy Broker Username")
-        XCTAssertTrue(app.secureTextFields["BROKER_PASSWORD_ID"].placeholderValue == "Dummy Broker Password")
+        XCTAssert(usernameTextField.exists)
+        XCTAssert(passwordTextField.exists)
 
-        app.textFields["BROKER_USERNAME_ID"].typeText("dummy")
-        app.secureTextFields["BROKER_PASSWORD_ID"].tap()
-        app.secureTextFields["BROKER_PASSWORD_ID"].typeText("dummy")
+        usernameTextField.typeText("dummy")
+        passwordTextField.tap()
+        passwordTextField.typeText("dummy")
 
         activityIndicator = app.activityIndicators.element
         waitForAsyncElementNotToBeHittable(activityIndicator)
         app.buttons["Link Account"].tap()
 
-        //Accounts screen
+        // Select an account on the Accounts screen
         XCTAssert(app.navigationBars["Accounts"].exists)
     }
 }

@@ -9,7 +9,7 @@ enum Action: Int {
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
 
-    let tradeItLauncher: TradeItLauncher = TradeItLauncher()
+    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: "tradeit-test-api-key", environment: TradeItEmsTestEnv)
 
     override func viewDidLoad() {
         super.viewDidLoad()

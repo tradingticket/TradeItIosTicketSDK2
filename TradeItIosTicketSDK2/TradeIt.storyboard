@@ -227,7 +227,7 @@
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tMX-1x-5GL"/>
                         <viewControllerLayoutGuide type="bottom" id="Jki-nr-TvV"/>
@@ -262,7 +262,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="Wxr-lk-aDK" id="vnc-MF-vvP"/>
                         <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
-                        <segue destination="Pi3-6E-5Lo" kind="show" identifier="SEGUE_LOGIN_CONTROLLER" id="Yp9-vB-2xK"/>
+                        <segue destination="Pi3-6E-5Lo" kind="show" identifier="TO_LOGIN_SCREEN_SEGUE" id="Yp9-vB-2xK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -272,7 +272,7 @@
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" title="Login" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" title="Login" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mco-d5-7JZ"/>
                         <viewControllerLayoutGuide type="bottom" id="rML-h2-sYO"/>
@@ -340,7 +340,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="linkButtonClick:" destination="Pi3-6E-5Lo" eventType="touchUpInside" id="M6A-DH-FGe"/>
+                                    <action selector="linkButtonWasTapped:" destination="Pi3-6E-5Lo" eventType="touchUpInside" id="qyR-F2-Afw"/>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NCp-xr-27R">
@@ -390,7 +390,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2265" y="-600"/>
+            <point key="canvasLocation" x="2303" y="-600"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="U2E-Rt-uec">
@@ -408,7 +408,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2938" y="-600"/>
+            <point key="canvasLocation" x="2976" y="-600"/>
         </scene>
     </scenes>
     <resources>

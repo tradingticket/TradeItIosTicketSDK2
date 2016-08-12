@@ -30,9 +30,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
 
-        var activityIndicator = app.activityIndicators.element
-        XCTAssertTrue(activityIndicator.exists)
-        waitForAsyncElementNotToBeHittable(activityIndicator)
+
+        let ezLoadingActivity = app.staticTexts["Loading Brokers"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
 
         XCTAssert(app.tables.cells.count > 0)
 
@@ -55,8 +55,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         passwordTextField.tap()
         passwordTextField.typeText("dummy")
 
-        activityIndicator = app.activityIndicators.element
+        let activityIndicator = app.activityIndicators.element
         waitForAsyncElementNotToBeHittable(activityIndicator)
+
         app.buttons["Link Account"].tap()
 
         // Select an account on the Accounts screen

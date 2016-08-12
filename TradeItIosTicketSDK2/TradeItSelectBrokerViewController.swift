@@ -2,10 +2,10 @@ import UIKit
 
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
+    var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
     var selectedBroker: TradeItBroker?
     
     override func viewDidLoad() {
@@ -13,8 +13,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
         self.selectedBroker = nil
 
-        self.activityIndicator.hidesWhenStopped = true
-        self.activityIndicator.startAnimating()
+        ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)
 
         TradeItLauncher.tradeItConnector.getAvailableBrokersAsObjectsWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
@@ -29,7 +28,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
                 self.presentViewController(alert, animated: true, completion: nil)
             }
 
-            self.activityIndicator.stopAnimating()
+            self.ezLoadingActivityManager.hide()
         }
     }
 

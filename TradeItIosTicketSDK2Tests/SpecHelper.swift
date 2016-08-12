@@ -1,19 +1,25 @@
 class MethodInvocation {
     let name: String
-    let args: [Any]
+    let args: [String: Any]
 
-    init(methodName: String, args: [Any]) {
+    init(methodName: String, args: [String: Any]) {
         name = methodName
         self.args = args
     }
 }
 
-class InvocationStack {
-    typealias InvocationStack = [MethodInvocation]
+class SpyRecorder {
+    private var methodInvocations = [MethodInvocation]()
 
-    private var methodInvocations = InvocationStack()
+    var all: [MethodInvocation] {
+        return methodInvocations
+    }
 
-    func invoke(methodName: String, args: Any...) {
+    var count: Int {
+        return methodInvocations.count
+    }
+
+    func record(methodName: String, args: [String: Any] = [:]) {
         methodInvocations.append(MethodInvocation(methodName: methodName, args: args))
     }
 
@@ -25,10 +31,8 @@ class InvocationStack {
     }
 
     func reset() {
-        methodInvocations = InvocationStack()
+        methodInvocations = [MethodInvocation]()
     }
 }
 
-class Fake {
-    let calls = InvocationStack()
-}
+class Stubs {} // TODO: Implement me!

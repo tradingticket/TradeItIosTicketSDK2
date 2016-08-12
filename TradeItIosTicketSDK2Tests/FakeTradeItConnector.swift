@@ -1,19 +1,28 @@
 class FakeTradeItConnector: TradeItConnector {
-    let calls = InvocationStack()
-    var tradeItLinkedLogin: TradeItLinkedLogin!
+    let calls = SpyRecorder()
+    var tradeItLinkedLoginToReturn: TradeItLinkedLogin!
 
     override func getAvailableBrokersAsObjectsWithCompletionBlock(completionBlock: (([TradeItBroker]?) -> Void)) {
-        self.calls.invoke(#function, args: completionBlock)
+        self.calls.record(#function, args: [
+            "completionBlock": completionBlock
+        ])
     }
     
     override func linkBrokerWithAuthenticationInfo(authInfo: TradeItAuthenticationInfo!,
                                                    andCompletionBlock: ((TradeItResult!) -> Void)!) {
-        self.calls.invoke(#function, args: authInfo, andCompletionBlock)
+        self.calls.record(#function, args: [
+            "authInfo": authInfo,
+            "andCompletionBlock": andCompletionBlock
+        ])
     }
     
     override func saveLinkToKeychain(link: TradeItAuthLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin! {
-        self.calls.invoke(#function, args: link, broker)
-        return tradeItLinkedLogin
+        self.calls.record(#function, args: [
+            "link": link,
+            "broker": broker
+        ])
+
+        return tradeItLinkedLoginToReturn
     }
 }
 

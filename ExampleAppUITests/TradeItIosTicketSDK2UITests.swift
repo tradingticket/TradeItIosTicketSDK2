@@ -61,6 +61,6 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.buttons["Link Account"].tap()
 
         // Select an account on the Accounts screen
-        XCTAssert(app.navigationBars["Accounts"].exists)
+        XCTAssert(app.navigationBars["Portfolio"].exists)
     }
 }

@@ -1,11 +1,11 @@
 import UIKit
 
 class TradeItLoginViewController: UIViewController {
-
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
-    var tradeItSession: TradeItSession!
+    var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
     var selectedBroker: TradeItBroker?
-    let segueAccountsViewControllerId = "SEGUE_ACCOUNT_CONTROLLER"
+    var accounts: [TradeItAccount] = []
+    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
     
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
@@ -16,12 +16,10 @@ class TradeItLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tradeItSession = TradeItSession(connector: tradeItConnector)
-
         self.userNameInput.becomeFirstResponder()
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true
-        
+
         if let brokerName = selectedBroker?.brokerLongName {
             self.loginLabel.text = "Login in to \(brokerName)"
             self.userNameInput.placeholder = "\(brokerName) Username"
@@ -35,6 +33,7 @@ class TradeItLoginViewController: UIViewController {
         guard let brokerShortName = self.selectedBroker?.brokerShortName else { return }
 
         self.activityIndicator.startAnimating()
+
         self.disableLinkButton()
         
         let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text,
@@ -43,14 +42,30 @@ class TradeItLoginViewController: UIViewController {
         
         self.tradeItConnector.linkBrokerWithAuthenticationInfo(tradeItAuthenticationInfo,
                                                           andCompletionBlock: { (tradeItResult: TradeItResult?) in
-            self.activityIndicator.stopAnimating()
-            self.enableLinkButton()
+
             if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+                self.activityIndicator.stopAnimating()
+                self.enableLinkButton()
                 self.showTradeItErrorResultAlert(tradeItErrorResult)
             } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
-                self.tradeItConnector.saveLinkToKeychain(tradeItResult, withBroker: brokerShortName)
-                // TODO: self.tradeItSession.authenticate(linkedLogin: TradeItLinkedLogin!, withCompletionBlock: ((TradeItResult!) -> Void)!)
-                self.performSegueWithIdentifier(self.segueAccountsViewControllerId, sender: self)
+                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
+                                                                           withBroker: brokerShortName)
+
+                self.tradeItSession.authenticateAsObject(linkedLogin,
+                                                 withCompletionBlock: { (tradeItResult: TradeItResult!) in
+                    self.activityIndicator.stopAnimating()
+                    self.enableLinkButton()
+
+                    if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+                        self.showTradeItErrorResultAlert(tradeItErrorResult)
+                    } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult{
+                        print("Security question result: \(tradeItSecurityQuestionResult)")
+                        //TODO
+                    } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
+                        self.accounts = tradeItResult.accounts as! [TradeItAccount]
+                        self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
+                    }
+                })
             }
         })
     }
@@ -62,7 +77,15 @@ class TradeItLoginViewController: UIViewController {
     @IBAction func passwordOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == self.toPortfolioScreenSegueId {
+            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
+                destinationViewController.accounts = self.accounts
+            }
+        }
+    }
+    
     // MARK: Private
 
     private func showTradeItErrorResultAlert(tradeItErrorResult: TradeItErrorResult, completion: () -> Void = {}) {

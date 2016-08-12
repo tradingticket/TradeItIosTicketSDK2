@@ -7,16 +7,21 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var window: UIWindow!
         var nav: UINavigationController!
         var tradeItConnector: FakeTradeItConnector!
+        var ezLoadingActivityManager: FakeEZLoadingActivityManager!
 
         describe("initialization") {
             beforeEach {
                 tradeItConnector = FakeTradeItConnector()
+                ezLoadingActivityManager = FakeEZLoadingActivityManager()
+
                 TradeItLauncher.tradeItConnector = tradeItConnector
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_SELECT_BROKER_VIEW") as! TradeItSelectBrokerViewController
+
+                controller.ezLoadingActivityManager = ezLoadingActivityManager
 
                 nav = UINavigationController(rootViewController: controller)
                 
@@ -32,17 +37,25 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
             }
 
             it("shows a spinner") {
-                expect(controller.activityIndicator.isAnimating()).to(beTrue())
+                let callsToShow = ezLoadingActivityManager.calls.forMethod("show(text:disableUI:)")
+                let alertText: String = callsToShow[0].args["text"] as! String
+
+                expect(callsToShow.count).to(equal(1))
+                expect(ezLoadingActivityManager.calls.count).to(equal(1))
+                expect(alertText).to(equal("Loading Brokers"))
             }
 
             context("when request to get brokers fails") {
                 beforeEach {
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args[0] as! (([TradeItBroker]?) -> Void)
+                    ezLoadingActivityManager.calls.reset()
+                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
                     completionHandler(nil)
                 }
 
                 it("hides the spinner") {
-                    expect(controller.activityIndicator.isAnimating()).to(beFalse())
+                    let callsToHide = ezLoadingActivityManager.calls.forMethod("hide()")
+                    expect(callsToHide.count).to(equal(1))
+                    expect(ezLoadingActivityManager.calls.count).to(equal(1))
                 }
 
                 it("leaves the broker table empty") {
@@ -58,16 +71,19 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
             context("when request to get brokers succeeds") {
                 beforeEach {
+                    ezLoadingActivityManager.calls.reset()
                     let broker1 = TradeItBroker(shortName: "Broker Short #1", longName: "Broker Long #1")
                     let broker2 = TradeItBroker(shortName: "Broker Short #2", longName: "Broker Long #2")
                     let brokersResponse = [broker1!, broker2!]
 
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args[0] as! (([TradeItBroker]?) -> Void)
+                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
                     completionHandler(brokersResponse)
                 }
 
                 it("hides the spinner") {
-                    expect(controller.activityIndicator.isAnimating()).to(beFalse())
+                    let callsToHide = ezLoadingActivityManager.calls.forMethod("hide()")
+                    expect(callsToHide.count).to(equal(1))
+                    expect(ezLoadingActivityManager.calls.count).to(equal(1))
                 }
 
                 it("populates the broker table") {
@@ -92,7 +108,6 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
                     it("goes to the login controller") {
                         let loginController = nav.topViewController as! TradeItLoginViewController
-                        expect(loginController.title).to(equal("Login"))
 
                         let selectedBroker = loginController.selectedBroker
                         expect(selectedBroker?.brokerShortName).to(equal("Broker Short #2"))

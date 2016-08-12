@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -232,23 +232,17 @@
                                     <outlet property="delegate" destination="xYJ-xj-EpF" id="1pe-HV-f91"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" restorationIdentifier="ACTIVITY_INDICATOR_ID" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Wxr-lk-aDK">
-                                <rect key="frame" x="290" y="322" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Wxr-lk-aDK" firstAttribute="centerX" secondItem="0rh-GM-L5c" secondAttribute="centerX" id="1AH-OG-lSd"/>
                             <constraint firstItem="Jki-nr-TvV" firstAttribute="top" secondItem="0rh-GM-L5c" secondAttribute="bottom" id="SJc-UY-nsU"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="top" secondItem="tMX-1x-5GL" secondAttribute="bottom" id="cYb-C1-Ic1"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="leading" secondItem="aUA-LR-llV" secondAttribute="leading" id="gNI-gA-uQm"/>
-                            <constraint firstItem="Wxr-lk-aDK" firstAttribute="centerY" secondItem="0rh-GM-L5c" secondAttribute="centerY" id="vYf-yL-mC4"/>
                             <constraint firstAttribute="trailing" secondItem="0rh-GM-L5c" secondAttribute="trailing" id="yWU-gI-chD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="Wxr-lk-aDK" id="vnc-MF-vvP"/>
                         <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
                         <segue destination="Pi3-6E-5Lo" kind="show" identifier="TO_LOGIN_SCREEN_SEGUE" id="Yp9-vB-2xK"/>
                     </connections>
@@ -260,7 +254,7 @@
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" title="Login" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mco-d5-7JZ"/>
                         <viewControllerLayoutGuide type="bottom" id="rML-h2-sYO"/>
@@ -362,13 +356,14 @@
                             <constraint firstItem="G82-1O-5AF" firstAttribute="top" secondItem="Mco-d5-7JZ" secondAttribute="bottom" constant="30" id="wca-TF-y9Q"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Login" id="hiF-Ae-ioR"/>
                     <connections>
                         <outlet property="activityIndicator" destination="NCp-xr-27R" id="atD-fe-E4d"/>
                         <outlet property="linkButton" destination="Yrz-pv-MdF" id="W2V-W4-dND"/>
                         <outlet property="loginLabel" destination="G82-1O-5AF" id="5vh-gE-AnI"/>
                         <outlet property="passwordInput" destination="uaH-TC-Asd" id="s5m-py-aQP"/>
                         <outlet property="userNameInput" destination="5Gp-Sv-WRs" id="Wdz-GZ-7qO"/>
-                        <segue destination="bUI-w2-wjN" kind="show" identifier="SEGUE_ACCOUNT_CONTROLLER" id="UDl-f2-lho"/>
+                        <segue destination="bUI-w2-wjN" kind="show" identifier="TO_PORTFOLIO_SCREEN_SEGUE" id="UDl-f2-lho"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -378,7 +373,7 @@
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
             <objects>
-                <viewController title="Accounts" id="bUI-w2-wjN" userLabel="Portfolio" sceneMemberID="viewController">
+                <viewController id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wCc-Fh-MXb"/>
                         <viewControllerLayoutGuide type="bottom" id="HnD-M4-Q13"/>
@@ -388,6 +383,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

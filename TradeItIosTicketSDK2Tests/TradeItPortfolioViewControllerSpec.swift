@@ -5,6 +5,7 @@ import Nimble
 class TradeItPortfolioViewControllerSpec: QuickSpec {
     override func spec() {
         var controller: TradeItPortfolioViewController!
+        var tradeItBalanceService: FakeTradeItBalanceService!
         var window: UIWindow!
         var nav: UINavigationController!
         
@@ -23,10 +24,11 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                                        TradeItAccount(accountBaseCurrency: "USD", accountNumber: "123498765", accountName: "My fake account 3", tradable: true)
                 ]
                 controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
-                
                 nav = UINavigationController(rootViewController: controller)
                 
                 window.addSubview(nav.view)
+                tradeItBalanceService = FakeTradeItBalanceService()
+                controller.tradeItBalanceService = tradeItBalanceService
                 
                 NSRunLoop.currentRunLoop().runUntilDate(NSDate())
             }
@@ -47,7 +49,10 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 cell = controller.tableView(controller.accountsTable,
                                             cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 0)) as! CustomPortfolioCell
                 expect(cell.rowCellValue3?.text).to(equal("B5 *8765"))
-                
+            }
+            
+            it("retrieves Buying Power and Total Value for accounts") {
+                expect(tradeItBalanceService.calls.forMethod("getAccountOverview").count).to(equal(controller.accounts.count))
             }
 
         }

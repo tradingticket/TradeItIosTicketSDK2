@@ -83,6 +83,7 @@ class TradeItLoginViewController: UIViewController {
             if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
                 destinationViewController.accounts = self.accounts
                 destinationViewController.selectedBroker = self.selectedBroker
+                destinationViewController.tradeItSession = self.tradeItSession
             }
         }
     }

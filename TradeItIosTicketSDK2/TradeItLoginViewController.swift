@@ -82,6 +82,7 @@ class TradeItLoginViewController: UIViewController {
         if segue.identifier == self.toPortfolioScreenSegueId {
             if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
                 destinationViewController.accounts = self.accounts
+                destinationViewController.selectedBroker = self.selectedBroker
             }
         }
     }

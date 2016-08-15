@@ -287,25 +287,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-Sv-WRs">
-                                <rect key="frame" x="20" y="161" width="560" height="32"/>
-                                <accessibility key="accessibilityConfiguration" identifier="BROKER_USERNAME_ID"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="5rW-Zd-Uuv"/>
-                                    <constraint firstAttribute="width" constant="200" id="uTV-1V-zIT"/>
-                                </constraints>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="uTV-1V-zIT"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="userNameOnEditingChanged:" destination="Pi3-6E-5Lo" eventType="editingChanged" id="nZq-us-TaG"/>
-                                </connections>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uaH-TC-Asd">
                                 <rect key="frame" x="20" y="208" width="560" height="32"/>
                                 <accessibility key="accessibilityConfiguration" identifier="BROKER_PASSWORD_ID"/>
@@ -343,6 +324,25 @@
                                 <rect key="frame" x="385" y="350" width="20" height="20"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-Sv-WRs">
+                                <rect key="frame" x="20" y="161" width="560" height="32"/>
+                                <accessibility key="accessibilityConfiguration" identifier="BROKER_USERNAME_ID"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="5rW-Zd-Uuv"/>
+                                    <constraint firstAttribute="width" constant="200" id="uTV-1V-zIT"/>
+                                </constraints>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="uTV-1V-zIT"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="userNameOnEditingChanged:" destination="Pi3-6E-5Lo" eventType="editingChanged" id="nZq-us-TaG"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -381,7 +381,7 @@
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
             <objects>
-                <viewController id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wCc-Fh-MXb"/>
                         <viewControllerLayoutGuide type="bottom" id="HnD-M4-Q13"/>
@@ -418,7 +418,7 @@
                                 <rect key="frame" x="20" y="236" width="560" height="364"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_HEADER_ID" id="WuN-9R-wav">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_HEADER_ID" id="WuN-9R-wav" customClass="CustomPortfolioHeaderCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WuN-9R-wav" id="tvi-2q-ObU">
@@ -454,28 +454,33 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.95341132200000001" green="0.95341132200000001" blue="0.95341132200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="headerNameColumn1" destination="93S-9F-GGt" id="8Wq-rd-hvK"/>
+                                            <outlet property="headerNameColumn2" destination="wgQ-MU-CPN" id="XVt-Mr-FEb"/>
+                                            <outlet property="headerNameColumn3" destination="CzO-Yt-1hw" id="Z70-tZ-M64"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_CELL_ID" id="55g-cj-mTJ" customClass="CustomCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_CELL_ID" id="55g-cj-mTJ" customClass="CustomPortfolioCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55g-cj-mTJ" id="WXI-1g-FBU">
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3z-bl-lOy">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3z-bl-lOy">
                                                     <rect key="frame" x="18" y="13" width="33.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvl-ut-HGH">
-                                                    <rect key="frame" x="414" y="13.5" width="38" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvl-ut-HGH">
+                                                    <rect key="frame" x="349" y="13" width="16.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H2-cL-BMo">
-                                                    <rect key="frame" x="502" y="14" width="40" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H2-cL-BMo">
+                                                    <rect key="frame" x="465.5" y="14" width="16.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -485,15 +490,15 @@
                                                 <constraint firstItem="4H2-cL-BMo" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="GIn-Nb-tIp"/>
                                                 <constraint firstItem="q3z-bl-lOy" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="Qcm-6A-n2k"/>
                                                 <constraint firstItem="mvl-ut-HGH" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="WqG-yz-pg7"/>
-                                                <constraint firstItem="4H2-cL-BMo" firstAttribute="leading" secondItem="mvl-ut-HGH" secondAttribute="trailing" constant="50" id="Y1S-51-k4U"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4H2-cL-BMo" secondAttribute="trailing" constant="10" id="f8G-p0-oH3"/>
+                                                <constraint firstItem="4H2-cL-BMo" firstAttribute="leading" secondItem="mvl-ut-HGH" secondAttribute="trailing" constant="100" id="Y1S-51-k4U"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="4H2-cL-BMo" secondAttribute="trailing" constant="70" id="f8G-p0-oH3"/>
                                                 <constraint firstItem="q3z-bl-lOy" firstAttribute="leading" secondItem="WXI-1g-FBU" secondAttribute="leadingMargin" constant="10" id="pMH-sa-q3B"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="nameLabel" destination="q3z-bl-lOy" id="8jv-vq-YA3"/>
-                                            <outlet property="value1Label" destination="mvl-ut-HGH" id="WPn-Kt-KPo"/>
-                                            <outlet property="value2Label" destination="4H2-cL-BMo" id="FFs-WJ-doq"/>
+                                            <outlet property="rowCellValue1" destination="q3z-bl-lOy" id="1Zs-ZI-qe7"/>
+                                            <outlet property="rowCellValue2" destination="mvl-ut-HGH" id="kwO-6f-hmN"/>
+                                            <outlet property="rowCellValue3" destination="4H2-cL-BMo" id="AWt-Vl-vCF"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

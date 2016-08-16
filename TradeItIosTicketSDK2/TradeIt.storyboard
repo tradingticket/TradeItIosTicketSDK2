@@ -550,6 +550,7 @@
                     <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T"/>
                     <connections>
                         <outlet property="accountsTable" destination="jjm-KA-5qy" id="Ywr-Cr-r2J"/>
+                        <outlet property="totalAccountsValueLabel" destination="kZZ-Hr-ig9" id="Pql-2p-leK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>

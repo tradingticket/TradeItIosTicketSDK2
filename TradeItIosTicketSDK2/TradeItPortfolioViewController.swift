@@ -25,6 +25,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     
     @IBOutlet weak var accountsTable: UITableView!
+    @IBOutlet weak var totalAccountsValueLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +58,8 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         cell.rowCellValue1.text = portfolio.accountName
         
         if (!portfolio.isBalanceError && portfolio.balance != nil) {
-            cell.rowCellValue2.text = "$\(portfolio.balance.totalValue)"
-            cell.rowCellValue3.text = "$\(portfolio.balance.buyingPower)"
+            cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.totalValue as Float)
+            cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.buyingPower as Float)
         }
         else {
             cell.rowCellValue2.text = "N/A"
@@ -128,6 +129,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
             return when(promises)
         }.always {
+            self.fillTotalAccountsValue()
             self.accountsTable.reloadData()
             self.ezLoadingActivityManager.hide()
         }.error { (error:ErrorType) in
@@ -178,8 +180,20 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 fulfill(tradeItResult)
             })
         }
-        
     }
+    
+    private func fillTotalAccountsValue() -> Void {
+        var totalAccountsValue: Float = 0
+        for portfolio in self.portfolios {
+            if let balance = portfolio.balance {
+                    print(balance.totalValue)
+                    totalAccountsValue += balance.totalValue as Float
+            }
+        }
+        totalAccountsValueLabel.text = UtilsService.formatCurrency(totalAccountsValue)
+    }
+    
+    
     
 
     

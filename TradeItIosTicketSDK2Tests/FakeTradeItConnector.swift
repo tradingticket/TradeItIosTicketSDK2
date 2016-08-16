@@ -1,6 +1,7 @@
 class FakeTradeItConnector: TradeItConnector {
     let calls = SpyRecorder()
     var tradeItLinkedLoginToReturn: TradeItLinkedLogin!
+    var tradeItLinkedLoginArrayToReturn: [TradeItLinkedLogin] = []
 
     override func getAvailableBrokersAsObjectsWithCompletionBlock(completionBlock: (([TradeItBroker]?) -> Void)) {
         self.calls.record(#function, args: [
@@ -23,6 +24,11 @@ class FakeTradeItConnector: TradeItConnector {
         ])
 
         return tradeItLinkedLoginToReturn
+    }
+    
+    override func getLinkedLogins() -> [AnyObject]! {
+        self.calls.record(#function)
+        return tradeItLinkedLoginArrayToReturn as [TradeItLinkedLogin]
     }
 }
 

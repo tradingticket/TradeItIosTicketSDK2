@@ -467,12 +467,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="560" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3z-bl-lOy">
-                                                    <rect key="frame" x="18" y="13" width="33.5" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
+                                                    <rect key="frame" x="3" y="14" width="10" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="3ff-nM-AeO"/>
+                                                        <constraint firstAttribute="width" constant="10" id="w65-pK-XGS"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvl-ut-HGH">
                                                     <rect key="frame" x="395" y="13" width="16.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -485,9 +486,17 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3z-bl-lOy">
+                                                    <rect key="frame" x="18" y="13" width="33.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="q3z-bl-lOy" firstAttribute="leading" secondItem="irK-hn-jmI" secondAttribute="trailing" constant="5" id="1oV-h3-mrD"/>
                                                 <constraint firstItem="4H2-cL-BMo" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="GIn-Nb-tIp"/>
+                                                <constraint firstItem="irK-hn-jmI" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="J6l-mI-Mno"/>
                                                 <constraint firstItem="q3z-bl-lOy" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="Qcm-6A-n2k"/>
                                                 <constraint firstItem="mvl-ut-HGH" firstAttribute="centerY" secondItem="WXI-1g-FBU" secondAttribute="centerY" id="WqG-yz-pg7"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="mvl-ut-HGH" secondAttribute="trailing" constant="140" id="XsY-OG-hQ1"/>
@@ -505,6 +514,7 @@
                                             <outlet property="rowCellValue1" destination="q3z-bl-lOy" id="1Zs-ZI-qe7"/>
                                             <outlet property="rowCellValue2" destination="mvl-ut-HGH" id="kwO-6f-hmN"/>
                                             <outlet property="rowCellValue3" destination="4H2-cL-BMo" id="AWt-Vl-vCF"/>
+                                            <outlet property="selector" destination="irK-hn-jmI" id="M8q-fo-FMT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -548,6 +558,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="indicator.png" width="39" height="72"/>
         <image name="lock.png" width="69" height="93"/>
     </resources>
 </document>

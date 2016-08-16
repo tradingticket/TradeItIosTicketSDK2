@@ -10,6 +10,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     var _tradeItBalanceService : TradeItBalanceService!
     var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
     var portfolios : [TradeItSDKPortfolio] = []
+    var selectedPortfolioIndex = 0
     var tradeItBalanceService : TradeItBalanceService! {
         get {
             if self._tradeItBalanceService == nil {
@@ -27,12 +28,17 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.authenticateAndFetchBalancesLinkedAccounts()
+    }
         
+    // MARK: UITableViewDelegate
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.selectedPortfolioIndex = indexPath.row
+        self.accountsTable.reloadData()
     }
     
-    // MARK: UITableViewDelegate
+    // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.portfolios.count
@@ -41,12 +47,18 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellIdentifier = "CUSTOM_PORTFOLIO_CELL_ID"
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! CustomPortfolioCell
-        let selectedPortfolio = self.portfolios[indexPath.row]
-        cell.rowCellValue1.text = selectedPortfolio.accountName
+        let portfolio = self.portfolios[indexPath.row]
+        if (indexPath.row == self.selectedPortfolioIndex ) {
+            cell.selector.hidden = false
+        }
+        else {
+            cell.selector.hidden = true
+        }
+        cell.rowCellValue1.text = portfolio.accountName
         
-        if (!selectedPortfolio.isBalanceError && selectedPortfolio.balance != nil) {
-            cell.rowCellValue2.text = "$\(selectedPortfolio.balance.totalValue)"
-            cell.rowCellValue3.text = "$\(selectedPortfolio.balance.buyingPower)"
+        if (!portfolio.isBalanceError && portfolio.balance != nil) {
+            cell.rowCellValue2.text = "$\(portfolio.balance.totalValue)"
+            cell.rowCellValue3.text = "$\(portfolio.balance.buyingPower)"
         }
         else {
             cell.rowCellValue2.text = "N/A"
@@ -98,7 +110,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 }
                 else {
                     for account in self.accounts {
-                        let accountName = getAccountName(account, broker: self.linkedLogin.broker)
+                        let accountName = self.getAccountName(account, broker: self.linkedLogin.broker)
                         let tradeItSDKPortfolio =  TradeItSDKPortfolio(tradeItSession: self.tradeItSession, broker: self.linkedLogin.broker, accountName: accountName, accountNumber: account.accountNumber, balance: nil)
                         self.portfolios.append(tradeItSDKPortfolio)
                     }

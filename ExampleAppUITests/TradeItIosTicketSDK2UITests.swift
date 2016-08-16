@@ -31,7 +31,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
 
 
-        let ezLoadingActivity = app.staticTexts["Loading Brokers"]
+        var ezLoadingActivity = app.staticTexts["Loading Brokers"]
         waitForAsyncElementToDisappear(ezLoadingActivity)
 
         XCTAssert(app.tables.cells.count > 0)
@@ -62,5 +62,18 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 
         // Select an account on the Accounts screen
         XCTAssert(app.navigationBars["Portfolio"].exists)
+        
+        ezLoadingActivity = app.staticTexts["Authenticating"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        XCTAssert(app.tables.cells.count > 0)
+        app.tables.staticTexts["Dummy *cct1"].exists
+        app.tables.staticTexts["$2408.12"].exists
+        app.tables.staticTexts["$76489.23"].exists
+        
+        
     }
 }

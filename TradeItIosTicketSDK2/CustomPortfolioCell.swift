@@ -8,4 +8,5 @@ class CustomPortfolioCell: UITableViewCell {
     @IBOutlet weak var rowCellValue2: UILabel!
     @IBOutlet weak var rowCellValue3: UILabel!
     
+    @IBOutlet weak var selector: UIImageView!
 }

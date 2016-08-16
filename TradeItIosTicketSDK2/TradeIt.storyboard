@@ -415,7 +415,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jjm-KA-5qy">
-                                <rect key="frame" x="20" y="236" width="560" height="364"/>
+                                <rect key="frame" x="20" y="236" width="560" height="114"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_HEADER_ID" id="WuN-9R-wav" customClass="CustomPortfolioHeaderCell" customModule="ExampleApp" customModuleProvider="target">
@@ -526,7 +526,7 @@
                             <constraint firstItem="jjm-KA-5qy" firstAttribute="top" secondItem="9Vn-JE-7Ea" secondAttribute="bottom" constant="22" id="UbB-6c-CaX"/>
                             <constraint firstItem="kZZ-Hr-ig9" firstAttribute="centerX" secondItem="oqc-AE-0p4" secondAttribute="centerX" id="h0F-61-lNi"/>
                             <constraint firstItem="9Vn-JE-7Ea" firstAttribute="leading" secondItem="oqc-AE-0p4" secondAttribute="leadingMargin" constant="10" id="iew-0d-mpy"/>
-                            <constraint firstItem="HnD-M4-Q13" firstAttribute="top" secondItem="jjm-KA-5qy" secondAttribute="bottom" id="mAa-G7-VQt"/>
+                            <constraint firstItem="HnD-M4-Q13" firstAttribute="top" secondItem="jjm-KA-5qy" secondAttribute="bottom" constant="250" id="mAa-G7-VQt"/>
                             <constraint firstItem="kZZ-Hr-ig9" firstAttribute="top" secondItem="3Lg-jD-aDu" secondAttribute="bottom" constant="10" id="pXz-tJ-Hcm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3Lg-jD-aDu" secondAttribute="trailing" id="qPG-v8-etn"/>
                             <constraint firstItem="jFE-mR-8g0" firstAttribute="centerX" secondItem="oqc-AE-0p4" secondAttribute="centerX" id="vJR-e2-enH"/>

@@ -3,6 +3,7 @@ import TradeItIosTicketSDK2
 
 enum Action: Int {
     case LaunchSdk = 0
+    case DeleteLinkedBrokers = 1
     case ENUM_COUNT
 }
 
@@ -23,12 +24,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         switch action {
         case .LaunchSdk:
             self.tradeItLauncher.launchTradeItFromViewController(self)
+        case .DeleteLinkedBrokers:
+            self.deleteLinkedBrokers()
         default:
             return
         }
     }
 
-    // Mark: - UITableViewDataSource
+    // MARK: - UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Action.ENUM_COUNT.rawValue;
@@ -49,4 +52,15 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell!
     }
+    
+    // MARK: private
+    private func deleteLinkedBrokers() -> Void {
+        let linkedLogins = TradeItLauncher.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+        for linkedLogin in linkedLogins {
+            TradeItLauncher.tradeItConnector.unlinkLogin(linkedLogin)
+        }
+        
+        
+    }
+    
 }

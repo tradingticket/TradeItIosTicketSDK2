@@ -15,6 +15,7 @@
 		B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */; };
 		B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
+		B54A0D5C1D634AC20017FE76 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A0D3B1D634A780017FE76 /* PromiseKit.framework */; };
 		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		B58720F31D53CE9B0061314F /* TradeItLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */; };
@@ -25,6 +26,9 @@
 		B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */; };
 		B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D82C2E1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift */; };
 		B5D82C321D529B5800AF3B6F /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B5D82C311D529B5800AF3B6F /* lock.png */; };
+		B5F157D41D6268CA000FF52A /* TradeItSDKPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F157D31D6268CA000FF52A /* TradeItSDKPortfolio.swift */; };
+		B5F157D51D6268CA000FF52A /* TradeItSDKPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F157D31D6268CA000FF52A /* TradeItSDKPortfolio.swift */; };
+		B5F157D61D62729C000FF52A /* TradeItSDKPortfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F157D31D6268CA000FF52A /* TradeItSDKPortfolio.swift */; };
 		B5F56A911D620BCF00393841 /* CustomPortfolioHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504591C1D5E6DCA00B1D971 /* CustomPortfolioHeaderCell.swift */; };
 		FA0D3F8C1D5BB1BD00C67FBC /* EZLoadingActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D3F8B1D5BB1BD00C67FBC /* EZLoadingActivity.swift */; };
 		FA0D3F9D1D5BB21800C67FBC /* EZLoadingActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D3F8B1D5BB1BD00C67FBC /* EZLoadingActivity.swift */; };
@@ -59,6 +63,90 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B54A0D3A1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63F803A31AB87A8200E4DEE1;
+			remoteInfo = PMKiOS;
+		};
+		B54A0D3C1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63F803CC1AB89A0F00E4DEE1;
+			remoteInfo = PMKOSX;
+		};
+		B54A0D3E1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63CD9A621BB102EE008D916F;
+			remoteInfo = PMKwatchOS;
+		};
+		B54A0D401D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 43EF78A61C5AA12B00BCD8FB;
+			remoteInfo = PMKtvOS;
+		};
+		B54A0D421D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6388E1A21AD315F90074D85B;
+			remoteInfo = PMKTests;
+		};
+		B54A0D441D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63533B331AE57A9300C10972;
+			remoteInfo = PMKAPlusTests;
+		};
+		B54A0D461D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 638E0ED51AEF16530052E28F;
+			remoteInfo = PMKiOSCategoryTests;
+		};
+		B54A0D481D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63CA14571AE9FBD000223904;
+			remoteInfo = PMKOSXCategoryTests;
+		};
+		B54A0D4A1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 638CDF031AEE734B0023A543;
+			remoteInfo = PMKiOSUITestsHost;
+		};
+		B54A0D4C1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63EBEAC51B6151AA0097FA42;
+			remoteInfo = PMKiOSUITests;
+		};
+		B54A0D4E1D634A780017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 17470C5A1CBF8A9D004FBBB8;
+			remoteInfo = PMKDefaultDispatchQueueTests;
+		};
+		B54A0D5A1D634AB30017FE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 63F803A21AB87A8200E4DEE1;
+			remoteInfo = PMKiOS;
+		};
 		FA0D3FA21D5BF86F00C67FBC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAFD2E4E1D4BA75E00B882DB /* Project object */;
@@ -247,11 +335,13 @@
 		B504591F1D5E730000B1D971 /* CustomPortfolioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPortfolioCell.swift; sourceTree = "<group>"; };
 		B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewControllerSpec.swift; sourceTree = "<group>"; };
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
+		B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = submodules/PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		B5B3D6641D5E137400A7A2AA /* TradeItPortfolioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewController.swift; sourceTree = "<group>"; };
 		B5B913F01D621C0100C58321 /* FakeTradeItBalanceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItBalanceService.swift; sourceTree = "<group>"; };
 		B5C466D01D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewControllerSpec.swift; sourceTree = "<group>"; };
 		B5D82C2E1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewControllerSpec.swift; sourceTree = "<group>"; };
 		B5D82C311D529B5800AF3B6F /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		B5F157D31D6268CA000FF52A /* TradeItSDKPortfolio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSDKPortfolio.swift; sourceTree = "<group>"; };
 		FA0D3F8B1D5BB1BD00C67FBC /* EZLoadingActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EZLoadingActivity.swift; sourceTree = "<group>"; };
 		FA0D3FA51D5CC05A00C67FBC /* FakeEZLoadingActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeEZLoadingActivityManager.swift; sourceTree = "<group>"; };
 		FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItConnector.swift; sourceTree = "<group>"; };
@@ -303,6 +393,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54A0D5C1D634AC20017FE76 /* PromiseKit.framework in Frameworks */,
 				FACE83051D4BBF0B00AC2297 /* libTradeItIosEmsApi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +411,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B54A0D281D634A770017FE76 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B54A0D3B1D634A780017FE76 /* PromiseKit.framework */,
+				B54A0D3D1D634A780017FE76 /* PromiseKit.framework */,
+				B54A0D3F1D634A780017FE76 /* PromiseKit.framework */,
+				B54A0D411D634A780017FE76 /* PromiseKit.framework */,
+				B54A0D431D634A780017FE76 /* PMKTests.xctest */,
+				B54A0D451D634A780017FE76 /* PMKAPlusTests.xctest */,
+				B54A0D471D634A780017FE76 /* PMKiOSCategoryTests.xctest */,
+				B54A0D491D634A780017FE76 /* PMKOSXCategoryTests.xctest */,
+				B54A0D4B1D634A780017FE76 /* PMKiOSUITestsHost.app */,
+				B54A0D4D1D634A780017FE76 /* PMKiOSUITests.xctest */,
+				B54A0D4F1D634A780017FE76 /* PMKDefaultDispatchQueueTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B5D82C1E1D528DC700AF3B6F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,6 +445,14 @@
 				B5D82C311D529B5800AF3B6F /* lock.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B5F157D21D626870000FF52A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B5F157D31D6268CA000FF52A /* TradeItSDKPortfolio.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		FA0D3F9E1D5BD8AA00C67FBC /* Views */ = {
@@ -433,6 +550,7 @@
 		FAFD2E4D1D4BA75E00B882DB = {
 			isa = PBXGroup;
 			children = (
+				B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */,
 				FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */,
 				FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */,
 				FACE82FB1D4BBED000AC2297 /* TradeItIosEmsApi.xcodeproj */,
@@ -458,6 +576,7 @@
 		FAFD2E591D4BA75F00B882DB /* TradeItIosTicketSDK2 */ = {
 			isa = PBXGroup;
 			children = (
+				B5F157D21D626870000FF52A /* Model */,
 				FA0D3F9E1D5BD8AA00C67FBC /* Views */,
 				B5D82C301D529AEA00AF3B6F /* Images */,
 				FAC73A471D5130F300464BC6 /* Controllers */,
@@ -546,6 +665,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B54A0D5B1D634AB30017FE76 /* PBXTargetDependency */,
 				FACE83071D4BBF3D00AC2297 /* PBXTargetDependency */,
 			);
 			name = TradeItIosTicketSDK2;
@@ -615,6 +735,10 @@
 					ProjectRef = FA975FE71D4FE8DB00AC0C7E /* Nimble.xcodeproj */;
 				},
 				{
+					ProductGroup = B54A0D281D634A770017FE76 /* Products */;
+					ProjectRef = B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */;
+				},
+				{
 					ProductGroup = FA975FFF1D4FE8F200AC0C7E /* Products */;
 					ProjectRef = FA975FFE1D4FE8F200AC0C7E /* Quick.xcodeproj */;
 				},
@@ -634,6 +758,83 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		B54A0D3B1D634A780017FE76 /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = B54A0D3A1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D3D1D634A780017FE76 /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = B54A0D3C1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D3F1D634A780017FE76 /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = B54A0D3E1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D411D634A780017FE76 /* PromiseKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PromiseKit.framework;
+			remoteRef = B54A0D401D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D431D634A780017FE76 /* PMKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKTests.xctest;
+			remoteRef = B54A0D421D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D451D634A780017FE76 /* PMKAPlusTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKAPlusTests.xctest;
+			remoteRef = B54A0D441D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D471D634A780017FE76 /* PMKiOSCategoryTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKiOSCategoryTests.xctest;
+			remoteRef = B54A0D461D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D491D634A780017FE76 /* PMKOSXCategoryTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKOSXCategoryTests.xctest;
+			remoteRef = B54A0D481D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D4B1D634A780017FE76 /* PMKiOSUITestsHost.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PMKiOSUITestsHost.app;
+			remoteRef = B54A0D4A1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D4D1D634A780017FE76 /* PMKiOSUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKiOSUITests.xctest;
+			remoteRef = B54A0D4C1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B54A0D4F1D634A780017FE76 /* PMKDefaultDispatchQueueTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PMKDefaultDispatchQueueTests.xctest;
+			remoteRef = B54A0D4E1D634A780017FE76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FA975FF11D4FE8DB00AC0C7E /* Nimble.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -805,6 +1006,7 @@
 				FA0D3FAD1D5D0B4900C67FBC /* TradeItLoginViewController.swift in Sources */,
 				FA0D3FAE1D5D0B4900C67FBC /* TradeItLauncher.swift in Sources */,
 				B5B3D6761D5E14F200A7A2AA /* TradeItPortfolioViewController.swift in Sources */,
+				B5F157D61D62729C000FF52A /* TradeItSDKPortfolio.swift in Sources */,
 				FAEC84F81D55277500EC32C7 /* ExampleViewController.swift in Sources */,
 				B50459221D5E77DB00B1D971 /* CustomPortfolioCell.swift in Sources */,
 				B5F56A911D620BCF00393841 /* CustomPortfolioHeaderCell.swift in Sources */,
@@ -826,6 +1028,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA0D3F8C1D5BB1BD00C67FBC /* EZLoadingActivity.swift in Sources */,
+				B5F157D41D6268CA000FF52A /* TradeItSDKPortfolio.swift in Sources */,
 				B504591D1D5E6DCA00B1D971 /* CustomPortfolioHeaderCell.swift in Sources */,
 				B58720F31D53CE9B0061314F /* TradeItLauncher.swift in Sources */,
 				B5B3D6651D5E137400A7A2AA /* TradeItPortfolioViewController.swift in Sources */,
@@ -847,6 +1050,7 @@
 				B5B913F11D621C0100C58321 /* FakeTradeItBalanceService.swift in Sources */,
 				B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */,
 				B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */,
+				B5F157D51D6268CA000FF52A /* TradeItSDKPortfolio.swift in Sources */,
 				FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */,
 				FA0D3FA61D5CC05A00C67FBC /* FakeEZLoadingActivityManager.swift in Sources */,
 				FAF967981D5D1C7D00C3A6C1 /* FakeTradeItSession.swift in Sources */,
@@ -861,6 +1065,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B54A0D5B1D634AB30017FE76 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PMKiOS;
+			targetProxy = B54A0D5A1D634AB30017FE76 /* PBXContainerItemProxy */;
+		};
 		FA0D3FA31D5BF86F00C67FBC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FAFD2E561D4BA75E00B882DB /* TradeItIosTicketSDK2 */;

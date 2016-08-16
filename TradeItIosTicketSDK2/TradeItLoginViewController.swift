@@ -6,6 +6,7 @@ class TradeItLoginViewController: UIViewController {
     var selectedBroker: TradeItBroker?
     var accounts: [TradeItAccount] = []
     let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
+    var linkedLogin: TradeItLinkedLogin!
     
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
@@ -48,10 +49,10 @@ class TradeItLoginViewController: UIViewController {
                 self.enableLinkButton()
                 self.showTradeItErrorResultAlert(tradeItErrorResult)
             } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
-                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
+                self.linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
                                                                            withBroker: brokerShortName)
 
-                self.tradeItSession.authenticateAsObject(linkedLogin,
+                self.tradeItSession.authenticateAsObject(self.linkedLogin,
                                                  withCompletionBlock: { (tradeItResult: TradeItResult!) in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
@@ -82,8 +83,8 @@ class TradeItLoginViewController: UIViewController {
         if segue.identifier == self.toPortfolioScreenSegueId {
             if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
                 destinationViewController.accounts = self.accounts
-                destinationViewController.selectedBroker = self.selectedBroker
                 destinationViewController.tradeItSession = self.tradeItSession
+                destinationViewController.linkedLogin = linkedLogin
             }
         }
     }

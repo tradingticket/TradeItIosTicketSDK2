@@ -52,7 +52,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         if tableView == self.accountsTable {
             self.selectedPortfolioIndex = indexPath.row
             self.holdingsLabel.text = self.getHoldingLabel(indexPath.row)
-            //self.accountsTable.reloadData()
+            self.accountsTable.reloadData()
             firstly {
                 return when(self.getPositions(self.portfolios[self.selectedPortfolioIndex]))
             }

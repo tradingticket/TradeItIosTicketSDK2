@@ -81,7 +81,34 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.tables.staticTexts["AAPL (1)"].exists
         app.tables.staticTexts["$103.34"].exists
         app.tables.staticTexts["$112.34"].exists
+    }
+    
+    func testPortfolioUserHasAccountFlow() {
+        // Launch ticket
+        let app = self.application
         
+        // See Portfolio screen
+        app.tables.staticTexts["LaunchPortfolio"].tap()
+        XCTAssert(app.navigationBars["Portfolio"].exists)
         
+        var ezLoadingActivity = app.staticTexts["Authenticating"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        XCTAssert(app.tables.cells.count > 0)
+        
+        //Balances
+        app.tables.staticTexts["Dummy *cct1"].exists
+        app.tables.staticTexts["$2408.12"].exists
+        app.tables.staticTexts["$76489.23 (22.84%)"].exists
+        
+        //Positions
+        app.tables.staticTexts["Dummy *cct1 Holdings"].exists
+        app.tables.staticTexts["AAPL (1)"].exists
+        app.tables.staticTexts["$103.34"].exists
+        app.tables.staticTexts["$112.34"].exists
+
     }
 }

@@ -3,7 +3,8 @@ import TradeItIosTicketSDK2
 
 enum Action: Int {
     case LaunchSdk = 0
-    case DeleteLinkedBrokers = 1
+    case LaunchPortfolio = 1
+    case DeleteLinkedBrokers = 2
     case ENUM_COUNT
 }
 
@@ -24,6 +25,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         switch action {
         case .LaunchSdk:
             self.tradeItLauncher.launchTradeItFromViewController(self)
+        case .LaunchPortfolio:
+            self.tradeItLauncher.launchTradeItPortfolioFromViewController(self)
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:

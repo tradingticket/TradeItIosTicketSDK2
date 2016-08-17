@@ -15,6 +15,7 @@
 		B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */; };
 		B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
+		B536DD611D64DC39009A9621 /* FakeTradeItPositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */; };
 		B54A0D5C1D634AC20017FE76 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A0D3B1D634A780017FE76 /* PromiseKit.framework */; };
 		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
@@ -350,6 +351,7 @@
 		B504591F1D5E730000B1D971 /* CustomPortfolioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPortfolioCell.swift; sourceTree = "<group>"; };
 		B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewControllerSpec.swift; sourceTree = "<group>"; };
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
+		B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItPositionService.swift; sourceTree = "<group>"; };
 		B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = submodules/PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		B579FFC51D63B306003643C1 /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		B579FFE81D63C585003643C1 /* UtilsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsService.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				FA0D3FA51D5CC05A00C67FBC /* FakeEZLoadingActivityManager.swift */,
 				FAF967971D5D1C7D00C3A6C1 /* FakeTradeItSession.swift */,
 				B5B913F01D621C0100C58321 /* FakeTradeItBalanceService.swift */,
+				B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */,
 			);
 			name = Fakes;
 			sourceTree = "<group>";
@@ -1078,6 +1081,7 @@
 				FA0D3F9D1D5BB21800C67FBC /* EZLoadingActivity.swift in Sources */,
 				B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */,
 				FA16B0A61D51463100752C2D /* TradeItIosTicketSDK2-Bridging-Header.h in Sources */,
+				B536DD611D64DC39009A9621 /* FakeTradeItPositionService.swift in Sources */,
 				FA16B09A1D51345E00752C2D /* FakeTradeItConnector.swift in Sources */,
 				B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */,
 				B5B913F11D621C0100C58321 /* FakeTradeItBalanceService.swift in Sources */,

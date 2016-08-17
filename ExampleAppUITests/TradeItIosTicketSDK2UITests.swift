@@ -70,9 +70,17 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         waitForAsyncElementToDisappear(ezLoadingActivity)
         
         XCTAssert(app.tables.cells.count > 0)
+        
+        //Balances
         app.tables.staticTexts["Dummy *cct1"].exists
         app.tables.staticTexts["$2408.12"].exists
-        app.tables.staticTexts["$76489.23"].exists
+        app.tables.staticTexts["$76489.23 (22.84%)"].exists
+        
+        //Positions
+        app.tables.staticTexts["Dummy *cct1 Holdings"].exists
+        app.tables.staticTexts["AAPL (1)"].exists
+        app.tables.staticTexts["$103.34"].exists
+        app.tables.staticTexts["$112.34"].exists
         
         
     }

@@ -143,24 +143,24 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     var cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! CustomPortfolioCell
                     
                     //let cellResult = controller.accountsTable.dequeueReusableCellWithIdentifier(controller.cellPortfolioId) as! CustomPortfolioCell
-                    expect(cell.rowCellValue2?.text).to(equal("$100"))
-                    expect(cell.rowCellValue3?.text).to(equal("$1000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$100.00"))
+                    expect(cell.rowCellValue3?.text).to(equal("$1,000.00"))
                     
                     //Account on second row
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as! CustomPortfolioCell
                     
-                    expect(cell.rowCellValue2?.text).to(equal("$200"))
-                    expect(cell.rowCellValue3?.text).to(equal("$2000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$200.00"))
+                    expect(cell.rowCellValue3?.text).to(equal("$2,000.00"))
                     
                     //Account on third row
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 0)) as! CustomPortfolioCell
                     
-                    expect(cell.rowCellValue2?.text).to(equal("$300"))
-                    expect(cell.rowCellValue3?.text).to(equal("$3000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$300.00"))
+                    expect(cell.rowCellValue3?.text).to(equal("$3,000.00"))
                 }
                 
                 it("fills the total value of all accounts under ALL ACCOUNTS") {
-                    expect(controller.totalAccountsValue).to(equal("$6000"))
+                    expect(controller.totalAccountsValueLabel.text).toEventually(equal("$600.00"))
                 }
 
                 

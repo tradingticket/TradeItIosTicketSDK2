@@ -41,6 +41,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var holdingsLabel: UILabel!
     @IBOutlet weak var positionsSpinner: UIActivityIndicatorView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.authenticateAndFetchBalancesLinkedAccounts()
@@ -124,6 +125,13 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         let cell = tableView.dequeueReusableCellWithIdentifier("CUSTOM_PORTFOLIO_HEADER_ID") as! CustomPortfolioHeaderCell
         return cell
     }
+    
+    // MARK: IBAction
+    
+    @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
+        self.parentViewController?.dismissViewControllerAnimated(false, completion: nil)
+    }
+    
     
     // MARK: private
     

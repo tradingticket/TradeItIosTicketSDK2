@@ -659,7 +659,13 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T"/>
+                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T">
+                        <barButtonItem key="rightBarButtonItem" title="Close" id="1Vv-1x-1ft">
+                            <connections>
+                                <action selector="closeButtonTapped:" destination="bUI-w2-wjN" id="oon-IC-fUx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="accountsTable" destination="jjm-KA-5qy" id="Ywr-Cr-r2J"/>
                         <outlet property="holdingsLabel" destination="Fe3-Cs-IAG" id="xcY-3u-xV5"/>

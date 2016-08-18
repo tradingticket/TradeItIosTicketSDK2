@@ -1,7 +1,6 @@
 import Quick
 import Nimble
 
-
 class TradeItPortfolioViewControllerSpec: QuickSpec {
     override func spec() {
         var controller: TradeItPortfolioViewController!
@@ -12,7 +11,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var nav: UINavigationController!
         var ezLoadingActivityManager: FakeEZLoadingActivityManager!
 
-        
         describe("initialization") {
             beforeEach {
                 window = UIWindow()
@@ -22,11 +20,29 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_PORTFOLIO_VIEW") as! TradeItPortfolioViewController
                 
-                let linkedRecentLogin = TradeItLinkedLogin(label: "My recent linked login", broker: "Broker recent", userId: "userIdRecent", andKeyChainId: "keychainIdRecent")
+                let linkedRecentLogin = TradeItLinkedLogin(
+                    label: "My recent linked login",
+                    broker: "Broker recent",
+                    userId: "userIdRecent",
+                    andKeyChainId: "keychainIdRecent")
+
                 controller.linkedLogin = linkedRecentLogin
-                controller.accounts = [TradeItAccount(accountBaseCurrency: "USD", accountNumber: "123456789", accountName: "My fake account 1", tradable: true),
-                                       TradeItAccount(accountBaseCurrency: "USD", accountNumber: "987654321", accountName: "My fake account 2", tradable: true),
-                                       TradeItAccount(accountBaseCurrency: "USD", accountNumber: "123498765", accountName: "My fake account 3", tradable: true)
+
+                controller.accounts = [
+                    TradeItAccount(
+                        accountBaseCurrency: "USD",
+                        accountNumber: "123456789",
+                        accountName: "My fake account 1",
+                        tradable: true),
+                    TradeItAccount(
+                        accountBaseCurrency: "USD",
+                        accountNumber: "987654321",
+                        accountName: "My fake account 2",
+                        tradable: true),
+                    TradeItAccount(accountBaseCurrency: "USD",
+                        accountNumber: "123498765",
+                        accountName: "My fake account 3",
+                        tradable: true)
                 ]
 
                 
@@ -68,7 +84,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 expect(alertText).to(equal("Authenticating"))
             }
             
-            it("fetch the linked logins") {
+            it("fetches the linked logins") {
                 expect(tradeItConnector.calls.forMethod("getLinkedLogins()").count).to(equal(1))
             }
             
@@ -260,6 +276,5 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 //TODO
             }
         }
-        
     }
 }

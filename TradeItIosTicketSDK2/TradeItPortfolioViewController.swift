@@ -7,10 +7,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     var linkedLogin: TradeItLinkedLogin!
     var tradeItSession: TradeItSession!
     var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
-    var portfolios : [TradeItSDKPortfolio] = []
+    var portfolios: [TradeItLinkedAccountPortfolio] = []
     var selectedPortfolioIndex = 0
-    var _tradeItBalanceService : TradeItBalanceService!
-    var tradeItBalanceService : TradeItBalanceService! {
+    var selectedPositionIndex = -1
+    var _tradeItBalanceService: TradeItBalanceService!
+    var tradeItBalanceService: TradeItBalanceService! {
         get {
             if self._tradeItBalanceService == nil {
                 self._tradeItBalanceService = TradeItBalanceService(session: tradeItSession)
@@ -40,8 +41,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var totalAccountsValueLabel: UILabel!
     @IBOutlet weak var holdingsLabel: UILabel!
     @IBOutlet weak var positionsSpinner: UIActivityIndicatorView!
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.authenticateAndFetchBalancesLinkedAccounts()
@@ -51,9 +51,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView == self.accountsTable {
+            self.selectedPositionIndex = -1
             self.selectedPortfolioIndex = indexPath.row
-            self.holdingsLabel.text = self.getHoldingLabel(indexPath.row)
+            self.holdingsLabel.text = self.getHoldingLabel()
             self.accountsTable.reloadData()
+
             firstly {
                 return when(self.getPositions(self.portfolios[self.selectedPortfolioIndex]))
             }
@@ -62,7 +64,8 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         else if tableView == self.holdingsTable {
-            //TODO
+            self.selectedPositionIndex = indexPath.row
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
     
@@ -126,6 +129,16 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return cell
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if tableView == self.holdingsTable {
+            if indexPath.row == self.selectedPositionIndex {
+                return 140
+            }
+            return 44
+        }
+        return 44
+    }
+    
     // MARK: IBAction
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
@@ -155,9 +168,9 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return "\(broker) *\(String(accountNumber.characters.suffixFrom(startIndex)))"
     }
     
-    private func getHoldingLabel(index: Int) -> String {
+    private func getHoldingLabel() -> String {
         if self.portfolios.count > 0 {
-            return self.portfolios[index].accountName + " Holdings"
+            return self.portfolios[self.selectedPortfolioIndex].accountName + " Holdings"
         }
         else {
             return "Holdings"
@@ -166,97 +179,111 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     private func authenticateAndFetchBalancesLinkedAccounts() -> Void {
         let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
-        print("linkedLogin: \(linkedLogins)")
-        firstly {  _ -> Promise<[TradeItResult]> in
-            self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+
+        firstly { _ -> Promise<[TradeItResult]> in
             var promises: [Promise<TradeItResult>] = []
+
             for linkedLogin in linkedLogins {
                 if (self.linkedLogin == nil || self.linkedLogin.userId != linkedLogin.userId) {
+                    print("=====> LINKING: ")
                     promises.append(self.authenticateAccount(linkedLogin))
-                }
-                else {
+                } else {
                     for account in self.accounts {
                         let accountName = self.getAccountName(account, broker: self.linkedLogin.broker)
-                        let tradeItSDKPortfolio =  TradeItSDKPortfolio(tradeItSession: self.tradeItSession, broker: self.linkedLogin.broker, accountName: accountName, accountNumber: account.accountNumber, balance: nil, positions: [])
-                        self.portfolios.append(tradeItSDKPortfolio)
+                        let tradeItLinkedAccountPortfolio =  TradeItLinkedAccountPortfolio(
+                            tradeItSession: self.tradeItSession,
+                            broker: self.linkedLogin.broker,
+                            accountName: accountName,
+                            accountNumber: account.accountNumber,
+                            balance: nil,
+                            positions: [])
+                        self.portfolios.append(tradeItLinkedAccountPortfolio)
                     }
                 }
-                
             }
+
             return when(promises)
-        }
-        .then { _ -> Promise<[TradeItResult]> in
+        }.then { _ -> Promise<[TradeItResult]> in
             self.ezLoadingActivityManager.hide()
             self.ezLoadingActivityManager.show(text: "Retreiving Account Summary", disableUI: true)
             var promises: [Promise<TradeItResult>] = []
             for portfolio in self.portfolios {
                 promises.append(self.getAccountOverView(portfolio))
             }
+
             return when(promises)
-        }
-        .then { _ -> Promise<[TradeItResult]> in
+        }.then { _ -> Promise<[TradeItResult]> in
             var promises: [Promise<TradeItResult>] = []
             if self.portfolios.count > 0 {
                 promises.append(self.getPositions(self.portfolios[self.selectedPortfolioIndex]))
             }
+
             return when(promises)
         }.always {
-            self.fillTotalAccountsValue()
             self.accountsTable.reloadData()
             self.holdingsTable.reloadData()
-            self.holdingsLabel.text = self.getHoldingLabel(self.selectedPortfolioIndex)
+            self.totalAccountsValueLabel.text = self.getTotalAccountsValue()
+            self.holdingsLabel.text = self.getHoldingLabel()
             self.ezLoadingActivityManager.hide()
-        }.error { (error:ErrorType) in
-                // Display a message to the user, etc
+        }.error { (error: ErrorType) in
+            // Display a message to the user, etc
             print("error type: \(error)")
         }
-        
-
     }
-    
+
     private func authenticateAccount(linkedLogin: TradeItLinkedLogin) -> Promise<TradeItResult> {
         return Promise { fulfill, reject in
-                let tradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
-                tradeItSession.authenticateAsObject(linkedLogin, withCompletionBlock: { (tradeItResult: TradeItResult!) in
-                    if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                        //TODO
-                        print("Error \(tradeItErrorResult)")
-                        //reject()
-                    
-                    } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult{
-                        print("Security question result: \(tradeItSecurityQuestionResult)")
-                        //TODO
-                        //reject()
-                    } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
-                        for account in tradeItResult.accounts {
-                            let accountName = self.getAccountName(account as! TradeItAccount, broker: linkedLogin.broker)
-                            let tradeItSDKPortfolio = TradeItSDKPortfolio(tradeItSession: tradeItSession, broker: linkedLogin.broker, accountName: accountName, accountNumber: account.accountNumber,  balance: nil, positions: [])
-                            self.portfolios.append(tradeItSDKPortfolio)
-                        }
+            let tradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
+
+            tradeItSession.authenticateAsObject(linkedLogin, withCompletionBlock: { (tradeItResult: TradeItResult!) in
+                if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+                    //TODO
+                    print("Error \(tradeItErrorResult)")
+                    //reject()
+
+                } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult{
+                    print("Security question result: \(tradeItSecurityQuestionResult)")
+                    //TODO
+                    //reject()
+                } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
+                    for account in tradeItResult.accounts {
+                        let accountName = self.getAccountName(account as! TradeItAccount, broker: linkedLogin.broker)
+                        let tradeItLinkedAccountPortfolio = TradeItLinkedAccountPortfolio(
+                            tradeItSession: tradeItSession,
+                            broker: linkedLogin.broker,
+                            accountName: accountName,
+                            accountNumber: account.accountNumber,
+                            balance: nil,
+                            positions: [])
+                        self.portfolios.append(tradeItLinkedAccountPortfolio)
                     }
-                    fulfill(tradeItResult)
-                })
+                }
+
+                fulfill(tradeItResult)
+            })
         }
     }
-    
-    private func getAccountOverView(portfolio: TradeItSDKPortfolio) -> Promise<TradeItResult> {
+
+    private func getAccountOverView(portfolio: TradeItLinkedAccountPortfolio) -> Promise<TradeItResult> {
         return Promise { fulfill, reject in
             let request = TradeItAccountOverviewRequest(accountNumber: portfolio.accountNumber)
             self.tradeItBalanceService.session = portfolio.tradeItSession
             self.tradeItBalanceService.getAccountOverview(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                    //TODO
+                    // TODO: reject
                     print("Error \(tradeItErrorResult)")
                     portfolio.isBalanceError = true
                 } else if let tradeItAccountOverviewResult = tradeItResult as? TradeItAccountOverviewResult {
                     portfolio.balance = tradeItAccountOverviewResult
                 }
+
                 fulfill(tradeItResult)
             })
         }
     }
     
-    private func getPositions(portfolio: TradeItSDKPortfolio) -> Promise<TradeItResult> {
+    private func getPositions(portfolio: TradeItLinkedAccountPortfolio) -> Promise<TradeItResult> {
         return Promise { fulfill, reject in
             let request = TradeItGetPositionsRequest(accountNumber: portfolio.accountNumber)
             self.tradeItPositionService.session = portfolio.tradeItSession
@@ -270,25 +297,21 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
                     portfolio.positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
                 }
+
                 fulfill(tradeItResult)
             })
         }
     }
 
-    
-    private func fillTotalAccountsValue() -> Void {
+    private func getTotalAccountsValue() -> String {
         var totalAccountsValue: Float = 0
+
         for portfolio in self.portfolios {
             if let balance = portfolio.balance {
                     totalAccountsValue += balance.totalValue as Float
             }
         }
-        totalAccountsValueLabel.text = UtilsService.formatCurrency(totalAccountsValue)
-    }
-    
-    
-    
 
-    
-    
+        return UtilsService.formatCurrency(totalAccountsValue)
+    }
 }

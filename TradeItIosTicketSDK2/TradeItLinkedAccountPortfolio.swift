@@ -1,4 +1,4 @@
-class TradeItSDKPortfolio: NSObject {
+class TradeItLinkedAccountPortfolio: NSObject {
     
     var tradeItSession: TradeItSession
     var broker: String = ""

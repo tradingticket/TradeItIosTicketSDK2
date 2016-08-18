@@ -24,9 +24,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         switch action {
         case .LaunchSdk:
-            self.tradeItLauncher.launchTradeItFromViewController(self)
+            self.tradeItLauncher.launchTradeIt(fromViewController: self)
         case .LaunchPortfolio:
-            self.tradeItLauncher.launchTradeItPortfolioFromViewController(self)
+            self.launchTradeItPortfolioFromViewController()
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -62,8 +62,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         for linkedLogin in linkedLogins {
             TradeItLauncher.tradeItConnector.unlinkLogin(linkedLogin)
         }
-        
-        
     }
-    
+
+    func launchTradeItPortfolioFromViewController() {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
+        let navigationViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_NAV_VIEW") as! UINavigationController
+        let portfolioViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_PORTFOLIO_VIEW")
+
+        navigationViewController.viewControllers = [portfolioViewController]
+        self.presentViewController(navigationViewController, animated: true, completion: nil)
+    }
 }

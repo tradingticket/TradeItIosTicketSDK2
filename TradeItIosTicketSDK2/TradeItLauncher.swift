@@ -10,18 +10,12 @@ import UIKit
 
     override private init() {}
 
-    func launchTradeItFromViewController(viewController: UIViewController) {
+    func launchTradeIt(fromViewController viewController: UIViewController) {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
         let navigationViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_NAV_VIEW")
         viewController.presentViewController(navigationViewController, animated: true, completion: nil)
     }
-    
-    func launchTradeItPortfolioFromViewController(viewController: UIViewController) {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
-        let navigationViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_NAV_VIEW") as! UINavigationController
-        let portfolioViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_PORTFOLIO_VIEW")
-        
-        navigationViewController.viewControllers = [portfolioViewController]
-        viewController.presentViewController(navigationViewController, animated: true, completion: nil)
-    }
 }
+
+
+

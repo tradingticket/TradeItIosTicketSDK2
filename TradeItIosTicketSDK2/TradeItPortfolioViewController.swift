@@ -186,7 +186,6 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
 
             for linkedLogin in linkedLogins {
                 if (self.linkedLogin == nil || self.linkedLogin.userId != linkedLogin.userId) {
-                    print("=====> LINKING: ")
                     promises.append(self.authenticateAccount(linkedLogin))
                 } else {
                     for account in self.accounts {

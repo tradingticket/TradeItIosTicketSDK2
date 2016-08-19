@@ -28,6 +28,25 @@ class TradeItLoginViewController: UIViewController {
         }
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == self.toPortfolioScreenSegueId {
+            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
+                destinationViewController.accounts = self.accounts
+                destinationViewController.tradeItSession = self.tradeItSession
+                destinationViewController.linkedLogin = linkedLogin
+            }
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool{
+        if textField == self.userNameInput {
+            self.passwordInput.becomeFirstResponder()
+        }else if textField == self.passwordInput{
+            self.passwordInput.resignFirstResponder()
+        }
+        return true
+    }
+    
     // MARK: IBActions
     
     @IBAction func linkButtonWasTapped(sender: UIButton) {
@@ -77,16 +96,6 @@ class TradeItLoginViewController: UIViewController {
    
     @IBAction func passwordOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == self.toPortfolioScreenSegueId {
-            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
-                destinationViewController.accounts = self.accounts
-                destinationViewController.tradeItSession = self.tradeItSession
-                destinationViewController.linkedLogin = linkedLogin
-            }
-        }
     }
     
     // MARK: Private

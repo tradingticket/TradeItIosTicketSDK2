@@ -146,6 +146,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     
+    
     // MARK: private
     
     private func showTradeItErrorResultAlert(tradeItErrorResult: TradeItErrorResult, completion: () -> Void = {}) {

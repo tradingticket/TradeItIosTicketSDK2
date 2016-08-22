@@ -270,16 +270,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in to BROKERNAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G82-1O-5AF">
-                                <rect key="frame" x="208" y="94" width="228.5" height="26.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="208" y="94" width="229" height="25.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" translatesAutoresizingMaskIntoConstraints="NO" id="9XT-OQ-rfl">
-                                <rect key="frame" x="178" y="93.5" width="22" height="28"/>
+                                <rect key="frame" x="180" y="94" width="20" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="FSs-hE-JZs"/>
-                                    <constraint firstAttribute="width" constant="22" id="K5I-yk-xUG"/>
+                                    <constraint firstAttribute="height" constant="26" id="FSs-hE-JZs"/>
+                                    <constraint firstAttribute="width" constant="20" id="K5I-yk-xUG"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fq3-UI-bvo">
@@ -288,7 +288,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uaH-TC-Asd">
-                                <rect key="frame" x="20" y="208" width="560" height="32"/>
+                                <rect key="frame" x="20" y="206.5" width="560" height="32"/>
                                 <accessibility key="accessibilityConfiguration" identifier="BROKER_PASSWORD_ID"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="jbb-sL-PRZ"/>
@@ -302,7 +302,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yrz-pv-MdF">
-                                <rect key="frame" x="175" y="340" width="250" height="40"/>
+                                <rect key="frame" x="175" y="338.5" width="250" height="40"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7vl-e6-c4z"/>
@@ -322,11 +322,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NCp-xr-27R">
-                                <rect key="frame" x="385" y="350" width="20" height="20"/>
+                                <rect key="frame" x="385" y="348.5" width="20" height="20"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-Sv-WRs">
-                                <rect key="frame" x="20" y="161" width="560" height="32"/>
+                                <rect key="frame" x="20" y="159.5" width="560" height="32"/>
                                 <accessibility key="accessibilityConfiguration" identifier="BROKER_USERNAME_ID"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="5rW-Zd-Uuv"/>

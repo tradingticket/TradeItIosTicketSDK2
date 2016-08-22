@@ -96,7 +96,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 cell.selector.hidden = true
             }
             cell.rowCellValue1.text = portfolio.accountName
-            
+            cell.rowCellUnderValue1.text = portfolio.broker
             if (!portfolio.isBalanceError && portfolio.balance != nil) {
                 cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.buyingPower as Float)
                 
@@ -167,9 +167,18 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     private func getAccountName(account: TradeItAccount , broker: String) -> String {
-        let accountNumber = account.accountNumber
-        let startIndex = accountNumber.endIndex.advancedBy(-4)
-        return "\(broker) *\(String(accountNumber.characters.suffixFrom(startIndex)))"
+        var formattedAccountNumber = account.accountNumber
+        var formattedAccountName = account.accountName
+        
+        if formattedAccountNumber.characters.count > 4 {
+            let startIndex = formattedAccountNumber.endIndex.advancedBy(-4)
+            formattedAccountNumber = String(formattedAccountNumber.characters.suffixFrom(startIndex))
+        }
+        
+        if formattedAccountName.characters.count > 10 {
+            formattedAccountName = String(formattedAccountName.characters.prefix(10))
+        }
+        return "\(formattedAccountName)**\(formattedAccountNumber)"
     }
     
     private func getHoldingLabel() -> String {

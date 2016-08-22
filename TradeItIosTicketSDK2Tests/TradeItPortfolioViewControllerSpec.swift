@@ -168,13 +168,13 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     
                     
                     var cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue1?.text).to(equal("Broker recent *6789"))
+                    expect(cell.rowCellValue1?.text).to(equal("My fake ac**6789"))
                     
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue1?.text).to(equal("Broker recent *4321"))
+                    expect(cell.rowCellValue1?.text).to(equal("My fake ac**4321"))
                     
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue1?.text).to(equal("Broker recent *8765"))
+                    expect(cell.rowCellValue1?.text).to(equal("My fake ac**8765"))
                 }
                 
                 it("populates the accounts table with the total value and buying power for each account") {
@@ -203,7 +203,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 }
                 
                 it("update the header title in the positions table") {
-                    expect(controller.holdingsLabel.text).toEventually(equal("Broker recent *6789 Holdings"))
+                    expect(controller.holdingsLabel.text).toEventually(equal("My fake ac**6789 Holdings"))
                 }
                 
                 it("populates the positions table for the selected account") {
@@ -247,7 +247,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         completionBlockSecondAccountPositions(tradeItResult)
                     }
                     it("updates the hrader title of the positions table") {
-                        expect(controller.holdingsLabel.text).to(equal("Broker recent *4321 Holdings"))
+                        expect(controller.holdingsLabel.text).to(equal("My fake ac**4321 Holdings"))
                     }
                     
                     it("shows the corresponding positions") {

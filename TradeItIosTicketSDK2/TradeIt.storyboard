@@ -446,7 +446,7 @@
                                                 <constraint firstItem="93S-9F-GGt" firstAttribute="centerY" secondItem="tvi-2q-ObU" secondAttribute="centerY" id="owD-QG-tG7"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.95341132200000001" green="0.95341132200000001" blue="0.95341132200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.87974476440837701" green="0.87974476440837701" blue="0.87974476440837701" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="headerNameColumn1" destination="93S-9F-GGt" id="8Wq-rd-hvK"/>
                                             <outlet property="headerNameColumn2" destination="wgQ-MU-CPN" id="XVt-Mr-FEb"/>
@@ -574,7 +574,7 @@
                                                 <constraint firstItem="Xjt-1n-Blf" firstAttribute="leading" secondItem="Oam-xy-KDI" secondAttribute="trailing" constant="70" id="y43-2h-x3a"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.95341132200000001" green="0.95341132200000001" blue="0.95341132200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.87974476440000005" green="0.87974476440000005" blue="0.87974476440000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="headerNameColumn1" destination="cAp-EE-tcm" id="Tce-ak-b3R"/>
                                             <outlet property="headerNameColumn2" destination="Xjt-1n-Blf" id="uj4-2I-Wxe"/>
@@ -635,7 +635,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.95341132200000001" green="0.95341132200000001" blue="0.95341132200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="7tC-j5-kXj" firstAttribute="top" secondItem="Fe3-Cs-IAG" secondAttribute="bottom" constant="10" id="17r-ou-x4V"/>
                             <constraint firstItem="jjm-KA-5qy" firstAttribute="leading" secondItem="oqc-AE-0p4" secondAttribute="leading" id="1OM-Rk-Hdm"/>

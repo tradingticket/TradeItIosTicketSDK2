@@ -600,18 +600,26 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sym (0)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
-                                                    <rect key="frame" x="18" y="15" width="36.5" height="12"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sym" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
+                                                    <rect key="frame" x="18" y="15" width="20" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="qty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qz9-f6-gXb">
+                                                    <rect key="frame" x="18" y="32" width="16" height="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Qz9-f6-gXb" firstAttribute="top" secondItem="UUg-Fr-NXz" secondAttribute="bottom" constant="5" id="5Ed-k5-5D5"/>
                                                 <constraint firstItem="P8T-6D-oUm" firstAttribute="leading" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="50" id="9i2-gf-yGG"/>
                                                 <constraint firstItem="UUg-Fr-NXz" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="GQg-HA-OzL"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="140" id="KnL-ns-VzW"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="P8T-6D-oUm" secondAttribute="trailing" constant="10" id="QFo-3S-Ieu"/>
+                                                <constraint firstItem="Qz9-f6-gXb" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="aia-IJ-kjW"/>
                                                 <constraint firstItem="lAR-ee-oMb" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="g3M-ne-aCC"/>
                                                 <constraint firstItem="P8T-6D-oUm" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="jUe-g4-Ip8"/>
                                                 <constraint firstItem="UUg-Fr-NXz" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="sxA-3g-ybV"/>
@@ -623,6 +631,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="rowCellUnderValue1" destination="Qz9-f6-gXb" id="JXY-Vq-n1p"/>
                                             <outlet property="rowCellValue1" destination="UUg-Fr-NXz" id="NQ3-Rh-auL"/>
                                             <outlet property="rowCellValue2" destination="lAR-ee-oMb" id="7r4-lF-6Iz"/>
                                             <outlet property="rowCellValue3" destination="P8T-6D-oUm" id="h96-O9-pLx"/>

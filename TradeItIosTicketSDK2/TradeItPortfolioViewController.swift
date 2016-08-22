@@ -116,7 +116,10 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             let portfolio = self.portfolios[self.selectedPortfolioIndex]
             if (!portfolio.isPositionsError && portfolio.positions.count > 0) {
                 let position = portfolio.positions[indexPath.row]
-                cell.rowCellValue1.text = position.symbol + " (\(UtilsService.formatQuantity(position.quantity as Float)))"
+                cell.rowCellValue1.text = position.symbol
+                var qtyLabel = "\(UtilsService.formatQuantity(position.quantity as Float))"
+                qtyLabel += (position.holdingType == "LONG" ? " shares": " short")
+                cell.rowCellUnderValue1.text = qtyLabel
                 cell.rowCellValue2.text = UtilsService.formatCurrency(position.costbasis as Float)
                 cell.rowCellValue3.text = UtilsService.formatCurrency(position.lastPrice as Float)
             }
@@ -132,11 +135,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if tableView == self.holdingsTable {
             if indexPath.row == self.selectedPositionIndex {
-                return 140
+                return 150
             }
-            return 44
+            return 50
         }
-        return 44
+        return 50
     }
     
     // MARK: IBAction

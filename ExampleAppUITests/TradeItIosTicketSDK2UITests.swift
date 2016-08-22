@@ -78,7 +78,8 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 
         //Positions
         app.tables.staticTexts["Dummy *cct1 Holdings"].exists
-        app.tables.staticTexts["AAPL (1)"].exists
+        app.tables.staticTexts["AAPL"].exists
+        app.tables.staticTexts["1 shares"].exists
         app.tables.staticTexts["$103.34"].exists
         app.tables.staticTexts["$112.34"].exists
     }

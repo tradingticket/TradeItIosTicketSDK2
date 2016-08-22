@@ -143,12 +143,13 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     position1.costbasis = 200
                     position1.quantity = 2
                     position1.lastPrice = 95.48
-                    
+                    position1.holdingType = "LONG"
                     let position2 = TradeItPosition()
                     position2.symbol = "MySymbol2"
                     position2.costbasis = 210.78
                     position2.quantity = 5
                     position2.lastPrice = 49.23
+                    position2.holdingType = "SHORT"
                     
                     tradeItResult4.positions = [position1, position2]
                     completionBlockFirstAccountPositions(tradeItResult4)
@@ -157,9 +158,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 }
                 
                 it("hides the spinner") {
-                    let callsToHide = ezLoadingActivityManager.calls.forMethod("hide()")
-                    expect(callsToHide.count).to(equal(1)) //TODO to fix only 1 call should have been done
-                    expect(ezLoadingActivityManager.calls.count).to(equal(2)) //TODO to fix only 1 call should have been done
+                    expect(ezLoadingActivityManager.calls.forMethod("hide()").count).toEventually(equal(1))
+                    expect(ezLoadingActivityManager.calls.count).to(equal(1)) 
                 }
                 
                 it("populates the accounts table with a list of linked brokers' accounts") {
@@ -180,18 +180,18 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 it("populates the accounts table with the total value and buying power for each account") {
                     //Account on first row
                     var cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue2?.text).to(equal("$100 (5.64%)"))
-                    expect(cell.rowCellValue3?.text).to(equal("$1,000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$1,000"))
+                    expect(cell.rowCellValue3?.text).to(equal("$100 (5.64%)"))
                     
                     //Account on second row
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue2?.text).to(equal("$200 (10.69%)"))
-                    expect(cell.rowCellValue3?.text).to(equal("$2,000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$2,000"))
+                      expect(cell.rowCellValue3?.text).to(equal("$200 (10.69%)"))
                     
                     //Account on third row
                     cell = controller.tableView(controller.accountsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 2, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue2?.text).to(equal("$300 (-1.68%)"))
-                    expect(cell.rowCellValue3?.text).to(equal("$3,000"))
+                    expect(cell.rowCellValue2?.text).to(equal("$3,000"))
+                    expect(cell.rowCellValue3?.text).to(equal("$300 (-1.68%)"))
                 }
                 
                 it("fills the total value of all accounts under ALL ACCOUNTS") {
@@ -209,13 +209,15 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 it("populates the positions table for the selected account") {
                     //Position on first row
                     var cell = controller.tableView(controller.holdingsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue1?.text).to(equal("MySymbol1 (2)"))
+                    expect(cell.rowCellValue1?.text).to(equal("MySymbol1"))
+                    expect(cell.rowCellUnderValue1?.text).to(equal("2 shares"))
                     expect(cell.rowCellValue2?.text).to(equal("$200"))
                     expect(cell.rowCellValue3?.text).to(equal("$95.48"))
                     
                     //Position on second row
                     cell = controller.tableView(controller.holdingsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as! CustomPortfolioCell
-                    expect(cell.rowCellValue1?.text).to(equal("MySymbol2 (5)"))
+                    expect(cell.rowCellValue1?.text).to(equal("MySymbol2"))
+                    expect(cell.rowCellUnderValue1?.text).to(equal("5 short"))
                     expect(cell.rowCellValue2?.text).to(equal("$210.78"))
                     expect(cell.rowCellValue3?.text).to(equal("$49.23"))
                 }
@@ -232,12 +234,14 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         position1.costbasis = 2200
                         position1.quantity = 22
                         position1.lastPrice = 295.48
+                        position1.holdingType = "SHORT"
                         
                         let position2 = TradeItPosition()
                         position2.symbol = "MySymbol22"
                         position2.costbasis = 2210.78
                         position2.quantity = 25
                         position2.lastPrice = 249.23
+                        position2.holdingType = "LONG"
                         
                         tradeItResult.positions = [position1, position2]
                         completionBlockSecondAccountPositions(tradeItResult)
@@ -249,13 +253,15 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     it("shows the corresponding positions") {
                         //Position on first row
                         var cell = controller.tableView(controller.holdingsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as! CustomPortfolioCell
-                        expect(cell.rowCellValue1?.text).to(equal("MySymbol21 (22)"))
+                        expect(cell.rowCellValue1?.text).to(equal("MySymbol21"))
+                        expect(cell.rowCellUnderValue1?.text).to(equal("22 short"))
                         expect(cell.rowCellValue2?.text).to(equal("$2,200"))
                         expect(cell.rowCellValue3?.text).to(equal("$295.48"))
                         
                         //Position on second row
                         cell = controller.tableView(controller.holdingsTable, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as! CustomPortfolioCell
-                        expect(cell.rowCellValue1?.text).to(equal("MySymbol22 (25)"))
+                        expect(cell.rowCellValue1?.text).to(equal("MySymbol22"))
+                        expect(cell.rowCellUnderValue1?.text).to(equal("25 shares"))
                         expect(cell.rowCellValue2?.text).to(equal("$2,210.78"))
                         expect(cell.rowCellValue3?.text).to(equal("$249.23"))
                         

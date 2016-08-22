@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItLoginViewController: UIViewController {
+class TradeItLoginViewController: FormViewController {
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
     var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
     var selectedBroker: TradeItBroker?
@@ -26,6 +26,7 @@ class TradeItLoginViewController: UIViewController {
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
+        
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

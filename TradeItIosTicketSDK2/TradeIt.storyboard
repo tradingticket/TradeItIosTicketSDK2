@@ -302,7 +302,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yrz-pv-MdF">
-                                <rect key="frame" x="175" y="338.5" width="250" height="40"/>
+                                <rect key="frame" x="175" y="510" width="250" height="40"/>
                                 <color key="backgroundColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7vl-e6-c4z"/>
@@ -322,7 +322,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="NCp-xr-27R">
-                                <rect key="frame" x="385" y="348.5" width="20" height="20"/>
+                                <rect key="frame" x="385" y="520" width="20" height="20"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Gp-Sv-WRs">
@@ -362,7 +362,13 @@
                             <constraint firstItem="uaH-TC-Asd" firstAttribute="top" secondItem="5Gp-Sv-WRs" secondAttribute="bottom" constant="15" id="fKB-fp-eMH"/>
                             <constraint firstItem="Yrz-pv-MdF" firstAttribute="centerX" secondItem="jxT-Jj-bAX" secondAttribute="centerX" id="hl9-7P-FrX"/>
                             <constraint firstItem="G82-1O-5AF" firstAttribute="top" secondItem="Mco-d5-7JZ" secondAttribute="bottom" constant="30" id="wca-TF-y9Q"/>
+                            <constraint firstItem="rML-h2-sYO" firstAttribute="top" secondItem="Yrz-pv-MdF" secondAttribute="bottom" constant="50" id="wfy-Xx-CGn"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="E3e-n4-nUB"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="hiF-Ae-ioR">
                         <barButtonItem key="backBarButtonItem" title="Back" id="YT4-cJ-5Rp"/>
@@ -372,6 +378,7 @@
                         <outlet property="linkButton" destination="Yrz-pv-MdF" id="W2V-W4-dND"/>
                         <outlet property="loginLabel" destination="G82-1O-5AF" id="5vh-gE-AnI"/>
                         <outlet property="passwordInput" destination="uaH-TC-Asd" id="s5m-py-aQP"/>
+                        <outlet property="submitButtonBottomSpaceConstraint" destination="wfy-Xx-CGn" id="cSc-8Q-e90"/>
                         <outlet property="userNameInput" destination="5Gp-Sv-WRs" id="Wdz-GZ-7qO"/>
                         <segue destination="bUI-w2-wjN" kind="show" identifier="TO_PORTFOLIO_SCREEN_SEGUE" id="UDl-f2-lho"/>
                     </connections>

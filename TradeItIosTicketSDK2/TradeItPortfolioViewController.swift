@@ -184,7 +184,6 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     private func authenticateAndFetchBalancesLinkedAccounts() -> Void {
         let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
-
         firstly { _ -> Promise<[TradeItResult]> in
             var promises: [Promise<TradeItResult>] = []
 
@@ -205,11 +204,9 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     }
                 }
             }
-
             return when(promises)
         }.then { _ -> Promise<[TradeItResult]> in
-            self.ezLoadingActivityManager.hide()
-            self.ezLoadingActivityManager.show(text: "Retreiving Account Summary", disableUI: true)
+            self.ezLoadingActivityManager.updateText(text: "Retreiving Account Summary")
             var promises: [Promise<TradeItResult>] = []
             for portfolio in self.portfolios {
                 promises.append(self.getAccountOverView(portfolio))

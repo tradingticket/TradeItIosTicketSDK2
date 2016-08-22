@@ -37,6 +37,10 @@ public class EZLoadingActivityManager {
     func show(text text: String, disableUI: Bool) -> Bool {
         return EZLoadingActivity.show(text, disableUI: disableUI)
     }
+    
+    func updateText(text text: String) -> Bool {
+        return EZLoadingActivity.updateText(text)
+    }
 
     func showOnController(text text: String,
                           disableUI: Bool,
@@ -61,8 +65,8 @@ public struct EZLoadingActivity {
         public static var ActivityColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
         public static var TextColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
         public static var FontName = "HelveticaNeue-Light"
-        public static var FontSize: CGFloat = 30.0
-        public static var WidthScalingFactor: CGFloat = 1.0
+        public static var FontSize: CGFloat = 15.0
+        public static var WidthScalingFactor: CGFloat = 1.3
         // Other possible stuff: ✓ ✓ ✔︎ ✕ ✖︎ ✘
         public static var SuccessIcon = "✔︎"
         public static var FailIcon = "✘"
@@ -116,6 +120,15 @@ public struct EZLoadingActivity {
         return true
     }
     
+    public static func updateText(text: String) -> Bool {
+        guard instance != nil else {
+            print("EZLoadingActivity: You must have an active activity, to update text")
+            return false
+        }
+        instance?.textLabel.text = text
+        return true
+    }
+    
     public static func showWithDelay(text: String, disableUI: Bool, seconds: Double) -> Bool {
         let showValue = show(text, disableUI: disableUI)
         delay(seconds) { () -> () in
@@ -158,7 +171,6 @@ public struct EZLoadingActivity {
         }
         
         if overlay != nil {
-        
             UIView.animateWithDuration(0.2, animations: {
                 overlay.backgroundColor = overlay.backgroundColor?.colorWithAlphaComponent(0)
             }, completion: { _ in overlay.removeFromSuperview() })

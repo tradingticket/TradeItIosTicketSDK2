@@ -98,14 +98,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             cell.rowCellValue1.text = portfolio.accountName
             
             if (!portfolio.isBalanceError && portfolio.balance != nil) {
+                cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.buyingPower as Float)
+                
                 if let totalPercentReturn = portfolio.balance.totalPercentReturn {
-                        cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.totalValue as Float) + " (" + UtilsService.formatPercentage(totalPercentReturn as Float) + ")"
+                        cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.totalValue as Float) + " (" + UtilsService.formatPercentage(totalPercentReturn as Float) + ")"
                 }
                 else {
-                    cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.totalValue as Float)
+                    cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.totalValue as Float)
                 }
-                
-                cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.buyingPower as Float)
             }
             else {
                 cell.rowCellValue2.text = "N/A"

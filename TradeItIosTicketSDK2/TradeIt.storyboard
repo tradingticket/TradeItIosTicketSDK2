@@ -424,14 +424,14 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buying power" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgQ-MU-CPN">
-                                                    <rect key="frame" x="510" y="15" width="71.5" height="13.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Value" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgQ-MU-CPN">
+                                                    <rect key="frame" x="523.5" y="15" width="58" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CzO-Yt-1hw">
-                                                    <rect key="frame" x="402" y="15" width="58" height="13.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buying power" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CzO-Yt-1hw">
+                                                    <rect key="frame" x="381.5" y="15" width="72" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -441,7 +441,7 @@
                                                 <constraint firstItem="CzO-Yt-1hw" firstAttribute="centerY" secondItem="tvi-2q-ObU" secondAttribute="centerY" id="CP4-k2-8WX"/>
                                                 <constraint firstItem="93S-9F-GGt" firstAttribute="leading" secondItem="tvi-2q-ObU" secondAttribute="leadingMargin" constant="10" id="Ggy-rv-NA6"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="wgQ-MU-CPN" secondAttribute="trailing" constant="10" id="J57-l4-b2e"/>
-                                                <constraint firstItem="wgQ-MU-CPN" firstAttribute="leading" secondItem="CzO-Yt-1hw" secondAttribute="trailing" constant="50" id="KYG-gv-xzZ"/>
+                                                <constraint firstItem="wgQ-MU-CPN" firstAttribute="leading" secondItem="CzO-Yt-1hw" secondAttribute="trailing" constant="70" id="KYG-gv-xzZ"/>
                                                 <constraint firstItem="wgQ-MU-CPN" firstAttribute="centerY" secondItem="tvi-2q-ObU" secondAttribute="centerY" id="Q4d-cM-z3Q"/>
                                                 <constraint firstItem="93S-9F-GGt" firstAttribute="centerY" secondItem="tvi-2q-ObU" secondAttribute="centerY" id="owD-QG-tG7"/>
                                             </constraints>

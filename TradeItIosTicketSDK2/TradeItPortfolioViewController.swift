@@ -71,7 +71,9 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 // there is no cell selected anymore
                 self.selectedPositionIndex = -1
             }
-            self.holdingsTable.reloadData()
+            tableView.beginUpdates()
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            tableView.endUpdates()
         }
     }
     
@@ -129,6 +131,12 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 cell.rowCellValue2.text = UtilsService.formatCurrency(position.costbasis as Float)
                 cell.rowCellValue3.text = UtilsService.formatCurrency(position.lastPrice as Float)
             }
+            
+            //Set background to white when/select deselect row
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.whiteColor()
+            cell.selectedBackgroundView = backgroundView
+            
             if (indexPath.row == self.selectedPositionIndex) {
                 cell.selector.image = UIImage(named: "chevron_up")
             }
@@ -147,8 +155,6 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if tableView == self.holdingsTable {
-            let row = tableView.dequeueReusableCellWithIdentifier("CUSTOM_PORTFOLIO_CELL_ID") as! CustomPortfolioCell
-            let height = row.bounds.height
             if indexPath.row == self.selectedPositionIndex {
                 return 150
             }

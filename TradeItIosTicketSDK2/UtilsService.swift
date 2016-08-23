@@ -1,7 +1,7 @@
 class UtilsService: NSObject {
     private static let formatter = NSNumberFormatter()
 
-    static func formatCurrency(number: Float) -> String {
+    static func formatCurrency(number: NSNumber) -> String {
         formatter.numberStyle = .CurrencyStyle
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
@@ -15,11 +15,11 @@ class UtilsService: NSObject {
         return formatter.stringFromNumber(number)!
     }
     
-    static func formatPercentage(number: Float) -> String {
+    static func formatPercentage(number: NSNumber) -> String {
         formatter.numberStyle = .PercentStyle
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
-        return formatter.stringFromNumber(number/100)!
+        return formatter.stringFromNumber((number as Float)/100)!
     }
 
 }

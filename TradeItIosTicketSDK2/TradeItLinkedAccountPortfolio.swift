@@ -5,11 +5,11 @@ class TradeItLinkedAccountPortfolio: NSObject {
     var accountName: String = ""
     var accountNumber: String = ""
     var balance: TradeItAccountOverviewResult!
-    var positions: [TradeItPosition] = []
+    var positions: [TradeItPositionPortfolio] = []
     var isBalanceError: Bool = false
     var isPositionsError: Bool = false
     
-    init(tradeItSession: TradeItSession, broker: String, accountName: String, accountNumber: String, balance: TradeItAccountOverviewResult!, positions: [TradeItPosition]) {
+    init(tradeItSession: TradeItSession, broker: String, accountName: String, accountNumber: String, balance: TradeItAccountOverviewResult!, positions: [TradeItPositionPortfolio]) {
         self.tradeItSession = tradeItSession
         self.broker = broker
         self.accountName = accountName

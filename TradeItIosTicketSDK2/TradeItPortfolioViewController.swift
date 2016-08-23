@@ -64,8 +64,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         else if tableView == self.holdingsTable {
-            self.selectedPositionIndex = indexPath.row
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            if self.selectedPositionIndex != indexPath.row {
+                self.selectedPositionIndex = indexPath.row
+            }
+            else {
+                // there is no cell selected anymore
+                self.selectedPositionIndex = -1
+            }
+            self.holdingsTable.reloadData()
         }
     }
     
@@ -123,6 +129,13 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 cell.rowCellValue2.text = UtilsService.formatCurrency(position.costbasis as Float)
                 cell.rowCellValue3.text = UtilsService.formatCurrency(position.lastPrice as Float)
             }
+            if (indexPath.row == self.selectedPositionIndex) {
+                cell.selector.image = UIImage(named: "chevron_up")
+            }
+            else {
+                cell.selector.image = UIImage(named: "chevron_down")
+            }
+
         }
         return cell
     }
@@ -134,6 +147,8 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if tableView == self.holdingsTable {
+            let row = tableView.dequeueReusableCellWithIdentifier("CUSTOM_PORTFOLIO_CELL_ID") as! CustomPortfolioCell
+            let height = row.bounds.height
             if indexPath.row == self.selectedPositionIndex {
                 return 150
             }

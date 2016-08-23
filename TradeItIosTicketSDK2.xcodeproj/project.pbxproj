@@ -19,6 +19,13 @@
 		B536DD921D6B8C81009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
 		B536DD931D6B8C81009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
 		B536DDAD1D6B8E7D009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
+		B536DDB21D6C88F2009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
+		B536DDB31D6C88F2009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
+		B536DDB41D6C88F2009A9621 /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB11D6C88F2009A9621 /* chevron_down.png */; };
+		B536DDB51D6C88F2009A9621 /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB11D6C88F2009A9621 /* chevron_down.png */; };
+		B536DDB61D6C8A30009A9621 /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB11D6C88F2009A9621 /* chevron_down.png */; };
+		B536DDB71D6C8A35009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
+		B536DDB81D6C8A39009A9621 /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = B579FFC51D63B306003643C1 /* indicator.png */; };
 		B54A0D5C1D634AC20017FE76 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54A0D3B1D634A780017FE76 /* PromiseKit.framework */; };
 		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
@@ -356,6 +363,8 @@
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
 		B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItPositionService.swift; sourceTree = "<group>"; };
 		B536DD911D6B8C81009A9621 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		B536DDB01D6C88F2009A9621 /* chevron_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_up.png; sourceTree = "<group>"; };
+		B536DDB11D6C88F2009A9621 /* chevron_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_down.png; sourceTree = "<group>"; };
 		B54A0D271D634A770017FE76 /* PromiseKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PromiseKit.xcodeproj; path = submodules/PromiseKit/PromiseKit.xcodeproj; sourceTree = "<group>"; };
 		B579FFC51D63B306003643C1 /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		B579FFE81D63C585003643C1 /* UtilsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsService.swift; sourceTree = "<group>"; };
@@ -474,6 +483,8 @@
 		B5D82C301D529AEA00AF3B6F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B536DDB01D6C88F2009A9621 /* chevron_up.png */,
+				B536DDB11D6C88F2009A9621 /* chevron_down.png */,
 				B579FFC51D63B306003643C1 /* indicator.png */,
 				B5D82C311D529B5800AF3B6F /* lock.png */,
 			);
@@ -1000,6 +1011,8 @@
 			files = (
 				B579FFE01D63B753003643C1 /* indicator.png in Resources */,
 				FAEC85001D55277500EC32C7 /* LaunchScreen.storyboard in Resources */,
+				B536DDB71D6C8A35009A9621 /* chevron_up.png in Resources */,
+				B536DDB61D6C8A30009A9621 /* chevron_down.png in Resources */,
 				FAC8E7251D555A2A0024D693 /* lock.png in Resources */,
 				FAEC84FD1D55277500EC32C7 /* Assets.xcassets in Resources */,
 				FAC8E7241D555A200024D693 /* TradeIt.storyboard in Resources */,
@@ -1020,6 +1033,8 @@
 			files = (
 				B5D82C321D529B5800AF3B6F /* lock.png in Resources */,
 				FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */,
+				B536DDB21D6C88F2009A9621 /* chevron_up.png in Resources */,
+				B536DDB41D6C88F2009A9621 /* chevron_down.png in Resources */,
 				B579FFC61D63B306003643C1 /* indicator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,8 +1043,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B536DDB81D6C8A39009A9621 /* indicator.png in Resources */,
 				FA0D3FA41D5BFA9C00C67FBC /* lock.png in Resources */,
+				B536DDB31D6C88F2009A9621 /* chevron_up.png in Resources */,
 				B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */,
+				B536DDB51D6C88F2009A9621 /* chevron_down.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

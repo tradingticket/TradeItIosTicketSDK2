@@ -552,13 +552,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Price" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjt-1n-Blf">
-                                                    <rect key="frame" x="529" y="15" width="52.5" height="13.5"/>
+                                                    <rect key="frame" x="504.5" y="15" width="52.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cost" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-xy-KDI">
-                                                    <rect key="frame" x="435" y="15" width="24.5" height="13.5"/>
+                                                    <rect key="frame" x="410.5" y="15" width="24.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -567,7 +567,7 @@
                                             <constraints>
                                                 <constraint firstItem="cAp-EE-tcm" firstAttribute="leading" secondItem="O9o-di-wTY" secondAttribute="leadingMargin" constant="10" id="NFK-6K-L1N"/>
                                                 <constraint firstItem="Xjt-1n-Blf" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="VdB-cn-EXo"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Xjt-1n-Blf" secondAttribute="trailing" constant="10" id="cfN-6g-ez1"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Xjt-1n-Blf" secondAttribute="trailing" constant="35" id="cfN-6g-ez1"/>
                                                 <constraint firstItem="cAp-EE-tcm" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="lBo-sC-RFf"/>
                                                 <constraint firstItem="Oam-xy-KDI" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="oOp-ET-B4U"/>
                                                 <constraint firstItem="Xjt-1n-Blf" firstAttribute="leading" secondItem="Oam-xy-KDI" secondAttribute="trailing" constant="70" id="y43-2h-x3a"/>
@@ -594,7 +594,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-6D-oUm">
-                                                    <rect key="frame" x="568" y="16" width="13.5" height="12"/>
+                                                    <rect key="frame" x="543" y="16" width="13.5" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -611,13 +611,22 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="XJJ-3P-SG7">
+                                                    <rect key="frame" x="572" y="17.5" width="15" height="10"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="xti-Hm-wi1"/>
+                                                        <constraint firstAttribute="width" constant="15" id="zCN-qn-P1y"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Qz9-f6-gXb" firstAttribute="top" secondItem="UUg-Fr-NXz" secondAttribute="bottom" constant="5" id="5Ed-k5-5D5"/>
                                                 <constraint firstItem="P8T-6D-oUm" firstAttribute="leading" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="50" id="9i2-gf-yGG"/>
                                                 <constraint firstItem="UUg-Fr-NXz" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="GQg-HA-OzL"/>
+                                                <constraint firstItem="XJJ-3P-SG7" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="Kb5-rV-KOw"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="140" id="KnL-ns-VzW"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="P8T-6D-oUm" secondAttribute="trailing" constant="10" id="QFo-3S-Ieu"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="XJJ-3P-SG7" secondAttribute="trailing" constant="5" id="ONI-WV-eql"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="P8T-6D-oUm" secondAttribute="trailing" constant="35" id="QFo-3S-Ieu"/>
                                                 <constraint firstItem="Qz9-f6-gXb" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="aia-IJ-kjW"/>
                                                 <constraint firstItem="lAR-ee-oMb" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="g3M-ne-aCC"/>
                                                 <constraint firstItem="P8T-6D-oUm" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="jUe-g4-Ip8"/>
@@ -634,6 +643,7 @@
                                             <outlet property="rowCellValue1" destination="UUg-Fr-NXz" id="NQ3-Rh-auL"/>
                                             <outlet property="rowCellValue2" destination="lAR-ee-oMb" id="7r4-lF-6Iz"/>
                                             <outlet property="rowCellValue3" destination="P8T-6D-oUm" id="h96-O9-pLx"/>
+                                            <outlet property="selector" destination="XJJ-3P-SG7" id="PXx-pV-N7D"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -705,6 +715,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron_down.png" width="128" height="87"/>
         <image name="indicator.png" width="39" height="72"/>
         <image name="lock.png" width="69" height="93"/>
     </resources>

@@ -132,6 +132,17 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.totalValue)
                 }
             }
+            else if (!portfolio.isBalanceError && portfolio.fxBalance != nil) {
+                cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.fxBalance.buyingPowerBaseCurrency)
+                cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency)
+                if portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency?.floatValue != 0 {
+                    let totalReturn = portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue
+                    let totalPercentReturn = totalReturn / (portfolio.fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
+                    if abs(totalPercentReturn) > 0.01 {
+                        cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency) + " (" + UtilsService.formatPercentage(totalPercentReturn) + ")"
+                    }
+                }
+            }
             else {
                 cell.rowCellValue2.text = "N/A"
                 cell.rowCellValue3.text = "N/A"

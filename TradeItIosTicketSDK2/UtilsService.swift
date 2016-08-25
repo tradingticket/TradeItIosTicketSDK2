@@ -8,6 +8,14 @@ class UtilsService: NSObject {
         return formatter.stringFromNumber(number)!
     }
     
+    static func formatCurrency(number: NSNumber, currencyCode: String) -> String {
+        formatter.numberStyle = .CurrencyStyle
+        formatter.currencyCode = currencyCode
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        return formatter.stringFromNumber(number)!
+    }
+    
     static func formatQuantity(number: Float) -> String {
         formatter.numberStyle = .DecimalStyle
         formatter.minimumFractionDigits = 0

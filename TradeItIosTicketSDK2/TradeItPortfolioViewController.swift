@@ -257,6 +257,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                             accountName: accountName,
                             accountNumber: account.accountNumber,
                             balance: nil,
+                            fxBalance: nil,
                             positions: [])
                         self.portfolios.append(tradeItLinkedAccountPortfolio)
                     }
@@ -313,6 +314,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                             accountName: accountName,
                             accountNumber: account.accountNumber,
                             balance: nil,
+                            fxBalance: nil,
                             positions: [])
                         self.portfolios.append(tradeItLinkedAccountPortfolio)
                     }
@@ -327,13 +329,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return Promise { fulfill, reject in
             let request = TradeItAccountOverviewRequest(accountNumber: portfolio.accountNumber)
             self.tradeItBalanceService.session = portfolio.tradeItSession
-            self.tradeItBalanceService.getAccountOverview(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+            self.tradeItBalanceService.getAccountOverviewV2(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                     // TODO: reject
                     print("Error \(tradeItErrorResult)")
                     portfolio.isBalanceError = true
-                } else if let tradeItAccountOverviewResult = tradeItResult as? TradeItAccountOverviewResult {
-                    portfolio.balance = tradeItAccountOverviewResult
+                } else if let tradeItSuccessBalanceResult = tradeItResult as? TradeItSuccessBalanceResult {
+                    portfolio.balance = tradeItSuccessBalanceResult.accountOverview
+                    portfolio.fxBalance = tradeItSuccessBalanceResult.fxAccountOverview
                 }
 
                 fulfill(tradeItResult)

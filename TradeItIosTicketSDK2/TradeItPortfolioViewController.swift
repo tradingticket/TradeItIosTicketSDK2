@@ -3,7 +3,7 @@ import PromiseKit
 
 class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tradeItConnector = TradeItLauncher.tradeItConnector
-    var accounts: [TradeItAccount] = []
+    var accounts: [TradeItBrokerAccount] = []
     var linkedLogin: TradeItLinkedLogin!
     var tradeItSession: TradeItSession!
     var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
@@ -215,7 +215,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    private func getAccountName(account: TradeItAccount , broker: String) -> String {
+    private func getAccountName(account: TradeItBrokerAccount , broker: String) -> String {
         var formattedAccountNumber = account.accountNumber
         var formattedAccountName = account.accountName
         
@@ -295,7 +295,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return Promise { fulfill, reject in
             let tradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
 
-            tradeItSession.authenticateAsObject(linkedLogin, withCompletionBlock: { (tradeItResult: TradeItResult!) in
+            tradeItSession.authenticate(linkedLogin, withObjectsCompletionBlock: { (tradeItResult: TradeItResult!) in
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                     //TODO
                     print("Error \(tradeItErrorResult)")
@@ -307,7 +307,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     //reject()
                 } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
                     for account in tradeItResult.accounts {
-                        let accountName = self.getAccountName(account as! TradeItAccount, broker: linkedLogin.broker)
+                        let accountName = self.getAccountName(account as! TradeItBrokerAccount, broker: linkedLogin.broker)
                         let tradeItLinkedAccountPortfolio = TradeItLinkedAccountPortfolio(
                             tradeItSession: tradeItSession,
                             broker: linkedLogin.broker,

@@ -4,7 +4,7 @@ class TradeItLoginViewController: FormViewController {
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
     var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
     var selectedBroker: TradeItBroker?
-    var accounts: [TradeItAccount] = []
+    var accounts: [TradeItBrokerAccount] = []
     let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
     var linkedLogin: TradeItLinkedLogin!
     
@@ -72,8 +72,8 @@ class TradeItLoginViewController: FormViewController {
                 self.linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
                                                                            withBroker: brokerShortName)
 
-                self.tradeItSession.authenticateAsObject(self.linkedLogin,
-                                                 withCompletionBlock: { (tradeItResult: TradeItResult!) in
+                self.tradeItSession.authenticate(self.linkedLogin,
+                                                 withObjectsCompletionBlock: { (tradeItResult: TradeItResult!) in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
 
@@ -83,7 +83,7 @@ class TradeItLoginViewController: FormViewController {
                         print("Security question result: \(tradeItSecurityQuestionResult)")
                         //TODO
                     } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
-                        self.accounts = tradeItResult.accounts as! [TradeItAccount]
+                        self.accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
                         self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
                     }
                 })

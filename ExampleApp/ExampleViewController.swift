@@ -10,8 +10,8 @@ enum Action: Int {
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
-
-    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: "tradeit-test-api-key", environment: TradeItEmsTestEnv)
+    static let apiKey = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
+    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: ExampleViewController.apiKey, environment: TradeItEmsLocalEnv)
 
     override func viewDidLoad() {
         super.viewDidLoad()

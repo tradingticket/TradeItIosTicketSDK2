@@ -50,10 +50,13 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsTable: UITableView!
+    @IBOutlet weak var fxSummaryTable: UITableView!
     @IBOutlet weak var totalAccountsValueLabel: UILabel!
+    @IBOutlet weak var summaryFxLabel: UILabel!
     @IBOutlet weak var holdingsLabel: UILabel!
     @IBOutlet weak var positionsSpinner: UIActivityIndicatorView!
-
+    @IBOutlet weak var holdingsLabelConstraintY: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.authenticateAndFetchBalancesLinkedAccounts()
@@ -66,6 +69,8 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             self.selectedPositionIndex = -1
             self.selectedPortfolioIndex = indexPath.row
             self.holdingsLabel.text = self.getHoldingLabel()
+            self.summaryFxLabel.text = self.getSummaryFxLabel()
+            self.updateConstraintFxTable()
             self.accountsTable.reloadData()
 
             firstly {
@@ -250,6 +255,15 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    private func getSummaryFxLabel() -> String{
+        if self.portfolios.count > 0 {
+            return self.portfolios[self.selectedPortfolioIndex].accountName + " Summary"
+        }
+        else {
+            return "Summary"
+        }
+    }
+    
     private func authenticateAndFetchBalancesLinkedAccounts() -> Void {
         let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
@@ -291,9 +305,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
 
             return when(promises)
         }.always {
+            self.updateConstraintFxTable()
             self.accountsTable.reloadData()
             self.holdingsTable.reloadData()
             self.totalAccountsValueLabel.text = self.getTotalAccountsValue()
+            self.summaryFxLabel.text = self.getSummaryFxLabel()
             self.holdingsLabel.text = self.getHoldingLabel()
             self.ezLoadingActivityManager.hide()
         }.error { (error: ErrorType) in
@@ -442,5 +458,18 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             returnStr = "N/A";
         }
         return returnStr
+    }
+    
+    private func updateConstraintFxTable() {
+        if self.portfolios[self.selectedPortfolioIndex].fxBalance == nil {
+            self.summaryFxLabel.hidden = true
+            self.fxSummaryTable.hidden = true
+            self.holdingsLabelConstraintY.constant = 150
+        }
+        else {
+            self.summaryFxLabel.hidden = false
+            self.fxSummaryTable.hidden = false
+            self.holdingsLabelConstraintY.constant = 285
+        }
     }
 }

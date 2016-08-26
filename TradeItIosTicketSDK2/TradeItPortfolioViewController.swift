@@ -1,5 +1,6 @@
 import UIKit
 import PromiseKit
+import TradeItIosEmsApi
 
 class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tradeItConnector = TradeItLauncher.tradeItConnector

@@ -1,3 +1,5 @@
+import TradeItIosEmsApi
+
 class TradeItLinkedAccountPortfolio: NSObject {
     
     var tradeItSession: TradeItSession

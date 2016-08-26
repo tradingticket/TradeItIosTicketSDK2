@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import TradeItIosEmsApi
 
 class TradeItLoginViewControllerSpec: QuickSpec {
     override func spec() {
@@ -175,7 +176,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                 authenticationResult.token = "My special token"
                                 authenticationResult.shortMessage = "Fake short message"
                                 authenticationResult.longMessages = nil
-                                authenticationResult.accounts = [TradeItAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", accountName: "My Special account name", tradable: true)]
+                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", accountName: "My Special account name", tradable: true)]
 
 
                                 let completionHandler = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)

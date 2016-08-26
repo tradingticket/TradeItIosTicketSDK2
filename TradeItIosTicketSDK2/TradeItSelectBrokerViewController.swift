@@ -1,4 +1,5 @@
 import UIKit
+import TradeItIosEmsApi
 
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!

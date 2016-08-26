@@ -1,7 +1,8 @@
 import UIKit
+import TradeItIosEmsApi
 
 @objc class TradeItLauncher: NSObject {
-    static var tradeItConnector: TradeItConnector! = nil
+    static var tradeItConnector: TradeItConnector!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.tradeItConnector = TradeItConnector(apiKey: apiKey)

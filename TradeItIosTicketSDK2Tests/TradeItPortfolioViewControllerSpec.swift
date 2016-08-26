@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import TradeItIosEmsApi
 
 class TradeItPortfolioViewControllerSpec: QuickSpec {
     override func spec() {
@@ -29,17 +30,17 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 controller.linkedLogin = linkedRecentLogin
 
                 controller.accounts = [
-                    TradeItAccount(
+                    TradeItBrokerAccount(
                         accountBaseCurrency: "USD",
                         accountNumber: "123456789",
                         accountName: "My fake account 1",
                         tradable: true),
-                    TradeItAccount(
+                    TradeItBrokerAccount(
                         accountBaseCurrency: "USD",
                         accountNumber: "987654321",
                         accountName: "My fake account 2",
                         tradable: true),
-                    TradeItAccount(accountBaseCurrency: "USD",
+                    TradeItBrokerAccount(accountBaseCurrency: "USD",
                         accountNumber: "123498765",
                         accountName: "My fake account 3",
                         tradable: true)

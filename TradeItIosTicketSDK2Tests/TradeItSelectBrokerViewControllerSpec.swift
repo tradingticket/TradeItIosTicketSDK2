@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import TradeItIosEmsApi
 
 class TradeItSelectBrokerViewControllerSpec: QuickSpec {
     override func spec() {

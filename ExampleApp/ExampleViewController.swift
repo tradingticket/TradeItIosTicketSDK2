@@ -1,5 +1,6 @@
 import UIKit
 import TradeItIosTicketSDK2
+import TradeItIosEmsApi
 
 enum Action: Int {
     case LaunchSdk = 0

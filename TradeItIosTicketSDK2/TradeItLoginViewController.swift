@@ -1,4 +1,5 @@
 import UIKit
+import TradeItIosEmsApi
 
 class TradeItLoginViewController: FormViewController {
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector

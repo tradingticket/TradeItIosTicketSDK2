@@ -1,3 +1,5 @@
+import TradeItIosEmsApi
+
 class FakeTradeItPositionService: TradeItPositionService {
     let calls = SpyRecorder()
 

@@ -1,0 +1,44 @@
+PODS:
+  - Nimble (4.1.0)
+  - OMGHTTPURLRQ (3.2.0):
+    - OMGHTTPURLRQ/RQ (= 3.2.0)
+  - OMGHTTPURLRQ/FormURLEncode (3.2.0)
+  - OMGHTTPURLRQ/RQ (3.2.0):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (3.2.0)
+  - PromiseKit (3.4.0):
+    - PromiseKit/Foundation (= 3.4.0)
+    - PromiseKit/QuartzCore (= 3.4.0)
+    - PromiseKit/UIKit (= 3.4.0)
+  - PromiseKit/CorePromise (3.4.0)
+  - PromiseKit/Foundation (3.4.0):
+    - OMGHTTPURLRQ (~> 3.2.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (3.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (3.4.0):
+    - PromiseKit/CorePromise
+  - Quick (0.9.3)
+  - TradeItIosEmsApi (0.1.3)
+
+DEPENDENCIES:
+  - Nimble (= 4.1.0)
+  - PromiseKit (= 3.4)
+  - Quick (= 0.9.3)
+  - TradeItIosEmsApi (from `~/workspace/TradeItIosEmsApi`)
+
+EXTERNAL SOURCES:
+  TradeItIosEmsApi:
+    :path: ~/workspace/TradeItIosEmsApi
+
+SPEC CHECKSUMS:
+  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
+  OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
+  PromiseKit: 72a1500ddedd052b5f69b44e3bb4091da2fd1a7d
+  Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
+  TradeItIosEmsApi: fcfdec58c8a62de284acd852c5c9182bd62b76d6
+
+PODFILE CHECKSUM: fde60557309f9785137ccb996241259127be5147
+
+COCOAPODS: 1.0.1

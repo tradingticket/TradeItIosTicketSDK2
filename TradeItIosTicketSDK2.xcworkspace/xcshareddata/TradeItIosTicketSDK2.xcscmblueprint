@@ -8,31 +8,24 @@
     "D0725CAC6FF2D66F2C83C2C48DC12106D42DAA64" : 0,
     "6C076F9ED04517D7B2910757AA2BA4C3655A1701" : 0,
     "F5B4EC300E7199406BA2B2AA6070092FA65DDD89" : 0,
-    "99A86A572B8EDDA313F40FCB3864483E6BA01606" : 0,
-    "91283ECDC8FAF1F6DE9176F5129142D30E44B3BC" : 0
+    "99A86A572B8EDDA313F40FCB3864483E6BA01606" : 0
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "022BD4C7-8796-4F9E-92DE-2A1EB2690D2C",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9C0903BA-DE97-4DBF-9879-66F9E6AE39E9",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "95438028B10BBB846574013D29F154A00556A9D1" : "TradeItIosTicketSDK2\/submodules\/Nimble\/",
     "D0725CAC6FF2D66F2C83C2C48DC12106D42DAA64" : "TradeItIosTicketSDK2\/submodules\/Quick\/",
     "6C076F9ED04517D7B2910757AA2BA4C3655A1701" : "TradeItIosTicketSDK2\/",
     "F5B4EC300E7199406BA2B2AA6070092FA65DDD89" : "TradeItIosTicketSDK2\/submodules\/PromiseKit\/",
-    "99A86A572B8EDDA313F40FCB3864483E6BA01606" : "TradeItIosTicketSDK2\/submodules\/TradeItIosEmsApi\/",
-    "91283ECDC8FAF1F6DE9176F5129142D30E44B3BC" : ".."
+    "99A86A572B8EDDA313F40FCB3864483E6BA01606" : "TradeItIosEmsApi\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "TradeItIosTicketSDK2",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TradeItIosTicketSDK2.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TradeItIosTicketSDK2.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:tradingticket\/TradeItIosTicketSDK2.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6C076F9ED04517D7B2910757AA2BA4C3655A1701"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:tradingticket\/TradeItIosTicketSdkExample.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "91283ECDC8FAF1F6DE9176F5129142D30E44B3BC"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Quick\/Nimble.git",

@@ -22,16 +22,17 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         let app = self.application
 
         // See Welcome screen
-        app.tables.staticTexts["LaunchSdk"].tap()
-        XCTAssert(app.navigationBars["Welcome"].exists)
+        let launchSdkText = app.tables.staticTexts["LaunchSdk"]
+        waitForAsyncElementToAppear(launchSdkText)
+        launchSdkText.tap()
+        waitForAsyncElementToAppear(app.navigationBars["Welcome"])
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
         app.buttons["Get Started Now"].tap()
 
         // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
 
-
-        let ezLoadingActivity = app.staticTexts["Loading Brokers"]
+        var ezLoadingActivity = app.staticTexts["Loading Brokers"]
         waitForAsyncElementToDisappear(ezLoadingActivity)
 
         XCTAssert(app.tables.cells.count > 0)
@@ -61,6 +62,54 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.buttons["Link Account"].tap()
 
         // Select an account on the Accounts screen
-        XCTAssert(app.navigationBars["Portfolio"].exists)
+        waitForAsyncElementToAppear(app.navigationBars["Portfolio"])
+
+        ezLoadingActivity = app.staticTexts["Authenticating"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+
+        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+
+        XCTAssert(app.tables.cells.count > 0)
+
+        //Balances
+        app.tables.staticTexts["Individual**cct1"].exists
+        app.tables.staticTexts["$2408.12"].exists
+        app.tables.staticTexts["$76489.23 (22.84%)"].exists
+
+        //Positions
+        app.tables.staticTexts["Individual**cct1 Holdings"].exists
+        app.tables.staticTexts["AAPL"].exists
+        app.tables.staticTexts["1 shares"].exists
+        app.tables.staticTexts["$103.34"].exists
+        app.tables.staticTexts["$112.34"].exists
+    }
+
+//    func testPortfolioUserHasAccountFlow() {
+//        // Launch ticket
+//        let app = self.application
+//        
+//        // See Portfolio screen
+//        app.tables.staticTexts["LaunchPortfolio"].tap()
+//        XCTAssert(app.navigationBars["Portfolio"].exists)
+//        
+//        var ezLoadingActivity = app.staticTexts["Authenticating"]
+//        waitForAsyncElementToDisappear(ezLoadingActivity)
+//        
+//        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
+//        waitForAsyncElementToDisappear(ezLoadingActivity)
+//        
+//        XCTAssert(app.tables.cells.count > 0)
+//        
+//        //Balances
+//        app.tables.staticTexts["Dummy *cct1"].exists
+//        app.tables.staticTexts["$2408.12"].exists
+//        app.tables.staticTexts["$76489.23 (22.84%)"].exists
+//        
+//        //Positions
+//        app.tables.staticTexts["Dummy *cct1 Holdings"].exists
+//        app.tables.staticTexts["AAPL (1)"].exists
+//        app.tables.staticTexts["$103.34"].exists
+//        app.tables.staticTexts["$112.34"].exists
     }
 }

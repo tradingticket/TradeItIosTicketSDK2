@@ -1,4 +1,5 @@
 import UIKit
+import TradeItIosEmsApi
 
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -15,7 +16,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
         ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)
 
-        TradeItLauncher.tradeItConnector.getAvailableBrokersAsObjectsWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
+        TradeItLauncher.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
                 self.brokers = availableBrokers
                 self.brokerTable.reloadData()

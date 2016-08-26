@@ -1,15 +1,18 @@
 import UIKit
 import TradeItIosTicketSDK2
+import TradeItIosEmsApi
 
 enum Action: Int {
     case LaunchSdk = 0
+    case LaunchPortfolio = 1
+    case DeleteLinkedBrokers = 2
     case ENUM_COUNT
 }
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
-
-    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: "tradeit-test-api-key", environment: TradeItEmsTestEnv)
+    static let apiKey = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
+    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: ExampleViewController.apiKey, environment: TradeItEmsLocalEnv)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +25,17 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         switch action {
         case .LaunchSdk:
-            self.tradeItLauncher.launchTradeItFromViewController(self)
+            self.tradeItLauncher.launchTradeIt(fromViewController: self)
+        case .LaunchPortfolio:
+            self.launchTradeItPortfolioFromViewController()
+        case .DeleteLinkedBrokers:
+            self.deleteLinkedBrokers()
         default:
             return
         }
     }
 
-    // Mark: - UITableViewDataSource
+    // MARK: - UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Action.ENUM_COUNT.rawValue;
@@ -48,5 +55,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         return cell!
+    }
+    
+    // MARK: private
+    private func deleteLinkedBrokers() -> Void {
+        let linkedLogins = TradeItLauncher.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+        for linkedLogin in linkedLogins {
+            TradeItLauncher.tradeItConnector.unlinkLogin(linkedLogin)
+        }
+    }
+
+    func launchTradeItPortfolioFromViewController() {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
+        let navigationViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_NAV_VIEW") as! UINavigationController
+        let portfolioViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_PORTFOLIO_VIEW")
+
+        navigationViewController.viewControllers = [portfolioViewController]
+        self.presentViewController(navigationViewController, animated: true, completion: nil)
     }
 }

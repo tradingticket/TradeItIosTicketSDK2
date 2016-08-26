@@ -1,11 +1,13 @@
 import UIKit
+import TradeItIosEmsApi
 
-class TradeItLoginViewController: UIViewController {
+class TradeItLoginViewController: FormViewController {
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
     var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
     var selectedBroker: TradeItBroker?
-    var accounts: [TradeItAccount] = []
+    var accounts: [TradeItBrokerAccount] = []
     let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
+    var linkedLogin: TradeItLinkedLogin!
     
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
@@ -25,8 +27,28 @@ class TradeItLoginViewController: UIViewController {
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
+        
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == self.toPortfolioScreenSegueId {
+            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
+                destinationViewController.accounts = self.accounts
+                destinationViewController.tradeItSession = self.tradeItSession
+                destinationViewController.linkedLogin = linkedLogin
+            }
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool{
+        if textField == self.userNameInput {
+            self.passwordInput.becomeFirstResponder()
+        }else if textField == self.passwordInput{
+            self.passwordInput.resignFirstResponder()
+        }
+        return true
+    }
+    
     // MARK: IBActions
     
     @IBAction func linkButtonWasTapped(sender: UIButton) {
@@ -48,10 +70,10 @@ class TradeItLoginViewController: UIViewController {
                 self.enableLinkButton()
                 self.showTradeItErrorResultAlert(tradeItErrorResult)
             } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
-                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
+                self.linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
                                                                            withBroker: brokerShortName)
 
-                self.tradeItSession.authenticateAsObject(linkedLogin,
+                self.tradeItSession.authenticate(self.linkedLogin,
                                                  withCompletionBlock: { (tradeItResult: TradeItResult!) in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
@@ -62,7 +84,7 @@ class TradeItLoginViewController: UIViewController {
                         print("Security question result: \(tradeItSecurityQuestionResult)")
                         //TODO
                     } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
-                        self.accounts = tradeItResult.accounts as! [TradeItAccount]
+                        self.accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
                         self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
                     }
                 })
@@ -76,14 +98,6 @@ class TradeItLoginViewController: UIViewController {
    
     @IBAction func passwordOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == self.toPortfolioScreenSegueId {
-            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
-                destinationViewController.accounts = self.accounts
-            }
-        }
     }
     
     // MARK: Private

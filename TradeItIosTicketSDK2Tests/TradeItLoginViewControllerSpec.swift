@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+import TradeItIosEmsApi
 
 class TradeItLoginViewControllerSpec: QuickSpec {
     override func spec() {
@@ -140,6 +141,8 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                         let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
 
+                        tradeItConnector.calls.reset()
+
                         completionHandler(oAuthLinkResult)
                     }
 
@@ -161,8 +164,9 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                     describe("authenticating the account") {
                         it("uses the tradeItSession to authenticate the linked account") {
-                            let authenticateCalls = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")
+                            let authenticateCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
                             expect(authenticateCalls.count).to(equal(1))
+                            expect(tradeItConnector.calls.count).to(equal(1))
                         }
 
                         context("when authentication is successful") {
@@ -172,10 +176,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                 authenticationResult.token = "My special token"
                                 authenticationResult.shortMessage = "Fake short message"
                                 authenticationResult.longMessages = nil
-                                authenticationResult.accounts = [TradeItAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", accountName: "My Special account name", tradable: true)]
+                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", name: "My Special account name", tradable: true)]
 
 
-                                let completionHandler = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
 
                                 completionHandler(authenticationResult)
                             }
@@ -186,7 +190,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                             it("segues to the portfolio screen") {
                                 let portfolioController = nav.topViewController as! TradeItPortfolioViewController
-                                expect(portfolioController.accounts[0].accountName).to(equal("My Special account name"))
+                                expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
                             }
                         }
                         
@@ -198,7 +202,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                 errorResult.shortMessage = "My Special Short Message"
                                 errorResult.longMessages = ["My Special Long Message.", "My Special Other Long Message."]
 
-                                let completionHandler = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
 
                                 completionHandler(errorResult)
 
@@ -237,7 +241,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         }
                         
                         context("when there is a security question") {
-                          //TODO
+                          //  TODO: Test security question handling
                         }
                     }
                 }
@@ -249,12 +253,16 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         errorResult.token = "e3c1873423e142e899bc00c987c657c9"
                         errorResult.shortMessage = "Could Not Login"
                         errorResult.longMessages = ["Check your username and password and try again."]
+
                         let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
+
+                        tradeItConnector.calls.reset()
+
                         completionHandler(errorResult)
                     }
 
                     it("does not try to authenticate") {
-
+                        expect(tradeItConnector.calls.count).to(equal(0))
                     }
 
                     it("hides the spinner") {
@@ -274,6 +282,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         expect(alertController.message).to(equal("Check your username and password and try again."))
                     }
 
+                    it("remains on the login screen") {
+                        expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
+                    }
+
                     describe("dismissing the alert") {
                         beforeEach {
 //                            let alertController = controller.presentedViewController as! UIAlertController
@@ -287,7 +299,6 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         }
                     }
                 }
-                
             }
         }
     }

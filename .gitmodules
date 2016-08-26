@@ -7,3 +7,6 @@
 [submodule "submodules/Nimble"]
 	path = submodules/Nimble
 	url = git@github.com:Quick/Nimble.git
+[submodule "submodules/PromiseKit"]
+	path = submodules/PromiseKit
+	url = git@github.com:mxcl/PromiseKit.git

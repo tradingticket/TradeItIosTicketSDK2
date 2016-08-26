@@ -234,7 +234,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     private func getAccountName(account: TradeItBrokerAccount , broker: String) -> String {
         var formattedAccountNumber = account.accountNumber
-        var formattedAccountName = account.accountName
+        var formattedAccountName = account.name
         
         if formattedAccountNumber.characters.count > 4 {
             let startIndex = formattedAccountNumber.endIndex.advancedBy(-4)
@@ -323,7 +323,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return Promise { fulfill, reject in
             let tradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
 
-            tradeItSession.authenticate(linkedLogin, withObjectsCompletionBlock: { (tradeItResult: TradeItResult!) in
+            tradeItSession.authenticate(linkedLogin, withCompletionBlock: { (tradeItResult: TradeItResult!) in
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                     //TODO
                     print("Error \(tradeItErrorResult)")
@@ -357,14 +357,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return Promise { fulfill, reject in
             let request = TradeItAccountOverviewRequest(accountNumber: portfolio.accountNumber)
             self.tradeItBalanceService.session = portfolio.tradeItSession
-            self.tradeItBalanceService.getAccountOverviewV2(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+            self.tradeItBalanceService.getAccountOverview(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                     // TODO: reject
                     print("Error \(tradeItErrorResult)")
                     portfolio.isBalanceError = true
-                } else if let tradeItSuccessBalanceResult = tradeItResult as? TradeItSuccessBalanceResult {
-                    portfolio.balance = tradeItSuccessBalanceResult.accountOverview
-                    portfolio.fxBalance = tradeItSuccessBalanceResult.fxAccountOverview
+                } else if let tradeItAccountOverviewResult = tradeItResult as? TradeItAccountOverviewResult {
+                    portfolio.balance = tradeItAccountOverviewResult.accountOverview
+                    portfolio.fxBalance = tradeItAccountOverviewResult.fxAccountOverview
                 }
 
                 fulfill(tradeItResult)

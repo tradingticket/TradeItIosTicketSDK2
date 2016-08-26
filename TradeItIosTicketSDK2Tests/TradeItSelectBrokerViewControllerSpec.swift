@@ -34,7 +34,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
             }
 
             it("fetches the available brokers") {
-                expect(tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock").count).to(equal(1))
+                expect(tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock").count).to(equal(1))
             }
 
             it("shows a spinner") {
@@ -49,7 +49,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
             context("when request to get brokers fails") {
                 beforeEach {
                     ezLoadingActivityManager.calls.reset()
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
+                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
                     completionHandler(nil)
                 }
 
@@ -77,7 +77,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                     let broker2 = TradeItBroker(shortName: "Broker Short #2", longName: "Broker Long #2")
                     let brokersResponse = [broker1!, broker2!]
 
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersAsObjectsWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
+                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
                     completionHandler(brokersResponse)
                 }
 

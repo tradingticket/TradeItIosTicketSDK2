@@ -33,16 +33,16 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     TradeItBrokerAccount(
                         accountBaseCurrency: "USD",
                         accountNumber: "123456789",
-                        accountName: "My fake account 1",
+                        name: "My fake account 1",
                         tradable: true),
                     TradeItBrokerAccount(
                         accountBaseCurrency: "USD",
                         accountNumber: "987654321",
-                        accountName: "My fake account 2",
+                        name: "My fake account 2",
                         tradable: true),
                     TradeItBrokerAccount(accountBaseCurrency: "USD",
                         accountNumber: "123498765",
-                        accountName: "My fake account 3",
+                        name: "My fake account 3",
                         tradable: true)
                 ]
 
@@ -113,24 +113,30 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     
                     let completionBlockFirstAccount = _tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
                     let tradeItResult =  TradeItAccountOverviewResult()
-                    tradeItResult.totalValue = 100
-                    tradeItResult.buyingPower = 1000
-                    tradeItResult.totalPercentReturn = 5.64
+                    let tradeItAccountOverview = TradeItAccountOverview()
+                    tradeItAccountOverview.totalValue = 100
+                    tradeItAccountOverview.buyingPower = 1000
+                    tradeItAccountOverview.totalPercentReturn = 5.64
+                    tradeItResult.accountOverview = tradeItAccountOverview
                     completionBlockFirstAccount(tradeItResult)
                     
                     let completionBlockSecondAccount = _tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[1].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
                     let tradeItResult2 =  TradeItAccountOverviewResult()
-                    tradeItResult2.totalValue = 200
-                    tradeItResult2.buyingPower = 2000
-                    tradeItResult2.totalPercentReturn = 10.69
+                    let tradeItAccountOverview2 = TradeItAccountOverview()
+
+                    tradeItAccountOverview2.totalValue = 200
+                    tradeItAccountOverview2.buyingPower = 2000
+                    tradeItAccountOverview2.totalPercentReturn = 10.69
+                    tradeItResult2.accountOverview = tradeItAccountOverview2
                     completionBlockSecondAccount(tradeItResult2)
                     
                     let completionBlockThirdAccount = _tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[2].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
                     let tradeItResult3 =  TradeItAccountOverviewResult()
-                    tradeItResult3.totalValue = 300
-                    tradeItResult3.buyingPower = 3000
-                    tradeItResult3.totalPercentReturn = -1.68
-
+                    let tradeItAccountOverviewResult3 = TradeItAccountOverview()
+                    tradeItAccountOverviewResult3.totalValue = 300
+                    tradeItAccountOverviewResult3.buyingPower = 3000
+                    tradeItAccountOverviewResult3.totalPercentReturn = -1.68
+                    tradeItResult3.accountOverview = tradeItAccountOverviewResult3
                     completionBlockThirdAccount(tradeItResult3)
                     
                     //Positions call

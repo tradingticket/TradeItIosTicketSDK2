@@ -164,7 +164,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                     describe("authenticating the account") {
                         it("uses the tradeItSession to authenticate the linked account") {
-                            let authenticateCalls = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")
+                            let authenticateCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
                             expect(authenticateCalls.count).to(equal(1))
                             expect(tradeItConnector.calls.count).to(equal(1))
                         }
@@ -176,10 +176,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                 authenticationResult.token = "My special token"
                                 authenticationResult.shortMessage = "Fake short message"
                                 authenticationResult.longMessages = nil
-                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", accountName: "My Special account name", tradable: true)]
+                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", name: "My Special account name", tradable: true)]
 
 
-                                let completionHandler = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
 
                                 completionHandler(authenticationResult)
                             }
@@ -190,7 +190,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                             it("segues to the portfolio screen") {
                                 let portfolioController = nav.topViewController as! TradeItPortfolioViewController
-                                expect(portfolioController.accounts[0].accountName).to(equal("My Special account name"))
+                                expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
                             }
                         }
                         
@@ -202,7 +202,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                 errorResult.shortMessage = "My Special Short Message"
                                 errorResult.longMessages = ["My Special Long Message.", "My Special Other Long Message."]
 
-                                let completionHandler = tradeItSession.calls.forMethod("authenticateAsObject(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
 
                                 completionHandler(errorResult)
 

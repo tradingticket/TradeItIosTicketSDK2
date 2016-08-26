@@ -22,14 +22,15 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         let app = self.application
 
         // See Welcome screen
-        app.tables.staticTexts["LaunchSdk"].tap()
-        XCTAssert(app.navigationBars["Welcome"].exists)
+        let launchSdkText = app.tables.staticTexts["LaunchSdk"]
+        waitForAsyncElementToAppear(launchSdkText)
+        launchSdkText.tap()
+        waitForAsyncElementToAppear(app.navigationBars["Welcome"])
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
         app.buttons["Get Started Now"].tap()
 
         // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
-
 
         var ezLoadingActivity = app.staticTexts["Loading Brokers"]
         waitForAsyncElementToDisappear(ezLoadingActivity)
@@ -84,7 +85,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.tables.staticTexts["$112.34"].exists
     }
 
-    func testPortfolioUserHasAccountFlow() {
+//    func testPortfolioUserHasAccountFlow() {
 //        // Launch ticket
 //        let app = self.application
 //        

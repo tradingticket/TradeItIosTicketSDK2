@@ -74,7 +74,7 @@ class TradeItLoginViewController: FormViewController {
                                                                            withBroker: brokerShortName)
 
                 self.tradeItSession.authenticate(self.linkedLogin,
-                                                 withObjectsCompletionBlock: { (tradeItResult: TradeItResult!) in
+                                                 withCompletionBlock: { (tradeItResult: TradeItResult!) in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
 

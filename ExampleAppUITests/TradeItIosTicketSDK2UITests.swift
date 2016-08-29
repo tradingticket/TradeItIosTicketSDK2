@@ -111,5 +111,5 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 //        app.tables.staticTexts["AAPL (1)"].exists
 //        app.tables.staticTexts["$103.34"].exists
 //        app.tables.staticTexts["$112.34"].exists
-    }
+//    }
 }

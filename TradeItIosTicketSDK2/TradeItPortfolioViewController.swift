@@ -195,6 +195,10 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCellWithIdentifier("CUSTOM_PORTFOLIO_HEADER_ID") as! CustomPortfolioHeaderCell
+        if (tableView == self.holdingsTable && self.portfolios.count > 0 && self.portfolios[self.selectedPortfolioIndex].fxBalance != nil) {
+            cell.headerNameColumn2.text = "Avg. Rate"
+            cell.headerNameColumn3.text = "Unrealized P/L"
+        }
         return cell
     }
     

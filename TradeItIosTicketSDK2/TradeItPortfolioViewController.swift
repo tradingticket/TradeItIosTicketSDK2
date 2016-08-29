@@ -51,12 +51,12 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsTable: UITableView!
-    @IBOutlet weak var fxSummaryTable: UITableView!
     @IBOutlet weak var totalAccountsValueLabel: UILabel!
     @IBOutlet weak var summaryFxLabel: UILabel!
     @IBOutlet weak var holdingsLabel: UILabel!
     @IBOutlet weak var positionsSpinner: UIActivityIndicatorView!
     @IBOutlet weak var holdingsLabelConstraintY: NSLayoutConstraint!
+    @IBOutlet weak var fxSummaryView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -468,13 +468,13 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     private func updateConstraintFxTable() {
         if self.portfolios[self.selectedPortfolioIndex].fxBalance == nil {
             self.summaryFxLabel.hidden = true
-            self.fxSummaryTable.hidden = true
+            self.fxSummaryView.hidden = true
             self.holdingsLabelConstraintY.constant = 150
         }
         else {
             self.summaryFxLabel.hidden = false
-            self.fxSummaryTable.hidden = false
-            self.holdingsLabelConstraintY.constant = 285
+            self.fxSummaryView.hidden = false
+            self.holdingsLabelConstraintY.constant = 250
         }
     }
 }

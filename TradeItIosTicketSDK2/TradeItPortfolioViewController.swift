@@ -19,6 +19,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
             return self._tradeItBalanceService
         }
+
         set (tradeItBalanceService) {
             self._tradeItBalanceService = tradeItBalanceService
         }
@@ -31,6 +32,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
             return self._tradeItPositionService
         }
+
         set (tradeItPositionService) {
             self._tradeItPositionService = tradeItPositionService
         }
@@ -43,11 +45,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
             return self._tradeItMarketDataService
         }
+
         set (tradeItMarketDataService) {
             self._tradeItMarketDataService = tradeItMarketDataService
         }
     }
-    
     
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsTable: UITableView!
@@ -80,8 +82,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
 
             firstly {
                 return when(self.getPositions(self.portfolios[self.selectedPortfolioIndex]))
-            }
-            .always {
+            }.always {
                 self.holdingsTable.reloadData()
             }
         }
@@ -95,12 +96,12 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     self.holdingsTable.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                     self.holdingsTable.endUpdates()
                 }
-            }
-            else {
+            } else {
                 // there is no cell selected anymore
                 self.selectedPositionIndex = -1
             }
         }
+
         self.holdingsTable.reloadData()
     }
     
@@ -108,10 +109,10 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count: Int = 0
+
         if tableView == self.accountsTable {
             count = self.portfolios.count
-        }
-        else if tableView == self.holdingsTable {
+        } else if tableView == self.holdingsTable {
             if self.portfolios.count > 0 {
                 count = self.portfolios[self.selectedPortfolioIndex].positions.count
             }
@@ -124,30 +125,32 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         let cell = tableView.dequeueReusableCellWithIdentifier("CUSTOM_PORTFOLIO_CELL_ID") as! CustomPortfolioCell
         if tableView == self.accountsTable {
             let portfolio = self.portfolios[indexPath.row]
+
             if (indexPath.row == self.selectedPortfolioIndex ) {
                 cell.selector.hidden = false
-            }
-            else {
+            } else {
                 cell.selector.hidden = true
             }
+
             cell.rowCellValue1.text = portfolio.accountName
             cell.rowCellUnderValue1.text = portfolio.broker
+
             if (!portfolio.isBalanceError && portfolio.balance != nil) {
                 cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.balance.buyingPower)
                 
                 if let totalPercentReturn = portfolio.balance.totalPercentReturn {
                         cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.totalValue) + " (" + UtilsService.formatPercentage(totalPercentReturn) + ")"
-                }
-                else {
+                } else {
                     cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.balance.totalValue)
                 }
-            }
-            else if (!portfolio.isBalanceError && portfolio.fxBalance != nil) {
+            } else if (!portfolio.isBalanceError && portfolio.fxBalance != nil) {
                 cell.rowCellValue2.text = UtilsService.formatCurrency(portfolio.fxBalance.buyingPowerBaseCurrency)
                 cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency)
+
                 if portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency?.floatValue != 0 {
                     let totalReturn = portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue
                     let totalPercentReturn = totalReturn / (portfolio.fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
+
                     if abs(totalPercentReturn) > 0.01 {
                         cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency) + " (" + UtilsService.formatPercentage(totalPercentReturn) + ")"
                     }
@@ -157,14 +160,13 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     fxUnrealizedPlLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency)
                     fxMarginBalanceLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.marginBalanceBaseCurrency)
                 }
-            }
-            else {
+            } else {
                 cell.rowCellValue2.text = "N/A"
                 cell.rowCellValue3.text = "N/A"
             }
-        }
-        else if tableView == self.holdingsTable {
+        } else if tableView == self.holdingsTable {
             let portfolio = self.portfolios[self.selectedPortfolioIndex]
+
             if (!portfolio.isPositionsError && portfolio.positions.count > 0) {
                 let portfolioSelectedPosition = portfolio.positions[indexPath.row]
                 
@@ -185,8 +187,8 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 }
                 
             }
-            
-            //Set background to white when/select deselect row
+
+            // Set background to white when/select deselect row
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.whiteColor()
             cell.selectedBackgroundView = backgroundView
@@ -194,6 +196,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             if (indexPath.row == self.selectedPositionIndex) {
                 cell.selector.image = UIImage(named: "chevron_up")
                 let portfolioSelectedPosition = portfolio.positions[indexPath.row]
+
                 if portfolioSelectedPosition.quote != nil {
                     cell.positionDetailsLabel1.text = "Bid"
                     cell.positionDetailsLabel2.text = "Ask"
@@ -208,6 +211,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     cell.positionDetailsValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.askPrice) //Ask
                     if (portfolioSelectedPosition.position != nil) {
                         cell.positionDetailsValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.low) + " - " + UtilsService.formatCurrency(portfolioSelectedPosition.quote.high)  //Day
+
                         if (portfolioSelectedPosition.quote.lastPrice != nil) {
                             cell.positionDetailsValue4.text = UtilsService.formatCurrency((portfolioSelectedPosition.position.quantity as Float) * (portfolioSelectedPosition.quote.lastPrice as Float)); //Total value
                         }
@@ -231,8 +235,6 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     }
                     
                 }
-            }
-            else {
                 cell.selector.image = UIImage(named: "chevron_down")
             }
 
@@ -295,14 +297,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         if formattedAccountName.characters.count > 10 {
             formattedAccountName = String(formattedAccountName.characters.prefix(10))
         }
+
         return "\(formattedAccountName)**\(formattedAccountNumber)"
     }
     
     private func getHoldingLabel() -> String {
         if self.portfolios.count > 0 {
             return self.portfolios[self.selectedPortfolioIndex].accountName + " Holdings"
-        }
-        else {
+        } else {
             return "Holdings"
         }
     }
@@ -310,8 +312,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     private func getSummaryFxLabel() -> String{
         if self.portfolios.count > 0 {
             return self.portfolios[self.selectedPortfolioIndex].accountName + " Summary"
-        }
-        else {
+        } else {
             return "Summary"
         }
     }
@@ -340,10 +341,12 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     }
                 }
             }
+
             return when(promises)
         }.then { _ -> Promise<[TradeItResult]> in
             self.ezLoadingActivityManager.updateText(text: "Retreiving Account Summary")
             var promises: [Promise<TradeItResult>] = []
+
             for portfolio in self.portfolios {
                 promises.append(self.getAccountOverView(portfolio))
             }
@@ -351,6 +354,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             return when(promises)
         }.then { _ -> Promise<[TradeItResult]> in
             var promises: [Promise<TradeItResult>] = []
+
             if self.portfolios.count > 0 {
                 promises.append(self.getPositions(self.portfolios[self.selectedPortfolioIndex]))
             }
@@ -425,30 +429,33 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     
     private func getPositions(portfolio: TradeItLinkedAccountPortfolio) -> Promise<TradeItResult> {
         return Promise { fulfill, reject in
+            self.positionsSpinner.startAnimating()
+
             let request = TradeItGetPositionsRequest(accountNumber: portfolio.accountNumber)
             self.tradeItPositionService.session = portfolio.tradeItSession
-            self.positionsSpinner.startAnimating()
+
             self.tradeItPositionService.getAccountPositions(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                 self.positionsSpinner.stopAnimating()
+
                 if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                     //TODO
                     print("Error \(tradeItErrorResult)")
                     portfolio.isPositionsError = true
                 } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
-                    var positionsPortfolio:[TradeItPositionPortfolio] = []
-                    
+                    var positionsPortfolio:[TradeItPortfolioPosition] = []
+
                     let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
                     for position in positions {
-                        let positionPortfolio = TradeItPositionPortfolio(position: position)
+                        let positionPortfolio = TradeItPortfolioPosition(position: position)
                         positionsPortfolio.append(positionPortfolio)
                     }
                     
                     let fxPositions = tradeItGetPositionsResult.fxPositions as! [TradeItFxPosition]
                     for fxPosition in fxPositions {
-                        let positionPortfolio = TradeItPositionPortfolio(fxPosition: fxPosition)
+                        let positionPortfolio = TradeItPortfolioPosition(fxPosition: fxPosition)
                         positionsPortfolio.append(positionPortfolio)
                     }
-                    
+
                     portfolio.positions = positionsPortfolio
                 }
 
@@ -457,7 +464,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
-    private func getQuoteForPortfolioSelectedPosition(portfolio: TradeItLinkedAccountPortfolio) -> Promise<TradeItQuote>{
+    private func getQuoteForPortfolioSelectedPosition(portfolio: TradeItLinkedAccountPortfolio) -> Promise<TradeItQuote> {
         return Promise { fulfill, reject in
             let selectedPositionPortfolio = portfolio.positions[self.selectedPositionIndex]
             self.tradeItMarketDataService.session = portfolio.tradeItSession
@@ -473,22 +480,24 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             }
             var quote = TradeItQuote()
             self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
-                    if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
+                if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
                         let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
-                        if results.count > 0 {
-                            quote = results[0] as! TradeItQuote
-                            selectedPositionPortfolio.quote = quote
-                        }
+                        return $0.symbol == selectedPositionPortfolio.position.symbol
                     }
-                    else {
-                        //TODO handle error
-                        print("error quote")
-                    }
-                     fulfill(quote)
 
+                    if results.count > 0 {
+                        quote = results[0] as! TradeItQuote
+                        selectedPositionPortfolio.quote = quote
+                    }
+                } else {
+                    //TODO handle error
+                    print("error quote")
+                }
+
+                fulfill(quote)
             })
         }
-        
+
     }
     
     private func getTotalAccountsValue() -> String {

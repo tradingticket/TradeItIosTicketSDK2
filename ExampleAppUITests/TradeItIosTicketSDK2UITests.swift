@@ -11,6 +11,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         self.application = XCUIApplication()
         self.application.launchArguments.append("isUITesting")
         self.application.launch()
+        sleep(1)
     }
 
     override func tearDown() {
@@ -72,9 +73,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     private func seeWelcomeScreen(app: XCUIApplication) {
         // See Welcome screen
         let launchSdkText = app.tables.staticTexts["LaunchSdk"]
-        waitForAsyncElementToAppear(launchSdkText)
+        waitForElementToBeHittable(launchSdkText)
         launchSdkText.tap()
-        waitForAsyncElementToAppear(app.navigationBars["Welcome"])
+        waitForElementToAppear(app.navigationBars["Welcome"])
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
         app.buttons["Get Started Now"].tap()
     }
@@ -82,10 +83,10 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     private func selectBrokerFromTheBrokerSelectionScreen(app: XCUIApplication, longBrokerName: String) {
         // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
-        
+
         let ezLoadingActivity = app.staticTexts["Loading Brokers"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
-        
+        waitForElementToDisappear(ezLoadingActivity)
+
         XCTAssert(app.tables.cells.count > 0)
         
         let dummyBrokerStaticText = app.tables.staticTexts[longBrokerName]
@@ -95,35 +96,33 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     }
     
     private func submitValidCredentialsOnTheLoginScreen(app: XCUIApplication, longBrokerName: String) {
-        // Submit valid credentials on the Login screen
         XCTAssert(app.navigationBars["Login"].exists)
-        XCTAssert(app.staticTexts["Login in to \(longBrokerName)"].exists)
+        XCTAssert(app.staticTexts["Log in to \(longBrokerName)"].exists)
         
         let usernameTextField = app.textFields["\(longBrokerName) Username"]
         let passwordTextField = app.secureTextFields["\(longBrokerName) Password"]
         
-        XCTAssert(usernameTextField.exists)
-        XCTAssert(passwordTextField.exists)
-        
+        waitForElementToHaveKeyboardFocus(usernameTextField)
+        waitForElementNotToHaveKeyboardFocus(passwordTextField)
         usernameTextField.typeText("dummy")
-        passwordTextField.tap()
+        app.buttons["Next"].tap()
+
+        waitForElementToHaveKeyboardFocus(passwordTextField)
         passwordTextField.typeText("dummy")
+        app.buttons["Done"].tap()
         
         let activityIndicator = app.activityIndicators.element
-        waitForAsyncElementNotToBeHittable(activityIndicator)
-        
-        app.buttons["Link Account"].tap()
+        waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
     }
     
     private func selectAnAccountOnthePortfolioScreen(app: XCUIApplication) {
-        // Select an account on the Accounts screen
-        waitForAsyncElementToAppear(app.navigationBars["Portfolio"])
-        
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+
         var ezLoadingActivity = app.staticTexts["Authenticating"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
-        
+        waitForElementToDisappear(ezLoadingActivity, withinSeconds: 10)
+
         ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
+        waitForElementToDisappear(ezLoadingActivity)
         
         XCTAssert(app.tables.cells.count > 0)
     }

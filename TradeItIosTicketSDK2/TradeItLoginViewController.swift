@@ -23,7 +23,7 @@ class TradeItLoginViewController: FormViewController {
         self.activityIndicator.hidesWhenStopped = true
 
         if let brokerName = selectedBroker?.brokerLongName {
-            self.loginLabel.text = "Login in to \(brokerName)"
+            self.loginLabel.text = "Log in to \(brokerName)"
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
@@ -40,11 +40,11 @@ class TradeItLoginViewController: FormViewController {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool{
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.userNameInput {
             self.passwordInput.becomeFirstResponder()
-        }else if textField == self.passwordInput{
-            self.linkButtonWasTapped(self.linkButton)
+        } else if textField == self.passwordInput {
+            self.linkButton.sendActionsForControlEvents(.TouchUpInside)
         }
         return true
     }
@@ -134,7 +134,4 @@ class TradeItLoginViewController: FormViewController {
         self.linkButton.enabled = true
         self.linkButton.alpha = 1.0
     }
-    
-    
-    
 }

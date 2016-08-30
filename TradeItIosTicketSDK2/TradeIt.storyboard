@@ -296,7 +296,7 @@
                                 </constraints>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="send" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="passwordOnEditingChanged:" destination="Pi3-6E-5Lo" eventType="editingChanged" id="Kvc-I2-ATY"/>
                                     <outlet property="delegate" destination="Pi3-6E-5Lo" id="WXU-Hw-6eU"/>

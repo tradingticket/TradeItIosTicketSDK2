@@ -44,7 +44,7 @@ class TradeItLoginViewController: FormViewController {
         if textField == self.userNameInput {
             self.passwordInput.becomeFirstResponder()
         }else if textField == self.passwordInput{
-            self.passwordInput.resignFirstResponder()
+            self.linkButtonWasTapped(self.linkButton)
         }
         return true
     }

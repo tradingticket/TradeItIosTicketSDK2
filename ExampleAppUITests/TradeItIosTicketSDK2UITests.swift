@@ -21,56 +21,13 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         // Launch ticket
         let app = self.application
 
-        // See Welcome screen
-        let launchSdkText = app.tables.staticTexts["LaunchSdk"]
-        waitForAsyncElementToAppear(launchSdkText)
-        launchSdkText.tap()
-        waitForAsyncElementToAppear(app.navigationBars["Welcome"])
-        XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
-        app.buttons["Get Started Now"].tap()
-
-        // Select a broker from the Broker Selection screen
-        XCTAssert(app.navigationBars["Select Your Broker"].exists)
-
-        var ezLoadingActivity = app.staticTexts["Loading Brokers"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
-
-        XCTAssert(app.tables.cells.count > 0)
-
-        let dummyBrokerStaticText = app.tables.staticTexts["Dummy Broker"]
-        XCTAssert(dummyBrokerStaticText.exists)
-
-        app.tables.staticTexts["Dummy Broker"].tap()
-
-        // Submit valid credentials on the Login screen
-        XCTAssert(app.navigationBars["Login"].exists)
-        XCTAssert(app.staticTexts["Login in to Dummy Broker"].exists)
-
-        let usernameTextField = app.textFields["Dummy Broker Username"]
-        let passwordTextField = app.secureTextFields["Dummy Broker Password"]
-
-        XCTAssert(usernameTextField.exists)
-        XCTAssert(passwordTextField.exists)
-
-        usernameTextField.typeText("dummy")
-        passwordTextField.tap()
-        passwordTextField.typeText("dummy")
-
-        let activityIndicator = app.activityIndicators.element
-        waitForAsyncElementNotToBeHittable(activityIndicator)
-
-        app.buttons["Link Account"].tap()
-
-        // Select an account on the Accounts screen
-        waitForAsyncElementToAppear(app.navigationBars["Portfolio"])
-
-        ezLoadingActivity = app.staticTexts["Authenticating"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
-
-        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
-        waitForAsyncElementToDisappear(ezLoadingActivity)
-
-        XCTAssert(app.tables.cells.count > 0)
+        seeWelcomeScreen(app)
+        
+        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
+        
+        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+        
+        selectAnAccountOnthePortfolioScreen(app)
 
         //Balances
         app.tables.staticTexts["Individual**cct1"].exists
@@ -83,6 +40,92 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.tables.staticTexts["1 shares"].exists
         app.tables.staticTexts["$103.34"].exists
         app.tables.staticTexts["$112.34"].exists
+    }
+    
+    func testFxWelcomeFlow() {
+        // Launch ticket
+        let app = self.application
+        
+        seeWelcomeScreen(app)
+        
+        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Fx Broker")
+        
+        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Fx Broker")
+        
+        selectAnAccountOnthePortfolioScreen(app)
+        
+        //Fx Balances
+        app.tables.staticTexts["Account (F**cct1"].exists
+        app.tables.staticTexts["$9,163"].exists
+        app.tables.staticTexts["$1,900"].exists
+        
+        //Fx Summary
+        app.tables.staticTexts["Account (F**cct1 Summary"].exists
+        app.tables.staticTexts["$5.89"].exists
+        app.tables.staticTexts["$2,500"].exists
+        
+        //Fx Positions
+        app.tables.staticTexts["Account (F**cct1 Holdings"].exists
+        //TODO to complete
+    }
+    
+    private func seeWelcomeScreen(app: XCUIApplication) {
+        // See Welcome screen
+        let launchSdkText = app.tables.staticTexts["LaunchSdk"]
+        waitForAsyncElementToAppear(launchSdkText)
+        launchSdkText.tap()
+        waitForAsyncElementToAppear(app.navigationBars["Welcome"])
+        XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
+        app.buttons["Get Started Now"].tap()
+    }
+    
+    private func selectBrokerFromTheBrokerSelectionScreen(app: XCUIApplication, longBrokerName: String) {
+        // Select a broker from the Broker Selection screen
+        XCTAssert(app.navigationBars["Select Your Broker"].exists)
+        
+        let ezLoadingActivity = app.staticTexts["Loading Brokers"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        XCTAssert(app.tables.cells.count > 0)
+        
+        let dummyBrokerStaticText = app.tables.staticTexts[longBrokerName]
+        XCTAssert(dummyBrokerStaticText.exists)
+        
+        app.tables.staticTexts[longBrokerName].tap()
+    }
+    
+    private func submitValidCredentialsOnTheLoginScreen(app: XCUIApplication, longBrokerName: String) {
+        // Submit valid credentials on the Login screen
+        XCTAssert(app.navigationBars["Login"].exists)
+        XCTAssert(app.staticTexts["Login in to \(longBrokerName)"].exists)
+        
+        let usernameTextField = app.textFields["\(longBrokerName) Username"]
+        let passwordTextField = app.secureTextFields["\(longBrokerName) Password"]
+        
+        XCTAssert(usernameTextField.exists)
+        XCTAssert(passwordTextField.exists)
+        
+        usernameTextField.typeText("dummy")
+        passwordTextField.tap()
+        passwordTextField.typeText("dummy")
+        
+        let activityIndicator = app.activityIndicators.element
+        waitForAsyncElementNotToBeHittable(activityIndicator)
+        
+        app.buttons["Link Account"].tap()
+    }
+    
+    private func selectAnAccountOnthePortfolioScreen(app: XCUIApplication) {
+        // Select an account on the Accounts screen
+        waitForAsyncElementToAppear(app.navigationBars["Portfolio"])
+        
+        var ezLoadingActivity = app.staticTexts["Authenticating"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
+        waitForAsyncElementToDisappear(ezLoadingActivity)
+        
+        XCTAssert(app.tables.cells.count > 0)
     }
 
 //    func testPortfolioUserHasAccountFlow() {

@@ -14,19 +14,19 @@ extension XCTestCase {
         return NSPredicate(format: "hittable == false")
     }
 
-    func waitForAsyncElementToDisappear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForAsyncElementToDisappear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 8) {
         usleep(100_000)
         self.expectationForPredicate(self.predicateDoesntExist(), evaluatedWithObject:element, handler: nil)
         self.waitForExpectationsWithTimeout(seconds, handler: nil)
     }
 
-    func waitForAsyncElementToAppear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForAsyncElementToAppear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 8) {
         usleep(100_000)
         self.expectationForPredicate(self.predicateExists(), evaluatedWithObject:element, handler: nil)
         self.waitForExpectationsWithTimeout(seconds, handler: nil)
     }
 
-    func waitForAsyncElementNotToBeHittable(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForAsyncElementNotToBeHittable(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 8) {
         usleep(100_000)
         self.expectationForPredicate(self.predicateIsNotHittable(), evaluatedWithObject:element, handler: nil)
         self.waitForExpectationsWithTimeout(seconds, handler: nil)

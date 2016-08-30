@@ -19,9 +19,9 @@
 		B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B536DD611D64DC39009A9621 /* FakeTradeItPositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */; };
-		B536DD921D6B8C81009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
-		B536DD931D6B8C81009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
-		B536DDAD1D6B8E7D009A9621 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* FormViewController.swift */; };
+		B536DD921D6B8C81009A9621 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */; };
+		B536DD931D6B8C81009A9621 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */; };
+		B536DDAD1D6B8E7D009A9621 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */; };
 		B536DDB21D6C88F2009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
 		B536DDB31D6C88F2009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
 		B536DDB41D6C88F2009A9621 /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB11D6C88F2009A9621 /* chevron_down.png */; };
@@ -124,7 +124,7 @@
 		B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewControllerSpec.swift; sourceTree = "<group>"; };
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
 		B536DD601D64DC39009A9621 /* FakeTradeItPositionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItPositionService.swift; sourceTree = "<group>"; };
-		B536DD911D6B8C81009A9621 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		B536DDB01D6C88F2009A9621 /* chevron_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_up.png; sourceTree = "<group>"; };
 		B536DDB11D6C88F2009A9621 /* chevron_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_down.png; sourceTree = "<group>"; };
 		B579FFC51D63B306003643C1 /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 				FA0D3F8B1D5BB1BD00C67FBC /* EZLoadingActivity.swift */,
 				B504591C1D5E6DCA00B1D971 /* CustomPortfolioHeaderCell.swift */,
 				B504591F1D5E730000B1D971 /* CustomPortfolioCell.swift */,
-				B536DD911D6B8C81009A9621 /* FormViewController.swift */,
+				B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -732,7 +732,7 @@
 				FA0D3FAE1D5D0B4900C67FBC /* TradeItLauncher.swift in Sources */,
 				B5B3D6761D5E14F200A7A2AA /* TradeItPortfolioViewController.swift in Sources */,
 				B5BE603A1D6DD8A500F450F2 /* TradeItPortfolioPosition.swift in Sources */,
-				B536DDAD1D6B8E7D009A9621 /* FormViewController.swift in Sources */,
+				B536DDAD1D6B8E7D009A9621 /* KeyboardViewController.swift in Sources */,
 				B5F157D61D62729C000FF52A /* TradeItLinkedAccountPortfolio.swift in Sources */,
 				FAEC84F81D55277500EC32C7 /* ExampleViewController.swift in Sources */,
 				B50459221D5E77DB00B1D971 /* CustomPortfolioCell.swift in Sources */,
@@ -763,7 +763,7 @@
 				B5B3D6651D5E137400A7A2AA /* TradeItPortfolioViewController.swift in Sources */,
 				B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */,
 				B50459201D5E730000B1D971 /* CustomPortfolioCell.swift in Sources */,
-				B536DD921D6B8C81009A9621 /* FormViewController.swift in Sources */,
+				B536DD921D6B8C81009A9621 /* KeyboardViewController.swift in Sources */,
 				FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,7 +791,7 @@
 				B5C466D11D50DF140090E19D /* TradeItSelectBrokerViewControllerSpec.swift in Sources */,
 				FAC8E7211D5559F30024D693 /* TradeItLauncher.swift in Sources */,
 				B50459211D5E730000B1D971 /* CustomPortfolioCell.swift in Sources */,
-				B536DD931D6B8C81009A9621 /* FormViewController.swift in Sources */,
+				B536DD931D6B8C81009A9621 /* KeyboardViewController.swift in Sources */,
 				B504591E1D5E6DCA00B1D971 /* CustomPortfolioHeaderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

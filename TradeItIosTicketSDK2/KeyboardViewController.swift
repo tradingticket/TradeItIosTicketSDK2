@@ -1,6 +1,6 @@
 import UIKit
 
-class FormViewController: UIViewController {
+class KeyboardViewController: UIViewController {
     
     var submitButtonBottomSpaceConstraintConstant:CGFloat? = 0.0
     
@@ -40,5 +40,4 @@ class FormViewController: UIViewController {
                                        completion: nil)
         }
     }
-
 }

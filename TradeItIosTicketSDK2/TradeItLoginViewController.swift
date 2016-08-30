@@ -1,7 +1,7 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItLoginViewController: FormViewController {
+class TradeItLoginViewController: KeyboardViewController {
     var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
     var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
     var selectedBroker: TradeItBroker?

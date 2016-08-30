@@ -960,6 +960,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="positionDetailsLabel1" destination="hya-0B-dah" id="M9g-sb-Isk"/>
+                                            <outlet property="positionDetailsLabel2" destination="MvN-6e-b1p" id="Kb1-Q6-KdR"/>
+                                            <outlet property="positionDetailsLabel3" destination="0Tm-AD-LTv" id="nO2-j9-1Ua"/>
+                                            <outlet property="positionDetailsLabel4" destination="zNb-QU-Qaf" id="OCY-te-yVt"/>
+                                            <outlet property="positionDetailsLabel5" destination="dIq-tA-V7V" id="ZeH-L9-ISg"/>
                                             <outlet property="positionDetailsValue1" destination="u2X-ap-8DY" id="EEW-LH-CGL"/>
                                             <outlet property="positionDetailsValue2" destination="DCe-kp-JQi" id="cYp-oL-1ET"/>
                                             <outlet property="positionDetailsValue3" destination="dN1-Lv-DGI" id="UXd-tb-IZD"/>

@@ -167,12 +167,23 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             let portfolio = self.portfolios[self.selectedPortfolioIndex]
             if (!portfolio.isPositionsError && portfolio.positions.count > 0) {
                 let portfolioSelectedPosition = portfolio.positions[indexPath.row]
-                cell.rowCellValue1.text = portfolioSelectedPosition.position.symbol
-                var qtyLabel = "\(UtilsService.formatQuantity(portfolioSelectedPosition.position.quantity as Float))"
-                qtyLabel += (portfolioSelectedPosition.position.holdingType == "LONG" ? " shares": " short")
-                cell.rowCellUnderValue1.text = qtyLabel
-                cell.rowCellValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.position.costbasis)
-                cell.rowCellValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.position.lastPrice)
+                
+                if (portfolioSelectedPosition.position != nil) {
+                    cell.rowCellValue1.text = portfolioSelectedPosition.position.symbol
+                    var qtyLabel = "\(UtilsService.formatQuantity(portfolioSelectedPosition.position.quantity as Float))"
+                    qtyLabel += (portfolioSelectedPosition.position.holdingType == "LONG" ? " shares": " short")
+                    cell.rowCellUnderValue1.text = qtyLabel
+                    cell.rowCellValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.position.costbasis)
+                    cell.rowCellValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.position.lastPrice)
+                }
+                else if portfolioSelectedPosition.fxPosition != nil {
+                    cell.rowCellValue1.text = portfolioSelectedPosition.fxPosition.symbol
+                    let qtyLabel = "\(UtilsService.formatQuantity(portfolioSelectedPosition.fxPosition.quantity as Float))"
+                    cell.rowCellUnderValue1.text = qtyLabel
+                    cell.rowCellValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.fxPosition.averagePrice)
+                    cell.rowCellValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.fxPosition.totalUnrealizedProfitAndLossBaseCurrency)
+                }
+                
             }
             
             //Set background to white when/select deselect row
@@ -184,14 +195,41 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                 cell.selector.image = UIImage(named: "chevron_up")
                 let portfolioSelectedPosition = portfolio.positions[indexPath.row]
                 if portfolioSelectedPosition.quote != nil {
+                    cell.positionDetailsLabel1.text = "Bid"
+                    cell.positionDetailsLabel2.text = "Ask"
+                    cell.positionDetailsLabel4.text = "Total Value"
+                    
+                    cell.positionDetailsLabel3.hidden = false
+                    cell.positionDetailsLabel5.hidden = false
+                    cell.positionDetailsValue3.hidden = false
+                    cell.positionDetailsValue5.hidden = false
+                    
                     cell.positionDetailsValue1.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.bidPrice) //Bid
                     cell.positionDetailsValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.askPrice) //Ask
-                    cell.positionDetailsValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.low) + " - " + UtilsService.formatCurrency(portfolioSelectedPosition.quote.high)  //Day
-                    if (portfolioSelectedPosition.quote.lastPrice != nil) {
-                        cell.positionDetailsValue4.text = UtilsService.formatCurrency((portfolioSelectedPosition.position.quantity as Float) * (portfolioSelectedPosition.quote.lastPrice as Float)); //Total value
+                    if (portfolioSelectedPosition.position != nil) {
+                        cell.positionDetailsValue3.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.low) + " - " + UtilsService.formatCurrency(portfolioSelectedPosition.quote.high)  //Day
+                        if (portfolioSelectedPosition.quote.lastPrice != nil) {
+                            cell.positionDetailsValue4.text = UtilsService.formatCurrency((portfolioSelectedPosition.position.quantity as Float) * (portfolioSelectedPosition.quote.lastPrice as Float)); //Total value
+                        }
+                        
+                        cell.positionDetailsValue5.text = formatTotalReturnPosition(portfolioSelectedPosition.position) //Total return
+                    }
+                    else if portfolioSelectedPosition.fxPosition != nil {
+                        cell.positionDetailsLabel1.text = "Ask"
+                        cell.positionDetailsLabel2.text = "Bid"
+                        cell.positionDetailsLabel4.text = "Spread"
+                        
+                        cell.positionDetailsLabel3.hidden = true
+                        cell.positionDetailsLabel5.hidden = true
+                        cell.positionDetailsValue3.hidden = true
+                        cell.positionDetailsValue5.hidden = true
+                        
+                        cell.positionDetailsValue1.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.askPrice) //Ask
+                        cell.positionDetailsValue2.text = UtilsService.formatCurrency(portfolioSelectedPosition.quote.bidPrice) //Bid
+                        let spread = (portfolioSelectedPosition.quote.high as Float) - (portfolioSelectedPosition.quote.low as Float)
+                        cell.positionDetailsValue4.text = UtilsService.formatCurrency(spread)
                     }
                     
-                    cell.positionDetailsValue5.text = formatTotalReturnPosition(portfolioSelectedPosition.position) //Total return
                 }
             }
             else {
@@ -397,12 +435,20 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     print("Error \(tradeItErrorResult)")
                     portfolio.isPositionsError = true
                 } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
-                    let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
                     var positionsPortfolio:[TradeItPositionPortfolio] = []
+                    
+                    let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
                     for position in positions {
-                        let positionPortfolio = TradeItPositionPortfolio(position: position, quote: nil)
+                        let positionPortfolio = TradeItPositionPortfolio(position: position)
                         positionsPortfolio.append(positionPortfolio)
                     }
+                    
+                    let fxPositions = tradeItGetPositionsResult.fxPositions as! [TradeItFxPosition]
+                    for fxPosition in fxPositions {
+                        let positionPortfolio = TradeItPositionPortfolio(fxPosition: fxPosition)
+                        positionsPortfolio.append(positionPortfolio)
+                    }
+                    
                     portfolio.positions = positionsPortfolio
                 }
 
@@ -415,11 +461,20 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
         return Promise { fulfill, reject in
             let selectedPositionPortfolio = portfolio.positions[self.selectedPositionIndex]
             self.tradeItMarketDataService.session = portfolio.tradeItSession
-            let tradeItQuoteRequest = TradeItQuotesRequest(symbol: selectedPositionPortfolio.position.symbol)
+            var symbol = ""
+            var tradeItQuoteRequest:TradeItQuotesRequest!
+            if let position = selectedPositionPortfolio.position {
+                symbol = position.symbol
+                tradeItQuoteRequest = TradeItQuotesRequest(symbol: symbol)
+            }
+            else if let position = selectedPositionPortfolio.fxPosition {
+                symbol = position.symbol
+                tradeItQuoteRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: portfolio.broker)
+            }
             var quote = TradeItQuote()
-            self.tradeItMarketDataService.getQuoteDataAsArray(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+            self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                     if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
-                        let results = tradeItQuoteResult.quotes.filter { return $0.symbol == selectedPositionPortfolio.position.symbol}
+                        let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
                         if results.count > 0 {
                             quote = results[0] as! TradeItQuote
                             selectedPositionPortfolio.quote = quote

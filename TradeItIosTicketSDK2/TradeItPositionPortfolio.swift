@@ -2,12 +2,17 @@ import TradeItIosEmsApi
 
 class TradeItPositionPortfolio : NSObject {
 
-    var position: TradeItPosition
+    var position: TradeItPosition!
+    var fxPosition: TradeItFxPosition!
     var quote: TradeItQuote!
     
-    init(position: TradeItPosition, quote: TradeItQuote!) {
+    
+    init(position: TradeItPosition) {
         self.position = position
-        self.quote = quote
+    }
+    
+    init(fxPosition: TradeItFxPosition) {
+        self.fxPosition = fxPosition
     }
     
 }

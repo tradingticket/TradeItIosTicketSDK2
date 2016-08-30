@@ -8,7 +8,7 @@ class TradeItLinkedAccountPortfolio: NSObject {
     var accountNumber: String = ""
     var balance: TradeItAccountOverview!
     var fxBalance: TradeItFxAccountOverview!
-    var positions: [TradeItPositionPortfolio] = []
+    var positions: [TradeItPortfolioPosition] = []
     var isBalanceError: Bool = false
     var isPositionsError: Bool = false
     
@@ -18,7 +18,7 @@ class TradeItLinkedAccountPortfolio: NSObject {
          accountNumber: String,
          balance: TradeItAccountOverview!,
          fxBalance: TradeItFxAccountOverview!,
-         positions: [TradeItPositionPortfolio]) {
+         positions: [TradeItPortfolioPosition]) {
         self.tradeItSession = tradeItSession
         self.broker = broker
         self.accountName = accountName

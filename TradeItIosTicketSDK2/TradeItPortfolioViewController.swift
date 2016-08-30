@@ -398,9 +398,9 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     portfolio.isPositionsError = true
                 } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
                     let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
-                    var positionsPortfolio:[TradeItPositionPortfolio] = []
+                    var positionsPortfolio:[TradeItPortfolioPosition] = []
                     for position in positions {
-                        let positionPortfolio = TradeItPositionPortfolio(position: position, quote: nil)
+                        let positionPortfolio = TradeItPortfolioPosition(position: position, quote: nil)
                         positionsPortfolio.append(positionPortfolio)
                     }
                     portfolio.positions = positionsPortfolio

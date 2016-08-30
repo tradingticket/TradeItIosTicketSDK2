@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItPositionPortfolio : NSObject {
+class TradeItPortfolioPosition : NSObject {
 
     var position: TradeItPosition
     var quote: TradeItQuote!

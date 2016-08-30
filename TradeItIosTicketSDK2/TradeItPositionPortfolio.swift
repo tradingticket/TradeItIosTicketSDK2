@@ -9,5 +9,4 @@ class TradeItPositionPortfolio : NSObject {
         self.position = position
         self.quote = quote
     }
-    
 }

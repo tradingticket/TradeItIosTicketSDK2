@@ -19,10 +19,11 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     }
 
     func testWelcomeFlow() {
-        // Launch ticket
         let app = self.application
 
-        seeWelcomeScreen(app)
+        clearData(app)
+
+        handleWelcomeScreen(app)
         
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         
@@ -44,10 +45,11 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     }
     
     func testFxWelcomeFlow() {
-        // Launch ticket
         let app = self.application
+
+        clearData(app)
         
-        seeWelcomeScreen(app)
+        handleWelcomeScreen(app)
         
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Fx Broker")
         
@@ -69,19 +71,24 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.tables.staticTexts["Account (F**cct1 Holdings"].exists
         //TODO to complete
     }
+
+    private func clearData(app: XCUIApplication) {
+        let deleteLinkedBrokersText = app.tables.staticTexts["DeleteLinkedBrokers"]
+        waitForElementToBeHittable(deleteLinkedBrokersText)
+        deleteLinkedBrokersText.tap()
+    }
     
-    private func seeWelcomeScreen(app: XCUIApplication) {
-        // See Welcome screen
+    private func handleWelcomeScreen(app: XCUIApplication) {
         let launchSdkText = app.tables.staticTexts["LaunchSdk"]
         waitForElementToBeHittable(launchSdkText)
         launchSdkText.tap()
+
         waitForElementToAppear(app.navigationBars["Welcome"])
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
         app.buttons["Get Started Now"].tap()
     }
     
     private func selectBrokerFromTheBrokerSelectionScreen(app: XCUIApplication, longBrokerName: String) {
-        // Select a broker from the Broker Selection screen
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
 
         let ezLoadingActivity = app.staticTexts["Loading Brokers"]

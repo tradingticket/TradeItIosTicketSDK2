@@ -481,10 +481,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             var quote = TradeItQuote()
             self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
                 if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
-                        let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
-                        return $0.symbol == selectedPositionPortfolio.position.symbol
-                    }
-
+                    let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
                     if results.count > 0 {
                         quote = results[0] as! TradeItQuote
                         selectedPositionPortfolio.quote = quote

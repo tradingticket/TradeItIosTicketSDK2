@@ -57,6 +57,10 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var positionsSpinner: UIActivityIndicatorView!
     @IBOutlet weak var holdingsLabelConstraintY: NSLayoutConstraint!
     @IBOutlet weak var fxSummaryView: UIView!
+    @IBOutlet weak var fxTotalValueLabel: UILabel!
+    @IBOutlet weak var fxRealizedPlLabel: UILabel!
+    @IBOutlet weak var fxUnrealizedPlLabel: UILabel!
+    @IBOutlet weak var fxMarginBalanceLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,6 +151,11 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
                     if abs(totalPercentReturn) > 0.01 {
                         cell.rowCellValue3.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency) + " (" + UtilsService.formatPercentage(totalPercentReturn) + ")"
                     }
+                    
+                    fxTotalValueLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.totalValueBaseCurrency)
+                    fxRealizedPlLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.realizedProfitAndLossBaseCurrency)
+                    fxUnrealizedPlLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.unrealizedProfitAndLossBaseCurrency)
+                    fxMarginBalanceLabel.text = UtilsService.formatCurrency(portfolio.fxBalance.marginBalanceBaseCurrency)
                 }
             }
             else {

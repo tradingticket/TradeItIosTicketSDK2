@@ -3,10 +3,12 @@ import TradeItIosEmsApi
 
 @objc class TradeItLauncher: NSObject {
     static var tradeItConnector: TradeItConnector!
+    static var linkedLoginManager: TradeItLinkedLoginManager!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
-        TradeItLauncher.tradeItConnector = TradeItConnector(apiKey: apiKey)
-        TradeItLauncher.tradeItConnector.environment = environment
+        let tradeItConnector = TradeItConnector(apiKey: apiKey)!
+        tradeItConnector.environment = environment
+        TradeItLauncher.linkedLoginManager = TradeItLinkedLoginManager(connector: tradeItConnector)
     }
 
     override private init() {}

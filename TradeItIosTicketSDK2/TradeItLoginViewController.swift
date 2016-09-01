@@ -2,22 +2,20 @@ import UIKit
 import TradeItIosEmsApi
 
 class TradeItLoginViewController: KeyboardViewController {
-    var tradeItConnector: TradeItConnector = TradeItLauncher.tradeItConnector
-    var tradeItSession: TradeItSession = TradeItSession(connector: TradeItLauncher.tradeItConnector)
-    var selectedBroker: TradeItBroker?
-    var accounts: [TradeItBrokerAccount] = []
-    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
-    var linkedLogin: TradeItLinkedLogin!
-    
+
+    var linkedLoginManager: TradeItLinkedLoginManager = TradeItLauncher.linkedLoginManager
+
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
     @IBOutlet weak var passwordInput: UITextField!
     @IBOutlet weak var linkButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
+    var selectedBroker: TradeItBroker?
+    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.userNameInput.becomeFirstResponder()
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true
@@ -27,30 +25,20 @@ class TradeItLoginViewController: KeyboardViewController {
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
-        
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == self.toPortfolioScreenSegueId {
-            if let destinationViewController = segue.destinationViewController as? TradeItPortfolioViewController {
-                destinationViewController.accounts = self.accounts
-                destinationViewController.tradeItSession = self.tradeItSession
-                destinationViewController.linkedLogin = linkedLogin
-            }
-        }
-    }
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.userNameInput {
             self.passwordInput.becomeFirstResponder()
         } else if textField == self.passwordInput {
             self.linkButton.sendActionsForControlEvents(.TouchUpInside)
         }
+
         return true
     }
-    
+
     // MARK: IBActions
-    
+
     @IBAction func linkButtonWasTapped(sender: UIButton) {
         guard let brokerShortName = self.selectedBroker?.brokerShortName else { return }
 
@@ -62,34 +50,25 @@ class TradeItLoginViewController: KeyboardViewController {
                                                                   andPassword: self.passwordInput.text,
                                                                   andBroker: brokerShortName)
         
-        self.tradeItConnector.linkBrokerWithAuthenticationInfo(tradeItAuthenticationInfo,
-                                                          andCompletionBlock: { (tradeItResult: TradeItResult?) in
+        self.linkedLoginManager.linkBroker(authInfo: tradeItAuthenticationInfo,
+                                      onSuccess: {() -> Void in
+                                        self.activityIndicator.stopAnimating()
+                                        self.enableLinkButton()
+                                        self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
+                                      },
+                                      onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+                                        self.activityIndicator.stopAnimating()
+                                        self.enableLinkButton()
+                                        print("Security question result: \(tradeItSecurityQuestionResult)")
 
-            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                self.activityIndicator.stopAnimating()
-                self.enableLinkButton()
-                self.showTradeItErrorResultAlert(tradeItErrorResult)
-            } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
-                self.linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
-                                                                           withBroker: brokerShortName)
-
-                self.tradeItSession.authenticate(self.linkedLogin,
-                                                 withCompletionBlock: { (tradeItResult: TradeItResult!) in
-                    self.activityIndicator.stopAnimating()
-                    self.enableLinkButton()
-
-                    if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                        self.showTradeItErrorResultAlert(tradeItErrorResult)
-                    } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult{
-                        print("Security question result: \(tradeItSecurityQuestionResult)")
-                        //TODO
-                    } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
-                        self.accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
-                        self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
-                    }
-                })
-            }
-        })
+                                        // TODO: Get answer from user...
+                                        return "Some Answer"
+                                      },
+                                      onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                                        self.activityIndicator.stopAnimating()
+                                        self.enableLinkButton()
+                                        self.showTradeItErrorResultAlert(tradeItErrorResult)
+                                      })
     }
     
     @IBAction func userNameOnEditingChanged(sender: UITextField) {

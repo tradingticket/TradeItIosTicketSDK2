@@ -1,13 +1,11 @@
 import Quick
 import Nimble
-@testable import TradeItIosEmsApi
+import TradeItIosEmsApi
 
 class TradeItLoginViewControllerSpec: QuickSpec {
     override func spec() {
         var controller: TradeItLoginViewController!
-//        var tradeItConnector: FakeTradeItConnector!
-//        var tradeItSession: FakeTradeItSession!
-        var linkedLoginManager: FakeTradeItLinkedLoginManager
+        var linkedLoginManager: FakeTradeItLinkedLoginManager!
         var window: UIWindow!
         var nav: UINavigationController!
 
@@ -17,17 +15,11 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
-//                tradeItConnector = FakeTradeItConnector()
-//                TradeItLauncher.tradeItConnector = tradeItConnector
-
                 linkedLoginManager = FakeTradeItLinkedLoginManager()
                 TradeItLauncher.linkedLoginManager = linkedLoginManager
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_LOGIN_VIEW") as! TradeItLoginViewController
-
-//                tradeItSession = FakeTradeItSession()
-//                controller.tradeItSession = tradeItSession
-//                controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
+                controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
 
                 nav = UINavigationController(rootViewController: controller)
 
@@ -36,14 +28,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 NSRunLoop.currentRunLoop().runUntilDate(NSDate())
             }
 
-            it("sets itself as the linkedLoginManager delegate") {
-                expect(linkedLoginManager.delegate).to(be(controller))
-            }
-
             it("sets the broker longName in the instruction label the and text field placeholders") {
                 let brokerName = controller.selectedBroker!.brokerLongName
 
-                expect(controller.loginLabel.text).to(equal("Login in to \(brokerName)"))
+                expect(controller.loginLabel.text).to(equal("Log in to \(brokerName)"))
                 expect(controller.userNameInput.placeholder).to(equal("\(brokerName) Username"))
                 expect(controller.passwordInput.placeholder).to(equal("\(brokerName) Password"))
             }
@@ -101,35 +89,25 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
             describe("linking the account") {
                 beforeEach {
-                    let tradeItLinkedLogin = TradeItLinkedLogin.init(label:"dummy",
-                        broker: "dummy",
-                        userId: "userId1",
-                        andKeyChainId: "0123456789")
-
-//                    tradeItConnector.tradeItLinkedLoginToReturn = tradeItLinkedLogin
-                    linkedLoginManager.linkedLoginToReturn = tradeItLinkedLogin
-
                     controller.userNameInput.text = "My Special Username"
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
 
-                    //controller.linkButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-
-                    //let actions = controller.linkButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
 
                 it("uses the linkedLoginManager to link the account") {
-//                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
-                    let linkCalls = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")
+                    let linkCalls = linkedLoginManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")
+
                     expect(linkCalls.count).to(equal(1))
                     expect(linkedLoginManager.calls.count).to(equal(1))
-//                    let linkCallAuthInfo = linkCalls[0].args["authInfo"] as! TradeItAuthenticationInfo
-//                    expect(linkCallAuthInfo.broker).to(equal("B5"))
-//                    expect(linkCallAuthInfo.id).to(equal("My Special Username"))
-//                    expect(linkCallAuthInfo.password).to(equal("My Special Password"))
+
+                    let linkCallAuthInfo = linkCalls[0].args["authInfo"] as! TradeItAuthenticationInfo
+
+                    expect(linkCallAuthInfo.broker).to(equal("B5"))
+                    expect(linkCallAuthInfo.id).to(equal("My Special Username"))
+                    expect(linkCallAuthInfo.password).to(equal("My Special Password"))
                 }
 
                 it("disables the link button") {
@@ -142,19 +120,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                 context("when linking is successful") {
                     beforeEach {
-//                        let oAuthLinkResult = TradeItAuthLinkResult()
-//
-//                        oAuthLinkResult.userId = "userId1"
-//                        oAuthLinkResult.userToken = "userToken1"
-
-//                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
-
-                        let onSuccess = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")[0].args["onSuccess"] as! (() -> Void)
-
-//                        tradeItConnector.calls.reset()
+                        let onSuccess = linkedLoginManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! (() -> Void)
+                        
                         linkedLoginManager.calls.reset()
-
-//                        completionHandler(oAuthLinkResult)
+                        
                         onSuccess()
                     }
 
@@ -163,8 +132,9 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     }
 
                     it("segues to the portfolio screen") {
-                        let portfolioController = nav.topViewController as! TradeItPortfolioViewController
-                        expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
+                        expect(nav.topViewController).to(beAnInstanceOf(TradeItPortfolioViewController))
+//                        let portfolioController = nav.topViewController as! TradeItPortfolioViewController
+                        //expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
                     }
 
 //                    it("keeps the spinner spinning") {
@@ -276,19 +246,12 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         errorResult.shortMessage = "My Special Error Title"
                         errorResult.longMessages = ["My Special Error Message"]
 
-//                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
+                        let onFailure = linkedLoginManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! ((TradeItErrorResult) -> Void)
 
-                        let onFailure = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")[0].args["onFailure"] as! ((TradeItErrorResult) -> Void)
-
-//                        tradeItConnector.calls.reset()
                         linkedLoginManager.calls.reset()
 
                         onFailure(errorResult)
                     }
-
-//                    it("does not try to authenticate") {
-//                        expect(tradeItConnector.calls.count).to(equal(0))
-//                    }
 
                     it("hides the spinner") {
                         expect(controller.activityIndicator.isAnimating()).to(beFalse())
@@ -324,6 +287,10 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         }
                     }
                 }
+
+                context("when security question is required", { 
+                    // TODO:
+                })
             }
         }
     }

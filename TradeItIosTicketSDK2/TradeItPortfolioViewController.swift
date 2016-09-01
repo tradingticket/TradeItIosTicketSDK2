@@ -4,13 +4,8 @@ import TradeItIosEmsApi
 
 class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tradeItConnector = TradeItLauncher.tradeItConnector
-    var accounts: [TradeItBrokerAccount] = []
-    var linkedLogin: TradeItLinkedLogin!
-    var tradeItSession: TradeItSession!
     var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
-    var portfolios: [TradeItLinkedAccountPortfolio] = []
-    var selectedPortfolioIndex = 0
-    var selectedPositionIndex = -1
+    var tradeItSession: TradeItSession!
     var _tradeItBalanceService: TradeItBalanceService!
     var tradeItBalanceService: TradeItBalanceService! {
         get {
@@ -50,7 +45,14 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
             self._tradeItMarketDataService = tradeItMarketDataService
         }
     }
-    
+
+    var linkedLogin: TradeItLinkedLogin!
+    var accounts: [TradeItBrokerAccount] = []
+    var portfolios: [TradeItLinkedAccountPortfolio] = []
+
+    var selectedPortfolioIndex = 0
+    var selectedPositionIndex = -1
+
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsTable: UITableView!
     @IBOutlet weak var totalAccountsValueLabel: UILabel!
@@ -320,6 +322,7 @@ class TradeItPortfolioViewController: UIViewController, UITableViewDelegate, UIT
     private func authenticateAndFetchBalancesLinkedAccounts() -> Void {
         let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+
         firstly { _ -> Promise<[TradeItResult]> in
             var promises: [Promise<TradeItResult>] = []
 

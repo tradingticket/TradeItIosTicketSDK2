@@ -1,12 +1,13 @@
 import Quick
 import Nimble
-import TradeItIosEmsApi
+@testable import TradeItIosEmsApi
 
 class TradeItLoginViewControllerSpec: QuickSpec {
     override func spec() {
         var controller: TradeItLoginViewController!
-        var tradeItConnector: FakeTradeItConnector!
-        var tradeItSession: FakeTradeItSession!
+//        var tradeItConnector: FakeTradeItConnector!
+//        var tradeItSession: FakeTradeItSession!
+        var linkedLoginManager: FakeTradeItLinkedLoginManager
         var window: UIWindow!
         var nav: UINavigationController!
 
@@ -16,20 +17,27 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
-                tradeItConnector = FakeTradeItConnector()
-                TradeItLauncher.tradeItConnector = tradeItConnector
+//                tradeItConnector = FakeTradeItConnector()
+//                TradeItLauncher.tradeItConnector = tradeItConnector
+
+                linkedLoginManager = FakeTradeItLinkedLoginManager()
+                TradeItLauncher.linkedLoginManager = linkedLoginManager
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_LOGIN_VIEW") as! TradeItLoginViewController
 
-                tradeItSession = FakeTradeItSession()
-                controller.tradeItSession = tradeItSession
-                controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
+//                tradeItSession = FakeTradeItSession()
+//                controller.tradeItSession = tradeItSession
+//                controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
 
                 nav = UINavigationController(rootViewController: controller)
 
                 window.addSubview(nav.view)
 
                 NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+            }
+
+            it("sets itself as the linkedLoginManager delegate") {
+                expect(linkedLoginManager.delegate).to(be(controller))
             }
 
             it("sets the broker longName in the instruction label the and text field placeholders") {
@@ -98,7 +106,8 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                         userId: "userId1",
                         andKeyChainId: "0123456789")
 
-                    tradeItConnector.tradeItLinkedLoginToReturn = tradeItLinkedLogin
+//                    tradeItConnector.tradeItLinkedLoginToReturn = tradeItLinkedLogin
+                    linkedLoginManager.linkedLoginToReturn = tradeItLinkedLogin
 
                     controller.userNameInput.text = "My Special Username"
                     controller.userNameOnEditingChanged(controller.userNameInput)
@@ -109,19 +118,18 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                     //let actions = controller.linkButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
 
-
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
 
-                it("uses the connector to link the account") {
-                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                it("uses the linkedLoginManager to link the account") {
+//                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                    let linkCalls = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")
                     expect(linkCalls.count).to(equal(1))
-                    expect(tradeItConnector.calls.count).to(equal(1))
-
-                    let linkCallAuthInfo = linkCalls[0].args["authInfo"] as! TradeItAuthenticationInfo
-                    expect(linkCallAuthInfo.broker).to(equal("B5"))
-                    expect(linkCallAuthInfo.id).to(equal("My Special Username"))
-                    expect(linkCallAuthInfo.password).to(equal("My Special Password"))
+                    expect(linkedLoginManager.calls.count).to(equal(1))
+//                    let linkCallAuthInfo = linkCalls[0].args["authInfo"] as! TradeItAuthenticationInfo
+//                    expect(linkCallAuthInfo.broker).to(equal("B5"))
+//                    expect(linkCallAuthInfo.id).to(equal("My Special Username"))
+//                    expect(linkCallAuthInfo.password).to(equal("My Special Password"))
                 }
 
                 it("disables the link button") {
@@ -134,136 +142,153 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                 context("when linking is successful") {
                     beforeEach {
-                        let oAuthLinkResult = TradeItAuthLinkResult()
+//                        let oAuthLinkResult = TradeItAuthLinkResult()
+//
+//                        oAuthLinkResult.userId = "userId1"
+//                        oAuthLinkResult.userToken = "userToken1"
 
-                        oAuthLinkResult.userId = "userId1"
-                        oAuthLinkResult.userToken = "userToken1"
+//                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
 
-                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
+                        let onSuccess = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")[0].args["onSuccess"] as! (() -> Void)
 
-                        tradeItConnector.calls.reset()
+//                        tradeItConnector.calls.reset()
+                        linkedLoginManager.calls.reset()
 
-                        completionHandler(oAuthLinkResult)
+//                        completionHandler(oAuthLinkResult)
+                        onSuccess()
                     }
 
-                    it("keeps the spinner spinning") {
-                        expect(controller.activityIndicator.isAnimating()).to(beTrue())
+                    it("hides the spinner") {
+                        expect(controller.activityIndicator.isAnimating()).to(beFalse())
                     }
 
-                    it("saves the link") {
-                        let saveLinkCalls = tradeItConnector.calls.forMethod("saveLinkToKeychain(_:withBroker:)")
-                        expect(saveLinkCalls.count).to(equal(1))
-
-                        let brokerArg = saveLinkCalls[0].args["broker"] as! String
-                        expect(brokerArg).to(equal("B5"))
-
-                        let authLinkResultArg = saveLinkCalls[0].args["link"] as! TradeItAuthLinkResult
-                        expect(authLinkResultArg.userId).to(equal("userId1"))
-                        expect(authLinkResultArg.userToken).to(equal("userToken1"))
+                    it("segues to the portfolio screen") {
+                        let portfolioController = nav.topViewController as! TradeItPortfolioViewController
+                        expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
                     }
 
-                    describe("authenticating the account") {
-                        it("uses the tradeItSession to authenticate the linked account") {
-                            let authenticateCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
-                            expect(authenticateCalls.count).to(equal(1))
-                            expect(tradeItConnector.calls.count).to(equal(1))
-                        }
+//                    it("keeps the spinner spinning") {
+//                        expect(controller.activityIndicator.isAnimating()).to(beTrue())
+//                    }
+//
+//                    it("saves the link") {
+//                        let saveLinkCalls = tradeItConnector.calls.forMethod("saveLinkToKeychain(_:withBroker:)")
+//                        expect(saveLinkCalls.count).to(equal(1))
+//
+//                        let brokerArg = saveLinkCalls[0].args["broker"] as! String
+//                        expect(brokerArg).to(equal("B5"))
+//
+//                        let authLinkResultArg = saveLinkCalls[0].args["link"] as! TradeItAuthLinkResult
+//                        expect(authLinkResultArg.userId).to(equal("userId1"))
+//                        expect(authLinkResultArg.userToken).to(equal("userToken1"))
+//                    }
 
-                        context("when authentication is successful") {
-                            beforeEach {
-                                let authenticationResult = TradeItAuthenticationResult()
-                                authenticationResult.status = "SUCCESS"
-                                authenticationResult.token = "My special token"
-                                authenticationResult.shortMessage = "Fake short message"
-                                authenticationResult.longMessages = nil
-                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", name: "My Special account name", tradable: true)]
-
-
-                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
-
-                                completionHandler(authenticationResult)
-                            }
-
-                            it("hides the spinner") {
-                                expect(controller.activityIndicator.isAnimating()).to(beFalse())
-                            }
-
-                            it("segues to the portfolio screen") {
-                                let portfolioController = nav.topViewController as! TradeItPortfolioViewController
-                                expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
-                            }
-                        }
-                        
-                        context("when authentication fails") {
-                            beforeEach {
-                                let errorResult = TradeItErrorResult()
-                                errorResult.status = "ERROR"
-                                errorResult.token = "My Special Token"
-                                errorResult.shortMessage = "My Special Short Message"
-                                errorResult.longMessages = ["My Special Long Message.", "My Special Other Long Message."]
-
-                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
-
-                                completionHandler(errorResult)
-
-                            }
-
-                            it("hides the spinner") {
-                                expect(controller.activityIndicator.isAnimating()).to(beFalse())
-                            }
-
-                            it("enables the link button") {
-                                expect(controller.linkButton.enabled).to(equal(true))
-                            }
-
-                            it("stays on the login screen") {
-                                expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
-                            }
-
-                            it("shows an error") {
-                                expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
-
-                                let alertController = controller.presentedViewController as! UIAlertController
-
-                                expect(alertController.title).to(equal("My Special Short Message"))
-                                expect(alertController.message).to(equal("My Special Long Message. My Special Other Long Message."))
-                            }
-
-                            describe("dismissing the error") {
-                                beforeEach {
-                                    //  TODO: dismiss the error
-                                }
-
-                                it("stays on the login screen") {
-                                    expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
-                                }
-                            }
-                        }
-                        
-                        context("when there is a security question") {
-                          //  TODO: Test security question handling
-                        }
-                    }
+//                    describe("authenticating the account") {
+//                        it("uses the tradeItSession to authenticate the linked account") {
+//                            let authenticateCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
+//                            expect(authenticateCalls.count).to(equal(1))
+//                            expect(tradeItConnector.calls.count).to(equal(1))
+//                        }
+//
+//                        context("when authentication is successful") {
+//                            beforeEach {
+//                                let authenticationResult = TradeItAuthenticationResult()
+//                                authenticationResult.status = "SUCCESS"
+//                                authenticationResult.token = "My special token"
+//                                authenticationResult.shortMessage = "Fake short message"
+//                                authenticationResult.longMessages = nil
+//                                authenticationResult.accounts = [TradeItBrokerAccount(accountBaseCurrency: "MyCurrency", accountNumber: "My special account number", name: "My Special account name", tradable: true)]
+//
+//
+//                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+//
+//                                completionHandler(authenticationResult)
+//                            }
+//
+//                            it("hides the spinner") {
+//                                expect(controller.activityIndicator.isAnimating()).to(beFalse())
+//                            }
+//
+//                            it("segues to the portfolio screen") {
+//                                let portfolioController = nav.topViewController as! TradeItPortfolioViewController
+//                                expect(portfolioController.accounts[0].name).to(equal("My Special account name"))
+//                            }
+//                        }
+//
+//                        context("when authentication fails") {
+//                            beforeEach {
+//                                let errorResult = TradeItErrorResult()
+//                                errorResult.status = "ERROR"
+//                                errorResult.token = "My Special Token"
+//                                errorResult.shortMessage = "My Special Short Message"
+//                                errorResult.longMessages = ["My Special Long Message.", "My Special Other Long Message."]
+//
+//                                let completionHandler = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! ((TradeItResult!) -> Void)
+//
+//                                completionHandler(errorResult)
+//
+//                            }
+//
+//                            it("hides the spinner") {
+//                                expect(controller.activityIndicator.isAnimating()).to(beFalse())
+//                            }
+//
+//                            it("enables the link button") {
+//                                expect(controller.linkButton.enabled).to(equal(true))
+//                            }
+//
+//                            it("stays on the login screen") {
+//                                expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
+//                            }
+//
+//                            it("shows an error") {
+//                                expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+//
+//                                let alertController = controller.presentedViewController as! UIAlertController
+//
+//                                expect(alertController.title).to(equal("My Special Short Message"))
+//                                expect(alertController.message).to(equal("My Special Long Message. My Special Other Long Message."))
+//                            }
+//
+//                            describe("dismissing the error") {
+//                                beforeEach {
+//                                    //  TODO: dismiss the error
+//                                }
+//
+//                                it("stays on the login screen") {
+//                                    expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
+//                                }
+//                            }
+//                        }
+//                        
+//                        context("when there is a security question") {
+//                          //  TODO: Test security question handling
+//                        }
+//                    }
+//                }
                 }
 
                 context("when linking fails") {
                     beforeEach {
                         let errorResult = TradeItErrorResult()
                         errorResult.status = "ERROR"
-                        errorResult.token = "e3c1873423e142e899bc00c987c657c9"
-                        errorResult.shortMessage = "Could Not Login"
-                        errorResult.longMessages = ["Check your username and password and try again."]
+                        errorResult.token = "My Special Token"
+                        errorResult.shortMessage = "My Special Error Title"
+                        errorResult.longMessages = ["My Special Error Message"]
 
-                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
+//                        let completionHandler = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")[0].args["andCompletionBlock"] as! ((TradeItResult!) -> Void)
 
-                        tradeItConnector.calls.reset()
+                        let onFailure = linkedLoginManager.calls.forMethod("linkBroker(withAuthenticationInfo:onSuccess:onFailure:)")[0].args["onFailure"] as! ((TradeItErrorResult) -> Void)
 
-                        completionHandler(errorResult)
+//                        tradeItConnector.calls.reset()
+                        linkedLoginManager.calls.reset()
+
+                        onFailure(errorResult)
                     }
 
-                    it("does not try to authenticate") {
-                        expect(tradeItConnector.calls.count).to(equal(0))
-                    }
+//                    it("does not try to authenticate") {
+//                        expect(tradeItConnector.calls.count).to(equal(0))
+//                    }
 
                     it("hides the spinner") {
                         expect(controller.activityIndicator.isAnimating()).to(beFalse())
@@ -278,8 +303,8 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                         let alertController = controller.presentedViewController as! UIAlertController
 
-                        expect(alertController.title).to(equal("Could Not Login"))
-                        expect(alertController.message).to(equal("Check your username and password and try again."))
+                        expect(alertController.title).to(equal("My Special Error Title"))
+                        expect(alertController.message).to(equal("My Special Error Message"))
                     }
 
                     it("remains on the login screen") {

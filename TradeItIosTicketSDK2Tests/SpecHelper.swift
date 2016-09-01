@@ -20,6 +20,7 @@ class SpyRecorder {
     }
 
     func record(methodName: String, args: [String: Any] = [:]) {
+        print("=====> SPY: Recording invocation for \(methodName) with args: \(args)")
         methodInvocations.append(MethodInvocation(methodName: methodName, args: args))
     }
 

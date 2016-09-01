@@ -27,5 +27,4 @@ class TradeItLinkedAccountPortfolio: NSObject {
         self.fxBalance = fxBalance
         self.positions = positions
     }
-    
 }

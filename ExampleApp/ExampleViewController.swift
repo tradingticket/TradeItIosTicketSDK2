@@ -11,11 +11,15 @@ enum Action: Int {
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
-    static let apiKey = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
-    let tradeItLauncher: TradeItLauncher = TradeItLauncher(apiKey: ExampleViewController.apiKey, environment: TradeItEmsLocalEnv)
+
+    let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
+    let ENVIRONMENT = TradeItEmsLocalEnv
+    var tradeItLauncher: TradeItLauncher!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
     }
 
     // Mark: - UITableViewDelegate
@@ -59,9 +63,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: private
     private func deleteLinkedBrokers() -> Void {
-        let linkedLogins = TradeItLauncher.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+        let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
+        tradeItConnector.environment = self.ENVIRONMENT
+
+        let linkedLogins = tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
         for linkedLogin in linkedLogins {
-            TradeItLauncher.tradeItConnector.unlinkLogin(linkedLogin)
+            tradeItConnector.unlinkLogin(linkedLogin)
         }
     }
 

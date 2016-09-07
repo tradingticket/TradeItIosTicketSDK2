@@ -7,34 +7,38 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var controller: TradeItSelectBrokerViewController!
         var window: UIWindow!
         var nav: UINavigationController!
+        var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var tradeItConnector: FakeTradeItConnector!
         var ezLoadingActivityManager: FakeEZLoadingActivityManager!
 
         describe("initialization") {
             beforeEach {
                 tradeItConnector = FakeTradeItConnector()
-                ezLoadingActivityManager = FakeEZLoadingActivityManager()
+                linkedBrokerManager = FakeTradeItLinkedBrokerManager()
+                linkedBrokerManager.tradeItConnector = tradeItConnector
+                linkedBrokerManager.tradeItSessionProvider = FakeTradeItSessionProvider()
+                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
 
-                TradeItLauncher.tradeItConnector = tradeItConnector
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_SELECT_BROKER_VIEW") as! TradeItSelectBrokerViewController
 
+                ezLoadingActivityManager = FakeEZLoadingActivityManager()
                 controller.ezLoadingActivityManager = ezLoadingActivityManager
 
                 nav = UINavigationController(rootViewController: controller)
-                
+
                 expect(controller.view).toNot(beNil())
                 expect(nav.view).toNot(beNil())
-                
+
                 window.addSubview(nav.view)
                 NSRunLoop.currentRunLoop().runUntilDate(NSDate())
             }
 
             it("fetches the available brokers") {
-                expect(tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock").count).to(equal(1))
+                expect(linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)").count).to(equal(1))
             }
 
             it("shows a spinner") {
@@ -49,8 +53,8 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
             context("when request to get brokers fails") {
                 beforeEach {
                     ezLoadingActivityManager.calls.reset()
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
-                    completionHandler(nil)
+                    let completionHandler = linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)")[0].args["onFailure"] as! (() -> Void)
+                    completionHandler()
                 }
 
                 it("hides the spinner") {
@@ -77,7 +81,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                     let broker2 = TradeItBroker(shortName: "Broker Short #2", longName: "Broker Long #2")
                     let brokersResponse = [broker1!, broker2!]
 
-                    let completionHandler = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")[0].args["completionBlock"] as! (([TradeItBroker]?) -> Void)
+                    let completionHandler = linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)")[0].args["onSuccess"] as! (([TradeItBroker]) -> Void)
                     completionHandler(brokersResponse)
                 }
 

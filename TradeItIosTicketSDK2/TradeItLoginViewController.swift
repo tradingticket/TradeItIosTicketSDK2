@@ -3,7 +3,7 @@ import TradeItIosEmsApi
 
 class TradeItLoginViewController: KeyboardViewController {
 
-    var linkedLoginManager: TradeItLinkedLoginManager = TradeItLauncher.linkedLoginManager
+    let linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
@@ -49,37 +49,52 @@ class TradeItLoginViewController: KeyboardViewController {
         let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text,
                                                                   andPassword: self.passwordInput.text,
                                                                   andBroker: brokerShortName)
-        
-        self.linkedLoginManager.linkBroker(authInfo: tradeItAuthenticationInfo,
-                                      onSuccess: {() -> Void in
-                                        self.activityIndicator.stopAnimating()
-                                        self.enableLinkButton()
-                                        self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
-                                      },
-                                      onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
-                                        self.activityIndicator.stopAnimating()
-                                        self.enableLinkButton()
-                                        print("Security question result: \(tradeItSecurityQuestionResult)")
 
-                                        // TODO: Get answer from user...
-                                        return "Some Answer"
-                                      },
-                                      onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
-                                        self.activityIndicator.stopAnimating()
-                                        self.enableLinkButton()
-                                        self.showTradeItErrorResultAlert(tradeItErrorResult)
-                                      })
+        self.linkedBrokerManager.linkBroker(authInfo: tradeItAuthenticationInfo,
+                                            onSuccess: {(linkedBroker: TradeItLinkedBroker) -> Void in
+                                                self.authenticateBroker(linkedBroker)
+                                            },
+                                            onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                                                self.activityIndicator.stopAnimating()
+                                                self.enableLinkButton()
+                                                self.showTradeItErrorResultAlert(tradeItErrorResult)
+                                            }
+        )
     }
-    
+
     @IBAction func userNameOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
     }
-   
+
     @IBAction func passwordOnEditingChanged(sender: UITextField) {
         self.processLinkButtonEnability()
     }
     
     // MARK: Private
+
+    private func authenticateBroker(linkedBroker: TradeItLinkedBroker) {
+        linkedBroker.authenticate(
+            onSuccess: { () -> Void in
+                self.activityIndicator.stopAnimating()
+                self.enableLinkButton()
+                self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
+            },
+            onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+                self.activityIndicator.stopAnimating()
+                self.enableLinkButton()
+                print("Security question result: \(tradeItSecurityQuestionResult)")
+
+                // TODO: Get answer from user...
+                return "Some Answer"
+            },
+            onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
+                //TODO delete linkedLogin in keychain ?
+                self.activityIndicator.stopAnimating()
+                self.enableLinkButton()
+                self.showTradeItErrorResultAlert(tradeItErrorResult)
+            }
+        )
+    }
 
     private func showTradeItErrorResultAlert(tradeItErrorResult: TradeItErrorResult, completion: () -> Void = {}) {
         let alertController = UIAlertController(title: tradeItErrorResult.shortMessage,

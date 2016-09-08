@@ -30,7 +30,6 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 onFailureCallbackWasCalled = 0
                 returnedBrokers = nil
 
-
                 linkedBrokerManager.getAvailableBrokers(
                     onSuccess: { (availableBrokers: [TradeItBroker]) -> Void in
                         onSuccessCallbackWasCalled += 1
@@ -152,70 +151,6 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     expect(returnedLinkedBroker.session).to(be(tradeItSession))
                     expect(returnedLinkedBroker.linkedLogin).to(be(linkedLogin))
                 }
-
-//                it("should authenticate with the session") {
-//                    let authenticateCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
-//
-//                    expect(tradeItSession.calls.count).to(equal(1))
-//                    expect(authenticateCalls.count).to(equal(1))
-//                    expect(authenticateCalls[0].args["linkedLogin"] as! TradeItLinkedLogin).to(be(linkedLogin))
-//                }
-//
-//                context("when authentication fails") {
-//                    beforeEach {
-//                        let tradeItErrorResult = TradeItErrorResult()
-//                        let linkCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
-//                        let completionBlock = linkCalls[0].args["withCompletionBlock"] as! (TradeItResult!) -> Void
-//
-//                        completionBlock(tradeItErrorResult)
-//                    }
-//
-//                    it("should call the onFailure callback and return a TradeItErrorResult") {
-//                        expect(onSuccessCallbackWasCalled).to(equal(0))
-//                        expect(onSecurityQuestionCallbackWasCalled).to(equal(0))
-//                        expect(onFailureCallbackWasCalled).to(equal(1))
-//
-//                        expect(returnedTradeItResult).to(beAnInstanceOf(TradeItErrorResult))
-//                    }
-//                }
-//
-//                context("when authentication succeeds") {
-//                    beforeEach {
-//                        let authResult = TradeItAuthenticationResult()
-//                        let linkCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
-//                        let completionBlock = linkCalls[0].args["withCompletionBlock"] as! (TradeItResult!) -> Void
-//
-//                        completionBlock(authResult)
-//                    }
-//
-//                    it("should call the onSuccess callback and return nothing") {
-//                        expect(onSuccessCallbackWasCalled).to(equal(1))
-//                        expect(onSecurityQuestionCallbackWasCalled).to(equal(0))
-//                        expect(onFailureCallbackWasCalled).to(equal(0))
-//
-//                        expect(returnedTradeItResult).to(beNil())
-//                    }
-//
-//                }
-//
-//                context("when a security question is asked") {
-//                    let securityQuestionResult = TradeItSecurityQuestionResult()
-//
-//                    beforeEach {
-//                        let linkCalls = tradeItSession.calls.forMethod("authenticate(_:withCompletionBlock:)")
-//                        let completionBlock = linkCalls[0].args["withCompletionBlock"] as! (TradeItResult!) -> Void
-//
-//                        completionBlock(securityQuestionResult)
-//                    }
-//
-//                    it("calls the onSecurityQuestion callback and return a TradeItSecurityQuestionResult") {
-//                        expect(onSuccessCallbackWasCalled).to(equal(0))
-//                        expect(onSecurityQuestionCallbackWasCalled).to(equal(1))
-//                        expect(onFailureCallbackWasCalled).to(equal(0))
-//
-//                        expect(returnedTradeItResult).to(be(securityQuestionResult))
-//                    }
-//                }
             }
 
             context("when linking fails") {
@@ -290,6 +225,125 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
         }
 
+        describe("authenticateAll") {
+            context("when there are linked brokers") {
+                var authenticatedLinkedBroker: FakeTradeItLinkedBroker!
+                var failedUnauthenticatedLinkedBroker: FakeTradeItLinkedBroker!
+                var successfulUnauthenticatedLinkedBroker: FakeTradeItLinkedBroker!
+                var securityQuestionUnauthenticatedLinkedBroker: FakeTradeItLinkedBroker!
+                var securityQuestionCalledWith: TradeItSecurityQuestionResult?
+                var onFinishedAuthenticatingWasCalled = 0
+
+                beforeEach {
+                    authenticatedLinkedBroker = FakeTradeItLinkedBroker()
+                    authenticatedLinkedBroker.isAuthenticated = true
+
+                    failedUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
+                    failedUnauthenticatedLinkedBroker.isAuthenticated = false
+
+                    successfulUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
+                    successfulUnauthenticatedLinkedBroker.isAuthenticated = false
+
+                    securityQuestionUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
+                    securityQuestionUnauthenticatedLinkedBroker.isAuthenticated = false
+
+                    linkedBrokerManager.linkedBrokers = [
+                        authenticatedLinkedBroker,
+                        failedUnauthenticatedLinkedBroker,
+                        successfulUnauthenticatedLinkedBroker,
+                        securityQuestionUnauthenticatedLinkedBroker
+                    ]
+
+                    onFinishedAuthenticatingWasCalled = 0
+
+                    linkedBrokerManager.authenticateAll(
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult) -> String in
+                            securityQuestionCalledWith = result
+                            return ""
+                        },
+                        onFinishedAuthenticating: { 
+                            onFinishedAuthenticatingWasCalled += 1
+                        }
+                    )
+                }
+
+                it("calls authenticate on each broker") {
+                    var authenticateCalls = authenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                    expect(authenticateCalls.count).to(equal(1))
+
+                    authenticateCalls = failedUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                    expect(authenticateCalls.count).to(equal(1))
+
+                    authenticateCalls = successfulUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                    expect(authenticateCalls.count).to(equal(1))
+
+                    authenticateCalls = securityQuestionUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                    expect(authenticateCalls.count).to(equal(1))
+                }
+
+                it("doesn't call onFinishedAuthenticating before all linked brokers have finished") {
+                    expect(onFinishedAuthenticatingWasCalled).to(equal(0))
+                }
+
+                it("calls onSecurityQuestion for security questions") {
+                    let authenticateCalls = securityQuestionUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                    let onSecurityQuestion = authenticateCalls[0].args["onSecurityQuestion"] as! (TradeItSecurityQuestionResult) -> String
+                    let expectedSecurityQuestionResult = TradeItSecurityQuestionResult()
+
+                    expect(securityQuestionCalledWith).to(beNil())
+
+                    onSecurityQuestion(expectedSecurityQuestionResult)
+
+                    expect(securityQuestionCalledWith).to(be(expectedSecurityQuestionResult))
+                }
+
+                describe("after all brokers have finished trying to authenticate") {
+                    beforeEach {
+                        var authenticateCalls = authenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                        var onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
+                        onSuccess()
+
+                        authenticateCalls = failedUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                        let onFailure = authenticateCalls[0].args["onFailure"] as! (TradeItErrorResult) -> Void
+                        onFailure(TradeItErrorResult())
+
+                        authenticateCalls = successfulUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                        onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
+                        onSuccess()
+
+                        authenticateCalls = securityQuestionUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                        onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
+                        onSuccess()
+
+                        NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+                    }
+
+                    it("calls onFinishedAuthenticating") {
+                        expect(onFinishedAuthenticatingWasCalled).to(equal(1))
+                    }
+                }
+            }
+
+            context("when there are no linked brokers") {
+                it("calls onFinishedAuthenticating") {
+                    linkedBrokerManager.linkedBrokers = []
+
+                    var onFinishedAuthenticatingWasCalled = 0
+
+                    linkedBrokerManager.authenticateAll(
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult) -> String in
+                            return ""
+                        },
+                        onFinishedAuthenticating: {
+                            onFinishedAuthenticatingWasCalled += 1
+                        }
+                    )
+
+                    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+
+                    expect(onFinishedAuthenticatingWasCalled).to(equal(1))
+                }
+            }
+        }
     }
-    
 }

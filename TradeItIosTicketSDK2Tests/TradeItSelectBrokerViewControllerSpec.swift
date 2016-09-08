@@ -42,25 +42,18 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
             }
 
             it("shows a spinner") {
-                let callsToShow = ezLoadingActivityManager.calls.forMethod("show(text:disableUI:)")
-                let alertText: String = callsToShow[0].args["text"] as! String
-
-                expect(callsToShow.count).to(equal(1))
-                expect(ezLoadingActivityManager.calls.count).to(equal(1))
-                expect(alertText).to(equal("Loading Brokers"))
+                expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
+                expect(ezLoadingActivityManager.spinnerText).to(equal("Loading Brokers"))
             }
 
             context("when request to get brokers fails") {
                 beforeEach {
-                    ezLoadingActivityManager.calls.reset()
                     let completionHandler = linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)")[0].args["onFailure"] as! (() -> Void)
                     completionHandler()
                 }
 
                 it("hides the spinner") {
-                    let callsToHide = ezLoadingActivityManager.calls.forMethod("hide()")
-                    expect(callsToHide.count).to(equal(1))
-                    expect(ezLoadingActivityManager.calls.count).to(equal(1))
+                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
                 }
 
                 it("leaves the broker table empty") {
@@ -76,7 +69,6 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
             context("when request to get brokers succeeds") {
                 beforeEach {
-                    ezLoadingActivityManager.calls.reset()
                     let broker1 = TradeItBroker(shortName: "Broker Short #1", longName: "Broker Long #1")
                     let broker2 = TradeItBroker(shortName: "Broker Short #2", longName: "Broker Long #2")
                     let brokersResponse = [broker1!, broker2!]
@@ -86,9 +78,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 }
 
                 it("hides the spinner") {
-                    let callsToHide = ezLoadingActivityManager.calls.forMethod("hide()")
-                    expect(callsToHide.count).to(equal(1))
-                    expect(ezLoadingActivityManager.calls.count).to(equal(1))
+                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
                 }
 
                 it("populates the broker table") {

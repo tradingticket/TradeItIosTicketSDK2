@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItAccountPortfolio {
+class TradeItAccountPortfolio: NSObject {
     var accountName: String = ""
     var accountNumber: String = ""
     var balance: TradeItAccountOverview!

@@ -3,6 +3,10 @@ import TradeItIosEmsApi
 class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
     let calls = SpyRecorder()
+
+    init() {
+        super.init(session: TradeItSession(), linkedLogin: TradeItLinkedLogin())
+    }
     
     override init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         super.init(session: session, linkedLogin: linkedLogin)

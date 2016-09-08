@@ -5,56 +5,75 @@ class TradeItLinkedBrokerManager {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
     var linkedBrokers: [TradeItLinkedBroker] = []
-//    var tradeItBalanceService: TradeItBalanceService = TradeItBalanceService()
-//    var tradeItPositionService : TradeItPositionService = TradeItPositionService()
-//    var selectedBrokerAccountIndex = -1
-//    
-//    func getSelectedBrokerAccount() -> TradeItLinkedAccountPortfolio! {
-//        var selecteBrokerAccount: TradeItLinkedAccountPortfolio! = nil
-//        if selectedBrokerAccountIndex > -1 && linkedBrokerAccounts.count > 0 {
-//            selecteBrokerAccount = linkedBrokerAccounts[selectedBrokerAccountIndex]
-//        }
-//        return selecteBrokerAccount
-//    }
+    //    var tradeItBalanceService: TradeItBalanceService = TradeItBalanceService()
+    //    var tradeItPositionService : TradeItPositionService = TradeItPositionService()
+    //    var selectedBrokerAccountIndex = -1
+    //
+    //    func getSelectedBrokerAccount() -> TradeItLinkedAccountPortfolio! {
+    //        var selecteBrokerAccount: TradeItLinkedAccountPortfolio! = nil
+    //        if selectedBrokerAccountIndex > -1 && linkedBrokerAccounts.count > 0 {
+    //            selecteBrokerAccount = linkedBrokerAccounts[selectedBrokerAccountIndex]
+    //        }
+    //        return selecteBrokerAccount
+    //    }
 
     init(connector: TradeItConnector) {
         tradeItConnector = connector
         tradeItSessionProvider = TradeItSessionProvider()
 
-//        self.loadLinkedBrokersFromKeychain() // Build self.linkedBrokers from keychain linkedLogins (and NSUserDefaults?)
+        //        self.loadLinkedBrokersFromKeychain() // Build self.linkedBrokers from keychain linkedLogins (and NSUserDefaults?)
     }
 
-//    func loadLinkedBrokersFromKeychain() {
-        // TODO: FIX EMS API TO RETURN TradeItLinkedLogin
+    //    func loadLinkedBrokersFromKeychain() {
+    // TODO: FIX EMS API TO RETURN TradeItLinkedLogin
 
-//        guard let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin] else {
-//            // TODO: OH MY GOD EXPLODE
-//            return
-//        }
-//
-//        for linkedLogin in linkedLogins {
-//            let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
-//            let linkedBroker = TradeItLinkedBroker(tradeItSession, linkedLogin: linkedLogin)
-//            self.linkedBrokers.append(linkedBroker)
-//        }
-//    }
+    //        guard let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin] else {
+    //            // TODO: OH MY GOD EXPLODE
+    //            return
+    //        }
+    //
+    //        for linkedLogin in linkedLogins {
+    //            let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
+    //            let linkedBroker = TradeItLinkedBroker(tradeItSession, linkedLogin: linkedLogin)
+    //            self.linkedBrokers.append(linkedBroker)
+    //        }
+    //    }
 
-//    func authenticateAll(onSecurityQuestion: (TradeItSecurityQuestionResult) -> String) {
-//        for linkedBroker in self.linkedBrokers {
-//            if !linkedBroker.isAuthenticated {
-//                linkedBroker.authenticate(
-//                    onSuccess: { () -> Void in },
-//                    onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
-//                        return onSecurityQuestion(tradeItSecurityQuestionResult)
-//                    },
-//                    onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in }
-//                )
-//            }
-//        }
-//    }
+    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
+                                            onFinishedAuthenticating: () -> Void) {
+        firstly { _ -> Promise<Void> in
+            var promises: [Promise<Void>] = []
+
+            for linkedBroker in self.linkedBrokers {
+                let promise = Promise<Void> { fulfill, reject in
+
+                    fulfill()
+
+                    linkedBroker.authenticate(
+                        onSuccess: { () -> Void in
+                            fulfill()
+                        },
+                        onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+                            return onSecurityQuestion(tradeItSecurityQuestionResult)
+                        },
+                        onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                            fulfill()
+                        }
+                    )
+                }
+
+                promises.append(promise)
+            }
+
+            return when(promises)
+        }
+        .always() {
+            onFinishedAuthenticating()
+        }
+    }
 
     func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
-                                       onFailure: () -> Void) -> Void {
+                                       onFailure: () -> Void) {
         self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
                 onSuccess(availableBrokers: availableBrokers)

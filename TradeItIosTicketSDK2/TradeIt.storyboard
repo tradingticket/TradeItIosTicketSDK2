@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -21,7 +21,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Uo-Ms-0px" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="264" y="-600"/>
+            <point key="canvasLocation" x="336" y="-1876"/>
         </scene>
         <!--Welcome-->
         <scene sceneID="vjt-0o-R3J">
@@ -189,7 +189,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="xYJ-xj-EpF" kind="show" id="TRv-df-83B"/>
+                                    <segue destination="xYJ-xj-EpF" kind="show" id="Kj4-p0-zeD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -215,7 +215,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fFP-9k-GYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="945" y="-600"/>
+            <point key="canvasLocation" x="1015" y="-1876"/>
         </scene>
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
@@ -256,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1625" y="-600"/>
+            <point key="canvasLocation" x="1695" y="-1876"/>
         </scene>
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
@@ -386,7 +386,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2303" y="-600"/>
+            <point key="canvasLocation" x="2373" y="-1876"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
@@ -425,7 +425,7 @@
                                     <constraint firstAttribute="height" constant="130" id="j5l-hd-XCM"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_HEADER_ID" id="WuN-9R-wav" customClass="CustomPortfolioHeaderCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_HEADER_ID" id="WuN-9R-wav">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WuN-9R-wav" id="tvi-2q-ObU">
@@ -461,13 +461,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.87974476440837701" green="0.87974476440837701" blue="0.87974476440837701" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <outlet property="headerNameColumn1" destination="93S-9F-GGt" id="8Wq-rd-hvK"/>
-                                            <outlet property="headerNameColumn2" destination="wgQ-MU-CPN" id="XVt-Mr-FEb"/>
-                                            <outlet property="headerNameColumn3" destination="CzO-Yt-1hw" id="Z70-tZ-M64"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_CELL_ID" id="55g-cj-mTJ" customClass="CustomPortfolioCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_CELL_ID" id="55g-cj-mTJ" customClass="TradeItPortfolioAccountsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55g-cj-mTJ" id="WXI-1g-FBU">
@@ -475,7 +470,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
-                                                    <rect key="frame" x="3" y="14" width="10" height="15"/>
+                                                    <rect key="frame" x="0.0" y="14" width="10" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="3ff-nM-AeO"/>
                                                         <constraint firstAttribute="width" constant="10" id="w65-pK-XGS"/>
@@ -516,22 +511,24 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="mvl-ut-HGH" secondAttribute="trailing" constant="120" id="XsY-OG-hQ1"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="4H2-cL-BMo" secondAttribute="trailing" constant="5" id="f8G-p0-oH3"/>
                                                 <constraint firstItem="qbc-Wz-v3m" firstAttribute="top" secondItem="q3z-bl-lOy" secondAttribute="bottom" constant="5" id="gAQ-Av-o6F"/>
+                                                <constraint firstItem="irK-hn-jmI" firstAttribute="leading" secondItem="WXI-1g-FBU" secondAttribute="leading" id="jrf-qn-3ah"/>
                                                 <constraint firstItem="q3z-bl-lOy" firstAttribute="leading" secondItem="WXI-1g-FBU" secondAttribute="leadingMargin" constant="10" id="pMH-sa-q3B"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="1oV-h3-mrD"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="rowCellUnderValue1" destination="qbc-Wz-v3m" id="oQD-mx-0cV"/>
-                                            <outlet property="rowCellValue1" destination="q3z-bl-lOy" id="1Zs-ZI-qe7"/>
-                                            <outlet property="rowCellValue2" destination="mvl-ut-HGH" id="kwO-6f-hmN"/>
-                                            <outlet property="rowCellValue3" destination="4H2-cL-BMo" id="AWt-Vl-vCF"/>
-                                            <outlet property="selector" destination="irK-hn-jmI" id="M8q-fo-FMT"/>
+                                            <outlet property="accountNameLabel" destination="q3z-bl-lOy" id="C4I-K6-HbR"/>
+                                            <outlet property="brokerNameLabel" destination="qbc-Wz-v3m" id="9RU-PM-aaJ"/>
+                                            <outlet property="buyingPowerLabel" destination="mvl-ut-HGH" id="4lQ-01-NUo"/>
+                                            <outlet property="selectedIcon" destination="irK-hn-jmI" id="O5G-9v-eyy"/>
+                                            <outlet property="totalValueLabel" destination="4H2-cL-BMo" id="pJ2-tv-SLn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="bUI-w2-wjN" id="OUW-1N-EAp"/>
-                                    <outlet property="delegate" destination="bUI-w2-wjN" id="Kh0-IQ-f1Z"/>
-                                </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fx Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YM0-2i-OEc" userLabel="Fx Summary ">
                                 <rect key="frame" x="20" y="325" width="85" height="18"/>
@@ -731,11 +728,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.87974476440000005" green="0.87974476440000005" blue="0.87974476440000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <outlet property="headerNameColumn1" destination="cAp-EE-tcm" id="Tce-ak-b3R"/>
-                                            <outlet property="headerNameColumn2" destination="Xjt-1n-Blf" id="uj4-2I-Wxe"/>
-                                            <outlet property="headerNameColumn3" destination="Oam-xy-KDI" id="jCm-BM-O5b"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CUSTOM_PORTFOLIO_CELL_ID" rowHeight="150" id="fFn-NS-Mba" customClass="CustomPortfolioCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="150"/>
@@ -959,29 +951,8 @@
                                                 <constraint firstItem="lAR-ee-oMb" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" constant="10" id="r1S-dS-faP"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="positionDetailsLabel1" destination="hya-0B-dah" id="M9g-sb-Isk"/>
-                                            <outlet property="positionDetailsLabel2" destination="MvN-6e-b1p" id="Kb1-Q6-KdR"/>
-                                            <outlet property="positionDetailsLabel3" destination="0Tm-AD-LTv" id="nO2-j9-1Ua"/>
-                                            <outlet property="positionDetailsLabel4" destination="zNb-QU-Qaf" id="OCY-te-yVt"/>
-                                            <outlet property="positionDetailsLabel5" destination="dIq-tA-V7V" id="ZeH-L9-ISg"/>
-                                            <outlet property="positionDetailsValue1" destination="u2X-ap-8DY" id="EEW-LH-CGL"/>
-                                            <outlet property="positionDetailsValue2" destination="DCe-kp-JQi" id="cYp-oL-1ET"/>
-                                            <outlet property="positionDetailsValue3" destination="dN1-Lv-DGI" id="UXd-tb-IZD"/>
-                                            <outlet property="positionDetailsValue4" destination="EP6-An-n6Q" id="QCZ-RV-Vzo"/>
-                                            <outlet property="positionDetailsValue5" destination="F6a-HP-Pzi" id="SAo-VZ-3Np"/>
-                                            <outlet property="rowCellUnderValue1" destination="Qz9-f6-gXb" id="JXY-Vq-n1p"/>
-                                            <outlet property="rowCellValue1" destination="UUg-Fr-NXz" id="NQ3-Rh-auL"/>
-                                            <outlet property="rowCellValue2" destination="lAR-ee-oMb" id="7r4-lF-6Iz"/>
-                                            <outlet property="rowCellValue3" destination="P8T-6D-oUm" id="h96-O9-pLx"/>
-                                            <outlet property="selector" destination="XJJ-3P-SG7" id="PXx-pV-N7D"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="bUI-w2-wjN" id="80c-MB-KlS"/>
-                                    <outlet property="delegate" destination="bUI-w2-wjN" id="667-fB-p6N"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.95341132200000001" green="0.95341132200000001" blue="0.95341132200000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -1019,23 +990,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="accountsTable" destination="jjm-KA-5qy" id="Ywr-Cr-r2J"/>
-                        <outlet property="fxMarginBalanceLabel" destination="L0W-WY-T2S" id="chs-LS-6Zw"/>
-                        <outlet property="fxRealizedPlLabel" destination="bFX-Wf-Oms" id="Gdb-IA-ZTz"/>
-                        <outlet property="fxSummaryView" destination="DMW-ki-1QX" id="1NM-PK-1bB"/>
-                        <outlet property="fxTotalValueLabel" destination="aM5-f5-gDP" id="2xD-qq-nDo"/>
-                        <outlet property="fxUnrealizedPlLabel" destination="Apt-DN-QBX" id="eUo-r3-Kcm"/>
-                        <outlet property="holdingsLabel" destination="Fe3-Cs-IAG" id="xcY-3u-xV5"/>
-                        <outlet property="holdingsLabelConstraintY" destination="Iua-pM-WlL" id="ih2-Jd-7Yb"/>
-                        <outlet property="holdingsTable" destination="7tC-j5-kXj" id="Lo9-tI-LGK"/>
-                        <outlet property="positionsSpinner" destination="7Ef-Ox-Ah2" id="3gD-R0-hiT"/>
-                        <outlet property="summaryFxLabel" destination="YM0-2i-OEc" id="ATE-bQ-2m4"/>
-                        <outlet property="totalAccountsValueLabel" destination="kZZ-Hr-ig9" id="Pql-2p-leK"/>
+                        <outlet property="accountsTable" destination="jjm-KA-5qy" id="pzf-Oa-MdF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2947" y="-600"/>
+            <point key="canvasLocation" x="3043" y="-1876"/>
         </scene>
     </scenes>
     <resources>

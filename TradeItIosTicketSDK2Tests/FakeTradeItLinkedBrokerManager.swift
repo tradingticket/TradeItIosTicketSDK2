@@ -3,7 +3,7 @@ import TradeItIosEmsApi
 class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     let calls = SpyRecorder()
 
-    var returnedAccounts: [TradeItAccountPortfolio] = []
+    var accountsToReturn: [TradeItAccountPortfolio] = []
     
     init() {
         super.init(connector: FakeTradeItConnector())
@@ -30,6 +30,15 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     }
     
     override func getAllAccounts() -> [TradeItAccountPortfolio] {
-        return returnedAccounts
+        return accountsToReturn
+    }
+
+    override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
+                                                     onFinishedAuthenticating: () -> Void) {
+        self.calls.record(#function,
+                          args: [
+                              "onSecurityQuestion": onSecurityQuestion,
+                              "onFinishedAuthenticating": onFinishedAuthenticating
+                          ])
     }
 }

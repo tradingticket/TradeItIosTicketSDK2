@@ -2,29 +2,25 @@ import Foundation
 import UIKit
 
 public class FakeEZLoadingActivityManager: EZLoadingActivityManager {
-    let calls = SpyRecorder()
+    var spinnerIsShowing = false
+    var spinnerText = ""
 
     override func show(text text: String, disableUI: Bool) -> Bool {
-        self.calls.record(#function, args: [
-            "text": text,
-            "disableUI": disableUI
-        ])
+        self.spinnerIsShowing = true
+        self.spinnerText = text
         return true
     }
 
     override func showOnController(text text: String,
                                         disableUI: Bool,
                                         controller: UIViewController) -> Bool {
-        self.calls.record(#function, args: [
-            "text": text,
-            "disableUI": disableUI,
-            "controller": controller
-        ])
+        assert(false, "=====> I guess we do call showOnController after all...")
         return true
     }
 
     override func hide() -> Bool {
-        self.calls.record(#function)
+        self.spinnerIsShowing = false
+        self.spinnerText = ""
         return true
     }
 }

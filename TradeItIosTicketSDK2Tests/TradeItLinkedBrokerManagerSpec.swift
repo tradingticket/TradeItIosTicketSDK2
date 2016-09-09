@@ -122,7 +122,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             context("when linking succeeds") {
                 let linkResult = TradeItAuthLinkResult()
                 let linkedLogin = TradeItLinkedLogin()
-                linkedLogin.broker = "My broker #1"
+//                linkedLogin.broker = "My Special Broker"
 
                 beforeEach {
                     tradeItConnector.tradeItLinkedLoginToReturn = linkedLogin
@@ -133,7 +133,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     completionBlock(linkResult)
                 }
 
-                it("should save the linkedLogin to the Keychain") {
+                it("saves the linkedLogin to the Keychain") {
                     let saveLinkToKeychainCalls = tradeItConnector.calls.forMethod("saveLinkToKeychain(_:withBroker:)")
                     expect(saveLinkToKeychainCalls.count).to(equal(1))
 
@@ -142,6 +142,11 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                     let brokerArg = saveLinkToKeychainCalls[0].args["broker"] as! String
                     expect(brokerArg).to(equal("My Special Broker"))
+                }
+
+                it("adds the linked broker to the list of linkedBrokers") {
+                    expect(linkedBrokerManager.linkedBrokers.count).to(equal(1))
+                    expect(linkedBrokerManager.linkedBrokers[0].linkedLogin).to(be(linkedLogin))
                 }
 
                 it("calls the onSuccess callback with the linkedBroker") {
@@ -188,9 +193,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             context("when there are linked brokers") {
-                let account11 = TradeItAccountPortfolio(accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account12 = TradeItAccountPortfolio(accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
-                let account31 = TradeItAccountPortfolio(accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                let account11 = TradeItAccountPortfolio(brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account12 = TradeItAccountPortfolio(brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account31 = TradeItAccountPortfolio(brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
 
                 beforeEach {
                     let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")

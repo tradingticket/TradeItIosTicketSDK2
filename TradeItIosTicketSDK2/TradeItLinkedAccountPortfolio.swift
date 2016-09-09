@@ -1,20 +1,22 @@
 import TradeItIosEmsApi
 
 class TradeItAccountPortfolio: NSObject {
-    var accountName: String = ""
-    var accountNumber: String = ""
+    var brokerName = ""
+    var accountName = ""
+    var accountNumber = ""
     var balance: TradeItAccountOverview!
     var fxBalance: TradeItFxAccountOverview!
     var positions: [TradeItPortfolioPosition] = []
     var isBalanceError: Bool = false
     var isPositionsError: Bool = false
 
-
-    init(accountName: String,
+    init(brokerName: String,
+         accountName: String,
          accountNumber: String,
          balance: TradeItAccountOverview!,
          fxBalance: TradeItFxAccountOverview!,
          positions: [TradeItPortfolioPosition]) {
+        self.brokerName = brokerName
         self.accountName = accountName
         self.accountNumber = accountNumber
         self.balance = balance

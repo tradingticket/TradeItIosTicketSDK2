@@ -5,6 +5,7 @@ class TradeItLinkedBroker: NSObject {
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItAccountPortfolio] = []
     var isAuthenticated = false
+//    var error: TradeItErrorResult?
 
     init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
@@ -17,17 +18,21 @@ class TradeItLinkedBroker: NSObject {
         self.session.authenticate(linkedLogin) { (tradeItResult: TradeItResult!) in
             if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                 self.isAuthenticated = false
+//                self.error = tradeItErrorResult
+
                 onFailure(tradeItErrorResult)
             } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult {
                 let securityQuestionAnswer = onSecurityQuestion(tradeItSecurityQuestionResult)
                 // TODO: submit security question answer
             } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
                 self.isAuthenticated = true
+//                self.error = nil
 
                 self.accounts = []
                 let accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
                 for account in accounts {
-                    let accountPortfolio = TradeItAccountPortfolio(accountName: account.name,
+                    let accountPortfolio = TradeItAccountPortfolio(brokerName: self.linkedLogin.broker,
+                                                                   accountName: account.name,
                                                                    accountNumber: account.accountNumber,
                                                                    balance: nil,
                                                                    fxBalance: nil,

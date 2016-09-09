@@ -7,12 +7,12 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var selectedIcon: UIImageView!
 
-    func populate(withAccount withAccount: TradeItAccountPortfolio) {
-
+    func populate(withAccount account: TradeItAccountPortfolio) {
+        self.accountNameLabel.text = account.accountName
+        self.brokerNameLabel.text = account.brokerName
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
 }

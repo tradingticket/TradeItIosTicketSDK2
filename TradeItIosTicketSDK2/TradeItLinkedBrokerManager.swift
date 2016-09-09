@@ -99,6 +99,8 @@ class TradeItLinkedBrokerManager {
 
                 let linkedBroker = TradeItLinkedBroker.init(session: tradeItSession, linkedLogin: linkedLogin!)
 
+                self.linkedBrokers.append(linkedBroker)
+
                 onSuccess(linkedBroker: linkedBroker)
             }
         }
@@ -106,15 +108,11 @@ class TradeItLinkedBrokerManager {
 
     func getAllAccounts() -> [TradeItAccountPortfolio] {
         var accounts: [TradeItAccountPortfolio] = []
-        guard self.linkedBrokers.count > 0 else {
-            return accounts
+
+        for linkedBroker in self.linkedBrokers {
+            accounts.appendContentsOf(linkedBroker.accounts)
         }
 
-        for linkedBroker in linkedBrokers {
-            if linkedBroker.accounts.count > 0 {
-                accounts.appendContentsOf(linkedBroker.accounts)
-            }
-        }
         return accounts
     }
 }

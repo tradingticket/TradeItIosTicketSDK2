@@ -37,6 +37,12 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         return accounts.count
     }
 
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNT_HEADER_ID)
+
+        return cell
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNT_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
 

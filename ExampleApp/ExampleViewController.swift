@@ -13,7 +13,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var table: UITableView!
 
     let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
-    let ENVIRONMENT = TradeItEmsLocalEnv
+    let ENVIRONMENT = TradeItEmsTestEnv
     var tradeItLauncher: TradeItLauncher!
 
     override func viewDidLoad() {

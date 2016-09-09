@@ -1,11 +1,12 @@
 import TradeItIosEmsApi
+import PromiseKit
 
 class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItLinkedBrokerAccount] = []
     var isAuthenticated = false
-//    var error: TradeItErrorResult?
+    var error: TradeItErrorResult?
 
     init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
@@ -18,7 +19,7 @@ class TradeItLinkedBroker: NSObject {
         self.session.authenticate(linkedLogin) { (tradeItResult: TradeItResult!) in
             if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                 self.isAuthenticated = false
-//                self.error = tradeItErrorResult
+                self.error = tradeItErrorResult
 
                 onFailure(tradeItErrorResult)
             } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult {
@@ -26,12 +27,13 @@ class TradeItLinkedBroker: NSObject {
                 // TODO: submit security question answer
             } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
                 self.isAuthenticated = true
-//                self.error = nil
+                self.error = nil
 
                 self.accounts = []
                 let accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
                 for account in accounts {
-                    let accountPortfolio = TradeItLinkedBrokerAccount(brokerName: self.linkedLogin.broker,
+                    let accountPortfolio = TradeItLinkedBrokerAccount(linkedBroker: self,
+                                                                      brokerName: self.linkedLogin.broker,
                                                                       accountName: account.name,
                                                                       accountNumber: account.accountNumber,
                                                                       balance: nil,
@@ -46,9 +48,22 @@ class TradeItLinkedBroker: NSObject {
     }
 
     func refreshAccountBalances(onFinished onFinished: () -> Void) {
-
-        //TODO
-        onFinished()
+        firstly { _ -> Promise<Void> in
+            var promises: [Promise<Void>] = []
+            for account in accounts {
+                let promise = Promise<Void> { fulfill, reject in
+                    account.getAccountOverview(
+                        onFinished: {
+                            fulfill()
+                        }
+                    )
+                }
+                promises.append(promise)
+            }
+            return when(promises)
+        }
+        .always {
+            onFinished()
+        }
     }
-
 }

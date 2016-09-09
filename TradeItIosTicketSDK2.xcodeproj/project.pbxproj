@@ -76,6 +76,7 @@
 		FA29F4341D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */; };
 		FA29F4351D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */; };
 		FA2C61591D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2C61581D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift */; };
+		FA2C615C1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2C615B1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC73A3F1D51189600464BC6 /* SpecHelper.swift */; };
@@ -168,6 +169,7 @@
 		FA29F4211D79FFD200387F34 /* TradeItPortfolioAccountsTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioAccountsTableViewManager.swift; sourceTree = "<group>"; };
 		FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioAccountsTableViewCell.swift; sourceTree = "<group>"; };
 		FA2C61581D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItLinkedBrokerAccount.swift; sourceTree = "<group>"; };
+		FA2C615B1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLinkedBrokerSpec.swift; sourceTree = "<group>"; };
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
 		FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewController.swift; sourceTree = "<group>"; };
@@ -322,6 +324,14 @@
 			name = Fakes;
 			sourceTree = "<group>";
 		};
+		FA2C615A1D8369B6007A7E76 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA2C615B1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		FAC73A471D5130F300464BC6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +438,7 @@
 		FAFD2E651D4BA75F00B882DB /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXGroup;
 			children = (
+				FA2C615A1D8369B6007A7E76 /* Models */,
 				B5D82C1E1D528DC700AF3B6F /* Controllers */,
 				FA16B0981D51344600752C2D /* Fakes */,
 				FA9760221D4FE9B800AC0C7E /* TradeItLauncherSpec.swift */,
@@ -854,6 +865,7 @@
 				B5B913F11D621C0100C58321 /* FakeTradeItBalanceService.swift in Sources */,
 				B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */,
 				B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */,
+				FA2C615C1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift in Sources */,
 				FA00916F1D78B0E500FE3EE2 /* TradeItLinkedBrokerManagerSpec.swift in Sources */,
 				B5F157D51D6268CA000FF52A /* TradeItLinkedBrokerAccount.swift in Sources */,
 				B579FFEA1D63C585003643C1 /* NumberFormatter.swift in Sources */,

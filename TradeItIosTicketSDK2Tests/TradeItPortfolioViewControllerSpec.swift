@@ -57,8 +57,9 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 var accountsToReturn: [TradeItLinkedBrokerAccount]!
 
                 beforeEach {
-                    let account1 = TradeItLinkedBrokerAccount(brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                    let account2 = TradeItLinkedBrokerAccount(brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    var linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                    let account1 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let account2 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
 
                     accountsToReturn = [account1, account2]
 

@@ -32,7 +32,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 
                 window.addSubview(nav.view)
                 
-                NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+                flushAsyncEvents()
             }
 
             it("sets up the accountsTableViewManager") {
@@ -44,8 +44,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 expect(ezLoadingActivityManager.spinnerText).to(equal("Authenticating"))
             }
 
-            it("makes a call to authenticate all the linkedBrokers") {
-                let authenticateCalls = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinishedAuthenticating:)")
+            it("authenticates all the linkedBrokers") {
+                let authenticateCalls = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)")
                 expect(authenticateCalls.count).to(equal(1))
             }
 
@@ -64,19 +64,41 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                     linkedBrokerManager.accountsToReturn = accountsToReturn
 
-                    let authenticateCalls = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinishedAuthenticating:)")
-                    let callback = authenticateCalls[0].args["onFinishedAuthenticating"] as! () -> Void
+                    let authenticateCalls = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)")
+                    let callback = authenticateCalls[0].args["onFinished"] as! () -> Void
 
                     callback()
                 }
 
-                it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
-                    let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:)")
-                    expect(updateAccountsCalls.count).to(equal(1))
+                it("refreshes the account balances of all the linked brokers") {
+                    expect(linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
+                }
 
-                    let accountsArg = updateAccountsCalls[0].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
+                it("changes the spinner text") {
+                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
+                    expect(ezLoadingActivityManager.spinnerText).to(equal("Refreshing Accounts"))
+                }
 
-                    expect(accountsArg).to(equal(accountsToReturn))
+
+                describe("when account balances have been refreshed") {
+                    beforeEach {
+                        let onFinished = linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
+
+                        onFinished()
+                    }
+
+                    it("hides the spinner") {
+                        expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
+                    }
+
+                    it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
+                        let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:)")
+                        expect(updateAccountsCalls.count).to(equal(1))
+
+                        let accountsArg = updateAccountsCalls[0].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
+
+                        expect(accountsArg).to(equal(accountsToReturn))
+                    }
                 }
             }
 

@@ -44,4 +44,11 @@ class TradeItLinkedBroker: NSObject {
             }
         }
     }
+
+    func refreshAccountBalances(onFinished onFinished: () -> Void) {
+
+        //TODO
+        onFinished()
+    }
+
 }

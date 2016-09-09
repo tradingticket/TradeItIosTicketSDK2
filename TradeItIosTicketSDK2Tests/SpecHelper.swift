@@ -37,3 +37,7 @@ class SpyRecorder {
 }
 
 class Stubs {} // TODO: Implement me!
+
+func flushAsyncEvents() {
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+}

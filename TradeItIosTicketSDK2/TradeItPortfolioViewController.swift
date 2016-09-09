@@ -21,9 +21,13 @@ class TradeItPortfolioViewController: UIViewController {
                 // TODO: GET
                 return "MY SPECIAL SECURITY ANSWER"
             },
-            onFinishedAuthenticating: {
-                self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
-                self.ezLoadingActivityManager.hide()
+            onFinished: {
+                self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
+
+                self.linkedBrokerManager.refreshAccountBalances {
+                    self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
+                    self.ezLoadingActivityManager.hide()
+                }
             }
         )
     }

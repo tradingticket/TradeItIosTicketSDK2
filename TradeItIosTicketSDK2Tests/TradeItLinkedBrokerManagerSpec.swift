@@ -122,7 +122,6 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             context("when linking succeeds") {
                 let linkResult = TradeItAuthLinkResult()
                 let linkedLogin = TradeItLinkedLogin()
-//                linkedLogin.broker = "My Special Broker"
 
                 beforeEach {
                     tradeItConnector.tradeItLinkedLoginToReturn = linkedLogin
@@ -266,7 +265,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                             securityQuestionCalledWith = result
                             return ""
                         },
-                        onFinishedAuthenticating: { 
+                        onFinished: {
                             onFinishedAuthenticatingWasCalled += 1
                         }
                     )
@@ -320,7 +319,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                         onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
                         onSuccess()
 
-                        NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+                        flushAsyncEvents()
                     }
 
                     it("calls onFinishedAuthenticating") {
@@ -339,14 +338,88 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                         onSecurityQuestion: { (result: TradeItSecurityQuestionResult) -> String in
                             return ""
                         },
-                        onFinishedAuthenticating: {
+                        onFinished: {
                             onFinishedAuthenticatingWasCalled += 1
                         }
                     )
 
-                    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+                    flushAsyncEvents()
 
                     expect(onFinishedAuthenticatingWasCalled).to(equal(1))
+                }
+            }
+        }
+
+        describe("refreshAccountBalances") {
+            var onFinishedRefreshingBalancesWasCalled = 0
+            var linkedBroker1: FakeTradeItLinkedBroker!
+            var linkedBroker2: FakeTradeItLinkedBroker!
+            var linkedBroker3: FakeTradeItLinkedBroker!
+            beforeEach {
+
+                let account11 = FakeTradeItLinkedBrokerAccount(brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account12 = TradeItLinkedBrokerAccount(brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+
+                let linkedLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+
+                let tradeItSession = FakeTradeItSession()
+                linkedBroker1 = FakeTradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin1)
+                linkedBroker1.accounts = [account11, account12]
+                linkedBroker1.isAuthenticated = true
+
+
+                let account21 = TradeItLinkedBrokerAccount(brokerName: "Broker #2", accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+
+                let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
+                let tradeItSession2 = FakeTradeItSession()
+                linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
+                linkedBroker2.accounts = [account21]
+                linkedBroker2.isAuthenticated = true
+
+                let account31 = TradeItLinkedBrokerAccount(brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+
+                let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")
+                let tradeItSession3 = FakeTradeItSession()
+                linkedBroker3 = FakeTradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedLogin3)
+                linkedBroker3.accounts = [account31]
+                linkedBroker3.isAuthenticated = false
+
+                linkedBrokerManager.linkedBrokers = [linkedBroker1, linkedBroker2, linkedBroker3]
+
+                linkedBrokerManager.refreshAccountBalances(
+                    onFinished: {
+                        onFinishedRefreshingBalancesWasCalled += 1
+                    }
+                )
+            }
+
+            it("refreshes all the authenticated linkedBrokers") {
+                expect(linkedBroker1.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
+                expect(linkedBroker2.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
+            }
+
+            it("doesn't refresh the unauthenticated linkedBroker") {
+                expect(linkedBroker3.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(0))
+            }
+
+            it("doesn't call the callback until the refresh is finished") {
+                expect(onFinishedRefreshingBalancesWasCalled).to(equal(0))
+            }
+
+            describe("when all the linkedBroker are refreshed") {
+                beforeEach {
+                    let onFinished1 = linkedBroker1.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
+                    onFinished1()
+
+                    let onFinished2 = linkedBroker2.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
+                    onFinished2()
+
+                    flushAsyncEvents()
+                }
+
+                it("calls onFinishedRefreshingBalancesWasCalled") {
+                    flushAsyncEvents()
+                    expect(onFinishedRefreshingBalancesWasCalled).to(equal(1))
                 }
             }
         }

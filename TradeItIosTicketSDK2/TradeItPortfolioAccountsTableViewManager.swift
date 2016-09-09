@@ -16,7 +16,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
                 newTable.delegate = self
                 _table = newTable
             }
-
         }
     }
 

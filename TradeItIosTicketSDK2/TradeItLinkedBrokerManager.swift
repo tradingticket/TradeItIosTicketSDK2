@@ -40,15 +40,12 @@ class TradeItLinkedBrokerManager {
     //    }
 
     func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
-                                            onFinishedAuthenticating: () -> Void) {
+                                            onFinished: () -> Void) {
         firstly { _ -> Promise<Void> in
             var promises: [Promise<Void>] = []
 
             for linkedBroker in self.linkedBrokers {
                 let promise = Promise<Void> { fulfill, reject in
-
-                    fulfill()
-
                     linkedBroker.authenticate(
                         onSuccess: { () -> Void in
                             fulfill()
@@ -56,7 +53,7 @@ class TradeItLinkedBrokerManager {
                         onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
                             return onSecurityQuestion(tradeItSecurityQuestionResult)
                         },
-                        onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                        onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                             fulfill()
                         }
                     )
@@ -68,7 +65,27 @@ class TradeItLinkedBrokerManager {
             return when(promises)
         }
         .always() {
-            onFinishedAuthenticating()
+            onFinished()
+        }
+    }
+
+    func refreshAccountBalances(onFinished onFinished: () -> Void) {
+        var promises: [Promise<Void>] = []
+        firstly { _ -> Promise<Void> in
+            for linkedBroker in self.linkedBrokers {
+                if linkedBroker.isAuthenticated {
+                    let promise = Promise<Void> { fulfill, reject in
+                        linkedBroker.refreshAccountBalances() {
+                            fulfill()
+                        }
+                    }
+                    promises.append(promise)
+                }
+            }
+            return when(promises)
+        }
+        .always() {
+            onFinished()
         }
     }
 

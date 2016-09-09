@@ -23,4 +23,11 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
             ])
 
     }
+
+    override func refreshAccountBalances(onFinished onFinished: () -> Void) {
+        self.calls.record(#function,
+                          args: [
+                            "onFinished": onFinished
+            ])
+    }
 }

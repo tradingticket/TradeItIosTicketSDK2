@@ -34,7 +34,8 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 expect(nav.view).toNot(beNil())
 
                 window.addSubview(nav.view)
-                NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+
+                flushAsyncEvents()
             }
 
             it("fetches the available brokers") {

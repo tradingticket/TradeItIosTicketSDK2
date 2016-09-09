@@ -11,6 +11,11 @@ public class FakeEZLoadingActivityManager: EZLoadingActivityManager {
         return true
     }
 
+    override func updateText(text text: String) -> Bool {
+        self.spinnerText = text
+        return true
+    }
+
     override func showOnController(text text: String,
                                         disableUI: Bool,
                                         controller: UIViewController) -> Bool {

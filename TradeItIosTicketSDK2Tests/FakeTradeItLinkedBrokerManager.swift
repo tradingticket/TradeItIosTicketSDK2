@@ -34,11 +34,18 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     }
 
     override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
-                                                     onFinishedAuthenticating: () -> Void) {
+                                                     onFinished: () -> Void) {
         self.calls.record(#function,
                           args: [
                               "onSecurityQuestion": onSecurityQuestion,
-                              "onFinishedAuthenticating": onFinishedAuthenticating
+                              "onFinished": onFinished
+                          ])
+    }
+
+    override func refreshAccountBalances(onFinished onFinished: () -> Void) {
+        self.calls.record(#function,
+                          args: [
+                              "onFinished": onFinished
                           ])
     }
 }

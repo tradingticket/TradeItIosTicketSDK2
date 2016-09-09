@@ -75,6 +75,7 @@
 		FA29F4331D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */; };
 		FA29F4341D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */; };
 		FA29F4351D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */; };
+		FA2C61591D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2C61581D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift */; };
 		FA6CAACE1D4BF28C00570F45 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		FA75D8FC1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC73A3F1D51189600464BC6 /* SpecHelper.swift */; };
@@ -166,6 +167,7 @@
 		FA16B0991D51345E00752C2D /* FakeTradeItConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItConnector.swift; sourceTree = "<group>"; };
 		FA29F4211D79FFD200387F34 /* TradeItPortfolioAccountsTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioAccountsTableViewManager.swift; sourceTree = "<group>"; };
 		FA29F4311D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioAccountsTableViewCell.swift; sourceTree = "<group>"; };
+		FA2C61581D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItLinkedBrokerAccount.swift; sourceTree = "<group>"; };
 		FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeIt.storyboard; sourceTree = "<group>"; };
 		FA6CAACF1D4BF53F00570F45 /* TradeItLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLauncher.swift; sourceTree = "<group>"; };
 		FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewController.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				FA0091751D78DB1900FE3EE2 /* FakeTradeItSessionProvider.swift */,
 				B51961021D8045C800A1D1ED /* FakeTradeItLinkedBroker.swift */,
 				FADE702D1D80A69E004A3EE0 /* FakeTradeItPortfolioAccountTableViewManager.swift */,
+				FA2C61581D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift */,
 			);
 			name = Fakes;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 				B5F157D51D6268CA000FF52A /* TradeItLinkedBrokerAccount.swift in Sources */,
 				B579FFEA1D63C585003643C1 /* NumberFormatter.swift in Sources */,
 				FA29F4341D7A149100387F34 /* TradeItPortfolioAccountsTableViewCell.swift in Sources */,
+				FA2C61591D835375007A7E76 /* FakeTradeItLinkedBrokerAccount.swift in Sources */,
 				B5BE60391D6DD8A500F450F2 /* TradeItPortfolioPosition.swift in Sources */,
 				FAC73A401D51189600464BC6 /* SpecHelper.swift in Sources */,
 				FA0D3FA61D5CC05A00C67FBC /* FakeEZLoadingActivityManager.swift in Sources */,

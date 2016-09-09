@@ -23,4 +23,22 @@ class TradeItLinkedBrokerAccount: NSObject {
         self.fxBalance = fxBalance
         self.positions = positions
     }
+
+    func getAccountsOverView(onFinishedRefreshingBalances: ()-> Void) -> Void {
+//        let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
+//        self.tradeItBalanceService.session = linkedBrokerAccount.tradeItSession
+//        self.tradeItBalanceService.getAccountOverview(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+//            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+//                // TODO: reject
+//                print("Error \(tradeItErrorResult)")
+//                self.isBalanceError = true
+//            } else if let tradeItAccountOverviewResult = tradeItResult as? TradeItAccountOverviewResult {
+//                self.isBalanceError = false
+//                self.balance = tradeItAccountOverviewResult.accountOverview
+//                self.fxBalance = tradeItAccountOverviewResult.fxAccountOverview
+//            }
+//
+//            onFinishedGettingAccountOverview()
+//        })
+    }
 }

@@ -25,7 +25,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                 window.addSubview(nav.view)
 
-                NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+                flushAsyncEvents()
             }
 
             it("sets the broker longName in the instruction label the and text field placeholders") {

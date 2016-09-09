@@ -5,7 +5,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     let PORTFOLIO_ACCOUNT_CELL_ID = "PORTFOLIO_ACCOUNTS_CELL_ID"
 
     private var _table: UITableView?
-    private var accounts: [TradeItAccountPortfolio] = []
+    private var accounts: [TradeItLinkedBrokerAccount] = []
     var accountsTable: UITableView? {
         get {
             return _table
@@ -20,7 +20,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         }
     }
 
-    func updateAccounts(withAccounts accounts: [TradeItAccountPortfolio]) {
+    func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         self.accounts = accounts
         self.accountsTable?.reloadData()
     }

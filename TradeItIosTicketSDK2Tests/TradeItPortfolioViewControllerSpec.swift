@@ -54,11 +54,11 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             }
 
             describe("when accounts finish authenticating") {
-                var accountsToReturn: [TradeItAccountPortfolio]!
+                var accountsToReturn: [TradeItLinkedBrokerAccount]!
 
                 beforeEach {
-                    let account1 = TradeItAccountPortfolio(brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                    let account2 = TradeItAccountPortfolio(brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    let account1 = TradeItLinkedBrokerAccount(brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let account2 = TradeItLinkedBrokerAccount(brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
 
                     accountsToReturn = [account1, account2]
 
@@ -74,7 +74,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:)")
                     expect(updateAccountsCalls.count).to(equal(1))
 
-                    let accountsArg = updateAccountsCalls[0].args["withAccounts"] as! [TradeItAccountPortfolio]
+                    let accountsArg = updateAccountsCalls[0].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
 
                     expect(accountsArg).to(equal(accountsToReturn))
                 }

@@ -7,7 +7,7 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var selectedIcon: UIImageView!
 
-    func populate(withAccount account: TradeItAccountPortfolio) {
+    func populate(withAccount account: TradeItLinkedBrokerAccount) {
         self.accountNameLabel.text = account.accountName
         self.brokerNameLabel.text = account.brokerName
     }

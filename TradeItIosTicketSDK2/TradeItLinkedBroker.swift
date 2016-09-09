@@ -3,7 +3,7 @@ import TradeItIosEmsApi
 class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
-    var accounts: [TradeItAccountPortfolio] = []
+    var accounts: [TradeItLinkedBrokerAccount] = []
     var isAuthenticated = false
 //    var error: TradeItErrorResult?
 
@@ -31,12 +31,12 @@ class TradeItLinkedBroker: NSObject {
                 self.accounts = []
                 let accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
                 for account in accounts {
-                    let accountPortfolio = TradeItAccountPortfolio(brokerName: self.linkedLogin.broker,
-                                                                   accountName: account.name,
-                                                                   accountNumber: account.accountNumber,
-                                                                   balance: nil,
-                                                                   fxBalance: nil,
-                                                                   positions: [])
+                    let accountPortfolio = TradeItLinkedBrokerAccount(brokerName: self.linkedLogin.broker,
+                                                                      accountName: account.name,
+                                                                      accountNumber: account.accountNumber,
+                                                                      balance: nil,
+                                                                      fxBalance: nil,
+                                                                      positions: [])
                     self.accounts.append(accountPortfolio)
                 }
 

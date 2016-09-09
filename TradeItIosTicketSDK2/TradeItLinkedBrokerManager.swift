@@ -106,8 +106,8 @@ class TradeItLinkedBrokerManager {
         }
     }
 
-    func getAllAccounts() -> [TradeItAccountPortfolio] {
-        var accounts: [TradeItAccountPortfolio] = []
+    func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
+        var accounts: [TradeItLinkedBrokerAccount] = []
 
         for linkedBroker in self.linkedBrokers {
             accounts.appendContentsOf(linkedBroker.accounts)

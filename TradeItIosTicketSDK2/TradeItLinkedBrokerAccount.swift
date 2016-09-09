@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItAccountPortfolio: NSObject {
+class TradeItLinkedBrokerAccount: NSObject {
     var brokerName = ""
     var accountName = ""
     var accountNumber = ""

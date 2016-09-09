@@ -178,7 +178,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
         }
         
         describe("getAllAccounts") {
-            var returnedAccounts: [TradeItAccountPortfolio] = []
+            var returnedAccounts: [TradeItLinkedBrokerAccount] = []
 
             beforeEach {
                 returnedAccounts = []
@@ -193,9 +193,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             context("when there are linked brokers") {
-                let account11 = TradeItAccountPortfolio(brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account12 = TradeItAccountPortfolio(brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
-                let account31 = TradeItAccountPortfolio(brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                let account11 = TradeItLinkedBrokerAccount(brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account12 = TradeItLinkedBrokerAccount(brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account31 = TradeItLinkedBrokerAccount(brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
 
                 beforeEach {
                     let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")

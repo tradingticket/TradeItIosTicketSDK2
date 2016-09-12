@@ -70,17 +70,20 @@ class TradeItLinkedBrokerManager {
     }
 
     func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        var promises: [Promise<Void>] = []
         firstly { _ -> Promise<Void> in
+            var promises: [Promise<Void>] = []
             for linkedBroker in self.linkedBrokers {
-                if linkedBroker.isAuthenticated {
                     let promise = Promise<Void> { fulfill, reject in
-                        linkedBroker.refreshAccountBalances() {
+                        if linkedBroker.isAuthenticated {
+                            linkedBroker.refreshAccountBalances() {
+                                fulfill()
+                            }
+                        }
+                        else {
                             fulfill()
                         }
                     }
                     promises.append(promise)
-                }
             }
             return when(promises)
         }

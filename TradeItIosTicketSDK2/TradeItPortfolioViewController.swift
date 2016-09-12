@@ -31,4 +31,10 @@ class TradeItPortfolioViewController: UIViewController {
             }
         )
     }
+    
+    // MARK: IBAction
+    
+    @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
+        self.parentViewController?.dismissViewControllerAnimated(false, completion: nil)
+    }
 }

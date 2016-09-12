@@ -45,4 +45,51 @@ class TradeItLinkedBrokerAccount: NSObject {
             onFinished()
         })
     }
+    
+    //MARK: formatting methods
+    
+    func getFormattedAccountName() -> String {
+        var formattedAccountNumber = self.accountNumber
+        var formattedAccountName = self.accountName
+        
+        if formattedAccountNumber.characters.count > 4 {
+            let startIndex = formattedAccountNumber.endIndex.advancedBy(-4)
+            formattedAccountNumber = String(formattedAccountNumber.characters.suffixFrom(startIndex))
+        }
+        
+        if formattedAccountName.characters.count > 10 {
+            formattedAccountName = String(formattedAccountName.characters.prefix(10))
+        }
+        
+        return "\(formattedAccountName)**\(formattedAccountNumber)"
+    }
+    
+    func getFormattedBuyingPower() -> String{
+        if let balance = self.balance {
+            return NumberFormatter.formatCurrency(balance.buyingPower)
+        }
+            
+        else if let fxBalance = self.fxBalance {
+            return NumberFormatter.formatCurrency(fxBalance.buyingPowerBaseCurrency)
+        }
+            
+        else {
+            return "N/A"
+        }
+    }
+    
+    func getFormattedTotalValue() -> String{
+        if let balance = self.balance {
+            return NumberFormatter.formatCurrency(balance.totalValue)
+        }
+            
+        else if let fxBalance = self.fxBalance {
+            return NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
+        }
+            
+        else {
+            return "N/A"
+        }
+    }
+
 }

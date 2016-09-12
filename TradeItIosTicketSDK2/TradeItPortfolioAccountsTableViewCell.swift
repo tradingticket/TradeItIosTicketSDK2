@@ -8,43 +8,22 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var selectedIcon: UIImageView!
 
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
-        self.accountNameLabel.text = account.accountName
+        self.accountNameLabel.text = account.getFormattedAccountName()
         self.brokerNameLabel.text = account.brokerName
-        self.buyingPowerLabel.text = getFormattedBuyingPower(account)
-        self.totalValueLabel.text = getFormattedTotalValue(account)
+        self.buyingPowerLabel.text = account.getFormattedBuyingPower()
+        self.totalValueLabel.text = account.getFormattedTotalValue()
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-    
-    //MARK: private methods
-    
-    private func getFormattedBuyingPower(account: TradeItLinkedBrokerAccount) -> String{
-        if let balance = account.balance {
-            return NumberFormatter.formatCurrency(balance.buyingPower)
+        self.contentView.backgroundColor = UIColor.whiteColor()
+        if selected {
+            self.selectedIcon.hidden = false
+        }
+        else {
+            self.selectedIcon.hidden = true
         }
         
-        else if let fxBalance = account.fxBalance {
-            return NumberFormatter.formatCurrency(fxBalance.buyingPowerBaseCurrency)
-        }
-        
-        else {
-            return "N/A"
-        }
     }
     
-    private func getFormattedTotalValue(account: TradeItLinkedBrokerAccount) -> String{
-        if let balance = account.balance {
-            return NumberFormatter.formatCurrency(balance.totalValue)
-        }
-            
-        else if let fxBalance = account.fxBalance {
-            return NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
-        }
-            
-        else {
-            return "N/A"
-        }
-    }
 }

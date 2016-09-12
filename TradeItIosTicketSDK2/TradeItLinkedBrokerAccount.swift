@@ -51,17 +51,19 @@ class TradeItLinkedBrokerAccount: NSObject {
     func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
-        
+        var separator = " "
         if formattedAccountNumber.characters.count > 4 {
             let startIndex = formattedAccountNumber.endIndex.advancedBy(-4)
             formattedAccountNumber = String(formattedAccountNumber.characters.suffixFrom(startIndex))
+            separator = "**"
         }
         
         if formattedAccountName.characters.count > 10 {
             formattedAccountName = String(formattedAccountName.characters.prefix(10))
+            separator = "**"
         }
         
-        return "\(formattedAccountName)**\(formattedAccountNumber)"
+        return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
     
     func getFormattedBuyingPower() -> String{
@@ -80,11 +82,22 @@ class TradeItLinkedBrokerAccount: NSObject {
     
     func getFormattedTotalValue() -> String{
         if let balance = self.balance {
-            return NumberFormatter.formatCurrency(balance.totalValue)
+            var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
+            if let totalPercentReturn = balance.totalPercentReturn {
+                formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
+            }
+            return formattedTotalValue
         }
             
         else if let fxBalance = self.fxBalance {
-            return NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
+            var formattedTotalValue = NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
+            if fxBalance.unrealizedProfitAndLossBaseCurrency != nil && fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue != 0 {
+                let totalReturn = fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue
+                let totalPercentReturn = totalReturn / (fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
+                    formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
+            }
+            
+            return formattedTotalValue
         }
             
         else {

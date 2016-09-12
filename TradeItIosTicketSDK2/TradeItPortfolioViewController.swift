@@ -24,10 +24,12 @@ class TradeItPortfolioViewController: UIViewController {
             onFinished: {
                 self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
 
-                self.linkedBrokerManager.refreshAccountBalances {
-                    self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
-                    self.ezLoadingActivityManager.hide()
-                }
+                self.linkedBrokerManager.refreshAccountBalances(
+                    onFinished:  {
+                        self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
+                        self.ezLoadingActivityManager.hide()
+                    }
+                )
             }
         )
     }

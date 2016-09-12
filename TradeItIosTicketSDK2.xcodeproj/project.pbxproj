@@ -28,6 +28,7 @@
 		B536DDB61D6C8A30009A9621 /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB11D6C88F2009A9621 /* chevron_down.png */; };
 		B536DDB71D6C8A35009A9621 /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = B536DDB01D6C88F2009A9621 /* chevron_up.png */; };
 		B536DDB81D6C8A39009A9621 /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = B579FFC51D63B306003643C1 /* indicator.png */; };
+		B53FEC2F1D874BBC0035940C /* TradeItLinkedBrokerAccountSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53FEC2E1D874BBC0035940C /* TradeItLinkedBrokerAccountSpec.swift */; };
 		B57358331D50ED3F009F4BE8 /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA6CAACD1D4BF28C00570F45 /* TradeIt.storyboard */; };
 		B57358481D50F0F3009F4BE8 /* TradeItSelectBrokerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75D8FB1D4FF8D800834DE3 /* TradeItSelectBrokerViewController.swift */; };
 		B579FFC61D63B306003643C1 /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = B579FFC51D63B306003643C1 /* indicator.png */; };
@@ -146,6 +147,7 @@
 		B536DD911D6B8C81009A9621 /* KeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		B536DDB01D6C88F2009A9621 /* chevron_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_up.png; sourceTree = "<group>"; };
 		B536DDB11D6C88F2009A9621 /* chevron_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_down.png; sourceTree = "<group>"; };
+		B53FEC2E1D874BBC0035940C /* TradeItLinkedBrokerAccountSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLinkedBrokerAccountSpec.swift; sourceTree = "<group>"; };
 		B579FFC51D63B306003643C1 /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		B579FFE81D63C585003643C1 /* NumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		B5B3D6641D5E137400A7A2AA /* TradeItPortfolioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewController.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 			isa = PBXGroup;
 			children = (
 				FA2C615B1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift */,
+				B53FEC2E1D874BBC0035940C /* TradeItLinkedBrokerAccountSpec.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */,
 				B5D82C2F1D528E1800AF3B6F /* TradeItLoginViewControllerSpec.swift in Sources */,
 				FA2C615C1D8369E2007A7E76 /* TradeItLinkedBrokerSpec.swift in Sources */,
+				B53FEC2F1D874BBC0035940C /* TradeItLinkedBrokerAccountSpec.swift in Sources */,
 				FA00916F1D78B0E500FE3EE2 /* TradeItLinkedBrokerManagerSpec.swift in Sources */,
 				B5F157D51D6268CA000FF52A /* TradeItLinkedBrokerAccount.swift in Sources */,
 				B579FFEA1D63C585003643C1 /* NumberFormatter.swift in Sources */,

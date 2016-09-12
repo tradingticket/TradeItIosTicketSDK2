@@ -32,16 +32,16 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         selectAnAccountOnthePortfolioScreen(app)
 
         //Balances
-        app.tables.staticTexts["Individual**cct1"].exists
-        app.tables.staticTexts["$2408.12"].exists
-        app.tables.staticTexts["$76489.23 (22.84%)"].exists
+        XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
+        XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
+        XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
 
         //Positions
-        app.tables.staticTexts["Individual**cct1 Holdings"].exists
-        app.tables.staticTexts["AAPL"].exists
-        app.tables.staticTexts["1 shares"].exists
-        app.tables.staticTexts["$103.34"].exists
-        app.tables.staticTexts["$112.34"].exists
+//        app.tables.staticTexts["Individual**cct1 Holdings"].exists
+//        app.tables.staticTexts["AAPL"].exists
+//        app.tables.staticTexts["1 shares"].exists
+//        app.tables.staticTexts["$103.34"].exists
+//        app.tables.staticTexts["$112.34"].exists
     }
     
     func testFxWelcomeFlow() {
@@ -51,24 +51,24 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
         handleWelcomeScreen(app)
         
-        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Fx Broker")
+        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy FX Broker")
         
-        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Fx Broker")
+        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
         
         selectAnAccountOnthePortfolioScreen(app)
         
         //Fx Balances
         app.tables.staticTexts["Account (F**cct1"].exists
         app.tables.staticTexts["$9,163"].exists
-        app.tables.staticTexts["$1,900"].exists
+        app.tables.staticTexts["$1,900 (0%)"].exists
         
         //Fx Summary
-        app.tables.staticTexts["Account (F**cct1 Summary"].exists
-        app.tables.staticTexts["$5.89"].exists
-        app.tables.staticTexts["$2,500"].exists
+//        app.tables.staticTexts["Account (F**cct1 Summary"].exists
+//        app.tables.staticTexts["$5.89"].exists
+//        app.tables.staticTexts["$2,500"].exists
         
         //Fx Positions
-        app.tables.staticTexts["Account (F**cct1 Holdings"].exists
+        //app.tables.staticTexts["Account (F**cct1 Holdings"].exists
         //TODO to complete
     }
 

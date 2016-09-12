@@ -46,17 +46,22 @@ class TradeItLinkedBrokerManager {
 
             for linkedBroker in self.linkedBrokers {
                 let promise = Promise<Void> { fulfill, reject in
-                    linkedBroker.authenticate(
-                        onSuccess: { () -> Void in
-                            fulfill()
-                        },
-                        onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
-                            return onSecurityQuestion(tradeItSecurityQuestionResult)
-                        },
-                        onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                            fulfill()
-                        }
-                    )
+                    if !linkedBroker.isAuthenticated {
+                        linkedBroker.authenticate(
+                            onSuccess: { () -> Void in
+                                fulfill()
+                            },
+                            onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+                                return onSecurityQuestion(tradeItSecurityQuestionResult)
+                            },
+                            onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
+                                fulfill()
+                            }
+                        )
+                    }
+                    else {
+                        fulfill()
+                    }
                 }
 
                 promises.append(promise)
@@ -75,9 +80,11 @@ class TradeItLinkedBrokerManager {
             for linkedBroker in self.linkedBrokers {
                     let promise = Promise<Void> { fulfill, reject in
                         if linkedBroker.isAuthenticated {
-                            linkedBroker.refreshAccountBalances() {
-                                fulfill()
-                            }
+                            linkedBroker.refreshAccountBalances(
+                                onFinished: {
+                                    fulfill()
+                                }
+                            )
                         }
                         else {
                             fulfill()

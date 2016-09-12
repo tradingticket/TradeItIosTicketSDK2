@@ -275,9 +275,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     )
                 }
 
-                it("calls authenticate on each broker") {
+                it("calls authenticate only on non authenticated linkedBokers") {
                     var authenticateCalls = authenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                    expect(authenticateCalls.count).to(equal(1))
+                    expect(authenticateCalls.count).to(equal(0))
 
                     authenticateCalls = failedUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
                     expect(authenticateCalls.count).to(equal(1))
@@ -307,16 +307,16 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                 describe("after all brokers have finished trying to authenticate") {
                     beforeEach {
-                        var authenticateCalls = authenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                        var onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
-                        onSuccess()
+//                        var authenticateCalls = authenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+//                        var onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
+//                        onSuccess()
 
-                        authenticateCalls = failedUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
+                        var authenticateCalls = failedUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
                         let onFailure = authenticateCalls[0].args["onFailure"] as! (TradeItErrorResult) -> Void
                         onFailure(TradeItErrorResult())
 
                         authenticateCalls = successfulUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                        onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
+                        var onSuccess = authenticateCalls[0].args["onSuccess"] as! () -> Void
                         onSuccess()
 
                         authenticateCalls = securityQuestionUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")

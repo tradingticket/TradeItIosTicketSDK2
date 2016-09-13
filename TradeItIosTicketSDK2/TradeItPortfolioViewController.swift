@@ -10,7 +10,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
     
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var fxSummaryView: TradeItFxSummaryView!
-
+    @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.accountsTableViewManager.delegate = self
@@ -45,6 +46,14 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
     
     // MARK: - TradeItPortfolioViewControllerAccountsTableDelegate methods
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
-       self.fxSummaryViewManager.showOrHideFxSummarySection(selectedAccount)
+        self.fxSummaryViewManager.showOrHideFxSummarySection(selectedAccount)
+//        self.holdingsActivityIndicator.startAnimating()
+//        self.linkedBrokerManager.refreshPositionsForSelectedAccount(selectedAccount)(
+//            onFinished: {
+//                self.holdingsActivityIndicator.stopAnimating()
+//                self.positionsTableViewManager.updatePositions(selectedAccount)
+//                self.holdingsActivityIndicator.stopAnimating()
+//            }
+//        )
     }
 }

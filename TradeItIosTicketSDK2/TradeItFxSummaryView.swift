@@ -8,7 +8,7 @@ class TradeItFxSummaryView: UIView {
     @IBOutlet weak var fxTotalValueLabel: UILabel!
     @IBOutlet weak var fxRealizedPlLabel: UILabel!
     @IBOutlet weak var fxSummaryHeightConstraint: NSLayoutConstraint!
-    
+  
     
 
 }

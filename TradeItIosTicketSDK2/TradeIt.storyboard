@@ -534,16 +534,16 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgN-G0-ywb">
-                                <rect key="frame" x="-0.5" y="315" width="600" height="110"/>
+                                <rect key="frame" x="0.0" y="315" width="600" height="110"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fx Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YM0-2i-OEc" userLabel="Fx Summary ">
-                                        <rect key="frame" x="20" y="10" width="85" height="20"/>
+                                        <rect key="frame" x="20" y="10" width="85" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMW-ki-1QX" customClass="TradeItFxSummaryView" customModule="ExampleApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="40" width="600" height="70"/>
+                                        <rect key="frame" x="0.0" y="38" width="600" height="70"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DG0-O9-yDL">
                                                 <rect key="frame" x="315" y="0.0" width="270" height="70"/>
@@ -673,17 +673,16 @@
                                             <constraint firstItem="DG0-O9-yDL" firstAttribute="top" secondItem="DMW-ki-1QX" secondAttribute="top" id="nBs-8e-RBD"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="fxMarginBalanceLabel" destination="L0W-WY-T2S" id="ASO-76-6Kc"/>
-                                            <outlet property="fxRealizedPlLabel" destination="bFX-Wf-Oms" id="gGP-uo-nPK"/>
-                                            <outlet property="fxSummaryHeightConstraint" destination="USr-1e-dhd" id="dY5-Yg-VL5"/>
-                                            <outlet property="fxTotalValueLabel" destination="aM5-f5-gDP" id="qKf-NS-EBu"/>
-                                            <outlet property="fxUnrealizedPlLabel" destination="Apt-DN-QBX" id="E4P-pm-NIo"/>
-                                            <outlet property="summaryFxLabel" destination="YM0-2i-OEc" id="tU7-sY-Qyg"/>
+                                            <outlet property="fxMarginBalanceLabel" destination="L0W-WY-T2S" id="S4z-gV-X1S"/>
+                                            <outlet property="fxRealizedPlLabel" destination="bFX-Wf-Oms" id="uf6-C3-nQs"/>
+                                            <outlet property="fxSummaryHeightConstraint" destination="USr-1e-dhd" id="PKk-Sh-mo5"/>
+                                            <outlet property="fxTotalValueLabel" destination="aM5-f5-gDP" id="PQT-TP-D0J"/>
+                                            <outlet property="fxUnrealizedPlLabel" destination="Apt-DN-QBX" id="cdy-SA-skd"/>
+                                            <outlet property="summaryFxLabel" destination="YM0-2i-OEc" id="KCP-ua-cWj"/>
                                         </connections>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="DMW-ki-1QX" secondAttribute="bottom" id="NeC-J4-2tu"/>
                                     <constraint firstAttribute="height" constant="110" id="USr-1e-dhd"/>
                                     <constraint firstItem="YM0-2i-OEc" firstAttribute="top" secondItem="cgN-G0-ywb" secondAttribute="top" constant="10" id="XrK-WK-YOP"/>
                                     <constraint firstItem="DMW-ki-1QX" firstAttribute="leading" secondItem="cgN-G0-ywb" secondAttribute="leading" id="fae-ed-6Rf"/>
@@ -992,7 +991,7 @@
                             <constraint firstItem="kZZ-Hr-ig9" firstAttribute="top" secondItem="3Lg-jD-aDu" secondAttribute="bottom" constant="10" id="pXz-tJ-Hcm"/>
                             <constraint firstAttribute="trailing" secondItem="cgN-G0-ywb" secondAttribute="trailing" id="q4U-cO-JQR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3Lg-jD-aDu" secondAttribute="trailing" id="qPG-v8-etn"/>
-                            <constraint firstItem="Fe3-Cs-IAG" firstAttribute="top" secondItem="cgN-G0-ywb" secondAttribute="bottom" constant="10" id="sJZ-Vz-PaI"/>
+                            <constraint firstItem="Fe3-Cs-IAG" firstAttribute="top" secondItem="cgN-G0-ywb" secondAttribute="bottom" constant="10" id="tkh-Tu-fKu"/>
                             <constraint firstAttribute="trailing" secondItem="7tC-j5-kXj" secondAttribute="trailing" id="w0f-3a-3aV"/>
                             <constraint firstAttribute="leading" secondItem="7tC-j5-kXj" secondAttribute="leading" id="x8Q-j0-FOf"/>
                         </constraints>
@@ -1006,7 +1005,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="accountsTable" destination="jjm-KA-5qy" id="pzf-Oa-MdF"/>
-                        <outlet property="fxSummaryView" destination="DMW-ki-1QX" id="lhS-Jm-Mr6"/>
+                        <outlet property="fxSummaryView" destination="DMW-ki-1QX" id="ezg-zG-qef"/>
+                        <outlet property="holdingsActivityIndicator" destination="7Ef-Ox-Ah2" id="EzX-5d-AWd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>

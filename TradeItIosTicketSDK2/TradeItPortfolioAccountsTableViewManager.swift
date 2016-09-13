@@ -19,6 +19,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         }
     }
     
+    weak var delegate: TradeItPortfolioViewControllerAccountsTableDelegate?
+    
     func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         self.accounts = accounts
         self.accountsTable?.reloadData()
@@ -29,7 +31,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let selectedAccount = self.accounts[indexPath.row]
+        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
     }
 
     // MARK: UITableViewDataSource
@@ -52,3 +55,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         return cell
     }
 }
+
+protocol TradeItPortfolioViewControllerAccountsTableDelegate: class {
+    func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
+}
+

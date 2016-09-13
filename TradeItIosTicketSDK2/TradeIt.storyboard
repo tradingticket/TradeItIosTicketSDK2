@@ -470,20 +470,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
-                                                    <rect key="frame" x="0.0" y="20" width="10" height="15"/>
+                                                    <rect key="frame" x="0.0" y="19.5" width="10" height="15"/>
+                                                    <accessibility key="accessibilityConfiguration" label="selectorLabel">
+                                                        <bool key="isElement" value="YES"/>
+                                                    </accessibility>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="3ff-nM-AeO"/>
                                                         <constraint firstAttribute="width" constant="10" id="w65-pK-XGS"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvl-ut-HGH">
-                                                    <rect key="frame" x="452" y="20.5" width="19.5" height="13.5"/>
+                                                    <rect key="frame" x="452" y="20" width="19.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4H2-cL-BMo">
-                                                    <rect key="frame" x="567" y="20.5" width="19.5" height="13.5"/>
+                                                    <rect key="frame" x="567" y="20" width="19.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -495,7 +498,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbc-Wz-v3m">
-                                                    <rect key="frame" x="18" y="36.5" width="32" height="12"/>
+                                                    <rect key="frame" x="18" y="36" width="32" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>

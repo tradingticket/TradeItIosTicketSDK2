@@ -29,7 +29,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         
-        selectAnAccountOnthePortfolioScreen(app)
+        selectFirstAccountOnthePortfolioScreen(app)
 
         //Balances
         XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
@@ -55,7 +55,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
         
-        selectAnAccountOnthePortfolioScreen(app)
+        selectFirstAccountOnthePortfolioScreen(app)
         
         //Fx Balances
         app.tables.staticTexts["Account (F**cct1"].exists
@@ -122,7 +122,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
     }
     
-    private func selectAnAccountOnthePortfolioScreen(app: XCUIApplication) {
+    private func selectFirstAccountOnthePortfolioScreen(app: XCUIApplication) {
         waitForElementToAppear(app.navigationBars["Portfolio"])
 
         var ezLoadingActivity = app.staticTexts["Authenticating"]
@@ -131,7 +131,11 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
         waitForElementToDisappear(ezLoadingActivity)
         
-        XCTAssert(app.tables.cells.count > 0)
+        let tableView = app.tables.elementBoundByIndex(0)
+        XCTAssertTrue(tableView.cells.count > 0)
+        
+        let firstCell = tableView.cells.elementBoundByIndex(1) // index 0 is header
+        XCTAssertTrue(firstCell.images["selectorLabel"].exists)
     }
 
 //    func testPortfolioUserHasAccountFlow() {

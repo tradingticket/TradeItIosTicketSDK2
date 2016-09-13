@@ -54,7 +54,6 @@ class TradeItLinkedBroker: NSObject {
                 let promise = Promise<Void> { fulfill, reject in
                     account.getAccountOverview(
                         onFinished: {
-                            print("account: \(account)")
                             fulfill()
                         }
                     )

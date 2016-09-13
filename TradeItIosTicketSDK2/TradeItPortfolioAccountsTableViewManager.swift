@@ -18,15 +18,18 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             }
         }
     }
-
+    
     func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         self.accounts = accounts
         self.accountsTable?.reloadData()
+        let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)
     }
 
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
     }
 
     // MARK: UITableViewDataSource
@@ -46,7 +49,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
         let account = accounts[indexPath.row]
         cell.populate(withAccount: account)
-
         return cell
     }
 }

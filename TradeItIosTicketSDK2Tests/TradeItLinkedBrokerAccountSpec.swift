@@ -6,12 +6,14 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
     override func spec() {
         var tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount!
         var tradeItBalanceService: FakeTradeItBalanceService!
-        
+        var tradeItPositionService: FakeTradeItPositionService!
+
         beforeEach {
             tradeItLinkedBrokerAccount = TradeItLinkedBrokerAccount(linkedBroker: TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin()), brokerName: "My special broker name", accountName: "My special account name", accountNumber: "My special account number", balance: nil, fxBalance: nil, positions: [])
             tradeItBalanceService = FakeTradeItBalanceService()
+            tradeItPositionService = FakeTradeItPositionService()
             tradeItLinkedBrokerAccount.tradeItBalanceService = tradeItBalanceService
-            
+            tradeItLinkedBrokerAccount.tradeItPositionService = tradeItPositionService
         }
         
         describe("getAccountOverview") {
@@ -35,8 +37,13 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
                     completionBlock(tradeItResult: tradeItErrorResult)
                 }
+                
                 it("updates the property isBalanceError to true") {
                     expect(tradeItLinkedBrokerAccount.isBalanceError).to(beTrue())
+                }
+                
+                it("calls onFinished") {
+                    expect(isFinished).to(beTrue())
                 }
             }
             
@@ -105,6 +112,72 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     expect(tradeItLinkedBrokerAccount.fxBalance.unrealizedProfitAndLossBaseCurrency).to(equal(fxAccountOverview.unrealizedProfitAndLossBaseCurrency))
 
                     expect(tradeItLinkedBrokerAccount.balance).to(beNil())
+                }
+                
+                it("calls onFinished") {
+                    expect(isFinished).to(beTrue())
+                }
+            }
+        }
+        
+        describe("getPositions") {
+            var isFinished = false
+            beforeEach {
+                tradeItLinkedBrokerAccount.getPositions(
+                    onFinished: {
+                        isFinished = true
+                    }
+                )
+            }
+            
+            it("doesn't call onFinished yet") {
+                expect(isFinished).to(beFalse())
+            }
+            
+            context("when getPositions fails") {
+                beforeEach {
+                    isFinished = false
+                    let tradeItErrorResult = TradeItErrorResult()
+                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
+                    completionBlock(tradeItResult: tradeItErrorResult)
+                }
+                
+                it("updates the property isPositionsError to true") {
+                    expect(tradeItLinkedBrokerAccount.isPositionsError).to(beTrue())
+                }
+                
+                it("calls onFinished") {
+                    expect(isFinished).to(beTrue())
+                }
+            }
+            
+            context("when getPositions succeeds") {
+                var positions: [TradeItPosition] = []
+                beforeEach {
+                    isFinished = false
+                    let tradeItGetPositionsResult = TradeItGetPositionsResult()
+                    let position = TradeItPosition()
+                    position.costbasis = 123
+                    position.holdingType = "LONG"
+                    position.lastPrice = 345
+                    position.quantity = 12
+                    position.symbol = "My special symbol"
+                    position.symbolClass = "My special symbol class"
+                    position.todayGainLossDollar = 234
+                    position.todayGainLossPercentage = 12
+                    positions = [position]
+                    tradeItGetPositionsResult.positions = positions
+                    tradeItGetPositionsResult.fxPositions = []
+                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
+                    completionBlock(tradeItResult: tradeItGetPositionsResult)
+                }
+                
+                it("updates the property isPositionsError to false") {
+                    expect(tradeItLinkedBrokerAccount.isPositionsError).to(beFalse())
+                }
+                
+                it("fills the positions table on the linkedBrokerAccount") {
+                    expect(tradeItLinkedBrokerAccount.positions[0].position).to(be(positions[0]))
                 }
                 
                 it("calls onFinished") {

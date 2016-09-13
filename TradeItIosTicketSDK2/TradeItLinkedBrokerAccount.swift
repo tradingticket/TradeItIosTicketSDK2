@@ -11,6 +11,7 @@ class TradeItLinkedBrokerAccount: NSObject {
     var isPositionsError: Bool = false
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService!
+    var tradeItPositionService: TradeItPositionService!
     
     init(linkedBroker: TradeItLinkedBroker,
         brokerName: String,
@@ -27,6 +28,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         self.fxBalance = fxBalance
         self.positions = positions
         self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
+        self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
     }
 
     func getAccountOverview(onFinished onFinished: ()-> Void) {
@@ -45,6 +47,35 @@ class TradeItLinkedBrokerAccount: NSObject {
             onFinished()
         })
     }
+    
+    func getPositions(onFinished onFinished: ()-> Void) {
+        let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
+        self.tradeItPositionService.getAccountPositions(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+                //TODO
+                print("Error \(tradeItErrorResult)")
+                self.isPositionsError = true
+            } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
+                var positionsPortfolio:[TradeItPortfolioPosition] = []
+                
+                let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
+                for position in positions {
+                    let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, position: position)
+                    positionsPortfolio.append(positionPortfolio)
+                }
+                
+                let fxPositions = tradeItGetPositionsResult.fxPositions as! [TradeItFxPosition]
+                for fxPosition in fxPositions {
+                    let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
+                    positionsPortfolio.append(positionPortfolio)
+                }
+                
+                self.positions = positionsPortfolio
+            }
+            onFinished()
+        })
+    }
+
     
     //MARK: formatting methods
     

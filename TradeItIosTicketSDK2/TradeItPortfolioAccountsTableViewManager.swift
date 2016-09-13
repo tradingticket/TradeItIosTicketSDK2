@@ -24,15 +24,18 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         self.accounts = accounts
         self.accountsTable?.reloadData()
-        let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-        self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)
+        if accounts.count > 0 {
+            let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)
+            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: self.accounts[0])
+        }
     }
 
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedAccount = self.accounts[indexPath.row]
-        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
+        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
     }
 
     // MARK: UITableViewDataSource
@@ -57,6 +60,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 }
 
 protocol TradeItPortfolioViewControllerAccountsTableDelegate: class {
-    func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
+    func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount)
 }
 

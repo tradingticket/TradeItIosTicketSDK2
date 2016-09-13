@@ -16,7 +16,6 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.contentView.backgroundColor = UIColor.whiteColor()
         if selected {
             self.selectedIcon.hidden = false
         }

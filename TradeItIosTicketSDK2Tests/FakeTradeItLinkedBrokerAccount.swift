@@ -7,5 +7,10 @@ class FakeTradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount {
             "onFinished": onFinished
             ])
     }
+    override func getPositions(onFinished onFinished: () -> Void) {
+        self.calls.record(#function, args: [
+            "onFinished": onFinished
+            ])
+    }
 
 }

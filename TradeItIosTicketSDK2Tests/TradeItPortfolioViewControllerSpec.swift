@@ -10,13 +10,15 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var nav: UINavigationController!
         var ezLoadingActivityManager: FakeEZLoadingActivityManager!
         var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
+        var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
 
         describe("initialization") {
             beforeEach {
                 ezLoadingActivityManager = FakeEZLoadingActivityManager()
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 accountsTableViewManager = FakeTradeItPortfolioAccountsTableViewManager()
-
+                positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
+                
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
@@ -27,7 +29,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                 controller.ezLoadingActivityManager = ezLoadingActivityManager
                 controller.accountsTableViewManager = accountsTableViewManager
-
+                controller.positionsTableViewManager = positionsTableViewManager
                 nav = UINavigationController(rootViewController: controller)
                 
                 window.addSubview(nav.view)
@@ -54,12 +56,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             }
 
             describe("when accounts finish authenticating") {
-                var accountsToReturn: [TradeItLinkedBrokerAccount]!
+                var accountsToReturn: [FakeTradeItLinkedBrokerAccount]!
 
                 beforeEach {
                     var linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                    let account1 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                    let account2 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
 
                     accountsToReturn = [account1, account2]
 
@@ -84,7 +86,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 describe("when account balances have been refreshed") {
                     beforeEach {
                         let onFinished = linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
-
                         onFinished()
                     }
 
@@ -102,11 +103,56 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     }
                 }
             }
-
-
-
-
+            
+            describe("when an account is selected") {
+                var account1: FakeTradeItLinkedBrokerAccount!
+                beforeEach {
+                    let position = TradeItPosition()
+                    position.costbasis = 123
+                    position.holdingType = "LONG"
+                    position.lastPrice = 345
+                    position.quantity = 12
+                    position.symbol = "My special symbol"
+                    position.symbolClass = "My special symbol class"
+                    position.todayGainLossDollar = 234
+                    position.todayGainLossPercentage = 12
+                    let portfolioPosition = TradeItPortfolioPosition(position: position)
+                    let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [portfolioPosition])
+            
+                    controller.linkedBrokerAccountWasSelected(selectedAccount: account1)
+                }
                 
+                it("shows a spinner") {
+                    expect(controller.holdingsActivityIndicator.isAnimating()).to(beTrue())
+                }
+                
+                it("calls the getPositions method on the selected account") {
+                    expect(account1.calls.forMethod("getPositions(onFinished:)").count).to(equal(1))
+                }
+                
+                describe("when positions have been refreshed") {
+                    beforeEach {
+                        let onFinished = account1.calls.forMethod("getPositions(onFinished:)")[0].args["onFinished"] as! () -> Void
+                        onFinished()
+                    }
+                    it("hides the spinner") {
+                        expect(controller.holdingsActivityIndicator.isAnimating()).to(beFalse())
+                    }
+                    
+                    it("populates the positions table from the selectedAccount") {
+                        let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withAccount:)")
+                        expect(updatePositionsCalls.count).to(equal(1))
+                        
+                        let accountArg = updatePositionsCalls[0].args["withAccount"] as! TradeItLinkedBrokerAccount
+                        
+                        expect(accountArg.positions).to(equal(account1.positions))
+                    }
+                }
+            }
+
+
+            
 
 //            it("shows a spinner") {
 //                let callsToShow = ezLoadingActivityManager.calls.forMethod("show(text:disableUI:)")

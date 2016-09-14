@@ -133,7 +133,7 @@ class TradeItPortfolioPosition : NSObject {
     func getFormattedQuantity() -> String {
         var quantity = "N/A"
         if let position = self.position {
-            quantity = NumberFormatter.formatQuantity(position.quantity as Float)
+            quantity = NumberFormatter.formatQuantity(position.quantity as Float) + (position.holdingType == "LONG" ? " shares": " short")
         }
         else if let fxPosition = self.fxPosition {
             quantity = NumberFormatter.formatQuantity(fxPosition.quantity as Float)

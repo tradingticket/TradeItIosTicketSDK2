@@ -57,6 +57,15 @@ class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
             self.detailsValue4.hidden = true
             self.detailsValue5.hidden = true
         }
+        else {
+            self.detailsLabel1.text = "Bid"
+            self.detailsLabel2.text = "Total Value"
+            self.detailsLabel3.text = "Ask"
+            self.detailsLabel4.hidden = false
+            self.detailsLabel5.hidden = false
+            self.detailsValue4.hidden = false
+            self.detailsValue5.hidden = false
+        }
     }
     
     private func getLabelColumn1Value(position: TradeItPortfolioPosition) -> String {

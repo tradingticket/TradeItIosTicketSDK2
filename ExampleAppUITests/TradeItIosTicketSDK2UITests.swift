@@ -37,11 +37,21 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
 
         //Positions
-//        app.tables.staticTexts["Individual**cct1 Holdings"].exists
-//        app.tables.staticTexts["AAPL"].exists
-//        app.tables.staticTexts["1 shares"].exists
-//        app.tables.staticTexts["$103.34"].exists
-//        app.tables.staticTexts["$112.34"].exists
+        let holdingsTitle = app.staticTexts["Individual**cct1 Holdings"]
+        XCTAssert(holdingsTitle.exists)
+        XCTAssert(app.tables.staticTexts["AAPL"].exists)
+        XCTAssert(app.tables.staticTexts["1 shares"].exists)
+        XCTAssert(app.tables.staticTexts["$103.34"].exists)
+        XCTAssert(app.tables.staticTexts["$112.34"].exists)
+        
+        //Positions details
+        app.tables.staticTexts["AAPL"].tap()
+        XCTAssert(app.tables.staticTexts["Bid"].exists)
+        XCTAssert(app.tables.staticTexts["Ask"].exists)
+        XCTAssert(app.tables.staticTexts["Total Value"].exists)
+        XCTAssert(app.tables.staticTexts["Total Return"].exists)
+        XCTAssert(app.tables.staticTexts["Day"].exists)
+        
     }
     
     func testFxWelcomeFlow() {
@@ -58,9 +68,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         selectFirstAccountOnthePortfolioScreen(app)
         
         //Fx Balances
-        app.tables.staticTexts["Account (F**cct1"].exists
-        app.tables.staticTexts["$9,163"].exists
-        app.tables.staticTexts["$1,900 (0%)"].exists
+        XCTAssert(app.tables.staticTexts["Account (F**cct1"].exists)
+        XCTAssert(app.tables.staticTexts["$9,163"].exists)
+        XCTAssert(app.tables.staticTexts["$1,900 (0%)"].exists)
         
         //Fx Summary
 //        app.tables.staticTexts["Account (F**cct1 Summary"].exists
@@ -68,8 +78,21 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 //        app.tables.staticTexts["$2,500"].exists
         
         //Fx Positions
-        //app.tables.staticTexts["Account (F**cct1 Holdings"].exists
-        //TODO to complete
+        let holdingsTitle = app.staticTexts["Account (F**cct1 Holdings"]
+        XCTAssert(holdingsTitle.exists)
+        XCTAssert(app.tables.staticTexts["USD/JPY"].exists)
+        XCTAssert(app.tables.staticTexts["490"].exists)
+        XCTAssert(app.tables.staticTexts["$100.06"].exists)
+        XCTAssert(app.tables.staticTexts["$0"].exists)
+        
+        //Positions details
+        app.tables.staticTexts["USD/JPY"].tap()
+        XCTAssert(app.tables.staticTexts["Bid"].exists)
+        XCTAssert(app.tables.staticTexts["Ask"].exists)
+        XCTAssert(app.tables.staticTexts["Spread"].exists)
+        XCTAssert(!app.tables.staticTexts["Total Return"].exists)
+        XCTAssert(!app.tables.staticTexts["Day"].exists)
+        
     }
 
     private func clearData(app: XCUIApplication) {

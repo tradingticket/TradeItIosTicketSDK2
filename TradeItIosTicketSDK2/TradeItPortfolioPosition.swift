@@ -12,7 +12,7 @@ class TradeItPortfolioPosition : NSObject {
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, position: TradeItPosition) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.position = position
-        self.tradeItMarketDataService = TradeItMarketDataService(session: linkedBrokerAccount.linkedBroker.session)
+        self.tradeItMarketDataService = TradeItMarketDataService(session: self.linkedBrokerAccount.linkedBroker.session)
     }
     
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, fxPosition: TradeItFxPosition) {

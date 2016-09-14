@@ -116,9 +116,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     position.symbolClass = "My special symbol class"
                     position.todayGainLossDollar = 234
                     position.todayGainLossPercentage = 12
-                    let portfolioPosition = TradeItPortfolioPosition(position: position)
-                    let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [portfolioPosition])
+                    let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    
+                    let portfolioPosition = FakeTradeItPortfolioPositions(linkedBrokerAccount: account1, position: position)
+                    account1.positions = [portfolioPosition]
+                    
             
                     controller.linkedBrokerAccountWasSelected(selectedAccount: account1)
                 }
@@ -141,12 +144,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     }
                     
                     it("populates the positions table from the selectedAccount") {
-                        let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withAccount:)")
+                        let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withPositions:)")
                         expect(updatePositionsCalls.count).to(equal(1))
                         
-                        let accountArg = updatePositionsCalls[0].args["withAccount"] as! TradeItLinkedBrokerAccount
+                        let positionsArg = updatePositionsCalls[0].args["withPositions"] as! [TradeItPortfolioPosition]
                         
-                        expect(accountArg.positions).to(equal(account1.positions))
+                        expect(positionsArg).to(equal(account1.positions))
                     }
                 }
             }

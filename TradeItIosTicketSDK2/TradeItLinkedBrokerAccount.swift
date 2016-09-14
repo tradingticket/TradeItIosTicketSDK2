@@ -50,7 +50,7 @@ class TradeItLinkedBrokerAccount: NSObject {
     
     func getPositions(onFinished onFinished: ()-> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
-        self.tradeItPositionService.getAccountPositions(request, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
+        self.tradeItPositionService.getAccountPositions(request, withCompletionBlock: {(tradeItResult: TradeItResult!) -> Void in
             if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                 //TODO
                 print("Error \(tradeItErrorResult)")

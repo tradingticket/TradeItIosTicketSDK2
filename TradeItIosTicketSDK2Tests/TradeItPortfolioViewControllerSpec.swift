@@ -57,11 +57,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
             describe("when accounts finish authenticating") {
                 var accountsToReturn: [FakeTradeItLinkedBrokerAccount]!
-
+                var account1: FakeTradeItLinkedBrokerAccount!
+                var account2: FakeTradeItLinkedBrokerAccount!
                 beforeEach {
-                    var linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                    let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                    let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
 
                     accountsToReturn = [account1, account2]
 
@@ -85,6 +86,10 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                 describe("when account balances have been refreshed") {
                     beforeEach {
+                        account1.balance = TradeItAccountOverview()
+                        account1.balance.totalValue = 123
+                        account2.fxBalance = TradeItFxAccountOverview()
+                        account2.fxBalance.totalValueUSD = 234
                         let onFinished = linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                     }
@@ -100,6 +105,10 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         let accountsArg = updateAccountsCalls[0].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
 
                         expect(accountsArg).to(equal(accountsToReturn))
+                    }
+                    
+                    it("updates the total account value field") {
+                        expect(controller.totalValueLabel.text).to(equal("$357"))
                     }
                 }
             }

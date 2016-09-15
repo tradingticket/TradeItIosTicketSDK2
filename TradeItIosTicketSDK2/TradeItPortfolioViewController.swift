@@ -15,6 +15,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
     @IBOutlet weak var positionsTable: UITableView!
     @IBOutlet weak var holdingsLabel: UILabel!
     
+    @IBOutlet weak var totalValueLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.accountsTableViewManager.delegate = self
@@ -35,11 +37,26 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
                 self.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
                         self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
+                        self.updateAllAccountsValue(withAccounts: self.linkedBrokerManager.getAllAccounts())
                         self.ezLoadingActivityManager.hide()
                     }
                 )
             }
         )
+    }
+    
+    //MARK: private methods
+    private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+        var totalValue: Float = 0
+        for account in accounts {
+            if let balance = account.balance {
+                totalValue += balance.totalValue as Float
+            }
+            else if let fxBalance = account.fxBalance {
+                totalValue += fxBalance.totalValueUSD as Float
+            }
+        }
+        self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue)
     }
     
     // MARK: IBAction

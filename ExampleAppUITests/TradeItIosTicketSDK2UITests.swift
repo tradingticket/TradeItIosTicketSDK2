@@ -31,6 +31,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
         selectFirstAccountOnthePortfolioScreen(app)
 
+        //AccountTotalValue
+        XCTAssert(app.staticTexts["$76,489.23"].exists)
+        
         //Balances
         XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
         XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
@@ -51,7 +54,6 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         XCTAssert(app.tables.staticTexts["Total Value"].exists)
         XCTAssert(app.tables.staticTexts["Total Return"].exists)
         XCTAssert(app.tables.staticTexts["Day"].exists)
-        
     }
     
     func testFxWelcomeFlow() {
@@ -66,6 +68,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
         
         selectFirstAccountOnthePortfolioScreen(app)
+        
+        //AccountTotalValue
+        XCTAssert(app.staticTexts["$9,163"].exists)
         
         //Fx Balances
         XCTAssert(app.tables.staticTexts["Account (F**cct1"].exists)

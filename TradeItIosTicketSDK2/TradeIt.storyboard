@@ -1036,6 +1036,7 @@
                         <outlet property="holdingsActivityIndicator" destination="7Ef-Ox-Ah2" id="EzX-5d-AWd"/>
                         <outlet property="holdingsLabel" destination="Fe3-Cs-IAG" id="G0y-Jl-nVX"/>
                         <outlet property="positionsTable" destination="7tC-j5-kXj" id="gx8-eE-7YY"/>
+                        <outlet property="totalValueLabel" destination="kZZ-Hr-ig9" id="18c-Dv-d8A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>

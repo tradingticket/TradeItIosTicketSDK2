@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
-
     @IBOutlet weak var symbolLabelValue: UILabel!
     @IBOutlet weak var quantityLabelValue: UILabel!
     @IBOutlet weak var labelColumn1Value: UILabel!
@@ -23,16 +22,17 @@ class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
     
     
     func populate(withPosition position: TradeItPortfolioPosition) {
-        self.symbolLabelValue.text = position.getFormattedSymbol()
-        self.quantityLabelValue.text = position.getFormattedQuantity()
-        self.labelColumn1Value.text = self.getLabelColumn1Value(position)
-        self.labelColumn2Value.text = self.getLabelColumn2Value(position)
-        self.detailsValue1.text = self.getDetailsValue1(position)
-        self.detailsValue2.text = self.getDetailsValue2(position)
-        self.detailsValue3.text = self.getDetailsValue3(position)
-        self.detailsValue4.text = self.getDetailsValue4(position)
-        self.detailsValue5.text = self.getDetailsValue5(position)
-        self.displayOrHideLabels(position)
+        let presenter = TradeItPortfolioPositionPresenter.forPortfolioPosition(position)
+        self.symbolLabelValue.text = presenter.getFormattedSymbol()
+        self.quantityLabelValue.text = presenter.getFormattedQuantity()
+        self.labelColumn1Value.text = self.getLabelColumn1Value(presenter)
+        self.labelColumn2Value.text = self.getLabelColumn2Value(presenter)
+        self.detailsValue1.text = self.getDetailsValue1(presenter)
+        self.detailsValue2.text = self.getDetailsValue2(presenter)
+        self.detailsValue3.text = self.getDetailsValue3(presenter)
+        self.detailsValue4.text = self.getDetailsValue4(presenter)
+        self.detailsValue5.text = self.getDetailsValue5(presenter)
+        self.displayOrHideLabels(presenter)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -47,8 +47,9 @@ class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
     
     //MARK: private methods
     
-    private func displayOrHideLabels(position: TradeItPortfolioPosition) {
-        if position.fxPosition != nil {
+    private func displayOrHideLabels(presenter: TradeItPortfolioPositionPresenter) {
+        switch presenter {
+        case is TradeItPortfolioPositionEquityPresenter:
             self.detailsLabel1.text = "Ask"
             self.detailsLabel2.text = "Spread"
             self.detailsLabel3.text = "Bid"
@@ -56,8 +57,7 @@ class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
             self.detailsLabel5.hidden = true
             self.detailsValue4.hidden = true
             self.detailsValue5.hidden = true
-        }
-        else {
+        default:
             self.detailsLabel1.text = "Bid"
             self.detailsLabel2.text = "Total Value"
             self.detailsLabel3.text = "Ask"
@@ -68,77 +68,76 @@ class TradeItPortfolioPositionsTableViewCell: UITableViewCell {
         }
     }
     
-    private func getLabelColumn1Value(position: TradeItPortfolioPosition) -> String {
-        var labelColumn1Value = "N/A"
-        if let position = position.position {
-            labelColumn1Value = NumberFormatter.formatCurrency(position.costbasis as Float)
+    private func getLabelColumn1Value(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getCostBasis()
+        case let fxPositionPresenter as TradeItPortfolioPositionFXPresenter:
+            return fxPositionPresenter.getAveragePrice()
+        default:
+            return "N/A"
         }
-        else if let fxPosition = position.fxPosition {
-            labelColumn1Value = NumberFormatter.formatCurrency(fxPosition.averagePrice as Float, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
-        }
-        return labelColumn1Value
     }
     
-    private func getLabelColumn2Value(position: TradeItPortfolioPosition) -> String {
-        var labelColumn2Value = "N/A"
-        if let position = position.position {
-            labelColumn2Value = NumberFormatter.formatCurrency(position.lastPrice as Float)
+    private func getLabelColumn2Value(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getLastPrice()
+        case let fxPositionPresenter as TradeItPortfolioPositionFXPresenter:
+            return fxPositionPresenter.getTotalUnrealizedProfitAndLossBaseCurrency()
+        default:
+            return "N/A"
         }
-        else if let fxPosition = position.fxPosition {
-            labelColumn2Value = NumberFormatter.formatCurrency(fxPosition.totalUnrealizedProfitAndLossBaseCurrency as Float)
-        }
-        return labelColumn2Value
     }
     
-    private func getDetailsValue1(position: TradeItPortfolioPosition) -> String {
-        var labelDetailsValue1 = "N/A"
-        if position.position != nil {
-            labelDetailsValue1 = position.getFormattedBid()
+    private func getDetailsValue1(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getFormattedBid()
+        case let fxPositionPresenter as TradeItPortfolioPositionFXPresenter:
+            return fxPositionPresenter.getFormattedAsk()
+        default:
+            return "N/A"
         }
-        else if position.fxPosition != nil {
-            labelDetailsValue1 = position.getFormattedAsk()
-        }
-        return labelDetailsValue1
     }
     
-    private func getDetailsValue2(position: TradeItPortfolioPosition) -> String {
-        var labelDetailsValue2 = "N/A"
-        if position.position != nil {
-            //Total Value
-            labelDetailsValue2 = position.getFormattedTotalValue()
+    private func getDetailsValue2(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getFormattedTotalValue()
+        case let fxPositionPresenter as TradeItPortfolioPositionFXPresenter:
+            return fxPositionPresenter.getFormattedSpread()
+        default:
+            return "N/A"
         }
-        else if position.fxPosition != nil {
-            labelDetailsValue2 = position.getFormattedSpread()
-        }
-        return labelDetailsValue2
     }
     
-    private func getDetailsValue3(position: TradeItPortfolioPosition) -> String {
-        var labelDetailsValue3 = "N/A"
-        if position.position != nil {
-            labelDetailsValue3 = position.getFormattedAsk()
+    private func getDetailsValue3(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getFormattedAsk()
+        case let fxPositionPresenter as TradeItPortfolioPositionFXPresenter:
+            return fxPositionPresenter.getFormattedBid()
+        default:
+            return "N/A"
         }
-        else if position.fxPosition != nil {
-            labelDetailsValue3 = position.getFormattedBid()
-        }
-        return labelDetailsValue3
     }
     
-    private func getDetailsValue4(position: TradeItPortfolioPosition) -> String {
-        var labelDetailsValue4 = "N/A"
-        if position.position != nil {
-            labelDetailsValue4 = position.getFormattedTotalReturn()
+    private func getDetailsValue4(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getFormattedTotalReturn()
+        default:
+            return "N/A"
         }
-        return labelDetailsValue4
     }
     
-    private func getDetailsValue5(position: TradeItPortfolioPosition) -> String {
-        var labelDetailsValue5 = "N/A"
-        if position.position != nil {
-            labelDetailsValue5 = position.getFormattedDayHighLow()
+    private func getDetailsValue5(presenter: TradeItPortfolioPositionPresenter) -> String {
+        switch presenter {
+        case let equityPositionPresenter as TradeItPortfolioPositionEquityPresenter:
+            return equityPositionPresenter.getFormattedDayHighLow()
+        default:
+            return "N/A"
         }
-        return labelDetailsValue5
     }
-
-
 }

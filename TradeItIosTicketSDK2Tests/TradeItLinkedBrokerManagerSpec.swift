@@ -5,7 +5,7 @@ import Nimble
 class TradeItLinkedBrokerManagerSpec: QuickSpec {
     override func spec() {
         var linkedBrokerManager: TradeItLinkedBrokerManager!
-        var tradeItConnector: FakeTradeItConnector! = FakeTradeItConnector()
+        var tradeItConnector: FakeTradeItConnector!
         var tradeItSession: FakeTradeItSession!
         var tradeItSessionProvider: FakeTradeItSessionProvider!
 
@@ -17,6 +17,26 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
             linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
             linkedBrokerManager.tradeItSessionProvider = tradeItSessionProvider
+        }
+
+        describe("init") {
+            context("when no linked brokers exist in the keychain") {
+                it("initializes linkedBrokers to an empty array") {
+                    expect(linkedBrokerManager.linkedBrokers).to(beEmpty())
+                }
+            }
+
+            context("when linked brokers exist in the keychain") {
+                it("initializes linkedBrokers from the linked brokers stored in the keychain") {
+                    let storedLinkedLogin = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                    tradeItConnector.tradeItLinkedLoginArrayToReturn = [storedLinkedLogin]
+
+                    linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
+
+                    expect(linkedBrokerManager.linkedBrokers.count).to(equal(1))
+                    expect(linkedBrokerManager.linkedBrokers[0].linkedLogin).to(equal(storedLinkedLogin))
+                }
+            }
         }
 
         describe("getAvailableBrokers") {
@@ -42,7 +62,6 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             it("gets the list of available brokers from the connector") {
-                expect(tradeItConnector.calls.count).to(equal(1))
                 let getBrokersCalls = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
                 expect(getBrokersCalls.count).to(equal(1))
             }
@@ -114,7 +133,6 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             it("links the broker with the connector") {
-                expect(tradeItConnector.calls.count).to(equal(1))
                 let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
                 expect(linkCalls.count).to(equal(1))
             }
@@ -154,6 +172,26 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                     expect(returnedLinkedBroker.session).to(be(tradeItSession))
                     expect(returnedLinkedBroker.linkedLogin).to(be(linkedLogin))
+                }
+            }
+
+            context("when saving to keychain fails") {
+                let linkResult = TradeItAuthLinkResult()
+
+                beforeEach {
+                    tradeItConnector.tradeItLinkedLoginToReturn = nil
+
+                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                    let completionBlock = linkCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
+
+                    completionBlock(linkResult)
+                }
+
+                it("calls the onFailure callback with an error") {
+                    expect(onSuccessCallbackWasCalled).to(equal(0))
+                    expect(onFailureCallbackWasCalled).to(equal(1))
+
+                    expect(returnedErrorResult).to(beAnInstanceOf(TradeItErrorResult))
                 }
             }
 

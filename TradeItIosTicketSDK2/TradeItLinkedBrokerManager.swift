@@ -21,23 +21,20 @@ class TradeItLinkedBrokerManager {
         tradeItConnector = connector
         tradeItSessionProvider = TradeItSessionProvider()
 
-        //        self.loadLinkedBrokersFromKeychain() // Build self.linkedBrokers from keychain linkedLogins (and NSUserDefaults?)
+        self.loadLinkedBrokersFromKeychain()
+    }
+    
+    func loadLinkedBrokersFromKeychain() {
+        let linkedLoginsFromKeychain = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+        for linkedLogin in linkedLoginsFromKeychain { loadLinkedBrokerFromLinkedLogin(linkedLogin) }
     }
 
-    //    func loadLinkedBrokersFromKeychain() {
-    // TODO: FIX EMS API TO RETURN TradeItLinkedLogin
-
-    //        guard let linkedLogins = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin] else {
-    //            // TODO: OH MY GOD EXPLODE
-    //            return
-    //        }
-    //
-    //        for linkedLogin in linkedLogins {
-    //            let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
-    //            let linkedBroker = TradeItLinkedBroker(tradeItSession, linkedLogin: linkedLogin)
-    //            self.linkedBrokers.append(linkedBroker)
-    //        }
-    //    }
+    func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
+        let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
+        let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
+        self.linkedBrokers.append(linkedBroker)
+        return linkedBroker
+    }
 
     func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
                                             onFinished: () -> Void) {
@@ -119,16 +116,15 @@ class TradeItLinkedBrokerManager {
                 onFailure(tradeItErrorResult)
             } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
                 let broker = authInfo.broker
-                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult,
-                                                                            withBroker: broker)
-
-                let tradeItSession = self.tradeItSessionProvider.provide(connector: self.tradeItConnector)
-
-                let linkedBroker = TradeItLinkedBroker.init(session: tradeItSession, linkedLogin: linkedLogin!)
-
-                self.linkedBrokers.append(linkedBroker)
-
-                onSuccess(linkedBroker: linkedBroker)
+                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult, withBroker: broker)
+                if let linkedLogin = linkedLogin {
+                    let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+                    onSuccess(linkedBroker: linkedBroker)
+                } else {
+                    let errorResult = TradeItErrorResult()
+                    errorResult.systemMessage = "Failed to save linked login to keychain"
+                    onFailure(errorResult)
+                }
             }
         }
     }

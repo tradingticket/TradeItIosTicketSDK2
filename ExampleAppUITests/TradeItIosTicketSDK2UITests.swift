@@ -100,6 +100,28 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
     }
 
+    func testPortfolioBypassWelcomeFlow() {
+        let app = self.application
+
+        clearData(app)
+
+        handleWelcomeScreen(app)
+
+        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
+
+        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+
+        selectFirstAccountOnthePortfolioScreen(app)
+
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+
+        app.buttons["Close"].tap()
+
+        app.tables.staticTexts["LaunchSdk"].tap()
+
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+    }
+
     private func clearData(app: XCUIApplication) {
         let deleteLinkedBrokersText = app.tables.staticTexts["DeleteLinkedBrokers"]
         waitForElementToBeHittable(deleteLinkedBrokersText)

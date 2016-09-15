@@ -66,7 +66,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                     accountsToReturn = [account1, account2]
 
-                    linkedBrokerManager.accountsToReturn = accountsToReturn
+                    linkedBrokerManager.hackAccountsToReturn = accountsToReturn
 
                     let authenticateCalls = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)")
                     let callback = authenticateCalls[0].args["onFinished"] as! () -> Void
@@ -157,7 +157,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         expect(updatePositionsCalls.count).to(equal(1))
                         
                         let positionsArg = updatePositionsCalls[0].args["withPositions"] as! [TradeItPortfolioPosition]
-                        
                         expect(positionsArg).to(equal(account1.positions))
                     }
                 }

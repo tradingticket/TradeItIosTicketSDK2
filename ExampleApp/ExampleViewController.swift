@@ -70,6 +70,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         for linkedLogin in linkedLogins {
             tradeItConnector.unlinkLogin(linkedLogin)
         }
+
+        TradeItLauncher.linkedBrokerManager.linkedBrokers = []
     }
 
     func launchTradeItPortfolioFromViewController() {

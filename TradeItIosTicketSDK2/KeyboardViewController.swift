@@ -1,6 +1,6 @@
 import UIKit
 
-class FormViewController: UIViewController {
+class KeyboardViewController: UIViewController {
     
     var submitButtonBottomSpaceConstraintConstant:CGFloat? = 0.0
     
@@ -30,7 +30,6 @@ class FormViewController: UIViewController {
             if endFrame?.origin.y >= UIScreen.mainScreen().bounds.size.height {
                 self.submitButtonBottomSpaceConstraint?.constant = submitButtonBottomSpaceConstraintConstant!
             } else {
-                print("set to height endFrame")
                 self.submitButtonBottomSpaceConstraint?.constant = (endFrame?.size.height)! + submitButtonBottomSpaceConstraintConstant!
             }
             
@@ -41,5 +40,4 @@ class FormViewController: UIViewController {
                                        completion: nil)
         }
     }
-
 }

@@ -4,6 +4,7 @@ import TradeItIosEmsApi
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
 
+    var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
     var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
@@ -16,21 +17,22 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
         ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)
 
-        TradeItLauncher.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
-            if let availableBrokers = availableBrokers {
+        self.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { (availableBrokers: [TradeItBroker]) -> Void in
                 self.brokers = availableBrokers
+                self.ezLoadingActivityManager.hide()
                 self.brokerTable.reloadData()
-            } else {
+            },
+            onFailure: { () -> Void in
                 let alert = UIAlertController(title: "Could not fetch brokers",
-                                              message: "Could not fetch the brokers list. Please try again later.",
-                                              preferredStyle: UIAlertControllerStyle.Alert)
+                    message: "Could not fetch the brokers list. Please try again later.",
+                    preferredStyle: UIAlertControllerStyle.Alert)
 
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
+                self.ezLoadingActivityManager.hide()
             }
-
-            self.ezLoadingActivityManager.hide()
-        }
+        )
     }
 
     // MARK: UITableViewDelegate

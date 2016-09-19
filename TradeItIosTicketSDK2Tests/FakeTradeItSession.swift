@@ -5,8 +5,8 @@ class FakeTradeItSession: TradeItSession {
 
     override func authenticate(linkedLogin: TradeItLinkedLogin!, withCompletionBlock completionBlock: ((TradeItResult!) -> Void)!) {
         self.calls.record(#function, args: [
-                "linkedLogin": linkedLogin,
-                "withCompletionBlock": completionBlock
+            "linkedLogin": linkedLogin,
+            "withCompletionBlock": completionBlock
             ])
     }
 }

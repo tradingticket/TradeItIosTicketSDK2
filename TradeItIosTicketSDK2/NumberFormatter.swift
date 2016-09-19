@@ -1,10 +1,14 @@
-class UtilsService: NSObject {
+class NumberFormatter: NSObject {
     private static let formatter = NSNumberFormatter()
 
     static func formatCurrency(number: NSNumber) -> String {
+        return NumberFormatter.formatCurrency(number, maximumFractionDigits: 2)
+    }
+    
+    static func formatCurrency(number: NSNumber, maximumFractionDigits: Int) -> String {
         formatter.numberStyle = .CurrencyStyle
         formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = maximumFractionDigits
         return formatter.stringFromNumber(number)!
     }
     

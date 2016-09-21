@@ -22,10 +22,10 @@ class TradeItLauncherSpec: QuickSpec {
 
             }
 
-            describe("launchTradeItFromViewController") {
+            describe("launchPortfolio(fromViewController:)") {
                 context("when there are no linked brokers") {
                     it("presents the Trade It Welcome view") {
-                        tradeItLauncher.launchTradeIt(fromViewController: viewController)
+                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Welcome"))
@@ -37,7 +37,7 @@ class TradeItLauncherSpec: QuickSpec {
                         let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                         linkedBrokerManager.linkedBrokers = [linkedBroker]
 
-                        tradeItLauncher.launchTradeIt(fromViewController: viewController)
+                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Portfolio"))

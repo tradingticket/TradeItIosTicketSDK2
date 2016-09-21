@@ -3,9 +3,8 @@ import TradeItIosTicketSDK2
 import TradeItIosEmsApi
 
 enum Action: Int {
-    case LaunchSdk = 0
-    case LaunchPortfolio = 1
-    case DeleteLinkedBrokers = 2
+    case LaunchPortfolio = 0
+    case DeleteLinkedBrokers = 1
     case ENUM_COUNT
 }
 
@@ -28,10 +27,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
-        case .LaunchSdk:
-            self.tradeItLauncher.launchTradeIt(fromViewController: self)
         case .LaunchPortfolio:
-            self.launchTradeItPortfolioFromViewController()
+            self.tradeItLauncher.launchPortfolio(fromViewController: self)
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -72,14 +69,5 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         TradeItLauncher.linkedBrokerManager.linkedBrokers = []
-    }
-
-    func launchTradeItPortfolioFromViewController() {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
-        let navigationViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_NAV_VIEW") as! UINavigationController
-        let portfolioViewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_PORTFOLIO_VIEW")
-
-        navigationViewController.viewControllers = [portfolioViewController]
-        self.presentViewController(navigationViewController, animated: true, completion: nil)
     }
 }

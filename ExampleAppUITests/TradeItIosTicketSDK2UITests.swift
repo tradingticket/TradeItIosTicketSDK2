@@ -117,7 +117,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
 
         app.buttons["Close"].tap()
 
-        app.tables.staticTexts["LaunchSdk"].tap()
+        app.tables.staticTexts["LaunchPortfolio"].tap()
 
         waitForElementToAppear(app.navigationBars["Portfolio"])
     }
@@ -129,9 +129,9 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
     }
     
     private func handleWelcomeScreen(app: XCUIApplication) {
-        let launchSdkText = app.tables.staticTexts["LaunchSdk"]
-        waitForElementToBeHittable(launchSdkText)
-        launchSdkText.tap()
+        let launchPortfolioText = app.tables.staticTexts["LaunchPortfolio"]
+        waitForElementToBeHittable(launchPortfolioText)
+        launchPortfolioText.tap()
 
         waitForElementToAppear(app.navigationBars["Welcome"])
         XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)

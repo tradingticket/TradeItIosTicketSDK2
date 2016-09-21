@@ -199,7 +199,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fFP-9k-GYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1015" y="-1876"/>
+            <point key="canvasLocation" x="1034" y="-1876"/>
         </scene>
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
@@ -239,7 +239,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1695" y="-1876"/>
+            <point key="canvasLocation" x="1743" y="-1876"/>
         </scene>
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
@@ -264,12 +264,6 @@
                                     <constraint firstAttribute="width" constant="20" id="K5I-yk-xUG"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fq3-UI-bvo">
-                                <frame key="frameInset" width="25" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Broker Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uaH-TC-Asd">
                                 <accessibility key="accessibilityConfiguration" identifier="BROKER_PASSWORD_ID"/>
                                 <constraints>
@@ -364,7 +358,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2373" y="-1876"/>
+            <point key="canvasLocation" x="2452" y="-1876"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
@@ -488,10 +482,10 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="GIn-Nb-tIp"/>
+                                                    <exclude reference="WqG-yz-pg7"/>
                                                     <exclude reference="1oV-h3-mrD"/>
                                                     <exclude reference="Qcm-6A-n2k"/>
-                                                    <exclude reference="WqG-yz-pg7"/>
-                                                    <exclude reference="GIn-Nb-tIp"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -965,7 +959,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3043" y="-1876"/>
+            <point key="canvasLocation" x="3161" y="-1876"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tq2-KA-hjC">
+            <objects>
+                <viewController id="jg4-bE-o4g" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TBV-8w-KU0"/>
+                        <viewControllerLayoutGuide type="bottom" id="vqK-dL-jJS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MCC-u7-YDE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ARt-JB-ME2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3887" y="-1876"/>
         </scene>
     </scenes>
     <resources>

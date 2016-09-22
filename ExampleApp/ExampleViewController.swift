@@ -1,10 +1,11 @@
-import UIKit
+    import UIKit
 import TradeItIosTicketSDK2
 import TradeItIosEmsApi
 
 enum Action: Int {
     case LaunchPortfolio = 0
-    case DeleteLinkedBrokers = 1
+    case LaunchTrading = 1
+    case DeleteLinkedBrokers = 2
     case ENUM_COUNT
 }
 
@@ -29,6 +30,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         switch action {
         case .LaunchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
+        case .LaunchTrading:
+            self.launchTrading()
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -77,5 +80,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItLauncher.linkedBrokerManager.linkedBrokers = []
 
         print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
+    }
+
+    func launchTrading() {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
+        let navigationViewController = UINavigationController()
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_VIEW")
+
+        navigationViewController.viewControllers = [viewController]
+        self.presentViewController(navigationViewController, animated: true, completion: nil)
     }
 }

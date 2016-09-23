@@ -23,7 +23,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
-                controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_SELECT_BROKER_VIEW") as! TradeItSelectBrokerViewController
+                controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.selectBrokerView.rawValue) as! TradeItSelectBrokerViewController
 
                 ezLoadingActivityManager = FakeEZLoadingActivityManager()
                 controller.ezLoadingActivityManager = ezLoadingActivityManager

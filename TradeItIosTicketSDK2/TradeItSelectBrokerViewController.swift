@@ -5,6 +5,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
 
+    var tradeItAlert = TradeItAlert()
     var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
@@ -25,12 +26,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
-                let alert = UIAlertController(title: "Could not fetch brokers",
-                    message: "Could not fetch the brokers list. Please try again later.",
-                    preferredStyle: UIAlertControllerStyle.Alert)
-
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.tradeItAlert.showErrorAlert(onController: self, withTitle: "Could not fetch brokers", withMessage: "Could not fetch the brokers list. Please try again later.")
                 self.ezLoadingActivityManager.hide()
             }
         )
@@ -39,10 +35,9 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let broker = self.brokers[indexPath.row]
-        self.selectedBroker = broker
+        self.selectedBroker = self.brokers[indexPath.row]
         self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
-        delegate?.brokerWasSelected(self, broker: broker)
+        delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
     }
 
     // MARK: UITableViewDataSource
@@ -67,15 +62,6 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
         }
         
         return cell!
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == toLoginScreenSegueId {
-            if let destinationViewController = segue.destinationViewController as? TradeItLoginViewController,
-                broker = self.selectedBroker {
-                destinationViewController.selectedBroker = broker
-            }
-        }
     }
 }
 

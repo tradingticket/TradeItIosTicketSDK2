@@ -13,6 +13,11 @@ class TradeItLoginViewController: KeyboardViewController {
 
     var delegate: TradeItLoginViewControllerDelegate?
     var selectedBroker: TradeItBroker?
+    var mode: TradeItLoginViewControllerMode?
+    var relinkLinkedBroker: TradeItLinkedBroker?
+    var tradeItAlert = TradeItAlert()
+
+    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +25,7 @@ class TradeItLoginViewController: KeyboardViewController {
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true
 
-        if let brokerName = selectedBroker?.brokerLongName {
+        if let brokerName = self.selectedBroker?.brokerLongName {
             self.loginLabel.text = "Log in to \(brokerName)"
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
@@ -49,17 +54,30 @@ class TradeItLoginViewController: KeyboardViewController {
         let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text,
                                                                   andPassword: self.passwordInput.text,
                                                                   andBroker: brokerShortName)
-
-        self.linkedBrokerManager.linkBroker(authInfo: tradeItAuthenticationInfo,
-                                            onSuccess: {(linkedBroker: TradeItLinkedBroker) -> Void in
-                                                self.authenticateBroker(linkedBroker)
-                                            },
-                                            onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
-                                                self.activityIndicator.stopAnimating()
-                                                self.enableLinkButton()
-                                                self.showTradeItErrorResultAlert(tradeItErrorResult)
-                                            }
-        )
+        
+        if self.mode == TradeItLoginViewControllerMode.relink {
+            self.linkedBrokerManager.relinkBroker(self.relinkLinkedBroker!,
+                                                  authInfo: tradeItAuthenticationInfo,
+                                                  onSuccess: { (linkedBroker: TradeItLinkedBroker) -> Void in
+                                                    self.authenticateBroker(linkedBroker)
+                },
+                                                  onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                                                    self.activityIndicator.stopAnimating()
+                                                    self.enableLinkButton()
+                                                    self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+            })
+        }
+        else {
+            self.linkedBrokerManager.linkBroker(authInfo: tradeItAuthenticationInfo,
+                                                onSuccess: {(linkedBroker: TradeItLinkedBroker) -> Void in
+                                                    self.authenticateBroker(linkedBroker)
+                },
+                                                onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
+                                                    self.activityIndicator.stopAnimating()
+                                                    self.enableLinkButton()
+                                                    self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+            })
+        }
     }
 
     @IBAction func userNameOnEditingChanged(sender: UITextField) {
@@ -76,7 +94,6 @@ class TradeItLoginViewController: KeyboardViewController {
         linkedBroker.authenticate(
             onSuccess: { () -> Void in
                 self.delegate?.brokerLinked(self, withLinkedBroker: linkedBroker)
-
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
@@ -92,24 +109,12 @@ class TradeItLoginViewController: KeyboardViewController {
                 //TODO delete linkedLogin in keychain ?
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.showTradeItErrorResultAlert(tradeItErrorResult)
+                self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
             }
         )
     }
 
-    private func showTradeItErrorResultAlert(tradeItErrorResult: TradeItErrorResult, completion: () -> Void = {}) {
-        let alertController = UIAlertController(title: tradeItErrorResult.shortMessage,
-                                                message: (tradeItErrorResult.longMessages as! [String]).joinWithSeparator(" "),
-                                                preferredStyle: UIAlertControllerStyle.Alert)
-
-        let okAction = UIAlertAction(title: "OK",
-                                     style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-            completion()
-        }
-
-        alertController.addAction(okAction)
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
+    
 
     private func processLinkButtonEnability() {
         if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.enabled) {
@@ -133,4 +138,8 @@ class TradeItLoginViewController: KeyboardViewController {
 
 protocol TradeItLoginViewControllerDelegate {
     func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker)
+}
+
+enum TradeItLoginViewControllerMode: String {
+    case relink
 }

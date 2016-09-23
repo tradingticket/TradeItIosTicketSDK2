@@ -11,7 +11,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
     var onLinkedCallback: ((UINavigationController, TradeItLinkedBrokerAccount?) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
     var promptForAccountSelection = false
-
+    
     init(linkedBrokerManager: TradeItLinkedBrokerManager) {
         self.linkedBrokerManager = linkedBrokerManager
         self.viewControllerProvider = TradeItViewControllerProvider()
@@ -35,12 +35,38 @@ class TradeItLinkBrokerUIFlow: NSObject,
         } else if let rootViewController = navController.viewControllers[0] as? TradeItSelectBrokerViewController {
             rootViewController.delegate = self
         }
-
+        
         viewController.presentViewController(navController,
                                              animated: true,
                                              completion: nil)
     }
 
+    func launchIntoLoginScreen(inViewController viewController: UIViewController,
+                                 selectedBroker: TradeItBroker,
+                                 selectedReLinkedBroker: TradeItLinkedBroker,
+                                 mode: TradeItLoginViewControllerMode,
+                                 onLinked: (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void,
+                                 onFlowAborted: (presentedNavController: UINavigationController) -> Void) {
+        self.onLinkedCallback = onLinked
+        self.onFlowAbortedCallback = onFlowAborted
+        
+        let initialStoryboardId: TradeItStoryboardID = .loginView
+        
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: initialStoryboardId)
+        
+        if let rootViewController = navController.viewControllers[0] as? TradeItLoginViewController {
+            rootViewController.delegate = self
+            rootViewController.selectedBroker = selectedBroker
+            rootViewController.relinkLinkedBroker = selectedReLinkedBroker
+            rootViewController.mode = mode
+        }
+        
+        viewController.presentViewController(navController,
+                                             animated: true,
+                                             completion: nil)
+    }
+
+    
     // MARK: TradeItWelcomeViewControllerDelegate
 
     func getStartedButtonWasTapped(fromWelcomeViewController: TradeItWelcomeViewController) {
@@ -73,4 +99,5 @@ class TradeItLinkBrokerUIFlow: NSObject,
     func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         self.onLinkedCallback?(fromTradeItLoginViewController.navigationController!, nil)
     }
+    
 }

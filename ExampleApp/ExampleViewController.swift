@@ -83,11 +83,26 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func launchTrading() {
+        TradeItLauncher.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
+                print("Security question")
+                return "Security question"
+            }, onFinished: {
+                let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
+                let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_VIEW") as! TradeItTradingViewController
+                viewController.brokerAccount = brokerAccount
+            }
+        )
+
+    }
+
+    func launchViewFromStoryboard(storyboardId: String) -> UIViewController {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
         let navigationViewController = UINavigationController()
         let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_VIEW")
 
         navigationViewController.viewControllers = [viewController]
         self.presentViewController(navigationViewController, animated: true, completion: nil)
+        return viewController
     }
 }

@@ -5,12 +5,13 @@ import TradeItIosEmsApi
     static var linkedBrokerManager: TradeItLinkedBrokerManager!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow!
     var viewControllerProvider: TradeItViewControllerProvider!
+    static var quoteManager: TradeItQuoteManager!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         let tradeItConnector = TradeItConnector(apiKey: apiKey)!
         tradeItConnector.environment = environment
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
-
+        TradeItLauncher.quoteManager = TradeItQuoteManager(connector: tradeItConnector)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
         self.viewControllerProvider = TradeItViewControllerProvider()
     }

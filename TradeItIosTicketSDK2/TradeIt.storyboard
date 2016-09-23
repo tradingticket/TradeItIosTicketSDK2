@@ -201,7 +201,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItQuoteView" customModule="ExampleApp" customModuleProvider="target">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -249,7 +249,7 @@
                                     <constraint firstAttribute="trailing" secondItem="8GH-T9-wjw" secondAttribute="trailing" id="UCE-qL-BbH"/>
                                     <constraint firstItem="v1r-Sh-QM0" firstAttribute="top" secondItem="8GH-T9-wjw" secondAttribute="bottom" id="USF-Oa-vjf"/>
                                     <constraint firstItem="fmF-Fi-03F" firstAttribute="top" secondItem="v1r-Sh-QM0" secondAttribute="bottom" constant="6" id="Vpf-hJ-nm4"/>
-                                    <constraint firstItem="Cq4-tz-zSQ" firstAttribute="leading" secondItem="Rsc-4I-BwP" secondAttribute="trailing" constant="12" id="XY8-We-edE"/>
+                                    <constraint firstItem="Cq4-tz-zSQ" firstAttribute="leading" secondItem="Rsc-4I-BwP" secondAttribute="trailing" constant="4" id="Xp7-BJ-92t"/>
                                     <constraint firstItem="8GH-T9-wjw" firstAttribute="height" secondItem="flL-XV-yxe" secondAttribute="height" id="YAJ-x0-KOw"/>
                                     <constraint firstItem="flL-XV-yxe" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="top" id="dVK-Xc-2fp"/>
                                     <constraint firstItem="flL-XV-yxe" firstAttribute="leading" secondItem="OLH-k3-9Pu" secondAttribute="leading" id="eq5-7U-swp"/>
@@ -258,6 +258,14 @@
                                     <constraint firstItem="Rsc-4I-BwP" firstAttribute="leading" secondItem="flL-XV-yxe" secondAttribute="leading" id="ihm-h8-ZJC"/>
                                     <constraint firstItem="8GH-T9-wjw" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="top" id="p0W-lc-Drm"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="accountButton" destination="8GH-T9-wjw" id="5Fm-Af-uxT"/>
+                                    <outlet property="buyingPowerLabel" destination="v1r-Sh-QM0" id="paX-3v-YuC"/>
+                                    <outlet property="quoteChangeLabel" destination="Cq4-tz-zSQ" id="YJE-4f-KMZ"/>
+                                    <outlet property="quoteLastPriceLabel" destination="Rsc-4I-BwP" id="Fp8-3s-b1E"/>
+                                    <outlet property="symbolButton" destination="flL-XV-yxe" id="gpc-iD-Kwx"/>
+                                    <outlet property="updatedAtLabel" destination="Cpk-9K-A9r" id="iKm-p1-2tL"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-34-hZk">
                                 <subviews>
@@ -340,12 +348,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="accountButton" destination="8GH-T9-wjw" id="NqE-Ow-P0X"/>
-                        <outlet property="buyingPowerLabel" destination="v1r-Sh-QM0" id="Wbb-7H-ngU"/>
-                        <outlet property="stockPriceChangeLabel" destination="Cq4-tz-zSQ" id="loy-I8-QUO"/>
-                        <outlet property="stockPriceLabel" destination="Rsc-4I-BwP" id="bRi-5j-vVR"/>
-                        <outlet property="symbolButton" destination="flL-XV-yxe" id="46e-Nv-W5o"/>
-                        <outlet property="updatedAtLabel" destination="Cpk-9K-A9r" id="btp-d2-Ecd"/>
+                        <outlet property="quoteView" destination="OLH-k3-9Pu" id="G52-EX-ovT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lj0-xK-6tD" userLabel="First Responder" sceneMemberID="firstResponder"/>

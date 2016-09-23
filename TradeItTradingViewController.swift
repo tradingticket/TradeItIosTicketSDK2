@@ -2,15 +2,26 @@ import UIKit
 import TradeItIosEmsApi
 
 class TradeItTradingViewController: UIViewController {
-    @IBOutlet weak var symbolButton: UIButton!
-    @IBOutlet weak var accountButton: UIButton!
-    @IBOutlet weak var buyingPowerLabel: UILabel!
-    @IBOutlet weak var stockPriceLabel: UILabel!
-    @IBOutlet weak var stockPriceChangeLabel: UILabel!
-    @IBOutlet weak var updatedAtLabel: UILabel!
+    @IBOutlet weak var quoteView: TradeItQuoteView!
+
+    var brokerAccount: TradeItLinkedBrokerAccount?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        symbolButton.setTitle("GE", forState: .Normal)
+
+        quoteView.updateSymbol("TSLA")
+
+        TradeItLauncher.quoteManager.getQuote("TSLA").then(quoteView.updateQuote)
+
+        guard let brokerAccount = brokerAccount else {
+            self.navigationController?.popViewControllerAnimated(true)
+            print("You must pass a valid broker account")
+            return
+        }
+
+        brokerAccount.getAccountOverview(onFinished: {
+            self.quoteView.updateBrokerAccount(brokerAccount)
+        })
     }
+
 }

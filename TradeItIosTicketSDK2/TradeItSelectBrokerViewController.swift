@@ -3,6 +3,7 @@ import TradeItIosEmsApi
 
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
+    var delegate: TradeItSelectBrokerViewControllerDelegate?
 
     var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
@@ -38,9 +39,10 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.selectedBroker = self.brokers[indexPath.row]
-        self.performSegueWithIdentifier(toLoginScreenSegueId, sender: self)
+        let broker = self.brokers[indexPath.row]
+        self.selectedBroker = broker
         self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
+        delegate?.brokerWasSelected(self, broker: broker)
     }
 
     // MARK: UITableViewDataSource
@@ -75,5 +77,10 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
             }
         }
     }
+}
 
+protocol TradeItSelectBrokerViewControllerDelegate {
+    func brokerWasSelected(fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
+    // TODO: call delegate.flowAborted when users taps close/cancel
+    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
 }

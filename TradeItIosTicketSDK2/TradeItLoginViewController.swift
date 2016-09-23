@@ -11,8 +11,8 @@ class TradeItLoginViewController: KeyboardViewController {
     @IBOutlet weak var linkButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
+    var delegate: TradeItLoginViewControllerDelegate?
     var selectedBroker: TradeItBroker?
-    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,9 +75,10 @@ class TradeItLoginViewController: KeyboardViewController {
     private func authenticateBroker(linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticate(
             onSuccess: { () -> Void in
+                self.delegate?.brokerLinked(self, withLinkedBroker: linkedBroker)
+
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.performSegueWithIdentifier(self.toPortfolioScreenSegueId, sender: self)
             },
             onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
                 self.activityIndicator.stopAnimating()
@@ -128,4 +129,8 @@ class TradeItLoginViewController: KeyboardViewController {
         self.linkButton.enabled = true
         self.linkButton.alpha = 1.0
     }
+}
+
+protocol TradeItLoginViewControllerDelegate {
+    func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker)
 }

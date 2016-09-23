@@ -60,14 +60,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: private
     private func deleteLinkedBrokers() -> Void {
+        print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
+
+        let appDomain = NSBundle.mainBundle().bundleIdentifier;
+        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain!);
+
         let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
         tradeItConnector.environment = self.ENVIRONMENT
 
         let linkedLogins = tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+
         for linkedLogin in linkedLogins {
             tradeItConnector.unlinkLogin(linkedLogin)
         }
 
         TradeItLauncher.linkedBrokerManager.linkedBrokers = []
+
+        print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
     }
 }

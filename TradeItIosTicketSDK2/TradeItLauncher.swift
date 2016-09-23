@@ -3,43 +3,42 @@ import TradeItIosEmsApi
 
 @objc class TradeItLauncher: NSObject {
     static var linkedBrokerManager: TradeItLinkedBrokerManager!
+    var linkBrokerUIFlow: TradeItLinkBrokerUIFlow!
+    var viewControllerProvider: TradeItViewControllerProvider!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         let tradeItConnector = TradeItConnector(apiKey: apiKey)!
         tradeItConnector.environment = environment
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
+
+        self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+        self.viewControllerProvider = TradeItViewControllerProvider()
     }
 
     override private init() {}
 
     func launchPortfolio(fromViewController viewController: UIViewController) {
-        viewController.presentViewController(loadNavigationViewController(), animated: true, completion: nil)
-    }
+        if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
+            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+            navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
 
-    // MARK: Private
-
-    private func loadNavigationViewController() -> UINavigationController {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-
-        guard let navigationViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.navView.rawValue) as? UINavigationController else {
-            return UINavigationController()
-        }
-
-        let rootViewController = selectRootViewController(storyboard)
-        navigationViewController.setViewControllers([rootViewController], animated: false)
-
-        return navigationViewController
-    }
-
-    private func selectRootViewController(storyboard: UIStoryboard) -> UIViewController {
-        let rootViewController: UIViewController?
-
-        if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count > 0) {
-            rootViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.portfolioView.rawValue)
+            self.linkBrokerUIFlow.launch(
+                inViewController: viewController,
+                showWelcomeScreen: true,
+                promptForAccountSelection: false,
+                onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
+                    let portfolioViewController = self.viewControllerProvider.provideViewController(withStoryboardId: TradeItStoryboardID.portfolioView)
+                    presentedNavController.setViewControllers([portfolioViewController], animated: true)
+                },
+                onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
+                    presentedNavController.topViewController?.dismissViewControllerAnimated(true, completion: nil)
+                }
+            )
         } else {
-            rootViewController =  storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.welcomeView.rawValue)
+            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+            viewController.presentViewController(navController,
+                                                 animated: true,
+                                                 completion: nil)
         }
-
-        return rootViewController ?? UIViewController()
     }
 }

@@ -112,7 +112,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         }
     }
     
-    func getFormattedTotalValue() -> String{
+    func getFormattedTotalValueWithPercentage() -> String{
         if let balance = self.balance {
             var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
             if let totalPercentReturn = balance.totalPercentReturn {

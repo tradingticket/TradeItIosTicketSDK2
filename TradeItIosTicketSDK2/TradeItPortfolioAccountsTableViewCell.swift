@@ -11,7 +11,7 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
         self.accountNameLabel.text = account.getFormattedAccountName()
         self.brokerNameLabel.text = account.brokerName
         self.buyingPowerLabel.text = account.getFormattedBuyingPower()
-        self.totalValueLabel.text = account.getFormattedTotalValue()
+        self.totalValueLabel.text = account.getFormattedTotalValueWithPercentage()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

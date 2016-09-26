@@ -5,7 +5,7 @@ class TradeItOrder {
     var orderAction: String?
     var orderType: String?
     var orderExpiration: String?
-    var shares: Int?
+    var shares: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
@@ -27,8 +27,13 @@ class TradeItOrder {
         return orderType != "Market"
     }
 
-    func isValid() {
+    func estimatedChange() -> NSDecimalNumber? {
+        guard let quoteLastPrice = quoteLastPrice,
+            let shares = shares
+            where shares != NSDecimalNumber.notANumber()
+            else { return nil }
 
+        return quoteLastPrice.decimalNumberByMultiplyingBy(shares)
     }
 }
 
@@ -40,6 +45,7 @@ class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var orderSharesInput: UITextField!
     @IBOutlet weak var orderTypeInput1: UITextField!
     @IBOutlet weak var orderTypeInput2: UITextField!
+    @IBOutlet weak var estimatedChangeLabel: UILabel!
 
     static let DEFAULT_ORDER_ACTION = "Buy"
     static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
@@ -76,7 +82,7 @@ class TradeItTradingViewController: UIViewController {
 
         order = TradeItOrder()
 
-        let orderTypeInputs = [orderTypeInput1, orderTypeInput2]
+        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
         orderTypeInputs.forEach { input in
             input.addTarget(
                 self,
@@ -95,6 +101,14 @@ class TradeItTradingViewController: UIViewController {
             order.limitPrice = NSDecimalNumber(string: textField.text)
         } else if(textField.placeholder == "Stop Price") {
             order.stopPrice = NSDecimalNumber(string: textField.text)
+        } else if(textField.placeholder == "Shares") {
+            order.shares = NSDecimalNumber(string: textField.text)
+            let estimatedChange = order.estimatedChange()
+            if let estimatedChange = estimatedChange {
+                estimatedChangeLabel.text = NumberFormatter.formatCurrency(estimatedChange)
+            } else {
+                estimatedChangeLabel.text = nil
+            }
         }
     }
 

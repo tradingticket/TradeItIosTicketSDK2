@@ -1,4 +1,4 @@
-    import UIKit
+import UIKit
 import TradeItIosTicketSDK2
 import TradeItIosEmsApi
 
@@ -91,6 +91,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
                 let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_VIEW") as! TradeItTradingViewController
                 viewController.brokerAccount = brokerAccount
+                viewController.symbol = "TSLA"
             }
         )
 

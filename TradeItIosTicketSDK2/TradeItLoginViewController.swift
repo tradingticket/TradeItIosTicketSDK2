@@ -17,8 +17,6 @@ class TradeItLoginViewController: KeyboardViewController {
     var relinkLinkedBroker: TradeItLinkedBroker?
     var tradeItAlert = TradeItAlert()
 
-    let toPortfolioScreenSegueId = "TO_PORTFOLIO_SCREEN_SEGUE"
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userNameInput.becomeFirstResponder()

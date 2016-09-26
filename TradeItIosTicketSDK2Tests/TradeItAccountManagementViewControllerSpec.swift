@@ -11,6 +11,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
         var selectedBroker: FakeTradeItLinkedBroker!
         var tradeItAlert: FakeTradeItAlert!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
+        var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
         
         describe("initialization") {
             beforeEach {
@@ -21,10 +22,12 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
 
                 controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountManagementView.rawValue) as! TradeItAccountManagementViewController
 
                 controller.accountsManagementTableManager = accountsManagementTableManager
+                controller.linkBrokerUIFlow = linkBrokerUIFlow
                 selectedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                 let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: selectedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                 let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: selectedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
@@ -148,8 +151,25 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 beforeEach {
                     controller.relinkAccountWasTapped(controller)
                 }
-                it("goes to the login controller") {
-                    expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItLoginViewController))
+                it("calls the launchIntoLoginScreen from the linkedBrokerFlow") {
+                    let calls = linkBrokerUIFlow.calls.forMethod("launchIntoLoginScreen(inViewController:selectedBroker:selectedReLinkedBroker:mode:onLinked:onFlowAborted:)")
+                    expect(calls.count).to(equal(1))
+                }
+                context("when linking is finished from the login screen") {
+                    var fakeNavigationController: FakeUINavigationController!
+                    beforeEach {
+                        let calls = linkBrokerUIFlow.calls.forMethod("launchIntoLoginScreen(inViewController:selectedBroker:selectedReLinkedBroker:mode:onLinked:onFlowAborted:)")
+                        let onLinked = calls[0].args["onLinked"] as! (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void
+                        fakeNavigationController = FakeUINavigationController()
+                        let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                        let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+
+                            
+                        onLinked(presentedNavController: fakeNavigationController, selectedAccount: account1)
+                    }
+                    it("refreshes the account balance of the account") {
+                        
+                    }
                 }
             }
         }

@@ -45,6 +45,10 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     override func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return hackAccountsToReturn
     }
+    
+    override func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+        return hackAccountsToReturn
+    }
 
     override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
                                                      onFinished: () -> Void) {

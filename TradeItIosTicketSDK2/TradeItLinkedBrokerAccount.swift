@@ -17,7 +17,6 @@ class TradeItLinkedBrokerAccount: NSObject {
     init(linkedBroker: TradeItLinkedBroker,
         brokerName: String,
          accountName: String,
-         
          accountNumber: String,
          balance: TradeItAccountOverview!,
          fxBalance: TradeItFxAccountOverview!,

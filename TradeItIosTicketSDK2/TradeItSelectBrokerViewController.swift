@@ -37,7 +37,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.selectedBroker = self.brokers[indexPath.row]
         self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
-        delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
+        self.delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
     }
 
     // MARK: UITableViewDataSource

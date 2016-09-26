@@ -23,6 +23,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
                 tradeItAlert = FakeTradeItAlert()
                 controller.tradeItAlert = tradeItAlert
+                controller.delegate = FakeTradeItLoginViewControllerDelegate()
                 nav = UINavigationController(rootViewController: controller)
 
                 window.addSubview(nav.view)
@@ -277,13 +278,14 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                         expect(controller.linkButton.enabled).to(beTrue())
                     }
                     
-                    it("segues to the portfolio screen") {
-                        if controller.mode == TradeItLoginViewControllerMode.relink {
-                            //expect(nav.topViewController).to(beAnInstanceOf(TradeItAccountManagementViewController))
-                        }
-                        else {
-                            expect(nav.topViewController).to(beAnInstanceOf(TradeItPortfolioViewController))
-                        }
+                    it("calls brokerLinked on  the delegate") {
+                        let delegate = controller.delegate as! FakeTradeItLoginViewControllerDelegate
+                        let calls = delegate.calls.forMethod("brokerLinked(_:withLinkedBroker:)")
+                        let arg1 = calls[0].args["fromTradeItLoginViewController"] as! TradeItLoginViewController
+                        let arg2 = calls[0].args["withLinkedBroker"] as! TradeItLinkedBroker
+                        expect(calls.count).to(equal(1))
+                        expect(arg1).to(equal(controller))
+                        expect(arg2).to(equal(linkedBroker))
                         
                     }
                 }

@@ -474,6 +474,7 @@
                     <connections>
                         <outlet property="orderActionButton" destination="615-Jh-l12" id="Vy4-Er-fQH"/>
                         <outlet property="orderExpirationButton" destination="vN0-Bw-xh8" id="h86-EI-hle"/>
+                        <outlet property="orderSharesInput" destination="IM5-R5-Xb0" id="uRB-Rg-1zC"/>
                         <outlet property="orderTypeButton" destination="KmL-u6-9mn" id="5mr-NX-bal"/>
                         <outlet property="orderTypeInput1" destination="Wrt-4B-FIn" id="9MK-CN-Vv0"/>
                         <outlet property="orderTypeInput2" destination="b4J-xl-4jZ" id="uHv-Ob-B4p"/>

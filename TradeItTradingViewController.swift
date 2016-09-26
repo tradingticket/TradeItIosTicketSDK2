@@ -1,17 +1,34 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItOrderTypePresenter {
-    internal let orderType: String
-    internal let requiresExpiration: Bool
-    internal let requiresLimit: Bool
-    internal let requiresStop: Bool
+class TradeItOrder {
+    var orderAction: String?
+    var orderType: String?
+    var orderExpiration: String?
+    var shares: Int?
+    var limitPrice: NSDecimalNumber?
+    var stopPrice: NSDecimalNumber?
+    var quoteLastPrice: NSDecimalNumber?
 
-    init(orderType: String, requiresExpiration: Bool, requiresLimit: Bool = false, requiresStop: Bool = false) {
-        self.orderType = orderType
-        self.requiresExpiration = requiresExpiration
-        self.requiresLimit = requiresLimit
-        self.requiresStop = requiresStop
+    init() {}
+
+    func requiresLimitPrice() -> Bool {
+        guard let orderType = orderType else { return false }
+        return ["Limit", "Stop Limit"].contains(orderType)
+    }
+
+    func requiresStopPrice() -> Bool {
+        guard let orderType = orderType else { return false }
+        return ["Stop Market", "Stop Limit"].contains(orderType)
+    }
+
+    func requiresExpiration() -> Bool {
+        guard let orderType = orderType else { return false }
+        return orderType != "Market"
+    }
+
+    func isValid() {
+
     }
 }
 
@@ -20,42 +37,20 @@ class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var orderActionButton: UIButton!
     @IBOutlet weak var orderTypeButton: UIButton!
     @IBOutlet weak var orderExpirationButton: UIButton!
+    @IBOutlet weak var orderSharesInput: UITextField!
     @IBOutlet weak var orderTypeInput1: UITextField!
     @IBOutlet weak var orderTypeInput2: UITextField!
 
     static let DEFAULT_ORDER_ACTION = "Buy"
-    static let ORDER_ACTIONS = [
-        "Buy",
-        "Sell",
-        "Buy to Cover",
-        "Sell Short"
-    ]
+    static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
     static let DEFAULT_ORDER_TYPE = "Market"
-    static let ORDER_TYPES_MAP = [
-        "Market": TradeItOrderTypePresenter(orderType: "market", requiresExpiration: false),
-        "Limit": TradeItOrderTypePresenter(orderType: "limit", requiresExpiration: true, requiresLimit: true),
-        "Stop Market": TradeItOrderTypePresenter(
-            orderType: "stopMarket",
-            requiresExpiration: true,
-            requiresLimit: false,
-            requiresStop: true
-        ),
-        "Stop Limit": TradeItOrderTypePresenter(
-            orderType: "stopLimit",
-            requiresExpiration: true,
-            requiresLimit: true,
-            requiresStop: true
-        )
-    ]
+    static let ORDER_TYPES = ["Market", "Limit", "Stop Market", "Stop Limit"]
     static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
-    static let ORDER_EXPIRATIONS = [
-        "Good for the Day",
-        "Good until Canceled"
-    ]
+    static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
 
+    var order: TradeItOrder!
     var brokerAccount: TradeItLinkedBrokerAccount?
     var symbol: String?
-    var orderAction: String = DEFAULT_ORDER_ACTION
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,17 +65,38 @@ class TradeItTradingViewController: UIViewController {
         // QUESTION: Best way to pass in the symbol?
         quoteView.updateSymbol(symbol)
 
-        TradeItLauncher.quoteManager.getQuote(symbol).then(quoteView.updateQuote)
+        TradeItLauncher.quoteManager.getQuote(symbol).then({ quote in
+            self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
+            self.quoteView.updateQuote(quote)
+        })
 
         brokerAccount.getAccountOverview(onFinished: {
             self.quoteView.updateBrokerAccount(brokerAccount)
         })
+
+        order = TradeItOrder()
+
+        let orderTypeInputs = [orderTypeInput1, orderTypeInput2]
+        orderTypeInputs.forEach { input in
+            input.addTarget(
+                self,
+                action: #selector(self.textFieldDidChange(_:)),
+                forControlEvents: UIControlEvents.EditingChanged
+            )
+        }
 
         orderActionSelected(orderAction: TradeItTradingViewController.DEFAULT_ORDER_ACTION)
         orderTypeSelected(orderType: TradeItTradingViewController.DEFAULT_ORDER_TYPE)
         orderExpirationSelected(orderExpiration: TradeItTradingViewController.DEFAULT_ORDER_EXPIRATION)
     }
 
+    func textFieldDidChange(textField: UITextField) {
+        if(textField.placeholder == "Limit Price") {
+            order.limitPrice = NSDecimalNumber(string: textField.text)
+        } else if(textField.placeholder == "Stop Price") {
+            order.stopPrice = NSDecimalNumber(string: textField.text)
+        }
+    }
 
     @IBAction func orderActionTapped(sender: UIButton) {
         presentOptions(
@@ -93,7 +109,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderTypeTapped(sender: UIButton) {
         presentOptions(
             "Order Type",
-            options: Array(TradeItTradingViewController.ORDER_TYPES_MAP.keys),
+            options: TradeItTradingViewController.ORDER_TYPES,
             handler: self.orderTypeSelected
         )
     }
@@ -101,61 +117,58 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderExpirationTapped(sender: UIButton) {
         presentOptions(
             "Order Expiration",
-            options: Array(TradeItTradingViewController.ORDER_EXPIRATIONS),
+            options: TradeItTradingViewController.ORDER_EXPIRATIONS,
             handler: self.orderExpirationSelected
         )
     }
 
-    func orderActionSelected(action action: UIAlertAction) {
-        if(action.style == .Cancel) { return }
+    private func orderActionSelected(action action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
     }
 
-    func orderActionSelected(orderAction orderAction: String?) {
-        guard let orderAction = orderAction else { return }
-        orderActionButton.setTitle(orderAction, forState: .Normal)
-
-        // TODO: Update quote with number of shares owned if they select SELL
-    }
-
-    func orderTypeSelected(action action: UIAlertAction) {
-        if(action.style == .Cancel) { return }
+    private func orderTypeSelected(action action: UIAlertAction) {
         orderTypeSelected(orderType: action.title)
     }
 
-    func orderTypeSelected(orderType orderType: String?) {
-        guard let orderType = orderType,
-            let orderTypePresenter = TradeItTradingViewController.ORDER_TYPES_MAP[orderType] else { return }
+    private func orderExpirationSelected(action action: UIAlertAction) {
+        orderExpirationSelected(orderExpiration: action.title)
+    }
 
-        orderTypeButton.setTitle(orderType, forState: .Normal)
+    private func orderActionSelected(orderAction orderAction: String?) {
+        order.orderAction = orderAction
+        orderActionButton.setTitle(order.orderAction, forState: .Normal)
+        // TODO: Update quote with number of shares owned if they select SELL
+    }
 
-        if(orderTypePresenter.requiresExpiration) {
+    private func orderTypeSelected(orderType orderType: String?) {
+        order.orderType = orderType
+        orderTypeButton.setTitle(order.orderType, forState: .Normal)
+
+        // Show/hide order expiration
+        if(order.requiresExpiration()) {
             orderExpirationButton.superview?.hidden = false
         } else {
             orderExpirationButton.superview?.hidden = true
+            order.orderExpiration = nil
         }
 
+        // Show/hide limit and/or stop
         var inputs = [orderTypeInput1, orderTypeInput2]
         inputs.forEach { input in
             input.hidden = true
             input.text = nil
         }
-        if(orderTypePresenter.requiresLimit) {
+        if(order.requiresLimitPrice()) {
             configureLimitInput(inputs.removeFirst())
         }
-        if(orderTypePresenter.requiresStop) {
+        if(order.requiresStopPrice()) {
             configureStopInput(inputs.removeFirst())
         }
     }
 
-    private func orderExpirationSelected(action action: UIAlertAction) {
-        if(action.style == .Cancel) { return }
-        orderExpirationSelected(orderExpiration: action.title)
-    }
-
     private func orderExpirationSelected(orderExpiration orderExpiration: String?) {
-        guard let orderExpiration = orderExpiration else { return }
-        orderExpirationButton.setTitle(orderExpiration, forState: .Normal)
+        order.orderExpiration = orderExpiration
+        orderExpirationButton.setTitle(order.orderExpiration, forState: .Normal)
     }
 
     private func configureLimitInput(input: UITextField) {
@@ -175,13 +188,8 @@ class TradeItTradingViewController: UIViewController {
             preferredStyle: .ActionSheet
         )
 
-        options.forEach { option in
-            actionSheet.addAction(UIAlertAction(
-                title: option,
-                style: .Default,
-                handler: handler
-                ))
-        }
+        options.map { option in UIAlertAction(title: option, style: .Default, handler: handler) }
+            .forEach(actionSheet.addAction)
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
 

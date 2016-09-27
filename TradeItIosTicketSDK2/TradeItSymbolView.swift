@@ -1,7 +1,7 @@
 import TradeItIosEmsApi
 import UIKit
 
-class TradeItQuoteView: UIView {
+class TradeItSymbolView: UIView {
     @IBOutlet weak var symbolButton: UIButton!
     @IBOutlet weak var quoteLastPriceLabel: UILabel!
     @IBOutlet weak var quoteChangeLabel: UILabel!

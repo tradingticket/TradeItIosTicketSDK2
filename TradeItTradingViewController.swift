@@ -38,7 +38,7 @@ class TradeItOrder {
 }
 
 class TradeItTradingViewController: UIViewController {
-    @IBOutlet weak var quoteView: TradeItQuoteView!
+    @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
     @IBOutlet weak var orderActionButton: UIButton!
     @IBOutlet weak var orderTypeButton: UIButton!
@@ -72,13 +72,13 @@ class TradeItTradingViewController: UIViewController {
         }
 
         // QUESTION: Best way to pass in the symbol?
-        quoteView.updateSymbol(symbol)
-        quoteView.updateQuoteActivity(.LOADING)
+        symbolView.updateSymbol(symbol)
+        symbolView.updateQuoteActivity(.LOADING)
 
         TradeItLauncher.quoteManager.getQuote(symbol).then({ quote in
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
-            self.quoteView.updateQuote(quote)
-            self.quoteView.updateQuoteActivity(.LOADED)
+            self.symbolView.updateQuote(quote)
+            self.symbolView.updateQuoteActivity(.LOADED)
         })
 
         brokerAccount.getAccountOverview(onFinished: {

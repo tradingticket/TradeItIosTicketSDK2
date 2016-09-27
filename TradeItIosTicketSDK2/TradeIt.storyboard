@@ -201,7 +201,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItQuoteView" customModule="ExampleApp" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItSymbolView" customModule="ExampleApp" customModuleProvider="target">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -511,7 +511,7 @@
                         <outlet property="orderTypeButton" destination="KmL-u6-9mn" id="5mr-NX-bal"/>
                         <outlet property="orderTypeInput1" destination="Wrt-4B-FIn" id="9MK-CN-Vv0"/>
                         <outlet property="orderTypeInput2" destination="b4J-xl-4jZ" id="uHv-Ob-B4p"/>
-                        <outlet property="quoteView" destination="OLH-k3-9Pu" id="G52-EX-ovT"/>
+                        <outlet property="symbolView" destination="OLH-k3-9Pu" id="YAs-or-2ge"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lj0-xK-6tD" userLabel="First Responder" sceneMemberID="firstResponder"/>

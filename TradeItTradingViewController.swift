@@ -39,6 +39,7 @@ class TradeItOrder {
 
 class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var quoteView: TradeItQuoteView!
+    @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
     @IBOutlet weak var orderActionButton: UIButton!
     @IBOutlet weak var orderTypeButton: UIButton!
     @IBOutlet weak var orderExpirationButton: UIButton!
@@ -81,7 +82,7 @@ class TradeItTradingViewController: UIViewController {
         })
 
         brokerAccount.getAccountOverview(onFinished: {
-            self.quoteView.updateBrokerAccount(brokerAccount)
+            self.accountSummaryView.updateBrokerAccount(brokerAccount)
         })
 
         order = TradeItOrder()
@@ -199,9 +200,9 @@ class TradeItTradingViewController: UIViewController {
         orderActionButton.setTitle(order.orderAction, forState: .Normal)
 
         if(order.orderAction == "Buy") {
-            quoteView.updatePresentationMode(.BUYING_POWER)
+            accountSummaryView.updatePresentationMode(.BUYING_POWER)
         } else {
-            quoteView.updatePresentationMode(.SHARES_OWNED)
+            accountSummaryView.updatePresentationMode(.SHARES_OWNED)
         }
     }
 

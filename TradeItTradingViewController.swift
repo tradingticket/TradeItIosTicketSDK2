@@ -158,12 +158,7 @@ class TradeItTradingViewController: UIViewController {
             order.stopPrice = NSDecimalNumber(string: textField.text)
         } else if(textField.placeholder == "Shares") {
             order.shares = NSDecimalNumber(string: textField.text)
-            let estimatedChange = order.estimatedChange()
-            if let estimatedChange = estimatedChange {
-                estimatedChangeLabel.text = NumberFormatter.formatCurrency(estimatedChange)
-            } else {
-                estimatedChangeLabel.text = nil
-            }
+            updateEstimatedChangedLabel()
         }
     }
 
@@ -216,6 +211,8 @@ class TradeItTradingViewController: UIViewController {
         } else {
             accountSummaryView.updatePresentationMode(.SHARES_OWNED)
         }
+
+        updateEstimatedChangedLabel()
     }
 
     private func orderTypeSelected(orderType orderType: String?) {
@@ -259,6 +256,20 @@ class TradeItTradingViewController: UIViewController {
     private func configureStopInput(input: UITextField) {
         input.placeholder = "Stop Price"
         input.hidden = false
+    }
+
+    private func updateEstimatedChangedLabel() {
+        let estimatedChange = order.estimatedChange()
+        if let estimatedChange = estimatedChange {
+            let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange)
+            if order.orderAction == "Buy" {
+                estimatedChangeLabel.text = "Est. Cost \(formattedEstimatedChange)"
+            } else {
+                estimatedChangeLabel.text = "Est. Proceeds \(formattedEstimatedChange)"
+            }
+        } else {
+            estimatedChangeLabel.text = nil
+        }
     }
 
     // MARK: Action sheet helper

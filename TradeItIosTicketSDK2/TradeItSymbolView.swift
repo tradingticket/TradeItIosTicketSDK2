@@ -35,10 +35,14 @@ class TradeItSymbolView: UIView {
         switch state {
         case .LOADING:
             quoteActivityIndicator.hidden = false
+
             quoteLastPriceLabel.hidden = true
+            quoteChangeLabel.hidden = true
         case .LOADED:
             quoteActivityIndicator.hidden = true
+
             quoteLastPriceLabel.hidden = false
+            quoteChangeLabel.hidden = false
         }
     }
 

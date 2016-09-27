@@ -18,6 +18,7 @@ class TradeItAccountSummaryView: UIView {
 
     var brokerAccount: TradeItLinkedBrokerAccount?
     var presentationMode = PresentationMode.BUYING_POWER
+    var sharesOwned: NSNumber = 0
 
     func updatePresentationMode(presentationMode: PresentationMode) {
         self.presentationMode = presentationMode
@@ -30,6 +31,11 @@ class TradeItAccountSummaryView: UIView {
         updateAvailableLabels()
     }
 
+    func updateSharesOwned(sharesOwned: NSNumber) {
+        self.sharesOwned = sharesOwned
+        updateAvailableLabels()
+    }
+
     private func updateAvailableLabels() {
         switch presentationMode {
         case .BUYING_POWER:
@@ -37,7 +43,7 @@ class TradeItAccountSummaryView: UIView {
             self.availableLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
             self.availableDescriptionLabel.text = "Buying Power"
         case .SHARES_OWNED:
-            self.availableLabel.text = "None lol"
+            self.availableLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
             self.availableDescriptionLabel.text = "Shares Owned"
         }
     }

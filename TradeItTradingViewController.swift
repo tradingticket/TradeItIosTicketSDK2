@@ -71,18 +71,30 @@ class TradeItTradingViewController: UIViewController {
                 return
         }
 
-        // QUESTION: Best way to pass in the symbol?
+        // Update symbol view
         symbolView.updateSymbol(symbol)
         symbolView.updateQuoteActivity(.LOADING)
-
         TradeItLauncher.quoteManager.getQuote(symbol).then({ quote in
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
             self.symbolView.updateQuote(quote)
             self.symbolView.updateQuoteActivity(.LOADED)
         })
 
+        // Update account summary view
         brokerAccount.getAccountOverview(onFinished: {
+            // QUESTION: Alex was saying something different in the pivotal story - ask him about that
             self.accountSummaryView.updateBrokerAccount(brokerAccount)
+        })
+
+        brokerAccount.getPositions(onFinished: {
+            // TODO: Not sure if I should push this down to the accountSummaryView or not
+            guard let portfolioPositionIndex = brokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
+                portfolioPosition.position.symbol == symbol
+            }) else { return }
+
+            let portfolioPosition = brokerAccount.positions[portfolioPositionIndex]
+
+            self.accountSummaryView.updateSharesOwned(portfolioPosition.position.quantity)
         })
 
         order = TradeItOrder()

@@ -4,21 +4,35 @@ import UIKit
 class TradeItQuoteView: UIView {
     @IBOutlet weak var symbolButton: UIButton!
     @IBOutlet weak var accountButton: UIButton!
-    @IBOutlet weak var buyingPowerLabel: UILabel!
+    @IBOutlet weak var availableLabel: UILabel!
+    @IBOutlet weak var availableDescriptionLabel: UILabel!
     @IBOutlet weak var quoteLastPriceLabel: UILabel!
     @IBOutlet weak var quoteChangeLabel: UILabel!
     @IBOutlet weak var updatedAtLabel: UILabel!
 
+    enum PresentationMode {
+        case BUYING_POWER
+        case SHARES_OWNED
+    }
+
     let indicator_up = "▲"
     let indicator_down = "▼"
     let dateFormatter = NSDateFormatter()
+    var brokerAccount: TradeItLinkedBrokerAccount?
+    var presentationMode = PresentationMode.BUYING_POWER
 
     func updateSymbol(symbol: String) {
         self.symbolButton.setTitle(symbol, forState: .Normal)
     }
 
+    func updatePresentationMode(presentationMode: PresentationMode) {
+        self.presentationMode = presentationMode
+        updateAvailableLabels()
+    }
+
     func updateBrokerAccount(brokerAccount: TradeItLinkedBrokerAccount) {
-        self.buyingPowerLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
+        self.brokerAccount = brokerAccount
+        updateAvailableLabels()
     }
 
     func updateQuote(quote: TradeItQuote) {
@@ -29,6 +43,18 @@ class TradeItQuoteView: UIView {
         self.updatedAtLabel.text = "Updated at \(DateTimeFormatter.time())"
 
         self.quoteChangeLabel.textColor = stockChangeColor(quote.change.doubleValue)
+    }
+
+    private func updateAvailableLabels() {
+        switch presentationMode {
+        case .BUYING_POWER:
+            guard let brokerAccount = brokerAccount else { return }
+            self.availableLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
+            self.availableDescriptionLabel.text = "Buying Power"
+        case .SHARES_OWNED:
+            self.availableLabel.text = "None lol"
+            self.availableDescriptionLabel.text = "Shares Owned"
+        }
     }
 
     private func indicator(value: Double) -> String {

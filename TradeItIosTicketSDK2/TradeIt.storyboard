@@ -260,7 +260,8 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="accountButton" destination="8GH-T9-wjw" id="5Fm-Af-uxT"/>
-                                    <outlet property="buyingPowerLabel" destination="v1r-Sh-QM0" id="paX-3v-YuC"/>
+                                    <outlet property="availableDescriptionLabel" destination="fmF-Fi-03F" id="yyg-DQ-NdA"/>
+                                    <outlet property="availableLabel" destination="v1r-Sh-QM0" id="2ld-II-ECi"/>
                                     <outlet property="quoteChangeLabel" destination="Cq4-tz-zSQ" id="YJE-4f-KMZ"/>
                                     <outlet property="quoteLastPriceLabel" destination="Rsc-4I-BwP" id="Fp8-3s-b1E"/>
                                     <outlet property="symbolButton" destination="flL-XV-yxe" id="gpc-iD-Kwx"/>
@@ -480,6 +481,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="ZBv-M4-m22" id="7VF-ha-dGr"/>
                         <outlet property="estimatedChangeLabel" destination="rpw-3P-BXS" id="Krg-12-pgu"/>
                         <outlet property="orderActionButton" destination="615-Jh-l12" id="Vy4-Er-fQH"/>
                         <outlet property="orderExpirationButton" destination="vN0-Bw-xh8" id="h86-EI-hle"/>

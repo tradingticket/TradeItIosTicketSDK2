@@ -46,6 +46,7 @@ class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var orderTypeInput1: UITextField!
     @IBOutlet weak var orderTypeInput2: UITextField!
     @IBOutlet weak var estimatedChangeLabel: UILabel!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
     static let DEFAULT_ORDER_ACTION = "Buy"
     static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
@@ -53,6 +54,7 @@ class TradeItTradingViewController: UIViewController {
     static let ORDER_TYPES = ["Market", "Limit", "Stop Market", "Stop Limit"]
     static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
     static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
+    static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
     var order: TradeItOrder!
     var brokerAccount: TradeItLinkedBrokerAccount?
@@ -82,6 +84,19 @@ class TradeItTradingViewController: UIViewController {
 
         order = TradeItOrder()
 
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow(_:)),
+            name: UIKeyboardWillShowNotification,
+            object: nil
+        )
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide(_:)),
+            name: UIKeyboardWillHideNotification,
+            object: nil
+        )
+
         let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
         orderTypeInputs.forEach { input in
             input.addTarget(
@@ -95,6 +110,31 @@ class TradeItTradingViewController: UIViewController {
         orderTypeSelected(orderType: TradeItTradingViewController.DEFAULT_ORDER_TYPE)
         orderExpirationSelected(orderExpiration: TradeItTradingViewController.DEFAULT_ORDER_EXPIRATION)
     }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    // MARK: Keyboard event handlers
+
+    func keyboardWillShow(notification: NSNotification) {
+        let info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+        })
+    }
+
+    func keyboardWillHide(_: NSNotification) {
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+        })
+    }
+
+    // MARK: Text field change handlers
 
     func textFieldDidChange(textField: UITextField) {
         if(textField.placeholder == "Limit Price") {
@@ -111,6 +151,8 @@ class TradeItTradingViewController: UIViewController {
             }
         }
     }
+
+    // MARK: IBAction for buttons
 
     @IBAction func orderActionTapped(sender: UIButton) {
         presentOptions(
@@ -136,6 +178,8 @@ class TradeItTradingViewController: UIViewController {
         )
     }
 
+    // MARK: Private - Order changed handlers
+
     private func orderActionSelected(action action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
     }
@@ -151,7 +195,12 @@ class TradeItTradingViewController: UIViewController {
     private func orderActionSelected(orderAction orderAction: String?) {
         order.orderAction = orderAction
         orderActionButton.setTitle(order.orderAction, forState: .Normal)
-        // TODO: Update quote with number of shares owned if they select SELL
+
+        if(order.orderAction == "Buy") {
+            quoteView.updatePresentationMode(.BUYING_POWER)
+        } else {
+            quoteView.updatePresentationMode(.SHARES_OWNED)
+        }
     }
 
     private func orderTypeSelected(orderType orderType: String?) {
@@ -185,6 +234,8 @@ class TradeItTradingViewController: UIViewController {
         orderExpirationButton.setTitle(order.orderExpiration, forState: .Normal)
     }
 
+    // MARK: Text view configurators
+
     private func configureLimitInput(input: UITextField) {
         input.placeholder = "Limit Price"
         input.hidden = false
@@ -194,6 +245,8 @@ class TradeItTradingViewController: UIViewController {
         input.placeholder = "Stop Price"
         input.hidden = false
     }
+
+    // MARK: Action sheet helper
 
     private func presentOptions(title: String, options: [String], handler: (UIAlertAction) -> Void) {
         let actionSheet: UIAlertController = UIAlertController(

@@ -72,10 +72,12 @@ class TradeItTradingViewController: UIViewController {
 
         // QUESTION: Best way to pass in the symbol?
         quoteView.updateSymbol(symbol)
+        quoteView.updateQuoteActivity(.LOADING)
 
         TradeItLauncher.quoteManager.getQuote(symbol).then({ quote in
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
             self.quoteView.updateQuote(quote)
+            self.quoteView.updateQuoteActivity(.LOADED)
         })
 
         brokerAccount.getAccountOverview(onFinished: {

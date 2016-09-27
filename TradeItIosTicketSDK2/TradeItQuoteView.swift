@@ -9,10 +9,16 @@ class TradeItQuoteView: UIView {
     @IBOutlet weak var quoteLastPriceLabel: UILabel!
     @IBOutlet weak var quoteChangeLabel: UILabel!
     @IBOutlet weak var updatedAtLabel: UILabel!
+    @IBOutlet weak var quoteActivityIndicator: UIView!
 
     enum PresentationMode {
         case BUYING_POWER
         case SHARES_OWNED
+    }
+
+    enum ActivityIndicatorState {
+        case LOADING
+        case LOADED
     }
 
     let indicator_up = "▲"
@@ -43,6 +49,17 @@ class TradeItQuoteView: UIView {
         self.updatedAtLabel.text = "Updated at \(DateTimeFormatter.time())"
 
         self.quoteChangeLabel.textColor = stockChangeColor(quote.change.doubleValue)
+    }
+
+    func updateQuoteActivity(state: ActivityIndicatorState) {
+        switch state {
+        case .LOADING:
+            quoteActivityIndicator.hidden = false
+            quoteLastPriceLabel.hidden = true
+        case .LOADED:
+            quoteActivityIndicator.hidden = true
+            quoteLastPriceLabel.hidden = false
+        }
     }
 
     private func updateAvailableLabels() {

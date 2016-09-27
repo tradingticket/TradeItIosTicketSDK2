@@ -238,10 +238,17 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OT1-dI-4NU">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="IkG-f0-oLS"/>
+                                            <constraint firstAttribute="height" constant="20" id="hJJ-7M-ei0"/>
+                                        </constraints>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Cq4-tz-zSQ" firstAttribute="top" secondItem="Rsc-4I-BwP" secondAttribute="top" id="7hJ-lI-cdf"/>
+                                    <constraint firstItem="OT1-dI-4NU" firstAttribute="centerY" secondItem="Rsc-4I-BwP" secondAttribute="centerY" id="BU3-zD-7j5"/>
                                     <constraint firstAttribute="trailing" secondItem="fmF-Fi-03F" secondAttribute="trailing" id="Flj-uh-bBc"/>
                                     <constraint firstItem="Rsc-4I-BwP" firstAttribute="top" secondItem="flL-XV-yxe" secondAttribute="bottom" id="Kfz-Sc-TLa"/>
                                     <constraint firstAttribute="height" constant="70" id="M0w-je-XrB"/>
@@ -262,6 +269,7 @@
                                     <outlet property="accountButton" destination="8GH-T9-wjw" id="5Fm-Af-uxT"/>
                                     <outlet property="availableDescriptionLabel" destination="fmF-Fi-03F" id="yyg-DQ-NdA"/>
                                     <outlet property="availableLabel" destination="v1r-Sh-QM0" id="2ld-II-ECi"/>
+                                    <outlet property="quoteActivityIndicator" destination="OT1-dI-4NU" id="fD2-Sw-vjL"/>
                                     <outlet property="quoteChangeLabel" destination="Cq4-tz-zSQ" id="YJE-4f-KMZ"/>
                                     <outlet property="quoteLastPriceLabel" destination="Rsc-4I-BwP" id="Fp8-3s-b1E"/>
                                     <outlet property="symbolButton" destination="flL-XV-yxe" id="gpc-iD-Kwx"/>
@@ -466,6 +474,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="OT1-dI-4NU" firstAttribute="leading" secondItem="91J-9F-L1i" secondAttribute="leadingMargin" constant="8" id="53M-EZ-bGy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rpw-3P-BXS" secondAttribute="trailing" id="7ta-Tz-tbN"/>
                             <constraint firstAttribute="leadingMargin" secondItem="H9Q-H0-22a" secondAttribute="leading" id="Ffa-Nu-fWh"/>
                             <constraint firstItem="H9Q-H0-22a" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="bottom" id="H88-Vb-0O1"/>

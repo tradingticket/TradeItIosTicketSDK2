@@ -1,8 +1,8 @@
 import UIKit
 
 class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-    let PORTFOLIO_ACCOUNT_HEADER_ID = "PORTFOLIO_ACCOUNTS_HEADER_ID"
-    let PORTFOLIO_ACCOUNT_CELL_ID = "PORTFOLIO_ACCOUNTS_CELL_ID"
+    let PORTFOLIO_ACCOUNTS_HEADER_ID = "PORTFOLIO_ACCOUNTS_HEADER_ID"
+    let PORTFOLIO_ACCOUNTS_CELL_ID = "PORTFOLIO_ACCOUNTS_CELL_ID"
 
     private var _table: UITableView?
     private var accounts: [TradeItLinkedBrokerAccount] = []
@@ -10,6 +10,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         get {
             return _table
         }
+
         set(newTable) {
             if let newTable = newTable {
                 newTable.dataSource = self
@@ -38,6 +39,10 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
     }
 
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.0
+    }
+
     // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,13 +50,13 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNT_HEADER_ID)
+        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNTS_HEADER_ID)
 
         return cell
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNT_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
 
         let account = accounts[indexPath.row]
         cell.populate(withAccount: account)
@@ -62,4 +67,3 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 protocol TradeItPortfolioViewControllerAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount)
 }
-

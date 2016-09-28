@@ -30,7 +30,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   TradeItIosEmsApi:
-    :path: "~/workspace/TradeItIosEmsApi"
+    :path: ~/workspace/TradeItIosEmsApi
 
 SPEC CHECKSUMS:
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
@@ -41,4 +41,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: fde60557309f9785137ccb996241259127be5147
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.0.1

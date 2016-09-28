@@ -46,16 +46,18 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
     }
     
     //MARK: private methods
+
     private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalValue: Float = 0
+
         for account in accounts {
             if let balance = account.balance {
                 totalValue += balance.totalValue as Float
-            }
-            else if let fxBalance = account.fxBalance {
+            } else if let fxBalance = account.fxBalance {
                 totalValue += fxBalance.totalValueUSD as Float
             }
         }
+
         self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue)
     }
     

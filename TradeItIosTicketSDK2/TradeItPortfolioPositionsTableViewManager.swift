@@ -11,6 +11,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         get {
             return _table
         }
+
         set(newTable) {
             if let newTable = newTable {
                 newTable.dataSource = self
@@ -35,18 +36,22 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         if self.selectedPositionIndex == indexPath.row {
             self.selectedPositionIndex = -1
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-        else {
+        } else {
             self.selectedPositionIndex = indexPath.row
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.positionsTable?.reloadData()
                 self.positionsTable?.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
             })
         }
+
         self.positionsTable?.beginUpdates()
         self.positionsTable?.endUpdates()
     }
-    
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.0
+    }
+
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,6 +61,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_POSITIONS_HEADER_ID) as! TradeItPortfolioPositionsTableViewHeader
         cell.updateColumns(self.positions)
+
         return cell
     }
     
@@ -64,9 +70,11 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         
         let position = self.positions[indexPath.row]
         cell.populate(withPosition: position)
+
         if self.selectedPositionIndex == indexPath.row {
             cell.setSelected(true, animated: true)
         }
+
         return cell
     }
     
@@ -74,9 +82,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             if indexPath.row == self.selectedPositionIndex {
                 return 150
             }
+
             return 50
     }
-
 }
-
-

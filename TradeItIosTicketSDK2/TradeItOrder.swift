@@ -1,24 +1,35 @@
 class TradeItOrder {
-    var orderAction: String?
-    var orderType: String?
-    var orderExpiration: String?
+    static let DEFAULT_ORDER_ACTION = "Buy"
+    static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
+    static let DEFAULT_ORDER_TYPE = "Market"
+    static let ORDER_TYPES = ["Market", "Limit", "Stop Market", "Stop Limit"]
+    static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
+    static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
+
+    var brokerAccount: TradeItLinkedBrokerAccount
+    var symbol: String
+    var orderAction: String = DEFAULT_ORDER_ACTION
+    var orderType: String = DEFAULT_ORDER_TYPE
+    var orderExpiration: String = DEFAULT_ORDER_EXPIRATION
     var shares: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
 
+    init(brokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+        self.brokerAccount = brokerAccount
+        self.symbol = symbol
+    }
+
     func requiresLimitPrice() -> Bool {
-        guard let orderType = orderType else { return false }
         return ["Limit", "Stop Limit"].contains(orderType)
     }
 
     func requiresStopPrice() -> Bool {
-        guard let orderType = orderType else { return false }
         return ["Stop Market", "Stop Limit"].contains(orderType)
     }
 
     func requiresExpiration() -> Bool {
-        guard let orderType = orderType else { return false }
         return orderType != "Market"
     }
 
@@ -41,7 +52,6 @@ class TradeItOrder {
     }
 
     private func validateOrderType() -> Bool {
-        guard let orderType = orderType else { return false }
         switch orderType {
         case "Market": return true
         case "Limit": return validateLimit()

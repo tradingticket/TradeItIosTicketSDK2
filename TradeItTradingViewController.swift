@@ -14,12 +14,6 @@ class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
-    static let DEFAULT_ORDER_ACTION = "Buy"
-    static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
-    static let DEFAULT_ORDER_TYPE = "Market"
-    static let ORDER_TYPES = ["Market", "Limit", "Stop Market", "Stop Limit"]
-    static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
-    static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
     var order: TradeItOrder!
@@ -29,40 +23,37 @@ class TradeItTradingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let brokerAccount = brokerAccount,
-            let symbol = symbol else {
-                self.navigationController?.popViewControllerAnimated(true)
-                print("You must pass a valid broker account and symbol")
-                return
+        guard let order = order else {
+            self.navigationController?.popViewControllerAnimated(true)
+            print("You must pass an order")
+            return
         }
 
         // Update symbol view
-        symbolView.updateSymbol(symbol)
+        symbolView.updateSymbol(order.symbol)
         symbolView.updateQuoteActivity(.LOADING)
-        TradeItLauncher.quoteManager.getQuote(symbol).then({ quote in
+        TradeItLauncher.quoteManager.getQuote(order.symbol).then({ quote in
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
             self.symbolView.updateQuote(quote)
             self.symbolView.updateQuoteActivity(.LOADED)
         })
 
         // Update account summary view
-        brokerAccount.getAccountOverview(onFinished: {
+        order.brokerAccount.getAccountOverview(onFinished: {
             // QUESTION: Alex was saying something different in the pivotal story - ask him about that
-            self.accountSummaryView.updateBrokerAccount(brokerAccount)
+            self.accountSummaryView.updateBrokerAccount(order.brokerAccount)
         })
 
-        brokerAccount.getPositions(onFinished: {
+        order.brokerAccount.getPositions(onFinished: {
             // TODO: Not sure if I should push this down to the accountSummaryView or not
-            guard let portfolioPositionIndex = brokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
-                portfolioPosition.position.symbol == symbol
+            guard let portfolioPositionIndex = order.brokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
+                portfolioPosition.position.symbol == order.symbol
             }) else { return }
 
-            let portfolioPosition = brokerAccount.positions[portfolioPositionIndex]
+            let portfolioPosition = order.brokerAccount.positions[portfolioPositionIndex]
 
             self.accountSummaryView.updateSharesOwned(portfolioPosition.position.quantity)
         })
-
-        order = TradeItOrder()
 
         registerKeyboardNotifications()
 
@@ -75,9 +66,9 @@ class TradeItTradingViewController: UIViewController {
             )
         }
 
-        orderActionSelected(orderAction: TradeItTradingViewController.DEFAULT_ORDER_ACTION)
-        orderTypeSelected(orderType: TradeItTradingViewController.DEFAULT_ORDER_TYPE)
-        orderExpirationSelected(orderExpiration: TradeItTradingViewController.DEFAULT_ORDER_EXPIRATION)
+        orderActionSelected(orderAction: order.orderAction)
+        orderTypeSelected(orderType: order.orderType)
+        orderExpirationSelected(orderExpiration: order.orderExpiration)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -137,7 +128,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderActionTapped(sender: UIButton) {
         presentOptions(
             "Order Action",
-            options: TradeItTradingViewController.ORDER_ACTIONS,
+            options: TradeItOrder.ORDER_ACTIONS,
             handler: self.orderActionSelected
         )
     }
@@ -145,7 +136,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderTypeTapped(sender: UIButton) {
         presentOptions(
             "Order Type",
-            options: TradeItTradingViewController.ORDER_TYPES,
+            options: TradeItOrder.ORDER_TYPES,
             handler: self.orderTypeSelected
         )
     }
@@ -153,7 +144,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderExpirationTapped(sender: UIButton) {
         presentOptions(
             "Order Expiration",
-            options: TradeItTradingViewController.ORDER_EXPIRATIONS,
+            options: TradeItOrder.ORDER_EXPIRATIONS,
             handler: self.orderExpirationSelected
         )
     }
@@ -177,7 +168,7 @@ class TradeItTradingViewController: UIViewController {
         orderExpirationSelected(orderExpiration: action.title)
     }
 
-    private func orderActionSelected(orderAction orderAction: String?) {
+    private func orderActionSelected(orderAction orderAction: String!) {
         order.orderAction = orderAction
         orderActionButton.setTitle(order.orderAction, forState: .Normal)
 
@@ -190,7 +181,7 @@ class TradeItTradingViewController: UIViewController {
         updateEstimatedChangedLabel()
     }
 
-    private func orderTypeSelected(orderType orderType: String?) {
+    private func orderTypeSelected(orderType orderType: String!) {
         order.orderType = orderType
         orderTypeButton.setTitle(order.orderType, forState: .Normal)
 
@@ -199,7 +190,6 @@ class TradeItTradingViewController: UIViewController {
             orderExpirationButton.superview?.hidden = false
         } else {
             orderExpirationButton.superview?.hidden = true
-            order.orderExpiration = nil
         }
 
         // Show/hide limit and/or stop
@@ -218,7 +208,7 @@ class TradeItTradingViewController: UIViewController {
         updatePreviewOrderButtonStatus()
     }
 
-    private func orderExpirationSelected(orderExpiration orderExpiration: String?) {
+    private func orderExpirationSelected(orderExpiration orderExpiration: String!) {
         order.orderExpiration = orderExpiration
         orderExpirationButton.setTitle(order.orderExpiration, forState: .Normal)
     }

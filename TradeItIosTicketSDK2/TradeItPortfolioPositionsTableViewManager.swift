@@ -1,9 +1,6 @@
 import UIKit
 
 class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-    
-    let PORTFOLIO_POSITIONS_HEADER_ID = "PORTFOLIO_POSITIONS_HEADER_ID"
-    let PORTFOLIO_POSITIONS_CELL_ID = "PORTFOLIO_POSITIONS_CELL_ID"
 
     private var positions: [TradeItPortfolioPosition] = []
     private var _table: UITableView?
@@ -59,22 +56,35 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_POSITIONS_HEADER_ID) as! TradeItPortfolioPositionsTableViewHeader
-        cell.updateColumns(self.positions)
-
+        var cell: UITableViewCell!
+        if self.positions.count > 0 {
+            if self.positions[0].position != nil {
+                cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
+            }
+            else if self.positions[0].fxPosition != nil {
+                cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_HEADER_ID")
+            }
+        }
         return cell
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_POSITIONS_CELL_ID) as! TradeItPortfolioPositionsTableViewCell
-        
+        var cell :UITableViewCell!
         let position = self.positions[indexPath.row]
-        cell.populate(withPosition: position)
 
+        if position.position != nil {
+            let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
+            equityCell.populate(withPosition: position)
+            cell = equityCell
+        }
+        else if position.fxPosition != nil {
+            let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
+            fxCell.populate(withPosition: position)
+            cell = fxCell
+        }
         if self.selectedPositionIndex == indexPath.row {
             cell.setSelected(true, animated: true)
         }
-
         return cell
     }
     

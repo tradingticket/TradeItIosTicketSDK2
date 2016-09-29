@@ -44,7 +44,7 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
     
     @IBAction func addAccountWasTapped(sender: AnyObject) {
         let controllersStack = self.navigationController?.viewControllers
-        self.linkBrokerUIFlow.launch(
+        self.linkBrokerUIFlow.launchLinkBrokerFlow(
             inViewController: self,
             showWelcomeScreen: false,
             promptForAccountSelection: false,

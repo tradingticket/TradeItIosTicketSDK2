@@ -26,13 +26,9 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     // MARK: IBActions
 
     @IBAction func relinkAccountWasTapped(sender: AnyObject) {
-        let linkedLogin = self.linkedBroker.linkedLogin
-        let broker = TradeItBroker(shortName: linkedLogin.broker, longName: linkedLogin.broker)
-        self.linkBrokerUIFlow.launchIntoLoginScreen(
+        self.linkBrokerUIFlow.launchRelinkBrokerFlow(
             inViewController: self,
-            selectedBroker: broker,
-            selectedReLinkedBroker: self.linkedBroker,
-            mode: TradeItLoginViewControllerMode.relink,
+            linkedBroker: self.linkedBroker,
             onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 self.linkedBroker.refreshAccountBalances(
@@ -57,7 +53,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 if self.linkedBrokerManager.linkedBrokers.count > 0 {
                     self.navigationController?.popViewControllerAnimated(true)
                 } else {
-                    self.linkBrokerUIFlow.launch(
+                    self.linkBrokerUIFlow.launchLinkBrokerFlow(
                         inViewController: self,
                         showWelcomeScreen: true,
                         promptForAccountSelection: false,

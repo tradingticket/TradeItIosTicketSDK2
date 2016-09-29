@@ -92,12 +92,15 @@ class TradeItLoginViewControllerSpec: QuickSpec {
             describe("relinking the account") {
                 var relinkedBroker: FakeTradeItLinkedBroker!
                 beforeEach {
-                    relinkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "my label", broker: "my broker", userId: "my userId", andKeyChainId: "my keychain id"))
+                    relinkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(),
+                                                             linkedLogin: TradeItLinkedLogin(label: "my label",
+                                                                                             broker: "my broker",
+                                                                                             userId: "my userId",
+                                                                                             andKeyChainId: "my keychain id"))
                     controller.userNameInput.text = "My Special Username"
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
-                    controller.mode = TradeItLoginViewControllerMode.relink
                     controller.relinkLinkedBroker = relinkedBroker
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
@@ -170,7 +173,6 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
-                    controller.mode = nil
 
                     controller.linkButtonWasTapped(controller.linkButton)
                 }

@@ -101,7 +101,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
-                    controller.relinkLinkedBroker = relinkedBroker
+                    controller.linkedBrokerToRelink = relinkedBroker
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
                 

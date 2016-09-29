@@ -12,14 +12,14 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
         var tradeItAlert: FakeTradeItAlert!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
-        
+
         describe("initialization") {
             beforeEach {
                 accountManagementTableManager = FakeTradeItAccountManagementTableViewManager()
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
-                
+
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
@@ -35,22 +35,22 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 controller.linkedBroker = linkedBroker
                 tradeItAlert = FakeTradeItAlert()
                 controller.tradeItAlert = tradeItAlert
-                
+
                 nav = UINavigationController(rootViewController: controller)
-                
+
                 window.addSubview(nav.view)
-                
+
                 flushAsyncEvents()
             }
-            
+
             it("sets up the accountsManagementTableManager") {
                 expect(accountManagementTableManager.accountsTableView).to(be(controller.accountsTableView))
             }
-            
+
             it("populates the table with the linkedBrokerAccounts") {
                 expect(accountManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)").count).to(equal(1))
             }
-            
+
             describe("pull to refresh") {
                 var onRefreshCompleteWasCalled = false
                 var accountsArg: [TradeItLinkedBrokerAccount]?

@@ -47,10 +47,10 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     }
     
     @IBAction func unlinkAccountWasTapped(sender: AnyObject) {
-        self.tradeItAlert.showValidationAlert(onController: self,
-                                              withTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
-                                              withMessage: "Are you sure you want to unlink your account and remove all the associated data ?",
-                                              withActionOkTitle: "Unlink",
+        self.tradeItAlert.showValidationAlert(onViewController: self,
+                                              title: "Unlink \(self.linkedBroker.linkedLogin.broker)",
+                                              message: "Are you sure you want to unlink your account and remove all the associated data ?",
+                                              actionTitle: "Unlink",
             onValidate: {
                 self.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
@@ -96,7 +96,8 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 return "Some Answer"
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+                self.tradeItAlert.showTradeItErrorResultAlert(onViewController: self,
+                                                              errorResult: tradeItErrorResult)
                 onRefreshComplete(withAccounts: nil)
             }
         )

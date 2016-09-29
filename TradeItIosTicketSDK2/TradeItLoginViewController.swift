@@ -62,7 +62,9 @@ class TradeItLoginViewController: KeyboardViewController {
                                                   onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
                                                     self.activityIndicator.stopAnimating()
                                                     self.enableLinkButton()
-                                                    self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+                                                    self.tradeItAlert.showTradeItErrorResultAlert(
+                                                        onViewController: self,
+                                                        errorResult: tradeItErrorResult)
             })
         }
         else {
@@ -73,7 +75,9 @@ class TradeItLoginViewController: KeyboardViewController {
                                                 onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
                                                     self.activityIndicator.stopAnimating()
                                                     self.enableLinkButton()
-                                                    self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+                                                    self.tradeItAlert.showTradeItErrorResultAlert(
+                                                        onViewController: self,
+                                                        errorResult: tradeItErrorResult)
             })
         }
     }
@@ -107,7 +111,8 @@ class TradeItLoginViewController: KeyboardViewController {
                 //TODO delete linkedLogin in keychain ?
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.tradeItAlert.showTradeItErrorResultAlert(onController: self, withError: tradeItErrorResult)
+                self.tradeItAlert.showTradeItErrorResultAlert(onViewController: self,
+                                                              errorResult: tradeItErrorResult)
             }
         )
     }

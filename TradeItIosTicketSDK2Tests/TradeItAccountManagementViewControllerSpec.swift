@@ -66,6 +66,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                         let onSuccess = selectedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! () -> Void
                         onSuccess()
                     }
+
                     it("calls refreshAccountBalances on the linkedBroker") {
                         expect(selectedBroker.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
                     }
@@ -75,6 +76,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                             let onFinished1 = selectedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                             onFinished1()
                         }
+
                         it("update the table with the fresh infos") {
                             let calls = accountsManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)")
                             expect(calls.count).to(equal(1))
@@ -86,14 +88,16 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 
                 context("when authentication fails") {
                     var error: TradeItErrorResult!
+
                     beforeEach {
                         error = TradeItErrorResult()
                         error.longMessages = ["My long message"]
                         let onFailure = selectedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! (TradeItErrorResult) -> Void
                         onFailure(error)
                     }
+
                     it("call showTradeItErrorResultAlert to display the error") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
                         expect(calls[0].args["withError"] as! TradeItErrorResult).to(be(error))
                     }
@@ -111,31 +115,31 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 }
                 
                 it("calls tradeItAlert to show a modal") {
-                    let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                    let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                     expect(calls.count).to(equal(1))
                 }
                 
                 describe("The user taps on unlink") {
-            
                     context("When the user has other broker accounts") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                            let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                             let onValidate = calls[0].args["onValidate"] as! () -> Void
                                 onValidate()
 
                         }
+
                         it("calls unlink method on the linkedBrokerManager") {
                             expect(linkedBrokerManager.calls.forMethod("unlinkBroker").count).to(equal(1))
                         }
-                        
                     }
                 }
                 
                 describe("the user taps on cancel") {
                     var accounts: [TradeItLinkedBrokerAccount]!
+
                     beforeEach {
                         accounts = selectedBroker.accounts
-                        let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                        let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                         let onCancel = calls[0].args["onCancel"] as! () -> Void
                         onCancel()
                     }
@@ -151,10 +155,12 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 beforeEach {
                     controller.relinkAccountWasTapped(controller)
                 }
+
                 it("calls the launchIntoLoginScreen from the linkedBrokerFlow") {
                     let calls = linkBrokerUIFlow.calls.forMethod("launchIntoLoginScreen(inViewController:selectedBroker:selectedReLinkedBroker:mode:onLinked:onFlowAborted:)")
                     expect(calls.count).to(equal(1))
                 }
+
                 context("when linking is finished from the login screen") {
                     var fakeNavigationController: FakeUINavigationController!
                     beforeEach {
@@ -167,6 +173,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                             
                         onLinked(presentedNavController: fakeNavigationController, selectedAccount: account1)
                     }
+
                     it("refreshes the account balance of the account") {
                         
                     }

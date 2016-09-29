@@ -8,6 +8,7 @@ class TradeItAlertSpec: QuickSpec {
         var controller: UIViewController!
         var window: UIWindow!
         var tradeItAlert: TradeItAlert!
+
         describe("initialization") {
             beforeEach {
                 window = UIWindow()
@@ -17,13 +18,12 @@ class TradeItAlertSpec: QuickSpec {
             }
             
             describe("showTradeItErrorResultAlert") {
-                
                 context("when there are nil shotMessage and nil longMessages") {
                     beforeEach {
                         let error = TradeItErrorResult()
                         flushAsyncEvents()
                         
-                        tradeItAlert.showTradeItErrorResultAlert(onController: controller, withError: error)
+                        tradeItAlert.showTradeItErrorResultAlert(onViewController: controller, errorResult: error)
                     }
                     
                     it("display a modal with an empty title and message") {
@@ -35,7 +35,7 @@ class TradeItAlertSpec: QuickSpec {
                 context("when there are nil shotMessage and nil longMessages") {
                     beforeEach {
                         let error = TradeItErrorResult()
-                        tradeItAlert.showTradeItErrorResultAlert(onController: controller, withError: error)
+                        tradeItAlert.showTradeItErrorResultAlert(onViewController: controller, errorResult: error)
                     }
                     
                     it("display a modal with an empty title and message") {
@@ -51,7 +51,7 @@ class TradeItAlertSpec: QuickSpec {
                         let error = TradeItErrorResult()
                         error.shortMessage = "My special short message."
                         error.longMessages = ["My special long message."]
-                        tradeItAlert.showTradeItErrorResultAlert(onController: controller, withError: error)
+                        tradeItAlert.showTradeItErrorResultAlert(onViewController: controller, errorResult: error)
                     }
                     
                     it("display a modal with an empty title and message") {
@@ -67,7 +67,7 @@ class TradeItAlertSpec: QuickSpec {
                         let error = TradeItErrorResult()
                         error.shortMessage = "My special short message."
                         error.longMessages = ["My special long message.", "My special 2 long message."]
-                        tradeItAlert.showTradeItErrorResultAlert(onController: controller, withError: error)
+                        tradeItAlert.showTradeItErrorResultAlert(onViewController: controller, errorResult: error)
                     }
                     
                     it("display a modal with an empty title and message") {
@@ -77,16 +77,16 @@ class TradeItAlertSpec: QuickSpec {
                         expect(alert.message).to(equal("My special long message. My special 2 long message."))
                     }
                 }
-                
             }
             
             describe("showErrorAlert") {
                 var title: String!
                 var message: String!
+
                 beforeEach {
                     title = "My special title."
                     message = "My special message."
-                    tradeItAlert.showErrorAlert(onController: controller, withTitle: title, withMessage: message)
+                    tradeItAlert.showErrorAlert(onViewController: controller, title: title, message: message)
                 }
                 
                 it("display a modal with an empty title and message") {
@@ -95,10 +95,7 @@ class TradeItAlertSpec: QuickSpec {
                     expect(alert.title).to(equal(title))
                     expect(alert.message).to(equal(message))
                 }
-
             }
-            
         }
     }
-    
 }

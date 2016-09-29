@@ -313,7 +313,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     }
                     
                     it("calls the showTradeItErrorResultAlert to show a modal") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
                     }
                     
@@ -323,8 +323,8 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     
                     describe("dismissing the alert") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
-                            let onCompletion = calls[0].args["withCompletion"] as! () -> Void
+                            let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                            let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                             onCompletion()
                         }
                         
@@ -366,7 +366,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             }
             
             it("calls the showTradeItErrorResultAlert to show a modal") {
-                let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                 expect(calls.count).to(equal(1))
             }
             
@@ -376,8 +376,8 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             
             describe("dismissing the alert") {
                 beforeEach {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
-                        let onCompletion = calls[0].args["withCompletion"] as! () -> Void
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                        let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                         onCompletion()
                 }
                 

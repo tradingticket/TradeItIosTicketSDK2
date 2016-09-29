@@ -301,7 +301,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                 beforeEach {
                     tradeItLinkedBrokerAccount.fxBalance = nil
                     tradeItLinkedBrokerAccount.balance = nil
-                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValue()
+                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
                     
                 }
                 it("returns N/A") {
@@ -320,7 +320,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     accountOverview.totalValue = 45678
                     tradeItLinkedBrokerAccount.balance = accountOverview
                     tradeItLinkedBrokerAccount.fxBalance = nil
-                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValue()
+                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
                     
                 }
                 it("returns the expected format") {
@@ -341,7 +341,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     accountOverview.totalPercentReturn = 5.43
                     tradeItLinkedBrokerAccount.balance = accountOverview
                     tradeItLinkedBrokerAccount.fxBalance = nil
-                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValue()
+                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
                     
                 }
                 it("returns the expected format") {
@@ -360,7 +360,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                     tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
                     tradeItLinkedBrokerAccount.balance = nil
-                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValue()
+                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
                     
                 }
                 it("returns the expected format") {
@@ -381,7 +381,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                     tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
                     tradeItLinkedBrokerAccount.balance = nil
-                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValue()
+                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
                     
                 }
                 it("returns the expected format") {

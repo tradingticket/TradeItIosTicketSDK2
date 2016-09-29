@@ -16,8 +16,12 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         super.viewDidLoad()
         self.brokerManagementTableManager.delegate = self
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
     }
+
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == toAccountManagementScreen {
@@ -33,12 +37,6 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
     func linkedBrokerWasSelected(selectedLinkedBroker: TradeItLinkedBroker) {
         self.selectedLinkedBroker = selectedLinkedBroker
         self.performSegueWithIdentifier(toAccountManagementScreen, sender: self)
-    }
-    
-    // MARK: - IBAction
-    
-    @IBAction func unwindToBrokerManagementController(segue: UIStoryboardSegue){
-        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
     }
     
     

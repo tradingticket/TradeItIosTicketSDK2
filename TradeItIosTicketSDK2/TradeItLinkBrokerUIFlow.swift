@@ -70,7 +70,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
         selectBrokerViewController.delegate = self
         fromWelcomeViewController.navigationController!.pushViewController(selectBrokerViewController, animated: true)
-//        fromViewController.navigationController!.viewControllers = [selectBrokerController]
+//        fromWelcomeViewController.navigationController!.setViewControllers([selectBrokerViewController], animated: true)
     }
 
     func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController) {

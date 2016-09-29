@@ -14,6 +14,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
         super.viewDidLoad()
 
         self.accountManagementTableManager.delegate = self
+        self.accountManagementTableManager.accountsTableView = self.accountsTableView
     }
 
     override func viewWillAppear(animated: Bool) {

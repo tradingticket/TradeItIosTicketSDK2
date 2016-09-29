@@ -6,7 +6,6 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
-//    var refreshControl: UIRefreshControl = UIRefreshControl()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
     @IBOutlet weak var accountsTableView: UITableView!
@@ -29,21 +28,20 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     @IBAction func relinkAccountWasTapped(sender: AnyObject) {
         let linkedLogin = self.linkedBroker.linkedLogin
         let broker = TradeItBroker(shortName: linkedLogin.broker, longName: linkedLogin.broker)
-        let controllersStack = self.navigationController?.viewControllers
         self.linkBrokerUIFlow.launchIntoLoginScreen(
             inViewController: self,
             selectedBroker: broker,
             selectedReLinkedBroker: self.linkedBroker,
             mode: TradeItLoginViewControllerMode.relink,
             onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
-                presentedNavController.setViewControllers(controllersStack!, animated: true)
+                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {
                         self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                //Nothing to do ?
+                //Nothing to do
             }
         )
     }
@@ -57,9 +55,20 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 self.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
                 if self.linkedBrokerManager.linkedBrokers.count > 0 {
-                    self.performSegueWithIdentifier("UNWIND_TO_BROKER_MANAGEMENT", sender: self)
+                    self.navigationController?.popViewControllerAnimated(true)
                 } else {
-                    // Launch Welcome flow
+                    self.linkBrokerUIFlow.launch(
+                        inViewController: self,
+                        showWelcomeScreen: true,
+                        promptForAccountSelection: false,
+                        onLinked: { (presentedNavController, selectedAccount) in
+                            presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                        }, onFlowAborted: { (presentedNavController) in
+                            presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                            // For now go back to the broker selection screen which has the option to add a broker
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
+                    )
                 }
             },
             onCancel: {

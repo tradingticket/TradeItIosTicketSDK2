@@ -78,8 +78,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     // MARK: - TradeItPortfolioAccountsTableDelegate
     
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
-        self.accountSummaryViewManager.populateSummarySection(selectedAccount)
         self.holdingsActivityIndicator.startAnimating()
+        self.accountSummaryViewManager.populateSummarySection(selectedAccount)
         selectedAccount.getPositions(
             onFinished: {
                 self.holdingsActivityIndicator.stopAnimating()

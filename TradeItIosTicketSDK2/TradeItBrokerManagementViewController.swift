@@ -23,7 +23,7 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         if segue.identifier == toAccountManagementScreen {
             if let destinationViewController = segue.destinationViewController as? TradeItAccountManagementViewController,
                 broker = self.selectedLinkedBroker {
-                destinationViewController.selectedLinkedBroker = broker
+                destinationViewController.linkedBroker = broker
             }
         }
     }

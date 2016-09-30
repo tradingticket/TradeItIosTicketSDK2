@@ -3,38 +3,47 @@ import TradeItIosEmsApi
 
 class FakeTradeItAlert: TradeItAlert {
     let calls = SpyRecorder()
-    
-    override func showErrorAlert(onController controller: UIViewController, withTitle title: String,  withMessage message: String, withActionTitle actionTitle: String, withCompletion completion: () -> Void) {
+
+    override func showErrorAlert(onViewController viewController: UIViewController,
+                                                  title: String,
+                                                  message: String,
+                                                  actionTitle: String,
+                                                  onAlertDismissed: () -> Void) {
         self.calls.record(#function,
                           args: [
-                            "onController": controller,
-                            "withTitle": title,
-                            "withMessage": message,
-                            "withActionTitle": actionTitle,
-                            "withCompletion": completion,
-                            
-            ])
+                            "onViewController": viewController,
+                            "title": title,
+                            "message": message,
+                            "actionTitle": actionTitle,
+                            "onAlertDismissed": onAlertDismissed,
+                          ])
     }
     
-    override func showTradeItErrorResultAlert(onController controller: UIViewController, withError tradeItErrorResult: TradeItErrorResult, withCompletion completion: () -> Void) {
+    override func showTradeItErrorResultAlert(onViewController viewController: UIViewController,
+                                                               errorResult: TradeItErrorResult,
+                                                               onAlertDismissed: () -> Void) {
         self.calls.record(#function,
                           args: [
-                            "onController": controller,
-                            "withError": tradeItErrorResult,
-                            "withCompletion": completion
-            ])
+                            "onViewController": viewController,
+                            "errorResult": errorResult,
+                            "onAlertDismissed": onAlertDismissed
+                          ])
     }
     
-    override func showValidationAlert(onController controller: UIViewController, withTitle title: String, withMessage message: String, withActionOkTitle actionTitle: String, onValidate: () -> Void, onCancel: () -> Void, withCompletion completion: () -> Void) {
+    override func showValidationAlert(onViewController viewController: UIViewController,
+                                                       title: String,
+                                                       message: String,
+                                                       actionTitle: String,
+                                                       onValidate: () -> Void,
+                                                       onCancel: () -> Void) {
         self.calls.record(#function,
                           args: [
-                            "onController": controller,
-                            "withTitle": title,
-                            "withMessage": message,
-                            "withActionOkTitle": actionTitle,
+                            "onViewController": viewController,
+                            "title": title,
+                            "message": message,
+                            "actionTitle": actionTitle,
                             "onValidate": onValidate,
-                            "onCancel": onCancel,
-                            "withCompletion": completion
-            ])
+                            "onCancel": onCancel
+                          ])
     }
 }

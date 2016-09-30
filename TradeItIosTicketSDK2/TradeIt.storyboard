@@ -1156,15 +1156,13 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aA2-5Q-dQz">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="native_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vvf-84-FrP">
-                                        <frame key="frameInset" minX="560" minY="12" width="20" height="25"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="native_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vvf-84-FrP">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="G4o-5u-vqZ"/>
                                             <constraint firstAttribute="height" constant="25" id="rty-m6-eAW"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0g3-ld-zcf">
-                                        <frame key="frameInset" minY="10" width="600" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0g3-ld-zcf">
                                         <state key="normal" title="Relink Account">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -1190,8 +1188,7 @@
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Khs-rd-2FR">
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syT-Mp-amo">
-                                        <frame key="frameInset" minY="10" width="600" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syT-Mp-amo">
                                         <state key="normal" title="Unkink Account">
                                             <color key="titleColor" red="0.95160442590713501" green="0.18191250505818882" blue="0.13573978274409054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -1237,11 +1234,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="accountsTableView" destination="pIx-2Y-F4H" id="m8U-Si-SP0"/>
-                        <segue destination="dzp-XD-MZA" kind="unwind" identifier="UNWIND_TO_BROKER_MANAGEMENT" unwindAction="unwindToBrokerManagementController:" id="eK2-Om-gm9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ore-0F-Ogj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="dzp-XD-MZA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2470" y="-1884"/>
         </scene>

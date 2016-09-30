@@ -16,14 +16,18 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         super.viewDidLoad()
         self.brokerManagementTableManager.delegate = self
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
     }
+
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == toAccountManagementScreen {
             if let destinationViewController = segue.destinationViewController as? TradeItAccountManagementViewController,
                 broker = self.selectedLinkedBroker {
-                destinationViewController.selectedLinkedBroker = broker
+                destinationViewController.linkedBroker = broker
             }
         }
     }
@@ -35,16 +39,10 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         self.performSegueWithIdentifier(toAccountManagementScreen, sender: self)
     }
     
-    // MARK: - IBAction
-    
-    @IBAction func unwindToBrokerManagementController(segue: UIStoryboardSegue){
-        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
-    }
-    
     
     @IBAction func addAccountWasTapped(sender: AnyObject) {
         let controllersStack = self.navigationController?.viewControllers
-        self.linkBrokerUIFlow.launch(
+        self.linkBrokerUIFlow.launchLinkBrokerFlow(
             inViewController: self,
             showWelcomeScreen: false,
             promptForAccountSelection: false,

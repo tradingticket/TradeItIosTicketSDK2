@@ -22,7 +22,7 @@ import TradeItIosEmsApi
             let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
             navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
 
-            self.linkBrokerUIFlow.launch(
+            self.linkBrokerUIFlow.launchLinkBrokerFlow(
                 inViewController: viewController,
                 showWelcomeScreen: true,
                 promptForAccountSelection: false,

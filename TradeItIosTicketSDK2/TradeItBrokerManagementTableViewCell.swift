@@ -7,7 +7,7 @@ class TradeItBrokerManagementTableViewCell: UITableViewCell {
 
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         let presenter = TradeItLinkedBrokerPresenter(linkedBroker: linkedBroker)
-        self.brokerLabel.text = presenter.getFormattedBrokerLibelle()
+        self.brokerLabel.text = presenter.getFormattedBrokerLabel()
         self.brokerAccountsLabel.text = presenter.getFormattedBrokerAccountsLabel()
     }
     

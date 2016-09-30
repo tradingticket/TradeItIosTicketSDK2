@@ -92,13 +92,16 @@ class TradeItLoginViewControllerSpec: QuickSpec {
             describe("relinking the account") {
                 var relinkedBroker: FakeTradeItLinkedBroker!
                 beforeEach {
-                    relinkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "my label", broker: "my broker", userId: "my userId", andKeyChainId: "my keychain id"))
+                    relinkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(),
+                                                             linkedLogin: TradeItLinkedLogin(label: "my label",
+                                                                                             broker: "my broker",
+                                                                                             userId: "my userId",
+                                                                                             andKeyChainId: "my keychain id"))
                     controller.userNameInput.text = "My Special Username"
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
-                    controller.mode = TradeItLoginViewControllerMode.relink
-                    controller.relinkLinkedBroker = relinkedBroker
+                    controller.linkedBrokerToRelink = relinkedBroker
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
                 
@@ -170,7 +173,6 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
                     controller.passwordOnEditingChanged(controller.passwordInput)
-                    controller.mode = nil
 
                     controller.linkButtonWasTapped(controller.linkButton)
                 }
@@ -313,7 +315,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     }
                     
                     it("calls the showTradeItErrorResultAlert to show a modal") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
                     }
                     
@@ -323,8 +325,8 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     
                     describe("dismissing the alert") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
-                            let onCompletion = calls[0].args["withCompletion"] as! () -> Void
+                            let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                            let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                             onCompletion()
                         }
                         
@@ -366,7 +368,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             }
             
             it("calls the showTradeItErrorResultAlert to show a modal") {
-                let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                 expect(calls.count).to(equal(1))
             }
             
@@ -376,8 +378,8 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             
             describe("dismissing the alert") {
                 beforeEach {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
-                        let onCompletion = calls[0].args["withCompletion"] as! () -> Void
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                        let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                         onCompletion()
                 }
                 

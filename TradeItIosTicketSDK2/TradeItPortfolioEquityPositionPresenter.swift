@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItPortfolioPositionEquityPresenter: TradeItPortfolioPositionPresenter {
+class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
     let position: TradeItPosition
 
     override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {

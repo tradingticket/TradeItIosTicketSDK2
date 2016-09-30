@@ -3,8 +3,8 @@ import UIKit
 
 class TradeItTradingBrokerAccountView: UIView {
     @IBOutlet weak var accountButton: UIButton!
-    @IBOutlet weak var availableLabel: UILabel!
-    @IBOutlet weak var availableDescriptionLabel: UILabel!
+    @IBOutlet weak var resourceAvailabilityLabel: UILabel!
+    @IBOutlet weak var resourceAvailabilityDescriptionLabel: UILabel!
 
     enum PresentationMode {
         case BUYING_POWER
@@ -22,29 +22,29 @@ class TradeItTradingBrokerAccountView: UIView {
 
     func updatePresentationMode(presentationMode: PresentationMode) {
         self.presentationMode = presentationMode
-        updateAvailableLabels()
+        updateResourceAvailabilityLabels()
     }
 
     func updateBrokerAccount(brokerAccount: TradeItLinkedBrokerAccount) {
         self.brokerAccount = brokerAccount
         self.accountButton.setTitle(brokerAccount.getFormattedAccountName(), forState: .Normal)
-        updateAvailableLabels()
+        updateResourceAvailabilityLabels()
     }
 
     func updateSharesOwned(sharesOwned: NSNumber) {
         self.sharesOwned = sharesOwned
-        updateAvailableLabels()
+        updateResourceAvailabilityLabels()
     }
 
-    private func updateAvailableLabels() {
+    private func updateResourceAvailabilityLabels() {
         switch presentationMode {
         case .BUYING_POWER:
             guard let brokerAccount = brokerAccount else { return }
-            self.availableLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
-            self.availableDescriptionLabel.text = "Buying Power"
+            self.resourceAvailabilityLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
+            self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
         case .SHARES_OWNED:
-            self.availableLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
-            self.availableDescriptionLabel.text = "Shares Owned"
+            self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
+            self.resourceAvailabilityDescriptionLabel.text = "Shares Owned"
         }
     }
 }

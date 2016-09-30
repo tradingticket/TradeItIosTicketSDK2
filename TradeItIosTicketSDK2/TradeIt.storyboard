@@ -479,8 +479,8 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="accountButton" destination="8GH-T9-wjw" id="Qxl-dh-EK1"/>
-                                    <outlet property="availableDescriptionLabel" destination="fmF-Fi-03F" id="GAq-eg-Lma"/>
-                                    <outlet property="availableLabel" destination="v1r-Sh-QM0" id="7Ed-yY-DSY"/>
+                                    <outlet property="resourceAvailabilityDescriptionLabel" destination="fmF-Fi-03F" id="Moc-d4-zho"/>
+                                    <outlet property="resourceAvailabilityLabel" destination="v1r-Sh-QM0" id="8De-HY-0A7"/>
                                 </connections>
                             </view>
                         </subviews>

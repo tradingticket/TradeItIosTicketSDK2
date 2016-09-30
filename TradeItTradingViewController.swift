@@ -66,47 +66,15 @@ class TradeItTradingViewController: UIViewController {
             )
         }
 
-        orderActionSelected(orderAction: order.orderAction)
-        orderTypeSelected(orderType: order.orderType)
-        orderExpirationSelected(orderExpiration: order.orderExpiration)
+        orderActionSelected(orderAction: order.action)
+        orderTypeSelected(orderType: TradeItOrderTypeHelper.labelFor(order.type))
+        orderExpirationSelected(orderExpiration: order.expiration)
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    // MARK: Keyboard event handlers
-
-    func registerKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(self.keyboardWillShow(_:)),
-            name: UIKeyboardWillShowNotification,
-            object: nil
-        )
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(self.keyboardWillHide(_:)),
-            name: UIKeyboardWillHideNotification,
-            object: nil
-        )
-    }
-
-    func keyboardWillShow(notification: NSNotification) {
-        let info = notification.userInfo!
-        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
-        })
-    }
-
-    func keyboardWillHide(_: NSNotification) {
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
-        })
     }
 
     // MARK: Text field change handlers
@@ -136,7 +104,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderTypeTapped(sender: UIButton) {
         presentOptions(
             "Order Type",
-            options: TradeItOrder.ORDER_TYPES,
+            options: TradeItOrderTypeHelper.labels(),
             handler: self.orderTypeSelected
         )
     }
@@ -169,10 +137,10 @@ class TradeItTradingViewController: UIViewController {
     }
 
     private func orderActionSelected(orderAction orderAction: String!) {
-        order.orderAction = orderAction
-        orderActionButton.setTitle(order.orderAction, forState: .Normal)
+        order.action = orderAction
+        orderActionButton.setTitle(order.action, forState: .Normal)
 
-        if(order.orderAction == "Buy") {
+        if(order.action == "Buy") {
             accountSummaryView.updatePresentationMode(.BUYING_POWER)
         } else {
             accountSummaryView.updatePresentationMode(.SHARES_OWNED)
@@ -182,8 +150,8 @@ class TradeItTradingViewController: UIViewController {
     }
 
     private func orderTypeSelected(orderType orderType: String!) {
-        order.orderType = orderType
-        orderTypeButton.setTitle(order.orderType, forState: .Normal)
+        order.type = TradeItOrderTypeHelper.enumFor(orderType)
+        orderTypeButton.setTitle(TradeItOrderTypeHelper.labelFor(order.type), forState: .Normal)
 
         // Show/hide order expiration
         if(order.requiresExpiration()) {
@@ -209,8 +177,8 @@ class TradeItTradingViewController: UIViewController {
     }
 
     private func orderExpirationSelected(orderExpiration orderExpiration: String!) {
-        order.orderExpiration = orderExpiration
-        orderExpirationButton.setTitle(order.orderExpiration, forState: .Normal)
+        order.expiration = orderExpiration
+        orderExpirationButton.setTitle(order.expiration, forState: .Normal)
     }
 
     private func updatePreviewOrderButtonStatus() {
@@ -238,7 +206,7 @@ class TradeItTradingViewController: UIViewController {
     private func updateEstimatedChangedLabel() {
         if let estimatedChange = order.estimatedChange() {
             let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange)
-            if order.orderAction == "Buy" {
+            if order.action == "Buy" {
                 estimatedChangeLabel.text = "Est. Cost \(formattedEstimatedChange)"
             } else {
                 estimatedChangeLabel.text = "Est. Proceeds \(formattedEstimatedChange)"
@@ -246,6 +214,38 @@ class TradeItTradingViewController: UIViewController {
         } else {
             estimatedChangeLabel.text = nil
         }
+    }
+
+    // MARK: Private - Keyboard event handlers
+
+    private func registerKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow(_:)),
+            name: UIKeyboardWillShowNotification,
+            object: nil
+        )
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: #selector(self.keyboardWillHide(_:)),
+            name: UIKeyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        let info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+        })
+    }
+
+    @objc private func keyboardWillHide(_: NSNotification) {
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+        })
     }
 
     // MARK: Private - Action sheet helper

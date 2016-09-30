@@ -1,16 +1,14 @@
 class TradeItOrder {
     static let DEFAULT_ORDER_ACTION = "Buy"
     static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
-    static let DEFAULT_ORDER_TYPE = "Market"
-    static let ORDER_TYPES = ["Market", "Limit", "Stop Market", "Stop Limit"]
     static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
     static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
 
     var brokerAccount: TradeItLinkedBrokerAccount
     var symbol: String
-    var orderAction: String = DEFAULT_ORDER_ACTION
-    var orderType: String = DEFAULT_ORDER_TYPE
-    var orderExpiration: String = DEFAULT_ORDER_EXPIRATION
+    var action: String = DEFAULT_ORDER_ACTION
+    var type: TradeItOrderType = TradeItOrderTypePresenter.DEFAULT_TYPE
+    var expiration: String = DEFAULT_ORDER_EXPIRATION
     var shares: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
@@ -22,15 +20,15 @@ class TradeItOrder {
     }
 
     func requiresLimitPrice() -> Bool {
-        return ["Limit", "Stop Limit"].contains(orderType)
+        return TradeItOrderTypePresenter.LIMIT_TYPES.contains(type)
     }
 
     func requiresStopPrice() -> Bool {
-        return ["Stop Market", "Stop Limit"].contains(orderType)
+        return TradeItOrderTypePresenter.STOP_TYPES.contains(type)
     }
 
     func requiresExpiration() -> Bool {
-        return orderType != "Market"
+        return TradeItOrderTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
     func estimatedChange() -> NSDecimalNumber? {
@@ -52,12 +50,11 @@ class TradeItOrder {
     }
 
     private func validateOrderType() -> Bool {
-        switch orderType {
-        case "Market": return true
-        case "Limit": return validateLimit()
-        case "Stop Market": return validateStopMarket()
-        case "Stop Limit": return validateStopLimit()
-        default: return false
+        switch type {
+        case .Market: return true
+        case .Limit: return validateLimit()
+        case .StopMarket: return validateStopMarket()
+        case .StopLimit: return validateStopLimit()
         }
     }
 

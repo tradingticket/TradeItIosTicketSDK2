@@ -36,8 +36,9 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
 
                 self.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
-                        self.accountsTableViewManager.updateAccounts(withAccounts: self.linkedBrokerManager.getAllAccounts())
-                        self.updateAllAccountsValue(withAccounts: self.linkedBrokerManager.getAllAccounts())
+                        let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
+                        self.accountsTableViewManager.updateAccounts(withAccounts: accounts)
+                        self.updateAllAccountsValue(withAccounts: accounts)
                         self.ezLoadingActivityManager.hide()
                     }
                 )
@@ -45,11 +46,18 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
         )
     }
     
+    override func viewWillAppear(animated: Bool) {
+        let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
+        self.accountsTableViewManager.updateAccounts(withAccounts: accounts)
+        self.updateAllAccountsValue(withAccounts: accounts)
+        if (accounts.count == 0) {
+            self.positionsTableViewManager.updatePositions(withPositions: [])
+        }
+    }
+    
     //MARK: private methods
-
     private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalValue: Float = 0
-
         for account in accounts {
             if let balance = account.balance {
                 totalValue += balance.totalValue as Float
@@ -57,7 +65,6 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
                 totalValue += fxBalance.totalValueUSD as Float
             }
         }
-
         self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue)
     }
     

@@ -19,6 +19,19 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
                               "onFailure": onFailure
                           ])
     }
+    
+    override func relinkBroker(linkedBroker: TradeItLinkedBroker,
+                               authInfo: TradeItAuthenticationInfo,
+                               onSuccess: (TradeItLinkedBroker) -> Void,
+                               onFailure: (TradeItErrorResult) -> Void) -> Void {
+        self.calls.record(#function,
+                          args: [
+                            "linkedBroker": linkedBroker,
+                            "authInfo": authInfo,
+                            "onSuccess": onSuccess,
+                            "onFailure": onFailure
+            ])
+    }
 
     override func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
                                                 onFailure: () -> Void) -> Void {
@@ -30,6 +43,10 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     }
     
     override func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
+        return hackAccountsToReturn
+    }
+    
+    override func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return hackAccountsToReturn
     }
 
@@ -46,6 +63,13 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
         self.calls.record(#function,
                           args: [
                               "onFinished": onFinished
+                          ])
+    }
+    
+    override func unlinkBroker(linkedBroker: TradeItLinkedBroker) {
+        self.calls.record(#function,
+                          args: [
+                            "linkedBroker": linkedBroker
                           ])
     }
 }

@@ -1,7 +1,7 @@
 import TradeItIosEmsApi
 import UIKit
 
-class TradeItAccountSummaryView: UIView {
+class TradeItTradingBrokerAccountView: UIView {
     @IBOutlet weak var accountButton: UIButton!
     @IBOutlet weak var availableLabel: UILabel!
     @IBOutlet weak var availableDescriptionLabel: UILabel!

@@ -3,7 +3,7 @@ import TradeItIosEmsApi
 
 class TradeItTradingViewController: UIViewController {
     @IBOutlet weak var symbolView: TradeItSymbolView!
-    @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
+    @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
     @IBOutlet weak var orderTypeButton: UIButton!
     @IBOutlet weak var orderExpirationButton: UIButton!
@@ -41,7 +41,7 @@ class TradeItTradingViewController: UIViewController {
         // Update account summary view
         order.brokerAccount.getAccountOverview(onFinished: {
             // QUESTION: Alex was saying something different in the pivotal story - ask him about that
-            self.accountSummaryView.updateBrokerAccount(order.brokerAccount)
+            self.tradingBrokerAccountView.updateBrokerAccount(order.brokerAccount)
         })
 
         order.brokerAccount.getPositions(onFinished: {
@@ -52,7 +52,7 @@ class TradeItTradingViewController: UIViewController {
 
             let portfolioPosition = order.brokerAccount.positions[portfolioPositionIndex]
 
-            self.accountSummaryView.updateSharesOwned(portfolioPosition.position.quantity)
+            self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
         })
 
         registerKeyboardNotifications()
@@ -67,7 +67,7 @@ class TradeItTradingViewController: UIViewController {
         }
 
         orderActionSelected(orderAction: order.action)
-        orderTypeSelected(orderType: TradeItOrderTypeHelper.labelFor(order.type))
+        orderTypeSelected(orderType: TradeItOrderTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: order.expiration)
     }
 
@@ -104,7 +104,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderTypeTapped(sender: UIButton) {
         presentOptions(
             "Order Type",
-            options: TradeItOrderTypeHelper.labels(),
+            options: TradeItOrderTypePresenter.labels(),
             handler: self.orderTypeSelected
         )
     }
@@ -141,17 +141,17 @@ class TradeItTradingViewController: UIViewController {
         orderActionButton.setTitle(order.action, forState: .Normal)
 
         if(order.action == "Buy") {
-            accountSummaryView.updatePresentationMode(.BUYING_POWER)
+            tradingBrokerAccountView.updatePresentationMode(.BUYING_POWER)
         } else {
-            accountSummaryView.updatePresentationMode(.SHARES_OWNED)
+            tradingBrokerAccountView.updatePresentationMode(.SHARES_OWNED)
         }
 
         updateEstimatedChangedLabel()
     }
 
     private func orderTypeSelected(orderType orderType: String!) {
-        order.type = TradeItOrderTypeHelper.enumFor(orderType)
-        orderTypeButton.setTitle(TradeItOrderTypeHelper.labelFor(order.type), forState: .Normal)
+        order.type = TradeItOrderTypePresenter.enumFor(orderType)
+        orderTypeButton.setTitle(TradeItOrderTypePresenter.labelFor(order.type), forState: .Normal)
 
         // Show/hide order expiration
         if(order.requiresExpiration()) {

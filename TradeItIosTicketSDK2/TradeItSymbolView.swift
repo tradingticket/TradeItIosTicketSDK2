@@ -13,12 +13,13 @@ class TradeItSymbolView: UIView {
         case LOADED
     }
 
-    let indicator_up = "▲"
-    let indicator_down = "▼"
+    static let INDICATOR_UP = "▲"
+    static let INDICATOR_DOWN = "▼"
     let dateFormatter = NSDateFormatter()
 
     func updateSymbol(symbol: String) {
         self.symbolButton.setTitle(symbol, forState: .Normal)
+        clearQuote()
     }
 
     func updateQuote(quote: TradeItQuote) {
@@ -46,11 +47,17 @@ class TradeItSymbolView: UIView {
         }
     }
 
+    private func clearQuote() {
+        self.quoteLastPriceLabel.text = nil
+        self.quoteChangeLabel.text = nil
+        self.updatedAtLabel.text = nil
+    }
+
     private func indicator(value: Double) -> String {
         if value > 0.0 {
-            return indicator_down
+            return TradeItSymbolView.INDICATOR_UP
         } else if value < 0 {
-            return indicator_down
+            return TradeItSymbolView.INDICATOR_DOWN
         } else {
             return ""
         }

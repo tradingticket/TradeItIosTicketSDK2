@@ -29,7 +29,9 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        let linkedBroker = self.linkedBrokers[indexPath.section]
+        let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
+        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
     }
     
     // MARK: UITableViewDataSource
@@ -93,6 +95,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 }
 
 protocol TradeItAccountSelectionTableViewManagerDelegate {
+    func linkedBrokerAccountWasSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount)
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
                                                                 onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void)
 }

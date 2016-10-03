@@ -8,6 +8,7 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     @IBOutlet weak var accountsTableView: UITableView!
     
     var selectedLinkedBroker: TradeItLinkedBroker!
+    var delegate: TradeItAccountSelectionViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,5 +39,13 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
             }
         )
     }
+    
+    func linkedBrokerAccountWasSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.delegate?.linkedBrokerAccountWasSelected(self, linkedBrokerAccount: linkedBrokerAccount)
+    }
 
+}
+
+protocol TradeItAccountSelectionViewControllerDelegate {
+    func linkedBrokerAccountWasSelected(fromAccountSelectionViewController: TradeItAccountSelectionViewController, linkedBrokerAccount: TradeItLinkedBrokerAccount)
 }

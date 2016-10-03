@@ -1580,6 +1580,7 @@
                                         </state>
                                         <connections>
                                             <action selector="relinkAccountWasTapped:" destination="SR2-KL-ApC" eventType="touchUpInside" id="93F-MA-LfJ"/>
+                                            <segue destination="3LS-g1-9qu" kind="show" id="i1C-J7-yWX"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1911,4 +1912,7 @@
         <image name="lock.png" width="69" height="93"/>
         <image name="native_arrow.png" width="80" height="148"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="i1C-J7-yWX"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -66,4 +66,9 @@ class TradeItLinkedBroker: NSObject {
             onFinished()
         }
     }
+    
+    func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+        return self.accounts.filter{ return $0.isEnabled == true}
+    }
+    
 }

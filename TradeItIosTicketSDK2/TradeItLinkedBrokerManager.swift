@@ -138,6 +138,15 @@ class TradeItLinkedBrokerManager {
         return accounts
     }
     
+    func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
+        var enabledLinkedBrokers: [TradeItLinkedBroker] = []
+        
+        enabledLinkedBrokers.appendContentsOf(self.linkedBrokers.filter{ return $0.getEnabledAccounts().count > 0})
+        
+        return enabledLinkedBrokers
+    }
+
+    
     func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: (TradeItErrorResult) -> Void) -> Void {

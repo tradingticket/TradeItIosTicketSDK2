@@ -16,7 +16,7 @@ class TradeItTradingViewController: UIViewController {
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
-    var quoteManager = TradeItLauncher.quoteManager
+    var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
     override func viewDidLoad() {
@@ -169,9 +169,13 @@ class TradeItTradingViewController: UIViewController {
 
         symbolView.updateSymbol(symbol)
         symbolView.updateQuoteActivity(.LOADING)
-        self.quoteManager.getQuote(symbol).then({ quote in
+
+        self.marketDataService.getQuote(symbol, onSuccess: { quote in
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
             self.symbolView.updateQuote(quote)
+            self.symbolView.updateQuoteActivity(.LOADED)
+        }, onFailure: { error in
+            print("Error: \(error)")
             self.symbolView.updateQuoteActivity(.LOADED)
         })
 

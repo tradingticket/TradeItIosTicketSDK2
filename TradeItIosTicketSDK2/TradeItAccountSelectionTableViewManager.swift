@@ -4,6 +4,9 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 
     private var _table: UITableView?
     private var linkedBrokers: [TradeItLinkedBroker] = []
+    private var refreshControl: UIRefreshControl?
+    var delegate: TradeItAccountSelectionTableViewManagerDelegate?
+
     var accountsTable: UITableView? {
         get {
             return _table
@@ -12,6 +15,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
         }
@@ -63,5 +67,34 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         return cell
     }
     
+    // MARK: Private
+    
+    func addRefreshControl(toTableView tableView: UITableView) {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.addTarget(self,
+                                 action: #selector(refreshControlActivated),
+                                 forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
+    
+    func refreshControlActivated() {
+        self.delegate?.refreshRequested(fromAccountSelectionTableViewManager: self,
+                                        onRefreshComplete: { (linkedBrokers: [TradeItLinkedBroker]?) in
+                                            if let linkedBrokers = linkedBrokers {
+                                                self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
+                                            }
+                                            
+                                            self.refreshControl?.endRefreshing()
+        })
+        
+    }
 }
+
+protocol TradeItAccountSelectionTableViewManagerDelegate {
+    func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
+                                                                onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void)
+}
+
 

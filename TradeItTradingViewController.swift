@@ -16,44 +16,14 @@ class TradeItTradingViewController: UIViewController {
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
-    var order: TradeItOrder!
-    var brokerAccount: TradeItLinkedBrokerAccount?
-    var symbol: String?
+    var quoteManager = TradeItLauncher.quoteManager
+    var order = TradeItOrder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let order = order else {
-            self.navigationController?.popViewControllerAnimated(true)
-            print("You must pass an order")
-            return
-        }
-
-        // Update symbol view
-        symbolView.updateSymbol(order.symbol)
-        symbolView.updateQuoteActivity(.LOADING)
-        TradeItLauncher.quoteManager.getQuote(order.symbol).then({ quote in
-            self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
-            self.symbolView.updateQuote(quote)
-            self.symbolView.updateQuoteActivity(.LOADED)
-        })
-
-        // Update account summary view
-        order.brokerAccount.getAccountOverview(onFinished: {
-            // QUESTION: Alex was saying something different in the pivotal story - ask him about that
-            self.tradingBrokerAccountView.updateBrokerAccount(order.brokerAccount)
-        })
-
-        order.brokerAccount.getPositions(onFinished: {
-            // TODO: Not sure if I should push this down to the accountSummaryView or not
-            guard let portfolioPositionIndex = order.brokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
-                portfolioPosition.position.symbol == order.symbol
-            }) else { return }
-
-            let portfolioPosition = order.brokerAccount.positions[portfolioPositionIndex]
-
-            self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
-        })
+        updateSymbolView()
+        updateTradingBrokerAccountView()
 
         registerKeyboardNotifications()
 
@@ -67,7 +37,7 @@ class TradeItTradingViewController: UIViewController {
         }
 
         orderActionSelected(orderAction: order.action)
-        orderTypeSelected(orderType: TradeItOrderTypePresenter.labelFor(order.type))
+        orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: order.expiration)
     }
 
@@ -104,7 +74,7 @@ class TradeItTradingViewController: UIViewController {
     @IBAction func orderTypeTapped(sender: UIButton) {
         presentOptions(
             "Order Type",
-            options: TradeItOrderTypePresenter.labels(),
+            options: TradeItOrderPriceTypePresenter.labels(),
             handler: self.orderTypeSelected
         )
     }
@@ -150,8 +120,8 @@ class TradeItTradingViewController: UIViewController {
     }
 
     private func orderTypeSelected(orderType orderType: String!) {
-        order.type = TradeItOrderTypePresenter.enumFor(orderType)
-        orderTypeButton.setTitle(TradeItOrderTypePresenter.labelFor(order.type), forState: .Normal)
+        order.type = TradeItOrderPriceTypePresenter.enumFor(orderType)
+        orderTypeButton.setTitle(TradeItOrderPriceTypePresenter.labelFor(order.type), forState: .Normal)
 
         // Show/hide order expiration
         if(order.requiresExpiration()) {
@@ -162,14 +132,17 @@ class TradeItTradingViewController: UIViewController {
 
         // Show/hide limit and/or stop
         var inputs = [orderTypeInput1, orderTypeInput2]
+
         inputs.forEach { input in
             input.hidden = true
             input.text = nil
         }
-        if(order.requiresLimitPrice()) {
+
+        if (order.requiresLimitPrice()) {
             configureLimitInput(inputs.removeFirst())
         }
-        if(order.requiresStopPrice()) {
+
+        if (order.requiresStopPrice()) {
             configureStopInput(inputs.removeFirst())
         }
 
@@ -189,6 +162,46 @@ class TradeItTradingViewController: UIViewController {
             previewOrderButton.enabled = false
             previewOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
         }
+    }
+
+    private func updateSymbolView() {
+        guard let symbol = order.symbol else { return }
+
+        symbolView.updateSymbol(symbol)
+        symbolView.updateQuoteActivity(.LOADING)
+        self.quoteManager.getQuote(symbol).then({ quote in
+            self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
+            self.symbolView.updateQuote(quote)
+            self.symbolView.updateQuoteActivity(.LOADED)
+        })
+
+        updateSharesOwnedLabel()
+    }
+
+    private func updateTradingBrokerAccountView() {
+        guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
+
+        linkedBrokerAccount.getAccountOverview(onFinished: {
+            self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
+        })
+
+        updateSharesOwnedLabel()
+    }
+
+    private func updateSharesOwnedLabel() {
+        guard let symbol = order.symbol,
+            let linkedBrokerAccount = order.linkedBrokerAccount
+            else { return }
+
+        linkedBrokerAccount.getPositions(onFinished: {
+            guard let portfolioPositionIndex = linkedBrokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
+                portfolioPosition.position.symbol == symbol
+            }) else { return }
+
+            let portfolioPosition = linkedBrokerAccount.positions[portfolioPositionIndex]
+
+            self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
+        })
     }
 
     // MARK: Private - Text view configurators

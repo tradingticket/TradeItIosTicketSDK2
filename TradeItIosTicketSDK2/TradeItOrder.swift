@@ -4,31 +4,33 @@ class TradeItOrder {
     static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
     static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
 
-    var brokerAccount: TradeItLinkedBrokerAccount
-    var symbol: String
+    var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    var symbol: String?
     var action: String = DEFAULT_ORDER_ACTION
-    var type: TradeItOrderType = TradeItOrderTypePresenter.DEFAULT_TYPE
+    var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT_TYPE
     var expiration: String = DEFAULT_ORDER_EXPIRATION
     var shares: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
 
-    init(brokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
-        self.brokerAccount = brokerAccount
+    init() {}
+
+    init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+        self.linkedBrokerAccount = linkedBrokerAccount
         self.symbol = symbol
     }
 
     func requiresLimitPrice() -> Bool {
-        return TradeItOrderTypePresenter.LIMIT_TYPES.contains(type)
+        return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
     func requiresStopPrice() -> Bool {
-        return TradeItOrderTypePresenter.STOP_TYPES.contains(type)
+        return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
     func requiresExpiration() -> Bool {
-        return TradeItOrderTypePresenter.EXPIRATION_TYPES.contains(type)
+        return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
     func estimatedChange() -> NSDecimalNumber? {
@@ -41,7 +43,10 @@ class TradeItOrder {
     }
 
     func isValid() -> Bool {
-        return validateQuantity() && validateOrderType()
+        return validateQuantity()
+            && validateOrderPriceType()
+            && symbol != nil
+            && linkedBrokerAccount != nil
     }
 
     private func validateQuantity() -> Bool {
@@ -49,7 +54,7 @@ class TradeItOrder {
         return isGreaterThanZero(shares)
     }
 
-    private func validateOrderType() -> Bool {
+    private func validateOrderPriceType() -> Bool {
         switch type {
         case .Market: return true
         case .Limit: return validateLimit()

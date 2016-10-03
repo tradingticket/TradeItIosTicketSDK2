@@ -17,7 +17,9 @@ class TradeItSymbolView: UIView {
     static let INDICATOR_DOWN = "▼"
     let dateFormatter = NSDateFormatter()
 
-    func updateSymbol(symbol: String) {
+    func updateSymbol(symbol: String?) {
+        guard let symbol = symbol else { return }
+
         self.symbolButton.setTitle(symbol, forState: .Normal)
         clearQuote()
     }

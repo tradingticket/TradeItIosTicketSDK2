@@ -38,15 +38,15 @@
 		757957E01D8B142D00704511 /* TradeItStoryboardID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757957DF1D8B142D00704511 /* TradeItStoryboardID.swift */; };
 		757957E11D8B142D00704511 /* TradeItStoryboardID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757957DF1D8B142D00704511 /* TradeItStoryboardID.swift */; };
 		757957E21D8B142D00704511 /* TradeItStoryboardID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757957DF1D8B142D00704511 /* TradeItStoryboardID.swift */; };
+		75809ABD1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
+		75809ABE1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
+		75809ABF1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
 		75E516A21D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A11D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift */; };
 		75E516A31D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A11D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift */; };
 		75E516A41D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A11D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift */; };
 		75E516A61D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */; };
 		75E516A71D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */; };
 		75E516A81D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */; };
-		75809ABD1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
-		75809ABE1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
-		75809ABF1D95B5C600B63D71 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */; };
 		7DAEEEA7648081CC8C0C530A /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69279B5C7B8206A269BCD216 /* Pods_TradeItIosTicketSDK2Tests.framework */; };
 		B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */; };
 		B50B7DA01D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
@@ -248,9 +248,9 @@
 		7573BB7E1D9C1DDA00B7AE2C /* TradeItOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOrder.swift; sourceTree = "<group>"; };
 		757957DB1D8B0F4F00704511 /* TradeItBundleProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBundleProvider.swift; sourceTree = "<group>"; };
 		757957DF1D8B142D00704511 /* TradeItStoryboardID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItStoryboardID.swift; sourceTree = "<group>"; };
+		75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		75E516A11D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioEquityPositionPresenter.swift; sourceTree = "<group>"; };
 		75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioFxPositionPresenter.swift; sourceTree = "<group>"; };
-		75809ABC1D95B5C600B63D71 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		78D5AAA07B0A6F42C8D405C9 /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		8E893D5647FAA8B7B64F2AFF /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		944E0605652830B11C89E3E9 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -780,7 +780,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Trading Ticket Inc.";
 				TargetAttributes = {
 					FAEC84F21D55277500EC32C7 = {
@@ -1285,10 +1285,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D541B54134EA9DF8E5C10BC /* Pods-ExampleApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
 				DEVELOPMENT_TEAM = 58CRH77TZ6;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleApp;
@@ -1302,10 +1302,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 78D5AAA07B0A6F42C8D405C9 /* Pods-ExampleApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
 				DEVELOPMENT_TEAM = 58CRH77TZ6;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = ExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleApp;
@@ -1319,6 +1319,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 56874C9C1AF85071BC548D23 /* Pods-ExampleAppUITests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleAppUITests;
@@ -1332,6 +1333,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A0C7D01BBF4853A37AE8D810 /* Pods-ExampleAppUITests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.ExampleAppUITests;
@@ -1355,8 +1357,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1405,8 +1409,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1427,6 +1433,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "TradeItIosTicketSDK2/TradeItIosTicketSDK2-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1438,7 +1445,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B9BD1829ABA667A33D9ECA35 /* Pods-TradeItIosTicketSDK2.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1459,7 +1468,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BFBC8EB18E75168228823A73 /* Pods-TradeItIosTicketSDK2.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1479,6 +1490,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E893D5647FAA8B7B64F2AFF /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;
@@ -1493,6 +1505,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA4D2F3F263698C4BF1621FA /* Pods-TradeItIosTicketSDK2Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = TradeIt.TradeItIosTicketSDK2Tests;

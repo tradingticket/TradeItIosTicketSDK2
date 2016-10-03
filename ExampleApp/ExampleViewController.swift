@@ -90,8 +90,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             }, onFinished: {
                 let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
                 let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_VIEW") as! TradeItTradingViewController
-                let order = TradeItOrder(brokerAccount: brokerAccount, symbol: "AAPL")
-                viewController.order = order
+                //let order = TradeItOrder(linkedBrokerAccount: brokerAccount, symbol: "AAPL")
+                //viewController.order = order
             }
         )
 

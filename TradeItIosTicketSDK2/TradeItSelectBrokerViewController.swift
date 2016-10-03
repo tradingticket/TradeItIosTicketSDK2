@@ -68,6 +68,6 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
 protocol TradeItSelectBrokerViewControllerDelegate {
     func brokerWasSelected(fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
-    // TODO: call delegate.flowAborted when users taps close/cancel
+
     func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
 }

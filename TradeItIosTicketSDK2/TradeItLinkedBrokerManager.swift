@@ -15,7 +15,10 @@ class TradeItLinkedBrokerManager {
     
     func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
-        for linkedLogin in linkedLoginsFromKeychain { loadLinkedBrokerFromLinkedLogin(linkedLogin) }
+
+        for linkedLogin in linkedLoginsFromKeychain {
+            loadLinkedBrokerFromLinkedLogin(linkedLogin)
+        }
     }
 
     func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
@@ -44,8 +47,7 @@ class TradeItLinkedBrokerManager {
                                 fulfill()
                             }
                         )
-                    }
-                    else {
+                    } else {
                         fulfill()
                     }
                 }
@@ -54,8 +56,7 @@ class TradeItLinkedBrokerManager {
             }
 
             return when(promises)
-        }
-        .always() {
+        }.always() {
             onFinished()
         }
     }
@@ -71,16 +72,16 @@ class TradeItLinkedBrokerManager {
                                     fulfill()
                                 }
                             )
-                        }
-                        else {
+                        } else {
                             fulfill()
                         }
                     }
+
                     promises.append(promise)
             }
+
             return when(promises)
-        }
-        .always() {
+        }.always() {
             onFinished()
         }
     }
@@ -106,6 +107,7 @@ class TradeItLinkedBrokerManager {
             } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
                 let broker = authInfo.broker
                 let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult, withBroker: broker)
+
                 if let linkedLogin = linkedLogin {
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                     onSuccess(linkedBroker: linkedBroker)
@@ -132,10 +134,16 @@ class TradeItLinkedBrokerManager {
         var accounts: [TradeItLinkedBrokerAccount] = []
         
         for linkedBroker in self.linkedBrokers {
-            accounts.appendContentsOf(linkedBroker.accounts.filter{ return $0.isEnabled == true})
+            accounts.appendContentsOf(linkedBroker.accounts.filter { return $0.isEnabled == true})
         }
         
         return accounts
+    }
+    
+    func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
+        let enabledLinkedBrokers = self.linkedBrokers.filter { return $0.getEnabledAccounts().count > 0}
+        
+        return enabledLinkedBrokers
     }
     
     func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
@@ -145,9 +153,9 @@ class TradeItLinkedBrokerManager {
                                               andCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
             if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
                 onFailure(tradeItErrorResult)
-            }
-            else if let tradeItResult = tradeItResult as? TradeItUpdateLinkResult {
+            } else if let tradeItResult = tradeItResult as? TradeItUpdateLinkResult {
                 let linkedLogin = self.tradeItConnector.updateLinkInKeychain(tradeItResult, withBroker: linkedBroker.linkedLogin.broker)
+
                 if let linkedLogin = linkedLogin {
                     linkedBroker.linkedLogin = linkedLogin
                     onSuccess(linkedBroker: linkedBroker)

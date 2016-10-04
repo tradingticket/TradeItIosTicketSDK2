@@ -36,9 +36,9 @@ class TradeItTradingTicketViewController: UIViewController {
             )
         }
 
-        orderActionSelected(orderAction: order.action)
+        orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
-        orderExpirationSelected(orderExpiration: order.expiration)
+        orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -51,11 +51,11 @@ class TradeItTradingTicketViewController: UIViewController {
 
     func textFieldDidChange(textField: UITextField) {
         // TODO: Should probably check the order price type instead of placeholder text to determine which value changed
-        if(textField.placeholder == "Limit Price") {
+        if textField.placeholder == "Limit Price" {
             order.limitPrice = NSDecimalNumber(string: textField.text)
-        } else if(textField.placeholder == "Stop Price") {
+        } else if textField.placeholder == "Stop Price" {
             order.stopPrice = NSDecimalNumber(string: textField.text)
-        } else if(textField.placeholder == "Shares") {
+        } else if textField.placeholder == "Shares" {
             order.shares = NSDecimalNumber(string: textField.text)
             updateEstimatedChangedLabel()
         }
@@ -67,7 +67,7 @@ class TradeItTradingTicketViewController: UIViewController {
     @IBAction func orderActionTapped(sender: UIButton) {
         presentOptions(
             "Order Action",
-            options: TradeItOrder.ORDER_ACTIONS,
+            options: TradeItOrderActionPresenter.labels(),
             handler: self.orderActionSelected
         )
     }
@@ -83,7 +83,7 @@ class TradeItTradingTicketViewController: UIViewController {
     @IBAction func orderExpirationTapped(sender: UIButton) {
         presentOptions(
             "Order Expiration",
-            options: TradeItOrder.ORDER_EXPIRATIONS,
+            options: TradeItOrderExpirationPresenter.labels(),
             handler: self.orderExpirationSelected
         )
     }
@@ -108,10 +108,10 @@ class TradeItTradingTicketViewController: UIViewController {
     }
 
     private func orderActionSelected(orderAction orderAction: String!) {
-        order.action = orderAction
-        orderActionButton.setTitle(order.action, forState: .Normal)
+        order.action = TradeItOrderActionPresenter.enumFor(orderAction)
+        orderActionButton.setTitle(TradeItOrderActionPresenter.labelFor(order.action), forState: .Normal)
 
-        if(order.action == "Buy") {
+        if order.action == .Buy {
             tradingBrokerAccountView.updatePresentationMode(.BUYING_POWER)
         } else {
             tradingBrokerAccountView.updatePresentationMode(.SHARES_OWNED)
@@ -125,7 +125,7 @@ class TradeItTradingTicketViewController: UIViewController {
         orderTypeButton.setTitle(TradeItOrderPriceTypePresenter.labelFor(order.type), forState: .Normal)
 
         // Show/hide order expiration
-        if(order.requiresExpiration()) {
+        if order.requiresExpiration() {
             orderExpirationButton.superview?.hidden = false
         } else {
             orderExpirationButton.superview?.hidden = true
@@ -139,11 +139,11 @@ class TradeItTradingTicketViewController: UIViewController {
             input.text = nil
         }
 
-        if (order.requiresLimitPrice()) {
+        if order.requiresLimitPrice() {
             configureLimitInput(inputs.removeFirst())
         }
 
-        if (order.requiresStopPrice()) {
+        if order.requiresStopPrice() {
             configureStopInput(inputs.removeFirst())
         }
 
@@ -151,8 +151,8 @@ class TradeItTradingTicketViewController: UIViewController {
     }
 
     private func orderExpirationSelected(orderExpiration orderExpiration: String!) {
-        order.expiration = orderExpiration
-        orderExpirationButton.setTitle(order.expiration, forState: .Normal)
+        order.expiration = TradeItOrderExpirationPresenter.enumFor(orderExpiration)
+        orderExpirationButton.setTitle(TradeItOrderExpirationPresenter.labelFor(order.expiration), forState: .Normal)
     }
 
     private func updatePreviewOrderButtonStatus() {
@@ -224,7 +224,7 @@ class TradeItTradingTicketViewController: UIViewController {
     private func updateEstimatedChangedLabel() {
         if let estimatedChange = order.estimatedChange() {
             let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange)
-            if order.action == "Buy" {
+            if order.action == .Buy {
                 estimatedChangeLabel.text = "Est. Cost \(formattedEstimatedChange)"
             } else {
                 estimatedChangeLabel.text = "Est. Proceeds \(formattedEstimatedChange)"

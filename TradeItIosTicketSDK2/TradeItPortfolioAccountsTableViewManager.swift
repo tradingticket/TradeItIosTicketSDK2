@@ -20,7 +20,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         }
     }
     
-    weak var delegate: TradeItPortfolioViewControllerAccountsTableDelegate?
+    weak var delegate: TradeItPortfolioAccountsTableDelegate?
     
     func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         self.accounts = accounts
@@ -64,6 +64,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 }
 
-protocol TradeItPortfolioViewControllerAccountsTableDelegate: class {
+protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount)
 }

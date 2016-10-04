@@ -5,11 +5,11 @@ import TradeItIosEmsApi
 class TradeItOrderSpec: QuickSpec {
     override func spec() {
         var order: TradeItOrder!
-        var brokerAccount: TradeItLinkedBrokerAccount!
+        var linkedBrokerAccount: TradeItLinkedBrokerAccount!
 
         beforeEach {
             let linkedBroker = FakeTradeItLinkedBroker()
-            brokerAccount = FakeTradeItLinkedBrokerAccount(
+            linkedBrokerAccount = FakeTradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker,
                 brokerName: "Fake",
                 accountName: "my-special-account-name",
@@ -18,28 +18,22 @@ class TradeItOrderSpec: QuickSpec {
                 fxBalance: nil,
                 positions: []
             )
-            order = TradeItOrder(brokerAccount: brokerAccount, symbol: "AAPL")
+            order = TradeItOrder()
+            order.linkedBrokerAccount = linkedBrokerAccount
+            order.symbol = "AAPL"
         }
 
         describe("initialization") {
-            it("sets the broker account") {
-                expect(order.brokerAccount).to(equal(brokerAccount))
-            }
-
-            it("sets the symbol") {
-                expect(order.symbol).to(equal("AAPL"))
-            }
-
             it("sets the default action to Buy") {
-                expect(order.action).to(equal("Buy"))
+                expect(order.action).to(equal(TradeItOrderAction.Buy))
             }
 
             it("sets the default type to Market") {
-                expect(order.type).to(equal(TradeItOrder.OrderType.Market))
+                expect(order.type).to(equal(TradeItOrderPriceType.Market))
             }
 
             it("sets the default expiration to Good for the Day") {
-                expect(order.expiration).to(equal("Good for the Day"))
+                expect(order.expiration).to(equal(TradeItOrderExpiration.GoodForDay))
             }
         }
 

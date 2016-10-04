@@ -1,7 +1,7 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItTradingViewController: UIViewController {
+class TradeItTradingTicketViewController: UIViewController {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -256,13 +256,13 @@ class TradeItTradingViewController: UIViewController {
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
 
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingTicketViewController.BOTTOM_CONSTRAINT_CONSTANT
         })
     }
 
     @objc private func keyboardWillHide(_: NSNotification) {
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = TradeItTradingViewController.BOTTOM_CONSTRAINT_CONSTANT
+            self.bottomConstraint.constant = TradeItTradingTicketViewController.BOTTOM_CONSTRAINT_CONSTANT
         })
     }
 

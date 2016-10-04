@@ -57,14 +57,15 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var cell: UITableViewCell!
+
         if self.positions.count > 0 {
             if self.positions[0].position != nil {
                 cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
-            }
-            else if self.positions[0].fxPosition != nil {
+            } else if self.positions[0].fxPosition != nil {
                 cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_HEADER_ID")
             }
         }
+
         return cell
     }
     
@@ -76,23 +77,24 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             equityCell.populate(withPosition: position)
             cell = equityCell
-        }
-        else if position.fxPosition != nil {
+        } else if position.fxPosition != nil {
             let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
             fxCell.populate(withPosition: position)
             cell = fxCell
         }
+
         if self.selectedPositionIndex == indexPath.row {
             cell.setSelected(true, animated: true)
         }
+
         return cell
     }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            if indexPath.row == self.selectedPositionIndex {
-                return 150
-            }
 
-            return 50
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == self.selectedPositionIndex {
+            return 150
+        }
+
+        return 50
     }
 }

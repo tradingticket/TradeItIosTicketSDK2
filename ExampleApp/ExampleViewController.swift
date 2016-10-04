@@ -61,7 +61,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
     
-    // MARK: private
+    // MARK: Private
+
     private func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
@@ -82,25 +83,24 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
     }
 
-    func launchTrading() {
+    private func launchTrading() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
                 print("Security question")
                 return "Security question"
             }, onFinished: {
                 let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
-                let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_VIEW") as! TradeItTradingViewController
+                let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_TICKET_VIEW") as! TradeItTradingTicketViewController
                 let order = TradeItOrder(linkedBrokerAccount: brokerAccount, symbol: "AAPL")
                 viewController.order = order
             }
         )
-
     }
 
-    func launchViewFromStoryboard(storyboardId: String) -> UIViewController {
+    private func launchViewFromStoryboard(storyboardId: String) -> UIViewController {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
         let navigationViewController = UINavigationController()
-        let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_VIEW")
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_TICKET_VIEW")
 
         navigationViewController.viewControllers = [viewController]
         self.presentViewController(navigationViewController, animated: true, completion: nil)

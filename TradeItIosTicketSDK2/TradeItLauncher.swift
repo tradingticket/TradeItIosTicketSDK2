@@ -20,15 +20,11 @@ import TradeItIosEmsApi
 
     func launchPortfolio(fromViewController viewController: UIViewController) {
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-
-            self.linkBrokerUIFlow.launchLinkBrokerFlow(
-                inViewController: viewController,
+            self.linkBrokerUIFlow.presentLinkBrokerFlow(
+                fromViewController: viewController,
                 showWelcomeScreen: true,
-                promptForAccountSelection: false,
-                onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
-                    let portfolioViewController = self.viewControllerProvider.provideViewController(withStoryboardId: TradeItStoryboardID.portfolioView)
+                onLinked: { (presentedNavController: UINavigationController) -> Void in
+                    let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
                     presentedNavController.setViewControllers([portfolioViewController], animated: true)
                 },
                 onFlowAborted: { (presentedNavController: UINavigationController) -> Void in

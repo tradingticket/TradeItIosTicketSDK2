@@ -12,7 +12,7 @@ import UIKit
         return navController
     }
 
-    func provideViewController(withStoryboardId storyboardId: TradeItStoryboardID) -> UIViewController {
+    func provideViewController(forStoryboardId storyboardId: TradeItStoryboardID) -> UIViewController {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
 
         return storyboard.instantiateViewControllerWithIdentifier(storyboardId.rawValue)

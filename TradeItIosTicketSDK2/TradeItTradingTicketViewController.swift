@@ -122,7 +122,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     // MARK: Private - Order changed handlers
 
-    private func orderActionSelected(action action: UIAlertAction) {
+    private func orderActionSelected(action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
     }
 
@@ -130,7 +130,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         orderTypeSelected(orderType: action.title)
     }
 
-    private func orderExpirationSelected(action action: UIAlertAction) {
+    private func orderExpirationSelected(action: UIAlertAction) {
         orderExpirationSelected(orderExpiration: action.title)
     }
 

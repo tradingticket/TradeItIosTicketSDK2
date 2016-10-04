@@ -30,7 +30,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
         self.linkBrokerUIFlow.launchRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
-            onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
+            onLinked: { (presentedNavController: UINavigationController) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {
@@ -54,11 +54,10 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 if self.linkedBrokerManager.linkedBrokers.count > 0 {
                     self.navigationController?.popViewControllerAnimated(true)
                 } else {
-                    self.linkBrokerUIFlow.launchLinkBrokerFlow(
-                        inViewController: self,
+                    self.linkBrokerUIFlow.presentLinkBrokerFlow(
+                        fromViewController: self,
                         showWelcomeScreen: true,
-                        promptForAccountSelection: false,
-                        onLinked: { (presentedNavController, selectedAccount) in
+                        onLinked: { (presentedNavController) in
                             presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                         }, onFlowAborted: { (presentedNavController) in
                             presentedNavController.dismissViewControllerAnimated(true, completion: nil)

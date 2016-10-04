@@ -50,6 +50,7 @@ class TradeItTradingViewController: UIViewController {
     // MARK: Text field change handlers
 
     func textFieldDidChange(textField: UITextField) {
+        // TODO: Should probably check the order price type instead of placeholder text to determine which value changed
         if(textField.placeholder == "Limit Price") {
             order.limitPrice = NSDecimalNumber(string: textField.text)
         } else if(textField.placeholder == "Stop Price") {

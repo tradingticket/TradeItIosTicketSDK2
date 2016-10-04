@@ -1,7 +1,7 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItTradingTicketViewController: UIViewController {
+class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -91,6 +91,22 @@ class TradeItTradingTicketViewController: UIViewController {
     @IBAction func previewOrderTapped(sender: UIButton) {
         print("BURP", order.isValid())
 
+    }
+    
+    @IBAction func symbolButtonWasTapped(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
+        let symbolSearchViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.symbolSearchView.rawValue) as! TradeItSymbolSearchViewController
+        symbolSearchViewController.delegate = self
+        
+        self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
+    }
+    
+    // MARK: TradeItSymbolSearchViewControllerDelegate methods
+    
+    func symbolWasSelected(selectedSymbol: String) {
+        self.navigationController?.popViewControllerAnimated(true)
+        self.order.symbol = selectedSymbol
+        updateSymbolView()
     }
 
     // MARK: Private - Order changed handlers

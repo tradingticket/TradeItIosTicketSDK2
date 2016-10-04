@@ -72,7 +72,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     // MARK: IBActions
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
-        self.parentViewController?.dismissViewControllerAnimated(false, completion: nil)
+        self.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - TradeItPortfolioAccountsTableDelegate

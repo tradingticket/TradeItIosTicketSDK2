@@ -42,29 +42,4 @@ import TradeItIosEmsApi
                                                  completion: nil)
         }
     }
-
-    func launchTrading(fromViewController viewController: UIViewController) {
-        if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.tradingTicketView)
-            navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-
-            self.linkBrokerUIFlow.launchLinkBrokerFlow(
-                inViewController: viewController,
-                showWelcomeScreen: true,
-                promptForAccountSelection: false,
-                onLinked: { (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void in
-                    let portfolioViewController = self.viewControllerProvider.provideViewController(withStoryboardId: TradeItStoryboardID.portfolioView)
-                    presentedNavController.setViewControllers([portfolioViewController], animated: true)
-                },
-                onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    presentedNavController.topViewController?.dismissViewControllerAnimated(true, completion: nil)
-                }
-            )
-        } else {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            viewController.presentViewController(navController,
-                                                 animated: true,
-                                                 completion: nil)
-        }
-    }
 }

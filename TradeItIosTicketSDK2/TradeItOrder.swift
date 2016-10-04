@@ -1,14 +1,9 @@
 class TradeItOrder {
-    static let DEFAULT_ORDER_ACTION = "Buy"
-    static let ORDER_ACTIONS = ["Buy", "Sell", "Buy to Cover", "Sell Short"]
-    static let DEFAULT_ORDER_EXPIRATION = "Good for the Day"
-    static let ORDER_EXPIRATIONS = ["Good for the Day", "Good until Canceled"]
-
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     var symbol: String?
-    var action: String = DEFAULT_ORDER_ACTION
-    var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT_TYPE
-    var expiration: String = DEFAULT_ORDER_EXPIRATION
+    var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
+    var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
     var shares: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?

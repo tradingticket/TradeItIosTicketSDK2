@@ -6,11 +6,11 @@ enum TradeItOrderPriceType {
 }
 
 class TradeItOrderPriceTypePresenter {
-    static let DEFAULT_TYPE: TradeItOrderPriceType = .Market
-    static let TYPES: [TradeItOrderPriceType] = [.Market, .Limit, .StopMarket, .StopLimit]
-    static let LIMIT_TYPES = [TradeItOrderPriceType.Limit, TradeItOrderPriceType.StopLimit]
-    static let STOP_TYPES = [TradeItOrderPriceType.StopLimit, TradeItOrderPriceType.StopMarket]
-    static let EXPIRATION_TYPES = [TradeItOrderPriceType.Limit, TradeItOrderPriceType.StopMarket, TradeItOrderPriceType.StopLimit]
+    static let DEFAULT: TradeItOrderPriceType            = .Market
+    static let TYPES: [TradeItOrderPriceType]            = [.Market, .Limit, .StopMarket, .StopLimit]
+    static let LIMIT_TYPES: [TradeItOrderPriceType]      = [.Limit, .StopLimit]
+    static let STOP_TYPES: [TradeItOrderPriceType]       = [.StopLimit, .StopMarket]
+    static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.Limit, .StopMarket, .StopLimit]
 
     static func labels() -> [String] {
         return TYPES.map(labelFor)
@@ -31,7 +31,7 @@ class TradeItOrderPriceTypePresenter {
         case "Limit": return .Limit
         case "Stop Market": return .StopMarket
         case "Stop Limit": return .StopLimit
-        default: return DEFAULT_TYPE
+        default: return DEFAULT
         }
     }
 }

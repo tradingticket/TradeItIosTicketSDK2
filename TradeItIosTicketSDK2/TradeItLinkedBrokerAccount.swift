@@ -12,6 +12,7 @@ class TradeItLinkedBrokerAccount: NSObject {
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService!
     var tradeItPositionService: TradeItPositionService!
+    var isEnabled = true
     
     init(linkedBroker: TradeItLinkedBroker,
         brokerName: String,

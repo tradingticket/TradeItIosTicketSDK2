@@ -5,12 +5,13 @@ import TradeItIosEmsApi
     static var linkedBrokerManager: TradeItLinkedBrokerManager!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow!
     var viewControllerProvider: TradeItViewControllerProvider!
+    static var marketDataService: TradeItMarketService!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         let tradeItConnector = TradeItConnector(apiKey: apiKey)!
         tradeItConnector.environment = environment
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
-
+        TradeItLauncher.marketDataService = TradeItMarketService(connector: tradeItConnector)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
@@ -22,7 +23,7 @@ import TradeItIosEmsApi
             let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
             navController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
 
-            self.linkBrokerUIFlow.launch(
+            self.linkBrokerUIFlow.launchLinkBrokerFlow(
                 inViewController: viewController,
                 showWelcomeScreen: true,
                 promptForAccountSelection: false,

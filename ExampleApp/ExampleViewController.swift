@@ -4,7 +4,8 @@ import TradeItIosEmsApi
 
 enum Action: Int {
     case LaunchPortfolio = 0
-    case DeleteLinkedBrokers = 1
+    case LaunchTrading = 1
+    case DeleteLinkedBrokers = 2
     case ENUM_COUNT
 }
 
@@ -29,6 +30,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         switch action {
         case .LaunchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
+        case .LaunchTrading:
+            self.launchTrading()
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -58,7 +61,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
     
-    // MARK: private
+    // MARK: Private
+
     private func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
@@ -77,5 +81,29 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItLauncher.linkedBrokerManager.linkedBrokers = []
 
         print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
+    }
+
+    private func launchTrading() {
+        TradeItLauncher.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
+                print("Security question")
+                return "Security question"
+            }, onFinished: {
+                let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
+                let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_TICKET_VIEW") as! TradeItTradingTicketViewController
+                let order = TradeItOrder(linkedBrokerAccount: brokerAccount, symbol: "AAPL")
+                viewController.order = order
+            }
+        )
+    }
+
+    private func launchViewFromStoryboard(storyboardId: String) -> UIViewController {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
+        let navigationViewController = UINavigationController()
+        let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_TICKET_VIEW")
+
+        navigationViewController.viewControllers = [viewController]
+        self.presentViewController(navigationViewController, animated: true, completion: nil)
+        return viewController
     }
 }

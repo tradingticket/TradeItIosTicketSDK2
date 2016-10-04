@@ -15,4 +15,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain!);
     }
 }
-

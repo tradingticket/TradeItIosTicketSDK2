@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItPortfolioPositionFXPresenter: TradeItPortfolioPositionPresenter {
+class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     let fxPosition: TradeItFxPosition
 
     override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
@@ -11,13 +11,13 @@ class TradeItPortfolioPositionFXPresenter: TradeItPortfolioPositionPresenter {
     override func getFormattedSymbol() -> String {
         return self.tradeItPortfolioPosition.fxPosition.symbol
     }
+    
+    override func getQuantity() -> Float {
+        return self.fxPosition.quantity as Float
+    }
 
     override func formatCurrency(currency: NSNumber) -> String {
         return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
-    }
-
-    override func getQuantity() -> Float {
-        return fxPosition.quantity as Float
     }
 
     override func getFormattedQuantity() -> String {

@@ -270,6 +270,168 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 }
             }
         }
+        
+        describe("getAllEnabledAccounts") {
+            var returnedAccounts: [TradeItLinkedBrokerAccount] = []
+            
+            beforeEach {
+                returnedAccounts = []
+                linkedBrokerManager.linkedBrokers = []
+            }
+            
+            context("when there are no linked brokers") {
+                it("returns an empty array") {
+                    returnedAccounts = linkedBrokerManager.getAllAccounts()
+                    expect(returnedAccounts.count).to(equal(0))
+                }
+            }
+            
+            context("when there are linked brokers with one disabled") {
+                var account11: TradeItLinkedBrokerAccount!
+                var account12: TradeItLinkedBrokerAccount!
+                var account31: TradeItLinkedBrokerAccount!
+                
+                beforeEach {
+                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
+                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    
+                    let tradeItSession1 = FakeTradeItSession()
+                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    
+                    linkedOldBroker1.accounts.append(account11)
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12.isEnabled = false
+                    linkedOldBroker1.accounts.append(account12)
+                    
+                    
+                    let tradeItSession2 = FakeTradeItSession()
+                    let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2)
+                    
+                    let tradeItSession3 = FakeTradeItSession()
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    linkedOldBroker3.accounts.append(account31)
+                    
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker1)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker2)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker3)
+                    
+                    
+                    returnedAccounts = linkedBrokerManager.getAllEnabledAccounts()
+                }
+                
+                it("returns all the enabled accounts of the linkedBrokers") {
+                    expect(returnedAccounts.count).to(equal(2))
+                    expect(returnedAccounts[0]).to(be(account11))
+                    expect(returnedAccounts[1]).to(be(account31))
+                }
+            }
+        }
+
+        describe("getAllEnabledLinkedBrokers") {
+            var returnedLinkedBrokers: [TradeItLinkedBroker] = []
+            
+            beforeEach {
+                returnedLinkedBrokers = []
+                linkedBrokerManager.linkedBrokers = []
+            }
+            
+            context("when there are no linked brokers") {
+                it("returns an empty array") {
+                    returnedLinkedBrokers = linkedBrokerManager.getAllEnabledLinkedBrokers()
+                    expect(returnedLinkedBrokers.count).to(equal(0))
+                }
+            }
+            
+            context("when there are linked brokers with no accounts enabled") {
+                var account11: TradeItLinkedBrokerAccount!
+                var account12: TradeItLinkedBrokerAccount!
+                var account31: TradeItLinkedBrokerAccount!
+                
+                beforeEach {
+                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
+                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    
+                    let tradeItSession1 = FakeTradeItSession()
+                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    account11.isEnabled = false
+                    linkedOldBroker1.accounts.append(account11)
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12.isEnabled = false
+                    linkedOldBroker1.accounts.append(account12)
+                    
+                    
+                    let tradeItSession2 = FakeTradeItSession()
+                    let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2)
+                    
+                    let tradeItSession3 = FakeTradeItSession()
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    account31.isEnabled = false
+                    linkedOldBroker3.accounts.append(account31)
+                    
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker1)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker2)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker3)
+                    
+                    
+                    returnedLinkedBrokers = linkedBrokerManager.getAllEnabledLinkedBrokers()
+                }
+                
+                it("returns an empty array") {
+                    expect(returnedLinkedBrokers.count).to(equal(0))
+                }
+            }
+            
+            context("when there are linked brokers with accounts enabled") {
+                var account11: TradeItLinkedBrokerAccount!
+                var account12: TradeItLinkedBrokerAccount!
+                var account31: TradeItLinkedBrokerAccount!
+                var linkedOldBroker1: TradeItLinkedBroker!
+                beforeEach {
+                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
+                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    
+                    let tradeItSession1 = FakeTradeItSession()
+                    linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    account11.isEnabled = false
+                    linkedOldBroker1.accounts.append(account11)
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12.isEnabled = true
+                    linkedOldBroker1.accounts.append(account12)
+                    
+                    
+                    let tradeItSession2 = FakeTradeItSession()
+                    let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2)
+                    
+                    let tradeItSession3 = FakeTradeItSession()
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    account31.isEnabled = false
+                    linkedOldBroker3.accounts.append(account31)
+                    
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker1)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker2)
+                    linkedBrokerManager.linkedBrokers.append(linkedOldBroker3)
+                    
+                    
+                    returnedLinkedBrokers = linkedBrokerManager.getAllEnabledLinkedBrokers()
+                }
+                
+                it("returns an array with only the linkedBroker which has at least one account enabled") {
+                    expect(returnedLinkedBrokers.count).to(equal(1))
+                    expect(returnedLinkedBrokers[0]).to(be(linkedOldBroker1))
+                }
+            }
+
+        }
+
 
         describe("authenticateAll") {
             context("when there are linked brokers") {
@@ -455,8 +617,125 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 }
 
                 it("calls onFinishedRefreshingBalancesWasCalled") {
-                    flushAsyncEvents()
                     expect(onFinishedRefreshingBalancesWasCalled).to(equal(1))
+                }
+            }
+        }
+    
+    
+        describe("relinkBroker") {
+            var onSuccessCallbackWasCalled = 0
+            var onFailureCallbackWasCalled = 0
+            
+            var returnedLinkedBroker: TradeItLinkedBroker! = nil
+            var returnedErrorResult: TradeItErrorResult! = nil
+            var relinkLinkedBroker: TradeItLinkedBroker!
+            var relinkSession: TradeItSession!
+            beforeEach {
+                tradeItConnector.calls.reset()
+                relinkSession = FakeTradeItSession()
+                relinkLinkedBroker = TradeItLinkedBroker(session: relinkSession, linkedLogin: TradeItLinkedLogin(label: "my label", broker: "My broker", userId: "My user Id", andKeyChainId: "My keychain Id "))
+                linkedBrokerManager.linkedBrokers = [relinkLinkedBroker]
+                onSuccessCallbackWasCalled = 0
+                onFailureCallbackWasCalled = 0
+                
+                let authInfo = TradeItAuthenticationInfo(id: "My Special Username",
+                andPassword: "My Special Password",
+                andBroker: "My Special Broker")
+                
+                linkedBrokerManager.relinkBroker(
+                    relinkLinkedBroker,
+                    authInfo: authInfo,
+                    onSuccess: { (linkedBroker: TradeItLinkedBroker) -> Void in
+                        onSuccessCallbackWasCalled += 1
+                        returnedLinkedBroker = linkedBroker
+                    },
+                    onFailure: { (tradeItErrorResult: TradeItErrorResult) in
+                        onFailureCallbackWasCalled += 1
+                        returnedErrorResult = tradeItErrorResult
+                    }
+                )
+            }
+            
+            it("updates the user token with the connector") {
+                let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                expect(updateTokenCalls.count).to(equal(1))
+            }
+            
+            context("when updating succeeds") {
+                let linkResult = TradeItUpdateLinkResult()
+                let linkedLogin = TradeItLinkedLogin()
+                
+                beforeEach {
+                    tradeItConnector.tradeItLinkedLoginToReturn = linkedLogin
+                    
+                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
+                    
+                    completionBlock(linkResult)
+                    
+                }
+                
+                it("updates the link to the Keychain") {
+                    let updateLinkToKeychainCalls = tradeItConnector.calls.forMethod("updateLinkInKeychain(_:withBroker:)")
+                    expect(updateLinkToKeychainCalls.count).to(equal(1))
+                    
+                    let linkResultArg = updateLinkToKeychainCalls[0].args["link"] as! TradeItUpdateLinkResult
+                    expect(linkResultArg).to(be(linkResult))
+                    
+                    let brokerArg = updateLinkToKeychainCalls[0].args["broker"] as! String
+                    expect(brokerArg).to(equal("My broker"))
+                }
+                
+                it("updates the linkedlogin on the linkedBroker") {
+                    expect(linkedBrokerManager.linkedBrokers.count).to(equal(1))
+                    expect(linkedBrokerManager.linkedBrokers[0].linkedLogin).to(be(linkedLogin))
+                }
+                
+                it("calls the onSuccess callback with the linkedBroker") {
+                    expect(onSuccessCallbackWasCalled).to(equal(1))
+                    expect(onFailureCallbackWasCalled).to(equal(0))
+                
+                    expect(returnedLinkedBroker.session).to(be(relinkSession))
+                    expect(returnedLinkedBroker.linkedLogin).to(be(linkedLogin))
+                }
+            }
+            
+            context("when updating to keychain fails") {
+                let linkResult = TradeItUpdateLinkResult()
+                
+                beforeEach {
+                    tradeItConnector.tradeItLinkedLoginToReturn = nil
+                    
+                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
+                    
+                    completionBlock(linkResult)
+                }
+            
+                it("calls the onFailure callback with an error") {
+                    expect(onSuccessCallbackWasCalled).to(equal(0))
+                    expect(onFailureCallbackWasCalled).to(equal(1))
+                
+                    expect(returnedErrorResult).to(beAnInstanceOf(TradeItErrorResult))
+                }
+            }
+            
+            context("when updateUserToken fails") {
+                let errorResult = TradeItErrorResult()
+                
+                beforeEach {
+                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
+                    
+                    completionBlock(errorResult)
+                }
+                
+                it("calls the onFailure callback with the error") {
+                    expect(onSuccessCallbackWasCalled).to(equal(0))
+                    expect(onFailureCallbackWasCalled).to(equal(1))
+                    
+                    expect(returnedErrorResult).to(be(errorResult))
                 }
             }
         }

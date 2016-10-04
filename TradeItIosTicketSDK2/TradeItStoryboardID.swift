@@ -4,4 +4,8 @@ enum TradeItStoryboardID: String {
     case welcomeView = "TRADE_IT_WELCOME_VIEW"
     case selectBrokerView = "TRADE_IT_SELECT_BROKER_VIEW"
     case loginView = "TRADE_IT_LOGIN_VIEW"
+    case brokerManagementView = "TRADE_IT_BROKER_MANAGEMENT_VIEW"
+    case accountManagementView = "TRADE_IT_ACCOUNT_MANAGEMENT_VIEW"
+    case accountSelectionView = "TRADE_IT_ACCOUNT_SELECTION_VIEW"
+    case tradingTicketView = "TRADE_IT_TRADING_TICKET_VIEW"
 }

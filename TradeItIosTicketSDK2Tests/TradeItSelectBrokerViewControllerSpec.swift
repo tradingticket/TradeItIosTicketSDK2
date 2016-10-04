@@ -10,10 +10,12 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var tradeItConnector: FakeTradeItConnector!
         var ezLoadingActivityManager: FakeEZLoadingActivityManager!
-
+        var delegate: FakeTradeItSelectBrokerViewControllerDelegate!
+        
         describe("initialization") {
             beforeEach {
                 tradeItConnector = FakeTradeItConnector()
+                delegate = FakeTradeItSelectBrokerViewControllerDelegate()
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 linkedBrokerManager.tradeItConnector = tradeItConnector
                 linkedBrokerManager.tradeItSessionProvider = FakeTradeItSessionProvider()
@@ -23,11 +25,11 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
-                controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_SELECT_BROKER_VIEW") as! TradeItSelectBrokerViewController
-
+                controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.selectBrokerView.rawValue) as! TradeItSelectBrokerViewController
+                
                 ezLoadingActivityManager = FakeEZLoadingActivityManager()
                 controller.ezLoadingActivityManager = ezLoadingActivityManager
-
+                controller.delegate = delegate
                 nav = UINavigationController(rootViewController: controller)
 
                 expect(controller.view).toNot(beNil())
@@ -102,12 +104,14 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                         controller.tableView(controller.brokerTable, didSelectRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0))
                     }
 
-                    it("goes to the login controller") {
-                        let loginController = nav.topViewController as! TradeItLoginViewController
-
-                        let selectedBroker = loginController.selectedBroker
-                        expect(selectedBroker?.brokerShortName).to(equal("Broker Short #2"))
-                        expect(selectedBroker?.brokerLongName).to(equal("Broker Long #2"))
+                    it("calling brokerWasSelected on the delegate") {
+                        let calls = delegate.calls.forMethod("brokerWasSelected(_:broker:)")
+                        let arg1 = calls[0].args["fromSelectBrokerViewController"] as! TradeItSelectBrokerViewController
+                        let arg2 = calls[0].args["broker"] as! TradeItBroker
+                        
+                        expect(calls.count).to(equal(1))
+                        expect(arg1).to(equal(controller))
+                        expect(arg2).to(equal(controller.selectedBroker))
                     }
                 }
             }

@@ -22,7 +22,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
     }
 
-    // Mark: - UITableViewDelegate
+    // Mark: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard let action = Action(rawValue: indexPath.row) else { return }
@@ -31,7 +31,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case .LaunchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
         case .LaunchTrading:
-            self.launchTrading()
+            self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -39,7 +39,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
 
-    // MARK: - UITableViewDataSource
+    // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Action.ENUM_COUNT.rawValue;
@@ -81,32 +81,5 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItLauncher.linkedBrokerManager.linkedBrokers = []
 
         print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
-    }
-
-    private func launchTrading() {
-        TradeItLauncher.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
-                TradeItAlert().show(
-                    securityQuestion: securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion
-                )
-            }, onFinished: {
-                let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
-                let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_TICKET_VIEW") as! TradeItTradingTicketViewController
-                let order = TradeItOrder(linkedBrokerAccount: brokerAccount, symbol: "AAPL")
-                viewController.order = order
-            }
-        )
-    }
-
-    private func launchViewFromStoryboard(storyboardId: String) -> UIViewController {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2") )
-        let navigationViewController = UINavigationController()
-        let viewController = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_TRADING_TICKET_VIEW")
-
-        navigationViewController.viewControllers = [viewController]
-        self.presentViewController(navigationViewController, animated: true, completion: nil)
-        return viewController
     }
 }

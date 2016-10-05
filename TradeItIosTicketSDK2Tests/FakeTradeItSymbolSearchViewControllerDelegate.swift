@@ -2,9 +2,11 @@
 class FakeTradeItSymbolSearchViewControllerDelegate: TradeItSymbolSearchViewControllerDelegate {
     let calls = SpyRecorder()
     
-    func symbolWasSelected(selectedSymbol: String) {
+    func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
+                                    didSelectSymbol selectedSymbol: String) {
         self.calls.record(#function, args: [
-                "selectedSymbol": selectedSymbol
+                "symbolSearchViewController": symbolSearchViewController,
+                "didSelectSymbol": selectedSymbol
             ])
     }
     

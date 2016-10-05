@@ -2,7 +2,6 @@ import UIKit
 
 class TradeItSymbolSearchViewController: UIViewController, TradeItSymbolSearchTableViewManagerDelegate  {
 
-    
     @IBOutlet weak var symbolResultsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -29,7 +28,6 @@ class TradeItSymbolSearchViewController: UIViewController, TradeItSymbolSearchTa
         dispatch_async(dispatch_get_main_queue(), { self.searchController.searchBar.becomeFirstResponder() })
     }
     
-    
     // MARK: TradeItSymbolSearchTableViewManagerDelegate methods
     
     func symbolSearchWasCalledWith(searchSymbol: String) {
@@ -44,11 +42,13 @@ class TradeItSymbolSearchViewController: UIViewController, TradeItSymbolSearchTa
     }
     
     func symbolWasSelected(selectedSymbol: String) {
-        self.delegate?.symbolWasSelected(selectedSymbol)
+        self.delegate?.symbolSearchViewController(self, didSelectSymbol: selectedSymbol)
     }
-
 }
 
 protocol TradeItSymbolSearchViewControllerDelegate: class {
-    func symbolWasSelected(selectedSymbol: String)
+    func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
+                                    didSelectSymbol selectedSymbol: String)
+
+    func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController)
 }

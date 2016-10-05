@@ -83,19 +83,16 @@ class TradeItSymbolSearchViewControllerSpec : QuickSpec {
                     controller.symbolWasSelected("MySelectedSymbol")
                 }
                 
-                it("calls the symbolWasSelected method on the delegate with the selected symbol") {
-                    let calls = delegate.calls.forMethod("symbolWasSelected")
+                it("calls the symbolSearchViewController:didSelectSymbol: method on the delegate with the selected symbol") {
+                    let calls = delegate.calls.forMethod("symbolSearchViewController(_:didSelectSymbol:)")
                     expect(calls.count).to(equal(1))
                     
-                    let selectedSymbolArg = calls[0].args["selectedSymbol"] as! String
+                    let selectedSymbolArg = calls[0].args["didSelectSymbol"] as! String
                     expect(selectedSymbolArg).to(equal("MySelectedSymbol"))
                     
                 }
             }
             
         }
-
-        }
-        
-        
+    }
 }

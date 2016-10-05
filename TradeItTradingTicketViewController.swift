@@ -62,7 +62,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         updatePreviewOrderButtonStatus()
     }
 
-    // MARK: IBAction for buttons
+    // MARK: IBActions
 
     @IBAction func orderActionTapped(sender: UIButton) {
         presentOptions(
@@ -94,19 +94,31 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
     
     @IBAction func symbolButtonWasTapped(sender: AnyObject) {
+        presentSymbolSelectionScreen()
+    }
+
+    // MARK: Private
+
+    private func presentSymbolSelectionScreen() {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
         let symbolSearchViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.symbolSearchView.rawValue) as! TradeItSymbolSearchViewController
         symbolSearchViewController.delegate = self
-        
-        self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
+
+//        self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
+        self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
     }
     
-    // MARK: TradeItSymbolSearchViewControllerDelegate methods
+    // MARK: TradeItSymbolSearchViewControllerDelegate
     
-    func symbolWasSelected(selectedSymbol: String) {
-        self.navigationController?.popViewControllerAnimated(true)
+    func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
+                                    didSelectSymbol selectedSymbol: String) {
+        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
         self.order.symbol = selectedSymbol
         updateSymbolView()
+    }
+
+    func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController) {
+        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: Private - Order changed handlers

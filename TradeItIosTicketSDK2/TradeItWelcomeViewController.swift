@@ -9,14 +9,16 @@ class TradeItWelcomeViewController: UIViewController {
 
     // MARK: IBActions
 
-
     @IBAction func getStartedButtonWasTapped(sender: UIButton) {
-        delegate?.getStartedButtonWasTapped(self)
+        self.delegate?.getStartedButtonWasTapped(self)
+    }
+
+    @IBAction func cancelWasTapped(sender: UIBarButtonItem) {
+        self.delegate?.cancelWasTapped(fromWelcomeViewController: self)
     }
 }
 
 protocol TradeItWelcomeViewControllerDelegate {
     func getStartedButtonWasTapped(fromViewController: TradeItWelcomeViewController)
-    // TODO: call delegate.flowAborted when users taps close/cancel
     func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController)
 }

@@ -4,7 +4,6 @@ import TradeItIosEmsApi
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
-
     var tradeItAlert = TradeItAlert()
     var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
@@ -26,7 +25,9 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
-                self.tradeItAlert.showErrorAlert(onController: self, withTitle: "Could not fetch brokers", withMessage: "Could not fetch the brokers list. Please try again later.")
+                self.tradeItAlert.showErrorAlert(onViewController: self,
+                                                 title: "Could not fetch brokers",
+                                                 message: "Could not fetch the brokers list. Please try again later.")
                 self.ezLoadingActivityManager.hide()
             }
         )
@@ -67,6 +68,6 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
 
 protocol TradeItSelectBrokerViewControllerDelegate {
     func brokerWasSelected(fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
-    // TODO: call delegate.flowAborted when users taps close/cancel
+
     func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
 }

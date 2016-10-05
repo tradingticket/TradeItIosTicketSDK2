@@ -2,7 +2,7 @@ import UIKit
 import PromiseKit
 import TradeItIosEmsApi
 
-class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewControllerAccountsTableDelegate {
+class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate {
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
@@ -56,6 +56,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
     }
     
     //MARK: private methods
+
     private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalValue: Float = 0
         for account in accounts {
@@ -68,13 +69,13 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioViewCont
         self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue)
     }
     
-    // MARK: IBAction
+    // MARK: IBActions
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
-        self.parentViewController?.dismissViewControllerAnimated(false, completion: nil)
+        self.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: - TradeItPortfolioViewControllerAccountsTableDelegate methods
+    // MARK: - TradeItPortfolioAccountsTableDelegate
     
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
         self.holdingsActivityIndicator.startAnimating()

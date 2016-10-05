@@ -5,97 +5,111 @@ import TradeItIosEmsApi
 class TradeItAccountManagementViewControllerSpec: QuickSpec {
     override func spec() {
         var controller: TradeItAccountManagementViewController!
-        var accountsManagementTableManager: FakeTradeItAccountManagementTableViewManager!
+        var accountManagementTableManager: FakeTradeItAccountManagementTableViewManager!
         var window: UIWindow!
         var nav: UINavigationController!
-        var selectedBroker: FakeTradeItLinkedBroker!
+        var linkedBroker: FakeTradeItLinkedBroker!
         var tradeItAlert: FakeTradeItAlert!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
-        
+
         describe("initialization") {
             beforeEach {
-                accountsManagementTableManager = FakeTradeItAccountManagementTableViewManager()
+                accountManagementTableManager = FakeTradeItAccountManagementTableViewManager()
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
-                
+
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
 
                 controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountManagementView.rawValue) as! TradeItAccountManagementViewController
 
-                controller.accountsManagementTableManager = accountsManagementTableManager
+                controller.accountManagementTableManager = accountManagementTableManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
-                selectedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: selectedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: selectedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
-                selectedBroker.accounts = [account1, account2]
-                controller.selectedLinkedBroker = selectedBroker
+                linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
+                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                linkedBroker.accounts = [account1, account2]
+                controller.linkedBroker = linkedBroker
                 tradeItAlert = FakeTradeItAlert()
                 controller.tradeItAlert = tradeItAlert
-                
+
                 nav = UINavigationController(rootViewController: controller)
-                
+
                 window.addSubview(nav.view)
-                
+
                 flushAsyncEvents()
             }
-            
+
             it("sets up the accountsManagementTableManager") {
-                expect(accountsManagementTableManager.accountsTable).to(be(controller.accountsTableView))
+                expect(accountManagementTableManager.accountsTableView).to(be(controller.accountsTableView))
             }
-            
+
             it("populates the table with the linkedBrokerAccounts") {
-                expect(accountsManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)").count).to(equal(1))
+                expect(accountManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)").count).to(equal(1))
             }
-            
+
             describe("pull to refresh") {
+                var onRefreshCompleteWasCalled = false
+                var accountsArg: [TradeItLinkedBrokerAccount]?
                 beforeEach {
-                    accountsManagementTableManager.calls.reset()
-                    controller.refreshAccountsTable(self)
+                    let onRefreshComplete: (withAccounts: [TradeItLinkedBrokerAccount]?)-> Void = { (withAccounts: [TradeItLinkedBrokerAccount]?) in
+                        onRefreshCompleteWasCalled = true
+                        accountsArg = withAccounts
+                    }
+                    accountManagementTableManager.calls.reset()
+                    controller.refreshRequested(fromAccountManagementTableViewManager: accountManagementTableManager, onRefreshComplete: onRefreshComplete)
+                    
                 }
                 
                 it("reauthenticates the linkedBroker") {
-                    expect(selectedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)").count).to(equal(1))
+                    expect(linkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)").count).to(equal(1))
                 }
                 
                 context("when authentication succeeds") {
                     beforeEach {
-                        let onSuccess = selectedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! () -> Void
+                        let onSuccess = linkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! () -> Void
                         onSuccess()
                     }
+
                     it("calls refreshAccountBalances on the linkedBroker") {
-                        expect(selectedBroker.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
+                        expect(linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
                     }
                     
                     describe("when finishing to refresh balances") {
                         beforeEach {
-                            let onFinished1 = selectedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
+                            let onFinished1 = linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                             onFinished1()
                         }
-                        it("update the table with the fresh infos") {
-                            let calls = accountsManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)")
-                            expect(calls.count).to(equal(1))
-                            let accountsArg = calls[0].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
-                            expect(accountsArg).to(equal(selectedBroker.accounts))
+
+                        it("calls onRefreshComplete with the accounts") {
+                            expect(onRefreshCompleteWasCalled).to(beTrue())
+                            expect(accountsArg).to(equal(linkedBroker.accounts))
                         }
                     }
                 }
                 
                 context("when authentication fails") {
                     var error: TradeItErrorResult!
+
                     beforeEach {
                         error = TradeItErrorResult()
                         error.longMessages = ["My long message"]
-                        let onFailure = selectedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! (TradeItErrorResult) -> Void
+                        let onFailure = linkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! (TradeItErrorResult) -> Void
                         onFailure(error)
                     }
+
                     it("call showTradeItErrorResultAlert to display the error") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onController:withError:withCompletion:)")
+                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
-                        expect(calls[0].args["withError"] as! TradeItErrorResult).to(be(error))
+                        expect(calls[0].args["errorResult"] as! TradeItErrorResult).to(be(error))
+                    }
+                    
+                    it("calls onRefreshComplete with nil") {
+                        expect(onRefreshCompleteWasCalled).to(beTrue())
+                        expect(accountsArg).to(beNil())
                     }
                 }
                 
@@ -111,38 +125,38 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 }
                 
                 it("calls tradeItAlert to show a modal") {
-                    let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                    let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                     expect(calls.count).to(equal(1))
                 }
                 
                 describe("The user taps on unlink") {
-            
                     context("When the user has other broker accounts") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                            let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                             let onValidate = calls[0].args["onValidate"] as! () -> Void
                                 onValidate()
 
                         }
+
                         it("calls unlink method on the linkedBrokerManager") {
                             expect(linkedBrokerManager.calls.forMethod("unlinkBroker").count).to(equal(1))
                         }
-                        
                     }
                 }
                 
                 describe("the user taps on cancel") {
                     var accounts: [TradeItLinkedBrokerAccount]!
+
                     beforeEach {
-                        accounts = selectedBroker.accounts
-                        let calls = tradeItAlert.calls.forMethod("showValidationAlert(onController:withTitle:withMessage:withActionOkTitle:onValidate:onCancel:withCompletion:)")
+                        accounts = linkedBroker.accounts
+                        let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                         let onCancel = calls[0].args["onCancel"] as! () -> Void
                         onCancel()
                     }
                     
                     it("stays on the account management screen with the same data") {
                         expect(nav.topViewController).toEventually(beAnInstanceOf(TradeItAccountManagementViewController))
-                        expect(accounts).to(equal(selectedBroker.accounts))
+                        expect(accounts).to(equal(linkedBroker.accounts))
                     }
                 }
             }
@@ -151,14 +165,16 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 beforeEach {
                     controller.relinkAccountWasTapped(controller)
                 }
-                it("calls the launchIntoLoginScreen from the linkedBrokerFlow") {
-                    let calls = linkBrokerUIFlow.calls.forMethod("launchIntoLoginScreen(inViewController:selectedBroker:selectedReLinkedBroker:mode:onLinked:onFlowAborted:)")
+
+                it("calls the launchRelinkBrokerFlow from the linkedBrokerFlow") {
+                    let calls = linkBrokerUIFlow.calls.forMethod("launchRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
                     expect(calls.count).to(equal(1))
                 }
+
                 context("when linking is finished from the login screen") {
                     var fakeNavigationController: FakeUINavigationController!
                     beforeEach {
-                        let calls = linkBrokerUIFlow.calls.forMethod("launchIntoLoginScreen(inViewController:selectedBroker:selectedReLinkedBroker:mode:onLinked:onFlowAborted:)")
+                        let calls = linkBrokerUIFlow.calls.forMethod("launchRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
                         let onLinked = calls[0].args["onLinked"] as! (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void
                         fakeNavigationController = FakeUINavigationController()
                         let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
@@ -167,6 +183,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                             
                         onLinked(presentedNavController: fakeNavigationController, selectedAccount: account1)
                     }
+
                     it("refreshes the account balance of the account") {
                         
                     }

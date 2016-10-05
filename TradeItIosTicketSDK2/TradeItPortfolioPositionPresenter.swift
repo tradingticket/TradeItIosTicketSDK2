@@ -3,16 +3,6 @@ import TradeItIosEmsApi
 class TradeItPortfolioPositionPresenter {
     let tradeItPortfolioPosition: TradeItPortfolioPosition
 
-    static func forPortfolioPosition(tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
-        if tradeItPortfolioPosition.position != nil {
-            return TradeItPortfolioPositionEquityPresenter(tradeItPortfolioPosition)
-        } else if tradeItPortfolioPosition.fxPosition != nil {
-            return TradeItPortfolioPositionFXPresenter(tradeItPortfolioPosition)
-        } else {
-            return TradeItPortfolioPositionPresenter(tradeItPortfolioPosition)
-        }
-    }
-
     init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
         self.tradeItPortfolioPosition = tradeItPortfolioPosition
     }

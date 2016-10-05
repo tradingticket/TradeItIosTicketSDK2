@@ -92,7 +92,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         print("BURP", order.isValid())
 
     }
-    
+
     @IBAction func symbolButtonWasTapped(sender: AnyObject) {
         presentSymbolSelectionScreen()
     }
@@ -104,12 +104,11 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         let symbolSearchViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.symbolSearchView.rawValue) as! TradeItSymbolSearchViewController
         symbolSearchViewController.delegate = self
 
-//        self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
         self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
     }
-    
+
     // MARK: TradeItSymbolSearchViewControllerDelegate
-    
+
     func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
                                     didSelectSymbol selectedSymbol: String) {
         symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
@@ -305,7 +304,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         options.map { option in UIAlertAction(title: option, style: .Default, handler: handler) }
             .forEach(actionSheet.addAction)
-
+        
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
 
         self.presentViewController(actionSheet, animated: true, completion: nil)

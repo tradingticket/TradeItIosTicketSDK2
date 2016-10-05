@@ -97,13 +97,14 @@ class TradeItLoginViewController: KeyboardViewController {
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
-            onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) -> Void in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                print("Security question result: \(tradeItSecurityQuestionResult)")
-
-                // TODO: Get answer from user...
-                return "Some Answer"
+                self.tradeItAlert.show(
+                    securityQuestion: securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion
+                )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                 //TODO delete linkedLogin in keychain ?

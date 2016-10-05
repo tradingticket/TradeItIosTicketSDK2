@@ -86,11 +86,12 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                         onRefreshComplete(withAccounts: self.linkedBroker.accounts)
                 })
             },
-            onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
-                print("Security question result: \(tradeItSecurityQuestionResult)")
-
-                // TODO: Get answer from user...
-                return "Some Answer"
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+                self.tradeItAlert.show(
+                    securityQuestion: securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion
+                )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                 self.tradeItAlert.showTradeItErrorResultAlert(onViewController: self,

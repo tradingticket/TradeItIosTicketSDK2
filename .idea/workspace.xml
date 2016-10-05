@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c8fb7960-12f2-431a-9da2-90c5a282d521" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/YCombinator.swift" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/TradeItTradingTicketViewController.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItTradingTicketViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ExampleApp/ExampleViewController.swift" afterPath="$PROJECT_DIR$/ExampleApp/ExampleViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAccountManagementViewController.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAccountManagementViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAccountSelectionViewController.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAccountSelectionViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAlert.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItAlert.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLinkedBroker.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLinkedBroker.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLinkedBrokerManager.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLinkedBrokerManager.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLoginViewController.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItLoginViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItPortfolioViewController.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2/TradeItPortfolioViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItLinkedBroker.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItLinkedBroker.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItLinkedBrokerManager.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItLinkedBrokerManager.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItSymbolSearchViewControllerDelegate.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/FakeTradeItSymbolSearchViewControllerDelegate.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItAlertSpec.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItAlertSpec.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItLinkedBrokerManagerSpec.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItLinkedBrokerManagerSpec.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItLinkedBrokerSpec.swift" afterPath="$PROJECT_DIR$/TradeItIosTicketSDK2Tests/TradeItLinkedBrokerSpec.swift" />
+    </list>
+    <ignored path="TradeItIosTicketSDK2.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="TradeItIosTicketSDK2" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="2560" />
+    <option name="height" value="1337" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Cidr.FilesView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+  </component>
+  <component name="RunManager" selected="Application.TradeItIosTicketSDK2">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TradeItIosTicketSDK2" TARGET_NAME="TradeItIosTicketSDK2" CONFIG_NAME="Debug" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <configuration default="true" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TradeItIosTicketSDK2" TARGET_NAME="TradeItIosTicketSDK2Tests" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="TradeItIosTicketSDK2" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TradeItIosTicketSDK2" TARGET_NAME="TradeItIosTicketSDK2" CONFIG_NAME="Debug" SCHEME_NAME="TradeItIosTicketSDK2" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <configuration default="false" name="TradeItIosTicketSDK2Tests" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TradeItIosTicketSDK2" TARGET_NAME="TradeItIosTicketSDK2Tests" CONFIG_NAME="Debug" SCHEME_NAME="TradeItIosTicketSDK2Tests" TEST_MODE="SUITE_TEST" XCODE_SKIPPED_TESTS_HASH_CODE="0">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ExampleApp" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="TradeItIosTicketSDK2" TARGET_NAME="ExampleApp" CONFIG_NAME="Debug" SCHEME_NAME="ExampleApp" RUN_TARGET_PROJECT_NAME="TradeItIosTicketSDK2" RUN_TARGET_NAME="ExampleApp" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
+        <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
+      </EXTENSION>
+      <method />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Application.TradeItIosTicketSDK2" />
+      <item index="1" class="java.lang.String" itemvalue="XCTest/Kiwi.TradeItIosTicketSDK2Tests" />
+      <item index="2" class="java.lang.String" itemvalue="Application.ExampleApp" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c8fb7960-12f2-431a-9da2-90c5a282d521" name="Default" comment="" />
+      <created>1475702200117</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1475702200117</updated>
+      <workItem from="1475702206204" duration="704000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="704000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="2560" height="1337" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24970461" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32931727" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+</project>

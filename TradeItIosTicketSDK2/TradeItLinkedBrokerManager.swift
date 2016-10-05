@@ -28,62 +28,31 @@ class TradeItLinkedBrokerManager {
         return linkedBroker
     }
 
-    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
+    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
                                             onFinished: () -> Void) {
-        firstly { _ -> Promise<Void> in
-            var promises: [Promise<Void>] = []
-
-            for linkedBroker in self.linkedBrokers {
-                let promise = Promise<Void> { fulfill, reject in
-                    if !linkedBroker.isAuthenticated {
-                        linkedBroker.authenticate(
-                            onSuccess: { () -> Void in
-                                fulfill()
-                            },
-                            onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
-                                return onSecurityQuestion(tradeItSecurityQuestionResult)
-                            },
-                            onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                                fulfill()
-                            }
-                        )
-                    } else {
+        let promises = self.linkedBrokers.filter { !$0.isAuthenticated }.map { linkedBroker in
+            return Promise<Void> { fulfill, reject in
+                linkedBroker.authenticate(
+                    onSuccess: fulfill,
+                    onSecurityQuestion: onSecurityQuestion,
+                    onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                         fulfill()
                     }
-                }
-
-                promises.append(promise)
+                )
             }
-
-            return when(promises)
-        }.always() {
-            onFinished()
         }
+
+        when(promises).always(onFinished)
     }
 
     func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        firstly { _ -> Promise<Void> in
-            var promises: [Promise<Void>] = []
-            for linkedBroker in self.linkedBrokers {
-                    let promise = Promise<Void> { fulfill, reject in
-                        if linkedBroker.isAuthenticated {
-                            linkedBroker.refreshAccountBalances(
-                                onFinished: {
-                                    fulfill()
-                                }
-                            )
-                        } else {
-                            fulfill()
-                        }
-                    }
-
-                    promises.append(promise)
+        let promises = self.linkedBrokers.filter { $0.isAuthenticated }.map { linkedBroker in
+            return Promise<Void> { fulfill, reject in
+                linkedBroker.refreshAccountBalances(onFinished: fulfill)
             }
-
-            return when(promises)
-        }.always() {
-            onFinished()
         }
+
+        when(promises).always(onFinished)
     }
 
     func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
@@ -121,29 +90,15 @@ class TradeItLinkedBrokerManager {
     }
 
     func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
-        var accounts: [TradeItLinkedBrokerAccount] = []
-
-        for linkedBroker in self.linkedBrokers {
-            accounts.appendContentsOf(linkedBroker.accounts)
-        }
-
-        return accounts
+        return self.linkedBrokers.flatMap { $0.accounts }
     }
     
     func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
-        var accounts: [TradeItLinkedBrokerAccount] = []
-        
-        for linkedBroker in self.linkedBrokers {
-            accounts.appendContentsOf(linkedBroker.accounts.filter { return $0.isEnabled == true})
-        }
-        
-        return accounts
+        return getAllAccounts().filter { $0.isEnabled }
     }
     
     func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
-        let enabledLinkedBrokers = self.linkedBrokers.filter { return $0.getEnabledAccounts().count > 0}
-        
-        return enabledLinkedBrokers
+        return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
     
     func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,

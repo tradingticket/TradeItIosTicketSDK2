@@ -96,6 +96,26 @@ class TradeItAlertSpec: QuickSpec {
                     expect(alert.message).to(equal(message))
                 }
             }
+
+            describe("show:securityQuestion:onViewController") {
+                it("displays the security question with a text field") {
+                    let securityQuestion = TradeItSecurityQuestionResult()
+                    securityQuestion.securityQuestion = "What is your quest?"
+                    let onAnswerSecurityQuestion: (String) -> Void = { _ in }
+
+                    tradeItAlert.show(
+                        securityQuestion: securityQuestion,
+                        onViewController: controller,
+                        onAnswerSecurityQuestion: onAnswerSecurityQuestion
+                    )
+
+                    let alert = controller.presentedViewController as! UIAlertController
+                    expect(alert.title).to(equal("Security Question"))
+                    expect(alert.message).to(equal("What is your quest?"))
+                    expect(alert.textFields!.count).to(equal(1))
+                    expect(alert.textFields!.first).to(beAKindOf(UITextField))
+                }
+            }
         }
     }
 }

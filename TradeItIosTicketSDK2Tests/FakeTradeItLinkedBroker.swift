@@ -13,7 +13,7 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
     }
     
     override func authenticate(onSuccess onSuccess: () -> Void,
-                                         onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
+                                         onSecurityQuestion: (TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void,
                                          onFailure: (TradeItErrorResult) -> Void) -> Void {
         self.calls.record(#function,
                           args: [

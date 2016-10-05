@@ -1,7 +1,7 @@
 import UIKit
+import TradeItIosEmsApi
 
 class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSelectionTableViewManagerDelegate {
-
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
@@ -26,9 +26,12 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
                                                                 onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
-                // TODO: GET
-                return "MY SPECIAL SECURITY ANSWER"
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+                TradeItAlert().show(
+                    securityQuestion: securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion
+                )
             },
             onFinished: {
                 self.linkedBrokerManager.refreshAccountBalances(

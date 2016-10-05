@@ -45,9 +45,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                     onSuccess: {
                         onSuccessWasCalled = true
                     },
-                    onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult) -> String in
+                    onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void in
                         onSecurityQuestionWasCalled = true
-                        return ""
                     },
                     onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
                         onFailureWasCalled = true

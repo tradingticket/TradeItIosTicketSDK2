@@ -14,61 +14,61 @@ class TradeItLinkedBroker: NSObject {
     }
 
     func authenticate(onSuccess onSuccess: () -> Void,
-                      onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
-                      onFailure: (TradeItErrorResult) -> Void) -> Void {
-        self.session.authenticate(linkedLogin) { (tradeItResult: TradeItResult!) in
-            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                self.isAuthenticated = false
-                self.error = tradeItErrorResult
+                                onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
+                                onFailure: (TradeItErrorResult) -> Void) -> Void {
+        let authenticationResponseHandler = YCombinator { handler in
+            { (tradeItResult: TradeItResult!) in
+                switch tradeItResult {
+                case let authenticationResult as TradeItAuthenticationResult:
+                    self.isAuthenticated = true
+                    self.error = nil
 
-                onFailure(tradeItErrorResult)
-            } else if let tradeItSecurityQuestionResult = tradeItResult as? TradeItSecurityQuestionResult {
-                let securityQuestionAnswer = onSecurityQuestion(tradeItSecurityQuestionResult)
-                // TODO: submit security question answer
-            } else if let tradeItResult = tradeItResult as? TradeItAuthenticationResult {
-                self.isAuthenticated = true
-                self.error = nil
+                    let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
+                    self.accounts = self.mapToLinkedBrokerAccounts(accounts)
+                    onSuccess()
+                case let securityQuestion as TradeItSecurityQuestionResult:
+                    onSecurityQuestion(securityQuestion, { securityQuestionAnswer in
+                        self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
+                    })
+                case let error as TradeItErrorResult:
+                    self.isAuthenticated = false
+                    self.error = error
 
-                self.accounts = []
-                let accounts = tradeItResult.accounts as! [TradeItBrokerAccount]
-                for account in accounts {
-                    let accountPortfolio = TradeItLinkedBrokerAccount(linkedBroker: self,
-                                                                      brokerName: self.linkedLogin.broker,
-                                                                      accountName: account.name,
-                                                                      accountNumber: account.accountNumber,
-                                                                      balance: nil,
-                                                                      fxBalance: nil,
-                                                                      positions: [])
-                    self.accounts.append(accountPortfolio)
+                    onFailure(error)
+                default:
+                    handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown respose sent from the server for authentication"))
                 }
 
-                onSuccess()
             }
         }
+        self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
 
     func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        firstly { _ -> Promise<Void> in
-            var promises: [Promise<Void>] = []
-            for account in accounts {
-                let promise = Promise<Void> { fulfill, reject in
-                    account.getAccountOverview(
-                        onFinished: {
-                            fulfill()
-                        }
-                    )
-                }
-                promises.append(promise)
+        let promises = accounts.map { account in
+            return Promise<Void> { fulfill, reject in
+                account.getAccountOverview(onFinished: fulfill)
             }
-            return when(promises)
         }
-        .always {
-            onFinished()
-        }
+
+        when(promises).always(onFinished)
     }
-    
+
     func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
-        return self.accounts.filter{ return $0.isEnabled == true}
+        return self.accounts.filter { return $0.isEnabled }
     }
-    
+
+    private func mapToLinkedBrokerAccounts(accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
+        return accounts.map { account in
+            return TradeItLinkedBrokerAccount(
+                linkedBroker: self,
+                brokerName: self.linkedLogin.broker,
+                accountName: account.name,
+                accountNumber: account.accountNumber,
+                balance: nil,
+                fxBalance: nil,
+                positions: []
+            )
+        }
+    }
 }

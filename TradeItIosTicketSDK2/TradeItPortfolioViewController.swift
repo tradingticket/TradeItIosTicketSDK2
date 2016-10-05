@@ -3,6 +3,7 @@ import PromiseKit
 import TradeItIosEmsApi
 
 class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate {
+    var tradeItAlert = TradeItAlert()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
@@ -27,9 +28,12 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
 
         self.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
-                // TODO: GET
-                return "MY SPECIAL SECURITY ANSWER"
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+                self.tradeItAlert.show(
+                    securityQuestion: securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion
+                )
             },
             onFinished: {
                 self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")

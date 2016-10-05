@@ -85,9 +85,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func launchTrading() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (TradeItSecurityQuestionResult) -> String in
-                print("Security question")
-                return "Security question"
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+                TradeItAlert().show(
+                    securityQuestion: securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion
+                )
             }, onFinished: {
                 let brokerAccount = TradeItLauncher.linkedBrokerManager.getAllAccounts()[0]
                 let viewController = self.launchViewFromStoryboard("TRADE_IT_TRADING_TICKET_VIEW") as! TradeItTradingTicketViewController

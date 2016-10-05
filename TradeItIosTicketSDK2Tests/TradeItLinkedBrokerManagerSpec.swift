@@ -465,9 +465,8 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     onFinishedAuthenticatingWasCalled = 0
 
                     linkedBrokerManager.authenticateAll(
-                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult) -> String in
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, onSecurityQuestionAnswer: (String) -> Void) -> Void in
                             securityQuestionCalledWith = result
-                            return ""
                         },
                         onFinished: {
                             onFinishedAuthenticatingWasCalled += 1
@@ -495,12 +494,12 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                 it("calls onSecurityQuestion for security questions") {
                     let authenticateCalls = securityQuestionUnauthenticatedLinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                    let onSecurityQuestion = authenticateCalls[0].args["onSecurityQuestion"] as! (TradeItSecurityQuestionResult) -> String
+                    let onSecurityQuestion = authenticateCalls[0].args["onSecurityQuestion"] as! (TradeItSecurityQuestionResult, (String) -> Void) -> Void
                     let expectedSecurityQuestionResult = TradeItSecurityQuestionResult()
 
                     expect(securityQuestionCalledWith).to(beNil())
 
-                    onSecurityQuestion(expectedSecurityQuestionResult)
+                    onSecurityQuestion(expectedSecurityQuestionResult, { _ in })
 
                     expect(securityQuestionCalledWith).to(be(expectedSecurityQuestionResult))
                 }
@@ -527,6 +526,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     }
 
                     it("calls onFinishedAuthenticating") {
+                        // TODO: This test is very flakey. Need to figure out how to fix it. Running it by itself it is fine.
                         expect(onFinishedAuthenticatingWasCalled).to(equal(1))
                     }
                 }
@@ -539,8 +539,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     var onFinishedAuthenticatingWasCalled = 0
 
                     linkedBrokerManager.authenticateAll(
-                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult) -> String in
-                            return ""
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void in
                         },
                         onFinished: {
                             onFinishedAuthenticatingWasCalled += 1

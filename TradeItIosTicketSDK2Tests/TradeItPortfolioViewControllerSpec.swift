@@ -10,6 +10,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var nav: UINavigationController!
         var ezLoadingActivityManager: FakeEZLoadingActivityManager!
         var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
+        var accountSummaryViewManager: FakeTradeItPortfolioAccountSummaryViewManager!
         var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
 
         describe("initialization") {
@@ -18,6 +19,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 accountsTableViewManager = FakeTradeItPortfolioAccountsTableViewManager()
                 positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
+                accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
                 
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
@@ -30,6 +32,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 controller.ezLoadingActivityManager = ezLoadingActivityManager
                 controller.accountsTableViewManager = accountsTableViewManager
                 controller.positionsTableViewManager = positionsTableViewManager
+                controller.accountSummaryViewManager = accountSummaryViewManager
                 nav = UINavigationController(rootViewController: controller)
                 
                 window.addSubview(nav.view)
@@ -139,6 +142,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 
                 it("shows a spinner") {
                     expect(controller.holdingsActivityIndicator.isAnimating()).to(beTrue())
+                }
+                
+                it("populates the account summary") {
+                    let calls = accountSummaryViewManager.calls.forMethod("populateSummarySection")
+                    expect(calls.count).to(equal(1))
+                    expect(calls[0].args["selectedAccount"] as? TradeItLinkedBrokerAccount).to(equal(account1))
                 }
                 
                 it("calls the getPositions method on the selected account") {

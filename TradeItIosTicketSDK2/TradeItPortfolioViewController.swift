@@ -7,14 +7,14 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
-    var fxSummaryViewManager = TradeItPortfolioFxSummaryViewManager()
+    var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
     
     @IBOutlet weak var accountsTable: UITableView!
-    @IBOutlet weak var fxSummaryView: TradeItFxSummaryView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var positionsTable: UITableView!
     @IBOutlet weak var holdingsLabel: UILabel!
+    @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
     
     @IBOutlet weak var totalValueLabel: UILabel!
     
@@ -23,7 +23,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = accountsTable
         self.positionsTableViewManager.positionsTable = positionsTable
-        self.fxSummaryViewManager.fxSummaryView = fxSummaryView
+        self.accountSummaryViewManager.accountSummaryView = accountSummaryView
         
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
 
@@ -82,8 +82,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     // MARK: - TradeItPortfolioAccountsTableDelegate
     
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
-        //self.fxSummaryViewManager.showOrHideFxSummarySection(selectedAccount)
         self.holdingsActivityIndicator.startAnimating()
+        self.accountSummaryViewManager.populateSummarySection(selectedAccount)
         selectedAccount.getPositions(
             onFinished: {
                 self.holdingsActivityIndicator.stopAnimating()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -211,6 +211,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <state key="normal" title="SYMBOL"/>
+                                        <connections>
+                                            <action selector="symbolButtonWasTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="5Ll-Fd-O5Q"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rsc-4I-BwP">
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -1471,6 +1474,75 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1049" y="-1884"/>
+        </scene>
+        <!--Trade It Symbol Search View Controller-->
+        <scene sceneID="iME-v1-coO">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_SYMBOL_SEARCH_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="bFz-AQ-wPt" customClass="TradeItSymbolSearchViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="M79-9V-hjZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="iFh-gg-et4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8T8-fm-Nn2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sYd-Pb-cJF">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SYMBOL_SEARCH_CELL_ID" id="PqO-g8-FRU" customClass="TradeItSymbolSearchTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PqO-g8-FRU" id="NhY-Sr-mEq">
+                                            <frame key="frameInset" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUl-a3-6eP">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R4D-d0-7a3">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="XUl-a3-6eP" firstAttribute="leading" secondItem="NhY-Sr-mEq" secondAttribute="leadingMargin" constant="13" id="0NN-CS-Vyx"/>
+                                                <constraint firstItem="XUl-a3-6eP" firstAttribute="centerY" secondItem="NhY-Sr-mEq" secondAttribute="centerY" id="8JE-XT-WB3"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="R4D-d0-7a3" secondAttribute="trailing" constant="24" id="cp9-4s-8UM"/>
+                                                <constraint firstItem="R4D-d0-7a3" firstAttribute="centerY" secondItem="NhY-Sr-mEq" secondAttribute="centerY" id="ngm-to-XB0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="companyNameLabel" destination="R4D-d0-7a3" id="B1K-9D-Ibe"/>
+                                            <outlet property="symbolLabel" destination="XUl-a3-6eP" id="9Sn-DG-x3n"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                            </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="J40-U2-f3I"/>
+                        </subviews>
+                        <color key="backgroundColor" white="0.95160442590713501" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sYd-Pb-cJF" firstAttribute="top" secondItem="M79-9V-hjZ" secondAttribute="bottom" id="30W-e4-0d4"/>
+                            <constraint firstAttribute="trailing" secondItem="sYd-Pb-cJF" secondAttribute="trailing" id="CDS-Im-IgG"/>
+                            <constraint firstItem="J40-U2-f3I" firstAttribute="centerY" secondItem="sYd-Pb-cJF" secondAttribute="centerY" id="J3O-ez-GTw"/>
+                            <constraint firstItem="sYd-Pb-cJF" firstAttribute="leading" secondItem="8T8-fm-Nn2" secondAttribute="leading" id="P5d-e9-xYK"/>
+                            <constraint firstItem="J40-U2-f3I" firstAttribute="centerX" secondItem="sYd-Pb-cJF" secondAttribute="centerX" id="SiP-0I-JEI"/>
+                            <constraint firstItem="iFh-gg-et4" firstAttribute="top" secondItem="sYd-Pb-cJF" secondAttribute="bottom" id="dUP-Si-SAI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="J40-U2-f3I" id="Hd2-ft-MDe"/>
+                        <outlet property="symbolResultsTableView" destination="sYd-Pb-cJF" id="JSA-86-m3y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NQw-tO-vHN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1014" y="-467"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="BKV-zf-p3m">

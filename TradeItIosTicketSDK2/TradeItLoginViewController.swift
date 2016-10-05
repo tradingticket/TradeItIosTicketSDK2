@@ -27,6 +27,13 @@ class TradeItLoginViewController: KeyboardViewController {
             self.userNameInput.placeholder = "\(brokerName) Username"
             self.passwordInput.placeholder = "\(brokerName) Password"
         }
+        
+        if self.linkedBrokerToRelink != nil {
+            linkButton.setTitle("Relink Broker", forState: .Normal)
+        }
+        else {
+            linkButton.setTitle("Link Broker", forState: .Normal)
+        }
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {

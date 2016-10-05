@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -464,6 +464,9 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GH-T9-wjw">
                                         <state key="normal" title="Account"/>
+                                        <connections>
+                                            <action selector="accountButtonTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="eaP-xA-Ow7"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buying Power" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmF-Fi-03F">
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -528,7 +531,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lj0-xK-6tD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1123"/>
+            <point key="canvasLocation" x="2513" y="-1194"/>
         </scene>
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
@@ -567,7 +570,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="-2642"/>
+            <point key="canvasLocation" x="1778" y="-2641"/>
         </scene>
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
@@ -685,7 +688,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JxQ-Xu-d6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2104" y="-2641"/>
+            <point key="canvasLocation" x="2513" y="-2641"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
@@ -721,10 +724,10 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_HEADER_ID" id="WuN-9R-wav">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WuN-9R-wav" id="tvi-2q-ObU">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acct Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93S-9F-GGt">
@@ -755,10 +758,10 @@
                                         <color key="backgroundColor" red="0.85098648071289062" green="0.85096096992492676" blue="0.8509753942489624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_CELL_ID" rowHeight="55" id="55g-cj-mTJ" customClass="TradeItPortfolioAccountsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="55"/>
+                                        <rect key="frame" x="0.0" y="72" width="1000" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55g-cj-mTJ" id="WXI-1g-FBU">
-                                            <frame key="frameInset" width="375" height="54"/>
+                                            <frame key="frameInset" width="1000" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
@@ -1122,10 +1125,10 @@
                                 <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_HEADER_ID" id="Y8v-fa-h8v" userLabel="PORTFOLIO_EQUITY_POSITIONS_HEADER_ID">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y8v-fa-h8v" id="O9o-di-wTY">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sym (Quantity)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAp-EE-tcm">
@@ -1156,10 +1159,10 @@
                                         <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_HEADER_ID" id="w3c-oI-hM7" userLabel="PORTFOLIO_FX_POSITIONS_HEADER_ID">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w3c-oI-hM7" id="U1m-gx-Uli">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sym (Quantity)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PHd-Wd-R2w">
@@ -1190,10 +1193,10 @@
                                         <color key="backgroundColor" red="0.87974476440000005" green="0.87974476440000005" blue="0.87974476440000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="150" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="116" width="375" height="150"/>
+                                        <rect key="frame" x="0.0" y="116" width="1000" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fFn-NS-Mba" id="CV5-G3-nqA">
-                                            <frame key="frameInset" width="375" height="149"/>
+                                            <frame key="frameInset" width="1000" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sym" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
@@ -1404,10 +1407,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_CELL_ID" rowHeight="150" id="Asc-AP-Trv" customClass="TradeItPortfolioFxPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="266" width="375" height="150"/>
+                                        <rect key="frame" x="0.0" y="266" width="1000" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Asc-AP-Trv" id="sAy-RW-Ipc">
-                                            <frame key="frameInset" width="375" height="149"/>
+                                            <frame key="frameInset" width="1000" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sym" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZd-al-cOc">
@@ -1611,7 +1614,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1884"/>
+            <point key="canvasLocation" x="1049" y="-1913"/>
         </scene>
         <!--Trade It Symbol Search View Controller-->
         <scene sceneID="iME-v1-coO">
@@ -1632,7 +1635,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PqO-g8-FRU" id="NhY-Sr-mEq">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUl-a3-6eP">
@@ -1680,7 +1683,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQw-tO-vHN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1014" y="-467"/>
+            <point key="canvasLocation" x="1777" y="-1194"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="BKV-zf-p3m">
@@ -1694,22 +1697,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SELECT THE ACCOUNT YOU WANT TO TRADE WITH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pD1-uh-vbb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SELECT AN ACCOUNT FOR TRADING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pD1-uh-vbb">
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="itr-c8-43u">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="450" id="86A-ui-Xl4"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_HEADER_ID" rowHeight="50" id="wKa-HV-bYu" userLabel="BROKER_SELECTION_HEADER_ID" customClass="TradeItAccountSelectionTableViewHeader" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wKa-HV-bYu" id="duO-td-Bfr">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI6-Z7-clP">
@@ -1732,7 +1732,7 @@
                                         <rect key="frame" x="0.0" y="78" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eTF-Mr-5hl" id="xaO-7c-ENn">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuV-UM-Aaf">
@@ -1810,10 +1810,11 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="pD1-uh-vbb" secondAttribute="trailing" id="71p-gO-Ou8"/>
                             <constraint firstAttribute="trailing" secondItem="CfW-H7-jRp" secondAttribute="trailing" id="D46-ff-vF7"/>
-                            <constraint firstItem="CfW-H7-jRp" firstAttribute="top" secondItem="itr-c8-43u" secondAttribute="bottom" constant="50" id="U4o-JW-6eS"/>
+                            <constraint firstItem="CfW-H7-jRp" firstAttribute="top" secondItem="itr-c8-43u" secondAttribute="bottom" constant="40" id="U4o-JW-6eS"/>
                             <constraint firstItem="pD1-uh-vbb" firstAttribute="top" secondItem="Zqp-1z-UMn" secondAttribute="bottom" constant="5" id="WhZ-Uy-UqA"/>
                             <constraint firstItem="itr-c8-43u" firstAttribute="leading" secondItem="uey-M1-KXr" secondAttribute="leading" id="Zdo-1Y-Ix5"/>
                             <constraint firstItem="pD1-uh-vbb" firstAttribute="leading" secondItem="uey-M1-KXr" secondAttribute="leadingMargin" id="bwA-rj-Ufq"/>
+                            <constraint firstItem="NVG-Cx-N8F" firstAttribute="top" secondItem="CfW-H7-jRp" secondAttribute="bottom" constant="40" id="ieq-pp-LIQ"/>
                             <constraint firstItem="itr-c8-43u" firstAttribute="top" secondItem="pD1-uh-vbb" secondAttribute="bottom" constant="5" id="q7Q-K6-Dui"/>
                             <constraint firstAttribute="trailing" secondItem="itr-c8-43u" secondAttribute="trailing" id="sld-vf-Q5O"/>
                             <constraint firstItem="CfW-H7-jRp" firstAttribute="leading" secondItem="uey-M1-KXr" secondAttribute="leading" id="wKa-YC-0Jr"/>
@@ -1828,7 +1829,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ZW-iV-p9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="-1124"/>
+            <point key="canvasLocation" x="1049" y="-1194"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="huh-Y5-9RO">
@@ -1849,9 +1850,6 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ntd-kO-gOZ">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="mOy-WX-HBy"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_CELL_ID" rowHeight="50" id="8rL-7J-jGy" customClass="TradeItBrokerManagementTableViewCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
@@ -1933,6 +1931,7 @@
                             <constraint firstAttribute="trailing" secondItem="Ntd-kO-gOZ" secondAttribute="trailing" id="8LE-lq-mDg"/>
                             <constraint firstItem="Ntd-kO-gOZ" firstAttribute="leading" secondItem="50J-7k-2zB" secondAttribute="leading" id="EeZ-Fg-NnN"/>
                             <constraint firstItem="Ntd-kO-gOZ" firstAttribute="top" secondItem="VIS-qd-YyE" secondAttribute="bottom" constant="30" id="R4j-yU-On9"/>
+                            <constraint firstItem="2NZ-W2-FLd" firstAttribute="top" secondItem="Ntd-kO-gOZ" secondAttribute="bottom" id="SZn-3L-GQd"/>
                             <constraint firstItem="Rqq-Sa-bFd" firstAttribute="leading" secondItem="50J-7k-2zB" secondAttribute="leadingMargin" id="kKA-Hl-sEM"/>
                             <constraint firstItem="2NZ-W2-FLd" firstAttribute="top" secondItem="Ntd-kO-gOZ" secondAttribute="bottom" id="lVA-x6-K3g"/>
                         </constraints>
@@ -1952,7 +1951,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xqD-uk-BmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1584" y="-1885"/>
+            <point key="canvasLocation" x="1777" y="-1914"/>
         </scene>
         <!--Accounts Management-->
         <scene sceneID="CTf-ld-7e6">
@@ -1973,9 +1972,6 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pIx-2Y-F4H">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="2pO-cb-p70"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_MANAGEMENT_CELL_ID" id="ZMx-d1-7NU" customClass="TradeItAccountManagementTableViewCell" customModule="ExampleApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
@@ -2065,7 +2061,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Khs-rd-2FR">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syT-Mp-amo">
-                                        <state key="normal" title="Unkink Account">
+                                        <state key="normal" title="Unlink Account">
                                             <color key="titleColor" red="0.95160442590713501" green="0.18191250505818882" blue="0.13573978274409054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -2087,20 +2083,28 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remove your account information." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uge-Xt-q9F">
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.95160442590713501" green="0.95160442590713501" blue="0.95160442590713501" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="pIx-2Y-F4H" firstAttribute="top" secondItem="aVW-c4-HBo" secondAttribute="bottom" constant="30" id="2Je-KS-xV0"/>
-                            <constraint firstItem="WF3-Jd-w6v" firstAttribute="top" secondItem="aA2-5Q-dQz" secondAttribute="bottom" constant="10" id="9C1-jM-fOy"/>
-                            <constraint firstItem="Khs-rd-2FR" firstAttribute="top" secondItem="WF3-Jd-w6v" secondAttribute="bottom" constant="50" id="Fg1-Kj-3Aw"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="uge-Xt-q9F" secondAttribute="leading" id="FGI-Xt-Rj5"/>
                             <constraint firstItem="Kzk-t6-pf2" firstAttribute="top" secondItem="aVW-c4-HBo" secondAttribute="bottom" constant="5" id="K3z-bE-nZR"/>
+                            <constraint firstItem="Khs-rd-2FR" firstAttribute="top" secondItem="aA2-5Q-dQz" secondAttribute="bottom" constant="50" id="Mc9-nH-diF"/>
                             <constraint firstItem="aA2-5Q-dQz" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leading" id="Qjf-4h-xRV"/>
+                            <constraint firstItem="WF3-Jd-w6v" firstAttribute="top" secondItem="aA2-5Q-dQz" secondAttribute="bottom" constant="10" id="TOf-y1-vhu"/>
                             <constraint firstItem="Kzk-t6-pf2" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leadingMargin" id="VQQ-Xc-ZLS"/>
                             <constraint firstAttribute="trailing" secondItem="aA2-5Q-dQz" secondAttribute="trailing" id="XCO-GE-MOV"/>
                             <constraint firstItem="WF3-Jd-w6v" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leadingMargin" id="XjX-cL-ejm"/>
-                            <constraint firstItem="aA2-5Q-dQz" firstAttribute="top" secondItem="pIx-2Y-F4H" secondAttribute="bottom" constant="50" id="XvS-oI-3I7"/>
+                            <constraint firstItem="aA2-5Q-dQz" firstAttribute="top" secondItem="pIx-2Y-F4H" secondAttribute="bottom" constant="40" id="XvS-oI-3I7"/>
                             <constraint firstItem="Khs-rd-2FR" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leading" id="egc-Kx-IqI"/>
+                            <constraint firstItem="sFl-4B-XPW" firstAttribute="top" secondItem="Khs-rd-2FR" secondAttribute="bottom" constant="50" id="g8R-kH-1Ev"/>
                             <constraint firstAttribute="trailing" secondItem="pIx-2Y-F4H" secondAttribute="trailing" id="gPR-pL-7h9"/>
+                            <constraint firstItem="uge-Xt-q9F" firstAttribute="top" secondItem="Khs-rd-2FR" secondAttribute="bottom" constant="10" id="kCp-0D-PR6"/>
                             <constraint firstAttribute="trailing" secondItem="Khs-rd-2FR" secondAttribute="trailing" id="rF2-4A-u3g"/>
                             <constraint firstItem="pIx-2Y-F4H" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leading" id="rr1-w8-pSU"/>
                         </constraints>
@@ -2114,7 +2118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ore-0F-Ogj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2104" y="-1885"/>
+            <point key="canvasLocation" x="2513" y="-1915"/>
         </scene>
     </scenes>
     <resources>

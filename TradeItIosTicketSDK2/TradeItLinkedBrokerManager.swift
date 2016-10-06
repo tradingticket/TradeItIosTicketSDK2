@@ -25,6 +25,7 @@ class TradeItLinkedBrokerManager {
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
         let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
         self.linkedBrokers.append(linkedBroker)
+
         return linkedBroker
     }
 

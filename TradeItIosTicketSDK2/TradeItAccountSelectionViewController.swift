@@ -17,7 +17,9 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     }
 
     override func viewWillAppear(animated: Bool) {
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.getAllEnabledLinkedBrokers())
+        let enabledBrokers = self.linkedBrokerManager.getAllEnabledLinkedBrokers()
+
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }
     
     // MARK: TradeItAccounSelectionTableViewManagerDelegate
@@ -44,11 +46,14 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     }
     
     func linkedBrokerAccountWasSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
-        self.delegate?.linkedBrokerAccountWasSelected(self, linkedBrokerAccount: linkedBrokerAccount)
+        self.delegate?.accountSelectionViewController(self, didSelectLinkedBrokerAccount: linkedBrokerAccount)
     }
 
 }
 
 protocol TradeItAccountSelectionViewControllerDelegate {
-    func linkedBrokerAccountWasSelected(fromAccountSelectionViewController: TradeItAccountSelectionViewController, linkedBrokerAccount: TradeItLinkedBrokerAccount)
+    func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController,
+                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount)
+
+    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController)
 }

@@ -270,7 +270,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                 }
                 it("returns the expected format") {
-                    expect(returnedValue).to(equal("$2,345"))
+                    expect(returnedValue).to(equal("$2,345.00"))
                 }
             }
             
@@ -290,7 +290,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                 }
                 it("returns the expected format") {
-                    expect(returnedValue).to(equal("$6,543,678"))
+                    expect(returnedValue).to(equal("$6,543,678.00"))
                 }
             }
         }
@@ -324,7 +324,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                 }
                 it("returns the expected format") {
-                    expect(returnedValue).to(equal("$45,678"))
+                    expect(returnedValue).to(equal("$45,678.00"))
                 }
             }
             
@@ -345,7 +345,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                 }
                 it("returns the expected format") {
-                    expect(returnedValue).to(equal("$45,678 (5.43%)"))
+                    expect(returnedValue).to(equal("$45,678.00 (5.43%)"))
                 }
             }
             
@@ -367,7 +367,6 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     expect(returnedValue).to(equal("$40,678"))
                 }
             }
-
             
             context("when fxBalance only is not nil and unrealized profit != 0") {
                 var returnedValue = ""
@@ -388,7 +387,6 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     expect(returnedValue).to(equal("$40,678 (-9.5%)"))
                 }
             }
-
         }
     }
 }

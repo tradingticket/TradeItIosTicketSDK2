@@ -70,12 +70,12 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         selectFirstAccountOnthePortfolioScreen(app)
         
         //AccountTotalValue
-        XCTAssert(app.staticTexts["$9,163"].exists)
+        XCTAssert(app.staticTexts["$9,163.00"].exists)
         
         //Fx Balances
         XCTAssert(app.tables.staticTexts["Account (F**cct1"].exists)
-        XCTAssert(app.tables.staticTexts["$9,163"].exists)
-        XCTAssert(app.tables.staticTexts["$1,900 (0%)"].exists)
+        XCTAssert(app.tables.staticTexts["$9,163.00"].exists)
+        XCTAssert(app.tables.staticTexts["$1,900.00 (0%)"].exists)
         
         //Fx Summary
 //        app.tables.staticTexts["Account (F**cct1 Summary"].exists
@@ -88,7 +88,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         XCTAssert(app.tables.staticTexts["USD/JPY"].exists)
         XCTAssert(app.tables.staticTexts["490"].exists)
         XCTAssert(app.tables.staticTexts["$100.06"].exists)
-        XCTAssert(app.tables.staticTexts["$0"].exists)
+        XCTAssert(app.tables.staticTexts["$0.00"].exists)
         
         //Positions details
         app.tables.staticTexts["USD/JPY"].tap()

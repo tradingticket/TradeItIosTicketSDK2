@@ -86,14 +86,15 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     @IBAction func previewOrderTapped(sender: UIButton) {
         self.ezLoadingActivityManager.show(text: "Previewing Order", disableUI: true)
 
-        order.preview(onSuccess: { previewOrderResult in
+        order.preview(onSuccess: { previewOrder, placeOrderCallback in
             let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
             let tradingPreviewViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.tradingPreviewView.rawValue) as! TradeItTradingPreviewViewController
 
             tradingPreviewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-            tradingPreviewViewController.previewOrder = previewOrderResult
+            tradingPreviewViewController.previewOrder = previewOrder
+            tradingPreviewViewController.placeOrderCallback = placeOrderCallback
 
-            self.presentViewController(tradingPreviewViewController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(tradingPreviewViewController, animated: true)
             self.ezLoadingActivityManager.hide()
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()

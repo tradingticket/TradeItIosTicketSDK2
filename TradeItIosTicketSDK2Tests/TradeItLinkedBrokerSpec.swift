@@ -7,7 +7,6 @@ class TradeItLinkedBrokerSpec: QuickSpec {
         var linkedBroker: TradeItLinkedBroker!
         var session: FakeTradeItSession!
         var linkedLogin: TradeItLinkedLogin!
-        var tradeService: FakeTradeItTradeService!
 
         beforeEach {
             session = FakeTradeItSession()
@@ -17,8 +16,6 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                 andKeyChainId: "My Special Keychain ID")
 
             linkedBroker = TradeItLinkedBroker(session: session, linkedLogin: linkedLogin)
-            tradeService = FakeTradeItTradeService()
-            linkedBroker.tradeService = tradeService
         }
 
         describe("initialization") {
@@ -185,35 +182,6 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                     expect(onfinishedWasCalled).to(beTrue())
                 }
             }
-        }
-
-        describe("getOrderPreview") {
-            var order: TradeItOrder!
-            var expectedResponse: TradeItResult!
-            var actualResponse: TradeItResult!
-            var onSuccessWasCalled = false
-
-            beforeEach {
-                order = TradeItOrder()
-                expectedResponse = TradeItPreviewTradeResult()
-                onSuccessWasCalled = false
-                linkedBroker.getOrderPreview(order: order, onSuccess: { previewTradeResult in
-                    onSuccessWasCalled = true
-                    actualResponse = previewTradeResult
-                })
-
-                let completionBlock = session.calls.forMethod("previewTrade(_:withCompletionBlock")[0].args["withCompletionBlock"] as! (TradeItResult! -> Void)
-                completionBlock(expectedResponse)
-            }
-
-            it("calls onSuccess") {
-                flushAsyncEvents()
-
-                expect(onSuccessWasCalled).to(beTrue())
-                expect(actualResponse).to(equal(expectedResponse))
-            }
-
-            pending("onFailure")
         }
     }
 }

@@ -10,4 +10,5 @@ enum TradeItStoryboardID: String {
     case tradingTicketView = "TRADE_IT_TRADING_TICKET_VIEW"
     case symbolSearchView = "TRADE_IT_SYMBOL_SEARCH_VIEW"
     case tradingPreviewView = "TRADE_IT_TRADING_PREVIEW_VIEW"
+    case tradingConfirmationView = "TRADE_IT_TRADING_CONFIRMATION_VIEW"
 }

@@ -2006,6 +2006,9 @@
                                         <integer key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="placeOrderTapped:" destination="mZZ-q3-U3W" eventType="touchUpInside" id="ymg-5V-JYh"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2028,6 +2031,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OjB-sb-nh8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1777" y="-496"/>
+        </scene>
+        <!--Confirmation-->
+        <scene sceneID="xD8-IT-zP1">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_TRADING_CONFIRMATION_VIEW" title="Confirmation" id="AUL-pz-v3k" customClass="TradeItTradingConfirmationViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qXR-zx-InJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="MGL-bL-94M"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GcE-nB-46a">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RY-1L-0nT">
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="success_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ug6-ZR-aFE">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="bYf-YM-7IQ"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmation Text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8df-lV-kgX">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8df-lV-kgX" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="GV7-zI-cdf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7RY-1L-0nT" secondAttribute="trailing" id="KlC-uh-ZlC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ug6-ZR-aFE" secondAttribute="trailing" id="MJ9-n8-yHP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8df-lV-kgX" secondAttribute="trailing" id="QKI-rB-CdZ"/>
+                            <constraint firstItem="8df-lV-kgX" firstAttribute="top" secondItem="Ug6-ZR-aFE" secondAttribute="bottom" constant="16" id="VHY-dh-Y6I"/>
+                            <constraint firstItem="7RY-1L-0nT" firstAttribute="top" secondItem="qXR-zx-InJ" secondAttribute="bottom" constant="8" id="aJG-y6-KTM"/>
+                            <constraint firstItem="7RY-1L-0nT" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="ezP-KX-sUh"/>
+                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="top" secondItem="7RY-1L-0nT" secondAttribute="bottom" constant="8" id="kov-id-669"/>
+                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="oOY-O6-23d"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="confirmationTextLabel" destination="8df-lV-kgX" id="9VO-ad-iWo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nTB-II-sfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2513" y="-496"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="huh-Y5-9RO">
@@ -2324,6 +2376,7 @@
         <image name="indicator.png" width="39" height="72"/>
         <image name="lock.png" width="69" height="93"/>
         <image name="native_arrow.png" width="80" height="148"/>
+        <image name="success_icon.png" width="101" height="101"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Wfr-Io-4LG"/>

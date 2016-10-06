@@ -123,7 +123,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     }
 
                     it("updates the total account value field") {
-                        expect(controller.totalValueLabel.text).to(equal("$357"))
+                        expect(controller.totalValueLabel.text).to(equal("$357.00"))
                     }
                 }
             }

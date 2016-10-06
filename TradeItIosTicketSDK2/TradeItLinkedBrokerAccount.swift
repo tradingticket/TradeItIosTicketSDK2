@@ -12,8 +12,9 @@ class TradeItLinkedBrokerAccount: NSObject {
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
+    var tradeService: TradeItTradeService
     var isEnabled = true
-    
+
     init(linkedBroker: TradeItLinkedBroker,
         brokerName: String,
          accountName: String,
@@ -30,6 +31,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         self.positions = positions
         self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
+        self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
     }
 
     func getAccountOverview(onFinished onFinished: ()-> Void) {
@@ -48,7 +50,7 @@ class TradeItLinkedBrokerAccount: NSObject {
             onFinished()
         })
     }
-    
+
     func getPositions(onFinished onFinished: ()-> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request, withCompletionBlock: {(tradeItResult: TradeItResult!) -> Void in
@@ -58,27 +60,25 @@ class TradeItLinkedBrokerAccount: NSObject {
                 self.isPositionsError = true
             } else if let tradeItGetPositionsResult = tradeItResult as? TradeItGetPositionsResult {
                 var positionsPortfolio:[TradeItPortfolioPosition] = []
-                
+
                 let positions = tradeItGetPositionsResult.positions as! [TradeItPosition]
                 for position in positions {
                     let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, position: position)
                     positionsPortfolio.append(positionPortfolio)
                 }
-                
+
                 let fxPositions = tradeItGetPositionsResult.fxPositions as! [TradeItFxPosition]
                 for fxPosition in fxPositions {
                     let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
                     positionsPortfolio.append(positionPortfolio)
                 }
-                
+
                 self.positions = positionsPortfolio
             }
             onFinished()
         })
     }
 
-    //MARK: formatting methods
-    
     func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
@@ -88,29 +88,29 @@ class TradeItLinkedBrokerAccount: NSObject {
             formattedAccountNumber = String(formattedAccountNumber.characters.suffixFrom(startIndex))
             separator = "**"
         }
-        
+
         if formattedAccountName.characters.count > 10 {
             formattedAccountName = String(formattedAccountName.characters.prefix(10))
             separator = "**"
         }
-        
+
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
-    
+
     func getFormattedBuyingPower() -> String{
         if let balance = self.balance {
             return NumberFormatter.formatCurrency(balance.buyingPower)
         }
-            
+
         else if let fxBalance = self.fxBalance {
             return NumberFormatter.formatCurrency(fxBalance.buyingPowerBaseCurrency)
         }
-            
+
         else {
             return "N/A"
         }
     }
-    
+
     func getFormattedTotalValueWithPercentage() -> String{
         if let balance = self.balance {
             var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
@@ -119,7 +119,7 @@ class TradeItLinkedBrokerAccount: NSObject {
             }
             return formattedTotalValue
         }
-            
+
         else if let fxBalance = self.fxBalance {
             var formattedTotalValue = NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
             if fxBalance.unrealizedProfitAndLossBaseCurrency != nil && fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue != 0 {
@@ -127,10 +127,10 @@ class TradeItLinkedBrokerAccount: NSObject {
                 let totalPercentReturn = totalReturn / (fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
                     formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
             }
-            
+
             return formattedTotalValue
         }
-            
+
         else {
             return "N/A"
         }

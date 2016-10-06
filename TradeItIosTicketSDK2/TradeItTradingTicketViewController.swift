@@ -16,6 +16,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
+    var viewControllerProvider = TradeItViewControllerProvider()
     var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
@@ -97,16 +98,16 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     // MARK: Private
 
     private func presentSymbolSelectionScreen() {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-        let symbolSearchViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.symbolSearchView.rawValue) as! TradeItSymbolSearchViewController
+        let symbolSearchViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.symbolSearchView) as! TradeItSymbolSearchViewController
+
         symbolSearchViewController.delegate = self
 
         self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
     }
 
     private func presentAccountSelectionScreen() {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-        let accountSelectionViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
+        let accountSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.accountSelectionView) as! TradeItAccountSelectionViewController
+
         accountSelectionViewController.delegate = self
 
 //        self.navigationController?.pushViewController(accountSelectionViewController, animated: true)

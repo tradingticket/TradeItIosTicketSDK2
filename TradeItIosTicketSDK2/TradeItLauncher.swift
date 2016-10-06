@@ -4,6 +4,7 @@ import TradeItIosEmsApi
 @objc class TradeItLauncher: NSObject {
     static var linkedBrokerManager: TradeItLinkedBrokerManager!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow!
+    var tradingUIFlow: TradeItTradingUIFlow!
     var viewControllerProvider: TradeItViewControllerProvider!
     static var marketDataService: TradeItMarketService!
 
@@ -13,6 +14,7 @@ import TradeItIosEmsApi
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
         TradeItLauncher.marketDataService = TradeItMarketService(connector: tradeItConnector)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+        self.tradingUIFlow = TradeItTradingUIFlow()
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 
@@ -39,33 +41,20 @@ import TradeItIosEmsApi
         }
     }
 
-    func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {
+    func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
                 onLinked: { (presentedNavController: UINavigationController) -> Void in
-                    guard let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingTicketView) as? TradeItTradingTicketViewController else {
-                        presentedNavController.dismissViewControllerAnimated(true, completion: nil)
-                        return
-                    }
-
-                    tradingTicketViewController.order = order
-                    presentedNavController.setViewControllers([tradingTicketViewController], animated: true)
+                    self.tradingUIFlow.pushTradingFlow(onNavigationController: presentedNavController, asRootViewController: true, withOrder: order)
                 },
                 onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
                     presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 }
             )
         } else {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.tradingTicketView)
-            guard let tradingTicketViewController = navController.topViewController as? TradeItTradingTicketViewController else { return }
-
-            tradingTicketViewController.order = order
-
-            viewController.presentViewController(navController,
-                                                 animated: true,
-                                                 completion: nil)
+            self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
         }
     }
 }

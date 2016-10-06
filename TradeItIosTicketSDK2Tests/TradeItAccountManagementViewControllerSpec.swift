@@ -172,20 +172,39 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 }
 
                 context("when linking is finished from the login screen") {
+                   
                     var fakeNavigationController: FakeUINavigationController!
                     beforeEach {
                         let calls = linkBrokerUIFlow.calls.forMethod("presentRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
-                        let onLinked = calls[0].args["onLinked"] as! (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void
+                        let onLinked = calls[0].args["onLinked"] as! (presentedNavController: UINavigationController) -> Void
                         fakeNavigationController = FakeUINavigationController()
-                        let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                        let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-
-                            
-                        onLinked(presentedNavController: fakeNavigationController, selectedAccount: account1)
+                       
+                        onLinked(presentedNavController: fakeNavigationController)
                     }
-
-                    it("refreshes the account balance of the account") {
+                    
+                    it ("dismiss the view controller") {
+                        expect(fakeNavigationController.calls.forMethod("dismissViewControllerAnimated(_:completion:)").count).to(equal(1))
+                    }
+                    
+                    it("calls the refreshAccountBalances on the linkedBroker") {
+                        expect(linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
+                    }
+                    
+                    describe("when refreshing balances is finished") {
+                        var account1: TradeItLinkedBrokerAccount!
+                        beforeEach {
+                            account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                            linkedBroker.accounts = [account1]
+                            let onFinished = linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
+                            onFinished()
+                        }
                         
+                        it("calls the update Account method on the accountManagementTableManager") {
+                            let calls = accountManagementTableManager.calls.forMethod("updateAccounts(withAccounts:)")
+                            expect(calls.count).to(equal(2))
+                            let argAccounts = calls[1].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
+                            expect(argAccounts[0]).to(be(account1))
+                        }
                     }
                 }
             }

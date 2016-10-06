@@ -4,8 +4,9 @@ import TradeItIosEmsApi
 
 enum Action: Int {
     case LaunchPortfolio = 0
-    case LaunchTrading = 1
-    case DeleteLinkedBrokers = 2
+    case LaunchTrading
+    case LaunchTradingWithSymbol
+    case DeleteLinkedBrokers
     case ENUM_COUNT
 }
 
@@ -32,6 +33,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
         case .LaunchTrading:
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
+        case .LaunchTradingWithSymbol:
+            let order = TradeItOrder()
+            order.symbol = "CMG"
+            self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:

@@ -14,7 +14,7 @@ import TradeItIosEmsApi
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
         TradeItLauncher.marketDataService = TradeItMarketService(connector: tradeItConnector)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
-        self.tradingUIFlow = TradeItTradingUIFlow()
+        self.tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 

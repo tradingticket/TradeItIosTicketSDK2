@@ -1,8 +1,13 @@
 import UIKit
 
 class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate {
+    let linkedBrokerManager: TradeItLinkedBrokerManager
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var order = TradeItOrder()
+
+    init(linkedBrokerManager: TradeItLinkedBrokerManager) {
+        self.linkedBrokerManager = linkedBrokerManager
+    }
 
     func pushTradingFlow(onNavigationController navController: UINavigationController,
                                                 asRootViewController: Bool,
@@ -33,8 +38,18 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
     // MARK: Private
 
+    func initializeLinkedAccount(forOrder order: TradeItOrder) {
+        let enabledAccounts = self.linkedBrokerManager.getAllEnabledAccounts()
+
+        if (enabledAccounts.count == 1) {
+            order.linkedBrokerAccount = enabledAccounts.first
+        }
+    }
+
     func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
         var initialStoryboardId: TradeItStoryboardID!
+
+        self.initializeLinkedAccount(forOrder: order)
 
         if (order.linkedBrokerAccount == nil) {
             initialStoryboardId = TradeItStoryboardID.accountSelectionView

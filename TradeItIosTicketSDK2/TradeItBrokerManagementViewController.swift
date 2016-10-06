@@ -38,19 +38,17 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         self.selectedLinkedBroker = selectedLinkedBroker
         self.performSegueWithIdentifier(toAccountManagementScreen, sender: self)
     }
-    
-    
+
     @IBAction func addAccountWasTapped(sender: AnyObject) {
-        let controllersStack = self.navigationController?.viewControllers
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,
             onLinked: { (presentedNavController: UINavigationController) -> Void in
-                presentedNavController.setViewControllers(controllersStack!, animated: true)
+                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                //nothing todo ?
+                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
             }
         )
     }

@@ -1,7 +1,7 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate {
+class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -27,14 +27,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         registerKeyboardNotifications()
 
-        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
-        orderTypeInputs.forEach { input in
-            input.addTarget(
-                self,
-                action: #selector(self.textFieldDidChange(_:)),
-                forControlEvents: UIControlEvents.EditingChanged
-            )
-        }
+        registerTextFieldNotifications()
 
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
@@ -97,6 +90,10 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         presentSymbolSelectionScreen()
     }
 
+    @IBAction func accountButtonTapped(sender: UIButton) {
+        presentAccountSelectionScreen()
+    }
+
     // MARK: Private
 
     private func presentSymbolSelectionScreen() {
@@ -107,17 +104,39 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
     }
 
+    private func presentAccountSelectionScreen() {
+        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
+        let accountSelectionViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
+        accountSelectionViewController.delegate = self
+
+//        self.navigationController?.pushViewController(accountSelectionViewController, animated: true)
+        self.presentViewController(accountSelectionViewController, animated: true, completion: nil)
+    }
+
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
                                     didSelectSymbol selectedSymbol: String) {
-        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
         self.order.symbol = selectedSymbol
         updateSymbolView()
+        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
     func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController) {
         symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    // MARK: TradeItAccountSelectionViewControllerDelegate
+
+    func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController,
+                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.order.linkedBrokerAccount = linkedBrokerAccount
+        updateTradingBrokerAccountView()
+        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController) {
+        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: Private - Order changed handlers
@@ -237,6 +256,18 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
 
     // MARK: Private - Text view configurators
+
+    private func registerTextFieldNotifications() {
+        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
+
+        orderTypeInputs.forEach { input in
+            input.addTarget(
+                self,
+                action: #selector(self.textFieldDidChange(_:)),
+                forControlEvents: UIControlEvents.EditingChanged
+            )
+        }
+    }
 
     private func configureLimitInput(input: UITextField) {
         input.placeholder = "Limit Price"

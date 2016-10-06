@@ -510,9 +510,9 @@
                             <constraint firstItem="jdZ-Fp-kbC" firstAttribute="top" secondItem="BWr-jg-CMz" secondAttribute="bottom" constant="40" id="ZBv-M4-m22"/>
                             <constraint firstItem="BWr-jg-CMz" firstAttribute="top" secondItem="rpw-3P-BXS" secondAttribute="bottom" constant="8" id="lJU-Yo-cju"/>
                             <constraint firstAttribute="trailingMargin" secondItem="i0k-hH-0K3" secondAttribute="trailing" constant="8" id="mGW-nd-PXd"/>
-                            <constraint firstItem="i0k-hH-0K3" firstAttribute="top" secondItem="VQj-pr-Ayt" secondAttribute="bottom" constant="20" id="nDo-2e-yPg"/>
+                            <constraint firstItem="i0k-hH-0K3" firstAttribute="top" secondItem="VQj-pr-Ayt" secondAttribute="bottom" constant="5" id="nDo-2e-yPg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="H9Q-H0-22a" secondAttribute="trailing" id="ng2-JO-XMB"/>
-                            <constraint firstItem="OLH-k3-9Pu" firstAttribute="top" secondItem="VQj-pr-Ayt" secondAttribute="bottom" constant="20" id="ppl-cJ-sd9"/>
+                            <constraint firstItem="OLH-k3-9Pu" firstAttribute="top" secondItem="VQj-pr-Ayt" secondAttribute="bottom" constant="5" id="ppl-cJ-sd9"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2128,6 +2128,6 @@
         <image name="native_arrow.png" width="80" height="148"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="i1C-J7-yWX"/>
+        <segue reference="Wfr-Io-4LG"/>
     </inferredMetricsTieBreakers>
 </document>

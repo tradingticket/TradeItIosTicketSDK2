@@ -4,7 +4,7 @@ class TradeItOrder {
     var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
     var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
     var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    var shares: NSDecimalNumber?
+    var quantity: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
@@ -37,10 +37,10 @@ class TradeItOrder {
         case .StopMarket: optionalPrice = stopPrice
         }
 
-        guard let shares = shares where shares != NSDecimalNumber.notANumber() else { return nil }
+        guard let quantity = quantity where quantity != NSDecimalNumber.notANumber() else { return nil }
         guard let price = optionalPrice where price != NSDecimalNumber.notANumber() else { return nil }
 
-        return price.decimalNumberByMultiplyingBy(shares)
+        return price.decimalNumberByMultiplyingBy(quantity)
     }
 
     func isValid() -> Bool {
@@ -51,8 +51,8 @@ class TradeItOrder {
     }
 
     private func validateQuantity() -> Bool {
-        guard let shares = shares else { return false }
-        return isGreaterThanZero(shares)
+        guard let quantity = quantity else { return false }
+        return isGreaterThanZero(quantity)
     }
 
     private func validateOrderPriceType() -> Bool {

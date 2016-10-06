@@ -166,15 +166,15 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                     controller.relinkAccountWasTapped(controller)
                 }
 
-                it("calls the launchRelinkBrokerFlow from the linkedBrokerFlow") {
-                    let calls = linkBrokerUIFlow.calls.forMethod("launchRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
+                it("calls the presentRelinkBrokerFlow from the linkedBrokerFlow") {
+                    let calls = linkBrokerUIFlow.calls.forMethod("presentRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
                     expect(calls.count).to(equal(1))
                 }
 
                 context("when linking is finished from the login screen") {
                     var fakeNavigationController: FakeUINavigationController!
                     beforeEach {
-                        let calls = linkBrokerUIFlow.calls.forMethod("launchRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
+                        let calls = linkBrokerUIFlow.calls.forMethod("presentRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
                         let onLinked = calls[0].args["onLinked"] as! (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void
                         fakeNavigationController = FakeUINavigationController()
                         let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())

@@ -38,7 +38,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
                                              completion: nil)
     }
 
-    func launchRelinkBrokerFlow(inViewController viewController: UIViewController,
+    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
                                                  linkedBroker: TradeItLinkedBroker,
                                                  onLinked: (presentedNavController: UINavigationController) -> Void,
                                                  onFlowAborted: (presentedNavController: UINavigationController) -> Void) {

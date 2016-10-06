@@ -27,7 +27,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     // MARK: IBActions
 
     @IBAction func relinkAccountWasTapped(sender: AnyObject) {
-        self.linkBrokerUIFlow.launchRelinkBrokerFlow(
+        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
             onLinked: { (presentedNavController: UINavigationController) -> Void in

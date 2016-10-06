@@ -17,8 +17,9 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     }
 
     override func viewWillAppear(animated: Bool) {
-        let enabledBrokers = self.linkedBrokerManager.getAllEnabledLinkedBrokers()
+        super.viewWillAppear(animated)
 
+        let enabledBrokers = self.linkedBrokerManager.getAllEnabledLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }
     

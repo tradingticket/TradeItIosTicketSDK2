@@ -1,7 +1,7 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate {
+class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -16,6 +16,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
 
+    var viewControllerProvider = TradeItViewControllerProvider()
     var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
@@ -27,14 +28,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         registerKeyboardNotifications()
 
-        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
-        orderTypeInputs.forEach { input in
-            input.addTarget(
-                self,
-                action: #selector(self.textFieldDidChange(_:)),
-                forControlEvents: UIControlEvents.EditingChanged
-            )
-        }
+        registerTextFieldNotifications()
 
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
@@ -97,32 +91,58 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         presentSymbolSelectionScreen()
     }
 
+    @IBAction func accountButtonTapped(sender: UIButton) {
+        presentAccountSelectionScreen()
+    }
+
     // MARK: Private
 
     private func presentSymbolSelectionScreen() {
-        let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-        let symbolSearchViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.symbolSearchView.rawValue) as! TradeItSymbolSearchViewController
+        let symbolSearchViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.symbolSearchView) as! TradeItSymbolSearchViewController
+
         symbolSearchViewController.delegate = self
 
         self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
+    }
+
+    private func presentAccountSelectionScreen() {
+        let accountSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.accountSelectionView) as! TradeItAccountSelectionViewController
+
+        accountSelectionViewController.delegate = self
+
+//        self.navigationController?.pushViewController(accountSelectionViewController, animated: true)
+        self.presentViewController(accountSelectionViewController, animated: true, completion: nil)
     }
 
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
                                     didSelectSymbol selectedSymbol: String) {
-        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
         self.order.symbol = selectedSymbol
         updateSymbolView()
+        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
     func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController) {
         symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    // MARK: TradeItAccountSelectionViewControllerDelegate
+
+    func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController,
+                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.order.linkedBrokerAccount = linkedBrokerAccount
+        updateTradingBrokerAccountView()
+        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController) {
+        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     // MARK: Private - Order changed handlers
 
-    private func orderActionSelected(action action: UIAlertAction) {
+    private func orderActionSelected(action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
     }
 
@@ -130,7 +150,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         orderTypeSelected(orderType: action.title)
     }
 
-    private func orderExpirationSelected(action action: UIAlertAction) {
+    private func orderExpirationSelected(action: UIAlertAction) {
         orderExpirationSelected(orderExpiration: action.title)
     }
 
@@ -237,6 +257,18 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
 
     // MARK: Private - Text view configurators
+
+    private func registerTextFieldNotifications() {
+        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
+
+        orderTypeInputs.forEach { input in
+            input.addTarget(
+                self,
+                action: #selector(self.textFieldDidChange(_:)),
+                forControlEvents: UIControlEvents.EditingChanged
+            )
+        }
+    }
 
     private func configureLimitInput(input: UITextField) {
         input.placeholder = "Limit Price"

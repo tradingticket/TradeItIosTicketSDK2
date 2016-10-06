@@ -25,8 +25,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         self.linkedBrokers = linkedBrokers
         self.accountsTable?.reloadData()
     }
-    
-    
+
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let linkedBroker = self.linkedBrokers[indexPath.section]
@@ -53,12 +52,13 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var numberOfLinkedAccounts = 0
+
         if self.linkedBrokers.count > 0 {
             let linkedBroker = self.linkedBrokers[section]
             numberOfLinkedAccounts = linkedBroker.getEnabledAccounts().count
         }
+
         return numberOfLinkedAccounts
-        
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -89,8 +89,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
                                             }
                                             
                                             self.refreshControl?.endRefreshing()
-        })
-        
+                                        })
     }
 }
 

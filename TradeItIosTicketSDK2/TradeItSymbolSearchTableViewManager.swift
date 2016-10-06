@@ -2,7 +2,7 @@ import UIKit
 import TradeItIosEmsApi
 
 
-class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate {
     private var symbolResults: [TradeItSymbolLookupCompany] = []
     private var _table: UITableView?
     var symbolResultsTableView: UITableView? {
@@ -23,32 +23,35 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
         get {
             return _searchController
         }
-        
+
         set(searchController) {
             if let searchController = searchController {
                 addSearchController(searchController: searchController)
                 _searchController = searchController
             }
         }
-
     }
-    
+
     weak var delegate: TradeItSymbolSearchTableViewManagerDelegate?
-    
+
     func updateSymbolResults(withResults symbolResults: [TradeItSymbolLookupCompany]) {
         self.symbolResults = symbolResults
         self.symbolResultsTableView?.reloadData()
     }
-    
+
     // MARK: UITableViewDelegate
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       let symbolResult = self.symbolResults[indexPath.row]
-       self.delegate?.symbolWasSelected(symbolResult.symbol)
+        let selectedSymbolResult = self.symbolResults[indexPath.row]
+        self.delegate?.symbolWasSelected(selectedSymbolResult.symbol)
+
+        // If you don't set searchController.active to false, the searchController will intercept the next
+        // call to dismissViewController, preventing the search screen from being dismissed
+        self.searchController?.active = false
     }
-    
+
     // MARK: UITableViewDataSource
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.symbolResults.count
     }
@@ -64,25 +67,29 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchSymbol = searchController.searchBar.text!
+
         if (searchSymbol != "") {
             self.delegate?.symbolSearchWasCalledWith(searchSymbol)
-        }
-        else {
+        } else {
             self.updateSymbolResults(withResults: [])
         }
     }
-    
-    
+
+    // MARK: UISearchControllerDelegate
+
+    func didPresentSearchController(searchController: UISearchController) {
+        searchController.searchBar.showsCancelButton = false
+    }
+
     // MARK: Private
     
     func addSearchController(searchController searchController: UISearchController) {
+        searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Enter a symbol"
         searchController.dimsBackgroundDuringPresentation = false
         self.symbolResultsTableView!.tableHeaderView = searchController.searchBar
     }
-
-
 }
 
 protocol TradeItSymbolSearchTableViewManagerDelegate: class{

@@ -97,8 +97,8 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 }
                 
                 it("calls linkedBrokerAccountWasSelected on the delegate") {
-                    let calls = fakeTradeItAccountSelectionViewControllerDelegate.calls.forMethod("linkedBrokerAccountWasSelected(_:linkedBrokerAccount:)")
-                    let argLinkedBrokerAccount = calls[0].args["linkedBrokerAccount"] as! TradeItLinkedBrokerAccount
+                    let calls = fakeTradeItAccountSelectionViewControllerDelegate.calls.forMethod("accountSelectionViewController(_:didSelectLinkedBrokerAccount:)")
+                    let argLinkedBrokerAccount = calls[0].args["didSelectLinkedBrokerAccount"] as! TradeItLinkedBrokerAccount
                     expect(calls.count).to(equal(1))
                     expect(argLinkedBrokerAccount).to(equal(account1))
                 }

@@ -7,7 +7,7 @@ class NumberFormatter: NSObject {
     
     static func formatCurrency(number: NSNumber, maximumFractionDigits: Int) -> String {
         formatter.numberStyle = .CurrencyStyle
-        formatter.minimumFractionDigits = 0
+        formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = maximumFractionDigits
         return formatter.stringFromNumber(number)!
     }
@@ -15,7 +15,7 @@ class NumberFormatter: NSObject {
     static func formatCurrency(number: NSNumber, currencyCode: String) -> String {
         formatter.numberStyle = .CurrencyStyle
         formatter.currencyCode = currencyCode
-        formatter.minimumFractionDigits = 0
+        formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
         return formatter.stringFromNumber(number)!
     }

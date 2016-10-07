@@ -1,8 +1,6 @@
 import UIKit
 
 class TradeItAccountSelectionTableViewCell: UITableViewCell {
-
-    
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var buyingPowerLabelValue: UILabel!
     
@@ -10,5 +8,4 @@ class TradeItAccountSelectionTableViewCell: UITableViewCell {
         self.accountNameLabel.text = linkedBrokerAccount.getFormattedAccountName()
         self.buyingPowerLabelValue.text = linkedBrokerAccount.getFormattedBuyingPower()
     }
-
 }

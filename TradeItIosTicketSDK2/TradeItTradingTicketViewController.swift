@@ -14,9 +14,10 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
-    static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(40)
+    static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(20)
 
     var viewControllerProvider = TradeItViewControllerProvider()
+    var ezLoadingActivityManager = EZLoadingActivityManager()
     var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
@@ -50,7 +51,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         } else if textField.placeholder == "Stop Price" {
             order.stopPrice = NSDecimalNumber(string: textField.text)
         } else if textField.placeholder == "Shares" {
-            order.shares = NSDecimalNumber(string: textField.text)
+            order.quantity = NSDecimalNumber(string: textField.text)
             updateEstimatedChangedLabel()
         }
         updatePreviewOrderButtonStatus()
@@ -83,8 +84,21 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
 
     @IBAction func previewOrderTapped(sender: UIButton) {
-        print("BURP", order.isValid())
+        self.ezLoadingActivityManager.show(text: "Previewing Order", disableUI: true)
 
+        order.preview(onSuccess: { previewOrderResult in
+            let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
+            let tradingPreviewViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.tradingPreviewView.rawValue) as! TradeItTradingPreviewViewController
+
+            tradingPreviewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
+            tradingPreviewViewController.previewOrder = previewOrderResult
+
+            self.presentViewController(tradingPreviewViewController, animated: true, completion: nil)
+            self.ezLoadingActivityManager.hide()
+        }, onFailure: { errorResult in
+            self.ezLoadingActivityManager.hide()
+            TradeItAlert().showTradeItErrorResultAlert(onViewController: self, errorResult: errorResult)
+        })
     }
 
     @IBAction func symbolButtonWasTapped(sender: AnyObject) {

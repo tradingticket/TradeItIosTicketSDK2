@@ -1,10 +1,12 @@
+import TradeItIosEmsApi
+
 class TradeItOrder {
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     var symbol: String?
     var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
     var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
     var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    var shares: NSDecimalNumber?
+    var quantity: NSDecimalNumber?
     var limitPrice: NSDecimalNumber?
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
@@ -37,10 +39,26 @@ class TradeItOrder {
         case .StopMarket: optionalPrice = stopPrice
         }
 
-        guard let shares = shares where shares != NSDecimalNumber.notANumber() else { return nil }
+        guard let quantity = quantity where quantity != NSDecimalNumber.notANumber() else { return nil }
         guard let price = optionalPrice where price != NSDecimalNumber.notANumber() else { return nil }
 
-        return price.decimalNumberByMultiplyingBy(shares)
+        return price.decimalNumberByMultiplyingBy(quantity)
+    }
+
+    func preview(onSuccess onSuccess: (TradeItPreviewTradeResult) -> Void,
+                           onFailure: (TradeItErrorResult) -> Void
+        ) -> Void {
+        guard let linkedBrokerAccount = linkedBrokerAccount else { return onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("A linked broker account must be set before you preview an order")) }
+        let tradeService = TradeItTradeService(session: linkedBrokerAccount.linkedBroker.session)
+        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else { return onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("There was a problem previewing your order. Please try again.")) }
+
+        tradeService.previewTrade(previewPresenter.generateRequest(), withCompletionBlock: { result in
+            switch result {
+            case let previewOrderResult as TradeItPreviewTradeResult: onSuccess(previewOrderResult)
+            case let errorResult as TradeItErrorResult: onFailure(errorResult)
+            default: onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("There was a problem previewing your order. Please try again."))
+            }
+        })
     }
 
     func isValid() -> Bool {
@@ -51,8 +69,8 @@ class TradeItOrder {
     }
 
     private func validateQuantity() -> Bool {
-        guard let shares = shares else { return false }
-        return isGreaterThanZero(shares)
+        guard let quantity = quantity else { return false }
+        return isGreaterThanZero(quantity)
     }
 
     private func validateOrderPriceType() -> Bool {

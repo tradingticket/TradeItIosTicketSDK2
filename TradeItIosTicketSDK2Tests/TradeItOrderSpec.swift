@@ -105,7 +105,7 @@ class TradeItOrderSpec: QuickSpec {
 
         describe("estimatedChange") {
             it("returns nil if shares is not a number") {
-                order.shares = NSDecimalNumber.notANumber()
+                order.quantity = NSDecimalNumber.notANumber()
                 expect(order.estimatedChange()).to(beNil())
             }
 
@@ -120,7 +120,7 @@ class TradeItOrderSpec: QuickSpec {
                 }
 
                 it("returns the calculation otherwise") {
-                    order.shares = 10
+                    order.quantity = 10
                     order.quoteLastPrice = 1.25
                     expect(order.estimatedChange()).to(equal(12.5))
                 }
@@ -142,7 +142,7 @@ class TradeItOrderSpec: QuickSpec {
                 }
 
                 it("returns the calculation otherwise") {
-                    order.shares = 5
+                    order.quantity = 5
                     order.stopPrice = 1.5
                     expect(order.estimatedChange()).to(equal(7.5))
                 }
@@ -164,7 +164,7 @@ class TradeItOrderSpec: QuickSpec {
                 }
 
                 it("returns the calculation otherwise") {
-                    order.shares = 5
+                    order.quantity = 5
                     order.limitPrice = 1.5
                     expect(order.estimatedChange()).to(equal(7.5))
                 }
@@ -179,14 +179,14 @@ class TradeItOrderSpec: QuickSpec {
                     order.limitPrice = NSDecimalNumber.notANumber()
                     expect(order.estimatedChange()).to(beNil())
                 }
-                
+
                 it("returns nil if no limitPrice is set") {
                     order.limitPrice = nil
                     expect(order.estimatedChange()).to(beNil())
                 }
 
                 it("returns the calculation otherwise") {
-                    order.shares = 5
+                    order.quantity = 5
                     order.limitPrice = 1.5
                     expect(order.estimatedChange()).to(equal(7.5))
                 }
@@ -199,13 +199,13 @@ class TradeItOrderSpec: QuickSpec {
                     order.type = .Market
                 }
 
-                it("returns true when shares is present") {
-                    order.shares = NSDecimalNumber(integer: 12)
+                it("returns true when quantity is present") {
+                    order.quantity = NSDecimalNumber(integer: 12)
                     expect(order.isValid()).to(beTrue())
                 }
 
-                it("returns false when shares is nil") {
-                    order.shares = nil
+                it("returns false when quantity is nil") {
+                    order.quantity = nil
                     expect(order.isValid()).to(beFalse())
                 }
             }
@@ -213,16 +213,16 @@ class TradeItOrderSpec: QuickSpec {
             context("for type Limit") {
                 beforeEach {
                     order.type = .Limit
-                    order.shares = NSDecimalNumber(integer: 12)
+                    order.quantity = NSDecimalNumber(integer: 12)
                     order.limitPrice = NSDecimalNumber(integer: 5)
                 }
 
-                it("returns true when shares and limitPrice are set") {
+                it("returns true when quantity and limitPrice are set") {
                     expect(order.isValid()).to(beTrue())
                 }
 
-                it("returns false when shares is nil") {
-                    order.shares = nil
+                it("returns false when quantity is nil") {
+                    order.quantity = nil
                     expect(order.isValid()).to(beFalse())
                 }
 
@@ -235,16 +235,16 @@ class TradeItOrderSpec: QuickSpec {
             context("for type Stop Market") {
                 beforeEach {
                     order.type = .StopMarket
-                    order.shares = NSDecimalNumber(integer: 12)
+                    order.quantity = NSDecimalNumber(integer: 12)
                     order.stopPrice = NSDecimalNumber(integer: 5)
                 }
 
-                it("returns true when shares and stopPrice are set") {
+                it("returns true when quantity and stopPrice are set") {
                     expect(order.isValid()).to(beTrue())
                 }
 
-                it("returns false when shares is nil") {
-                    order.shares = nil
+                it("returns false when quantity is nil") {
+                    order.quantity = nil
                     expect(order.isValid()).to(beFalse())
                 }
 
@@ -257,17 +257,17 @@ class TradeItOrderSpec: QuickSpec {
             context("for type Stop Limit") {
                 beforeEach {
                     order.type = .StopLimit
-                    order.shares = NSDecimalNumber(integer: 12)
+                    order.quantity = NSDecimalNumber(integer: 12)
                     order.limitPrice = NSDecimalNumber(integer: 5)
                     order.stopPrice = NSDecimalNumber(integer: 5)
                 }
 
-                it("returns true when shares, limitPrice and stopPrice are set") {
+                it("returns true when quantity, limitPrice and stopPrice are set") {
                     expect(order.isValid()).to(beTrue())
                 }
 
-                it("returns false when shares is nil") {
-                    order.shares = nil
+                it("returns false when quantity is nil") {
+                    order.quantity = nil
                     expect(order.isValid()).to(beFalse())
                 }
 

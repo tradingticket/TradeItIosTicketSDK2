@@ -4,6 +4,7 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     let calls = SpyRecorder()
 
     var hackAccountsToReturn: [TradeItLinkedBrokerAccount] = []
+    var hackLinkedBrokersInErrorToReturn : [TradeItLinkedBroker] = []
 
     init() {
         super.init(connector: FakeTradeItConnector())
@@ -48,6 +49,10 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     
     override func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return hackAccountsToReturn
+    }
+    
+    override func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
+        return hackLinkedBrokersInErrorToReturn
     }
 
     override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,

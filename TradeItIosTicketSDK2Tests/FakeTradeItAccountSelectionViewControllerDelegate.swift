@@ -11,5 +11,12 @@ class FakeTradeItAccountSelectionViewControllerDelegate: TradeItAccountSelection
                             "didSelectLinkedBrokerAccount": linkedBrokerAccount
                           ])
     }
+    
+    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController) {
+        self.calls.record(#function,
+                          args: [
+                            "accountSelectionViewController": accountSelectionViewController
+            ])
+    }
 
 }

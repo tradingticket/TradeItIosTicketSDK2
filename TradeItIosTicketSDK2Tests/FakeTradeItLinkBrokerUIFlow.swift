@@ -7,7 +7,7 @@ class FakeTradeItLinkBrokerUIFlow: TradeItLinkBrokerUIFlow {
     
     override func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
                                                            linkedBroker: TradeItLinkedBroker,
-                                                           onLinked: (presentedNavController: UINavigationController, selectedAccount: TradeItLinkedBrokerAccount?) -> Void,
+                                                           onLinked: (presentedNavController: UINavigationController) -> Void,
                                                            onFlowAborted: (presentedNavController: UINavigationController) -> Void) {
         self.calls.record(#function,
                           args: [

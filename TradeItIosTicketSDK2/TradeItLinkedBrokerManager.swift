@@ -102,6 +102,10 @@ class TradeItLinkedBrokerManager {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
     
+    func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
+        return self.linkedBrokers.filter { $0.error != nil }
+    }
+    
     func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: (TradeItErrorResult) -> Void) -> Void {

@@ -18,5 +18,12 @@ class FakeUINavigationController: UINavigationController {
             "animated": animated
             ])
     }
+    
+    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+        self.calls.record(#function, args: [
+            "flag": flag,
+            "completion": completion
+            ])
+    }
 
 }

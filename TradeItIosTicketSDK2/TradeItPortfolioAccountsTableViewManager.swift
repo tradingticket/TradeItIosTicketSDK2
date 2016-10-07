@@ -3,9 +3,12 @@ import UIKit
 class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     let PORTFOLIO_ACCOUNTS_HEADER_ID = "PORTFOLIO_ACCOUNTS_HEADER_ID"
     let PORTFOLIO_ACCOUNTS_CELL_ID = "PORTFOLIO_ACCOUNTS_CELL_ID"
+    let PORTFOLIO_ERROR_CELL_ID = "PORTFOLIO_ERROR_CELL_ID"
 
     private var _table: UITableView?
     private var accounts: [TradeItLinkedBrokerAccount] = []
+    private var linkedBrokersInError: [TradeItLinkedBroker] = []
+    
     var accountsTable: UITableView? {
         get {
             return _table
@@ -22,8 +25,9 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
     
-    func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+    func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount], withLinkedBrokersInError linkedBrokersInError: [TradeItLinkedBroker]) {
         self.accounts = accounts
+        self.linkedBrokersInError = linkedBrokersInError
         self.accountsTable?.reloadData()
         if accounts.count > 0 {
             let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -35,8 +39,14 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedAccount = self.accounts[indexPath.row]
-        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
+        if indexPath.row < self.accounts.count {
+            let selectedAccount = self.accounts[indexPath.row]
+            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
+        }
+        else {
+            let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
+            self.delegate?.linkedBrokerInErrorWasSelected(selectedBrokerInError: linkedBrokerInError)
+        }
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -46,24 +56,35 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return accounts.count
+        return self.accounts.count + self.linkedBrokersInError.count
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNTS_HEADER_ID)
-
         return cell
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
-
-        let account = accounts[indexPath.row]
-        cell.populate(withAccount: account)
+        var cell :UITableViewCell!
+        
+        if indexPath.row < self.accounts.count {
+            let accountCell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
+            let account = accounts[indexPath.row]
+            accountCell.populate(withAccount: account)
+            cell = accountCell
+        }
+        else {
+            let errorCell = tableView.dequeueReusableCellWithIdentifier(PORTFOLIO_ERROR_CELL_ID) as! TradeItPortfolioErrorTableViewCell
+            let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
+            errorCell.populate(withLinkedBroker: linkedBrokerInError)
+            cell = errorCell
+        }
+        
         return cell
     }
 }
 
 protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount)
+    func linkedBrokerInErrorWasSelected(selectedBrokerInError selectedBrokerInError: TradeItLinkedBroker)
 }

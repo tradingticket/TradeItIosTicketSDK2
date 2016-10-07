@@ -11,6 +11,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
     var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
@@ -21,6 +22,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var errorHandlingView: TradeItPortfolioErrorHandlingView!
     @IBOutlet weak var accountInfoContainerView: UIView!
+    
+    var selectedAccount: TradeItLinkedBrokerAccount!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +98,13 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: TradeItPortfolioAccountsTableDelegate
+    @IBAction func tradeButtonWasTapped(sender: AnyObject) {
+        let order = TradeItOrder()
+        order.linkedBrokerAccount = self.selectedAccount
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
         self.portfolioErrorHandlingViewManager.showAccountInfoContainerView()
@@ -104,6 +113,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         selectedAccount.getPositions(
             onSuccess: {
                 self.holdingsLabel.text = selectedAccount.getFormattedAccountName() + " Holdings"
+                self.selectedAccount = selectedAccount
                 self.positionsTableViewManager.updatePositions(withPositions: selectedAccount.positions)
                 self.holdingsActivityIndicator.stopAnimating()
             }, onFailure: { errorResult in

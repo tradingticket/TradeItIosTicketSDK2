@@ -35,24 +35,28 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     private func updateButtonText() {
         let error = self.linkedBrokerInError.error!
         var text = "Reload Account"
-        if error.code == 300 {
-            text = "Update Login"
+        if let code = error.code {
+            switch code {
+            case 300: text = "Update Login"
+            case 700: text = "Relink Account"
+            default: text = "Reload Account"
+            }
         }
-        else if error.code == 700 {
-            text = "Relink Account"
-        }
+        
         self.actionButton.setTitle(text, forState: .Normal)
     }
     
     // MARK: IBActions
     @IBAction func actionButtonWasTapped(WithSender sender: UIButton) {
         let error = self.linkedBrokerInError.error!
-        if (error.code == 300 || error.code == 700) {
-            self.delegate?.relinkAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
+        if error.code != nil && (error.code == 300 || error.code == 700) {
+                self.delegate?.relinkAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
         }
         else {
             self.delegate?.reloadAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
         }
+        
+        
     }
 }
 

@@ -10,8 +10,8 @@ class TradeItLinkedBrokerAccount: NSObject {
     var isBalanceError: Bool = false
     var isPositionsError: Bool = false
     unowned var linkedBroker: TradeItLinkedBroker
-    var tradeItBalanceService: TradeItBalanceService!
-    var tradeItPositionService: TradeItPositionService!
+    var tradeItBalanceService: TradeItBalanceService
+    var tradeItPositionService: TradeItPositionService
     var isEnabled = true
     
     init(linkedBroker: TradeItLinkedBroker,
@@ -77,7 +77,6 @@ class TradeItLinkedBrokerAccount: NSObject {
         })
     }
 
-    
     //MARK: formatting methods
     
     func getFormattedAccountName() -> String {

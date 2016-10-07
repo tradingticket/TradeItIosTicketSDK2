@@ -187,7 +187,6 @@ class TradeItLinkedBrokerSpec: QuickSpec {
             }
         }
 
-        // TODO: Finish
         describe("getOrderPreview") {
             var order: TradeItOrder!
             var expectedResponse: TradeItResult!
@@ -213,6 +212,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                 expect(onSuccessWasCalled).to(beTrue())
                 expect(actualResponse).to(equal(expectedResponse))
             }
+
+            pending("onFailure")
         }
     }
 }

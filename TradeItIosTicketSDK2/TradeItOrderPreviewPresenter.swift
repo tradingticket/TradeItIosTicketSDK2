@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItOrderPresenter {
+class TradeItOrderPreviewPresenter {
     let order: TradeItOrder
 
     init?(order: TradeItOrder) {
@@ -63,17 +63,13 @@ class TradeItOrderPresenter {
 
     // TODO: Move this sort of thing to TradeItOrder. Maybe a getter on the properties.
     private func limitPrice() -> NSNumber? {
-        guard let limitPrice = order.stopPrice
-            where order.requiresLimitPrice()
-            else { return nil }
+        guard let limitPrice = order.stopPrice where order.requiresLimitPrice() else { return nil }
 
         return limitPrice
     }
 
     private func stopPrice() -> NSNumber? {
-        guard let stopPrice = order.stopPrice
-            where order.requiresStopPrice()
-            else { return nil }
+        guard let stopPrice = order.stopPrice where order.requiresStopPrice() else { return nil }
 
         return stopPrice
     }

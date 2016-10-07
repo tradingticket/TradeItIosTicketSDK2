@@ -104,20 +104,92 @@ class TradeItOrderSpec: QuickSpec {
         }
 
         describe("estimatedChange") {
-            it("returns nil if no quoteLastPrice is set") {
-                order.quoteLastPrice = nil
-                expect(order.estimatedChange()).to(beNil())
-            }
-
             it("returns nil if shares is not a number") {
                 order.shares = NSDecimalNumber.notANumber()
                 expect(order.estimatedChange()).to(beNil())
             }
 
-            it("returns the calculation otherwise") {
-                order.shares = 10
-                order.quoteLastPrice = 1.25
-                expect(order.estimatedChange()).to(equal(12.5))
+            context("when type is Market") {
+                beforeEach {
+                    order.type = .Market
+                }
+
+                it("returns nil if no quoteLastPrice is set") {
+                    order.quoteLastPrice = nil
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns the calculation otherwise") {
+                    order.shares = 10
+                    order.quoteLastPrice = 1.25
+                    expect(order.estimatedChange()).to(equal(12.5))
+                }
+            }
+
+            context("when type is Stop Market") {
+                beforeEach {
+                    order.type = .StopMarket
+                }
+
+                it("returns nil if stopPrice is not a number") {
+                    order.stopPrice = NSDecimalNumber.notANumber()
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns nil if no stopPrice is set") {
+                    order.stopPrice = nil
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns the calculation otherwise") {
+                    order.shares = 5
+                    order.stopPrice = 1.5
+                    expect(order.estimatedChange()).to(equal(7.5))
+                }
+            }
+
+            context("when type is Limit") {
+                beforeEach {
+                    order.type = .Limit
+                }
+
+                it("returns nil if limitPrice is not a number") {
+                    order.limitPrice = NSDecimalNumber.notANumber()
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns nil if no limitPrice is set") {
+                    order.limitPrice = nil
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns the calculation otherwise") {
+                    order.shares = 5
+                    order.limitPrice = 1.5
+                    expect(order.estimatedChange()).to(equal(7.5))
+                }
+            }
+
+            context("when type is Stop Limit") {
+                beforeEach {
+                    order.type = .StopLimit
+                }
+
+                it("returns nil if limitPrice is not a number") {
+                    order.limitPrice = NSDecimalNumber.notANumber()
+                    expect(order.estimatedChange()).to(beNil())
+                }
+                
+                it("returns nil if no limitPrice is set") {
+                    order.limitPrice = nil
+                    expect(order.estimatedChange()).to(beNil())
+                }
+
+                it("returns the calculation otherwise") {
+                    order.shares = 5
+                    order.limitPrice = 1.5
+                    expect(order.estimatedChange()).to(equal(7.5))
+                }
             }
         }
 

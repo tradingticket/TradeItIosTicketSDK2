@@ -29,12 +29,18 @@ class TradeItOrder {
     }
 
     func estimatedChange() -> NSDecimalNumber? {
-        guard let quoteLastPrice = quoteLastPrice,
-            let shares = shares
-            where shares != NSDecimalNumber.notANumber()
-            else { return nil }
+        var optionalPrice: NSDecimalNumber?
+        switch type {
+        case .Market: optionalPrice = quoteLastPrice
+        case .Limit: optionalPrice = limitPrice
+        case .StopLimit: optionalPrice = limitPrice
+        case .StopMarket: optionalPrice = stopPrice
+        }
 
-        return quoteLastPrice.decimalNumberByMultiplyingBy(shares)
+        guard let shares = shares where shares != NSDecimalNumber.notANumber() else { return nil }
+        guard let price = optionalPrice where price != NSDecimalNumber.notANumber() else { return nil }
+
+        return price.decimalNumberByMultiplyingBy(shares)
     }
 
     func isValid() -> Bool {

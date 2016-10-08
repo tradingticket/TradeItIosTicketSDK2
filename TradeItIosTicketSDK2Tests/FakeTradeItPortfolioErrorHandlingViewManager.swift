@@ -1,6 +1,6 @@
 import UIKit
 
-class FakeTradeItPortfolioErrorHandlerManager: TradeItPortfolioErrorHandlerManager {
+class FakeTradeItPortfolioErrorHandlingViewManager: TradeItPortfolioErrorHandlingViewManager {
 
     let calls = SpyRecorder()
     

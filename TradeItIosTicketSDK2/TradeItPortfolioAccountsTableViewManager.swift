@@ -29,6 +29,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         self.accounts = accounts
         self.linkedBrokersInError = linkedBrokersInError
         self.accountsTable?.reloadData()
+
         if accounts.count > 0 {
             let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
             self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)

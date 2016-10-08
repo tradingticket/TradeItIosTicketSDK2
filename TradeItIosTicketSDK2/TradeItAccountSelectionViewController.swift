@@ -26,7 +26,7 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     // MARK: TradeItAccounSelectionTableViewManagerDelegate
     
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
-                                                                onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void) {
+                                                               onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in

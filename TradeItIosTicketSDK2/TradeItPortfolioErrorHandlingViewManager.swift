@@ -1,18 +1,18 @@
 import UIKit
 import TradeItIosEmsApi
 
-class TradeItPortfolioErrorHandlerManager: NSObject {
+class TradeItPortfolioErrorHandlingViewManager: NSObject {
 
-    private var _otherTablesView: UIView?
-    var otherTablesView: UIView? {
+    private var _accountInfoContainerView: UIView?
+    var accountInfoContainerView: UIView? {
         get {
-            return _otherTablesView
+            return _accountInfoContainerView
         }
         
-        set(otherTablesView) {
-            if let otherTablesView = otherTablesView {
-                otherTablesView.hidden = false
-                _otherTablesView = otherTablesView
+        set(accountInfoContainerView) {
+            if let accountInfoContainerView = accountInfoContainerView {
+                accountInfoContainerView.hidden = false
+                _accountInfoContainerView = accountInfoContainerView
             }
         }
     }
@@ -32,14 +32,13 @@ class TradeItPortfolioErrorHandlerManager: NSObject {
     }
     
     func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker) {
-        self.otherTablesView?.hidden = true
+        self.accountInfoContainerView?.hidden = true
         self.errorHandlingView?.hidden = false
         self.errorHandlingView?.populateWithLinkedBrokerError(linkedBrokerInError)
     }
     
-    func showOtherTablesView() {
+    func showAccountInfoContainerView() {
         self.errorHandlingView?.hidden = true
-        self.otherTablesView?.hidden = false
+        self.accountInfoContainerView?.hidden = false
     }
-
 }

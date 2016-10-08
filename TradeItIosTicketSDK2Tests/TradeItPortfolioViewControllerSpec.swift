@@ -12,7 +12,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
         var accountSummaryViewManager: FakeTradeItPortfolioAccountSummaryViewManager!
         var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
-        var portfolioViewErrorHandlerManager: FakeTradeItPortfolioErrorHandlerManager!
+        var portfolioErrorHandlingViewManager: FakeTradeItPortfolioErrorHandlingViewManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
 
         describe("initialization") {
@@ -22,7 +22,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 accountsTableViewManager = FakeTradeItPortfolioAccountsTableViewManager()
                 positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
                 accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
-                portfolioViewErrorHandlerManager = FakeTradeItPortfolioErrorHandlerManager()
+                portfolioErrorHandlingViewManager = FakeTradeItPortfolioErrorHandlingViewManager()
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
 
                 window = UIWindow()
@@ -37,7 +37,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 controller.accountsTableViewManager = accountsTableViewManager
                 controller.positionsTableViewManager = positionsTableViewManager
                 controller.accountSummaryViewManager = accountSummaryViewManager
-                controller.portfolioViewErrorHandlerManager = portfolioViewErrorHandlerManager
+                controller.portfolioErrorHandlingViewManager = portfolioErrorHandlingViewManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
 
                 nav = UINavigationController(rootViewController: controller)
@@ -50,11 +50,11 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             it("sets up the accountsTableViewManager") {
                 expect(accountsTableViewManager.accountsTable).to(be(controller.accountsTable))
             }
-            
+
             it("sets up the positionsTableViewManager") {
                 expect(positionsTableViewManager.positionsTable).to(be(controller.positionsTable))
             }
-            
+
             it("shows a spinner") {
                 expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
                 expect(ezLoadingActivityManager.spinnerText).to(equal("Authenticating"))
@@ -98,7 +98,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     expect(ezLoadingActivityManager.spinnerText).to(equal("Refreshing Accounts"))
                 }
 
-
                 describe("when account balances have been refreshed") {
                     beforeEach {
                         account1.balance = TradeItAccountOverview()
@@ -122,13 +121,13 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                         expect(accountsArg).to(equal(accountsToReturn))
                     }
-                    
+
                     it("updates the total account value field") {
                         expect(controller.totalValueLabel.text).to(equal("$357"))
                     }
                 }
             }
-            
+
             describe("when an account is selected") {
                 var account1: FakeTradeItLinkedBrokerAccount!
                 beforeEach {
@@ -143,37 +142,37 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     position.todayGainLossPercentage = 12
                     let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                     account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                    
+
                     let portfolioPosition = FakeTradeItPortfolioPositions(linkedBrokerAccount: account1, position: position)
                     account1.positions = [portfolioPosition]
-                    
-            
+
                     controller.linkedBrokerAccountWasSelected(selectedAccount: account1)
                 }
-                
+
                 it("shows a spinner") {
                     expect(controller.holdingsActivityIndicator.isAnimating()).to(beTrue())
                 }
-                
+
                 it("populates the account summary") {
                     let calls = accountSummaryViewManager.calls.forMethod("populateSummarySection")
                     expect(calls.count).to(equal(1))
                     expect(calls[0].args["selectedAccount"] as? TradeItLinkedBrokerAccount).to(equal(account1))
                 }
-                
+
                 it("calls the getPositions method on the selected account") {
                     expect(account1.calls.forMethod("getPositions(onFinished:)").count).to(equal(1))
                 }
-                
+
                 describe("when positions have been refreshed") {
                     beforeEach {
                         let onFinished = account1.calls.forMethod("getPositions(onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                     }
+
                     it("hides the spinner") {
                         expect(controller.holdingsActivityIndicator.isAnimating()).to(beFalse())
                     }
-                    
+
                     it("populates the positions table from the selectedAccount") {
                         let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withPositions:)")
                         expect(updatePositionsCalls.count).to(equal(2))
@@ -183,7 +182,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     }
                 }
             }
-            
+
             describe("when a broker in error was selected") {
                 var linkedBroker: TradeItLinkedBroker!
                 beforeEach {
@@ -196,17 +195,15 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     
                     controller.linkedBrokerInErrorWasSelected(selectedBrokerInError: linkedBroker)
                 }
-                
+
                 it("show the error handling view with the linkedBroker in error") {
-                    let calls = portfolioViewErrorHandlerManager.calls.forMethod("showErrorHandlingView(withLinkedBrokerInError:)")
+                    let calls = portfolioErrorHandlingViewManager.calls.forMethod("showErrorHandlingView(withLinkedBrokerInError:)")
                     expect(calls.count).to(equal(1))
                     let argLinkedBroker = calls[0].args["linkedBrokerInError"] as! TradeItLinkedBroker
                     expect(argLinkedBroker).to(equal(linkedBroker))
                 }
-                
-                
             }
-            
+
             describe("when relinkAccount was tapped for a broker in error") {
                 var linkedBrokerToRelink: FakeTradeItLinkedBroker!
                 beforeEach {
@@ -219,7 +216,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     linkedBrokerManager.linkedBrokers.append(linkedBrokerToRelink)
                     controller.relinkAccountWasTapped(withLinkedBroker: linkedBrokerToRelink)
                 }
-                
+
                 it("shows the spinner") {
                     expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
                 }
@@ -230,7 +227,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     let argLinkedBroker = calls[0].args["linkedBroker"] as! TradeItLinkedBroker
                     expect(argLinkedBroker).to(equal(linkedBrokerToRelink))
                 }
-                
+
                 describe("when on linked is called") {
                     var relinkAccount: TradeItLinkedBrokerAccount!
                      var fakeNavigationController: FakeUINavigationController!
@@ -244,25 +241,25 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         fakeNavigationController = FakeUINavigationController()
                         onLinked(presentedNavController: fakeNavigationController)
                     }
-                    
+
                     it ("dismiss the view controller") {
                         expect(fakeNavigationController.calls.forMethod("dismissViewControllerAnimated(_:completion:)").count).to(equal(1))
                     }
-                    
+
                     it("calls the refreshAccountBalances on the linkedBroker") {
                         expect(linkedBrokerToRelink.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
                     }
-                    
+
                     describe("when refreshing balances on the linked broker is finished") {
                         beforeEach {
                             let onFinished = linkedBrokerToRelink.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                             onFinished()
                         }
-                        
+
                         it("hides the spinner") {
                             expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
                         }
-                        
+
                         it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
                             let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:withLinkedBrokersInError:)")
                             expect(updateAccountsCalls.count).to(equal(2))
@@ -271,15 +268,10 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                             
                             expect(accountsArg[0]).to(equal(linkedBrokerToRelink.accounts[0]))
                         }
-                        
                     }
-                    
-                    
                 }
-                
-                
             }
-            
+
             describe("when reloadAccountWasTapped was tapped for a broker in error") {
                 var linkedBrokerToReload: FakeTradeItLinkedBroker!
                 beforeEach {
@@ -291,27 +283,27 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     linkedBrokerToReload.error = error
                     controller.reloadAccountWasTapped(withLinkedBroker: linkedBrokerToReload)
                 }
-                
+
                 it("shows the spinner") {
                     expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
                 }
-                
+
                 context("when authentication succeeds") {
                     beforeEach {
                         let relinkAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBrokerToReload, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                         linkedBrokerToReload.accounts = [relinkAccount]
                         linkedBrokerToReload.error = nil
                         linkedBrokerManager.hackAccountsToReturn = [relinkAccount]
-                        
+
                         let onSuccess = linkedBrokerToReload.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! (() -> Void)
-                        
+
                         onSuccess()
                     }
-                    
-                    
+
+
                     itBehavesLike("refreshAccountBalances") {["linkedBroker": linkedBrokerToReload, "ezLoadingActivityManager": ezLoadingActivityManager, "accountsTableViewManager": accountsTableViewManager]}
                 }
-                
+
                 context("when authentication fails") {
                     var errorResult: TradeItErrorResult!
                     beforeEach {
@@ -325,43 +317,39 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         let onFailure = linkedBrokerToReload.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! ((TradeItErrorResult) -> Void)
                         onFailure(errorResult)
                     }
-                    
+
                     it("hides the spinner") {
                         expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
                     }
-                    
+
                     it("set the error to the linked broker") {
                         expect(linkedBrokerToReload.error).to(equal(errorResult))
                         expect(linkedBrokerToReload.isAuthenticated).to(equal(false))
                     }
-                    
+
                     it("populates the accounts table with the linked broker in error") {
                         let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:withLinkedBrokersInError:)")
                         expect(updateAccountsCalls.count).to(equal(2))
-                        
+
                         let linkedBrokerInErrorArg = updateAccountsCalls[1].args["withLinkedBrokersInError"] as! [TradeItLinkedBroker]
-                        
+
                         expect(linkedBrokerInErrorArg[0]).to(equal(linkedBrokerToReload))
                     }
-
                 }
-                
+
                 context("when security question is needed") {
                     // TODO
                 }
-                
-                
             }
-
 
             context("when at least one authenticate call fails") {
                 //TODO
             }
-            
+
             context("when at least one balance call fails") {
                 //TODO
             }
-            
+
             context("when at least one position call fails") {
                 //TODO
             }
@@ -375,37 +363,36 @@ class TradeItPortfolioViewControllerSpecConfiguration: QuickConfiguration {
             var linkedBroker: FakeTradeItLinkedBroker!
             var ezLoadingActivityManager: FakeEZLoadingActivityManager!
             var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
+
             beforeEach {
                 linkedBroker = sharedExampleContext()["linkedBroker"] as! FakeTradeItLinkedBroker
                 ezLoadingActivityManager = sharedExampleContext()["ezLoadingActivityManager"] as! FakeEZLoadingActivityManager
                 accountsTableViewManager = sharedExampleContext()["accountsTableViewManager"] as! FakeTradeItPortfolioAccountsTableViewManager
             }
+
             it("calls the refreshAccountBalances on the linkedBroker") {
                 expect(linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
             }
-            
+
             describe("when refreshing balances on the linked broker is finished") {
                 beforeEach {
                     let onFinished = linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                     onFinished()
                 }
-                
+
                 it("hides the spinner") {
                     expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
                 }
-                
+
                 it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
                     let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:withLinkedBrokersInError:)")
                     expect(updateAccountsCalls.count).to(equal(2))
-                    
+
                     let accountsArg = updateAccountsCalls[1].args["withAccounts"] as! [TradeItLinkedBrokerAccount]
-                    
+
                     expect(accountsArg[0]).to(equal(linkedBroker.accounts[0]))
                 }
-                
             }
-
         }
     }
 }
-

@@ -27,5 +27,4 @@ class TradeItPortfolioBalanceEquityPresenter {
         let totalPercentReturn =  NumberFormatter.formatPercentage(self.balance.totalPercentReturn)
         return totalAbsoluteReturn + " (" + totalPercentReturn + " )"
     }
-
 }

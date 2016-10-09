@@ -281,7 +281,66 @@ class TradeItOrderSpec: QuickSpec {
                     expect(order.isValid()).to(beFalse())
                 }
             }
+        }
 
+        describe("preview") {
+            var order: TradeItOrder!
+            var expectedResponse: TradeItResult!
+            var actualResponse: TradeItResult!
+            var onSuccessWasCalled = false
+            var onFailureWasCalled = false
+            var linkedBrokerAccount: FakeTradeItLinkedBrokerAccount!
+            var tradeService: FakeTradeItTradeService!
+
+            beforeEach {
+                linkedBrokerAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: FakeTradeItLinkedBroker(), brokerName: "Dummy", accountName: "Dummy Account Name", accountNumber: "Dummy Account Number", balance: nil, fxBalance: nil, positions: [])
+                tradeService = FakeTradeItTradeService()
+                linkedBrokerAccount.tradeService = tradeService
+                order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount, symbol: "AAPL")
+                order.quantity = 1.0
+
+                onSuccessWasCalled = false
+                order.preview(onSuccess: { previewTradeResult, handlers in
+                    onSuccessWasCalled = true
+                    actualResponse = previewTradeResult
+                }, onFailure: { errorResult in
+                    onFailureWasCalled = true
+                    actualResponse = errorResult
+                })
+
+            }
+
+            context("when it was successful") {
+                beforeEach {
+                    expectedResponse = TradeItPreviewTradeResult()
+                    let completionBlock = tradeService.calls.forMethod("previewTrade(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (TradeItResult! -> Void)
+                    completionBlock(expectedResponse)
+                }
+
+                it("calls onSuccess") {
+                    flushAsyncEvents()
+
+                    expect(onSuccessWasCalled).to(beTrue())
+                    expect(onFailureWasCalled).to(beFalse())
+                    expect(actualResponse).to(equal(expectedResponse))
+                }
+            }
+
+            context("when it was a failure") {
+                beforeEach {
+                    expectedResponse = TradeItErrorResult()
+                    let completionBlock = tradeService.calls.forMethod("previewTrade(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (TradeItResult! -> Void)
+                    completionBlock(expectedResponse)
+                }
+
+                it("calls onSuccess") {
+                    flushAsyncEvents()
+
+                    expect(onSuccessWasCalled).to(beFalse())
+                    expect(onFailureWasCalled).to(beTrue())
+                    expect(actualResponse).to(equal(expectedResponse))
+                }
+            }
         }
     }
 }

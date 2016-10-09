@@ -4,8 +4,10 @@ import TradeItIosEmsApi
 class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var orderDetailsTable: UITableView!
 
+    var ezLoadingActivityManager = EZLoadingActivityManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     var previewOrder: TradeItPreviewTradeResult?
+    var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewData: [TableData] = [] // TODO: Move to presenter?
 
     override func viewDidLoad() {
@@ -17,6 +19,25 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         orderDetailsTable.delegate = self
     }
     
+    @IBAction func placeOrderTapped(sender: UIButton) {
+        guard let placeOrderCallback = placeOrderCallback else { return }
+
+        self.ezLoadingActivityManager.show(text: "Placing Order", disableUI: true)
+
+        placeOrderCallback(onSuccess: { result in
+            let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
+            let tradingConfirmationViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.tradingConfirmationView.rawValue) as! TradeItTradingConfirmationViewController
+
+            tradingConfirmationViewController.placeOrderResult = result
+
+            self.navigationController?.setViewControllers([tradingConfirmationViewController], animated: true)
+            self.ezLoadingActivityManager.hide()
+        }, onFailure: { errorResult in
+            self.ezLoadingActivityManager.hide()
+            TradeItAlert().showTradeItErrorResultAlert(onViewController: self, errorResult: errorResult)
+        })
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

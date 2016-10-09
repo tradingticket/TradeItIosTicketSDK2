@@ -14,7 +14,7 @@ public class TradeItLinkedBroker: NSObject {
     }
 
     public func authenticate(onSuccess onSuccess: () -> Void,
-                                onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
+                                onSecurityQuestion: (TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) -> Void,
                                 onFailure: (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult!) in
@@ -27,16 +27,21 @@ public class TradeItLinkedBroker: NSObject {
                     self.accounts = self.mapToLinkedBrokerAccounts(accounts)
                     onSuccess()
                 case let securityQuestion as TradeItSecurityQuestionResult:
-                    onSecurityQuestion(securityQuestion, { securityQuestionAnswer in
-                        self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
-                    })
+                    onSecurityQuestion(
+                        securityQuestion,
+                        onAnswerSecurityQuestion: { securityQuestionAnswer in
+                            self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
+                        }, onCancelSecurityQuestion: {
+                            handler(TradeItErrorResult.tradeErrorWithSystemMessage("User canceled the security question."))
+                        }
+                    )
                 case let error as TradeItErrorResult:
                     self.wasAuthenticated = false
                     self.error = error
 
                     onFailure(error)
                 default:
-                    handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown respose sent from the server for authentication"))
+                    handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown response sent from the server for authentication."))
                 }
 
             }

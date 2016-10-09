@@ -29,11 +29,12 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
                                                                onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) in
                 TradeItAlert().show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion
+                    onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                    onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
             },
             onFinished: {

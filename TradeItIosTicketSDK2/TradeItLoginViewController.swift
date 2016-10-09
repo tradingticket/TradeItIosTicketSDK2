@@ -104,13 +104,14 @@ class TradeItLoginViewController: KeyboardViewController {
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) -> Void in
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
                 self.tradeItAlert.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
                 )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in

@@ -38,7 +38,7 @@ end
 
 ### Environments
 
-| Environment   | Variable                  |
+| Environment   | Enum                      |
 | ------------- | ----------                |
 | Sandbox       | `TradeItEmsTestEnv`       |
 | Production    | `TradeItEmsProductionEnv` |
@@ -58,7 +58,7 @@ Be aware that our Sandbox environment points to live broker environments. Connec
 
 ## Launching the TradeIt Screens
 
-This is the minimal effort integration using all of the workflows and screens included in the SDK. The `TradeItLauncher` is the central object for initiating screens using the TradeIt screens. 
+This is the minimal effort integration using all of the workflows and screens included in the SDK. The `TradeItLauncher` is the central object for initiating flows using the TradeIt screens. 
 
 ```swift
 let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)
@@ -76,20 +76,34 @@ order.action = .BuyToCover
 launcher.launchTrading(fromViewController: self, withOrder: order)
 ```
 
-## Deep Integrations
+## Deep Integration
 
-Deep integrations refers to using the SDK to pull positions data that can be integrated with the parent app.
+Deep integration refers to using the SDK to pull balances and positions data that can be used in parent app.
 
+### Authenticating accounts
+
+```swift
+TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion in
+    TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion)
+}, onFinished: {
+    TradeItAlert().showErrorAlert(onViewController: self, title: "authenticateAll finished", message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+})
 ```
-// TODO: Examples
-```
 
-## Custom Screens
+### Fetching data for an account
 
-This is the most effort integration where the parent app has custom screens that integrates with the SDK.
+```swift
+// Account balances - given an authenticated broker account
+account.getAccountOverview {
+    print(account.balance)
+}
 
-```
-// TODO: Examples of using the UIFlows
+// Account positions - given an authenticated broker account
+account.getPositions {
+    print(account.positions.map({ position in
+        return position.position
+    }))
+}
 ```
 
 ## Example App

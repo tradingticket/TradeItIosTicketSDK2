@@ -106,6 +106,41 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         return 50
     }
     
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let buyAction = UITableViewRowAction(style: .Normal, title: "BUY") { action, index in
+            let position = self.positions[index.row]
+            let order = TradeItOrder()
+            order.action = TradeItOrderAction.Buy
+            order.linkedBrokerAccount = position.linkedBrokerAccount
+            order.symbol = position.position.symbol
+
+            self.delegate?.buyButtonWasTappedWith(order: order)
+        }
+        buyAction.backgroundColor = UIColor.greenColor()
+        
+        let sellAction = UITableViewRowAction(style: .Normal, title: "SELL") { action, index in
+            let position = self.positions[index.row]
+            let order = TradeItOrder()
+            order.action = TradeItOrderAction.Sell
+            order.linkedBrokerAccount = position.linkedBrokerAccount
+            order.symbol = position.position.symbol
+            self.delegate?.sellButtonWasTappedWith(order: order)
+        }
+        sellAction.backgroundColor = UIColor.redColor()
+        
+        
+        return [sellAction, buyAction]
+        
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        // nothing to do but need to be defined to display the actions
+    }
+    
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
     
     func buyButtonWasTappedWith(order order: TradeItOrder) {

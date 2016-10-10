@@ -155,7 +155,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                 self.ezLoadingActivityManager.hide()
-                linkedBroker.isAuthenticated = false
+                linkedBroker.wasAuthenticated = false
                 linkedBroker.error = tradeItErrorResult
                 self.updatePortfolioView()
             }

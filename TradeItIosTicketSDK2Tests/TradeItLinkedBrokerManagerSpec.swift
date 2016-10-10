@@ -444,16 +444,16 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                 beforeEach {
                     authenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    authenticatedLinkedBroker.isAuthenticated = true
+                    authenticatedLinkedBroker.wasAuthenticated = true
 
                     failedUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    failedUnauthenticatedLinkedBroker.isAuthenticated = false
+                    failedUnauthenticatedLinkedBroker.wasAuthenticated = false
 
                     successfulUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    successfulUnauthenticatedLinkedBroker.isAuthenticated = false
+                    successfulUnauthenticatedLinkedBroker.wasAuthenticated = false
 
                     securityQuestionUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    securityQuestionUnauthenticatedLinkedBroker.isAuthenticated = false
+                    securityQuestionUnauthenticatedLinkedBroker.wasAuthenticated = false
 
                     linkedBrokerManager.linkedBrokers = [
                         authenticatedLinkedBroker,
@@ -566,21 +566,21 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                 let account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker1.accounts = [account11, account12]
-                linkedBroker1.isAuthenticated = true
+                linkedBroker1.wasAuthenticated = true
 
                 let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
                 let tradeItSession2 = FakeTradeItSession()
                 linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
                 let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, brokerName: "Broker #2", accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker2.accounts = [account21]
-                linkedBroker2.isAuthenticated = true
+                linkedBroker2.wasAuthenticated = true
 
                 let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")
                 let tradeItSession3 = FakeTradeItSession()
                 linkedBroker3 = FakeTradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedLogin3)
                 let account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker3.accounts = [account31]
-                linkedBroker3.isAuthenticated = false
+                linkedBroker3.wasAuthenticated = false
 
                 linkedBrokerManager.linkedBrokers = [linkedBroker1, linkedBroker2, linkedBroker3]
 

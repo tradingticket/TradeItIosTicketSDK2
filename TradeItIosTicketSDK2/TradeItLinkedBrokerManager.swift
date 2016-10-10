@@ -33,7 +33,7 @@ import PromiseKit
 
     func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
                                             onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { !$0.isAuthenticated }.map { linkedBroker in
+        let promises = self.linkedBrokers.filter { !$0.wasAuthenticated }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticate(
                     onSuccess: fulfill,
@@ -49,7 +49,7 @@ import PromiseKit
     }
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { $0.isAuthenticated }.map { linkedBroker in
+        let promises = self.linkedBrokers.filter { $0.wasAuthenticated }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
             }

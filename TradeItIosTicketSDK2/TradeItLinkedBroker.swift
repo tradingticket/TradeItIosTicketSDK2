@@ -5,7 +5,7 @@ public class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItLinkedBrokerAccount] = []
-    var isAuthenticated = false
+    var wasAuthenticated = false
     var error: TradeItErrorResult?
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
@@ -20,7 +20,7 @@ public class TradeItLinkedBroker: NSObject {
             { (tradeItResult: TradeItResult!) in
                 switch tradeItResult {
                 case let authenticationResult as TradeItAuthenticationResult:
-                    self.isAuthenticated = true
+                    self.wasAuthenticated = true
                     self.error = nil
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
@@ -31,7 +31,7 @@ public class TradeItLinkedBroker: NSObject {
                         self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
                     })
                 case let error as TradeItErrorResult:
-                    self.isAuthenticated = false
+                    self.wasAuthenticated = false
                     self.error = error
 
                     onFailure(error)

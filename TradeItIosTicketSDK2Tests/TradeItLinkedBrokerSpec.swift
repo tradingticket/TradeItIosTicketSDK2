@@ -19,8 +19,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
         }
 
         describe("initialization") {
-            it("initializes isAuthenticated to be false") {
-                expect(linkedBroker.isAuthenticated).to(beFalse())
+            it("initializes wasAuthenticated to be false") {
+                expect(linkedBroker.wasAuthenticated).to(beFalse())
             }
 
             it("sets the session") {
@@ -70,8 +70,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                     completionBlock(tradeItAuthenticationResult)
                 }
 
-                it("updates isAuthenticated to be true") {
-                    expect(linkedBroker.isAuthenticated).to(beTrue())
+                it("updates wasAuthenticated to be true") {
+                    expect(linkedBroker.wasAuthenticated).to(beTrue())
                 }
 
                 it("populates accounts from the authentication response") {
@@ -131,8 +131,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                     completionBlock(tradeItErrorResult)
                 }
                 
-                it("updates isAuthenticated to be false") {
-                    expect(linkedBroker.isAuthenticated).to(beFalse())
+                it("updates wasAuthenticated to be false") {
+                    expect(linkedBroker.wasAuthenticated).to(beFalse())
                 }
                 
                 it("keeps a reference to the error") {

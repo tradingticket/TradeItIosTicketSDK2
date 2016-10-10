@@ -4,8 +4,9 @@ class TradeItMarketService {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
 
-    init(connector: TradeItConnector) {
-        tradeItConnector = connector
+    init(apiKey: String, environment: TradeitEmsEnvironments) {
+        // TODO: TradeItConnector initializer returns optional - we should not force unwrap
+        tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
         tradeItSessionProvider = TradeItSessionProvider()
     }
 

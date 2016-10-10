@@ -9,10 +9,8 @@ import TradeItIosEmsApi
     static var marketDataService: TradeItMarketService!
 
     init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
-        let tradeItConnector = TradeItConnector(apiKey: apiKey)!
-        tradeItConnector.environment = environment
-        TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
-        TradeItLauncher.marketDataService = TradeItMarketService(connector: tradeItConnector)
+        TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
+        TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
         self.tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
         self.viewControllerProvider = TradeItViewControllerProvider()

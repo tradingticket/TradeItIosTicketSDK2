@@ -1749,7 +1749,7 @@
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUl-a3-6eP">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUl-a3-6eP">
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1761,10 +1761,11 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="XUl-a3-6eP" firstAttribute="leading" secondItem="NhY-Sr-mEq" secondAttribute="leadingMargin" constant="13" id="0NN-CS-Vyx"/>
+                                                <constraint firstItem="XUl-a3-6eP" firstAttribute="leading" secondItem="NhY-Sr-mEq" secondAttribute="leadingMargin" constant="10" id="0NN-CS-Vyx"/>
                                                 <constraint firstItem="XUl-a3-6eP" firstAttribute="centerY" secondItem="NhY-Sr-mEq" secondAttribute="centerY" id="8JE-XT-WB3"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="R4D-d0-7a3" secondAttribute="trailing" constant="24" id="cp9-4s-8UM"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="R4D-d0-7a3" secondAttribute="trailing" constant="10" id="cp9-4s-8UM"/>
                                                 <constraint firstItem="R4D-d0-7a3" firstAttribute="centerY" secondItem="NhY-Sr-mEq" secondAttribute="centerY" id="ngm-to-XB0"/>
+                                                <constraint firstItem="R4D-d0-7a3" firstAttribute="leading" secondItem="XUl-a3-6eP" secondAttribute="trailing" constant="10" id="rPw-NR-LqB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

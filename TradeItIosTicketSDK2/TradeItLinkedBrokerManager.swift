@@ -110,25 +110,25 @@ class TradeItLinkedBrokerManager {
     func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: (TradeItErrorResult) -> Void) -> Void {
-        self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, withAuthenticationInfo: authInfo,
-                                              andCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
-            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
-                onFailure(tradeItErrorResult)
-            } else if let tradeItResult = tradeItResult as? TradeItUpdateLinkResult {
-                let linkedLogin = self.tradeItConnector.updateLinkInKeychain(tradeItResult, withBroker: linkedBroker.linkedLogin.broker)
+        self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, withAuthenticationInfo: authInfo, andCompletionBlock: { tradeItResult in
+            switch tradeItResult {
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            case let updateLinkResult as TradeItUpdateLinkResult:
+                let linkedLogin = self.tradeItConnector.updateLinkInKeychain(updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
 
                 if let linkedLogin = linkedLogin {
                     linkedBroker.linkedLogin = linkedLogin
                     onSuccess(linkedBroker: linkedBroker)
                 } else {
-                    let errorResult = TradeItErrorResult()
-                    errorResult.systemMessage = "Failed to update linked login to keychain"
-                    onFailure(errorResult)
+                    onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update linked login to keychain"))
                 }
+            default:
+                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update user token"))
             }
         })
     }
-    
+
     func unlinkBroker(linkedBroker: TradeItLinkedBroker) {
         self.tradeItConnector.unlinkLogin(linkedBroker.linkedLogin)
         let index = self.linkedBrokers.indexOf(linkedBroker)

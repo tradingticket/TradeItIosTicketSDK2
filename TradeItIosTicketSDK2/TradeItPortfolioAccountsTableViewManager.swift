@@ -35,6 +35,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)
             self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: self.accounts[0])
         }
+        else if self.linkedBrokersInError.count > 0 {
+            let firstIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            self.accountsTable?.selectRowAtIndexPath(firstIndexPath, animated: true, scrollPosition: .Top)
+            self.delegate?.linkedBrokerInErrorWasSelected(selectedBrokerInError: self.linkedBrokersInError[0])
+        }
     }
 
     // MARK: UITableViewDelegate

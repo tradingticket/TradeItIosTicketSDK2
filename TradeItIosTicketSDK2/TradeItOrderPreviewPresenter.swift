@@ -63,7 +63,7 @@ class TradeItOrderPreviewPresenter {
 
     // TODO: Move this sort of thing to TradeItOrder. Maybe a getter on the properties.
     private func limitPrice() -> NSNumber? {
-        guard let limitPrice = order.stopPrice where order.requiresLimitPrice() else { return nil }
+        guard let limitPrice = order.limitPrice where order.requiresLimitPrice() else { return nil }
 
         return limitPrice
     }

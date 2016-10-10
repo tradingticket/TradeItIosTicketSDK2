@@ -13,10 +13,16 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var dayLabelValue: UILabel!
     @IBOutlet weak var totalLabelValue: UILabel!
     @IBOutlet weak var totalReturnLabelValue: UILabel!
+    @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var sellButton: UIButton!
     
     
+    weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
+    
+    private var selectedPosition: TradeItPortfolioPosition!
     
     func populate(withPosition position: TradeItPortfolioPosition) {
+        self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
         self.costLabelValue.text = presenter.getCostBasis()
@@ -38,4 +44,26 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
             self.chevron.image = UIImage(named: "chevron_down")
         }
     }
-   }
+    
+    @IBAction func buyButtonWasTapped(sender: AnyObject) {
+        let order = TradeItOrder()
+        order.action = TradeItOrderAction.Buy
+        order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
+        order.symbol = self.selectedPosition.position.symbol
+        self.delegate?.buyButtonWasTappedWith(order: order)
+    }
+    
+    @IBAction func sellButtonWasTapped(sender: AnyObject) {
+        let order = TradeItOrder()
+        order.action = TradeItOrderAction.Sell
+        order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
+        order.symbol = self.selectedPosition.position.symbol
+        self.delegate?.sellButtonWasTappedWith(order: order)
+    }
+    
+}
+
+protocol TradeItPortfolioPositionsTableViewCellDelegate: class {
+    func buyButtonWasTappedWith(order order: TradeItOrder)
+    func sellButtonWasTappedWith(order order: TradeItOrder)
+}

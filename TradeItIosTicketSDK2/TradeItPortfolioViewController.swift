@@ -1,7 +1,7 @@
 import UIKit
 import PromiseKit
 
-class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate {
+class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
@@ -29,6 +29,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         super.viewDidLoad()
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
+        self.positionsTableViewManager.delegate = self
         self.positionsTableViewManager.positionsTable = self.positionsTable
         self.accountSummaryViewManager.accountSummaryView = self.accountSummaryView
         
@@ -124,6 +125,16 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     
     func linkedBrokerInErrorWasSelected(selectedBrokerInError selectedBrokerInError: TradeItLinkedBroker) {
         self.portfolioErrorHandlingViewManager.showErrorHandlingView(withLinkedBrokerInError: selectedBrokerInError)
+    }
+    
+    // MARK: TradeItPortfolioPositionsTableDelegate
+    
+    func buyButtonWasTappedWith(order order: TradeItOrder) {
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    func sellButtonWasTappedWith(order order: TradeItOrder) {
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: TradeItPortfolioErrorHandlingViewDelegate methods

@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
+class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
 
     private var positions: [TradeItPortfolioPosition] = []
     private var _table: UITableView?
@@ -20,14 +20,19 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     
     private var selectedPositionIndex = -1
     
+    weak var delegate: TradeItPortfolioPositionsTableDelegate?
+    
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {
         self.selectedPositionIndex = -1
         self.positions = positions
         self.positionsTable?.reloadData()
     }
     
-    // MARK: UITableViewDelegate
+    // IBAction
     
+    
+    
+    // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // if the user click on the already expanded row, deselect it
         if self.selectedPositionIndex == indexPath.row {
@@ -77,6 +82,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         // TODO: Change this to make position.position and position.fxPosition optional
         if position.position != nil {
             let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
+            equityCell.delegate = self
             equityCell.populate(withPosition: position)
             cell = equityCell
         } else if position.fxPosition != nil {
@@ -94,9 +100,24 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == self.selectedPositionIndex {
-            return 150
+            return 170
         }
 
         return 50
     }
+    
+    // MARK: TradeItPortfolioPositionsTableViewCellDelegate
+    
+    func buyButtonWasTappedWith(order order: TradeItOrder) {
+        self.delegate?.buyButtonWasTappedWith(order: order)
+    }
+    
+    func sellButtonWasTappedWith(order order: TradeItOrder) {
+        self.delegate?.sellButtonWasTappedWith(order: order)
+    }
+}
+
+protocol TradeItPortfolioPositionsTableDelegate: class {
+    func buyButtonWasTappedWith(order order: TradeItOrder)
+    func sellButtonWasTappedWith(order order: TradeItOrder)
 }

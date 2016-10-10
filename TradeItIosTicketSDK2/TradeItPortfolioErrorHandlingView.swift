@@ -37,8 +37,8 @@ class TradeItPortfolioErrorHandlingView: UIControl {
         var text = "Reload Account"
         if let code = error.code {
             switch code {
-            case 300: text = "Update Login"
-            case 700: text = "Relink Account"
+            case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR.rawValue: text = "Update Login"
+            case TradeItErrorCode.OAUTH_ERROR.rawValue: text = "Relink Account"
             default: text = "Reload Account"
             }
         }
@@ -49,7 +49,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     // MARK: IBActions
     @IBAction func actionButtonWasTapped(WithSender sender: UIButton) {
         let error = self.linkedBrokerInError.error!
-        if error.code != nil && (error.code == 300 || error.code == 700) {
+        if error.code != nil && (error.code == TradeItErrorCode.BROKER_AUTHENTICATION_ERROR.rawValue || error.code == TradeItErrorCode.OAUTH_ERROR.rawValue) {
                 self.delegate?.relinkAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
         }
         else {

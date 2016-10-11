@@ -1,19 +1,25 @@
 import TradeItIosEmsApi
 
 class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
-    let fxPosition: TradeItFxPosition
+    var fxPosition: TradeItFxPosition = TradeItFxPosition()
 
     override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
-        fxPosition = tradeItPortfolioPosition.fxPosition
+        if let fxPosition = tradeItPortfolioPosition.fxPosition {
+            self.fxPosition = fxPosition
+        }
+
         super.init(tradeItPortfolioPosition)
     }
 
     override func getFormattedSymbol() -> String {
-        return self.tradeItPortfolioPosition.fxPosition.symbol
+        guard let symbol = self.tradeItPortfolioPosition.fxPosition?.symbol
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return symbol
     }
     
-    override func getQuantity() -> Float {
-        return self.fxPosition.quantity as Float
+    override func getQuantity() -> Float? {
+        return self.fxPosition.quantity as? Float
     }
 
     override func formatCurrency(currency: NSNumber) -> String {
@@ -21,14 +27,23 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     }
 
     override func getFormattedQuantity() -> String {
-        return NumberFormatter.formatQuantity(getQuantity())
+        guard let quantity = getQuantity()
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return NumberFormatter.formatQuantity(quantity)
     }
 
     func getAveragePrice() -> String {
-        return formatCurrency(fxPosition.averagePrice)
+        guard let averagePrice = fxPosition.averagePrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(averagePrice)
     }
 
     func getTotalUnrealizedProfitAndLossBaseCurrency() -> String {
-        return formatCurrency(fxPosition.totalUnrealizedProfitAndLossBaseCurrency)
+        guard let totalUnrealizedProfitAndLossBaseCurrency = fxPosition.totalUnrealizedProfitAndLossBaseCurrency
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(totalUnrealizedProfitAndLossBaseCurrency)
     }
 }

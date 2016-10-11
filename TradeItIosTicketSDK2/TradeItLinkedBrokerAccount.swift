@@ -4,8 +4,8 @@ public class TradeItLinkedBrokerAccount: NSObject {
     var brokerName = ""
     var accountName = ""
     var accountNumber = ""
-    var balance: TradeItAccountOverview!
-    var fxBalance: TradeItFxAccountOverview!
+    var balance: TradeItAccountOverview?
+    var fxBalance: TradeItFxAccountOverview?
     var positions: [TradeItPortfolioPosition] = []
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
@@ -95,42 +95,31 @@ public class TradeItLinkedBrokerAccount: NSObject {
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
 
-    public func getFormattedBuyingPower() -> String{
-        if let balance = self.balance {
-            return NumberFormatter.formatCurrency(balance.buyingPower)
+    public func getFormattedBuyingPower() -> String {
+        if self.balance != nil {
+            return TradeItPortfolioBalanceEquityPresenter(self).getFormattedBuyingPower()
         }
 
-        else if let fxBalance = self.fxBalance {
-            return NumberFormatter.formatCurrency(fxBalance.buyingPowerBaseCurrency)
+        else if self.fxBalance != nil {
+            return TradeItPortfolioBalanceFXPresenter(self).getFormattedBuyingPower()
         }
 
         else {
-            return "N/A"
+            return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
     }
 
     public func getFormattedTotalValueWithPercentage() -> String{
-        if let balance = self.balance {
-            var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
-            if let totalPercentReturn = balance.totalPercentReturn {
-                formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
-            }
-            return formattedTotalValue
+        if self.balance != nil {
+            return TradeItPortfolioBalanceEquityPresenter(self).getFormattedTotalValueWithPercentage()
         }
 
-        else if let fxBalance = self.fxBalance {
-            var formattedTotalValue = NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
-            if fxBalance.unrealizedProfitAndLossBaseCurrency != nil && fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue != 0 {
-                let totalReturn = fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue
-                let totalPercentReturn = totalReturn / (fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
-                    formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
-            }
-
-            return formattedTotalValue
+        else if self.fxBalance != nil {
+            return TradeItPortfolioBalanceFXPresenter(self).getFormattedTotalValueWithPercentage()
         }
 
         else {
-            return "N/A"
+            return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
     }
 

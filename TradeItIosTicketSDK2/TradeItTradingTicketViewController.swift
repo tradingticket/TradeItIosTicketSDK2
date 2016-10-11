@@ -226,7 +226,8 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         symbolView.updateQuoteActivity(.LOADING)
 
         self.marketDataService.getQuote(symbol, onSuccess: { quote in
-            self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
+            let presenter = TradeItQuotePresenter(quote)
+            self.order.quoteLastPrice = presenter.getLastPriceValue()
             self.symbolView.updateQuote(quote)
             self.symbolView.updateQuoteActivity(.LOADED)
             self.updateEstimatedChangedLabel()
@@ -257,12 +258,12 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         linkedBrokerAccount.getPositions(onSuccess: {
             guard let portfolioPositionIndex = linkedBrokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
-                portfolioPosition.position.symbol == symbol
+                TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == symbol
             }) else { return }
 
             let portfolioPosition = linkedBrokerAccount.positions[portfolioPositionIndex]
-
-            self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
+            let presenter = TradeItPortfolioEquityPositionPresenter(portfolioPosition)
+            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity()!)
         }, onFailure: { errorResult in
             print(errorResult)
         })

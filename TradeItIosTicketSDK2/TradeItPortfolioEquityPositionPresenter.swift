@@ -1,35 +1,50 @@
 import TradeItIosEmsApi
 
 class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
-    let position: TradeItPosition
+    var position: TradeItPosition = TradeItPosition()
 
     override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
-        position = tradeItPortfolioPosition.position
+        if let position = tradeItPortfolioPosition.position {
+            self.position = position
+        }
         super.init(tradeItPortfolioPosition)
     }
 
     override func getFormattedSymbol() -> String {
-        return position.symbol
+        guard let symbol = self.position.symbol
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        
+        return symbol
     }
 
-    override func getQuantity() -> Float {
-        return position.quantity as Float
+    override func getQuantity() -> Float? {
+        guard let quantity = self.position.quantity
+            else { return 0}
+        
+        return quantity.floatValue
     }
 
     override func getFormattedQuantity() -> String {
-        return NumberFormatter.formatQuantity(getQuantity()) + (position.holdingType == "LONG" ? " shares": " short")
+        var holdingType = TradeItPresenter.MISSING_DATA_PLACEHOLDER
+
+        if self.position.holdingType != nil {
+            holdingType = (self.position.holdingType == "LONG" ? " shares": " short")
+        }
+        return NumberFormatter.formatQuantity(getQuantity()!) + holdingType
     }
 
     override func getFormattedTotalReturn() -> String {
-        // QUESTION: Is it possible for totalGainLossDollar to be nil?
-        return "\(returnPrefix())\(NumberFormatter.formatCurrency(position.totalGainLossDollar as Float))(\(returnPercent()))";
+        guard let totalGainLossDollars = self.position.totalGainLossDollar
+            else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+        return "\(returnPrefix())\(NumberFormatter.formatCurrency(totalGainLossDollars as Float))(\(returnPercent()))";
     }
 
     func returnPrefix() -> String {
-        // QUESTION: I changed this a bit - does this look correct?
-        if (position.totalGainLossDollar.floatValue > 0) {
+        guard let totalGainLossDollar = self.position.totalGainLossDollar
+            else { return "" }
+        if (totalGainLossDollar.floatValue > 0) {
             return "+"
-        } else if position.totalGainLossDollar.floatValue < 0 {
+        } else if totalGainLossDollar.floatValue < 0 {
             return "-"
         } else {
             return ""
@@ -37,18 +52,20 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     }
 
     func returnPercent() -> String {
-        if position.totalGainLossPercentage != nil {
-            return NumberFormatter.formatPercentage(position.totalGainLossPercentage.floatValue);
-        } else {
-            return "N/A"
-        }
+        guard let totalGainLossPercentage = self.position.totalGainLossPercentage
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        return NumberFormatter.formatPercentage(totalGainLossPercentage.floatValue);
     }
 
     func getCostBasis() -> String {
-        return formatCurrency(position.costbasis)
+        guard let costBasis = self.position.costbasis
+            else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+        return formatCurrency(costBasis)
     }
 
     func getLastPrice() -> String {
-        return formatCurrency(position.lastPrice)
+        guard let lastPrice = self.position.lastPrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        return formatCurrency(lastPrice)
     }
 }

@@ -8,7 +8,7 @@ class TradeItPortfolioPositionPresenter {
     }
     
     func getFormattedSymbol() -> String {
-        return "N/A"
+        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
     func getQuote() -> TradeItQuote? {
@@ -16,9 +16,11 @@ class TradeItPortfolioPositionPresenter {
     }
 
     func getFormattedSpread() -> String {
-        guard let quote = getQuote() else { return "N/A" }
-        let high = quote.high as Float
-        let low = quote.low as Float
+        guard let quote = getQuote()
+            , let high = quote.high as? Float
+            , let low = quote.low as? Float
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
         return formatCurrency(high - low)
     }
 
@@ -27,37 +29,47 @@ class TradeItPortfolioPositionPresenter {
     }
 
     func getFormattedAsk() -> String {
-        guard let quote = getQuote() else { return "N/A" }
-        return formatCurrency(quote.askPrice)
+        guard let askPrice = getQuote()?.askPrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(askPrice)
     }
 
     func getFormattedBid() -> String {
-        guard let quote = getQuote() else { return "N/A" }
-        return formatCurrency(quote.bidPrice)
+        guard let bidPrice = getQuote()?.bidPrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(bidPrice)
     }
 
     func getFormattedTotalValue() -> String {
-        guard let quote = getQuote() else { return "N/A" }
-        let total = getQuantity() * (quote.lastPrice as Float)
+        guard let lastPrice = getQuote()?.lastPrice as? Float
+            , let quantity = getQuantity()
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        let total = quantity * lastPrice
+
         return formatCurrency(total)
     }
 
     func getFormattedDayHighLow() -> String {
-        guard let quote = getQuote() else { return "N/A" }
-        let high = quote.high
-        let low = quote.low
+        guard let quote = getQuote()
+            , let high = quote.high
+            , let low = quote.low
+        else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
         return formatCurrency(low) + " - " + formatCurrency(high)
     }
 
     func getFormattedQuantity() -> String {
-        return "N/A"
+        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
-    func getQuantity() -> Float {
-        return 0.0
+    func getQuantity() -> Float? {
+        return nil
     }
 
     func getFormattedTotalReturn() -> String {
-        return "N/A"
+        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 }

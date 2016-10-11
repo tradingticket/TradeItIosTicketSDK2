@@ -23,17 +23,19 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        updateSymbolView()
-        updateTradingBrokerAccountView()
-
-        registerKeyboardNotifications()
-
-        registerTextFieldNotifications()
-
+        
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
+        
+        updateSymbolView()
+        updateTradingBrokerAccountView()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        registerKeyboardNotifications()
+        registerTextFieldNotifications()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -125,7 +127,6 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         accountSelectionViewController.delegate = self
 
-//        self.navigationController?.pushViewController(accountSelectionViewController, animated: true)
         self.presentViewController(accountSelectionViewController, animated: true, completion: nil)
     }
 
@@ -135,6 +136,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
                                     didSelectSymbol selectedSymbol: String) {
         self.order.symbol = selectedSymbol
         updateSymbolView()
+        updateTradingBrokerAccountView()
         symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -178,8 +180,6 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         } else {
             tradingBrokerAccountView.updatePresentationMode(.SHARES_OWNED)
         }
-
-        updateEstimatedChangedLabel()
     }
 
     private func orderTypeSelected(orderType orderType: String!) {
@@ -237,6 +237,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
             self.symbolView.updateQuote(quote)
             self.symbolView.updateQuoteActivity(.LOADED)
+            self.updateEstimatedChangedLabel()
         }, onFailure: { error in
             print("Error: \(error)")
             self.symbolView.updateQuoteActivity(.LOADED)

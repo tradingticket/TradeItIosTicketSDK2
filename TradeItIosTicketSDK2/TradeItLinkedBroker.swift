@@ -1,19 +1,19 @@
 import TradeItIosEmsApi
 import PromiseKit
 
-class TradeItLinkedBroker: NSObject {
+public class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItLinkedBrokerAccount] = []
     var isAuthenticated = false
     var error: TradeItErrorResult?
 
-    init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
+    public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
     }
 
-    func authenticate(onSuccess onSuccess: () -> Void,
+    public func authenticate(onSuccess onSuccess: () -> Void,
                                 onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
                                 onFailure: (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
@@ -44,7 +44,7 @@ class TradeItLinkedBroker: NSObject {
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
 
-    func refreshAccountBalances(onFinished onFinished: () -> Void) {
+    public func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
                 account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
@@ -57,7 +57,7 @@ class TradeItLinkedBroker: NSObject {
         when(promises).always(onFinished)
     }
 
-    func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
 

@@ -1,14 +1,14 @@
 import UIKit
 import TradeItIosEmsApi
 
-@objc class TradeItLauncher: NSObject {
-    static var linkedBrokerManager: TradeItLinkedBrokerManager!
+@objc public class TradeItLauncher: NSObject {
+    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
 
-    init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
+    public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
@@ -16,7 +16,7 @@ import TradeItIosEmsApi
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 
-    func launchPortfolio(fromViewController viewController: UIViewController) {
+    public func launchPortfolio(fromViewController viewController: UIViewController) {
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
@@ -37,7 +37,7 @@ import TradeItIosEmsApi
         }
     }
 
-    func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
+    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,

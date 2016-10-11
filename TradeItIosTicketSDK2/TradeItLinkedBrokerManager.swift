@@ -1,16 +1,17 @@
 import TradeItIosEmsApi
 import PromiseKit
 
-class TradeItLinkedBrokerManager {
+@objc public class TradeItLinkedBrokerManager: NSObject {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
-    var linkedBrokers: [TradeItLinkedBroker] = []
+    public var linkedBrokers: [TradeItLinkedBroker] = []
 
     init(apiKey: String, environment: TradeitEmsEnvironments) {
         // TODO: TradeItConnector initializer returns optional - we should not force unwrap
         tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
         tradeItSessionProvider = TradeItSessionProvider()
 
+        super.init()
         self.loadLinkedBrokersFromKeychain()
     }
     
@@ -47,7 +48,7 @@ class TradeItLinkedBrokerManager {
         when(promises).always(onFinished)
     }
 
-    func refreshAccountBalances(onFinished onFinished: () -> Void) {
+    public func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = self.linkedBrokers.filter { $0.isAuthenticated }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
@@ -57,7 +58,7 @@ class TradeItLinkedBrokerManager {
         when(promises).always(onFinished)
     }
 
-    func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
+    public func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
                                        onFailure: () -> Void) {
         self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {

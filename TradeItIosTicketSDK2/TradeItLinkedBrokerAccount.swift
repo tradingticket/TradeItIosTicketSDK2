@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItLinkedBrokerAccount: NSObject {
+public class TradeItLinkedBrokerAccount: NSObject {
     var brokerName = ""
     var accountName = ""
     var accountNumber = ""
@@ -32,7 +32,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
     }
 
-    func getAccountOverview(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    public func getAccountOverview(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
         self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
             switch tradeItResult {
@@ -48,7 +48,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    func getPositions(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    public func getPositions(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
@@ -77,7 +77,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    func getFormattedAccountName() -> String {
+    public func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
         var separator = " "
@@ -95,7 +95,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
 
-    func getFormattedBuyingPower() -> String{
+    public func getFormattedBuyingPower() -> String{
         if let balance = self.balance {
             return NumberFormatter.formatCurrency(balance.buyingPower)
         }
@@ -109,7 +109,7 @@ class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    func getFormattedTotalValueWithPercentage() -> String{
+    public func getFormattedTotalValueWithPercentage() -> String{
         if let balance = self.balance {
             var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
             if let totalPercentReturn = balance.totalPercentReturn {

@@ -3,7 +3,7 @@ import TradeItIosEmsApi
 typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 typealias TradeItPlaceOrderHandlers = (onSuccess: (TradeItPlaceOrderResult) -> Void, onFailure: (TradeItErrorResult) -> Void) -> Void
 
-class TradeItOrder {
+public class TradeItOrder {
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     var symbol: String?
     var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
@@ -14,9 +14,9 @@ class TradeItOrder {
     var stopPrice: NSDecimalNumber?
     var quoteLastPrice: NSDecimalNumber?
 
-    init() {}
+    public init() {}
 
-    init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.symbol = symbol
     }

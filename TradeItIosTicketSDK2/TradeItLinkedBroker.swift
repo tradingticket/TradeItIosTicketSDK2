@@ -47,7 +47,10 @@ class TradeItLinkedBroker: NSObject {
     func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
-                account.getAccountOverview(onFinished: fulfill)
+                account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
+                    print(errorResult)
+                    fulfill()
+                })
             }
         }
 

@@ -94,16 +94,20 @@ TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securi
 
 ```swift
 // Account balances - given an authenticated broker account
-account.getAccountOverview {
+account.getAccountOverview(onSuccess: {
     print(account.balance)
-}
+}, onFailure: { errorResult in
+    print(errorResult)
+})
 
 // Account positions - given an authenticated broker account
-account.getPositions {
+account.getPositions(onSuccess: {
     print(account.positions.map({ position in
         return position.position
     }))
-}
+}, onFailure: { errorResult in
+    print(errorResult)
+})
 ```
 
 ## Example App

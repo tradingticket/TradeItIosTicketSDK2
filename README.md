@@ -56,6 +56,10 @@ Password: dummy
 
 Be aware that our Sandbox environment points to live broker environments. Connecting a live broker account while pointing at our Sandbox will perform real trade requests to brokers.
 
+### Keychain Access
+
+The Ticket SDK uses the keychain to store data. Ensure the `Keychain Sharing` entitlement is enabled by going to your app target, selecting Capabilities and switching Keychain Sharing on.
+
 ## Launching the TradeIt Screens
 
 This is the minimal effort integration using all of the workflows and screens included in the SDK. The `TradeItLauncher` is the central object for initiating flows using the TradeIt screens. 

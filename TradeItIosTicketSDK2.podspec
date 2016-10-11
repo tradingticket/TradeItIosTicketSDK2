@@ -23,4 +23,5 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'UIKit'
   s.dependency 'TradeItIosEmsApi', '~> 1.0.0'
+  s.dependency 'PromiseKit', '3.4'
 end

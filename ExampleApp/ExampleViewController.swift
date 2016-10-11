@@ -6,6 +6,7 @@ enum Action: Int {
     case LaunchPortfolio = 0
     case LaunchTrading
     case LaunchTradingWithSymbol
+    case LaunchAccountManagement
     case ManualAuthenticateAll
     case ManualBalances
     case ManualPositions
@@ -40,6 +41,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             let order = TradeItOrder()
             order.symbol = "CMG"
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
+        case .LaunchAccountManagement: tradeItLauncher.loadAccountManagement(fromViewController: self)
         case .ManualAuthenticateAll:
             self.manualAuthenticateAll()
         case .ManualBalances:

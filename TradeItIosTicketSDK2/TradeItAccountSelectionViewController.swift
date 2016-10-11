@@ -12,6 +12,7 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
     }

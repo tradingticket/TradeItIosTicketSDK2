@@ -17,6 +17,7 @@ class TradeItLoginViewController: KeyboardViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
         self.userNameInput.becomeFirstResponder()
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true

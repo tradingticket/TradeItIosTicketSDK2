@@ -12,7 +12,8 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        configureNavigationItem()
+        
         self.selectedBroker = nil
 
         ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)

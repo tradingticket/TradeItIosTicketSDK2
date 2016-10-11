@@ -5,6 +5,7 @@ class TradeItWelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
     }
 
     // MARK: IBActions
@@ -13,7 +14,7 @@ class TradeItWelcomeViewController: UIViewController {
         self.delegate?.getStartedButtonWasTapped(self)
     }
 
-    @IBAction func cancelWasTapped(sender: UIBarButtonItem) {
+    override func closeButtonWasTapped(sender: UIBarButtonItem) {
         self.delegate?.cancelWasTapped(fromWelcomeViewController: self)
     }
 }

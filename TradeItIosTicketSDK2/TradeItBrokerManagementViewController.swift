@@ -14,6 +14,8 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
+
         self.brokerManagementTableManager.delegate = self
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
     }

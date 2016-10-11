@@ -12,10 +12,10 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if self.linkedBroker == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItAccountManagementViewController loaded without setting linkedBroker.")
         }
+        configureNavigationItem()
 
         self.accountManagementTableManager.delegate = self
         self.accountManagementTableManager.accountsTableView = self.accountsTableView

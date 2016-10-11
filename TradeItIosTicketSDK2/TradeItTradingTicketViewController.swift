@@ -26,6 +26,8 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         if self.order.linkedBrokerAccount == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
+        configureNavigationItem()
+        
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))

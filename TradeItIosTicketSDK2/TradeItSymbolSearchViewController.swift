@@ -11,6 +11,7 @@ class TradeItSymbolSearchViewController: UIViewController, UITableViewDelegate, 
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
 
     override func viewDidLoad() {
+        configureNavigationItem()
         super.viewDidLoad()
 
         self.activityIndicator.hidesWhenStopped = true

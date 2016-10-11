@@ -27,6 +27,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
+
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
         self.positionsTableViewManager.delegate = self

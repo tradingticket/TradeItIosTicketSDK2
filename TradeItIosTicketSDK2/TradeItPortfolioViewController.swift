@@ -99,11 +99,12 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.holdingsActivityIndicator.startAnimating()
         self.accountSummaryViewManager.populateSummarySection(selectedAccount)
         selectedAccount.getPositions(
-            onFinished: {
-                self.holdingsActivityIndicator.stopAnimating()
+            onSuccess: {
                 self.holdingsLabel.text = selectedAccount.getFormattedAccountName() + " Holdings"
                 self.positionsTableViewManager.updatePositions(withPositions: selectedAccount.positions)
                 self.holdingsActivityIndicator.stopAnimating()
+            }, onFailure: { errorResult in
+                print(errorResult)
             }
         )
     }

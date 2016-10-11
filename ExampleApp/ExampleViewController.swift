@@ -6,6 +6,9 @@ enum Action: Int {
     case LaunchPortfolio = 0
     case LaunchTrading
     case LaunchTradingWithSymbol
+    case ManualAuthenticateAll
+    case ManualBalances
+    case ManualPositions
     case DeleteLinkedBrokers
     case ENUM_COUNT
 }
@@ -37,6 +40,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             let order = TradeItOrder()
             order.symbol = "CMG"
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
+        case .ManualAuthenticateAll:
+            self.manualAuthenticateAll()
+        case .ManualBalances:
+            self.manualBalances()
+        case .ManualPositions:
+            self.manualPositions()
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -67,6 +76,38 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     // MARK: Private
+
+    private func manualAuthenticateAll() {
+        TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion in
+            TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion)
+        }, onFinished: {
+            TradeItAlert().showErrorAlert(onViewController: self, title: "authenticateAll finished", message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+        })
+    }
+
+    private func manualBalances() {
+        guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
+        guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
+
+        account.getAccountOverview(onSuccess: {
+            print(account.balance)
+        }, onFailure: { errorResult in
+            print(errorResult)
+        })
+    }
+
+    private func manualPositions() {
+        guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
+        guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
+
+        account.getPositions(onSuccess: {
+            print(account.positions.map({ position in
+                return position.position
+            }))
+        }, onFailure: { errorResult in
+            print(errorResult)
+        })
+    }
 
     private func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")

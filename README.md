@@ -20,7 +20,7 @@ source 'https://github.com/tradingticket/SpecRepo'
 Under your project target add our Ticket SDK pod as a dependency:
 
 ```ruby
-pod 'TradeItIosTicketSdk', '~> 0.0.1'
+pod 'TradeItIosTicketSDK2', '~> 0.0.1'
 ```
 
 This is a base example of what it should look like:
@@ -30,8 +30,84 @@ source 'https://github.com/tradingticket/SpecRepo'
 
 target 'YourProjectTargetName' do
   use_frameworks!
-  pod 'TradeItIosTicketSdk', '~> 0.0.1'
+  pod 'TradeItIosTicketSDK2', '~> 0.0.1'
 end
+```
+
+## Configuration
+
+### Environments
+
+| Environment   | Enum                      |
+| ------------- | ----------                |
+| Sandbox       | `TradeItEmsTestEnv`       |
+| Production    | `TradeItEmsProductionEnv` |
+
+### Dummy broker account
+
+In the Sandbox environment there is a Dummy broker available to perform tests without connecting a live broker account. All of the API interactions are stateless and return fake data. To login, select the Dummy broker and use the credentials:
+
+```
+Username: dummy
+Password: dummy
+```
+
+### Live broker accounts
+
+Be aware that our Sandbox environment points to live broker environments. Connecting a live broker account while pointing at our Sandbox will perform real trade requests to brokers.
+
+## Launching the TradeIt Screens
+
+This is the minimal effort integration using all of the workflows and screens included in the SDK. The `TradeItLauncher` is the central object for initiating flows using the TradeIt screens. 
+
+```swift
+let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)
+
+// Launching the portfolio
+launcher.launchPortfolio(fromViewController: self)
+
+// Launch the trading ticket
+launcher.launchTrading(fromViewController: self)
+
+// Launch the trading ticket with pre-configured order
+let order = TradeItOrder()
+order.symbol = "SYMB"
+order.action = .BuyToCover
+launcher.launchTrading(fromViewController: self, withOrder: order)
+```
+
+## Deep Integration
+
+Deep integration refers to using the SDK to pull balances and positions data that can be used in parent app.
+
+### Authenticating accounts
+
+```swift
+TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion in
+    TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion)
+}, onFinished: {
+    TradeItAlert().showErrorAlert(onViewController: self, title: "authenticateAll finished", message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+})
+```
+
+### Fetching data for an account
+
+```swift
+// Account balances - given an authenticated broker account
+account.getAccountOverview(onSuccess: {
+    print(account.balance)
+}, onFailure: { errorResult in
+    print(errorResult)
+})
+
+// Account positions - given an authenticated broker account
+account.getPositions(onSuccess: {
+    print(account.positions.map({ position in
+        return position.position
+    }))
+}, onFailure: { errorResult in
+    print(errorResult)
+})
 ```
 
 ## Example App

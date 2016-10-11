@@ -248,8 +248,10 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     private func updateTradingBrokerAccountView() {
         guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
 
-        linkedBrokerAccount.getAccountOverview(onFinished: {
+        linkedBrokerAccount.getAccountOverview(onSuccess: {
             self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
+        }, onFailure: { errorResult in
+            print(errorResult)
         })
 
         updateSharesOwnedLabel()
@@ -260,7 +262,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
 
-        linkedBrokerAccount.getPositions(onFinished: {
+        linkedBrokerAccount.getPositions(onSuccess: {
             guard let portfolioPositionIndex = linkedBrokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
                 portfolioPosition.position.symbol == symbol
             }) else { return }
@@ -268,6 +270,8 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             let portfolioPosition = linkedBrokerAccount.positions[portfolioPositionIndex]
 
             self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
+        }, onFailure: { errorResult in
+            print(errorResult)
         })
     }
 

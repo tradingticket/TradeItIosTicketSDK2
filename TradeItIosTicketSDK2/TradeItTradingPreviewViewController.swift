@@ -56,7 +56,7 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension;
+        return UITableViewAutomaticDimension
     }
 
     // MARK: UITableViewDataSource
@@ -71,11 +71,14 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         case let warningCellData as WarningCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
             cell.populate(withWarning: warningCellData.warning)
-            cell.layoutIfNeeded()
+            return cell
+        case let acknowledgementCellData as AcknowledgementCellData:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
+            cell.populate(withAcknowledgement: acknowledgementCellData.acknowledgement)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
-            cell.populate(withLabel: valueCellData.label, andValue: valueCellData.label)
+            cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
             return cell
         default:
             return UITableViewCell()
@@ -91,57 +94,66 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
 
         var cells: [TradeItPreviewCellData] = []
 
-        cells.appendContentsOf(generateAcknowledgementData())
+        cells.appendContentsOf(generateWarningCellData())
+        cells.appendContentsOf(generateAcknowledgementCellData())
 
         cells.appendContentsOf([
-            ValueCellData(label: "Account", value: linkedBrokerAccount.accountName),
-            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-            ValueCellData(label: "Quantity", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
-            ValueCellData(label: "Action", value: orderDetails.orderAction),
-            ValueCellData(label: "Price", value: orderDetails.orderPrice),
-            ValueCellData(label: "Expiration", value: orderDetails.orderExpiration)
+            ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.accountName),
+            ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
+            ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
+            ValueCellData(label: "ACTION", value: orderDetails.orderAction),
+            ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
+            ValueCellData(label: "EXPIRATION", value: orderDetails.orderExpiration)
         ] as [TradeItPreviewCellData])
 
         if orderDetails.longHoldings != nil {
             cells.append(
-                ValueCellData(label: "Shares Owned", value: NumberFormatter.formatQuantity(orderDetails.longHoldings.floatValue))
+                ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(orderDetails.longHoldings.floatValue))
             )
         }
 
         if orderDetails.shortHoldings != nil {
             cells.append(ValueCellData(
-                label: "Shares Held Short",
-                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings!.floatValue)
+                label: "SHARES HELD SHORT",
+                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings.floatValue)
             ))
         }
 
         if orderDetails.buyingPower != nil {
             cells.append(ValueCellData(
-                label: "Buying Power",
-                value: NumberFormatter.formatCurrency(orderDetails.buyingPower!)
+                label: "BUYING POWER",
+                value: NumberFormatter.formatCurrency(orderDetails.buyingPower)
             ))
         }
 
         if orderDetails.estimatedOrderCommission != nil {
             cells.append(
-                ValueCellData(label: "Broker Fee", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission))
+                ValueCellData(label: "BROKER FEE", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission))
             )
         }
 
         if orderDetails.estimatedTotalValue != nil {
             cells.append(
-                ValueCellData(label: "Estimated Cost", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue))
+                ValueCellData(label: "ESTIMATED COST", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue))
             )
         }
 
         return cells
     }
 
-    private func generateAcknowledgementData() -> [TradeItPreviewCellData] {
+    private func generateWarningCellData() -> [TradeItPreviewCellData] {
         guard let warnings = previewOrder?.warningsList as? [String] else { return [] }
 
         return warnings.map({ warning in
             return WarningCellData(warning: warning)
+        })
+    }
+
+    private func generateAcknowledgementCellData() -> [TradeItPreviewCellData] {
+        guard let acknowledgements = previewOrder?.ackWarningsList as? [String] else { return [] }
+
+        return acknowledgements.map({ acknowledgement in
+            return AcknowledgementCellData(acknowledgement: acknowledgement)
         })
     }
 
@@ -150,6 +162,14 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
 
         init(warning: String) {
             self.warning = warning
+        }
+    }
+
+    class AcknowledgementCellData: TradeItPreviewCellData {
+        let acknowledgement: String
+
+        init(acknowledgement: String) {
+            self.acknowledgement = acknowledgement
         }
     }
 

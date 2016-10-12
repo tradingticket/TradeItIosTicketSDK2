@@ -6,19 +6,19 @@ class TradeItPortfolioPosition : NSObject {
     unowned var linkedBrokerAccount: TradeItLinkedBrokerAccount
 
     static let fxMaximumFractionDigits = 5
-    
+
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, position: TradeItPosition) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.position = position
         self.tradeItMarketDataService = TradeItMarketDataService(session: self.linkedBrokerAccount.linkedBroker.session)
     }
-    
+
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, fxPosition: TradeItFxPosition) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.fxPosition = fxPosition
         self.tradeItMarketDataService = TradeItMarketDataService(session: linkedBrokerAccount.linkedBroker.session)
     }
-    
+
     func refreshQuote(onFinished onFinished: () -> Void) {
         var tradeItQuoteRequest: TradeItQuotesRequest?
         var symbol = ""

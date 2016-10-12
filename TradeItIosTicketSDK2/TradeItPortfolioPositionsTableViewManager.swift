@@ -59,6 +59,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         var cell: UITableViewCell!
 
         if self.positions.count > 0 {
+            // TODO: Change this to make position.position and position.fxPosition optional
             if self.positions[0].position != nil {
                 cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
             } else if self.positions[0].fxPosition != nil {
@@ -70,9 +71,10 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell :UITableViewCell!
+        var cell: UITableViewCell!
         let position = self.positions[indexPath.row]
 
+        // TODO: Change this to make position.position and position.fxPosition optional
         if position.position != nil {
             let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             equityCell.populate(withPosition: position)

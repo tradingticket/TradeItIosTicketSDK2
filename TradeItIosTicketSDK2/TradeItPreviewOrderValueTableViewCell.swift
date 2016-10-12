@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItOrderPreviewTableViewCell: UITableViewCell {
+class TradeItPreviewOrderValueTableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var value: UILabel!
 

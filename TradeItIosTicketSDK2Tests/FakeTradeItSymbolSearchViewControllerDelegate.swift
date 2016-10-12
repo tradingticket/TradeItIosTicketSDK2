@@ -8,10 +8,4 @@ class FakeTradeItSymbolSearchViewControllerDelegate: TradeItSymbolSearchViewCont
             "didSelectSymbol": selectedSymbol
         ])
     }
-
-    func symbolSearchCancelled(forSymbolSearchViewController symbolSearchController: TradeItSymbolSearchViewController) {
-        self.calls.record(#function, args: [
-            "symbolSearchViewController": symbolSearchViewController
-        ])
-    }
 }

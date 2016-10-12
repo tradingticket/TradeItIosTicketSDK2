@@ -119,7 +119,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         symbolSearchViewController.delegate = self
 
-        self.presentViewController(symbolSearchViewController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
     }
 
     private func presentAccountSelectionScreen() {
@@ -127,7 +127,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         accountSelectionViewController.delegate = self
 
-        self.presentViewController(accountSelectionViewController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(accountSelectionViewController, animated: true)
     }
 
     // MARK: TradeItSymbolSearchViewControllerDelegate
@@ -137,11 +137,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         self.order.symbol = selectedSymbol
         updateSymbolView()
         updateTradingBrokerAccountView()
-        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController) {
-        symbolSearchViewController.dismissViewControllerAnimated(true, completion: nil)
+        symbolSearchViewController.navigationController?.popViewControllerAnimated(true)
     }
 
     // MARK: TradeItAccountSelectionViewControllerDelegate
@@ -150,11 +146,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         updateTradingBrokerAccountView()
-        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController) {
-        accountSelectionViewController.dismissViewControllerAnimated(true, completion: nil)
+        accountSelectionViewController.navigationController?.popViewControllerAnimated(true)
     }
 
     // MARK: Private - Order changed handlers

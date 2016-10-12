@@ -51,14 +51,6 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-
     // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,6 +77,14 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         }
     }
 
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
     // MARK: Private
 
     private func generatePreviewCellData() -> [TradeItPreviewCellData] {
@@ -106,36 +106,24 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
             ValueCellData(label: "EXPIRATION", value: orderDetails.orderExpiration)
         ] as [TradeItPreviewCellData])
 
-        if orderDetails.longHoldings != nil {
-            cells.append(
-                ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(orderDetails.longHoldings.floatValue))
-            )
+        if let longHoldings = orderDetails.longHoldings {
+            cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings.floatValue)))
         }
 
-        if orderDetails.shortHoldings != nil {
-            cells.append(ValueCellData(
-                label: "SHARES HELD SHORT",
-                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings.floatValue)
-            ))
+        if let shortHoldings = orderDetails.shortHoldings {
+            cells.append(ValueCellData(label: "SHARES HELD SHORT", value: NumberFormatter.formatQuantity(shortHoldings.floatValue)))
         }
 
-        if orderDetails.buyingPower != nil {
-            cells.append(ValueCellData(
-                label: "BUYING POWER",
-                value: NumberFormatter.formatCurrency(orderDetails.buyingPower)
-            ))
+        if let buyingPower = orderDetails.buyingPower {
+            cells.append(ValueCellData(label: "BUYING POWER", value: NumberFormatter.formatCurrency(buyingPower)))
         }
 
-        if orderDetails.estimatedOrderCommission != nil {
-            cells.append(
-                ValueCellData(label: "BROKER FEE", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission))
-            )
+        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
+            cells.append(ValueCellData(label: "BROKER FEE", value: NumberFormatter.formatCurrency(estimatedOrderCommission)))
         }
 
-        if orderDetails.estimatedTotalValue != nil {
-            cells.append(
-                ValueCellData(label: "ESTIMATED COST", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue))
-            )
+        if let estimatedTotalValue = orderDetails.estimatedTotalValue {
+            cells.append(ValueCellData(label: "ESTIMATED COST", value: NumberFormatter.formatCurrency(estimatedTotalValue)))
         }
 
         return cells

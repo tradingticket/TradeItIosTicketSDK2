@@ -3,7 +3,7 @@ import UIKit
 class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
-    var tradeItAlert = TradeItAlert()
+    var alertManager = TradeItAlertManager()
     var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
@@ -24,9 +24,10 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
-                self.tradeItAlert.showErrorAlert(onViewController: self,
-                                                 title: "Could not fetch brokers",
-                                                 message: "Could not fetch the brokers list. Please try again later.")
+                self.alertManager.showOn(viewController: self,
+                                         withAlertTitle: "Could not fetch brokers",
+                                         withAlertMessage: "Could not fetch the brokers list. Please try again later.",
+                                         withAlertActionTitle: "OK")
                 self.ezLoadingActivityManager.hide()
             }
         )

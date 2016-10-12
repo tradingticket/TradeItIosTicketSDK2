@@ -1,7 +1,8 @@
 import UIKit
 
+
 class TradeItAccountManagementViewController: UIViewController, TradeItAccountManagementTableViewManagerDelegate {
-    var tradeItAlert = TradeItAlert()
+    var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
@@ -11,6 +12,10 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.linkedBroker == nil {
+            assertionFailure("TradeItIosTicketSDK ERROR: TradeItAccountManagementViewController loaded without setting linkedBroker.")
+        }
 
         self.accountManagementTableManager.delegate = self
         self.accountManagementTableManager.accountsTableView = self.accountsTableView
@@ -43,11 +48,13 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
     }
     
     @IBAction func unlinkAccountWasTapped(sender: AnyObject) {
-        self.tradeItAlert.showValidationAlert(onViewController: self,
-                                              title: "Unlink \(self.linkedBroker.linkedLogin.broker)",
-                                              message: "Are you sure you want to unlink your account and remove all the associated data ?",
-                                              actionTitle: "Unlink",
-            onValidate: {
+        
+        self.alertManager.showOn(viewController: self,
+                                              withAlertTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
+                                              withAlertMessage: "Are you sure you want to unlink your account and remove all the associated data ?",
+                                              withAlertActionTitle: "Unlink",
+            onAlertActionTapped: { () -> Void in
+                
                 self.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
                 if self.linkedBrokerManager.linkedBrokers.count > 0 {
@@ -65,11 +72,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                         }
                     )
                 }
-            },
-            onCancel: {
-                //Nothing to do
-            }
-        )
+            })
     }
 
     // MARK: TradeItAccountManagementTableViewManagerDelegate
@@ -85,7 +88,7 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 })
             },
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
@@ -93,9 +96,13 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                 )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                self.tradeItAlert.showTradeItErrorResultAlert(onViewController: self,
-                                                              errorResult: tradeItErrorResult)
-                onRefreshComplete(withAccounts: nil)
+                self.alertManager.show(
+                    tradeItErrorResult: tradeItErrorResult,
+                    onViewController: self,
+                    withLinkedBroker: self.linkedBroker,
+                    onFinished : { () -> Void in
+                        onRefreshComplete(withAccounts: self.linkedBroker.accounts)
+                })
             }
         )
     }

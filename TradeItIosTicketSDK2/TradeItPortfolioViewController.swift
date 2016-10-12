@@ -3,7 +3,7 @@ import PromiseKit
 
 class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate {
     
-    var tradeItAlert = TradeItAlert()
+    var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
@@ -39,12 +39,14 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
                 self.ezLoadingActivityManager.hide()
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelSecurityQuestion
-                )
+                    onAnswerSecurityQuestion: { (answer: String) in
+                        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+                        answerSecurityQuestion(answer)
+                    },
+                    onCancelSecurityQuestion: cancelSecurityQuestion)
             },
             onFinished: {
                 self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
@@ -148,7 +150,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
             },
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
                 self.ezLoadingActivityManager.hide()
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
@@ -157,11 +159,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                 self.ezLoadingActivityManager.hide()
-                linkedBroker.wasAuthenticated = false
-                linkedBroker.error = tradeItErrorResult
-                self.updatePortfolioView()
+                self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {})
             }
         )
     }
-    
 }

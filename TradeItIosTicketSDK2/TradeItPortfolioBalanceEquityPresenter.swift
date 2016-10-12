@@ -67,6 +67,5 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
             formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
         }
 
-        return formattedTotalValue
     }
 }

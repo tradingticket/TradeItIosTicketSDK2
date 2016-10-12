@@ -15,6 +15,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(20)
 
+    var alertManager = TradeItAlertManager()
     var viewControllerProvider = TradeItViewControllerProvider()
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var marketDataService = TradeItLauncher.marketDataService
@@ -22,7 +23,9 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if self.order.linkedBrokerAccount == nil {
+            assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
+        }
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
@@ -99,7 +102,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             self.ezLoadingActivityManager.hide()
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()
-            TradeItAlert().showTradeItErrorResultAlert(onViewController: self, errorResult: errorResult)
+            self.alertManager.show(tradeItErrorResult: errorResult, onViewController: self, withLinkedBroker: self.order.linkedBrokerAccount!.linkedBroker, onFinished: {})
         })
     }
 

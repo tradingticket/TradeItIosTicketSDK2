@@ -1,6 +1,6 @@
 import TradeItIosEmsApi
 
-class TradeItPortfolioBalanceFXPresenter  {
+class TradeItPortfolioBalanceFXPresenter: TradeItPortfolioBalancePresenter  {
 
     var fxBalance: TradeItFxAccountOverview = TradeItFxAccountOverview()
     

@@ -40,7 +40,8 @@ class TradeItTradingBrokerAccountView: UIView {
         switch presentationMode {
         case .BUYING_POWER:
             guard let brokerAccount = brokerAccount else { return }
-            self.resourceAvailabilityLabel.text = brokerAccount.getFormattedBuyingPower()
+            let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(brokerAccount)
+            self.resourceAvailabilityLabel.text = presenter.getFormattedBuyingPower()
             self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
         case .SHARES_OWNED:
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)

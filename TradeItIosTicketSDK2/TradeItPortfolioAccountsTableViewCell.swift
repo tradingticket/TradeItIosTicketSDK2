@@ -8,10 +8,11 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var selectedIcon: UIImageView!
 
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
+        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(account)
         self.accountNameLabel.text = account.getFormattedAccountName()
         self.brokerNameLabel.text = account.brokerName
-        self.buyingPowerLabel.text = account.getFormattedBuyingPower()
-        self.totalValueLabel.text = account.getFormattedTotalValueWithPercentage()
+        self.buyingPowerLabel.text = presenter.getFormattedBuyingPower()
+        self.totalValueLabel.text = presenter.getFormattedTotalValueWithPercentage()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

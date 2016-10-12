@@ -95,32 +95,4 @@ public class TradeItLinkedBrokerAccount: NSObject {
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
 
-    public func getFormattedBuyingPower() -> String {
-        if self.balance != nil {
-            return TradeItPortfolioBalanceEquityPresenter(self).getFormattedBuyingPower()
-        }
-
-        else if self.fxBalance != nil {
-            return TradeItPortfolioBalanceFXPresenter(self).getFormattedBuyingPower()
-        }
-
-        else {
-            return TradeItPresenter.MISSING_DATA_PLACEHOLDER
-        }
-    }
-
-    public func getFormattedTotalValueWithPercentage() -> String{
-        if self.balance != nil {
-            return TradeItPortfolioBalanceEquityPresenter(self).getFormattedTotalValueWithPercentage()
-        }
-
-        else if self.fxBalance != nil {
-            return TradeItPortfolioBalanceFXPresenter(self).getFormattedTotalValueWithPercentage()
-        }
-
-        else {
-            return TradeItPresenter.MISSING_DATA_PLACEHOLDER
-        }
-    }
-
 }

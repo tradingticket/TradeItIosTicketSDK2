@@ -1,10 +1,24 @@
 import UIKit
 
+internal protocol AcknowledgementDelegate {
+    func acknowledgementWasChanged()
+}
+
 class TradeItPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
     @IBOutlet weak var acknowledgementSwitch: UISwitch!
-    @IBOutlet weak var acknowledgement: UILabel!
+    @IBOutlet weak var acknowledgementLabel: UILabel!
 
-    func populate(withAcknowledgement acknowledgement: String) {
-        self.acknowledgement.text = acknowledgement
+    var cellData: AcknowledgementCellData?
+    var delegate: AcknowledgementDelegate?
+
+    func populate(withCellData cellData: AcknowledgementCellData, andDelegate delegate: AcknowledgementDelegate) {
+        self.cellData = cellData
+        self.acknowledgementLabel.text = cellData.acknowledgement
+        self.delegate = delegate
+    }
+
+    @IBAction func switchChanged(sender: UISwitch) {
+        cellData?.isAcknowledged = sender.on
+        delegate?.acknowledgementWasChanged()
     }
 }

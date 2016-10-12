@@ -1,15 +1,45 @@
 import UIKit
 
-protocol TradeItPreviewCellData {}
+@objc internal protocol PreviewCellData {}
 
-class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+internal class WarningCellData: PreviewCellData {
+    let warning: String
+
+    init(warning: String) {
+        self.warning = warning
+    }
+}
+
+internal class AcknowledgementCellData: PreviewCellData {
+    let acknowledgement: String
+    var isAcknowledged = false
+
+    init(acknowledgement: String) {
+        self.acknowledgement = acknowledgement
+    }
+}
+
+internal class ValueCellData: PreviewCellData {
+    let label: String
+    let value: String
+
+    init(label: String, value: String) {
+        self.label = label
+        self.value = value
+    }
+}
+
+class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
+    @IBOutlet weak var placeOrderButton: UIButton!
 
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrder: TradeItPreviewTradeResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
-    var previewCellData: [TradeItPreviewCellData] = []
+    var previewCellData: [PreviewCellData] = []
+    var acknowledgementCellData: [AcknowledgementCellData] = []
+    var alertManager = TradeItAlertManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +51,7 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
 
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
-        orderDetailsTable.rowHeight = UITableViewAutomaticDimension
+        updatePlaceOrderButtonStatus()
     }
 
     @IBAction func placeOrderTapped(sender: UIButton) {
@@ -66,7 +96,7 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
             return cell
         case let acknowledgementCellData as AcknowledgementCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
-            cell.populate(withAcknowledgement: acknowledgementCellData.acknowledgement)
+            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
@@ -85,26 +115,48 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         return UITableViewAutomaticDimension
     }
 
+    // MARK: AcknowledgementDelegate
+
+    func acknowledgementWasChanged() {
+        updatePlaceOrderButtonStatus()
+    }
+
     // MARK: Private
 
-    private func generatePreviewCellData() -> [TradeItPreviewCellData] {
+    private func updatePlaceOrderButtonStatus() {
+        if allAcknowledgementsAccepted() {
+            placeOrderButton.enabled = true
+            placeOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
+        } else {
+            placeOrderButton.enabled = false
+            placeOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
+        }
+    }
+
+    private func allAcknowledgementsAccepted() -> Bool {
+        return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
+    }
+
+    private func generatePreviewCellData() -> [PreviewCellData] {
         guard let linkedBrokerAccount = linkedBrokerAccount,
             let orderDetails = previewOrder?.orderDetails
             else { return [] }
 
-        var cells: [TradeItPreviewCellData] = []
+        var cells: [PreviewCellData] = []
 
-        cells.appendContentsOf(generateWarningCellData())
-        cells.appendContentsOf(generateAcknowledgementCellData())
+        cells += generateWarningCellData()
 
-        cells.appendContentsOf([
+        acknowledgementCellData = generateAcknowledgementCellData()
+        cells += acknowledgementCellData as [PreviewCellData]
+
+        cells += [
             ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.accountName),
             ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
             ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
             ValueCellData(label: "ACTION", value: orderDetails.orderAction),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
             ValueCellData(label: "EXPIRATION", value: orderDetails.orderExpiration)
-        ] as [TradeItPreviewCellData])
+        ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {
             cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings.floatValue)))
@@ -129,7 +181,7 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         return cells
     }
 
-    private func generateWarningCellData() -> [TradeItPreviewCellData] {
+    private func generateWarningCellData() -> [PreviewCellData] {
         guard let warnings = previewOrder?.warningsList as? [String] else { return [] }
 
         return warnings.map({ warning in
@@ -137,37 +189,11 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         })
     }
 
-    private func generateAcknowledgementCellData() -> [TradeItPreviewCellData] {
+    private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
         guard let acknowledgements = previewOrder?.ackWarningsList as? [String] else { return [] }
 
         return acknowledgements.map({ acknowledgement in
             return AcknowledgementCellData(acknowledgement: acknowledgement)
         })
-    }
-
-    class WarningCellData: TradeItPreviewCellData {
-        let warning: String
-
-        init(warning: String) {
-            self.warning = warning
-        }
-    }
-
-    class AcknowledgementCellData: TradeItPreviewCellData {
-        let acknowledgement: String
-
-        init(acknowledgement: String) {
-            self.acknowledgement = acknowledgement
-        }
-    }
-
-    class ValueCellData: TradeItPreviewCellData {
-        let label: String
-        let value: String
-
-        init(label: String, value: String) {
-            self.label = label
-            self.value = value
-        }
     }
 }

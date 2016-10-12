@@ -2035,7 +2035,11 @@
                                             <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="enf-B2-1nF"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="enf-B2-1nF">
+                                                    <connections>
+                                                        <action selector="switchChanged:" destination="Ruv-HU-6Rj" eventType="valueChanged" id="XNw-IQ-Pib"/>
+                                                    </connections>
+                                                </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acknowledgement" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k25-g8-dRs">
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.81960784310000001" green="0.21960784310000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -2052,7 +2056,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="acknowledgement" destination="k25-g8-dRs" id="eWO-nc-Tiq"/>
+                                            <outlet property="acknowledgementLabel" destination="k25-g8-dRs" id="wAj-Vw-VX2"/>
                                             <outlet property="acknowledgementSwitch" destination="enf-B2-1nF" id="iyt-Mm-2hc"/>
                                         </connections>
                                     </tableViewCell>
@@ -2125,6 +2129,7 @@
                     </view>
                     <connections>
                         <outlet property="orderDetailsTable" destination="U71-dh-Pt8" id="7Vq-HL-Tca"/>
+                        <outlet property="placeOrderButton" destination="cbT-YR-LEK" id="eMu-Bn-S0F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OjB-sb-nh8" userLabel="First Responder" sceneMemberID="firstResponder"/>

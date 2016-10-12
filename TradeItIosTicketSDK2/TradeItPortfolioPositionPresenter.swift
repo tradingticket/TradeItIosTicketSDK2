@@ -1,20 +1,30 @@
 import TradeItIosEmsApi
 
-class TradeItPortfolioPositionPresenter {
-    let tradeItPortfolioPosition: TradeItPortfolioPosition
+protocol TradeItPortfolioPositionPresenter {
+    func getQuote() -> TradeItQuote?
+    func getQuantity() -> Float?
+    func getFormattedSymbol() -> String
+}
 
-    init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
-        self.tradeItPortfolioPosition = tradeItPortfolioPosition
+extension TradeItPortfolioPositionPresenter {
+    
+    func getFormattedBid() -> String {
+        guard let bidPrice = getQuote()?.bidPrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        return formatCurrency(bidPrice)
     }
     
-    func getFormattedSymbol() -> String {
-        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
+    func formatCurrency(currency: NSNumber) -> String {
+                return NumberFormatter.formatCurrency(currency as Float)
     }
+    
+    func getFormattedAsk() -> String {
+        guard let askPrice = getQuote()?.askPrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-    func getQuote() -> TradeItQuote? {
-        return self.tradeItPortfolioPosition.quote
+        return formatCurrency(askPrice)
     }
-
+    
     func getFormattedSpread() -> String {
         guard let quote = getQuote()
             , let high = quote.high as? Float
@@ -23,25 +33,7 @@ class TradeItPortfolioPositionPresenter {
 
         return formatCurrency(high - low)
     }
-
-    func formatCurrency(currency: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(currency as Float)
-    }
-
-    func getFormattedAsk() -> String {
-        guard let askPrice = getQuote()?.askPrice
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-
-        return formatCurrency(askPrice)
-    }
-
-    func getFormattedBid() -> String {
-        guard let bidPrice = getQuote()?.bidPrice
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-
-        return formatCurrency(bidPrice)
-    }
-
+    
     func getFormattedTotalValue() -> String {
         guard let lastPrice = getQuote()?.lastPrice as? Float
             , let quantity = getQuantity()
@@ -60,16 +52,20 @@ class TradeItPortfolioPositionPresenter {
 
         return formatCurrency(low) + " - " + formatCurrency(high)
     }
+}
 
-    func getFormattedQuantity() -> String {
-        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
+class TradeItPortfolioPositionPresenterFactory {
+    
+    static func forTradeItPortfolioPosition(tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
+        if tradeItPortfolioPosition.position != nil {
+            return TradeItPortfolioEquityPositionPresenter(tradeItPortfolioPosition)
+        } else if tradeItPortfolioPosition.fxPosition != nil {
+            return TradeItPortfolioFxPositionPresenter(tradeItPortfolioPosition)
+        } else {
+            return TradeItPortfolioDefaultPositionPresenter(tradeItPortfolioPosition)
+        }
     }
+}
 
-    func getQuantity() -> Float? {
-        return nil
-    }
-
-    func getFormattedTotalReturn() -> String {
-        return TradeItPresenter.MISSING_DATA_PLACEHOLDER
-    }
+class TradeItPortfolioDefaultPositionPresenter: TradeItPortfolioEquityPositionPresenter{
 }

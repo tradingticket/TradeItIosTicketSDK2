@@ -2,29 +2,30 @@ import TradeItIosEmsApi
 
 class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
     var position: TradeItPosition = TradeItPosition()
-
-    override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
+    var tradeItPortfolioPosition: TradeItPortfolioPosition
+    
+    init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
         if let position = tradeItPortfolioPosition.position {
             self.position = position
         }
-        super.init(tradeItPortfolioPosition)
+        self.tradeItPortfolioPosition = tradeItPortfolioPosition
     }
 
-    override func getFormattedSymbol() -> String {
+    func getFormattedSymbol() -> String {
         guard let symbol = self.position.symbol
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         
         return symbol
     }
 
-    override func getQuantity() -> Float? {
+    func getQuantity() -> Float? {
         guard let quantity = self.position.quantity
             else { return 0}
         
         return quantity.floatValue
     }
 
-    override func getFormattedQuantity() -> String {
+    func getFormattedQuantity() -> String {
         var holdingType = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if self.position.holdingType != nil {
@@ -33,7 +34,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return NumberFormatter.formatQuantity(getQuantity()!) + holdingType
     }
 
-    override func getFormattedTotalReturn() -> String {
+    func getFormattedTotalReturn() -> String {
         guard let totalGainLossDollars = self.position.totalGainLossDollar
             else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
         return "\(returnPrefix())\(NumberFormatter.formatCurrency(totalGainLossDollars as Float))(\(returnPercent()))";
@@ -67,5 +68,9 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         guard let lastPrice = self.position.lastPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         return formatCurrency(lastPrice)
+    }
+    
+    func getQuote() -> TradeItQuote? {
+        return self.tradeItPortfolioPosition.quote
     }
 }

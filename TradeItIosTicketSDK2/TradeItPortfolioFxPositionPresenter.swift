@@ -2,31 +2,31 @@ import TradeItIosEmsApi
 
 class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     var fxPosition: TradeItFxPosition = TradeItFxPosition()
+    var tradeItPortfolioPosition: TradeItPortfolioPosition
 
-    override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
+    init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
         if let fxPosition = tradeItPortfolioPosition.fxPosition {
             self.fxPosition = fxPosition
         }
-
-        super.init(tradeItPortfolioPosition)
+        self.tradeItPortfolioPosition = tradeItPortfolioPosition
     }
 
-    override func getFormattedSymbol() -> String {
-        guard let symbol = self.tradeItPortfolioPosition.fxPosition?.symbol
+    func getFormattedSymbol() -> String {
+        guard let symbol = self.fxPosition.symbol
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         return symbol
     }
     
-    override func getQuantity() -> Float? {
+    func getQuantity() -> Float? {
         return self.fxPosition.quantity as? Float
     }
 
-    override func formatCurrency(currency: NSNumber) -> String {
+    func formatCurrency(currency: NSNumber) -> String {
         return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
     }
 
-    override func getFormattedQuantity() -> String {
+    func getFormattedQuantity() -> String {
         guard let quantity = getQuantity()
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
@@ -46,4 +46,9 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
 
         return formatCurrency(totalUnrealizedProfitAndLossBaseCurrency)
     }
+    
+    func getQuote() -> TradeItQuote? {
+        return self.tradeItPortfolioPosition.quote
+    }
+    
 }

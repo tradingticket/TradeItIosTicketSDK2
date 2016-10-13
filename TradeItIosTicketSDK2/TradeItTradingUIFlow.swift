@@ -38,7 +38,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
     // MARK: Private
 
-    func initializeLinkedAccount(forOrder order: TradeItOrder) {
+    private func initializeLinkedAccount(forOrder order: TradeItOrder) {
         let enabledAccounts = self.linkedBrokerManager.getAllEnabledAccounts()
 
         if (enabledAccounts.count == 1) {
@@ -46,7 +46,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
         }
     }
 
-    func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
+    private func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
         var initialStoryboardId: TradeItStoryboardID!
 
         self.initializeLinkedAccount(forOrder: order)
@@ -85,11 +85,6 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
         symbolSearchViewController.navigationController?.setViewControllers([tradingTicketViewController], animated: true)
     }
 
-    func symbolSearchCancelled(forSymbolSearchViewController symbolSearchViewController: TradeItSymbolSearchViewController) {
-
-    }
-
-
     // MARK: TradeItAccountSelectionViewControllerDelegate
 
     func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController,
@@ -113,9 +108,5 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
         }
 
         accountSelectionViewController.navigationController?.setViewControllers([nextViewController], animated: true)
-    }
-
-    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController) {
-
     }
 }

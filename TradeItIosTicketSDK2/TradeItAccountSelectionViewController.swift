@@ -55,6 +55,4 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
 protocol TradeItAccountSelectionViewControllerDelegate {
     func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount)
-
-    func accountSelectionCancelled(forAccountSelectionViewController accountSelectionViewController: TradeItAccountSelectionViewController)
 }

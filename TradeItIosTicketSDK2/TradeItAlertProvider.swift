@@ -1,43 +1,34 @@
 import UIKit
 
+// TODO: Make static methods instance methods so TradeItAlertProvider can be injected for tests
 class TradeItAlertProvider {
-    static func provideSimpleAlert(alertTitle alertTitle: String,
+    static func provideAlert(alertTitle alertTitle: String,
                                         alertMessage: String,
-                                        alertActionTitle: String) -> UIAlertController {
-        let alertController = UIAlertController(title: alertTitle,
-                                                message: alertMessage,
-                                                preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let alertAction = UIAlertAction(title: alertActionTitle,
-                                        style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in }
-    
-        alertController.addAction(alertAction)
-        
-        return alertController
-    }
-
-    static func provideAlertWithAction(alertTitle alertTitle: String,
-                                            alertMessage: String,
-                                            alertActionTitle: String,
-                                            onAlertActionTapped: () -> Void,
-                                            onCanceledActionTapped: () -> Void) -> UIAlertController {
+                                        alertActionTitle: String,
+                                        onAlertActionTapped: () -> Void,
+                                        onCanceledActionTapped: (() -> Void)? = nil) -> UIAlertController {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
                                                 preferredStyle: UIAlertControllerStyle.Alert)
 
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                         style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-                                                    onCanceledActionTapped()
+        if let onCanceledActionTapped = onCanceledActionTapped {
+            let cancelAction = UIAlertAction(
+                title: "Cancel",
+                style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                    onCanceledActionTapped()
+            }
+
+            alertController.addAction(cancelAction)
         }
 
-        let alertAction = UIAlertAction(title: alertActionTitle,
-                                        style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-                                            onAlertActionTapped()
-        }
+        let alertAction = UIAlertAction(
+            title: alertActionTitle,
+            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                onAlertActionTapped()
+            }
 
-        alertController.addAction(cancelAction)
         alertController.addAction(alertAction)
-        
+
         return alertController
     }
 
@@ -49,7 +40,7 @@ class TradeItAlertProvider {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
                                                 preferredStyle: UIAlertControllerStyle.Alert)
-        
+
         alertController.addTextFieldWithConfigurationHandler(nil)
 
         let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { (action) -> Void in
@@ -57,10 +48,11 @@ class TradeItAlertProvider {
             onAnswerSecurityQuestion(withAnswer: textField.text!)
         })
 
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                        style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-                                            onCancelSecurityQuestion()
-        }
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                onCancelSecurityQuestion()
+            }
 
         alertController.addAction(cancelAction)
         alertController.addAction(submitAction)

@@ -4,9 +4,9 @@ public class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItLinkedBrokerAccount] = []
-    var wasAuthenticated = false
     var error: TradeItErrorResult?
-
+    var errorManager = TradeItErrorManager()
+    
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
@@ -19,7 +19,6 @@ public class TradeItLinkedBroker: NSObject {
             { (tradeItResult: TradeItResult!) in
                 switch tradeItResult {
                 case let authenticationResult as TradeItAuthenticationResult:
-                    self.wasAuthenticated = true
                     self.error = nil
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
@@ -35,9 +34,7 @@ public class TradeItLinkedBroker: NSObject {
                         }
                     )
                 case let error as TradeItErrorResult:
-                    self.wasAuthenticated = false
                     self.error = error
-
                     onFailure(error)
                 default:
                     handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown response sent from the server for authentication."))
@@ -47,6 +44,8 @@ public class TradeItLinkedBroker: NSObject {
         }
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
+    
+    
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = accounts.map { account in
@@ -63,6 +62,12 @@ public class TradeItLinkedBroker: NSObject {
 
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
+    }
+    
+    public func requiresAuthentication() -> Bool {
+        guard let error = self.error
+            else { return false }
+        return (errorManager.isBrokerAuthenticationError(error) || errorManager.isOAuthError(error) || errorManager.isSessionError(error))
     }
 
     private func mapToLinkedBrokerAccounts(accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {

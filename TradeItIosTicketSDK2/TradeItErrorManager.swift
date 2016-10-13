@@ -13,5 +13,11 @@ class TradeItErrorManager {
             else { return false }
         return (code == TradeItErrorCode.OAUTH_ERROR.rawValue)
     }
+    
+    func isSessionError(error: TradeItErrorResult) -> Bool {
+        guard let code = error.code
+            else { return false }
+        return (code == TradeItErrorCode.SESSION_ERROR.rawValue)
+    }
 
 }

@@ -12,7 +12,8 @@ class TradeItAlertManager {
                                                        onAlertDismissed: () -> Void)
      */
     func showGenericError(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
-                            onViewController viewController: UIViewController) {
+                            onViewController viewController: UIViewController,
+                                             onFinished: () -> Void = {}) {
         var alertTitle = ""
         var alertMessage = ""
         var alertActionTitle = ""
@@ -30,7 +31,8 @@ class TradeItAlertManager {
         self.showOn(viewController: viewController,
                     withAlertTitle: alertTitle,
                     withAlertMessage: alertMessage,
-                    withAlertActionTitle: alertActionTitle)
+                    withAlertActionTitle: alertActionTitle,
+                    onAlertActionTapped: onFinished)
     }
 
     func show(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
@@ -56,21 +58,33 @@ class TradeItAlertManager {
                 }
             )
         }
-        
+
         if tradeItErrorManager.isBrokerAuthenticationError(tradeItErrorResult) {
             alertTitle = "Update Login"
             alertMessage = "There seem to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information."
             alertActionTitle = "Update"
             onAlertActionTapped = onAlertActionRelinkAccount
-            self.showOn(viewController: viewController, withAlertTitle: alertTitle, withAlertMessage: alertMessage, withAlertActionTitle: alertActionTitle, onAlertActionTapped: onAlertActionTapped, onCancelActionTapped: onFinished)
+            self.showOn(viewController: viewController,
+                        withAlertTitle: alertTitle,
+                        withAlertMessage: alertMessage,
+                        withAlertActionTitle: alertActionTitle,
+                        onAlertActionTapped: onAlertActionTapped,
+                        onCancelActionTapped: onFinished)
         } else if tradeItErrorManager.isOAuthError(tradeItErrorResult) {
             alertTitle = "Relink Accounts"
             alertMessage = "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts."
             alertActionTitle = "Update"
             onAlertActionTapped = onAlertActionRelinkAccount
-            self.showOn(viewController: viewController, withAlertTitle: alertTitle, withAlertMessage: alertMessage, withAlertActionTitle: alertActionTitle, onAlertActionTapped: onAlertActionTapped, onCancelActionTapped: onFinished)
+            self.showOn(viewController: viewController,
+                        withAlertTitle: alertTitle,
+                        withAlertMessage: alertMessage,
+                        withAlertActionTitle: alertActionTitle,
+                        onAlertActionTapped: onAlertActionTapped,
+                        onCancelActionTapped: onFinished)
         } else {
-            self.showGenericError(tradeItErrorResult: tradeItErrorResult, onViewController: viewController)
+            self.showGenericError(tradeItErrorResult: tradeItErrorResult,
+                                  onViewController: viewController,
+                                  onFinished: onFinished)
         }
     }
 
@@ -92,39 +106,17 @@ class TradeItAlertManager {
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    /*
-    func showErrorAlert(onViewController viewController: UIViewController,
-                                         title: String,
-                                         message: String,
-                                         actionTitle: String,
-                                         onAlertDismissed: () -> Void)
-    */
     func showOn(viewController viewController: UIViewController,
                 withAlertTitle alertTitle: String,
               withAlertMessage alertMessage: String,
-          withAlertActionTitle alertActionTitle: String) {
-        
-        let alertController = TradeItAlertProvider.provideSimpleAlert(alertTitle: alertTitle, alertMessage: alertMessage, alertActionTitle: alertActionTitle)
+          withAlertActionTitle alertActionTitle: String,
+                               onAlertActionTapped: () -> Void = {},
+                               onCancelActionTapped: (() -> Void)? = nil) {
+        let alertController = TradeItAlertProvider.provideAlert(alertTitle: alertTitle,
+                                                                alertMessage: alertMessage,
+                                                                alertActionTitle: alertActionTitle,
+                                                                onAlertActionTapped: onAlertActionTapped,
+                                                                onCanceledActionTapped: onCancelActionTapped)
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
-
-    /*
-    func showValidationAlert(onViewController viewController: UIViewController,
-                                              title: String,
-                                              message: String,
-                                              actionTitle: String,
-                                              onValidate: () -> Void,
-                                              onCancel: () -> Void)
-    */
-    func showOn(viewController viewController: UIViewController,
-                               withAlertTitle alertTitle: String,
-                               withAlertMessage alertMessage: String,
-                               withAlertActionTitle alertActionTitle: String,
-                               onAlertActionTapped : () -> Void,
-                               onCancelActionTapped: () -> Void = {}) {
-        
-        let alertController = TradeItAlertProvider.provideAlertWithAction(alertTitle: alertTitle, alertMessage: alertMessage, alertActionTitle: alertActionTitle, onAlertActionTapped: onAlertActionTapped, onCanceledActionTapped:  onCancelActionTapped)
-        viewController.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
 }

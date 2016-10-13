@@ -76,7 +76,8 @@ class TradeItAlert {
 
     func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
                 onViewController viewController: UIViewController,
-                       onAnswerSecurityQuestion: (withAnswer: String) -> Void) {
+                       onAnswerSecurityQuestion: (withAnswer: String) -> Void,
+                       onCancelSecurityQuestion: () -> Void) {
         let alert = UIAlertController(
             title: "Security Question",
             message: securityQuestion.securityQuestion,
@@ -85,11 +86,18 @@ class TradeItAlert {
 
         alert.addTextFieldWithConfigurationHandler(nil)
 
-        let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { (action) -> Void in
+        let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { action in
             let textField = alert.textFields![0] as UITextField
             onAnswerSecurityQuestion(withAnswer: textField.text!)
         })
+
         alert.addAction(submitAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { _ in
+            onCancelSecurityQuestion()
+        })
+
+        alert.addAction(cancelAction)
 
         viewController.presentViewController(alert, animated: true, completion: nil)
     }

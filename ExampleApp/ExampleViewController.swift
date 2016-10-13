@@ -84,10 +84,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: Private
 
     private func manualAuthenticateAll() {
-        TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion in
-            TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion)
+        TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion, onCancelSecurityQuestion: cancelQuestion)
         }, onFinished: {
-            TradeItAlert().showErrorAlert(onViewController: self, title: "authenticateAll finished", message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+            TradeItAlert().showErrorAlert(
+                onViewController: self,
+                title: "authenticateAll finished",
+                message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
         })
     }
 

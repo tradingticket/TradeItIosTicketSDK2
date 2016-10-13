@@ -31,7 +31,7 @@ import PromiseKit
         return linkedBroker
     }
 
-    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
+    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void, () -> Void) -> Void,
                                             onFinished: () -> Void) {
         let promises = self.linkedBrokers.filter { !$0.wasAuthenticated }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in

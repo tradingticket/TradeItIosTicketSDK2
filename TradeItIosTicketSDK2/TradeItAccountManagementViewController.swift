@@ -85,11 +85,12 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
                         onRefreshComplete(withAccounts: self.linkedBroker.accounts)
                 })
             },
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void) in
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
                 self.tradeItAlert.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
                 )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in

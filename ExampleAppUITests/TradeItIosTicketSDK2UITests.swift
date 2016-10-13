@@ -122,6 +122,26 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         waitForElementToAppear(app.navigationBars["Portfolio"])
     }
 
+    func testSecurityQuestionFlow() {
+        let app = self.application
+
+        clearData(app)
+
+        handleWelcomeScreen(app)
+
+        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
+
+        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", withUsername: "dummySecurity")
+
+        waitForElementToAppear(app.alerts["Security Question"])
+
+        let securityQuestionAlert = app.alerts["Security Question"]
+        securityQuestionAlert.textFields[""].typeText("tradingticket")
+        securityQuestionAlert.buttons["Submit"].tap()
+
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+    }
+
     private func clearData(app: XCUIApplication) {
         let deleteLinkedBrokersText = app.tables.staticTexts["DeleteLinkedBrokers"]
         waitForElementToBeHittable(deleteLinkedBrokersText)
@@ -152,7 +172,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         app.tables.staticTexts[longBrokerName].tap()
     }
     
-    private func submitValidCredentialsOnTheLoginScreen(app: XCUIApplication, longBrokerName: String) {
+    private func submitValidCredentialsOnTheLoginScreen(app: XCUIApplication, longBrokerName: String, withUsername username: String = "dummy") {
         XCTAssert(app.navigationBars["Login"].exists)
         XCTAssert(app.staticTexts["Log in to \(longBrokerName)"].exists)
         
@@ -161,7 +181,7 @@ class TradeItIosTicketSdk2UITests: XCTestCase {
         
         waitForElementToHaveKeyboardFocus(usernameTextField)
         waitForElementNotToHaveKeyboardFocus(passwordTextField)
-        usernameTextField.typeText("dummy")
+        usernameTextField.typeText(username)
         app.buttons["Next"].tap()
 
         waitForElementToHaveKeyboardFocus(passwordTextField)

@@ -4,8 +4,8 @@ public class TradeItLinkedBrokerAccount: NSObject {
     var brokerName = ""
     var accountName = ""
     var accountNumber = ""
-    var balance: TradeItAccountOverview!
-    var fxBalance: TradeItFxAccountOverview!
+    var balance: TradeItAccountOverview?
+    var fxBalance: TradeItFxAccountOverview?
     var positions: [TradeItPortfolioPosition] = []
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
@@ -93,45 +93,6 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
 
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
-    }
-
-    public func getFormattedBuyingPower() -> String{
-        if let balance = self.balance {
-            return NumberFormatter.formatCurrency(balance.buyingPower)
-        }
-
-        else if let fxBalance = self.fxBalance {
-            return NumberFormatter.formatCurrency(fxBalance.buyingPowerBaseCurrency)
-        }
-
-        else {
-            return "N/A"
-        }
-    }
-
-    public func getFormattedTotalValueWithPercentage() -> String{
-        if let balance = self.balance {
-            var formattedTotalValue = NumberFormatter.formatCurrency(balance.totalValue)
-            if let totalPercentReturn = balance.totalPercentReturn {
-                formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
-            }
-            return formattedTotalValue
-        }
-
-        else if let fxBalance = self.fxBalance {
-            var formattedTotalValue = NumberFormatter.formatCurrency(fxBalance.totalValueBaseCurrency)
-            if fxBalance.unrealizedProfitAndLossBaseCurrency != nil && fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue != 0 {
-                let totalReturn = fxBalance.unrealizedProfitAndLossBaseCurrency.floatValue
-                let totalPercentReturn = totalReturn / (fxBalance.totalValueBaseCurrency.floatValue - abs(totalReturn))
-                    formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
-            }
-
-            return formattedTotalValue
-        }
-
-        else {
-            return "N/A"
-        }
     }
 
 }

@@ -324,7 +324,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                     it("set the error to the linked broker") {
                         expect(linkedBrokerToReload.error).to(equal(errorResult))
-                        expect(linkedBrokerToReload.isAuthenticated).to(equal(false))
+                        expect(linkedBrokerToReload.wasAuthenticated).to(equal(false))
                     }
 
                     it("populates the accounts table with the linked broker in error") {

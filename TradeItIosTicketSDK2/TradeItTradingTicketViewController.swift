@@ -226,7 +226,8 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         symbolView.updateQuoteActivity(.LOADING)
 
         self.marketDataService.getQuote(symbol, onSuccess: { quote in
-            self.order.quoteLastPrice = NSDecimalNumber(string: quote.lastPrice.stringValue)
+            let presenter = TradeItQuotePresenter(quote)
+            self.order.quoteLastPrice = presenter.getLastPriceValue()
             self.symbolView.updateQuote(quote)
             self.symbolView.updateQuoteActivity(.LOADED)
             self.updateEstimatedChangedLabel()
@@ -251,18 +252,19 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
 
     private func updateSharesOwnedLabel() {
-        guard let symbol = order.symbol,
-            let linkedBrokerAccount = order.linkedBrokerAccount
+        guard let symbol = order.symbol
+            , let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
 
         linkedBrokerAccount.getPositions(onSuccess: {
-            guard let portfolioPositionIndex = linkedBrokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
-                portfolioPosition.position.symbol == symbol
-            }) else { return }
+            let positionsMatchingSymbol = linkedBrokerAccount.positions.filter { portfolioPosition in
+                TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol
+            }
 
-            let portfolioPosition = linkedBrokerAccount.positions[portfolioPositionIndex]
+            guard let position = positionsMatchingSymbol.first else { return }
 
-            self.tradingBrokerAccountView.updateSharesOwned(portfolioPosition.position.quantity)
+            let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
+            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity())
         }, onFailure: { errorResult in
             print(errorResult)
         })

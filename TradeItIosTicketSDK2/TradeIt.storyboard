@@ -895,48 +895,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umh-YQ-V1f" userLabel="errorHandlingView" customClass="TradeItPortfolioErrorHandlingView" customModule="ExampleApp" customModuleProvider="target">
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Short Messsage]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQ1-Kq-VTl" userLabel="[Short message]">
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Long message]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nsd-j5-L9c" userLabel="[Long Message]">
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBz-qz-FFQ">
-                                        <color key="backgroundColor" red="0.25573506950000002" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="230" id="1s7-Fl-BJy"/>
-                                            <constraint firstAttribute="height" constant="40" id="ei4-PQ-w7q"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                        <state key="normal" title="Button">
-                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="actionButtonWasTappedWithSender:" destination="umh-YQ-V1f" eventType="touchUpInside" id="cPD-Tk-Bcd"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.95160442590713501" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Nsd-j5-L9c" firstAttribute="centerX" secondItem="umh-YQ-V1f" secondAttribute="centerX" id="0kA-di-FCQ"/>
-                                    <constraint firstItem="TQ1-Kq-VTl" firstAttribute="top" secondItem="umh-YQ-V1f" secondAttribute="top" constant="25" id="3me-Ic-zhw"/>
-                                    <constraint firstItem="TQ1-Kq-VTl" firstAttribute="centerX" secondItem="umh-YQ-V1f" secondAttribute="centerX" id="N6b-Ws-eXs"/>
-                                    <constraint firstItem="Nsd-j5-L9c" firstAttribute="top" secondItem="TQ1-Kq-VTl" secondAttribute="bottom" constant="25" id="c0W-T3-jmx"/>
-                                    <constraint firstItem="VBz-qz-FFQ" firstAttribute="centerX" secondItem="umh-YQ-V1f" secondAttribute="centerX" id="dsr-eq-oZV"/>
-                                    <constraint firstAttribute="bottom" secondItem="VBz-qz-FFQ" secondAttribute="bottom" constant="49" id="ivi-GU-BSz"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="actionButton" destination="VBz-qz-FFQ" id="A2s-bq-t70"/>
-                                    <outlet property="longMessageLabel" destination="Nsd-j5-L9c" id="WNg-ww-ACo"/>
-                                    <outlet property="shortMessageLabel" destination="TQ1-Kq-VTl" id="rXn-1R-SZg"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fv-sU-vaB" userLabel="accountInfoContainerView">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgN-G0-ywb" customClass="TradeItAccountSummaryView" customModule="ExampleApp" customModuleProvider="target">
@@ -1680,6 +1638,51 @@
                                     <constraint firstItem="7tC-j5-kXj" firstAttribute="leading" secondItem="1fv-sU-vaB" secondAttribute="leading" id="zDi-MX-f44"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umh-YQ-V1f" userLabel="errorHandlingView" customClass="TradeItPortfolioErrorHandlingView" customModule="ExampleApp" customModuleProvider="target">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Short Messsage]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQ1-Kq-VTl" userLabel="[Short message]">
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Long message] This is my really really really really really really really long message." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nsd-j5-L9c" userLabel="[Long Message]">
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBz-qz-FFQ">
+                                        <color key="backgroundColor" red="0.25573506950000002" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="230" id="1s7-Fl-BJy"/>
+                                            <constraint firstAttribute="height" constant="40" id="ei4-PQ-w7q"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionButtonWasTappedWithSender:" destination="umh-YQ-V1f" eventType="touchUpInside" id="cPD-Tk-Bcd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.95160442590713501" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="TQ1-Kq-VTl" firstAttribute="top" secondItem="umh-YQ-V1f" secondAttribute="top" constant="25" id="3me-Ic-zhw"/>
+                                    <constraint firstItem="VBz-qz-FFQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Nsd-j5-L9c" secondAttribute="bottom" constant="20" id="DxX-03-ASD"/>
+                                    <constraint firstItem="TQ1-Kq-VTl" firstAttribute="leading" secondItem="umh-YQ-V1f" secondAttribute="leading" id="KpN-I8-5m3"/>
+                                    <constraint firstAttribute="trailing" secondItem="TQ1-Kq-VTl" secondAttribute="trailing" id="SET-AK-zq4"/>
+                                    <constraint firstItem="Nsd-j5-L9c" firstAttribute="leading" secondItem="umh-YQ-V1f" secondAttribute="leadingMargin" id="Sgf-7W-fv2"/>
+                                    <constraint firstItem="Nsd-j5-L9c" firstAttribute="top" secondItem="TQ1-Kq-VTl" secondAttribute="bottom" constant="25" id="c0W-T3-jmx"/>
+                                    <constraint firstItem="VBz-qz-FFQ" firstAttribute="centerX" secondItem="umh-YQ-V1f" secondAttribute="centerX" id="dsr-eq-oZV"/>
+                                    <constraint firstAttribute="bottom" secondItem="VBz-qz-FFQ" secondAttribute="bottom" constant="49" id="ivi-GU-BSz"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Nsd-j5-L9c" secondAttribute="trailing" id="ucs-sL-t1J"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="actionButton" destination="VBz-qz-FFQ" id="A2s-bq-t70"/>
+                                    <outlet property="longMessageLabel" destination="Nsd-j5-L9c" id="WNg-ww-ACo"/>
+                                    <outlet property="shortMessageLabel" destination="TQ1-Kq-VTl" id="rXn-1R-SZg"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.94156193733215332" green="0.94153380393981934" blue="0.94154977798461914" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -2002,10 +2005,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ORDER_PREVIEW_CELL_ID" id="8Tu-aU-Kos" customClass="TradeItOrderPreviewTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Tu-aU-Kos" id="pM8-dD-TE2">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHI-V3-F3x">

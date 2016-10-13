@@ -1,34 +1,54 @@
 import TradeItIosEmsApi
 
 class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
-    let fxPosition: TradeItFxPosition
+    var fxPosition: TradeItFxPosition = TradeItFxPosition()
+    var tradeItPortfolioPosition: TradeItPortfolioPosition
 
-    override init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
-        fxPosition = tradeItPortfolioPosition.fxPosition
-        super.init(tradeItPortfolioPosition)
+    init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
+        if let fxPosition = tradeItPortfolioPosition.fxPosition {
+            self.fxPosition = fxPosition
+        }
+        self.tradeItPortfolioPosition = tradeItPortfolioPosition
     }
 
-    override func getFormattedSymbol() -> String {
-        return self.tradeItPortfolioPosition.fxPosition.symbol
+    func getFormattedSymbol() -> String {
+        guard let symbol = self.fxPosition.symbol
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return symbol
     }
     
-    override func getQuantity() -> Float {
-        return self.fxPosition.quantity as Float
+    func getQuantity() -> Float? {
+        return self.fxPosition.quantity as? Float
     }
 
-    override func formatCurrency(currency: NSNumber) -> String {
+    func formatCurrency(currency: NSNumber) -> String {
         return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
     }
 
-    override func getFormattedQuantity() -> String {
-        return NumberFormatter.formatQuantity(getQuantity())
+    func getFormattedQuantity() -> String {
+        guard let quantity = getQuantity()
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return NumberFormatter.formatQuantity(quantity)
     }
 
     func getAveragePrice() -> String {
-        return formatCurrency(fxPosition.averagePrice)
+        guard let averagePrice = fxPosition.averagePrice
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(averagePrice)
     }
 
     func getTotalUnrealizedProfitAndLossBaseCurrency() -> String {
-        return formatCurrency(fxPosition.totalUnrealizedProfitAndLossBaseCurrency)
+        guard let totalUnrealizedProfitAndLossBaseCurrency = fxPosition.totalUnrealizedProfitAndLossBaseCurrency
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
+        return formatCurrency(totalUnrealizedProfitAndLossBaseCurrency)
     }
+    
+    func getQuote() -> TradeItQuote? {
+        return self.tradeItPortfolioPosition.quote
+    }
+    
 }

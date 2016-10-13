@@ -17,7 +17,7 @@ class TradeItMarketService {
 
         marketDataService.getQuoteData(quotesRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) in
             if let quotesResult = tradeItResult as? TradeItQuotesResult,
-                let quote = quotesResult.quotes.first as? TradeItQuote {
+                let quote = quotesResult.quotes?.first as? TradeItQuote {
                 onSuccess(quote)
             } else if let errorResult = tradeItResult as? TradeItErrorResult {
                 onFailure(errorResult)

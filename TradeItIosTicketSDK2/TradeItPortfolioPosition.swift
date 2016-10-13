@@ -1,10 +1,10 @@
 import TradeItIosEmsApi
 
 class TradeItPortfolioPosition : NSObject {
-    var position: TradeItPosition!
-    var fxPosition: TradeItFxPosition!
-    var quote: TradeItQuote!
-    var tradeItMarketDataService: TradeItMarketDataService!
+    var position: TradeItPosition?
+    var fxPosition: TradeItFxPosition?
+    var quote: TradeItQuote?
+    var tradeItMarketDataService: TradeItMarketDataService
     unowned var linkedBrokerAccount: TradeItLinkedBrokerAccount
 
     static let fxMaximumFractionDigits = 5
@@ -22,29 +22,26 @@ class TradeItPortfolioPosition : NSObject {
     }
     
     func refreshQuote(onFinished onFinished: () -> Void) {
-        var tradeItQuoteRequest: TradeItQuotesRequest!
+        var tradeItQuoteRequest: TradeItQuotesRequest?
         var symbol = ""
-        if let position = self.position {
-            symbol = position.symbol
+        self.quote = nil
+
+        if let position = self.position,  let equitySymbol = position.symbol {
+            symbol = equitySymbol
             tradeItQuoteRequest = TradeItQuotesRequest(symbol: symbol)
+        } else if let fxPosition = self.fxPosition, let fxSymbol = fxPosition.symbol {
+            symbol = fxSymbol
+            tradeItQuoteRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: self.linkedBrokerAccount.brokerName)
+        } else {
+            onFinished()
+            return
         }
-        if let fxPosition = self.fxPosition {
-                symbol = fxPosition.symbol
-                tradeItQuoteRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: self.linkedBrokerAccount.brokerName)
-        }
-        var quote = TradeItQuote()
+
         self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
-            if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
-                let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
-                if results.count > 0 {
-                    quote = results[0] as! TradeItQuote
-                    self.quote = quote
-                }
+            if let quotesResult = tradeItResult as? TradeItQuotesResult, let quotes = quotesResult.quotes as? [TradeItQuote] {
+                self.quote = quotes.filter { return $0.symbol == symbol }.first
             }
-            else {
-                //TODO handle error
-                print("error quote")
-            }
+
             onFinished()
         })
     }

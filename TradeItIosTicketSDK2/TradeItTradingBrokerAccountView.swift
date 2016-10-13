@@ -31,8 +31,8 @@ class TradeItTradingBrokerAccountView: UIView {
         updateResourceAvailabilityLabels()
     }
 
-    func updateSharesOwned(sharesOwned: NSNumber) {
-        self.sharesOwned = sharesOwned
+    func updateSharesOwned(sharesOwned: NSNumber?) {
+        self.sharesOwned = sharesOwned ?? 0
         updateResourceAvailabilityLabels()
     }
 
@@ -40,9 +40,11 @@ class TradeItTradingBrokerAccountView: UIView {
         switch presentationMode {
         case .BUYING_POWER:
             guard let brokerAccount = brokerAccount else { return }
-            self.resourceAvailabilityLabel.text = NumberFormatter.formatCurrency(brokerAccount.balance.buyingPower)
+            let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(brokerAccount)
+            self.resourceAvailabilityLabel.text = presenter.getFormattedBuyingPower()
             self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
         case .SHARES_OWNED:
+            // TODO: resourceAvailabilityDescriptionLabel should be "Shares Shorted" if position.holdingType == "SHORT"
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
             self.resourceAvailabilityDescriptionLabel.text = "Shares Owned"
         }

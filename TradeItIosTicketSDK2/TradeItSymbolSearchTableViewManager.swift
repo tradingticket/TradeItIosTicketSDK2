@@ -43,7 +43,11 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedSymbolResult = self.symbolResults[indexPath.row]
-        self.delegate?.symbolWasSelected(selectedSymbolResult.symbol)
+        var symbol = TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        if selectedSymbolResult.symbol != nil {
+            symbol = selectedSymbolResult.symbol!
+        }
+        self.delegate?.symbolWasSelected(symbol)
 
         // If you don't set searchController.active to false, the searchController will intercept the next
         // call to dismissViewController, preventing the search screen from being dismissed

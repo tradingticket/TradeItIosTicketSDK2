@@ -5,7 +5,8 @@ class TradeItAccountSelectionTableViewCell: UITableViewCell {
     @IBOutlet weak var buyingPowerLabelValue: UILabel!
     
     func populate(withLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
         self.accountNameLabel.text = linkedBrokerAccount.getFormattedAccountName()
-        self.buyingPowerLabelValue.text = linkedBrokerAccount.getFormattedBuyingPower()
+        self.buyingPowerLabelValue.text = presenter.getFormattedBuyingPower()
     }
 }

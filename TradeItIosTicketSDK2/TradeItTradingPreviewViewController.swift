@@ -76,33 +76,33 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
 
         if orderDetails.longHoldings != nil {
             rows.append(
-                TableData(label: "Shares Owned", value: NumberFormatter.formatQuantity(orderDetails.longHoldings.floatValue))
+                TableData(label: "Shares Owned", value: NumberFormatter.formatQuantity(orderDetails.longHoldings!.floatValue))
             )
         }
 
         if orderDetails.shortHoldings != nil {
             rows.append(TableData(
                 label: "Shares Held Short",
-                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings.floatValue)
+                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings!.floatValue)
             ))
         }
 
         if orderDetails.buyingPower != nil {
             rows.append(TableData(
                 label: "Buying Power",
-                value: NumberFormatter.formatCurrency(orderDetails.buyingPower)
+                value: NumberFormatter.formatCurrency(orderDetails.buyingPower!)
             ))
         }
 
         if orderDetails.estimatedOrderCommission != nil {
             rows.append(
-                TableData(label: "Broker Fee", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission))
+                TableData(label: "Broker Fee", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission!))
             )
         }
 
         if orderDetails.estimatedTotalValue != nil {
             rows.append(
-                TableData(label: "Estimated Cost", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue))
+                TableData(label: "Estimated Cost", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue!))
             )
         }
 

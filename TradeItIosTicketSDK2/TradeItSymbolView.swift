@@ -25,13 +25,12 @@ class TradeItSymbolView: UIView {
     }
 
     func updateQuote(quote: TradeItQuote) {
-        self.quoteLastPriceLabel.text = NumberFormatter.formatCurrency(quote.lastPrice)
-        self.quoteChangeLabel.text = indicator(quote.change.doubleValue) + " " +
-            NumberFormatter.formatCurrency(quote.change, currencyCode: "") +
-            " (" + NumberFormatter.formatPercentage(quote.pctChange) + ")"
+        let presenter = TradeItQuotePresenter(quote)
+        self.quoteLastPriceLabel.text = presenter.getLastPriceLabel()
+        self.quoteChangeLabel.text = presenter.getChangeLabel()
         self.updatedAtLabel.text = "Updated at \(DateTimeFormatter.time())"
 
-        self.quoteChangeLabel.textColor = stockChangeColor(quote.change.doubleValue)
+        self.quoteChangeLabel.textColor = presenter.getChangeLabelColor()
     }
 
     func updateQuoteActivity(state: ActivityIndicatorState) {
@@ -55,23 +54,4 @@ class TradeItSymbolView: UIView {
         self.updatedAtLabel.text = nil
     }
 
-    private func indicator(value: Double) -> String {
-        if value > 0.0 {
-            return TradeItSymbolView.INDICATOR_UP
-        } else if value < 0 {
-            return TradeItSymbolView.INDICATOR_DOWN
-        } else {
-            return ""
-        }
-    }
-
-    private func stockChangeColor(value: Double) -> UIColor {
-        if value > 0.0 {
-            return UIColor.tradeItMoneyGreenColor()
-        } else if value < 0 {
-            return UIColor.tradeItDeepRoseColor()
-        } else {
-            return UIColor.lightTextColor()
-        }
-    }
 }

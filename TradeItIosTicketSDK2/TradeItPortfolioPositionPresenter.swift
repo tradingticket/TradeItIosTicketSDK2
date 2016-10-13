@@ -7,24 +7,23 @@ protocol TradeItPortfolioPositionPresenter {
 }
 
 extension TradeItPortfolioPositionPresenter {
-    
     func getFormattedBid() -> String {
         guard let bidPrice = getQuote()?.bidPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         return formatCurrency(bidPrice)
     }
-    
+
     func formatCurrency(currency: NSNumber) -> String {
                 return NumberFormatter.formatCurrency(currency as Float)
     }
-    
+
     func getFormattedAsk() -> String {
         guard let askPrice = getQuote()?.askPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         return formatCurrency(askPrice)
     }
-    
+
     func getFormattedSpread() -> String {
         guard let quote = getQuote()
             , let high = quote.high as? Float
@@ -33,7 +32,7 @@ extension TradeItPortfolioPositionPresenter {
 
         return formatCurrency(high - low)
     }
-    
+
     func getFormattedTotalValue() -> String {
         guard let lastPrice = getQuote()?.lastPrice as? Float
             , let quantity = getQuantity()
@@ -55,7 +54,6 @@ extension TradeItPortfolioPositionPresenter {
 }
 
 class TradeItPortfolioPositionPresenterFactory {
-    
     static func forTradeItPortfolioPosition(tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
         if tradeItPortfolioPosition.position != nil {
             return TradeItPortfolioEquityPositionPresenter(tradeItPortfolioPosition)
@@ -67,5 +65,4 @@ class TradeItPortfolioPositionPresenterFactory {
     }
 }
 
-class TradeItPortfolioDefaultPositionPresenter: TradeItPortfolioEquityPositionPresenter{
-}
+class TradeItPortfolioDefaultPositionPresenter: TradeItPortfolioEquityPositionPresenter {}

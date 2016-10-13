@@ -24,32 +24,22 @@ class TradeItPortfolioPosition : NSObject {
     func refreshQuote(onFinished onFinished: () -> Void) {
         var tradeItQuoteRequest: TradeItQuotesRequest?
         var symbol = ""
+        self.quote = nil
 
-        if let position = self.position, let equitySymbol = position.symbol {
+        if let position = self.position,  let equitySymbol = position.symbol {
             symbol = equitySymbol
             tradeItQuoteRequest = TradeItQuotesRequest(symbol: symbol)
-        }
-
-        if let fxPosition = self.fxPosition, let fxSymbol = fxPosition.symbol {
+        } else if let fxPosition = self.fxPosition, let fxSymbol = fxPosition.symbol {
             symbol = fxSymbol
             tradeItQuoteRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: self.linkedBrokerAccount.brokerName)
-        }
-
-        guard (tradeItQuoteRequest != nil) else {
+        } else {
             onFinished()
             return
         }
 
         self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
-            if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
-                let results = tradeItQuoteResult.quotes?.filter { return $0.symbol == symbol }
-
-                if let results = results as? [TradeItQuote] where results.count > 0 {
-                    self.quote = results[0]
-                }
-            } else {
-                // Should we nil this out?
-                self.quote = nil
+            if let quotesResult = tradeItResult as? TradeItQuotesResult, let quotes = quotesResult.quotes as? [TradeItQuote] {
+                self.quote = quotes.filter { return $0.symbol == symbol }.first
             }
 
             onFinished()

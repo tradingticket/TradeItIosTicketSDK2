@@ -1,47 +1,47 @@
 import TradeItIosEmsApi
 
 class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
-    var position: TradeItPosition = TradeItPosition()
+    var position: TradeItPosition?
     var tradeItPortfolioPosition: TradeItPortfolioPosition
     
     init(_ tradeItPortfolioPosition: TradeItPortfolioPosition) {
-        if let position = tradeItPortfolioPosition.position {
-            self.position = position
-        }
         self.tradeItPortfolioPosition = tradeItPortfolioPosition
+        self.position = tradeItPortfolioPosition.position
     }
 
     func getFormattedSymbol() -> String {
-        guard let symbol = self.position.symbol
+        guard let symbol = self.position?.symbol
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         
         return symbol
     }
 
     func getQuantity() -> Float? {
-        guard let quantity = self.position.quantity
-            else { return 0}
+        guard let quantity = self.position?.quantity
+            else { return 0 }
         
         return quantity.floatValue
     }
 
     func getFormattedQuantity() -> String {
-        var holdingType = TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        guard let holdingType = self.position?.holdingType
+            , let quantity = getQuantity()
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-        if self.position.holdingType != nil {
-            holdingType = (self.position.holdingType == "LONG" ? " shares": " short")
-        }
-        return NumberFormatter.formatQuantity(getQuantity()!) + holdingType
+
+        let holdingTypeSuffix = holdingType.caseInsensitiveCompare("LONG") == .OrderedSame ? " shares" : " short"
+
+        return NumberFormatter.formatQuantity(quantity) + holdingTypeSuffix
     }
 
     func getFormattedTotalReturn() -> String {
-        guard let totalGainLossDollars = self.position.totalGainLossDollar
-            else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
-        return "\(returnPrefix())\(NumberFormatter.formatCurrency(totalGainLossDollars as Float))(\(returnPercent()))";
+        guard let totalGainLossDollars = self.position?.totalGainLossDollar as? Float
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        return "\(returnPrefix())\(NumberFormatter.formatCurrency(totalGainLossDollars))(\(returnPercent()))";
     }
 
     func returnPrefix() -> String {
-        guard let totalGainLossDollar = self.position.totalGainLossDollar
+        guard let totalGainLossDollar = self.position?.totalGainLossDollar
             else { return "" }
         if (totalGainLossDollar.floatValue > 0) {
             return "+"
@@ -53,20 +53,23 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     }
 
     func returnPercent() -> String {
-        guard let totalGainLossPercentage = self.position.totalGainLossPercentage
+        guard let totalGainLossPercentage = self.position?.totalGainLossPercentage
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
         return NumberFormatter.formatPercentage(totalGainLossPercentage.floatValue);
     }
 
     func getCostBasis() -> String {
-        guard let costBasis = self.position.costbasis
-            else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+        guard let costBasis = self.position?.costbasis
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
         return formatCurrency(costBasis)
     }
 
     func getLastPrice() -> String {
-        guard let lastPrice = self.position.lastPrice
+        guard let lastPrice = self.position?.lastPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+
         return formatCurrency(lastPrice)
     }
     

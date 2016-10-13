@@ -90,12 +90,13 @@ class TradeItAlert {
             let textField = alert.textFields![0] as UITextField
             onAnswerSecurityQuestion(withAnswer: textField.text!)
         })
+
         alert.addAction(submitAction)
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { _ in
             onCancelSecurityQuestion()
-
         })
+
         alert.addAction(cancelAction)
 
         viewController.presentViewController(alert, animated: true, completion: nil)

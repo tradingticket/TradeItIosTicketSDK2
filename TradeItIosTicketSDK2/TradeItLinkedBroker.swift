@@ -14,8 +14,8 @@ public class TradeItLinkedBroker: NSObject {
     }
 
     public func authenticate(onSuccess onSuccess: () -> Void,
-                                onSecurityQuestion: (TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) -> Void,
-                                onFailure: (TradeItErrorResult) -> Void) -> Void {
+                                       onSecurityQuestion: (TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) -> Void,
+                                       onFailure: (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult!) in
                 switch tradeItResult {

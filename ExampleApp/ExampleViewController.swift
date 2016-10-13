@@ -85,7 +85,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion, onCancelSecurityQuestion: cancelQuestion)
         }, onFinished: {
-            TradeItAlert().showErrorAlert(onViewController: self, title: "authenticateAll finished", message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+            TradeItAlert().showErrorAlert(
+                onViewController: self,
+                title: "authenticateAll finished",
+                message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
         })
     }
 

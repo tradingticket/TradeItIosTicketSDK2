@@ -53,4 +53,11 @@ import TradeItIosEmsApi
             self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
         }
     }
+    
+    func loadAccountManagement(fromViewController viewController: UIViewController) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
+        viewController.presentViewController(navController,
+                                             animated: true,
+                                             completion: nil)
+    }
 }

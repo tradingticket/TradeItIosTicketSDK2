@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 public class TradeItLinkedBrokerAccount: NSObject {
     var brokerName = ""
     var accountName = ""

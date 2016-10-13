@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItMarketService {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider

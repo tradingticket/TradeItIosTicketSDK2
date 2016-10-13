@@ -1,6 +1,5 @@
 import Quick
 import Nimble
-@testable import TradeItIosEmsApi
 
 class TradeItLinkedBrokerManagerSpec: QuickSpec {
     override func spec() {

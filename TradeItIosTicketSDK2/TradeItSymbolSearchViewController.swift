@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItSymbolSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!

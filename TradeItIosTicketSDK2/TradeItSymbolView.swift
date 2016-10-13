@@ -1,4 +1,3 @@
-import TradeItIosEmsApi
 import UIKit
 
 class TradeItSymbolView: UIView {

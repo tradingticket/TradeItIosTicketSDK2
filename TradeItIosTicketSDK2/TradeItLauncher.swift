@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 @objc public class TradeItLauncher: NSObject {
     public static var linkedBrokerManager: TradeItLinkedBrokerManager!

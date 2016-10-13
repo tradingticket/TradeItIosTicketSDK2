@@ -11,7 +11,6 @@ def testing_pods
 end
 
 def app_pods
-  pod 'TradeItIosEmsApi', :path => '~/workspace/TradeItIosEmsApi'
   pod 'PromiseKit', '3.4'
 end
 

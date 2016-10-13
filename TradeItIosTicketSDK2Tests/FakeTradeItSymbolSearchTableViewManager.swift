@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class FakeTradeItSymbolSearchTableViewManager: TradeItSymbolSearchTableViewManager {
     let calls = SpyRecorder()
     

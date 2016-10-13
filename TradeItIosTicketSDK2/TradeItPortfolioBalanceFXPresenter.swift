@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItPortfolioBalanceFXPresenter: TradeItPortfolioBalancePresenter  {
     private var fxBalance: TradeItFxAccountOverview?
 

@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
     private var balance: TradeItAccountOverview?
 

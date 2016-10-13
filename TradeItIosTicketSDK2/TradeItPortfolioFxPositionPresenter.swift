@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     var fxPosition: TradeItFxPosition = TradeItFxPosition()
     var tradeItPortfolioPosition: TradeItPortfolioPosition

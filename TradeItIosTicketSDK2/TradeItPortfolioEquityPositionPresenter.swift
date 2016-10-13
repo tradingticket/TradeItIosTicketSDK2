@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
     var position: TradeItPosition?
     var tradeItPortfolioPosition: TradeItPortfolioPosition

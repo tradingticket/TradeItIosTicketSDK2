@@ -1,7 +1,6 @@
 import Quick
 import Nimble
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItAlertSpec: QuickSpec {
     override func spec() {

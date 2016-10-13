@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class FakeTradeItAlert: TradeItAlert {
     let calls = SpyRecorder()

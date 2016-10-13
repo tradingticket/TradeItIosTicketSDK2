@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItPortfolioErrorHandlingViewManager: NSObject {
 

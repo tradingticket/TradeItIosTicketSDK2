@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItOrderPreviewPresenter {
     let order: TradeItOrder
 

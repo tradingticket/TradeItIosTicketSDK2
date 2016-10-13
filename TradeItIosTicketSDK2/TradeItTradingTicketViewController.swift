@@ -252,18 +252,19 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     }
 
     private func updateSharesOwnedLabel() {
-        guard let symbol = order.symbol,
-            let linkedBrokerAccount = order.linkedBrokerAccount
+        guard let symbol = order.symbol
+            , let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
 
         linkedBrokerAccount.getPositions(onSuccess: {
-            guard let portfolioPositionIndex = linkedBrokerAccount.positions.indexOf({ (portfolioPosition: TradeItPortfolioPosition) -> Bool in
+            let positionsMatchingSymbol = linkedBrokerAccount.positions.filter { portfolioPosition in
                 TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol
-            }) else { return }
+            }
 
-            let portfolioPosition = linkedBrokerAccount.positions[portfolioPositionIndex]
-            let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition)
-            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity()!)
+            guard let position = positionsMatchingSymbol.first else { return }
+
+            let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
+            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity())
         }, onFailure: { errorResult in
             print(errorResult)
         })

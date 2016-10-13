@@ -71,7 +71,7 @@ class TradeItAlertManager {
                         onAlertActionTapped: onAlertActionTapped,
                         onCancelActionTapped: onFinished)
         } else if tradeItErrorManager.isOAuthError(tradeItErrorResult) {
-            alertTitle = "Relink Accounts"
+            alertTitle = "Relink \(linkedBroker.linkedLogin.broker) Accounts"
             alertMessage = "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts."
             alertActionTitle = "Update"
             onAlertActionTapped = onAlertActionRelinkAccount

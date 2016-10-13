@@ -37,6 +37,12 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
             },
+            onFailure:  { (tradeItErrorResult: TradeItErrorResult, linkedBroker: TradeItLinkedBroker) -> Void in
+                self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {
+                        onRefreshComplete(withLinkedBrokers: self.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                    }
+                )
+            },
             onFinished: {
                 self.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {

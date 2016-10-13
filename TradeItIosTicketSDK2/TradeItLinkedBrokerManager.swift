@@ -26,7 +26,7 @@ import PromiseKit
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
         let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
         
-        //As requiresAuthentication() is looking into the error, we need to provide an error when we load from the keychain in order to the authenticate all method to handle this linkBroker
+        //we need to provide an error when we load from the keychain in order to the authenticate all method to handle this linkBroker
         let errorResult = TradeItErrorResult()
         errorResult.systemMessage = "This linked broker needs to authenticate"
         errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
@@ -37,15 +37,18 @@ import PromiseKit
         return linkedBroker
     }
 
-    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void, () -> Void) -> Void,
+    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                                 submitAnswer: (String) -> Void,
+                                                                 onCancelSecurityQuestion: () -> Void) -> Void,
+                                            onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
                                             onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { $0.requiresAuthentication() }.map { linkedBroker in
+        let promises = self.linkedBrokers.filter { $0.error != nil }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticate(
                     onSuccess: fulfill,
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                        
+                        onFailure(tradeItErrorResult, linkedBroker)
                         fulfill()
                     }
                 )

@@ -13,7 +13,9 @@ public class TradeItLinkedBroker: NSObject {
     }
 
     public func authenticate(onSuccess onSuccess: () -> Void,
-                                       onSecurityQuestion: (TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) -> Void,
+                                       onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                            submitAnswer: (String) -> Void,
+                                                            onCancelSecurityQuestion: () -> Void) -> Void,
                                        onFailure: (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult!) in
@@ -27,9 +29,10 @@ public class TradeItLinkedBroker: NSObject {
                 case let securityQuestion as TradeItSecurityQuestionResult:
                     onSecurityQuestion(
                         securityQuestion,
-                        onAnswerSecurityQuestion: { securityQuestionAnswer in
+                        submitAnswer: { securityQuestionAnswer in
                             self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
-                        }, onCancelSecurityQuestion: {
+                        },
+                        onCancelSecurityQuestion: {
                             handler(TradeItErrorResult.tradeErrorWithSystemMessage("User canceled the security question."))
                         }
                     )
@@ -44,8 +47,6 @@ public class TradeItLinkedBroker: NSObject {
         }
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
-    
-    
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = accounts.map { account in
@@ -63,7 +64,7 @@ public class TradeItLinkedBroker: NSObject {
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
-    
+
     public func requiresAuthentication() -> Bool {
         guard let error = self.error
             else { return false }

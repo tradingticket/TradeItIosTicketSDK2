@@ -56,7 +56,7 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
         return NumberFormatter.formatCurrency(buyingPower)
     }
 
-    func getFormattedTotalValueWithPercentage() -> String{
+    func getFormattedTotalValueWithPercentage() -> String {
         var formattedTotalValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let totalValue = self.balance?.totalValue {
@@ -67,5 +67,6 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
             formattedTotalValue += " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
         }
 
+        return formattedTotalValue
     }
 }

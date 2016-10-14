@@ -1,4 +1,3 @@
-source 'https://github.com/tradingticket/SpecRepo'
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'

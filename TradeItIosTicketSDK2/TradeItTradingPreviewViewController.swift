@@ -1,26 +1,59 @@
 import UIKit
 
-class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+@objc internal protocol PreviewCellData {}
+
+internal class WarningCellData: PreviewCellData {
+    let warning: String
+
+    init(warning: String) {
+        self.warning = warning
+    }
+}
+
+internal class AcknowledgementCellData: PreviewCellData {
+    let acknowledgement: String
+    var isAcknowledged = false
+
+    init(acknowledgement: String) {
+        self.acknowledgement = acknowledgement
+    }
+}
+
+internal class ValueCellData: PreviewCellData {
+    let label: String
+    let value: String
+
+    init(label: String, value: String) {
+        self.label = label
+        self.value = value
+    }
+}
+
+class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
+    @IBOutlet weak var placeOrderButton: UIButton!
 
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrder: TradeItPreviewTradeResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
-    var previewData: [TableData] = [] // TODO: Move to presenter?
-    var alertManager =  TradeItAlertManager()
-    
+    var previewCellData: [PreviewCellData] = []
+    var acknowledgementCellData: [AcknowledgementCellData] = []
+    var alertManager = TradeItAlertManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.linkedBrokerAccount == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingPreviewViewController loaded without setting linkedBrokerAccount.")
         }
-        previewData = generateTableData()
+
+        previewCellData = generatePreviewCellData()
 
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
+        updatePlaceOrderButtonStatus()
     }
-    
+
     @IBAction func placeOrderTapped(sender: UIButton) {
         guard let placeOrderCallback = placeOrderCallback else { return }
 
@@ -51,76 +84,116 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return previewData.count
+        return previewCellData.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ORDER_PREVIEW_CELL_ID") as! TradeItOrderPreviewTableViewCell
-        cell.selectionStyle = .None
-        let dataForRow = previewData[indexPath.row]
-        cell.populate(withLabel: dataForRow.label, andValue: dataForRow.value)
-        return cell
+        let cellData = previewCellData[indexPath.row]
+        switch cellData {
+        case let warningCellData as WarningCellData:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
+            cell.populate(withWarning: warningCellData.warning)
+            return cell
+        case let acknowledgementCellData as AcknowledgementCellData:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
+            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
+            return cell
+        case let valueCellData as ValueCellData:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
+            cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
+            return cell
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    // MARK: AcknowledgementDelegate
+
+    func acknowledgementWasChanged() {
+        updatePlaceOrderButtonStatus()
     }
 
     // MARK: Private
 
-    private func generateTableData() -> [TableData] {
-        guard let linkedBrokerAccount = linkedBrokerAccount,
-            let previewOrder = previewOrder,
-            let orderDetails = previewOrder.orderDetails
-            else { return [] }
-
-        var rows = [
-            TableData(label: "Account", value: linkedBrokerAccount.accountName),
-            TableData(label: "Symbol", value: orderDetails.orderSymbol),
-            TableData(label: "Quantity", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
-            TableData(label: "Action", value: orderDetails.orderAction),
-            TableData(label: "Price", value: orderDetails.orderPrice),
-            TableData(label: "Expiration", value: orderDetails.orderExpiration)
-        ]
-
-        if orderDetails.longHoldings != nil {
-            rows.append(
-                TableData(label: "Shares Owned", value: NumberFormatter.formatQuantity(orderDetails.longHoldings!.floatValue))
-            )
+    private func updatePlaceOrderButtonStatus() {
+        if allAcknowledgementsAccepted() {
+            placeOrderButton.enabled = true
+            placeOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
+        } else {
+            placeOrderButton.enabled = false
+            placeOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
         }
-
-        if orderDetails.shortHoldings != nil {
-            rows.append(TableData(
-                label: "Shares Held Short",
-                value: NumberFormatter.formatQuantity(orderDetails.shortHoldings!.floatValue)
-            ))
-        }
-
-        if orderDetails.buyingPower != nil {
-            rows.append(TableData(
-                label: "Buying Power",
-                value: NumberFormatter.formatCurrency(orderDetails.buyingPower!)
-            ))
-        }
-
-        if orderDetails.estimatedOrderCommission != nil {
-            rows.append(
-                TableData(label: "Broker Fee", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderCommission!))
-            )
-        }
-
-        if orderDetails.estimatedTotalValue != nil {
-            rows.append(
-                TableData(label: "Estimated Cost", value: NumberFormatter.formatCurrency(orderDetails.estimatedTotalValue!))
-            )
-        }
-
-        return rows
     }
 
-    class TableData {
-        var label: String
-        var value: String
+    private func allAcknowledgementsAccepted() -> Bool {
+        return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
+    }
 
-        init(label: String, value: String) {
-            self.label = label
-            self.value = value
+    private func generatePreviewCellData() -> [PreviewCellData] {
+        guard let linkedBrokerAccount = linkedBrokerAccount,
+            let orderDetails = previewOrder?.orderDetails
+            else { return [] }
+
+        var cells: [PreviewCellData] = []
+
+        cells += generateWarningCellData()
+
+        acknowledgementCellData = generateAcknowledgementCellData()
+        cells += acknowledgementCellData as [PreviewCellData]
+
+        cells += [
+            ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.accountName),
+            ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
+            ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
+            ValueCellData(label: "ACTION", value: orderDetails.orderAction),
+            ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
+            ValueCellData(label: "EXPIRATION", value: orderDetails.orderExpiration)
+        ] as [PreviewCellData]
+
+        if let longHoldings = orderDetails.longHoldings {
+            cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings.floatValue)))
         }
+
+        if let shortHoldings = orderDetails.shortHoldings {
+            cells.append(ValueCellData(label: "SHARES HELD SHORT", value: NumberFormatter.formatQuantity(shortHoldings.floatValue)))
+        }
+
+        if let buyingPower = orderDetails.buyingPower {
+            cells.append(ValueCellData(label: "BUYING POWER", value: NumberFormatter.formatCurrency(buyingPower)))
+        }
+
+        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
+            cells.append(ValueCellData(label: "BROKER FEE", value: NumberFormatter.formatCurrency(estimatedOrderCommission)))
+        }
+
+        if let estimatedTotalValue = orderDetails.estimatedTotalValue {
+            cells.append(ValueCellData(label: "ESTIMATED COST", value: NumberFormatter.formatCurrency(estimatedTotalValue)))
+        }
+
+        return cells
+    }
+
+    private func generateWarningCellData() -> [PreviewCellData] {
+        guard let warnings = previewOrder?.warningsList as? [String] else { return [] }
+
+        return warnings.map({ warning in
+            return WarningCellData(warning: warning)
+        })
+    }
+
+    private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
+        guard let acknowledgements = previewOrder?.ackWarningsList as? [String] else { return [] }
+
+        return acknowledgements.map({ acknowledgement in
+            return AcknowledgementCellData(acknowledgement: acknowledgement)
+        })
     }
 }

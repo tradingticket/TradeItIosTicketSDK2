@@ -8,7 +8,8 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     
     var selectedLinkedBroker: TradeItLinkedBroker!
     var delegate: TradeItAccountSelectionViewControllerDelegate?
-
+    var alertManager = TradeItAlertManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
@@ -29,11 +30,17 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) in
-                TradeItAlert().show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
+                )
+            },
+            onFailure:  { (tradeItErrorResult: TradeItErrorResult, linkedBroker: TradeItLinkedBroker) -> Void in
+                self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {
+                        onRefreshComplete(withLinkedBrokers: self.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                    }
                 )
             },
             onFinished: {
@@ -49,7 +56,6 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     func linkedBrokerAccountWasSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.delegate?.accountSelectionViewController(self, didSelectLinkedBrokerAccount: linkedBrokerAccount)
     }
-
 }
 
 protocol TradeItAccountSelectionViewControllerDelegate {

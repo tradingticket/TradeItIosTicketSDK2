@@ -39,6 +39,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
                 self.fxBalance = accountOverviewResult.fxAccountOverview
                 onSuccess()
             case let errorResult as TradeItErrorResult:
+                self.linkedBroker.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown error getting balances"))
@@ -68,6 +69,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
                 self.positions = positionsPortfolio
                 onSuccess()
             case let errorResult as TradeItErrorResult:
+                self.linkedBroker.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown error getting positions"))

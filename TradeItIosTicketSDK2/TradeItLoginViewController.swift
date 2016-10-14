@@ -13,7 +13,7 @@ class TradeItLoginViewController: KeyboardViewController {
     var delegate: TradeItLoginViewControllerDelegate?
     var selectedBroker: TradeItBroker?
     var linkedBrokerToRelink: TradeItLinkedBroker?
-    var tradeItAlert = TradeItAlert()
+    var alertManager = TradeItAlertManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,9 +67,10 @@ class TradeItLoginViewController: KeyboardViewController {
                                                   onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
                                                       self.activityIndicator.stopAnimating()
                                                       self.enableLinkButton()
-                                                      self.tradeItAlert.showTradeItErrorResultAlert(
-                                                          onViewController: self,
-                                                          errorResult: tradeItErrorResult)
+                                                      self.alertManager.showGenericError(
+                                                          tradeItErrorResult: tradeItErrorResult,
+                                                          onViewController: self
+                                                      )
                                                   })
         } else {
             self.linkedBrokerManager.linkBroker(authInfo: tradeItAuthenticationInfo,
@@ -79,9 +80,10 @@ class TradeItLoginViewController: KeyboardViewController {
                                                 onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
                                                     self.activityIndicator.stopAnimating()
                                                     self.enableLinkButton()
-                                                    self.tradeItAlert.showTradeItErrorResultAlert(
-                                                        onViewController: self,
-                                                        errorResult: tradeItErrorResult)
+                                                    self.alertManager.showGenericError(
+                                                        tradeItErrorResult: tradeItErrorResult,
+                                                        onViewController: self
+                                                    )
                                                 })
         }
     }
@@ -106,7 +108,7 @@ class TradeItLoginViewController: KeyboardViewController {
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
@@ -117,8 +119,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 //TODO delete linkedLogin in keychain ?
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.tradeItAlert.showTradeItErrorResultAlert(onViewController: self,
-                                                              errorResult: tradeItErrorResult)
+                self.alertManager.showGenericError(tradeItErrorResult: tradeItErrorResult, onViewController: self)
             }
         )
     }

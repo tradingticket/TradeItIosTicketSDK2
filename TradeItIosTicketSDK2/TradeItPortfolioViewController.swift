@@ -3,7 +3,7 @@ import PromiseKit
 
 class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate {
     
-    var tradeItAlert = TradeItAlert()
+    var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
@@ -39,19 +39,21 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
                 self.ezLoadingActivityManager.hide()
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelSecurityQuestion
-                )
+                    onAnswerSecurityQuestion: { (answer: String) in
+                        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+                        answerSecurityQuestion(answer)
+                    },
+                    onCancelSecurityQuestion: cancelSecurityQuestion)
             },
             onFinished: {
                 self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
 
                 self.linkedBrokerManager.refreshAccountBalances(
-                    onFinished:  {
-                        self.updatePortfolioView()
+                    onFinished: {
+                        self.updatePortfolioScreen()
                         self.ezLoadingActivityManager.hide()
                     }
                 )
@@ -60,22 +62,22 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.updatePortfolioView()
+        self.updatePortfolioScreen()
     }
     
     // MARK: private methods
 
-    private func updatePortfolioView() {
+    private func updatePortfolioScreen() {
         let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
         let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
         self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError)
-        self.updateAllAccountsValue(withAccounts: accounts)
+        self.updateTotalValueLabel(withAccounts: accounts)
         if (accounts.count == 0) {
             self.positionsTableViewManager.updatePositions(withPositions: [])
         }
     }
     
-    private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalAccountsValue: Float = 0
         for account in accounts {
             if let balance = account.balance, let totalValue = balance.totalValue {
@@ -126,7 +128,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
                         self.ezLoadingActivityManager.hide()
-                        self.updatePortfolioView()
+                        self.updatePortfolioScreen()
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
@@ -143,12 +145,12 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
                     linkedBroker.refreshAccountBalances(
                         onFinished: {
                             self.ezLoadingActivityManager.hide()
-                            self.updatePortfolioView()
+                            self.updatePortfolioScreen()
                     })
             },
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
                 self.ezLoadingActivityManager.hide()
-                self.tradeItAlert.show(
+                self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
@@ -157,11 +159,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
                 self.ezLoadingActivityManager.hide()
-                linkedBroker.wasAuthenticated = false
-                linkedBroker.error = tradeItErrorResult
-                self.updatePortfolioView()
+                self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {})
             }
         )
     }
-    
 }

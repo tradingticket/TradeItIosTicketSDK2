@@ -22,10 +22,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     var tradeItLauncher: TradeItLauncher!
     let viewControllerProvider = TradeItViewControllerProvider()
 
+    var alertManager: TradeItAlertManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
+        self.alertManager = TradeItAlertManager()
     }
 
     // Mark: UITableViewDelegate
@@ -84,12 +87,17 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            TradeItAlert().show(securityQuestion: securityQuestion, onViewController: self, onAnswerSecurityQuestion: answerSecurityQuestion, onCancelSecurityQuestion: cancelQuestion)
-        }, onFinished: {
-            TradeItAlert().showErrorAlert(
+            self.alertManager.show(
+                securityQuestion: securityQuestion,
                 onViewController: self,
-                title: "authenticateAll finished",
-                message: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.")
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelQuestion)
+        }, onFinished: {
+            self.alertManager.showOn(
+                viewController: self,
+                withAlertTitle: "authenticateAll finished",
+                withAlertMessage: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
+                withAlertActionTitle: "OK")
         })
     }
 

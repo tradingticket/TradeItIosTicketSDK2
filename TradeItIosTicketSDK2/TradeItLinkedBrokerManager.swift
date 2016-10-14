@@ -4,7 +4,7 @@ import PromiseKit
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
     public var linkedBrokers: [TradeItLinkedBroker] = []
-
+    
     init(apiKey: String, environment: TradeitEmsEnvironments) {
         // TODO: TradeItConnector initializer returns optional - we should not force unwrap
         tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
@@ -25,19 +25,30 @@ import PromiseKit
     func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
         let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
+        
+        //we need to provide an error when we load from the keychain in order to the authenticate all method to handle this linkBroker
+        let errorResult = TradeItErrorResult()
+        errorResult.systemMessage = "This linked broker needs to authenticate"
+        errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
+        linkedBroker.error = errorResult
+        
         self.linkedBrokers.append(linkedBroker)
 
         return linkedBroker
     }
 
-    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void, () -> Void) -> Void,
+    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                                 submitAnswer: (String) -> Void,
+                                                                 onCancelSecurityQuestion: () -> Void) -> Void,
+                                            onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
                                             onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { !$0.wasAuthenticated }.map { linkedBroker in
+        let promises = self.linkedBrokers.filter { $0.error != nil }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticate(
                     onSuccess: fulfill,
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
+                        onFailure(tradeItErrorResult, linkedBroker)
                         fulfill()
                     }
                 )
@@ -48,7 +59,7 @@ import PromiseKit
     }
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { $0.wasAuthenticated }.map { linkedBroker in
+        let promises = self.linkedBrokers.filter { !$0.requiresAuthentication() }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
             }
@@ -113,18 +124,24 @@ import PromiseKit
         self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, withAuthenticationInfo: authInfo, andCompletionBlock: { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
+                linkedBroker.error = errorResult
                 onFailure(errorResult)
             case let updateLinkResult as TradeItUpdateLinkResult:
                 let linkedLogin = self.tradeItConnector.updateLinkInKeychain(updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
 
                 if let linkedLogin = linkedLogin {
+                    linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
                     onSuccess(linkedBroker: linkedBroker)
                 } else {
-                    onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update linked login to keychain"))
+                    let error = TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update linked login to keychain")
+                    linkedBroker.error = error
+                    onFailure(error)
                 }
             default:
-                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update user token"))
+                let error = TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update user token")
+                linkedBroker.error = error
+                onFailure(error)
             }
         })
     }

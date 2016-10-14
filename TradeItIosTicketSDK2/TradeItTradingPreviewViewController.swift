@@ -4,14 +4,17 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     @IBOutlet weak var orderDetailsTable: UITableView!
 
     var ezLoadingActivityManager = EZLoadingActivityManager()
-    var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrder: TradeItPreviewTradeResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewData: [TableData] = [] // TODO: Move to presenter?
-
+    var alertManager =  TradeItAlertManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if self.linkedBrokerAccount == nil {
+            assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingPreviewViewController loaded without setting linkedBrokerAccount.")
+        }
         previewData = generateTableData()
 
         orderDetailsTable.dataSource = self
@@ -33,7 +36,10 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
             self.ezLoadingActivityManager.hide()
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()
-            TradeItAlert().showTradeItErrorResultAlert(onViewController: self, errorResult: errorResult)
+            self.alertManager.show(tradeItErrorResult: errorResult,
+                                            onViewController: self,
+                                            withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
+                                            onFinished: {})
         })
     }
 

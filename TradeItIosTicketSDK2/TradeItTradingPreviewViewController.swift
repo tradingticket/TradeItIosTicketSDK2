@@ -29,7 +29,7 @@ internal class ValueCellData: PreviewCellData {
     }
 }
 
-class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
+class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
 

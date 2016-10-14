@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
+class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -28,7 +28,6 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         if self.order.linkedBrokerAccount == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
-        configureNavigationItem()
         
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))

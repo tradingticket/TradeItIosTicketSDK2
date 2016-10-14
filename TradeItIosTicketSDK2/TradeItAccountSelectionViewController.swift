@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSelectionTableViewManagerDelegate {
+class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
@@ -12,7 +12,6 @@ class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationItem()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
     }

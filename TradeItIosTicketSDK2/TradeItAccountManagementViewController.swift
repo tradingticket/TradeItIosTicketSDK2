@@ -1,7 +1,7 @@
 import UIKit
 
 
-class TradeItAccountManagementViewController: UIViewController, TradeItAccountManagementTableViewManagerDelegate {
+class TradeItAccountManagementViewController: TradeItViewController, TradeItAccountManagementTableViewManagerDelegate {
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()
@@ -15,7 +15,6 @@ class TradeItAccountManagementViewController: UIViewController, TradeItAccountMa
         if self.linkedBroker == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItAccountManagementViewController loaded without setting linkedBroker.")
         }
-        configureNavigationItem()
 
         self.accountManagementTableManager.delegate = self
         self.accountManagementTableManager.accountsTableView = self.accountsTableView

@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItTradingConfirmationViewController: UIViewController {
+@objc class TradeItTradingConfirmationViewController: TradeItViewController {
     @IBOutlet weak var confirmationTextLabel: UILabel!
     var placeOrderResult: TradeItPlaceTradeResult?
     var viewControllerProvider = TradeItViewControllerProvider()
@@ -10,7 +10,6 @@ class TradeItTradingConfirmationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationItem()
 
         guard let placeOrderResult = placeOrderResult else { return }
         confirmationTextLabel.text = placeOrderResult.confirmationMessage

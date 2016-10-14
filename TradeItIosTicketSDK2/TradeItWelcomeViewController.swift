@@ -1,11 +1,10 @@
 import UIKit
 
-class TradeItWelcomeViewController: UIViewController {
+class TradeItWelcomeViewController: TradeItViewController {
     var delegate: TradeItWelcomeViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationItem()
     }
 
     // MARK: IBActions

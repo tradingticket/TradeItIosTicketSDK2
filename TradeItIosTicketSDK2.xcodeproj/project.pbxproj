@@ -277,6 +277,7 @@
 		75BAACDA1DB800B600E5435C /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAACC61DB8004900E5435C /* UITestHelper.swift */; };
 		7FA99DE16BF593DC46613B34 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EB96CDD132BE944FB0BC75 /* Pods_ExampleApp.framework */; };
 		96AD45E1D5B8B3240E839907 /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */; };
+		B55933F81DB8F78400620A57 /* TradeItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55933F71DB8F78400620A57 /* TradeItViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -594,6 +595,7 @@
 		75BAACCE1DB8005A00E5435C /* ExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		849EFA742276C47F5D1FCA64 /* Pods-TradeItIosTicketSDK2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.release.xcconfig"; sourceTree = "<group>"; };
 		98A2390A961A32AF0F09BD1B /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		B55933F71DB8F78400620A57 /* TradeItViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItViewController.swift; sourceTree = "<group>"; };
 		C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFA3D7027ABB635CCC657394 /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		EBEE9112E2E8352CFD8C8572 /* Pods-TradeItIosTicketSDK2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.debug.xcconfig"; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 		756FAF861DB81C8400D5B112 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B55933F71DB8F78400620A57 /* TradeItViewController.swift */,
 				75BAAA4A1DB7EEB400E5435C /* KeyboardViewController.swift */,
 				75BAAA531DB7EEB400E5435C /* TradeItAccountManagementViewController.swift */,
 				75BAAA571DB7EEB400E5435C /* TradeItAccountSelectionViewController.swift */,
@@ -1669,6 +1672,7 @@
 				75BAAAA81DB7EEB400E5435C /* TradeItAccountManagementViewController.swift in Sources */,
 				75BAABD11DB7EF2F00E5435C /* TradeItPreviewTradeResult.m in Sources */,
 				75BAAAE91DB7EEB400E5435C /* TradeItWelcomeViewController.swift in Sources */,
+				B55933F81DB8F78400620A57 /* TradeItViewController.swift in Sources */,
 				75BAABEF1DB7EF2F00E5435C /* TradeItTradeService.m in Sources */,
 				75BAABCF1DB7EF2F00E5435C /* TradeItPreviewTradeRequest.m in Sources */,
 				75BAAAC01DB7EEB400E5435C /* TradeItOrder.swift in Sources */,

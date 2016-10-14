@@ -1,6 +1,6 @@
 import UIKit
 
-class KeyboardViewController: UIViewController {
+class KeyboardViewController: TradeItViewController {
     
     var submitButtonBottomSpaceConstraintConstant:CGFloat = 0.0
     

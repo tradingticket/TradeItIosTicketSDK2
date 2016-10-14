@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItErrorManager {
 
     func isBrokerAuthenticationError(error: TradeItErrorResult) -> Bool {

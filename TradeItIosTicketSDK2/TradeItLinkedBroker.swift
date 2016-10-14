@@ -1,4 +1,3 @@
-import TradeItIosEmsApi
 import PromiseKit
 
 public class TradeItLinkedBroker: NSObject {

@@ -1,6 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
-
 
 class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate {
     private var symbolResults: [TradeItSymbolLookupCompany] = []

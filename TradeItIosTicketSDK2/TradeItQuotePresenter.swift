@@ -1,4 +1,4 @@
-import TradeItIosEmsApi
+import UIKit
 
 class TradeItQuotePresenter: NSObject {
 

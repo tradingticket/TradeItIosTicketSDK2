@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var orderDetailsTable: UITableView!

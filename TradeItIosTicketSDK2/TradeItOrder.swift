@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 typealias TradeItPlaceOrderHandlers = (onSuccess: (TradeItPlaceOrderResult) -> Void, onFailure: (TradeItErrorResult) -> Void) -> Void
 

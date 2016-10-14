@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItAccountManagementViewController: UIViewController, TradeItAccountManagementTableViewManagerDelegate {
     var tradeItAlert = TradeItAlert()

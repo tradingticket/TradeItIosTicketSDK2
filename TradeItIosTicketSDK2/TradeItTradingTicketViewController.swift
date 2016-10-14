@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!

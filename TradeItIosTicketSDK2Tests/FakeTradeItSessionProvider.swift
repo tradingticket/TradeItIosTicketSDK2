@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class FakeTradeItSessionProvider: TradeItSessionProvider {
     var tradeItSessionToProvide: TradeItSession?
 

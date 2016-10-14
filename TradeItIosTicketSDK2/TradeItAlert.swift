@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 // TODO: This should be a provider that returns instances of UIAlertController
 class TradeItAlert {

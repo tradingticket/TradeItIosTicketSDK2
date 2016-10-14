@@ -1,4 +1,3 @@
-import TradeItIosEmsApi
 import UIKit
 
 class TradeItTradingBrokerAccountView: UIView {

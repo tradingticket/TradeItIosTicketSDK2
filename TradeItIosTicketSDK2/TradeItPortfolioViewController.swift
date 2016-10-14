@@ -1,6 +1,5 @@
 import UIKit
 import PromiseKit
-import TradeItIosEmsApi
 
 class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate {
     

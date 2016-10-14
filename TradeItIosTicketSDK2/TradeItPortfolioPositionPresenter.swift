@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 protocol TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote?
     func getQuantity() -> Float?

@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class TradeItPortfolioAccountSummaryViewManager {
 
     var accountSummaryView: TradeItAccountSummaryView!

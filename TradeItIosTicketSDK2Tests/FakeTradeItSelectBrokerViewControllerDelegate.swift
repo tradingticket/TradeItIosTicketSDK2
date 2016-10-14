@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class FakeTradeItSelectBrokerViewControllerDelegate: TradeItSelectBrokerViewControllerDelegate {
     let calls = SpyRecorder()
     

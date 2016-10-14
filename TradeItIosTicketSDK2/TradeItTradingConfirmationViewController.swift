@@ -1,5 +1,4 @@
 import UIKit
-import TradeItIosEmsApi
 
 class TradeItTradingConfirmationViewController: UIViewController {
     @IBOutlet weak var confirmationTextLabel: UILabel!

@@ -1,4 +1,3 @@
-source 'https://github.com/tradingticket/SpecRepo'
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
@@ -11,7 +10,6 @@ def testing_pods
 end
 
 def app_pods
-  pod 'TradeItIosEmsApi', :path => '~/workspace/TradeItIosEmsApi'
   pod 'PromiseKit', '3.4'
 end
 

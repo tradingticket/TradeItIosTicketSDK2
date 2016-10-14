@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC
@@ -15,13 +15,12 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'TradeItIosTicketSDK2/**/*.swift'
+  s.source_files = 'TradeItIosTicketSDK2/**/*.{swift,h}', 'TradeItIosEmsApi/**/*.{h,m}'
 
   s.resource_bundles = {
     'TradeItIosTicketSDK2' => ['TradeItIosTicketSDK2/**/*.{storyboard,xib,png}']
   }
 
   s.frameworks = 'UIKit'
-  s.dependency 'TradeItIosEmsApi', '~> 1.0.0'
   s.dependency 'PromiseKit', '~> 3.4'
 end

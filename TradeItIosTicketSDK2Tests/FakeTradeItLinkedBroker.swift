@@ -1,5 +1,3 @@
-import TradeItIosEmsApi
-
 class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
     let calls = SpyRecorder()

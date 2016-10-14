@@ -52,8 +52,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
                 self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
 
                 self.linkedBrokerManager.refreshAccountBalances(
-                    onFinished:  {
-                        self.updatePortfolioView()
+                    onFinished: {
+                        self.updatePortfolioScreen()
                         self.ezLoadingActivityManager.hide()
                     }
                 )
@@ -62,22 +62,22 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.updatePortfolioView()
+        self.updatePortfolioScreen()
     }
     
     // MARK: private methods
 
-    private func updatePortfolioView() {
+    private func updatePortfolioScreen() {
         let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
         let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
         self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError)
-        self.updateAllAccountsValue(withAccounts: accounts)
+        self.updateTotalValueLabel(withAccounts: accounts)
         if (accounts.count == 0) {
             self.positionsTableViewManager.updatePositions(withPositions: [])
         }
     }
     
-    private func updateAllAccountsValue(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalAccountsValue: Float = 0
         for account in accounts {
             if let balance = account.balance, let totalValue = balance.totalValue {
@@ -128,7 +128,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
                         self.ezLoadingActivityManager.hide()
-                        self.updatePortfolioView()
+                        self.updatePortfolioScreen()
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
@@ -145,7 +145,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
                     linkedBroker.refreshAccountBalances(
                         onFinished: {
                             self.ezLoadingActivityManager.hide()
-                            self.updatePortfolioView()
+                            self.updatePortfolioScreen()
                     })
             },
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in

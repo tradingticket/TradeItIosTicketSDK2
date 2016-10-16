@@ -27,11 +27,11 @@ import PromiseKit
         let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
         
         //we need to provide an error when we load from the keychain in order to the authenticate all method to handle this linkBroker
-        let errorResult = TradeItErrorResult()
-        errorResult.systemMessage = "This linked broker needs to authenticate"
-        errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
-        linkedBroker.error = errorResult
-        
+//        let errorResult = TradeItErrorResult()
+//        errorResult.systemMessage = "This linked broker needs to authenticate"
+//        errorResult.errorCode() = TradeItErrorCode.SESSION_ERROR.rawValue
+//        linkedBroker.error = errorResult
+
         self.linkedBrokers.append(linkedBroker)
 
         return linkedBroker
@@ -59,7 +59,7 @@ import PromiseKit
     }
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        let promises = self.linkedBrokers.filter { !$0.requiresAuthentication() }.map { linkedBroker in
+        let promises = self.linkedBrokers.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
             }

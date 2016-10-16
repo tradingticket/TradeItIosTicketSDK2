@@ -1,16 +1,9 @@
 import UIKit
 
 class TradeItAlertManager {
-
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
-    let tradeItErrorManager = TradeItErrorManager()
 
-    /*
-     func showTradeItErrorResultAlert(onViewController viewController: UIViewController,
-                                                       errorResult: TradeItErrorResult,
-                                                       onAlertDismissed: () -> Void)
-     */
     func showGenericError(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
                             onViewController viewController: UIViewController,
                                              onFinished: () -> Void = {}) {
@@ -59,7 +52,9 @@ class TradeItAlertManager {
             )
         }
 
-        if tradeItErrorManager.isBrokerAuthenticationError(tradeItErrorResult) {
+        let errorCode = tradeItErrorResult.errorCode()
+
+        if errorCode == TradeItErrorCode.BROKER_AUTHENTICATION_ERROR {
             alertTitle = "Update Login"
             alertMessage = "There seem to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information."
             alertActionTitle = "Update"
@@ -70,7 +65,7 @@ class TradeItAlertManager {
                         withAlertActionTitle: alertActionTitle,
                         onAlertActionTapped: onAlertActionTapped,
                         onCancelActionTapped: onFinished)
-        } else if tradeItErrorManager.isOAuthError(tradeItErrorResult) {
+        } else if errorCode == TradeItErrorCode.OAUTH_ERROR {
             alertTitle = "Relink \(linkedBroker.linkedLogin.broker) Accounts"
             alertMessage = "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts."
             alertActionTitle = "Update"
@@ -88,11 +83,6 @@ class TradeItAlertManager {
         }
     }
 
-    /*
-    func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
-              onViewController viewController: UIViewController,
-                               onAnswerSecurityQuestion: (withAnswer: String) -> Void)
-    */
     func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
               onViewController viewController: UIViewController,
                                onAnswerSecurityQuestion: (withAnswer: String) -> Void,

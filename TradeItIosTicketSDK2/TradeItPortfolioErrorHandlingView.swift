@@ -1,13 +1,11 @@
 import UIKit
 
 class TradeItPortfolioErrorHandlingView: UIControl {
-
     @IBOutlet weak var shortMessageLabel: UILabel!
     @IBOutlet weak var longMessageLabel: UILabel!
-    
     @IBOutlet weak var actionButton: UIButton!
     
-    private var linkedBrokerInError: TradeItLinkedBroker!
+    private var linkedBrokerInError: TradeItLinkedBroker?
     
     var delegate: TradeItPortfolioErrorHandlingViewDelegate?
     
@@ -19,43 +17,38 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     
     //MARK: private
     private func updateMessages() {
-        let error = self.linkedBrokerInError.error!
-        self.shortMessageLabel.text = ""
-        self.longMessageLabel.text = ""
-        
-        if let shortMessage = error.shortMessage {
-            self.shortMessageLabel.text = shortMessage
-        }
-        if let longMessages = error.longMessages {
-            self.longMessageLabel.text = (longMessages as! [String]).joinWithSeparator(" ")
-        }
+        let error = self.linkedBrokerInError?.error
+
+        self.shortMessageLabel.text = error?.shortMessage ?? ""
+
+        let longMessages = error?.longMessages as? [String] ?? [String]()
+        self.longMessageLabel.text = longMessages.joinWithSeparator(" ")
     }
     
     private func updateButtonText() {
-        let error = self.linkedBrokerInError.error!
         var text = "Reload Account"
-        if let code = error.code {
-            switch code {
-            case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR.rawValue: text = "Update Login"
-            case TradeItErrorCode.OAUTH_ERROR.rawValue: text = "Relink Account"
+
+        if let errorCode = self.linkedBrokerInError?.error?.errorCode() {
+            switch errorCode {
+            case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR: text = "Update Login"
+            case TradeItErrorCode.OAUTH_ERROR: text = "Relink Account"
             default: text = "Reload Account"
             }
         }
-        
+
         self.actionButton.setTitle(text, forState: .Normal)
     }
-    
+
     // MARK: IBActions
     @IBAction func actionButtonWasTapped(WithSender sender: UIButton) {
-        let error = self.linkedBrokerInError.error!
-        if error.code != nil && (error.code == TradeItErrorCode.BROKER_AUTHENTICATION_ERROR.rawValue || error.code == TradeItErrorCode.OAUTH_ERROR.rawValue) {
-                self.delegate?.relinkAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
+        if let linkedBroker = self.linkedBrokerInError, let errorCode = linkedBroker.error?.errorCode() {
+            switch errorCode {
+            case .BROKER_AUTHENTICATION_ERROR, .OAUTH_ERROR:
+                self.delegate?.relinkAccountWasTapped(withLinkedBroker: linkedBroker)
+            default:
+                self.delegate?.reloadAccountWasTapped(withLinkedBroker: linkedBroker)
+            }
         }
-        else {
-            self.delegate?.reloadAccountWasTapped(withLinkedBroker: self.linkedBrokerInError)
-        }
-        
-        
     }
 }
 

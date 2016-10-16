@@ -5,7 +5,6 @@ public class TradeItLinkedBroker: NSObject {
     var linkedLogin: TradeItLinkedLogin
     var accounts: [TradeItLinkedBrokerAccount] = []
     var error: TradeItErrorResult?
-    var errorManager = TradeItErrorManager()
     
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
@@ -42,9 +41,9 @@ public class TradeItLinkedBroker: NSObject {
                 default:
                     handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown response sent from the server for authentication."))
                 }
-
             }
         }
+
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
 
@@ -63,12 +62,6 @@ public class TradeItLinkedBroker: NSObject {
 
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
-    }
-
-    public func requiresAuthentication() -> Bool {
-        guard let error = self.error
-            else { return false }
-        return (errorManager.isBrokerAuthenticationError(error) || errorManager.isOAuthError(error) || errorManager.isSessionError(error))
     }
 
     private func mapToLinkedBrokerAccounts(accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {

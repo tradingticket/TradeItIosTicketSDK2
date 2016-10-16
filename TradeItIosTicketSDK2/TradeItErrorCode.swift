@@ -1,9 +1,0 @@
-enum TradeItErrorCode: Int {
-    case SYSTEM_ERROR = 100
-    case BROKER_EXECUTION_ERROR = 200
-    case BROKER_AUTHENTICATION_ERROR = 300
-    case BROKER_ACCOUNT_ERROR = 400
-    case PARAMS_ERROR = 500
-    case SESSION_ERROR = 600
-    case OAUTH_ERROR = 700
-}

@@ -266,7 +266,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             guard let position = positionsMatchingSymbol.first else { return }
 
             let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
-            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity())
+            self.tradingBrokerAccountView.updateSharesOwned(presenter)
         }, onFailure: { errorResult in
             print(errorResult)
         })

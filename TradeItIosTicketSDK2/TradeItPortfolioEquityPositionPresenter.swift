@@ -83,4 +83,8 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
             else { return UIColor.lightTextColor() }
         return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
+    
+    func getHoldingType() -> String? {
+        return self.position?.holdingType
+    }
 }

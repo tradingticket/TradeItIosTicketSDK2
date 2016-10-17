@@ -2,6 +2,7 @@ protocol TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote?
     func getQuantity() -> Float?
     func getFormattedSymbol() -> String
+    func getHoldingType() -> String?
 }
 
 extension TradeItPortfolioPositionPresenter {

@@ -41,13 +41,18 @@ class TradeItPortfolioErrorHandlingView: UIControl {
 
     // MARK: IBActions
     @IBAction func actionButtonWasTapped(WithSender sender: UIButton) {
-        if let linkedBroker = self.linkedBrokerInError, let errorCode = linkedBroker.error?.errorCode() {
+        guard let linkedBroker = self.linkedBrokerInError
+            else { return }
+        if let errorCode = linkedBroker.error?.errorCode() {
             switch errorCode {
             case .BROKER_AUTHENTICATION_ERROR, .OAUTH_ERROR:
                 self.delegate?.relinkAccountWasTapped(withLinkedBroker: linkedBroker)
             default:
                 self.delegate?.reloadAccountWasTapped(withLinkedBroker: linkedBroker)
             }
+        }
+        else {
+            self.delegate?.reloadAccountWasTapped(withLinkedBroker: linkedBroker)
         }
     }
 }

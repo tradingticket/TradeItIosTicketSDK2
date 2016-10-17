@@ -116,7 +116,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 )
             },
             onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                //TODO delete linkedLogin in keychain ?
+                self.linkedBrokerManager.unlinkBroker(linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
                 self.alertManager.showGenericError(tradeItErrorResult: tradeItErrorResult, onViewController: self)

@@ -122,7 +122,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: linkedBroker,
-            onLinked: { (presentedNavController: UINavigationController) -> Void in
+            onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)
                 self.ezLoadingActivityManager.show(text: "Refreshing Accounts", disableUI: true)
                 linkedBroker.refreshAccountBalances(

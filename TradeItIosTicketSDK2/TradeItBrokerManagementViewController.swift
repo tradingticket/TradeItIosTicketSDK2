@@ -43,9 +43,12 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,
-            onLinked: { (presentedNavController: UINavigationController) -> Void in
+            onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)
-                self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
+                linkedBroker.refreshAccountBalances(
+                    onFinished: {
+                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
+                })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)

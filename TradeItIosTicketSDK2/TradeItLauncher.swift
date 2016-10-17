@@ -20,7 +20,7 @@ import UIKit
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
-                onLinked: { (presentedNavController: UINavigationController) -> Void in
+                onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
                     let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
                     presentedNavController.setViewControllers([portfolioViewController], animated: true)
                 },
@@ -41,7 +41,7 @@ import UIKit
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
-                onLinked: { (presentedNavController: UINavigationController) -> Void in
+                onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
                     self.tradingUIFlow.pushTradingFlow(onNavigationController: presentedNavController, asRootViewController: true, withOrder: order)
                 },
                 onFlowAborted: { (presentedNavController: UINavigationController) -> Void in

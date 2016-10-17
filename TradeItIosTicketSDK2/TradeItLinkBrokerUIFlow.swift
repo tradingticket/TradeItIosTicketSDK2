@@ -7,7 +7,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     let linkedBrokerManager: TradeItLinkedBrokerManager
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    var onLinkedCallback: ((UINavigationController) -> Void)?
+    var onLinkedCallback: ((UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
 
     init(linkedBrokerManager: TradeItLinkedBrokerManager) {
@@ -16,7 +16,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
                                                   showWelcomeScreen: Bool,
-                                                  onLinked: (presentedNavController: UINavigationController) -> Void,
+                                                  onLinked: (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void,
                                                   onFlowAborted: (presentedNavController: UINavigationController) -> Void) {
         self.onLinkedCallback = onLinked
         self.onFlowAbortedCallback = onFlowAborted
@@ -38,7 +38,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
                                                  linkedBroker: TradeItLinkedBroker,
-                                                 onLinked: (presentedNavController: UINavigationController) -> Void,
+                                                 onLinked: (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void,
                                                  onFlowAborted: (presentedNavController: UINavigationController) -> Void) {
         self.onLinkedCallback = onLinked
         self.onFlowAbortedCallback = onFlowAborted
@@ -89,6 +89,6 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController,
                       withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.onLinkedCallback?(fromTradeItLoginViewController.navigationController!)
+        self.onLinkedCallback?(fromTradeItLoginViewController.navigationController!, linkedBroker: linkedBroker)
     }
 }

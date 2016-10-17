@@ -93,6 +93,18 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.totalValueLabel.text = NumberFormatter.formatCurrency(totalAccountsValue)
     }
     
+    private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
+                                                   account: TradeItLinkedBrokerAccount?,
+                                                   orderAction: TradeItOrderAction?) -> TradeItOrder {
+            let order = TradeItOrder()
+            order.linkedBrokerAccount = account
+            if let portfolioPosition = portfolioPosition {
+                order.symbol = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol()
+            }
+            order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
+            return order
+    }
+    
     // MARK: IBActions
     
     @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
@@ -100,8 +112,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     }
     
     @IBAction func tradeButtonWasTapped(sender: AnyObject) {
-        let order = TradeItOrder()
-        order.linkedBrokerAccount = self.selectedAccount
+        let order = provideOrder(forPortFolioPosition: nil, account: self.selectedAccount, orderAction: nil)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
@@ -129,11 +140,8 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     
     // MARK: TradeItPortfolioPositionsTableDelegate
     
-    func buyButtonWasTappedWith(order order: TradeItOrder) {
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
-    }
-    
-    func sellButtonWasTappedWith(order order: TradeItOrder) {
+    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
+        let order = self.provideOrder(forPortFolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     

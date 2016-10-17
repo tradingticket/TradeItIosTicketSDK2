@@ -91,22 +91,13 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let buyAction = UITableViewRowAction(style: .Normal, title: "BUY") { action, index in
             let position = self.positions[index.row]
-            let order = TradeItOrder()
-            order.action = TradeItOrderAction.Buy
-            order.linkedBrokerAccount = position.linkedBrokerAccount
-            order.symbol = position.position?.symbol
-
-            self.delegate?.buyButtonWasTappedWith(order: order)
+            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: TradeItOrderAction.Buy)
         }
         buyAction.backgroundColor = UIColor.greenColor()
         
         let sellAction = UITableViewRowAction(style: .Normal, title: "SELL") { action, index in
             let position = self.positions[index.row]
-            let order = TradeItOrder()
-            order.action = TradeItOrderAction.Sell
-            order.linkedBrokerAccount = position.linkedBrokerAccount
-            order.symbol = position.position?.symbol
-            self.delegate?.sellButtonWasTappedWith(order: order)
+            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: TradeItOrderAction.Sell)
         }
         sellAction.backgroundColor = UIColor.redColor()
         
@@ -116,7 +107,11 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        if let nonFxPosition = self.positions[safe: indexPath.row]?.position where nonFxPosition.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
+            return true
+        } else {
+            return false
+        }
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -125,12 +120,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
     
-    func buyButtonWasTappedWith(order order: TradeItOrder) {
-        self.delegate?.buyButtonWasTappedWith(order: order)
-    }
-    
-    func sellButtonWasTappedWith(order order: TradeItOrder) {
-        self.delegate?.sellButtonWasTappedWith(order: order)
+    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: portfolioPosition, orderAction: orderAction)
     }
 
     // MARK: Private
@@ -163,6 +154,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
 }
 
 protocol TradeItPortfolioPositionsTableDelegate: class {
-    func buyButtonWasTappedWith(order order: TradeItOrder)
-    func sellButtonWasTappedWith(order order: TradeItOrder)
+    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
+
 }

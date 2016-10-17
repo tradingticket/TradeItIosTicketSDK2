@@ -19,7 +19,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
     
-    private var selectedPosition: TradeItPortfolioPosition!
+    private var selectedPosition: TradeItPortfolioPosition?
     
     func populate(withPosition position: TradeItPortfolioPosition) {
         self.selectedPosition = position
@@ -33,6 +33,8 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.dayLabelValue.text = presenter.getFormattedDayHighLow()
         self.totalLabelValue.text = presenter.getFormattedTotalValue()
         self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
+        
+        self.performButtonsEnability()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -45,25 +47,31 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: private
+    
+    private func performButtonsEnability() {
+        if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
+            self.buyButton.hidden = false
+            self.sellButton.hidden = false
+        }
+        else {
+            self.buyButton.hidden = true
+            self.sellButton.hidden = true
+        }
+    }
+    
+    // MARK: IBAction
+    
     @IBAction func buyButtonWasTapped(sender: AnyObject) {
-        let order = TradeItOrder()
-        order.action = TradeItOrderAction.Buy
-        order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
-        order.symbol = self.selectedPosition.position?.symbol
-        self.delegate?.buyButtonWasTappedWith(order: order)
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: TradeItOrderAction.Buy)
     }
     
     @IBAction func sellButtonWasTapped(sender: AnyObject) {
-        let order = TradeItOrder()
-        order.action = TradeItOrderAction.Sell
-        order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
-        order.symbol = self.selectedPosition.position?.symbol
-        self.delegate?.sellButtonWasTappedWith(order: order)
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: TradeItOrderAction.Sell)
     }
     
 }
 
 protocol TradeItPortfolioPositionsTableViewCellDelegate: class {
-    func buyButtonWasTappedWith(order order: TradeItOrder)
-    func sellButtonWasTappedWith(order order: TradeItOrder)
+    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
 }

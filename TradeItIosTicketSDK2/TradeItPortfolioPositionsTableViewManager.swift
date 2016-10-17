@@ -3,6 +3,8 @@ import UIKit
 class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
 
     private var positions: [TradeItPortfolioPosition] = []
+    private var selectedPositionIndex = -1
+
     private var _table: UITableView?
     var positionsTable: UITableView? {
         get {
@@ -17,9 +19,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             }
         }
     }
-    
-    private var selectedPositionIndex = -1
-    
+
     weak var delegate: TradeItPortfolioPositionsTableDelegate?
     
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {
@@ -27,10 +27,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         self.positions = positions
         self.positionsTable?.reloadData()
     }
-    
-    // IBAction
-    
-    
     
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -76,24 +72,10 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell!
         let position = self.positions[indexPath.row]
-
-        // TODO: Change this to make position.position and position.fxPosition optional
-        if position.position != nil {
-            let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
-            equityCell.delegate = self
-            equityCell.populate(withPosition: position)
-            cell = equityCell
-        } else if position.fxPosition != nil {
-            let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
-            fxCell.populate(withPosition: position)
-            cell = fxCell
-        }
-
-        if self.selectedPositionIndex == indexPath.row {
-            cell.setSelected(true, animated: true)
-        }
+        let cell = self.provideCell(forTableView: tableView,
+                                    forPortfolioPosition: position,
+                                    selected: self.selectedPositionIndex == indexPath.row)
 
         return cell
     }
@@ -112,7 +94,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             let order = TradeItOrder()
             order.action = TradeItOrderAction.Buy
             order.linkedBrokerAccount = position.linkedBrokerAccount
-            order.symbol = position.position.symbol
+            order.symbol = position.position?.symbol
 
             self.delegate?.buyButtonWasTappedWith(order: order)
         }
@@ -123,7 +105,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             let order = TradeItOrder()
             order.action = TradeItOrderAction.Sell
             order.linkedBrokerAccount = position.linkedBrokerAccount
-            order.symbol = position.position.symbol
+            order.symbol = position.position?.symbol
             self.delegate?.sellButtonWasTappedWith(order: order)
         }
         sellAction.backgroundColor = UIColor.redColor()
@@ -149,6 +131,34 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     
     func sellButtonWasTappedWith(order order: TradeItOrder) {
         self.delegate?.sellButtonWasTappedWith(order: order)
+    }
+
+    // MARK: Private
+
+    func provideCell(forTableView tableView: UITableView,
+                     forPortfolioPosition position: TradeItPortfolioPosition,
+                     selected: Bool = false) -> UITableViewCell {
+        var cell: UITableViewCell?
+
+        if let nonFxPosition = position.position {
+            let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
+            equityCell.delegate = self
+            equityCell.populate(withPosition: position)
+            equityCell.setSelected(selected, animated: true)
+            cell = equityCell
+        } else if let fxPosition = position.fxPosition {
+            let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
+            fxCell.populate(withPosition: position)
+            fxCell.setSelected(selected, animated: true)
+            cell = fxCell
+        }
+
+        if let cell = cell {
+            return cell
+        } else {
+            assertionFailure("Failed to create portfolio position table view cell")
+            return UITableViewCell()
+        }
     }
 }
 

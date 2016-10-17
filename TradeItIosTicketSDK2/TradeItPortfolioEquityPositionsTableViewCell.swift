@@ -49,7 +49,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         let order = TradeItOrder()
         order.action = TradeItOrderAction.Buy
         order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
-        order.symbol = self.selectedPosition.position.symbol
+        order.symbol = self.selectedPosition.position?.symbol
         self.delegate?.buyButtonWasTappedWith(order: order)
     }
     
@@ -57,7 +57,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         let order = TradeItOrder()
         order.action = TradeItOrderAction.Sell
         order.linkedBrokerAccount = self.selectedPosition.linkedBrokerAccount
-        order.symbol = self.selectedPosition.position.symbol
+        order.symbol = self.selectedPosition.position?.symbol
         self.delegate?.sellButtonWasTappedWith(order: order)
     }
     

@@ -48,5 +48,4 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote? {
         return self.tradeItPortfolioPosition.quote
     }
-    
 }

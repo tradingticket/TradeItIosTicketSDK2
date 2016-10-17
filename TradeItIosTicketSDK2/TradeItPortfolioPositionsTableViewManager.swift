@@ -1,8 +1,10 @@
 import UIKit
 
-class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
+class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
 
     private var positions: [TradeItPortfolioPosition] = []
+    private var selectedPositionIndex = -1
+
     private var _table: UITableView?
     var positionsTable: UITableView? {
         get {
@@ -17,8 +19,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             }
         }
     }
-    
-    private var selectedPositionIndex = -1
+
+    weak var delegate: TradeItPortfolioPositionsTableDelegate?
     
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {
         self.selectedPositionIndex = -1
@@ -27,7 +29,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     // MARK: UITableViewDelegate
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // if the user click on the already expanded row, deselect it
         if self.selectedPositionIndex == indexPath.row {
@@ -71,32 +72,97 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell!
         let position = self.positions[indexPath.row]
-
-        // TODO: Change this to make position.position and position.fxPosition optional
-        if position.position != nil {
-            let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
-            equityCell.populate(withPosition: position)
-            cell = equityCell
-        } else if position.fxPosition != nil {
-            let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
-            fxCell.populate(withPosition: position)
-            cell = fxCell
-        }
-
-        if self.selectedPositionIndex == indexPath.row {
-            cell.setSelected(true, animated: true)
-        }
+        let cell = self.provideCell(forTableView: tableView,
+                                    forPortfolioPosition: position,
+                                    selected: self.selectedPositionIndex == indexPath.row)
 
         return cell
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == self.selectedPositionIndex {
-            return 150
+            return 170
         }
 
         return 50
     }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let buyAction = UITableViewRowAction(style: .Normal, title: "BUY") { action, index in
+            let position = self.positions[index.row]
+            let order = TradeItOrder()
+            order.action = TradeItOrderAction.Buy
+            order.linkedBrokerAccount = position.linkedBrokerAccount
+            order.symbol = position.position?.symbol
+
+            self.delegate?.buyButtonWasTappedWith(order: order)
+        }
+        buyAction.backgroundColor = UIColor.greenColor()
+        
+        let sellAction = UITableViewRowAction(style: .Normal, title: "SELL") { action, index in
+            let position = self.positions[index.row]
+            let order = TradeItOrder()
+            order.action = TradeItOrderAction.Sell
+            order.linkedBrokerAccount = position.linkedBrokerAccount
+            order.symbol = position.position?.symbol
+            self.delegate?.sellButtonWasTappedWith(order: order)
+        }
+        sellAction.backgroundColor = UIColor.redColor()
+        
+        
+        return [sellAction, buyAction]
+        
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        // nothing to do but need to be defined to display the actions
+    }
+    
+    // MARK: TradeItPortfolioPositionsTableViewCellDelegate
+    
+    func buyButtonWasTappedWith(order order: TradeItOrder) {
+        self.delegate?.buyButtonWasTappedWith(order: order)
+    }
+    
+    func sellButtonWasTappedWith(order order: TradeItOrder) {
+        self.delegate?.sellButtonWasTappedWith(order: order)
+    }
+
+    // MARK: Private
+
+    func provideCell(forTableView tableView: UITableView,
+                     forPortfolioPosition position: TradeItPortfolioPosition,
+                     selected: Bool = false) -> UITableViewCell {
+        var cell: UITableViewCell?
+
+        if let nonFxPosition = position.position {
+            let equityCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
+            equityCell.delegate = self
+            equityCell.populate(withPosition: position)
+            equityCell.setSelected(selected, animated: true)
+            cell = equityCell
+        } else if let fxPosition = position.fxPosition {
+            let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
+            fxCell.populate(withPosition: position)
+            fxCell.setSelected(selected, animated: true)
+            cell = fxCell
+        }
+
+        if let cell = cell {
+            return cell
+        } else {
+            assertionFailure("Failed to create portfolio position table view cell")
+            return UITableViewCell()
+        }
+    }
+}
+
+protocol TradeItPortfolioPositionsTableDelegate: class {
+    func buyButtonWasTappedWith(order order: TradeItOrder)
+    func sellButtonWasTappedWith(order order: TradeItOrder)
 }

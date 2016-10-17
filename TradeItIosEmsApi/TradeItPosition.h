@@ -17,7 +17,7 @@
 // The exchange symbol, or cusip for bonds
 @property (nullable, copy) NSString<Optional> *symbol;
 
-// The type of security: EQUITY_OR_ETF, MUTUAL_FUND, OPTION, FIXED_INCOME, CASH, UNKOWN
+// The type of security: OPTION, EQUITY_OR_ETF, BUY_WRITES, SPREADS, COMBO, MULTILEG, MUTUAL_FUNDS, FIXED_INCOME, CASH, UNKNOWN, FX, FUTURE
 @property (nullable, copy) NSString<Optional> *symbolClass;
 
 // "LONG" or "SHORT"

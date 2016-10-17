@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -1364,6 +1364,24 @@
                                                                 <constraint firstItem="CP4-og-JWE" firstAttribute="top" secondItem="hya-0B-dah" secondAttribute="bottom" constant="3" id="x03-Dn-eW0"/>
                                                             </constraints>
                                                         </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xkk-gg-Xtn" userLabel="Buy">
+                                                            <color key="backgroundColor" red="0.36709540677710639" green="0.95160442590713501" blue="0.0010349884991716794" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="75" id="g4O-XS-Fie"/>
+                                                                <constraint firstAttribute="height" constant="30" id="qRg-7a-XMt"/>
+                                                            </constraints>
+                                                            <state key="normal" title="Buy">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="2"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="buyButtonWasTapped:" destination="fFn-NS-Mba" eventType="touchUpInside" id="R1r-7h-ev0"/>
+                                                            </connections>
+                                                        </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsO-n0-Y3N">
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNb-QU-Qaf">
@@ -1431,6 +1449,24 @@
                                                                 <constraint firstItem="zNb-QU-Qaf" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" constant="10" id="pFA-de-Fmk"/>
                                                             </constraints>
                                                         </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUC-cS-a8l" userLabel="Sell">
+                                                            <color key="backgroundColor" red="0.95160442590000005" green="0.18191251159999999" blue="0.13573978840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="Keo-la-QkJ"/>
+                                                                <constraint firstAttribute="width" constant="75" id="X24-2R-Fvy"/>
+                                                            </constraints>
+                                                            <state key="normal" title="Sell">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="2"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="sellButtonWasTapped:" destination="fFn-NS-Mba" eventType="touchUpInside" id="dOc-Kc-am7"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailingMargin" secondItem="bsO-n0-Y3N" secondAttribute="trailing" id="2aa-VZ-FPB"/>
@@ -1438,6 +1474,7 @@
                                                         <constraint firstItem="wNa-o1-Ujd" firstAttribute="top" secondItem="Qz9-f6-gXb" secondAttribute="bottom" constant="20" id="62E-hu-LOB"/>
                                                         <constraint firstItem="bsO-n0-Y3N" firstAttribute="top" secondItem="Qz9-f6-gXb" secondAttribute="bottom" constant="20" id="9TJ-n8-tfl"/>
                                                         <constraint firstItem="vlc-q2-XZ8" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="AMT-67-zHl"/>
+                                                        <constraint firstItem="xkk-gg-Xtn" firstAttribute="top" secondItem="wNa-o1-Ujd" secondAttribute="top" constant="60" id="GOw-Bc-Juv"/>
                                                         <constraint firstItem="UUg-Fr-NXz" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="GQg-HA-OzL"/>
                                                         <constraint firstItem="XJJ-3P-SG7" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" constant="5" id="JlX-4A-7W0"/>
                                                         <constraint firstItem="wNa-o1-Ujd" firstAttribute="width" secondItem="CV5-G3-nqA" secondAttribute="width" multiplier="0.45" id="KUe-6b-2BG"/>
@@ -1448,7 +1485,10 @@
                                                         <constraint firstItem="Qz9-f6-gXb" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="aia-IJ-kjW"/>
                                                         <constraint firstItem="UUg-Fr-NXz" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" constant="5" id="eQG-6X-h5l"/>
                                                         <constraint firstItem="P8T-6D-oUm" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" constant="5" id="fPu-et-t0v"/>
+                                                        <constraint firstItem="xkk-gg-Xtn" firstAttribute="trailing" secondItem="wNa-o1-Ujd" secondAttribute="trailing" id="hVh-xr-TrS"/>
                                                         <constraint firstAttribute="leadingMargin" secondItem="wNa-o1-Ujd" secondAttribute="leading" id="jX8-hZ-akt"/>
+                                                        <constraint firstItem="JUC-cS-a8l" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="60" id="kJY-Xi-geW"/>
+                                                        <constraint firstItem="JUC-cS-a8l" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="oyO-Pq-q33"/>
                                                         <constraint firstItem="0Tm-AD-LTv" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" constant="10" id="pWB-zR-F8u"/>
                                                         <constraint firstItem="lAR-ee-oMb" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" constant="5" id="r1S-dS-faP"/>
                                                     </constraints>
@@ -1456,11 +1496,13 @@
                                                 <connections>
                                                     <outlet property="askLabelValue" destination="DCe-kp-JQi" id="dIR-U4-39l"/>
                                                     <outlet property="bidLabelValue" destination="u2X-ap-8DY" id="fP2-U1-kGx"/>
+                                                    <outlet property="buyButton" destination="xkk-gg-Xtn" id="8qA-O8-YCT"/>
                                                     <outlet property="chevron" destination="XJJ-3P-SG7" id="fpz-II-DWZ"/>
                                                     <outlet property="costLabelValue" destination="lAR-ee-oMb" id="4BH-au-ZhQ"/>
                                                     <outlet property="dayLabelValue" destination="dN1-Lv-DGI" id="ZvR-i7-kgw"/>
                                                     <outlet property="lastPriceLabelValue" destination="P8T-6D-oUm" id="6vF-JO-XHc"/>
                                                     <outlet property="quantityLabelValue" destination="Qz9-f6-gXb" id="43B-KQ-N0r"/>
+                                                    <outlet property="sellButton" destination="JUC-cS-a8l" id="Z2a-5w-ea7"/>
                                                     <outlet property="symbolLabelValue" destination="UUg-Fr-NXz" id="P3t-Tp-Beb"/>
                                                     <outlet property="totalLabelValue" destination="EP6-An-n6Q" id="p2l-og-dG6"/>
                                                     <outlet property="totalReturnLabelValue" destination="F6a-HP-Pzi" id="8Mn-Wa-qye"/>
@@ -1622,9 +1664,16 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ct7-dE-1Tb">
+                                        <state key="normal" title="Trade"/>
+                                        <connections>
+                                            <action selector="tradeButtonWasTapped:" destination="bUI-w2-wjN" eventType="touchUpInside" id="48q-xq-Ah4"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.95160442590713501" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ct7-dE-1Tb" secondAttribute="trailing" constant="10" id="0WP-lR-rI1"/>
                                     <constraint firstItem="7tC-j5-kXj" firstAttribute="top" secondItem="Fe3-Cs-IAG" secondAttribute="bottom" constant="10" id="82Y-eY-9Gu"/>
                                     <constraint firstItem="Fe3-Cs-IAG" firstAttribute="leading" secondItem="1fv-sU-vaB" secondAttribute="leading" constant="20" id="ALP-fV-5hV"/>
                                     <constraint firstItem="cgN-G0-ywb" firstAttribute="top" secondItem="1fv-sU-vaB" secondAttribute="top" id="Brh-Rq-Ue3"/>
@@ -1633,6 +1682,7 @@
                                     <constraint firstAttribute="trailing" secondItem="cgN-G0-ywb" secondAttribute="trailing" id="Pqt-iz-QFR"/>
                                     <constraint firstAttribute="trailing" secondItem="7tC-j5-kXj" secondAttribute="trailing" id="QrV-hA-6to"/>
                                     <constraint firstItem="7Ef-Ox-Ah2" firstAttribute="leading" secondItem="Fe3-Cs-IAG" secondAttribute="trailing" constant="10" id="drv-nw-a3F"/>
+                                    <constraint firstItem="ct7-dE-1Tb" firstAttribute="centerY" secondItem="Fe3-Cs-IAG" secondAttribute="centerY" id="lT9-rU-NEz"/>
                                     <constraint firstItem="cgN-G0-ywb" firstAttribute="leading" secondItem="1fv-sU-vaB" secondAttribute="leading" id="lXY-zw-yJe"/>
                                     <constraint firstAttribute="bottom" secondItem="7tC-j5-kXj" secondAttribute="bottom" id="tGa-3X-EJf"/>
                                     <constraint firstItem="7tC-j5-kXj" firstAttribute="leading" secondItem="1fv-sU-vaB" secondAttribute="leading" id="zDi-MX-f44"/>
@@ -1700,14 +1750,15 @@
                             <constraint firstAttribute="trailingMargin" secondItem="F8c-gp-RmA" secondAttribute="trailing" id="UUC-2g-v1S"/>
                             <constraint firstItem="jjm-KA-5qy" firstAttribute="top" secondItem="9Vn-JE-7Ea" secondAttribute="bottom" constant="10" id="UbB-6c-CaX"/>
                             <constraint firstAttribute="trailing" secondItem="umh-YQ-V1f" secondAttribute="trailing" id="YdP-bY-JFM"/>
-                            <constraint firstItem="F8c-gp-RmA" firstAttribute="top" secondItem="kZZ-Hr-ig9" secondAttribute="bottom" constant="10" id="eMe-OW-uUM"/>
                             <constraint firstItem="kZZ-Hr-ig9" firstAttribute="centerX" secondItem="oqc-AE-0p4" secondAttribute="centerX" id="h0F-61-lNi"/>
                             <constraint firstItem="9Vn-JE-7Ea" firstAttribute="leading" secondItem="oqc-AE-0p4" secondAttribute="leadingMargin" id="iew-0d-mpy"/>
                             <constraint firstItem="kZZ-Hr-ig9" firstAttribute="top" secondItem="3Lg-jD-aDu" secondAttribute="bottom" constant="10" id="pXz-tJ-Hcm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3Lg-jD-aDu" secondAttribute="trailing" id="qPG-v8-etn"/>
+                            <constraint firstItem="F8c-gp-RmA" firstAttribute="centerY" secondItem="9Vn-JE-7Ea" secondAttribute="centerY" id="xHq-qy-EPw"/>
                             <constraint firstItem="HnD-M4-Q13" firstAttribute="top" secondItem="1fv-sU-vaB" secondAttribute="bottom" id="zUX-hY-GPo"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T">
                         <barButtonItem key="rightBarButtonItem" title="Close" id="1Vv-1x-1ft">
                             <connections>
@@ -1715,6 +1766,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="accountInfoContainerView" destination="1fv-sU-vaB" id="EpI-dj-qwP"/>
                         <outlet property="accountSummaryView" destination="cgN-G0-ywb" id="rtP-3A-Iyi"/>
@@ -1728,7 +1780,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1913"/>
+            <point key="canvasLocation" x="1048.8" y="-1913.793103448276"/>
         </scene>
         <!--Search-->
         <scene sceneID="dDx-g0-3EY">
@@ -1867,7 +1919,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wKa-HV-bYu" id="duO-td-Bfr">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI6-Z7-clP">
@@ -1890,7 +1942,7 @@
                                         <rect key="frame" x="0.0" y="78" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eTF-Mr-5hl" id="xaO-7c-ENn">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuV-UM-Aaf">
@@ -2209,7 +2261,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8rL-7J-jGy" id="voD-k7-SRK">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5M-zR-ZxE">
@@ -2247,7 +2299,7 @@
                                         <rect key="frame" x="0.0" y="78" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4ZS-6N-1K9" id="5hF-Ho-RcW">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="native_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="ILU-cG-2we">
@@ -2331,7 +2383,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZMx-d1-7NU" id="sk6-aG-p17">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6e-tF-4cW" userLabel="Account name">

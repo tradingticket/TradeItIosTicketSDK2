@@ -13,7 +13,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
         var portfolioErrorHandlingViewManager: FakeTradeItPortfolioErrorHandlingViewManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
-
+        var tradingUIFlow: FakeTradeItTradingUIFlow!
         describe("initialization") {
             beforeEach {
                 ezLoadingActivityManager = FakeEZLoadingActivityManager()
@@ -23,6 +23,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
                 portfolioErrorHandlingViewManager = FakeTradeItPortfolioErrorHandlingViewManager()
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
+                tradingUIFlow = FakeTradeItTradingUIFlow(linkedBrokerManager: linkedBrokerManager)
 
                 window = UIWindow()
                 let bundle = NSBundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
@@ -38,7 +39,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 controller.accountSummaryViewManager = accountSummaryViewManager
                 controller.portfolioErrorHandlingViewManager = portfolioErrorHandlingViewManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
-
+                controller.tradingUIFlow = tradingUIFlow
+                
                 nav = UINavigationController(rootViewController: controller)
                 
                 window.addSubview(nav.view)
@@ -339,6 +341,24 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 context("when security question is needed") {
                     // TODO
                 }
+            }
+            
+            describe("when tradeButton was tapped") {
+                var selectedAccount: TradeItLinkedBrokerAccount!
+                beforeEach {
+                    selectedAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: FakeTradeItLinkedBroker(), brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    
+                    controller.selectedAccount = selectedAccount
+                    controller.tradeButtonWasTapped(UIButton())
+                }
+                
+                it("calls the tradingUIFlow with a selected account on the ordder param") {
+                    let calls = tradingUIFlow.calls.forMethod("presentTradingFlow(fromViewController:withOrder:)")
+                    expect(calls.count).to(equal(1))
+                    let orderArg = calls[0].args["order"] as! TradeItOrder
+                    expect(orderArg.linkedBrokerAccount).to(equal(selectedAccount))
+                }
+
             }
 
             context("when at least one authenticate call fails") {

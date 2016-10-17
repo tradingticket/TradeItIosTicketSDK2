@@ -1,7 +1,7 @@
 import UIKit
 import PromiseKit
 
-class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate {
+class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
@@ -11,6 +11,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
     var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
@@ -22,10 +23,13 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     @IBOutlet weak var errorHandlingView: TradeItPortfolioErrorHandlingView!
     @IBOutlet weak var accountInfoContainerView: UIView!
     
+    var selectedAccount: TradeItLinkedBrokerAccount!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
+        self.positionsTableViewManager.delegate = self
         self.positionsTableViewManager.positionsTable = self.positionsTable
         self.accountSummaryViewManager.accountSummaryView = self.accountSummaryView
         
@@ -95,7 +99,13 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         self.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: TradeItPortfolioAccountsTableDelegate
+    @IBAction func tradeButtonWasTapped(sender: AnyObject) {
+        let order = TradeItOrder()
+        order.linkedBrokerAccount = self.selectedAccount
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
     func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
         self.portfolioErrorHandlingViewManager.showAccountInfoContainerView()
@@ -104,6 +114,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
         selectedAccount.getPositions(
             onSuccess: {
                 self.holdingsLabel.text = selectedAccount.getFormattedAccountName() + " Holdings"
+                self.selectedAccount = selectedAccount
                 self.positionsTableViewManager.updatePositions(withPositions: selectedAccount.positions)
                 self.holdingsActivityIndicator.stopAnimating()
             }, onFailure: { errorResult in
@@ -114,6 +125,16 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     
     func linkedBrokerInErrorWasSelected(selectedBrokerInError selectedBrokerInError: TradeItLinkedBroker) {
         self.portfolioErrorHandlingViewManager.showErrorHandlingView(withLinkedBrokerInError: selectedBrokerInError)
+    }
+    
+    // MARK: TradeItPortfolioPositionsTableDelegate
+    
+    func buyButtonWasTappedWith(order order: TradeItOrder) {
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    func sellButtonWasTappedWith(order order: TradeItOrder) {
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: TradeItPortfolioErrorHandlingViewDelegate methods

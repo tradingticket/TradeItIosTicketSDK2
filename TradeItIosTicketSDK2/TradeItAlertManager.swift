@@ -43,7 +43,7 @@ class TradeItAlertManager {
         case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR?:
             self.showOn(viewController: viewController,
                         withAlertTitle: "Update Login",
-                        withAlertMessage: "There seem to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
+                        withAlertMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
                         withAlertActionTitle: "Update",
                         onAlertActionTapped: onAlertActionRelinkAccount,
                         onCancelActionTapped: onFinished)

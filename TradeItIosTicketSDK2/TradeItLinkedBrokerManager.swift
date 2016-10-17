@@ -17,8 +17,8 @@ import PromiseKit
     func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
 
-        for linkedLogin in linkedLoginsFromKeychain {
-            loadLinkedBrokerFromLinkedLogin(linkedLogin)
+        self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
+            return loadLinkedBrokerFromLinkedLogin(linkedLogin)
         }
     }
 
@@ -31,8 +31,6 @@ import PromiseKit
         errorResult.systemMessage = "This linked broker needs to authenticate"
         errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
         linkedBroker.error = errorResult
-
-        self.linkedBrokers.append(linkedBroker)
 
         return linkedBroker
     }

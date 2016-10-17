@@ -234,8 +234,10 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
             self.symbolView.updateQuoteActivity(.LOADED)
             self.updateEstimatedChangedLabel()
         }, onFailure: { error in
-            print("Error: \(error)")
+            self.order.quoteLastPrice = nil
+            self.symbolView.updateQuote(nil)
             self.symbolView.updateQuoteActivity(.LOADED)
+            self.updateEstimatedChangedLabel()
         })
 
         updateSharesOwnedLabel()

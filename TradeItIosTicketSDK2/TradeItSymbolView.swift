@@ -21,13 +21,18 @@ class TradeItSymbolView: UIView {
         clearQuote()
     }
 
-    func updateQuote(quote: TradeItQuote) {
-        let presenter = TradeItQuotePresenter(quote)
-        self.quoteLastPriceLabel.text = presenter.getLastPriceLabel()
-        self.quoteChangeLabel.text = presenter.getChangeLabel()
-        self.updatedAtLabel.text = "Updated at \(DateTimeFormatter.time())"
-
-        self.quoteChangeLabel.textColor = presenter.getChangeLabelColor()
+    func updateQuote(quote: TradeItQuote?) {
+        if let quote = quote {
+            let presenter = TradeItQuotePresenter(quote)
+            self.quoteLastPriceLabel.text = presenter.getLastPriceLabel()
+            self.quoteChangeLabel.text = presenter.getChangeLabel()
+            self.updatedAtLabel.text = "Updated at \(DateTimeFormatter.time())"
+            
+            self.quoteChangeLabel.textColor = presenter.getChangeLabelColor()
+        }
+        else {
+            self.quoteLastPriceLabel.text = TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        }
     }
 
     func updateQuoteActivity(state: ActivityIndicatorState) {

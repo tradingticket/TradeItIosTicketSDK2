@@ -7,19 +7,10 @@ class TradeItAlertManager {
     func showGenericError(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
                             onViewController viewController: UIViewController,
                                              onFinished: () -> Void = {}) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertActionTitle = ""
-
-        if let shortMessage = tradeItErrorResult.shortMessage {
-            alertTitle = shortMessage
-        }
-
-        if let longMessages = tradeItErrorResult.longMessages {
-            alertMessage = (longMessages as! [String]).joinWithSeparator(" ")
-        }
-
-        alertActionTitle = "OK"
+        let alertTitle = tradeItErrorResult.shortMessage ?? ""
+        let messages = (tradeItErrorResult.longMessages as? [String]) ?? []
+        let alertMessage = messages.joinWithSeparator(" ")
+        let alertActionTitle = "OK"
 
         self.showOn(viewController: viewController,
                     withAlertTitle: alertTitle,
@@ -32,10 +23,6 @@ class TradeItAlertManager {
                 onViewController viewController: UIViewController,
                 withLinkedBroker linkedBroker: TradeItLinkedBroker,
                                  onFinished : () -> Void) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertActionTitle = ""
-        var onAlertActionTapped: () -> Void
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
@@ -52,31 +39,22 @@ class TradeItAlertManager {
             )
         }
 
-        let errorCode = tradeItErrorResult.errorCode()
-
-        if errorCode == TradeItErrorCode.BROKER_AUTHENTICATION_ERROR {
-            alertTitle = "Update Login"
-            alertMessage = "There seem to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information."
-            alertActionTitle = "Update"
-            onAlertActionTapped = onAlertActionRelinkAccount
+        switch tradeItErrorResult.errorCode() {
+        case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR?:
             self.showOn(viewController: viewController,
-                        withAlertTitle: alertTitle,
-                        withAlertMessage: alertMessage,
-                        withAlertActionTitle: alertActionTitle,
-                        onAlertActionTapped: onAlertActionTapped,
+                        withAlertTitle: "Update Login",
+                        withAlertMessage: "There seem to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
+                        withAlertActionTitle: "Update",
+                        onAlertActionTapped: onAlertActionRelinkAccount,
                         onCancelActionTapped: onFinished)
-        } else if errorCode == TradeItErrorCode.OAUTH_ERROR {
-            alertTitle = "Relink \(linkedBroker.linkedLogin.broker) Accounts"
-            alertMessage = "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts."
-            alertActionTitle = "Update"
-            onAlertActionTapped = onAlertActionRelinkAccount
+        case TradeItErrorCode.OAUTH_ERROR?:
             self.showOn(viewController: viewController,
-                        withAlertTitle: alertTitle,
-                        withAlertMessage: alertMessage,
-                        withAlertActionTitle: alertActionTitle,
-                        onAlertActionTapped: onAlertActionTapped,
+                        withAlertTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
+                        withAlertMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
+                        withAlertActionTitle: "Update",
+                        onAlertActionTapped: onAlertActionRelinkAccount,
                         onCancelActionTapped: onFinished)
-        } else {
+        default:
             self.showGenericError(tradeItErrorResult: tradeItErrorResult,
                                   onViewController: viewController,
                                   onFinished: onFinished)

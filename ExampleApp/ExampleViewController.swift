@@ -47,7 +47,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             let order = TradeItOrder()
             order.symbol = "CMG"
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
-        case .LaunchAccountManagement: tradeItLauncher.loadAccountManagement(fromViewController: self)
+        case .LaunchAccountManagement:
+            self.tradeItLauncher.launchAccountManagement(fromViewController: self)
         case .ManualAuthenticateAll:
             self.manualAuthenticateAll()
         case .ManualBalances:

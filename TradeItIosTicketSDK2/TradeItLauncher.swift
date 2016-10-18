@@ -53,7 +53,7 @@ import UIKit
         }
     }
     
-    func loadAccountManagement(fromViewController viewController: UIViewController) {
+    public func launchAccountManagement(fromViewController viewController: UIViewController) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
         viewController.presentViewController(navController,
                                              animated: true,

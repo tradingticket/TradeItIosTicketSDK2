@@ -78,6 +78,9 @@ let order = TradeItOrder()
 order.symbol = "SYMB"
 order.action = .BuyToCover
 launcher.launchTrading(fromViewController: self, withOrder: order)
+
+// Launch Account Management
+launcher.launchAccountManagement(fromViewController: self)
 ```
 
 ## Deep Integration

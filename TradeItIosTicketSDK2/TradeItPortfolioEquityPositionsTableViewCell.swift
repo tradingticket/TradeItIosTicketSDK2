@@ -18,6 +18,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var positionDetailsView: UIView!
     
+    @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
     
     private var selectedPosition: TradeItPortfolioPosition?
@@ -37,16 +38,15 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         
         self.updateTradeButtonVisibility()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        if selected {
-            self.chevron.image = UIImage(named: "chevron_up")
+    
+    func showPositionDetails(show: Bool) {
+        if show {
             self.positionDetailsView.hidden = false
+            self.chevron.image = UIImage(named: "chevron_up")
         }
         else {
-            self.chevron.image = UIImage(named: "chevron_down")
             self.positionDetailsView.hidden = true
+            self.chevron.image = UIImage(named: "chevron_down")
         }
     }
     
@@ -66,11 +66,11 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     // MARK: IBAction
     
     @IBAction func buyButtonWasTapped(sender: AnyObject) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: TradeItOrderAction.Buy)
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .Buy)
     }
     
     @IBAction func sellButtonWasTapped(sender: AnyObject) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: TradeItOrderAction.Sell)
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .Sell)
     }
     
 }

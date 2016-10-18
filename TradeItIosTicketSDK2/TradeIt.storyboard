@@ -1227,14 +1227,14 @@
                                             <constraint firstAttribute="width" constant="20" id="tSL-75-VQK"/>
                                         </constraints>
                                     </activityIndicatorView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="24" sectionHeaderHeight="24" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7tC-j5-kXj">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="24" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7tC-j5-kXj">
                                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_HEADER_ID" id="Y8v-fa-h8v" userLabel="PORTFOLIO_EQUITY_POSITIONS_HEADER_ID">
-                                                <rect key="frame" x="0.0" y="24" width="375" height="24"/>
+                                                <rect key="frame" x="0.0" y="24" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y8v-fa-h8v" id="O9o-di-wTY">
-                                                    <frame key="frameInset" width="375" height="23"/>
+                                                    <frame key="frameInset" width="375" height="49"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cost" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-xy-KDI">
@@ -1253,6 +1253,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <color key="backgroundColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="cAp-EE-tcm" firstAttribute="leading" secondItem="O9o-di-wTY" secondAttribute="leadingMargin" constant="10" id="NFK-6K-L1N"/>
                                                         <constraint firstItem="Xjt-1n-Blf" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="VdB-cn-EXo"/>
@@ -1265,10 +1266,10 @@
                                                 <color key="backgroundColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_HEADER_ID" id="w3c-oI-hM7" userLabel="PORTFOLIO_FX_POSITIONS_HEADER_ID">
-                                                <rect key="frame" x="0.0" y="48" width="375" height="24"/>
+                                                <rect key="frame" x="0.0" y="74" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w3c-oI-hM7" id="U1m-gx-Uli">
-                                                    <frame key="frameInset" width="375" height="23"/>
+                                                    <frame key="frameInset" width="375" height="49"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avg. Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsy-4z-5KJ">
@@ -1287,6 +1288,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <color key="backgroundColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="PHd-Wd-R2w" firstAttribute="centerY" secondItem="U1m-gx-Uli" secondAttribute="centerY" id="5eK-g2-E4t"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="obj-su-KHD" secondAttribute="trailing" id="AYc-G2-ooI"/>
@@ -1299,7 +1301,7 @@
                                                 <color key="backgroundColor" red="0.87974476440000005" green="0.87974476440000005" blue="0.87974476440000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="150" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="72" width="375" height="150"/>
+                                                <rect key="frame" x="0.0" y="124" width="375" height="150"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="fFn-NS-Mba" id="CV5-G3-nqA">
                                                     <frame key="frameInset" width="375" height="149"/>
@@ -1467,18 +1469,6 @@
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IE5-KM-7Sb" userLabel="separator">
-                                                                            <color key="backgroundColor" red="0.85098648071289062" green="0.85096096992492676" blue="0.8509753942489624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="width" constant="200" id="cZ7-Vn-aIP"/>
-                                                                                <constraint firstAttribute="height" constant="1" id="zgk-pj-yQZ"/>
-                                                                            </constraints>
-                                                                            <variation key="default">
-                                                                                <mask key="constraints">
-                                                                                    <exclude reference="cZ7-Vn-aIP"/>
-                                                                                </mask>
-                                                                            </variation>
-                                                                        </view>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUC-cS-a8l" userLabel="Sell">
                                                                             <color key="backgroundColor" red="0.95160442590000005" green="0.18191251159999999" blue="0.13573978840000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <constraints>
@@ -1502,14 +1492,11 @@
                                                                     <accessibility key="accessibilityConfiguration" label="TOTAL"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="trailing" secondItem="F6a-HP-Pzi" secondAttribute="trailing" constant="15" id="0Ed-Aj-Xcd"/>
-                                                                        <constraint firstItem="IE5-KM-7Sb" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="7NH-4F-Y4i"/>
                                                                         <constraint firstAttribute="trailing" secondItem="EP6-An-n6Q" secondAttribute="trailing" constant="15" id="B5z-dU-k7D"/>
                                                                         <constraint firstItem="dIq-tA-V7V" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" constant="5" id="CjR-IA-ezf"/>
                                                                         <constraint firstItem="zNb-QU-Qaf" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="5" id="E80-eq-VJ1"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="IE5-KM-7Sb" secondAttribute="trailing" constant="15" id="H6Y-UO-OCy"/>
                                                                         <constraint firstAttribute="trailing" secondItem="7rS-m5-ACV" secondAttribute="trailing" constant="15" id="HwQ-Qy-Z1P"/>
                                                                         <constraint firstItem="7rS-m5-ACV" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="I2A-EV-Xui"/>
-                                                                        <constraint firstItem="IE5-KM-7Sb" firstAttribute="top" secondItem="dIq-tA-V7V" secondAttribute="bottom" constant="3" id="Na4-oT-bZN"/>
                                                                         <constraint firstItem="F6a-HP-Pzi" firstAttribute="top" secondItem="7rS-m5-ACV" secondAttribute="bottom" constant="3" id="Rhg-d5-szs"/>
                                                                         <constraint firstItem="EP6-An-n6Q" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="5" id="h6C-TU-Clp"/>
                                                                         <constraint firstItem="7rS-m5-ACV" firstAttribute="top" secondItem="zNb-QU-Qaf" secondAttribute="bottom" constant="3" id="mJZ-zO-jnw"/>
@@ -1558,7 +1545,7 @@
                                                     <outlet property="costLabelValue" destination="lAR-ee-oMb" id="4BH-au-ZhQ"/>
                                                     <outlet property="dayLabelValue" destination="dN1-Lv-DGI" id="ZvR-i7-kgw"/>
                                                     <outlet property="lastPriceLabelValue" destination="P8T-6D-oUm" id="6vF-JO-XHc"/>
-                                                    <outlet property="positionDetailsView" destination="9cx-9D-ndX" id="TCM-7l-RZI"/>
+                                                    <outlet property="positionDetailsView" destination="9cx-9D-ndX" id="Y5d-Y4-eGP"/>
                                                     <outlet property="quantityLabelValue" destination="Qz9-f6-gXb" id="43B-KQ-N0r"/>
                                                     <outlet property="sellButton" destination="JUC-cS-a8l" id="Z2a-5w-ea7"/>
                                                     <outlet property="symbolLabelValue" destination="UUg-Fr-NXz" id="P3t-Tp-Beb"/>
@@ -1567,7 +1554,7 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_CELL_ID" rowHeight="110" id="Asc-AP-Trv" customClass="TradeItPortfolioFxPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="222" width="375" height="110"/>
+                                                <rect key="frame" x="0.0" y="274" width="375" height="110"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Asc-AP-Trv" id="sAy-RW-Ipc">
                                                     <frame key="frameInset" width="375" height="109"/>

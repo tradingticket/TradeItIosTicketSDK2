@@ -1491,17 +1491,17 @@
                                                                     <color key="backgroundColor" white="0.95160442590000005" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <accessibility key="accessibilityConfiguration" label="TOTAL"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="trailing" secondItem="F6a-HP-Pzi" secondAttribute="trailing" constant="15" id="0Ed-Aj-Xcd"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="EP6-An-n6Q" secondAttribute="trailing" constant="15" id="B5z-dU-k7D"/>
-                                                                        <constraint firstItem="dIq-tA-V7V" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" constant="5" id="CjR-IA-ezf"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="F6a-HP-Pzi" secondAttribute="trailing" constant="5" id="0Ed-Aj-Xcd"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="EP6-An-n6Q" secondAttribute="trailing" constant="5" id="B5z-dU-k7D"/>
+                                                                        <constraint firstItem="dIq-tA-V7V" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="CjR-IA-ezf"/>
                                                                         <constraint firstItem="zNb-QU-Qaf" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="5" id="E80-eq-VJ1"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="7rS-m5-ACV" secondAttribute="trailing" constant="15" id="HwQ-Qy-Z1P"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="7rS-m5-ACV" secondAttribute="trailing" constant="5" id="HwQ-Qy-Z1P"/>
                                                                         <constraint firstItem="7rS-m5-ACV" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="I2A-EV-Xui"/>
                                                                         <constraint firstItem="F6a-HP-Pzi" firstAttribute="top" secondItem="7rS-m5-ACV" secondAttribute="bottom" constant="3" id="Rhg-d5-szs"/>
                                                                         <constraint firstItem="EP6-An-n6Q" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="5" id="h6C-TU-Clp"/>
                                                                         <constraint firstItem="7rS-m5-ACV" firstAttribute="top" secondItem="zNb-QU-Qaf" secondAttribute="bottom" constant="3" id="mJZ-zO-jnw"/>
                                                                         <constraint firstItem="dIq-tA-V7V" firstAttribute="top" secondItem="7rS-m5-ACV" secondAttribute="bottom" constant="3" id="oPS-gj-s9g"/>
-                                                                        <constraint firstItem="zNb-QU-Qaf" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" constant="5" id="pFA-de-Fmk"/>
+                                                                        <constraint firstItem="zNb-QU-Qaf" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="pFA-de-Fmk"/>
                                                                         <constraint firstItem="JUC-cS-a8l" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="qrd-or-dqt"/>
                                                                         <constraint firstItem="JUC-cS-a8l" firstAttribute="top" secondItem="dIq-tA-V7V" secondAttribute="bottom" constant="26" id="sUn-l6-3BF"/>
                                                                     </constraints>

@@ -32,10 +32,12 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
         self.bidLabelValue.text = presenter.getFormattedBid()
         self.askLabelValue.text = presenter.getFormattedAsk()
-        self.dayLabelValue.text = presenter.getFormattedDayHighLow()
+        self.dayLabelValue.text = presenter.getFormattedDayChange()
+        self.dayLabelValue.textColor = presenter.getFormattedDayChangeColor()
         self.totalLabelValue.text = presenter.getFormattedTotalValue()
         self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
-        
+        self.totalReturnLabelValue.textColor = presenter.getFormattedTotalReturnColor()
+    
         self.updateTradeButtonVisibility()
     }
     

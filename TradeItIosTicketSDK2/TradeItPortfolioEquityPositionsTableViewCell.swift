@@ -16,6 +16,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
     
+    @IBOutlet weak var positionDetailsView: UIView!
     
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
     
@@ -34,22 +35,24 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.totalLabelValue.text = presenter.getFormattedTotalValue()
         self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
         
-        self.performButtonsEnability()
+        self.updateTradeButtonVisibility()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
             self.chevron.image = UIImage(named: "chevron_up")
+            self.positionDetailsView.hidden = false
         }
         else {
             self.chevron.image = UIImage(named: "chevron_down")
+            self.positionDetailsView.hidden = true
         }
     }
     
     // MARK: private
     
-    private func performButtonsEnability() {
+    private func updateTradeButtonVisibility() {
         if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
             self.buyButton.hidden = false
             self.sellButton.hidden = false

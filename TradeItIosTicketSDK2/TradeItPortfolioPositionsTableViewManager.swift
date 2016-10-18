@@ -81,7 +81,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == self.selectedPositionIndex {
+        if indexPath.row == self.selectedPositionIndex  {
             return 170
         }
 
@@ -107,7 +107,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if let nonFxPosition = self.positions[safe: indexPath.row]?.position where nonFxPosition.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
+        if let nonFxPosition = self.positions[safe: indexPath.row]?.position where nonFxPosition.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF && self.selectedPositionIndex != indexPath.row {
             return true
         } else {
             return false

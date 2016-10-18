@@ -15,6 +15,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                newTable.rowHeight = UITableViewAutomaticDimension
+                newTable.estimatedRowHeight = 150
                 _table = newTable
             }
         }
@@ -72,16 +74,9 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         let cell = self.provideCell(forTableView: tableView,
                                     forPortfolioPosition: position,
                                     selected: self.selectedPositionIndex == indexPath.row)
-
+        cell.setNeedsUpdateConstraints()
+        cell.updateConstraintsIfNeeded()
         return cell
-    }
-
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == self.selectedPositionIndex  {
-            return 150
-        } else {
-            return 50
-        }
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
@@ -136,8 +131,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             cell = equityCell
         } else if let fxPosition = position.fxPosition {
             let fxCell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
-            fxCell.clipsToBounds = true
             fxCell.populate(withPosition: position)
+            fxCell.showPositionDetails(selected)
             cell = fxCell
         }
 

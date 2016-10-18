@@ -19,9 +19,19 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var positionDetailsView: UIView!
     
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
+    
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
     
     private var selectedPosition: TradeItPortfolioPosition?
+    private var positionDetailsHeight = CGFloat(0.0)
+    private var buttonHeight =  CGFloat(0.0)
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.positionDetailsHeight = self.positionDetailsHeightConstraint.constant
+        self.buttonHeight = self.buttonBuyHeight.constant
+    }
     
     func populate(withPosition position: TradeItPortfolioPosition) {
         self.selectedPosition = position
@@ -43,11 +53,17 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     func showPositionDetails(show: Bool) {
         if show {
+            var buttonHeight = CGFloat(0.0)
+            if self.selectedPosition?.position?.instrumentType() != TradeItInstrumentType.EQUITY_OR_ETF {
+                buttonHeight = self.buttonHeight
+            }
             self.positionDetailsView.hidden = false
+            self.positionDetailsHeightConstraint.constant = self.positionDetailsHeight - buttonHeight
             self.chevron.image = UIImage(named: "chevron_up")
         }
         else {
             self.positionDetailsView.hidden = true
+            self.positionDetailsHeightConstraint.constant = 0
             self.chevron.image = UIImage(named: "chevron_down")
         }
     }

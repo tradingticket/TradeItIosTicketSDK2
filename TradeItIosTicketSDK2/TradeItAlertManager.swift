@@ -90,6 +90,7 @@ class TradeItAlertManager {
         let alertController = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
+            multipleOptions: securityQuestion.securityQuestionOptions ?? [],
             alertActionTitle: "Submit",
             onAnswerSecurityQuestion: onAnswerSecurityQuestion,
             onCancelSecurityQuestion: onCancelSecurityQuestion)

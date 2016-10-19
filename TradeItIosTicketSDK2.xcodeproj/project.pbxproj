@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B2F4CF22B6D37DAF8F67F04 /* Pods_ExampleAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BB61E363A316A2099EFEA20 /* Pods_ExampleAppUITests.framework */; };
-		156AF909B8603FA4B9B440AB /* Pods_TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 944E0605652830B11C89E3E9 /* Pods_TradeItIosTicketSDK2.framework */; };
 		7525646D1D9C668800A42340 /* TradeItOrderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7525646C1D9C668800A42340 /* TradeItOrderSpec.swift */; };
 		75422A8C1D9F10390003705A /* TradeItOrderTypePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75422A8A1D9F10390003705A /* TradeItOrderTypePresenter.swift */; };
 		75422A931DA3EDBA0003705A /* TradeItTicketOrderActionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75422A921DA3EDBA0003705A /* TradeItTicketOrderActionPresenter.swift */; };
@@ -175,7 +173,6 @@
 		75DD55BA1DA70AE200504395 /* TradeItTradingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DD55B71DA70AE200504395 /* TradeItTradingConfirmationViewController.swift */; };
 		75DD55BC1DAA9BC600504395 /* FakeTradeItTradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DD55BB1DAA9BC600504395 /* FakeTradeItTradeService.swift */; };
 		75E516A81D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */; };
-		7DAEEEA7648081CC8C0C530A /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69279B5C7B8206A269BCD216 /* Pods_TradeItIosTicketSDK2Tests.framework */; };
 		B50459241D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */; };
 		B50B7DA11D527BC900EAE41F /* TradeItLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */; };
 		B511AC8D1D957FBB00798848 /* TradeItAccountManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B511AC8B1D957FBB00798848 /* TradeItAccountManagementViewController.swift */; };
@@ -383,7 +380,6 @@
 		B5F66F5D1DA6A21600BBF7BB /* TradeItPortfolioErrorHandlingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F66F5B1DA6A21600BBF7BB /* TradeItPortfolioErrorHandlingView.swift */; };
 		B5F66F5E1DA6A21600BBF7BB /* TradeItPortfolioErrorHandlingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F66F5B1DA6A21600BBF7BB /* TradeItPortfolioErrorHandlingView.swift */; };
 		B5FCE03C1DA7E1F2005CB0A5 /* TradeItPortfolioErrorHandlingViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F66F531DA5B69500BBF7BB /* TradeItPortfolioErrorHandlingViewManager.swift */; };
-		BE2E8A6B92277FCFC9863C47 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACFE3D76269DE6997BBBBADB /* Pods_ExampleApp.framework */; };
 		FA00916D1D77A8D500FE3EE2 /* FakeTradeItLinkedBrokerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00916C1D77A8D500FE3EE2 /* FakeTradeItLinkedBrokerManager.swift */; };
 		FA00916F1D78B0E500FE3EE2 /* TradeItLinkedBrokerManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00916E1D78B0E500FE3EE2 /* TradeItLinkedBrokerManagerSpec.swift */; };
 		FA0091741D78DA1D00FE3EE2 /* TradeItSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0091711D78DA1D00FE3EE2 /* TradeItSessionProvider.swift */; };
@@ -471,10 +467,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2BB61E363A316A2099EFEA20 /* Pods_ExampleAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		56874C9C1AF85071BC548D23 /* Pods-ExampleAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleAppUITests/Pods-ExampleAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		5D541B54134EA9DF8E5C10BC /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
-		69279B5C7B8206A269BCD216 /* Pods_TradeItIosTicketSDK2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7525646C1D9C668800A42340 /* TradeItOrderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOrderSpec.swift; sourceTree = "<group>"; };
 		75422A8A1D9F10390003705A /* TradeItOrderTypePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOrderTypePresenter.swift; sourceTree = "<group>"; };
 		75422A921DA3EDBA0003705A /* TradeItTicketOrderActionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTicketOrderActionPresenter.swift; sourceTree = "<group>"; };
@@ -628,11 +620,6 @@
 		75DD55BB1DAA9BC600504395 /* FakeTradeItTradeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItTradeService.swift; sourceTree = "<group>"; };
 		75E516A11D8B51390053FD12 /* TradeItPortfolioEquityPositionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioEquityPositionPresenter.swift; sourceTree = "<group>"; };
 		75E516A51D8B514A0053FD12 /* TradeItPortfolioFxPositionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioFxPositionPresenter.swift; sourceTree = "<group>"; };
-		78D5AAA07B0A6F42C8D405C9 /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
-		8E893D5647FAA8B7B64F2AFF /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		944E0605652830B11C89E3E9 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0C7D01BBF4853A37AE8D810 /* Pods-ExampleAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleAppUITests/Pods-ExampleAppUITests.release.xcconfig"; sourceTree = "<group>"; };
-		ACFE3D76269DE6997BBBBADB /* Pods_ExampleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50459231D61FC1600B1D971 /* TradeItPortfolioViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioViewControllerSpec.swift; sourceTree = "<group>"; };
 		B50B7D9F1D527BC900EAE41F /* TradeItLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLoginViewController.swift; sourceTree = "<group>"; };
 		B511AC8B1D957FBB00798848 /* TradeItAccountManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItAccountManagementViewController.swift; sourceTree = "<group>"; };
@@ -706,9 +693,6 @@
 		B5F66F531DA5B69500BBF7BB /* TradeItPortfolioErrorHandlingViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioErrorHandlingViewManager.swift; sourceTree = "<group>"; };
 		B5F66F571DA6974F00BBF7BB /* TradeItPortfolioErrorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioErrorTableViewCell.swift; sourceTree = "<group>"; };
 		B5F66F5B1DA6A21600BBF7BB /* TradeItPortfolioErrorHandlingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioErrorHandlingView.swift; sourceTree = "<group>"; };
-		B9BD1829ABA667A33D9ECA35 /* Pods-TradeItIosTicketSDK2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.debug.xcconfig"; sourceTree = "<group>"; };
-		BFBC8EB18E75168228823A73 /* Pods-TradeItIosTicketSDK2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.release.xcconfig"; sourceTree = "<group>"; };
-		EA4D2F3F263698C4BF1621FA /* Pods-TradeItIosTicketSDK2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		FA00916C1D77A8D500FE3EE2 /* FakeTradeItLinkedBrokerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItLinkedBrokerManager.swift; sourceTree = "<group>"; };
 		FA00916E1D78B0E500FE3EE2 /* TradeItLinkedBrokerManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItLinkedBrokerManagerSpec.swift; sourceTree = "<group>"; };
 		FA0091711D78DA1D00FE3EE2 /* TradeItSessionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSessionProvider.swift; sourceTree = "<group>"; };
@@ -761,7 +745,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE2E8A6B92277FCFC9863C47 /* Pods_ExampleApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,7 +752,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B2F4CF22B6D37DAF8F67F04 /* Pods_ExampleAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,7 +759,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				156AF909B8603FA4B9B440AB /* Pods_TradeItIosTicketSDK2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,7 +766,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DAEEEA7648081CC8C0C530A /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -976,21 +956,6 @@
 			path = JSONModelTransformations;
 			sourceTree = "<group>";
 		};
-		7FD0255EFCD867D7696BFB05 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5D541B54134EA9DF8E5C10BC /* Pods-ExampleApp.debug.xcconfig */,
-				78D5AAA07B0A6F42C8D405C9 /* Pods-ExampleApp.release.xcconfig */,
-				B9BD1829ABA667A33D9ECA35 /* Pods-TradeItIosTicketSDK2.debug.xcconfig */,
-				BFBC8EB18E75168228823A73 /* Pods-TradeItIosTicketSDK2.release.xcconfig */,
-				8E893D5647FAA8B7B64F2AFF /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */,
-				EA4D2F3F263698C4BF1621FA /* Pods-TradeItIosTicketSDK2Tests.release.xcconfig */,
-				56874C9C1AF85071BC548D23 /* Pods-ExampleAppUITests.debug.xcconfig */,
-				A0C7D01BBF4853A37AE8D810 /* Pods-ExampleAppUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		B511ACB91D95822300798848 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1063,17 +1028,6 @@
 				7573BB7E1D9C1DDA00B7AE2C /* TradeItOrder.swift */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		BC3B3C563BB9BD98DACC5DF6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				ACFE3D76269DE6997BBBBADB /* Pods_ExampleApp.framework */,
-				944E0605652830B11C89E3E9 /* Pods_TradeItIosTicketSDK2.framework */,
-				69279B5C7B8206A269BCD216 /* Pods_TradeItIosTicketSDK2Tests.framework */,
-				2BB61E363A316A2099EFEA20 /* Pods_ExampleAppUITests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		FA0091701D78DA0900FE3EE2 /* Providers */ = {
@@ -1259,8 +1213,6 @@
 				FAEC84F41D55277500EC32C7 /* ExampleApp */,
 				FAEC85091D55277500EC32C7 /* ExampleAppUITests */,
 				FAFD2E581D4BA75E00B882DB /* Products */,
-				7FD0255EFCD867D7696BFB05 /* Pods */,
-				BC3B3C563BB9BD98DACC5DF6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1397,13 +1349,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAEC850D1D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleApp" */;
 			buildPhases = (
-				F3C1ED20DBE9BDF18A006DA4 /* [CP] Check Pods Manifest.lock */,
 				FAEC84EF1D55277500EC32C7 /* Sources */,
 				FAEC84F01D55277500EC32C7 /* Frameworks */,
 				FAEC84F11D55277500EC32C7 /* Resources */,
 				FAC8E71E1D5559680024D693 /* Embed Frameworks */,
-				A869EB885CC4FA6E62B58293 /* [CP] Embed Pods Frameworks */,
-				9742059ABDB8FACFF6E24858 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1419,12 +1368,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAEC85101D55277500EC32C7 /* Build configuration list for PBXNativeTarget "ExampleAppUITests" */;
 			buildPhases = (
-				11BA4B1D2A4B1DC7963B3B94 /* [CP] Check Pods Manifest.lock */,
 				FAEC85021D55277500EC32C7 /* Sources */,
 				FAEC85031D55277500EC32C7 /* Frameworks */,
 				FAEC85041D55277500EC32C7 /* Resources */,
-				0537ACAEA26DDD2B5A99E7EF /* [CP] Copy Pods Resources */,
-				1C3DD04933BC2C6708055D30 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1440,12 +1386,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAFD2E6B1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2" */;
 			buildPhases = (
-				B1C6059CDD5699768428CB51 /* [CP] Check Pods Manifest.lock */,
 				FAFD2E521D4BA75E00B882DB /* Sources */,
 				FAFD2E531D4BA75E00B882DB /* Frameworks */,
 				FAFD2E541D4BA75E00B882DB /* Headers */,
 				FAFD2E551D4BA75E00B882DB /* Resources */,
-				C20EEDA8711632C5DD59AFC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1460,12 +1404,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAFD2E6E1D4BA75F00B882DB /* Build configuration list for PBXNativeTarget "TradeItIosTicketSDK2Tests" */;
 			buildPhases = (
-				E9F48659087B875C2B6F3474 /* [CP] Check Pods Manifest.lock */,
 				FAFD2E5D1D4BA75F00B882DB /* Sources */,
 				FAFD2E5E1D4BA75F00B882DB /* Frameworks */,
 				FAFD2E5F1D4BA75F00B882DB /* Resources */,
-				1CD8650E76A612659D29CA95 /* [CP] Embed Pods Frameworks */,
-				508527C9674C2DCD2100B653 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1586,174 +1527,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		0537ACAEA26DDD2B5A99E7EF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ExampleAppUITests/Pods-ExampleAppUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		11BA4B1D2A4B1DC7963B3B94 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		1C3DD04933BC2C6708055D30 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ExampleAppUITests/Pods-ExampleAppUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1CD8650E76A612659D29CA95 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		508527C9674C2DCD2100B653 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9742059ABDB8FACFF6E24858 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A869EB885CC4FA6E62B58293 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B1C6059CDD5699768428CB51 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		C20EEDA8711632C5DD59AFC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E9F48659087B875C2B6F3474 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F3C1ED20DBE9BDF18A006DA4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FAEC84EF1D55277500EC32C7 /* Sources */ = {
@@ -2157,7 +1930,6 @@
 /* Begin XCBuildConfiguration section */
 		FAEC850E1D55277500EC32C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D541B54134EA9DF8E5C10BC /* Pods-ExampleApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2174,7 +1946,6 @@
 		};
 		FAEC850F1D55277500EC32C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78D5AAA07B0A6F42C8D405C9 /* Pods-ExampleApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2191,7 +1962,6 @@
 		};
 		FAEC85111D55277500EC32C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56874C9C1AF85071BC548D23 /* Pods-ExampleAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
@@ -2205,7 +1975,6 @@
 		};
 		FAEC85121D55277500EC32C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0C7D01BBF4853A37AE8D810 /* Pods-ExampleAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = ExampleAppUITests/Info.plist;
@@ -2317,7 +2086,6 @@
 		};
 		FAFD2E6C1D4BA75F00B882DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9BD1829ABA667A33D9ECA35 /* Pods-TradeItIosTicketSDK2.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -2340,7 +2108,6 @@
 		};
 		FAFD2E6D1D4BA75F00B882DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFBC8EB18E75168228823A73 /* Pods-TradeItIosTicketSDK2.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -2362,7 +2129,6 @@
 		};
 		FAFD2E6F1D4BA75F00B882DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E893D5647FAA8B7B64F2AFF /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
@@ -2377,7 +2143,6 @@
 		};
 		FAFD2E701D4BA75F00B882DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA4D2F3F263698C4BF1621FA /* Pods-TradeItIosTicketSDK2Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;

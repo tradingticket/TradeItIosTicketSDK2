@@ -66,7 +66,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         var cell: UITableViewCell?
 
         if self.positions.count > 0 {
-            // TODO: Change this to make position.position and position.fxPosition optional
             if self.positions[0].position != nil {
                 cell = tableView.dequeueReusableCellWithIdentifier("PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
             } else if self.positions[0].fxPosition != nil {

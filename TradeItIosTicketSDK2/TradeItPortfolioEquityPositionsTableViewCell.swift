@@ -5,9 +5,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var quantityLabelValue: UILabel!
     @IBOutlet weak var costLabelValue: UILabel!
     @IBOutlet weak var lastPriceLabelValue: UILabel!
-    
     @IBOutlet weak var chevron: UIImageView!
-    
     @IBOutlet weak var bidLabelValue: UILabel!
     @IBOutlet weak var askLabelValue: UILabel!
     @IBOutlet weak var dayLabelValue: UILabel!
@@ -15,24 +13,25 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var totalReturnLabelValue: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
-    
     @IBOutlet weak var positionDetailsView: UIView!
-    
+
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
-    
+
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
-    
+
     private var selectedPosition: TradeItPortfolioPosition?
     private var positionDetailsHeight = CGFloat(0.0)
     private var buttonHeight =  CGFloat(0.0)
-    
+    private let chevronUpImage = UIImage(named: "chevron_up")
+    private let chevronDownImage = UIImage(named: "chevron_down")
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.positionDetailsHeight = self.positionDetailsHeightConstraint.constant
         self.buttonHeight = self.buttonBuyHeight.constant
     }
-    
+
     func populate(withPosition position: TradeItPortfolioPosition) {
         self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
@@ -47,24 +46,25 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.totalLabelValue.text = presenter.getFormattedTotalValue()
         self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
         self.totalReturnLabelValue.textColor = presenter.getFormattedTotalReturnColor()
-    
+
         self.updateTradeButtonVisibility()
     }
-    
+
     func showPositionDetails(show: Bool) {
         if show {
             var buttonHeight = CGFloat(0.0)
+
             if self.selectedPosition?.position?.instrumentType() != TradeItInstrumentType.EQUITY_OR_ETF {
                 buttonHeight = self.buttonHeight
             }
+
             self.positionDetailsView.hidden = false
             self.positionDetailsHeightConstraint.constant = self.positionDetailsHeight - buttonHeight
-            self.chevron.image = UIImage(named: "chevron_up")
-        }
-        else {
+            self.chevron.image = chevronUpImage
+        } else {
             self.positionDetailsView.hidden = true
             self.positionDetailsHeightConstraint.constant = 0
-            self.chevron.image = UIImage(named: "chevron_down")
+            self.chevron.image = chevronDownImage
         }
     }
     
@@ -74,8 +74,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
             self.buyButton.hidden = false
             self.sellButton.hidden = false
-        }
-        else {
+        } else {
             self.buyButton.hidden = true
             self.sellButton.hidden = true
         }
@@ -90,7 +89,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBAction func sellButtonWasTapped(sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .Sell)
     }
-    
 }
 
 protocol TradeItPortfolioPositionsTableViewCellDelegate: class {

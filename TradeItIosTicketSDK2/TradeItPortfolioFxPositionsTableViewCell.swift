@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
-    
     @IBOutlet weak var symbolLabelValue: UILabel!
     @IBOutlet weak var quantityLabelValue: UILabel!
     @IBOutlet weak var avgRateLabel: UILabel!
@@ -16,6 +15,8 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
     
     private var selectedPosition: TradeItPortfolioPosition?
     private var fxPositionsDetailsHeight = CGFloat(0.0)
+    private let chevronUpImage = UIImage(named: "chevron_up")
+    private let chevronDownImage = UIImage(named: "chevron_down")
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,13 +39,11 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
         if show {
             self.fxPositionsDetails.hidden = false
             self.fxPositionDetailsHeightConstraint.constant = self.fxPositionsDetailsHeight
-            self.chevron.image = UIImage(named: "chevron_up")
-        }
-        else {
+            self.chevron.image = chevronUpImage
+        } else {
             self.fxPositionsDetails.hidden = true
             self.fxPositionDetailsHeightConstraint.constant = 0
-            self.chevron.image = UIImage(named: "chevron_down")
+            self.chevron.image = chevronDownImage
         }
     }
-
 }

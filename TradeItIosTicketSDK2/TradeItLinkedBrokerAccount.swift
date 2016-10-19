@@ -1,10 +1,10 @@
 public class TradeItLinkedBrokerAccount: NSObject {
-    var brokerName = ""
-    var accountName = ""
-    var accountNumber = ""
-    var balance: TradeItAccountOverview?
-    var fxBalance: TradeItFxAccountOverview?
-    var positions: [TradeItPortfolioPosition] = []
+    public var brokerName = ""
+    public var accountName = ""
+    public var accountNumber = ""
+    public var balance: TradeItAccountOverview?
+    public var fxBalance: TradeItFxAccountOverview?
+    public var positions: [TradeItPortfolioPosition] = []
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService

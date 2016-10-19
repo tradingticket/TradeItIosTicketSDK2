@@ -10,7 +10,6 @@ enum Action: Int {
     case ManualBalances
     case ManualPositions
     case DeleteLinkedBrokers
-    case TEST
     case ENUM_COUNT
 }
 
@@ -20,7 +19,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     let ENVIRONMENT = TradeItEmsTestEnv
     var tradeItLauncher: TradeItLauncher!
-    let viewControllerProvider = TradeItViewControllerProvider()
 
     var alertManager: TradeItAlertManager!
     
@@ -37,8 +35,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
-        case .TEST:
-            self.navigationController?.pushViewController(viewControllerProvider.provideViewController(forStoryboardId: .symbolSearchView), animated: true)
         case .LaunchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
         case .LaunchTrading:

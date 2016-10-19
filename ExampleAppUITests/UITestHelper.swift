@@ -1,6 +1,5 @@
 import XCTest
 
-
 extension XCTestCase {
     func predicateDoesntExist() -> NSPredicate {
         return NSPredicate(format: "exists == false")

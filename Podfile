@@ -22,11 +22,6 @@ target 'TradeItIosTicketSDK2' do
     app_pods
 end
 
-target 'ExampleAppUITests' do
-   testing_pods
-   app_pods
-end
-
 target 'ExampleApp' do
    app_pods
 end

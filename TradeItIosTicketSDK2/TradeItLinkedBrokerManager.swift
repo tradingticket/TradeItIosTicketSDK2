@@ -37,7 +37,7 @@ import PromiseKit
         return linkedBroker
     }
 
-    func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
+    public func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
                                                                  submitAnswer: (String) -> Void,
                                                                  onCancelSecurityQuestion: () -> Void) -> Void,
                                             onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },

@@ -2,15 +2,15 @@ typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 typealias TradeItPlaceOrderHandlers = (onSuccess: (TradeItPlaceOrderResult) -> Void, onFailure: (TradeItErrorResult) -> Void) -> Void
 
 public class TradeItOrder {
-    var linkedBrokerAccount: TradeItLinkedBrokerAccount?
-    var symbol: String?
-    var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
-    var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
-    var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    var quantity: NSDecimalNumber?
-    var limitPrice: NSDecimalNumber?
-    var stopPrice: NSDecimalNumber?
-    var quoteLastPrice: NSDecimalNumber?
+    public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    public var symbol: String?
+    public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
+    public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
+    public var quantity: NSDecimalNumber?
+    public var limitPrice: NSDecimalNumber?
+    public var stopPrice: NSDecimalNumber?
+    public var quoteLastPrice: NSDecimalNumber?
 
     public init() {}
 

@@ -12,8 +12,6 @@ class TradeItSymbolView: UIView {
         case LOADED
     }
 
-    static let INDICATOR_UP = "▲"
-    static let INDICATOR_DOWN = "▼"
     let dateFormatter = NSDateFormatter()
 
     func updateSymbol(symbol: String?) {

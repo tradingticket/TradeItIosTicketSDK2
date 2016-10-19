@@ -1,3 +1,5 @@
+import UIKit
+
 class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter {
     var position: TradeItPosition?
     var tradeItPortfolioPosition: TradeItPortfolioPosition
@@ -33,23 +35,17 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     }
 
     func getFormattedTotalReturn() -> String {
-        guard let totalGainLossDollars = self.position?.totalGainLossDollar as? Float
+        guard let totalGainLossDollars = self.position?.totalGainLossDollar
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return "\(returnPrefix())\(NumberFormatter.formatCurrency(totalGainLossDollars))(\(returnPercent()))";
+        return TradeItPresenter.indicator(totalGainLossDollars.doubleValue) + " " + "\(NumberFormatter.formatCurrency(totalGainLossDollars))(\(returnPercent()))";
     }
-
-    func returnPrefix() -> String {
-        guard let totalGainLossDollar = self.position?.totalGainLossDollar
-            else { return "" }
-        if (totalGainLossDollar.floatValue > 0) {
-            return "+"
-        } else if totalGainLossDollar.floatValue < 0 {
-            return "-"
-        } else {
-            return ""
-        }
+    
+    func getFormattedTotalReturnColor() -> UIColor {
+        guard let totalGainLossDollars = self.position?.totalGainLossDollar
+            else { return UIColor.lightTextColor() }
+        return TradeItPresenter.stockChangeColor(totalGainLossDollars.doubleValue)
     }
-
+    
     func returnPercent() -> String {
         guard let totalGainLossPercentage = self.position?.totalGainLossPercentage
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
@@ -73,5 +69,18 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     
     func getQuote() -> TradeItQuote? {
         return self.tradeItPortfolioPosition.quote
+    }
+    
+    func getFormattedDayChange() -> String {
+        guard let quote = getQuote()
+            else {return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+        let quotePresenter = TradeItQuotePresenter(quote)
+        return quotePresenter.getChangeLabel()
+    }
+    
+    func getFormattedDayChangeColor() -> UIColor {
+        guard let change = self.getQuote()?.change
+            else { return UIColor.lightTextColor() }
+        return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
 }

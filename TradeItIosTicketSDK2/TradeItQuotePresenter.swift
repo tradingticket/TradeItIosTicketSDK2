@@ -25,7 +25,7 @@ class TradeItQuotePresenter: NSObject {
         var pctChangeValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         
         if let change = self.tradeItQuote?.change {
-            changeValue = indicator(change.doubleValue) + " " + NumberFormatter.formatCurrency(change, currencyCode: "")
+            changeValue = TradeItPresenter.indicator(change.doubleValue) + " " + NumberFormatter.formatCurrency(change, currencyCode: "")
         }
         
         if let pctChange = self.tradeItQuote?.pctChange {
@@ -40,27 +40,7 @@ class TradeItQuotePresenter: NSObject {
     func getChangeLabelColor() -> UIColor {
         guard let change = self.tradeItQuote?.change
             else { return UIColor.lightTextColor() }
-        return stockChangeColor(change.doubleValue)
-    }
-    
-    private func indicator(value: Double) -> String {
-        if value > 0.0 {
-            return TradeItSymbolView.INDICATOR_UP
-        } else if value < 0 {
-            return TradeItSymbolView.INDICATOR_DOWN
-        } else {
-            return ""
-        }
-    }
-
-    private func stockChangeColor(value: Double) -> UIColor {
-        if value > 0.0 {
-            return UIColor.tradeItMoneyGreenColor()
-        } else if value < 0 {
-            return UIColor.tradeItDeepRoseColor()
-        } else {
-            return UIColor.lightTextColor()
-        }
+        return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
 
 }

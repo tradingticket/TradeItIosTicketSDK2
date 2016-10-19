@@ -1,11 +1,6 @@
-#import <UIKit/UIKit.h>
+#ifndef TradeItIosTicketSDK2_h
+#define TradeItIosTicketSDK2_h
 
-//! Project version number for TradeItIosTicketSDK2.
-FOUNDATION_EXPORT double TradeItIosTicketSDK2VersionNumber;
+#import "TradeItIosEmsApiLib.h"
 
-//! Project version string for TradeItIosTicketSDK2.
-FOUNDATION_EXPORT const unsigned char TradeItIosTicketSDK2VersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <TradeItIosTicketSDK2/PublicHeader.h>
-
-
+#endif

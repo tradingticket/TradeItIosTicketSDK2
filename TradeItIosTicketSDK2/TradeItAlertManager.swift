@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItAlertManager {
+@objc public class TradeItAlertManager: NSObject {
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
@@ -28,7 +28,7 @@ class TradeItAlertManager {
                     onAlertActionTapped: onFinished)
     }
 
-    func show(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
+    public func show(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
                 onViewController viewController: UIViewController,
                 withLinkedBroker linkedBroker: TradeItLinkedBroker,
                                  onFinished : () -> Void) {
@@ -83,7 +83,7 @@ class TradeItAlertManager {
         }
     }
 
-    func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
+    public func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
               onViewController viewController: UIViewController,
                                onAnswerSecurityQuestion: (withAnswer: String) -> Void,
                                onCancelSecurityQuestion: () -> Void) {
@@ -96,7 +96,7 @@ class TradeItAlertManager {
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    func showOn(viewController viewController: UIViewController,
+    public func showOn(viewController viewController: UIViewController,
                 withAlertTitle alertTitle: String,
               withAlertMessage alertMessage: String,
           withAlertActionTitle alertActionTitle: String,

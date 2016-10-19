@@ -1,4 +1,4 @@
-enum TradeItOrderExpiration {
+public enum TradeItOrderExpiration {
     case GoodForDay
     case GoodUntilCanceled
 }

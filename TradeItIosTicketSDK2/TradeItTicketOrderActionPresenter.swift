@@ -1,4 +1,4 @@
-enum TradeItOrderAction {
+public enum TradeItOrderAction {
     case Buy
     case Sell
     case BuyToCover

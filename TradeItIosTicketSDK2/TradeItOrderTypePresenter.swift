@@ -1,4 +1,4 @@
-enum TradeItOrderPriceType {
+public enum TradeItOrderPriceType {
     case Market
     case Limit
     case StopMarket

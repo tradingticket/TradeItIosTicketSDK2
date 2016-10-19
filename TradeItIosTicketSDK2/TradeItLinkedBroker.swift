@@ -3,8 +3,8 @@ import PromiseKit
 public class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
-    var accounts: [TradeItLinkedBrokerAccount] = []
-    var error: TradeItErrorResult?
+    public var accounts: [TradeItLinkedBrokerAccount] = []
+    public var error: TradeItErrorResult?
     
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session

@@ -1,6 +1,6 @@
 import UIKit
 
-@objc class TradeItViewControllerProvider: NSObject {
+class TradeItViewControllerProvider {
     func provideNavigationController(withRootViewStoryboardId storyboardId: TradeItStoryboardID) -> UINavigationController {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
 

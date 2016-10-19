@@ -47,7 +47,7 @@ class TradeItTradingBrokerAccountView: UIView {
         case .SHARES_OWNED:
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
             if let holdingType = self.holdingType {
-                self.resourceAvailabilityDescriptionLabel.text = holdingType.caseInsensitiveCompare("LONG") == .OrderedSame ? " Shares Owned" : "Shares Shorted"
+                self.resourceAvailabilityDescriptionLabel.text = holdingType.caseInsensitiveCompare("LONG") == .OrderedSame ? "Shares Owned" : "Shares Shorted"
             }
             else {
                 self.resourceAvailabilityDescriptionLabel.text = TradeItPresenter.MISSING_DATA_PLACEHOLDER

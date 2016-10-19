@@ -82,8 +82,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         let cell = self.provideCell(forTableView: tableView,
                                     forPortfolioPosition: position,
                                     selected: self.selectedPositionIndex == indexPath.row)
-        cell.setNeedsUpdateConstraints()
-        cell.updateConstraintsIfNeeded()
         return cell
     }
     
@@ -145,6 +143,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         }
 
         if let cell = cell {
+            cell.setNeedsUpdateConstraints()
+            cell.updateConstraintsIfNeeded()
             return cell
         } else {
             assertionFailure("Failed to create portfolio position table view cell")

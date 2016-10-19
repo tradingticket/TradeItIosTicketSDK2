@@ -16,8 +16,8 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
         return symbol
     }
     
-    func getQuantity() -> Float? {
-        return self.fxPosition.quantity as? Float
+    func getQuantity() -> NSNumber? {
+        return self.fxPosition.quantity
     }
 
     func formatCurrency(currency: NSNumber) -> String {

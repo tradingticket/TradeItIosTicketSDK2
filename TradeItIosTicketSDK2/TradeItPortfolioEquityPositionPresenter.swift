@@ -16,11 +16,8 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return symbol
     }
 
-    func getQuantity() -> Float? {
-        guard let quantity = self.position?.quantity
-            else { return 0 }
-        
-        return quantity.floatValue
+    func getQuantity() -> NSNumber? {
+        return self.position?.quantity
     }
 
     func getFormattedQuantity() -> String {
@@ -53,11 +50,11 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return NumberFormatter.formatPercentage(totalGainLossPercentage.floatValue);
     }
 
-    func getCostBasis() -> String {
-        guard let costBasis = self.position?.costbasis
+    func getAvgCostBasis() -> String {
+        guard let costBasis = self.position?.costbasis, quantity = getQuantity() where quantity != 0
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-
-        return formatCurrency(costBasis)
+        let avgCost = costBasis.floatValue/quantity.floatValue
+        return formatCurrency(avgCost)
     }
 
     func getLastPrice() -> String {

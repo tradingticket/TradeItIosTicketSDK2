@@ -35,17 +35,25 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         // if the user click on the already expanded row, deselect it
         if self.selectedPositionIndex == indexPath.row {
             self.selectedPositionIndex = -1
-            self.positionsTable?.beginUpdates()
-            self.positionsTable?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-            self.positionsTable?.endUpdates()
+            self.reloadTableViewAtIndexPath([indexPath])
+        } else if self.selectedPositionIndex != -1 {
+            let prevPath = NSIndexPath(forRow: self.selectedPositionIndex, inSection: 0);
+            self.selectedPositionIndex = indexPath.row
+            self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
+                self.reloadTableViewAtIndexPath([prevPath, indexPath])
+            })
         } else {
             self.selectedPositionIndex = indexPath.row
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
-                self.positionsTable?.beginUpdates()
-                self.positionsTable?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-                self.positionsTable?.endUpdates()
+                self.reloadTableViewAtIndexPath([indexPath])
             })
         }
+    }
+    
+    private func reloadTableViewAtIndexPath(indexPaths: [NSIndexPath]) {
+        self.positionsTable?.beginUpdates()
+        self.positionsTable?.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        self.positionsTable?.endUpdates()
     }
 
     // MARK: UITableViewDataSource

@@ -15,8 +15,8 @@ public class TradeItLinkedBrokerAccount: NSObject {
         brokerName: String,
          accountName: String,
          accountNumber: String,
-         balance: TradeItAccountOverview!,
-         fxBalance: TradeItFxAccountOverview!,
+         balance: TradeItAccountOverview?,
+         fxBalance: TradeItFxAccountOverview?,
          positions: [TradeItPortfolioPosition]) {
         self.linkedBroker = linkedBroker
         self.brokerName = brokerName
@@ -37,6 +37,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
             case let accountOverviewResult as TradeItAccountOverviewResult:
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
+                self.linkedBroker.error = nil
                 onSuccess()
             case let errorResult as TradeItErrorResult:
                 self.linkedBroker.error = errorResult

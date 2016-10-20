@@ -51,7 +51,6 @@ public class TradeItLinkedBroker: NSObject {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
                 account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
-                    print(errorResult)
                     fulfill()
                 })
             }

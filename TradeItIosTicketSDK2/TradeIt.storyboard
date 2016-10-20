@@ -12,7 +12,7 @@
         <!--Welcome-->
         <scene sceneID="vjt-0o-R3J">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_WELCOME_VIEW" id="NRU-dQ-4Et" customClass="TradeItWelcomeViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_WELCOME_VIEW" id="NRU-dQ-4Et" customClass="TradeItWelcomeViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hku-7I-B6Y"/>
                         <viewControllerLayoutGuide type="bottom" id="3eO-ZU-7Wc"/>
@@ -197,7 +197,7 @@
         <!--Trade-->
         <scene sceneID="WW3-3Q-r99">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_TRADING_TICKET_VIEW" title="Trade" id="XGp-rk-8Ew" customClass="TradeItTradingTicketViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_TRADING_TICKET_VIEW" title="Trade" id="XGp-rk-8Ew" customClass="TradeItTradingTicketViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VQj-pr-Ayt"/>
                         <viewControllerLayoutGuide type="bottom" id="jdZ-Fp-kbC"/>
@@ -206,7 +206,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItSymbolView" customModule="ExampleApp" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItSymbolView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -460,7 +460,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i0k-hH-0K3" customClass="TradeItTradingBrokerAccountView" customModule="ExampleApp" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i0k-hH-0K3" customClass="TradeItTradingBrokerAccountView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GH-T9-wjw">
                                         <state key="normal" title="Account"/>
@@ -536,7 +536,7 @@
         <!--Select Your Broker-->
         <scene sceneID="IXX-En-peW">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tMX-1x-5GL"/>
                         <viewControllerLayoutGuide type="bottom" id="Jki-nr-TvV"/>
@@ -575,7 +575,7 @@
         <!--Login-->
         <scene sceneID="Qhc-jK-80Q">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_LOGIN_VIEW" id="Pi3-6E-5Lo" customClass="TradeItLoginViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mco-d5-7JZ"/>
                         <viewControllerLayoutGuide type="bottom" id="rML-h2-sYO"/>
@@ -693,7 +693,7 @@
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wCc-Fh-MXb"/>
                         <viewControllerLayoutGuide type="bottom" id="HnD-M4-Q13"/>
@@ -718,7 +718,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8c-gp-RmA">
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                 <state key="normal" title="Edit Accounts"/>
                                 <connections>
                                     <segue destination="3LS-g1-9qu" kind="show" id="Wfr-Io-4LG"/>
@@ -734,7 +734,7 @@
                                         <rect key="frame" x="0.0" y="24" width="375" height="47"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WuN-9R-wav" id="tvi-2q-ObU">
-                                            <frame key="frameInset" width="375" height="46"/>
+                                            <frame key="frameInset" width="375" height="46.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acct Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93S-9F-GGt">
@@ -764,11 +764,11 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.85098648071289062" green="0.85096096992492676" blue="0.8509753942489624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_CELL_ID" rowHeight="55" id="55g-cj-mTJ" customClass="TradeItPortfolioAccountsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_ACCOUNTS_CELL_ID" rowHeight="55" id="55g-cj-mTJ" customClass="TradeItPortfolioAccountsTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="71" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55g-cj-mTJ" id="WXI-1g-FBU">
-                                            <frame key="frameInset" width="375" height="54"/>
+                                            <frame key="frameInset" width="375" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
@@ -834,11 +834,11 @@
                                             <outlet property="totalValueLabel" destination="4H2-cL-BMo" id="pJ2-tv-SLn"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_ERROR_CELL_ID" rowHeight="55" id="RvH-md-EQ3" customClass="TradeItPortfolioErrorTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_ERROR_CELL_ID" rowHeight="55" id="RvH-md-EQ3" customClass="TradeItPortfolioErrorTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="126" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RvH-md-EQ3" id="Vu5-ki-dhP">
-                                            <frame key="frameInset" width="375" height="54"/>
+                                            <frame key="frameInset" width="375" height="54.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-iL-Xoh">
@@ -896,7 +896,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umh-YQ-V1f" userLabel="errorHandlingView" customClass="TradeItPortfolioErrorHandlingView" customModule="ExampleApp" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umh-YQ-V1f" userLabel="errorHandlingView" customClass="TradeItPortfolioErrorHandlingView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[Short Messsage]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQ1-Kq-VTl" userLabel="[Short message]">
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
@@ -943,14 +943,14 @@
                             </view>
                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fv-sU-vaB" userLabel="accountInfoContainerView">
                                 <subviews>
-                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgN-G0-ywb" customClass="TradeItAccountSummaryView" customModule="ExampleApp" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgN-G0-ywb" customClass="TradeItAccountSummaryView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YM0-2i-OEc" userLabel="Account Summary">
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" red="0.31764705879999999" green="0.53333333329999999" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMW-ki-1QX" userLabel="Fx Summary View" customClass="TradeItFxAccountSummaryView" customModule="ExampleApp" customModuleProvider="target">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMW-ki-1QX" userLabel="Fx Summary View" customClass="TradeItFxAccountSummaryView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jmb-cs-QWb">
                                                         <subviews>
@@ -1001,7 +1001,7 @@
                                                             <constraint firstItem="7Fj-T0-7hp" firstAttribute="leading" secondItem="Jmb-cs-QWb" secondAttribute="leading" id="ILZ-T4-pCh"/>
                                                             <constraint firstItem="05x-d3-Ojt" firstAttribute="top" secondItem="pNp-AV-K8H" secondAttribute="top" constant="3" id="JqC-Au-sn3"/>
                                                             <constraint firstAttribute="trailing" secondItem="aM5-f5-gDP" secondAttribute="trailing" id="R4J-un-WXV"/>
-                                                            <constraint firstItem="aM5-f5-gDP" firstAttribute="top" secondItem="Jmb-cs-QWb" secondAttribute="top" constant="15" id="iuI-dT-Tcw"/>
+                                                            <constraint firstItem="aM5-f5-gDP" firstAttribute="baseline" secondItem="7Fj-T0-7hp" secondAttribute="baseline" id="z3j-Bc-2T1"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DG0-O9-yDL">
@@ -1041,8 +1041,8 @@
                                                         </subviews>
                                                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
+                                                            <constraint firstItem="Apt-DN-QBX" firstAttribute="baseline" secondItem="feT-w7-vbb" secondAttribute="baseline" id="3cP-Nt-XZT"/>
                                                             <constraint firstAttribute="trailing" secondItem="SL3-I0-zpG" secondAttribute="trailing" id="SLh-xi-87R"/>
-                                                            <constraint firstItem="feT-w7-vbb" firstAttribute="top" secondItem="DG0-O9-yDL" secondAttribute="top" constant="15" id="Sv3-19-BbB"/>
                                                             <constraint firstItem="SL3-I0-zpG" firstAttribute="top" secondItem="feT-w7-vbb" secondAttribute="bottom" constant="3" id="Xpa-eW-swe"/>
                                                             <constraint firstAttribute="trailing" secondItem="Apt-DN-QBX" secondAttribute="trailing" id="bPJ-XV-Jio"/>
                                                             <constraint firstItem="L0W-WY-T2S" firstAttribute="top" secondItem="SL3-I0-zpG" secondAttribute="bottom" constant="3" id="fSA-qU-0gD"/>
@@ -1050,7 +1050,6 @@
                                                             <constraint firstItem="feT-w7-vbb" firstAttribute="leading" secondItem="DG0-O9-yDL" secondAttribute="leading" id="jNO-1M-ljm"/>
                                                             <constraint firstItem="31Q-bn-fL6" firstAttribute="leading" secondItem="DG0-O9-yDL" secondAttribute="leading" id="rat-xf-k8j"/>
                                                             <constraint firstItem="31Q-bn-fL6" firstAttribute="top" secondItem="SL3-I0-zpG" secondAttribute="bottom" constant="3" id="sdY-CJ-fc0"/>
-                                                            <constraint firstItem="Apt-DN-QBX" firstAttribute="top" secondItem="DG0-O9-yDL" secondAttribute="top" constant="15" id="upH-s8-hAL"/>
                                                             <constraint firstAttribute="trailing" secondItem="L0W-WY-T2S" secondAttribute="trailing" id="zvK-bZ-q0j"/>
                                                         </constraints>
                                                     </view>
@@ -1066,6 +1065,7 @@
                                                     <constraint firstItem="Jmb-cs-QWb" firstAttribute="width" secondItem="DMW-ki-1QX" secondAttribute="width" multiplier="0.45" id="gem-7k-muT"/>
                                                     <constraint firstItem="DG0-O9-yDL" firstAttribute="height" secondItem="DMW-ki-1QX" secondAttribute="height" id="iu0-D7-u93"/>
                                                     <constraint firstItem="DG0-O9-yDL" firstAttribute="top" secondItem="DMW-ki-1QX" secondAttribute="top" id="nBs-8e-RBD"/>
+                                                    <constraint firstItem="feT-w7-vbb" firstAttribute="baseline" secondItem="7Fj-T0-7hp" secondAttribute="baseline" id="uE0-ak-yih"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="marginBalanceValueLabel" destination="L0W-WY-T2S" id="ley-ir-47S"/>
@@ -1074,9 +1074,9 @@
                                                     <outlet property="unrealizedPlValue" destination="Apt-DN-QBX" id="WXG-Y7-WXs"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6o-3W-7uT" userLabel="Equity Summary View" customClass="TradeItEquityAccountSummaryView" customModule="ExampleApp" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g6o-3W-7uT" userLabel="Equity Summary View" customClass="TradeItEquityAccountSummaryView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zxw-nE-e9n">
+                                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zxw-nE-e9n">
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="27C-L4-d7Q">
                                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1118,14 +1118,13 @@
                                                             <constraint firstItem="3QT-Z2-lDK" firstAttribute="top" secondItem="TNi-6L-ZQM" secondAttribute="top" constant="3" id="7xd-rd-hD1"/>
                                                             <constraint firstAttribute="trailing" secondItem="fLc-hh-k51" secondAttribute="trailing" id="Cbs-LL-GEa"/>
                                                             <constraint firstAttribute="trailing" secondItem="TNi-6L-ZQM" secondAttribute="trailing" id="FS3-ie-4WT"/>
-                                                            <constraint firstItem="27C-L4-d7Q" firstAttribute="top" secondItem="Zxw-nE-e9n" secondAttribute="top" constant="15" id="PDW-sf-ii9"/>
                                                             <constraint firstItem="27C-L4-d7Q" firstAttribute="leading" secondItem="Zxw-nE-e9n" secondAttribute="leading" id="UNv-dM-SFP"/>
                                                             <constraint firstAttribute="trailing" secondItem="3QT-Z2-lDK" secondAttribute="trailing" id="YXm-9k-j11"/>
-                                                            <constraint firstItem="Cpj-BR-SWc" firstAttribute="leading" secondItem="Zxw-nE-e9n" secondAttribute="leading" constant="5" id="aGZ-w6-8Bw"/>
+                                                            <constraint firstItem="Cpj-BR-SWc" firstAttribute="leading" secondItem="Zxw-nE-e9n" secondAttribute="leading" id="aGZ-w6-8Bw"/>
                                                             <constraint firstItem="TNi-6L-ZQM" firstAttribute="top" secondItem="27C-L4-d7Q" secondAttribute="bottom" constant="3" id="ewf-V1-Mu1"/>
                                                             <constraint firstItem="Cpj-BR-SWc" firstAttribute="top" secondItem="TNi-6L-ZQM" secondAttribute="top" constant="3" id="jUb-cD-4DM"/>
-                                                            <constraint firstItem="fLc-hh-k51" firstAttribute="top" secondItem="Zxw-nE-e9n" secondAttribute="top" constant="15" id="k9y-62-XD5"/>
                                                             <constraint firstItem="TNi-6L-ZQM" firstAttribute="leading" secondItem="Zxw-nE-e9n" secondAttribute="leading" id="wiG-Su-ix7"/>
+                                                            <constraint firstItem="fLc-hh-k51" firstAttribute="baseline" secondItem="27C-L4-d7Q" secondAttribute="baseline" id="zYp-Np-wkX"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ija-kM-OAA">
@@ -1167,8 +1166,8 @@
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="S7h-sR-9rs" secondAttribute="trailing" id="DlF-UX-8Vp"/>
                                                             <constraint firstItem="S7h-sR-9rs" firstAttribute="top" secondItem="KUr-og-DML" secondAttribute="bottom" constant="3" id="DyH-dg-FPl"/>
+                                                            <constraint firstItem="Z7h-AR-8mv" firstAttribute="baseline" secondItem="nqx-74-0d5" secondAttribute="baseline" id="GHH-7a-nJV"/>
                                                             <constraint firstItem="nqx-74-0d5" firstAttribute="leading" secondItem="ija-kM-OAA" secondAttribute="leading" id="HDP-8A-3qR"/>
-                                                            <constraint firstItem="Z7h-AR-8mv" firstAttribute="top" secondItem="ija-kM-OAA" secondAttribute="top" constant="15" id="Pn4-YQ-Ufp"/>
                                                             <constraint firstItem="nqx-74-0d5" firstAttribute="top" secondItem="ija-kM-OAA" secondAttribute="top" constant="15" id="RlP-ej-Pg6"/>
                                                             <constraint firstAttribute="trailing" secondItem="Z7h-AR-8mv" secondAttribute="trailing" id="Vah-t1-Wo5"/>
                                                             <constraint firstItem="nvZ-AH-SRg" firstAttribute="top" secondItem="KUr-og-DML" secondAttribute="bottom" constant="3" id="WH1-xj-ps5"/>
@@ -1181,6 +1180,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
+                                                    <constraint firstItem="27C-L4-d7Q" firstAttribute="baseline" secondItem="nqx-74-0d5" secondAttribute="baseline" id="0B1-Ui-auI"/>
                                                     <constraint firstItem="ija-kM-OAA" firstAttribute="top" secondItem="g6o-3W-7uT" secondAttribute="top" id="0un-uL-63y"/>
                                                     <constraint firstItem="Zxw-nE-e9n" firstAttribute="width" secondItem="g6o-3W-7uT" secondAttribute="width" multiplier="0.45" id="3wW-cw-0ak"/>
                                                     <constraint firstAttribute="height" constant="60" id="ALo-hB-1At"/>
@@ -1200,7 +1200,7 @@
                                             </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="USr-1e-dhd" userLabel="Summary Height Constraint"/>
+                                            <constraint firstAttribute="height" constant="95" id="USr-1e-dhd" userLabel="Summary Height Constraint"/>
                                             <constraint firstItem="YM0-2i-OEc" firstAttribute="top" secondItem="cgN-G0-ywb" secondAttribute="top" constant="10" id="XrK-WK-YOP"/>
                                             <constraint firstAttribute="trailing" secondItem="g6o-3W-7uT" secondAttribute="trailing" id="cZ3-oA-mmc"/>
                                             <constraint firstItem="DMW-ki-1QX" firstAttribute="leading" secondItem="cgN-G0-ywb" secondAttribute="leading" id="fae-ed-6Rf"/>
@@ -1234,7 +1234,7 @@
                                                 <rect key="frame" x="0.0" y="24" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y8v-fa-h8v" id="O9o-di-wTY">
-                                                    <frame key="frameInset" width="375" height="49"/>
+                                                    <frame key="frameInset" width="375" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cost" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-xy-KDI">
@@ -1269,7 +1269,7 @@
                                                 <rect key="frame" x="0.0" y="74" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w3c-oI-hM7" id="U1m-gx-Uli">
-                                                    <frame key="frameInset" width="375" height="49"/>
+                                                    <frame key="frameInset" width="375" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avg. Rate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsy-4z-5KJ">
@@ -1300,11 +1300,11 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" red="0.87974476440000005" green="0.87974476440000005" blue="0.87974476440000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="150" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="150" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="124" width="375" height="150"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="fFn-NS-Mba" id="CV5-G3-nqA">
-                                                    <frame key="frameInset" width="375" height="149"/>
+                                                    <frame key="frameInset" width="375" height="149.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="sym" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
@@ -1459,12 +1459,12 @@
                                                                                 </mask>
                                                                             </variation>
                                                                         </view>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Return" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIq-tA-V7V">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Total Return" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIq-tA-V7V">
                                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6a-HP-Pzi">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="N/A" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="F6a-HP-Pzi">
                                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
@@ -1492,6 +1492,7 @@
                                                                     <accessibility key="accessibilityConfiguration" label="TOTAL"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="trailing" secondItem="F6a-HP-Pzi" secondAttribute="trailing" id="0Ed-Aj-Xcd"/>
+                                                                        <constraint firstItem="F6a-HP-Pzi" firstAttribute="leading" secondItem="dIq-tA-V7V" secondAttribute="trailing" constant="1" id="0Gw-2f-eoq"/>
                                                                         <constraint firstAttribute="trailing" secondItem="EP6-An-n6Q" secondAttribute="trailing" id="B5z-dU-k7D"/>
                                                                         <constraint firstItem="dIq-tA-V7V" firstAttribute="leading" secondItem="bsO-n0-Y3N" secondAttribute="leading" id="CjR-IA-ezf"/>
                                                                         <constraint firstItem="zNb-QU-Qaf" firstAttribute="top" secondItem="bsO-n0-Y3N" secondAttribute="top" constant="5" id="E80-eq-VJ1"/>
@@ -1556,11 +1557,11 @@
                                                     <outlet property="totalReturnLabelValue" destination="F6a-HP-Pzi" id="8Mn-Wa-qye"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_CELL_ID" rowHeight="110" id="Asc-AP-Trv" customClass="TradeItPortfolioFxPositionsTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_FX_POSITIONS_CELL_ID" rowHeight="110" id="Asc-AP-Trv" customClass="TradeItPortfolioFxPositionsTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="274" width="375" height="110"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Asc-AP-Trv" id="sAy-RW-Ipc">
-                                                    <frame key="frameInset" width="375" height="109"/>
+                                                    <frame key="frameInset" width="375" height="109.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sym" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZd-al-cOc">
@@ -1727,6 +1728,7 @@
                                         </prototypes>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ct7-dE-1Tb">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <state key="normal" title="Trade"/>
                                         <connections>
                                             <action selector="tradeButtonWasTapped:" destination="bUI-w2-wjN" eventType="touchUpInside" id="48q-xq-Ah4"/>
@@ -1801,7 +1803,7 @@
         <!--Search-->
         <scene sceneID="dDx-g0-3EY">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_SYMBOL_SEARCH_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="o4N-eN-tlv" customClass="TradeItSymbolSearchViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_SYMBOL_SEARCH_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="o4N-eN-tlv" customClass="TradeItSymbolSearchViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xvv-c3-2g7"/>
                         <viewControllerLayoutGuide type="bottom" id="PPD-Ek-oqJ"/>
@@ -1817,11 +1819,11 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </activityIndicatorView>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SYMBOL_SEARCH_CELL_ID" id="XjX-ru-U6Y" customClass="TradeItSymbolSearchTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SYMBOL_SEARCH_CELL_ID" id="XjX-ru-U6Y" customClass="TradeItSymbolSearchTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XjX-ru-U6Y" id="ZKp-Zh-mW2">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-n3-Jsd">
@@ -1914,7 +1916,7 @@
         <!--Accounts-->
         <scene sceneID="BKV-zf-p3m">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_SELECTION_VIEW" id="ESl-cs-2Rf" customClass="TradeItAccountSelectionViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_SELECTION_VIEW" id="ESl-cs-2Rf" customClass="TradeItAccountSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zqp-1z-UMn"/>
                         <viewControllerLayoutGuide type="bottom" id="NVG-Cx-N8F"/>
@@ -1931,11 +1933,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="itr-c8-43u">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_HEADER_ID" rowHeight="50" id="wKa-HV-bYu" userLabel="BROKER_SELECTION_HEADER_ID" customClass="TradeItAccountSelectionTableViewHeader" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_HEADER_ID" rowHeight="50" id="wKa-HV-bYu" userLabel="BROKER_SELECTION_HEADER_ID" customClass="TradeItAccountSelectionTableViewHeader" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wKa-HV-bYu" id="duO-td-Bfr">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI6-Z7-clP">
@@ -1954,11 +1956,11 @@
                                             <outlet property="brokerLabel" destination="LI6-Z7-clP" id="8tj-yd-Wsy"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_CELL_ID" rowHeight="50" id="eTF-Mr-5hl" customClass="TradeItAccountSelectionTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_CELL_ID" rowHeight="50" id="eTF-Mr-5hl" customClass="TradeItAccountSelectionTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="78" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eTF-Mr-5hl" id="xaO-7c-ENn">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuV-UM-Aaf">
@@ -2060,7 +2062,7 @@
         <!--Review-->
         <scene sceneID="Uej-tc-O6r">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_TRADING_PREVIEW_VIEW" title="Review" automaticallyAdjustsScrollViewInsets="NO" id="mZZ-q3-U3W" customClass="TradeItTradingPreviewViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_TRADING_PREVIEW_VIEW" title="Review" automaticallyAdjustsScrollViewInsets="NO" id="mZZ-q3-U3W" customClass="TradeItTradingPreviewViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LDU-0f-JMd"/>
                         <viewControllerLayoutGuide type="bottom" id="gl1-uY-nDN"/>
@@ -2072,11 +2074,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="U71-dh-Pt8">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_WARNING_CELL_ID" id="70y-oN-7vj" customClass="TradeItPreviewOrderWarningTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_WARNING_CELL_ID" id="70y-oN-7vj" customClass="TradeItPreviewOrderWarningTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="70y-oN-7vj" id="g9X-NU-5lh">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Warning" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMN-Eq-Zhi">
@@ -2096,11 +2098,11 @@
                                             <outlet property="warning" destination="hMN-Eq-Zhi" id="qIA-iB-eaf"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID" id="Ruv-HU-6Rj" customClass="TradeItPreviewOrderAcknowledgementTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID" id="Ruv-HU-6Rj" customClass="TradeItPreviewOrderAcknowledgementTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ruv-HU-6Rj" id="j7s-HZ-zGj">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="enf-B2-1nF">
@@ -2128,11 +2130,11 @@
                                             <outlet property="acknowledgementSwitch" destination="enf-B2-1nF" id="iyt-Mm-2hc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_VALUE_CELL_ID" id="8Tu-aU-Kos" customClass="TradeItPreviewOrderValueTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_VALUE_CELL_ID" id="8Tu-aU-Kos" customClass="TradeItPreviewOrderValueTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Tu-aU-Kos" id="pM8-dD-TE2">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHI-V3-F3x">
@@ -2207,7 +2209,7 @@
         <!--Confirmation-->
         <scene sceneID="xD8-IT-zP1">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_TRADING_CONFIRMATION_VIEW" title="Confirmation" id="AUL-pz-v3k" customClass="TradeItTradingConfirmationViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_TRADING_CONFIRMATION_VIEW" title="Confirmation" id="AUL-pz-v3k" customClass="TradeItTradingConfirmationViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qXR-zx-InJ"/>
                         <viewControllerLayoutGuide type="bottom" id="MGL-bL-94M"/>
@@ -2256,7 +2258,7 @@
         <!--Accounts-->
         <scene sceneID="huh-Y5-9RO">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" id="3LS-g1-9qu" customClass="TradeItBrokerManagementViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" id="3LS-g1-9qu" customClass="TradeItBrokerManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VIS-qd-YyE"/>
                         <viewControllerLayoutGuide type="bottom" id="2NZ-W2-FLd"/>
@@ -2273,11 +2275,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ntd-kO-gOZ">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_CELL_ID" rowHeight="50" id="8rL-7J-jGy" customClass="TradeItBrokerManagementTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_CELL_ID" rowHeight="50" id="8rL-7J-jGy" customClass="TradeItBrokerManagementTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8rL-7J-jGy" id="voD-k7-SRK">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5M-zR-ZxE">
@@ -2315,7 +2317,7 @@
                                         <rect key="frame" x="0.0" y="78" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4ZS-6N-1K9" id="5hF-Ho-RcW">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="native_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="ILU-cG-2we">
@@ -2378,7 +2380,7 @@
         <!--Accounts Management-->
         <scene sceneID="CTf-ld-7e6">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" id="SR2-KL-ApC" customClass="TradeItAccountManagementViewController" customModule="ExampleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" id="SR2-KL-ApC" customClass="TradeItAccountManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aVW-c4-HBo"/>
                         <viewControllerLayoutGuide type="bottom" id="sFl-4B-XPW"/>
@@ -2395,11 +2397,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pIx-2Y-F4H">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_MANAGEMENT_CELL_ID" id="ZMx-d1-7NU" customClass="TradeItAccountManagementTableViewCell" customModule="ExampleApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_MANAGEMENT_CELL_ID" id="ZMx-d1-7NU" customClass="TradeItAccountManagementTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZMx-d1-7NU" id="sk6-aG-p17">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6e-tF-4cW" userLabel="Account name">

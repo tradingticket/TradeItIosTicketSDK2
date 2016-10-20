@@ -12,6 +12,7 @@ end
 def app_pods
   pod 'PromiseKit', '~> 4.0'
   pod 'MBProgressHUD', '~> 1.0.0'
+  pod 'SwiftyUserDefaults', '2.2.1'
 end
 
 target 'TradeItIosTicketSDK2Tests' do

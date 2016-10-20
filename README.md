@@ -85,7 +85,7 @@ launcher.launchAccountManagement(fromViewController: self)
 
 ## Deep Integration
 
-Deep integration refers to using the SDK to pull balances and positions data that can be used in parent app.
+Deep integration refers to using the SDK as a programmatic workflow upon which you can build your own workflow and screens or use the raw data in your app.
 
 ### Authenticating accounts
 
@@ -97,23 +97,49 @@ TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securi
 })
 ```
 
-### Fetching data for an account
+### Fetching portfolio and account data
 
 ```swift
 // Account balances - given an authenticated broker account
-account.getAccountOverview(onSuccess: {
-    print(account.balance)
+linkedBrokerAccount.getAccountOverview(onSuccess: {
+    print(linkedBrokerAccount.balance)
 }, onFailure: { errorResult in
     print(errorResult)
 })
 
 // Account positions - given an authenticated broker account
-account.getPositions(onSuccess: {
-    print(account.positions.map({ position in
+linkedBrokerAccount.getPositions(onSuccess: {
+    print(linkedBrokerAccount.positions.map({ position in
         return position.position
     }))
 }, onFailure: { errorResult in
     print(errorResult)
+})
+```
+
+### Trading
+
+```swift
+// Trading - given an authenticated broker account
+let order = TradeItOrder()
+order.linkedBrokerAccount = linkedBrokerAccount
+order.symbol = "CMG"
+order.action = .Buy
+order.type = .Limit
+order.expiration = .GoodUntilCanceled
+quantity = 100.0
+limitPrice = 395.65
+
+order.preview(onSuccess: { previewOrder, placeOrderCallback in
+    // Display previewOrder contents to user for review
+    // When the user confirms, call the placeOrderCallback to place the trade
+    placeOrderCallback(onSuccess: { result in
+        // Display result contents to the user
+    }, onFailure: { errorResult in
+        // Display errorResult contents to user
+    })
+}, onFailure: { errorResult in
+    // Display errorResult contents to user
 })
 ```
 

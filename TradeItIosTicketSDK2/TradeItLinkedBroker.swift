@@ -53,6 +53,23 @@ public class TradeItLinkedBroker: NSObject {
 
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
+    
+    public func authenticateIfNeeded(onSuccess onSuccess: () -> Void,
+                                     onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                          submitAnswer: (String) -> Void,
+                                                          onCancelSecurityQuestion: () -> Void) -> Void,
+                                     onFailure: (TradeItErrorResult) -> Void) -> Void {
+        guard let error = self.error else {
+                onSuccess()
+                return
+        }
+        
+        if error.requiresAuthentication() {
+            self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
+        } else {
+            onFailure(error)
+        }
+    }
 
     public func refreshAccountBalances(onFinished onFinished: () -> Void) {
         let promises = accounts.map { account in

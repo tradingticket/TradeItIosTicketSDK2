@@ -55,7 +55,10 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     }
 
     @IBAction func placeOrderTapped(sender: UIButton) {
-        guard let placeOrderCallback = placeOrderCallback else { return }
+        guard let placeOrderCallback = placeOrderCallback else {
+            print("TradeIt SDK ERROR: placeOrderCallback not set!")
+            return
+        }
 
         self.ezLoadingActivityManager.show(text: "Placing Order", disableUI: true)
 

@@ -16,6 +16,7 @@ import UIKit
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
+        // Show Welcome flow for users who have never linked before
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
@@ -37,6 +38,7 @@ import UIKit
     }
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
+        // Show Welcome flow for users who have never linked before
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,

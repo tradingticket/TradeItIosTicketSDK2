@@ -15,8 +15,16 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
     
     private var selectedPosition: TradeItPortfolioPosition?
     private var fxPositionsDetailsHeight = CGFloat(0.0)
-    private let chevronUpImage = UIImage(named: "chevron_up")
-    private let chevronDownImage = UIImage(named: "chevron_down")
+
+    // TODO: These should be extracted to some kind of bundle asset provider
+    private let chevronUpImage = UIImage(named: "chevron_up",
+                                         inBundle: NSBundle(forClass: TradeItPortfolioFxPositionsTableViewCell.self),
+                                         compatibleWithTraitCollection: nil)
+
+    private let chevronDownImage = UIImage(named: "chevron_down",
+                                           inBundle: NSBundle(forClass: TradeItPortfolioFxPositionsTableViewCell.self),
+                                           compatibleWithTraitCollection: nil)
+
     
     override func awakeFromNib() {
         super.awakeFromNib()

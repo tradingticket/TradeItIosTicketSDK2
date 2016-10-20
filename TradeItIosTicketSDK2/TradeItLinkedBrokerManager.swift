@@ -82,14 +82,14 @@ import PromiseKit
     func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
                              onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
                              onFailure: (TradeItErrorResult) -> Void) -> Void {
-
         self.tradeItConnector.linkBrokerWithAuthenticationInfo(authInfo) { (tradeItResult: TradeItResult?) in
-            if let tradeItErrorResult = tradeItResult as? TradeItErrorResult {
+            switch tradeItResult {
+            case let tradeItErrorResult as TradeItErrorResult:
                 onFailure(tradeItErrorResult)
-            } else if let tradeItResult = tradeItResult as? TradeItAuthLinkResult {
+            case let tradeItAuthResult as TradeItAuthLinkResult:
                 let broker = authInfo.broker
-                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItResult, withBroker: broker)
-
+                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItAuthResult, withBroker: broker)
+                
                 if let linkedLogin = linkedLogin {
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                     onSuccess(linkedBroker: linkedBroker)
@@ -98,6 +98,8 @@ import PromiseKit
                     errorResult.systemMessage = "Failed to save linked login to keychain"
                     onFailure(errorResult)
                 }
+            default:
+                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown error linking broker"))
             }
         }
     }
@@ -107,7 +109,7 @@ import PromiseKit
     }
     
     func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
-        return getAllAccounts().filter { $0.isEnabled }
+        return self.getAllAccounts().filter { $0.isEnabled }
     }
     
     func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {

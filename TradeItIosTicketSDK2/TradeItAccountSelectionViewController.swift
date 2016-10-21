@@ -5,8 +5,8 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!
-    
-    var selectedLinkedBroker: TradeItLinkedBroker!
+
+    var selectedLinkedBroker: TradeItLinkedBroker?
     var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
     
@@ -29,7 +29,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                                                                onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, onAnswerSecurityQuestion: (String) -> Void, onCancelSecurityQuestion: () -> Void) in
+            onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 self.alertManager.show(
                     securityQuestion: securityQuestion,
                     onViewController: self,
@@ -37,8 +37,9 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
             },
-            onFailure:  { (tradeItErrorResult: TradeItErrorResult, linkedBroker: TradeItLinkedBroker) -> Void in
+            onFailure:  { tradeItErrorResult, linkedBroker in
                 self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {
+                    // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
                         onRefreshComplete(withLinkedBrokers: self.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
                 )

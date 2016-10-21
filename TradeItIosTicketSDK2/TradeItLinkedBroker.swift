@@ -43,7 +43,10 @@ public class TradeItLinkedBroker: NSObject {
                     self.error = error
                     onFailure(error)
                 default:
-                    handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown response sent from the server for authentication."))
+                    handler(TradeItErrorResult(
+                        title: "Authentication failed",
+                        code: .BROKER_AUTHENTICATION_ERROR
+                    ))
                 }
             }
         }

@@ -158,7 +158,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
             ValueCellData(label: "ACTION", value: orderDetails.orderAction),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
-            ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLibelle())
+            ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {

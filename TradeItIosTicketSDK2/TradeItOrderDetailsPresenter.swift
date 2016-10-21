@@ -6,7 +6,7 @@ class TradeItOrderDetailsPresenter {
         self.orderDetails = orderDetails
     }    
     
-    func getOrderExpirationLibelle() -> String {
+    func getOrderExpirationLabel() -> String {
         return TradeItOrderExpirationPresenter.labelFor(self.orderDetails.expirationType())
     }
     

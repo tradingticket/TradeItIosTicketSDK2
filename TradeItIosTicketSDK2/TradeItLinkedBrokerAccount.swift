@@ -1,10 +1,13 @@
-open class TradeItLinkedBrokerAccount: NSObject {
-    open var brokerName = ""
-    open var accountName = ""
-    open var accountNumber = ""
-    open var balance: TradeItAccountOverview?
-    open var fxBalance: TradeItFxAccountOverview?
-    open var positions: [TradeItPortfolioPosition] = []
+public class TradeItLinkedBrokerAccount: NSObject {
+    public var brokerName: String {
+        return self.linkedBroker.brokerName
+    }
+
+    public var accountName = ""
+    public var accountNumber = ""
+    public var balance: TradeItAccountOverview?
+    public var fxBalance: TradeItFxAccountOverview?
+    public var positions: [TradeItPortfolioPosition] = []
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
@@ -12,14 +15,12 @@ open class TradeItLinkedBrokerAccount: NSObject {
     var isEnabled = true
 
     init(linkedBroker: TradeItLinkedBroker,
-        brokerName: String,
          accountName: String,
          accountNumber: String,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
          positions: [TradeItPortfolioPosition]) {
         self.linkedBroker = linkedBroker
-        self.brokerName = brokerName
         self.accountName = accountName
         self.accountNumber = accountNumber
         self.balance = balance

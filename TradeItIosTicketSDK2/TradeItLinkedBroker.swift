@@ -3,8 +3,11 @@ import PromiseKit
 open class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
-    open var accounts: [TradeItLinkedBrokerAccount] = []
-    open var error: TradeItErrorResult?
+    public var accounts: [TradeItLinkedBrokerAccount] = []
+    public var error: TradeItErrorResult?
+    public var brokerName: String {
+        return self.linkedLogin.broker
+    }
     
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
@@ -99,7 +102,6 @@ open class TradeItLinkedBroker: NSObject {
         return accounts.map { account in
             return TradeItLinkedBrokerAccount(
                 linkedBroker: self,
-                brokerName: self.linkedLogin.broker,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
                 balance: nil,

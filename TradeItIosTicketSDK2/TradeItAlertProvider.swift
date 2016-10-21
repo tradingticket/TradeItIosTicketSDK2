@@ -14,7 +14,7 @@ class TradeItAlertProvider {
         if let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
                 title: "Cancel",
-                style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                style: UIAlertActionStyle.Default) { action in
                     onCanceledActionTapped()
             }
 
@@ -23,7 +23,7 @@ class TradeItAlertProvider {
 
         let alertAction = UIAlertAction(
             title: alertActionTitle,
-            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            style: UIAlertActionStyle.Default) { action in
                 onAlertActionTapped()
             }
 
@@ -44,7 +44,7 @@ class TradeItAlertProvider {
 
         let cancelAction = UIAlertAction(
             title: "Cancel",
-            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            style: UIAlertActionStyle.Default) { action in
                 onCancelSecurityQuestion()
         }
         
@@ -52,14 +52,14 @@ class TradeItAlertProvider {
         
         if multipleOptions.count > 0 {
             for option in multipleOptions {
-                let optionAction = UIAlertAction(title: option, style: .Default, handler: { (action) -> Void in
+                let optionAction = UIAlertAction(title: option, style: .Default, handler: { action in
                     onAnswerSecurityQuestion(withAnswer: option)
                 })
                 alertController.addAction(optionAction)
             }
         } else {
             alertController.addTextFieldWithConfigurationHandler(nil)
-            let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { (action) -> Void in
+            let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { action in
                 let textField = alertController.textFields![0] as UITextField
                 onAnswerSecurityQuestion(withAnswer: textField.text!)
             })

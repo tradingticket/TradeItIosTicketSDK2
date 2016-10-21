@@ -151,13 +151,14 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         acknowledgementCellData = generateAcknowledgementCellData()
         cells += acknowledgementCellData as [PreviewCellData]
 
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails)
         cells += [
-            ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.accountName),
+            ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
             ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
             ValueCellData(label: "ACTION", value: orderDetails.orderAction),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
-            ValueCellData(label: "EXPIRATION", value: orderDetails.orderExpiration)
+            ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {

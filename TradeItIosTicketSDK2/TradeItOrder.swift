@@ -38,6 +38,7 @@ public class TradeItOrder {
         case .Limit: optionalPrice = limitPrice
         case .StopLimit: optionalPrice = limitPrice
         case .StopMarket: optionalPrice = stopPrice
+        case .Unknown: optionalPrice = 0.0
         }
 
         guard let quantity = quantity where quantity != NSDecimalNumber.notANumber() else { return nil }
@@ -85,6 +86,7 @@ public class TradeItOrder {
         case .Limit: return validateLimit()
         case .StopMarket: return validateStopMarket()
         case .StopLimit: return validateStopLimit()
+        case .Unknown: return false
         }
     }
 

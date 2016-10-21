@@ -30,6 +30,7 @@ class TradeItOrderPreviewPresenter {
         case .Sell: return "sell"
         case .BuyToCover: return "buyToCover"
         case .SellShort: return "sellShort"
+        case .Unknown: return "unknown"
         }
     }
 
@@ -39,6 +40,7 @@ class TradeItOrderPreviewPresenter {
         case .Limit: return "limit"
         case .StopLimit: return "stopLimit"
         case .StopMarket: return "stopMarket"
+        case .Unknown: return "unknown"
         }
     }
 
@@ -46,6 +48,7 @@ class TradeItOrderPreviewPresenter {
         switch order.expiration {
         case .GoodForDay: return "day"
         case .GoodUntilCanceled: return "gtc"
+        case .Unknown: return "unknown"
         }
     }
 

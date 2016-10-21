@@ -20,7 +20,7 @@ class NumberFormatter: NSObject {
         return formatter.stringFromNumber(number)!
     }
     
-    static func formatQuantity(number: Float) -> String {
+    static func formatQuantity(number: NSNumber) -> String {
         formatter.numberStyle = .DecimalStyle
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2

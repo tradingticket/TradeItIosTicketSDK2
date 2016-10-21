@@ -3,8 +3,9 @@ import UIKit
 class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var symbolLabelValue: UILabel!
     @IBOutlet weak var quantityLabelValue: UILabel!
-    @IBOutlet weak var costLabelValue: UILabel!
     @IBOutlet weak var lastPriceLabelValue: UILabel!
+    @IBOutlet weak var avgCostLabelValue: UILabel!
+    
     @IBOutlet weak var chevron: UIImageView!
     @IBOutlet weak var bidLabelValue: UILabel!
     @IBOutlet weak var askLabelValue: UILabel!
@@ -43,7 +44,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
-        self.costLabelValue.text = presenter.getCostBasis()
+        self.avgCostLabelValue.text = presenter.getAvgCost()
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
         self.bidLabelValue.text = presenter.getFormattedBid()

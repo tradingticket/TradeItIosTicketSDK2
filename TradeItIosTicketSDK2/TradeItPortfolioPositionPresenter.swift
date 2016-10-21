@@ -1,6 +1,6 @@
 protocol TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote?
-    func getQuantity() -> Float?
+    func getQuantity() -> NSNumber?
     func getFormattedSymbol() -> String
 }
 
@@ -33,7 +33,7 @@ extension TradeItPortfolioPositionPresenter {
 
     func getFormattedTotalValue() -> String {
         guard let lastPrice = getQuote()?.lastPrice as? Float
-            , let quantity = getQuantity()
+            , let quantity = getQuantity() as Float?
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         let total = quantity * lastPrice

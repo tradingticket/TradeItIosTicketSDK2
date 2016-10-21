@@ -233,8 +233,10 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             self.symbolView.updateQuoteActivity(.LOADED)
             self.updateEstimatedChangedLabel()
         }, onFailure: { error in
-            print("Error: \(error)")
+            self.order.quoteLastPrice = nil
+            self.symbolView.updateQuote(nil)
             self.symbolView.updateQuoteActivity(.LOADED)
+            self.updateEstimatedChangedLabel()
         })
 
         updateSharesOwnedLabel()
@@ -265,7 +267,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             guard let position = positionsMatchingSymbol.first else { return }
 
             let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
-            self.tradingBrokerAccountView.updateSharesOwned(presenter.getQuantity())
+            self.tradingBrokerAccountView.updateSharesOwned(presenter)
         }, onFailure: { errorResult in
             print(errorResult)
         })

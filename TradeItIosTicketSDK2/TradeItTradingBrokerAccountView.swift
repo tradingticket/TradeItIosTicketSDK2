@@ -18,6 +18,7 @@ class TradeItTradingBrokerAccountView: UIView {
     var brokerAccount: TradeItLinkedBrokerAccount?
     var presentationMode = PresentationMode.BUYING_POWER
     var sharesOwned: NSNumber = 0
+    var holdingType : String?
 
     func updatePresentationMode(presentationMode: PresentationMode) {
         self.presentationMode = presentationMode
@@ -30,8 +31,9 @@ class TradeItTradingBrokerAccountView: UIView {
         updateResourceAvailabilityLabels()
     }
 
-    func updateSharesOwned(sharesOwned: NSNumber?) {
-        self.sharesOwned = sharesOwned ?? 0
+    func updateSharesOwned(presenter: TradeItPortfolioPositionPresenter) {
+        self.sharesOwned = presenter.getQuantity() ?? 0
+        self.holdingType = presenter.getHoldingType()
         updateResourceAvailabilityLabels()
     }
 
@@ -43,9 +45,13 @@ class TradeItTradingBrokerAccountView: UIView {
             self.resourceAvailabilityLabel.text = presenter.getFormattedBuyingPower()
             self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
         case .SHARES_OWNED:
-            // TODO: resourceAvailabilityDescriptionLabel should be "Shares Shorted" if position.holdingType == "SHORT"
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned.floatValue)
-            self.resourceAvailabilityDescriptionLabel.text = "Shares Owned"
+            if let holdingType = self.holdingType {
+                self.resourceAvailabilityDescriptionLabel.text = holdingType.caseInsensitiveCompare("LONG") == .OrderedSame ? "Shares Owned" : "Shares Shorted"
+            }
+            else {
+                self.resourceAvailabilityDescriptionLabel.text = TradeItPresenter.MISSING_DATA_PLACEHOLDER
+            }
         }
     }
 }

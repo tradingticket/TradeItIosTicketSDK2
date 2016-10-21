@@ -32,7 +32,7 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     }
 
     func getAveragePrice() -> String {
-        guard let averagePrice = fxPosition.averagePrice
+        guard let averagePrice = self.fxPosition.averagePrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         return formatCurrency(averagePrice)
@@ -48,4 +48,9 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote? {
         return self.tradeItPortfolioPosition.quote
     }
+    
+    func getHoldingType() -> String? {
+        return self.fxPosition.holdingType
+    }
+    
 }

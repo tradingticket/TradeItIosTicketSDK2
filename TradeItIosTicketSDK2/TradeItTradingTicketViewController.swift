@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
+class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
     @IBOutlet weak var tradingBrokerAccountView: TradeItTradingBrokerAccountView!
     @IBOutlet weak var orderActionButton: UIButton!
@@ -16,6 +16,8 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(20)
 
     var alertManager = TradeItAlertManager()
+    weak var delegate: TradeItTradingTicketViewControllerDelegate?
+    
     var viewControllerProvider = TradeItViewControllerProvider()
     var ezLoadingActivityManager = EZLoadingActivityManager()
     var marketDataService = TradeItLauncher.marketDataService
@@ -26,6 +28,7 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         if self.order.linkedBrokerAccount == nil {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
+        
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
@@ -91,15 +94,11 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
         self.ezLoadingActivityManager.show(text: "Previewing Order", disableUI: true)
 
         order.preview(onSuccess: { previewOrder, placeOrderCallback in
-            let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-            let tradingPreviewViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.tradingPreviewView.rawValue) as! TradeItTradingPreviewViewController
-
-            tradingPreviewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-            tradingPreviewViewController.previewOrder = previewOrder
-            tradingPreviewViewController.placeOrderCallback = placeOrderCallback
-
-            self.navigationController?.pushViewController(tradingPreviewViewController, animated: true)
             self.ezLoadingActivityManager.hide()
+            self.delegate?.tradeItTradingTicketViewController(self,
+                previewOrder: previewOrder,
+                placeOrderCallback: placeOrderCallback)
+            
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()
             self.alertManager.show(tradeItErrorResult: errorResult, onViewController: self, withLinkedBroker: self.order.linkedBrokerAccount!.linkedBroker, onFinished: {})
@@ -357,4 +356,11 @@ class TradeItTradingTicketViewController: UIViewController, TradeItSymbolSearchV
 
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
+}
+
+protocol TradeItTradingTicketViewControllerDelegate: class {
+    func tradeItTradingTicketViewController(tradeItTradingTicketViewController: TradeItTradingTicketViewController,
+                                            previewOrder: TradeItPreviewTradeResult,
+                                            placeOrderCallback: TradeItPlaceOrderHandlers)
+
 }

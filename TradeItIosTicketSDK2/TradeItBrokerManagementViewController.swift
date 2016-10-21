@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
+class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
 
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
@@ -14,6 +14,7 @@ class TradeItBrokerManagementViewController: UIViewController, TradeItBrokerMana
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.brokerManagementTableManager.delegate = self
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
     }

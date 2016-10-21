@@ -29,7 +29,7 @@ internal class ValueCellData: PreviewCellData {
     }
 }
 
-class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
+class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
 
@@ -41,6 +41,8 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
     var acknowledgementCellData: [AcknowledgementCellData] = []
     var alertManager = TradeItAlertManager()
 
+    weak var delegate: TradeItTradePreviewViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.linkedBrokerAccount == nil {
@@ -63,13 +65,9 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
         self.ezLoadingActivityManager.show(text: "Placing Order", disableUI: true)
 
         placeOrderCallback(onSuccess: { result in
-            let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
-            let tradingConfirmationViewController = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.tradingConfirmationView.rawValue) as! TradeItTradingConfirmationViewController
-
-            tradingConfirmationViewController.placeOrderResult = result
-
-            self.navigationController?.setViewControllers([tradingConfirmationViewController], animated: true)
             self.ezLoadingActivityManager.hide()
+            self.delegate?.tradeItTradePreviewViewController(self, didPlaceOrderWithResult: result)
+            
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()
             self.alertManager.show(tradeItErrorResult: errorResult,
@@ -92,6 +90,7 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellData = previewCellData[indexPath.row]
+
         switch cellData {
         case let warningCellData as WarningCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
@@ -199,4 +198,9 @@ class TradeItTradingPreviewViewController: UIViewController, UITableViewDelegate
             return AcknowledgementCellData(acknowledgement: acknowledgement)
         })
     }
+}
+
+protocol TradeItTradePreviewViewControllerDelegate: class {
+    func tradeItTradePreviewViewController(tradeItTradePreviewViewController: TradeItTradePreviewViewController,
+                                           didPlaceOrderWithResult placeOrderResult: TradeItPlaceOrderResult)
 }

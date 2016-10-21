@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
     var alertManager = TradeItAlertManager()
@@ -12,7 +12,7 @@ class TradeItSelectBrokerViewController: UIViewController, UITableViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.selectedBroker = nil
 
         ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)

@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: UIViewController, TradeItAccountSelectionTableViewManagerDelegate {
+class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 

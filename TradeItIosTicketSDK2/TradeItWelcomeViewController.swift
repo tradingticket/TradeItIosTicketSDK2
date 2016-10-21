@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItWelcomeViewController: UIViewController {
+class TradeItWelcomeViewController: TradeItViewController {
     var delegate: TradeItWelcomeViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -13,7 +13,7 @@ class TradeItWelcomeViewController: UIViewController {
         self.delegate?.getStartedButtonWasTapped(self)
     }
 
-    @IBAction func cancelWasTapped(sender: UIBarButtonItem) {
+    override func closeButtonWasTapped(sender: UIBarButtonItem) {
         self.delegate?.cancelWasTapped(fromWelcomeViewController: self)
     }
 }

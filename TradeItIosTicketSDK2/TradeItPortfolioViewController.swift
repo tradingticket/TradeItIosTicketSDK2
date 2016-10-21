@@ -1,7 +1,7 @@
 import UIKit
 import PromiseKit
 
-class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
+class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
@@ -27,6 +27,7 @@ class TradeItPortfolioViewController: UIViewController, TradeItPortfolioAccounts
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
         self.positionsTableViewManager.delegate = self

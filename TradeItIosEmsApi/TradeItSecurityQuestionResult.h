@@ -22,7 +22,7 @@
 /**
  *  An array of options if it's a multiple choice question. nil or emtpy array if broker does not provide any options
  */
-@property (nullable, copy) NSArray<Optional> *securityQuestionOptions;
+@property (nullable) NSArray<NSString *><Optional> *securityQuestionOptions;
 
 /**
  *  A base64 encoded image to be displayed to the user for security code card lookup (like a captcha)

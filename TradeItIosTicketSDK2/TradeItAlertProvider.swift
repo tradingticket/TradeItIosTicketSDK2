@@ -14,7 +14,7 @@ class TradeItAlertProvider {
         if let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
                 title: "Cancel",
-                style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                style: UIAlertActionStyle.Default) { action in
                     onCanceledActionTapped()
             }
 
@@ -23,7 +23,7 @@ class TradeItAlertProvider {
 
         let alertAction = UIAlertAction(
             title: alertActionTitle,
-            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            style: UIAlertActionStyle.Default) { action in
                 onAlertActionTapped()
             }
 
@@ -34,6 +34,7 @@ class TradeItAlertProvider {
 
     static func provideSecurityQuestionAlertWith(alertTitle alertTitle: String,
                                                             alertMessage: String,
+                                                            multipleOptions: [String],
                                                             alertActionTitle: String,
                                                             onAnswerSecurityQuestion: (withAnswer: String) -> Void,
                                                             onCancelSecurityQuestion: () -> Void) -> UIAlertController {
@@ -41,21 +42,33 @@ class TradeItAlertProvider {
                                                 message: alertMessage,
                                                 preferredStyle: UIAlertControllerStyle.Alert)
 
-        alertController.addTextFieldWithConfigurationHandler(nil)
-
-        let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { (action) -> Void in
-            let textField = alertController.textFields![0] as UITextField
-            onAnswerSecurityQuestion(withAnswer: textField.text!)
-        })
-
         let cancelAction = UIAlertAction(
             title: "Cancel",
-            style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            style: UIAlertActionStyle.Default) { action in
                 onCancelSecurityQuestion()
-            }
-
+        }
+        
         alertController.addAction(cancelAction)
-        alertController.addAction(submitAction)
+        
+        if multipleOptions.count > 0 {
+            for option in multipleOptions {
+                let optionAction = UIAlertAction(title: option, style: .Default, handler: { action in
+                    onAnswerSecurityQuestion(withAnswer: option)
+                })
+                alertController.addAction(optionAction)
+            }
+        } else {
+            alertController.addTextFieldWithConfigurationHandler(nil)
+            let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { action in
+                let textField = alertController.textFields![0] as UITextField
+                onAnswerSecurityQuestion(withAnswer: textField.text!)
+            })
+            alertController.addAction(submitAction)
+        }
+        
+
+        
+        
 
         return alertController
     }

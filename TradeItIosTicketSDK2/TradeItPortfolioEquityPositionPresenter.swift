@@ -50,10 +50,10 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return NumberFormatter.formatPercentage(totalGainLossPercentage.floatValue);
     }
 
-    func getAvgCostBasis() -> String {
-        guard let costBasis = self.position?.costbasis, quantity = getQuantity() where quantity != 0
+    func getAvgCost() -> String {
+        guard let cost = self.position?.costbasis, quantity = getQuantity() where quantity != 0
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        let avgCost = costBasis.floatValue/quantity.floatValue
+        let avgCost = cost.floatValue/quantity.floatValue
         return formatCurrency(avgCost)
     }
 

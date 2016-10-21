@@ -37,7 +37,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
-        self.avgCostLabelValue.text = presenter.getAvgCostBasis()
+        self.avgCostLabelValue.text = presenter.getAvgCost()
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
         self.bidLabelValue.text = presenter.getFormattedBid()

@@ -50,7 +50,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         
         self.alertManager.showOn(viewController: self,
                                               withAlertTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
-                                              withAlertMessage: "Are you sure you want to unlink your account and remove all the associated data ?",
+                                              withAlertMessage: "Are you sure you want to unlink your account and remove all the associated data?",
                                               withAlertActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
                 

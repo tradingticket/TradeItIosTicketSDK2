@@ -9,6 +9,13 @@ enum TradeItErrorCode: Int {
 }
 
 extension TradeItErrorResult {
+    convenience init(title: String, message: String, code: TradeItErrorCode) {
+        self.init()
+        self.shortMessage = title
+        self.longMessages = [message]
+        self.code = code.rawValue
+    }
+
     func errorCode() -> TradeItErrorCode? {
         if let code = self.code?.integerValue {
             return TradeItErrorCode(rawValue: code)

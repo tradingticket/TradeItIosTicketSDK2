@@ -30,15 +30,15 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
-                self.alertManager.show(
-                    securityQuestion: securityQuestion,
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
             },
-            onFailure:  { tradeItErrorResult, linkedBroker in
-                self.alertManager.show(tradeItErrorResult: tradeItErrorResult, onViewController: self, withLinkedBroker: linkedBroker, onFinished: {
+            onFailure:  { error, linkedBroker in
+                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
                     // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
                         onRefreshComplete(withLinkedBrokers: self.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }

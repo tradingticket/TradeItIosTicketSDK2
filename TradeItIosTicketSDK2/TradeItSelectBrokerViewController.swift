@@ -18,16 +18,18 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)
 
         self.linkedBrokerManager.getAvailableBrokers(
-            onSuccess: { (availableBrokers: [TradeItBroker]) -> Void in
+            onSuccess: { availableBrokers in
                 self.brokers = availableBrokers
                 self.ezLoadingActivityManager.hide()
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
-                self.alertManager.showOn(viewController: self,
-                                         withAlertTitle: "Could not fetch brokers",
-                                         withAlertMessage: "Could not fetch the brokers list. Please try again later.",
-                                         withAlertActionTitle: "OK")
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "Could not fetch brokers",
+                    withMessage: "Could not fetch the brokers list. Please try again later.",
+                    withActionTitle: "OK"
+                )
                 self.ezLoadingActivityManager.hide()
             }
         )

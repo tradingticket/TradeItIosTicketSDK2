@@ -43,7 +43,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
                 self.linkedBroker.error = errorResult
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "Balances failed"))
+                onFailure(TradeItErrorResult(title: "Failed to retrieve account balances"))
             }
         }
     }
@@ -73,7 +73,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
                 self.linkedBroker.error = errorResult
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "Positions failed"))
+                onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
             }
         }
     }

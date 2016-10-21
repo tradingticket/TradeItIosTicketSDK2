@@ -1,5 +1,5 @@
 import UIKit
-import TradeItIosTicketSDK2
+@testable import TradeItIosTicketSDK2
 
 enum Action: Int {
     case launchPortfolio = 0
@@ -13,6 +13,7 @@ enum Action: Int {
     case manualPositions
     case launchAlertQueue
     case deleteLinkedBrokers
+    case TEST
     case enum_COUNT
 }
 
@@ -30,6 +31,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
         self.alertManager = TradeItAlertManager()
+
+        printLinkedBrokers()
     }
 
     // Mark: UITableViewDelegate
@@ -38,6 +41,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
+        case .TEST:
+            test()
         case .launchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
         case .launchPortfolioForLinkedBrokerAccount:
@@ -97,6 +102,25 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     // MARK: Private
+
+    private func test() {
+//        Defaults[.linkedBrokerAccountsCache] = [["asdf": "asdfasdf"], ["zxcv": "1234", "qwer": "qewqwer"]]
+
+//        let cache = Defaults[.linkedBrokerAccountsCache]
+
+//        print("=====> MY CACHE: \(cache[1])")
+    }
+
+    private func printLinkedBrokers() {
+        print("\n\n=====> LINKED BROKERS:")
+
+        for linkedBroker in TradeItLauncher.linkedBrokerManager.linkedBrokers {
+            let linkedLogin = linkedBroker.linkedLogin
+            print("=====> \(linkedLogin.broker)(\(linkedBroker.accounts.count) accounts) - \(linkedLogin.userId) - \(linkedLogin.label ?? "NO LABEL")")
+        }
+
+        print("=====> ===============\n\n")
+    }
 
     fileprivate func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in

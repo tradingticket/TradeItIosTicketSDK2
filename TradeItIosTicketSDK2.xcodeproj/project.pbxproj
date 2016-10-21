@@ -732,7 +732,6 @@
 				75BAAA901DB7EEB400E5435C /* TradeItTradePreviewViewController.swift */,
 				75BAAA911DB7EEB400E5435C /* TradeItTradingTicketViewController.swift */,
 				75BAAA941DB7EEB400E5435C /* TradeItWelcomeViewController.swift */,
-				75BAAA931DB7EEB400E5435C /* TradeItViewControllerProvider.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -761,13 +760,13 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		756FAF891DB81D9700D5B112 /* Flows */ = {
+		756FAF891DB81D9700D5B112 /* UI Flows */ = {
 			isa = PBXGroup;
 			children = (
 				75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */,
 				75BAAA641DB7EEB400E5435C /* TradeItLinkBrokerUIFlow.swift */,
 			);
-			name = Flows;
+			name = "UI Flows";
 			sourceTree = "<group>";
 		};
 		756FAF8A1DB81E0300D5B112 /* Presenters */ = {
@@ -853,6 +852,7 @@
 		756FAF8F1DB81FE200D5B112 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				75BAAA931DB7EEB400E5435C /* TradeItViewControllerProvider.swift */,
 				75BAAA5B1DB7EEB400E5435C /* TradeItAlertProvider.swift */,
 				75BAAA5F1DB7EEB400E5435C /* TradeItBundleProvider.swift */,
 				75BAAA871DB7EEB400E5435C /* TradeItSessionProvider.swift */,
@@ -889,7 +889,7 @@
 			isa = PBXGroup;
 			children = (
 				756FAF881DB81D5500D5B112 /* Extensions */,
-				756FAF891DB81D9700D5B112 /* Flows */,
+				756FAF891DB81D9700D5B112 /* UI Flows */,
 				756FAF871DB81D4C00D5B112 /* Helpers */,
 				756FAF8A1DB81E0300D5B112 /* Presenters */,
 				756FAF8F1DB81FE200D5B112 /* Providers */,

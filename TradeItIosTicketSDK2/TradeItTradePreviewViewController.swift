@@ -29,7 +29,7 @@ internal class ValueCellData: PreviewCellData {
     }
 }
 
-class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
+class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
 
@@ -41,7 +41,7 @@ class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDel
     var acknowledgementCellData: [AcknowledgementCellData] = []
     var alertManager = TradeItAlertManager()
 
-    weak var delegate: TradeItTradingPreviewViewControllerDelegate?
+    weak var delegate: TradeItTradePreviewViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDel
 
         placeOrderCallback(onSuccess: { result in
             self.ezLoadingActivityManager.hide()
-            self.delegate?.tradeItTradingPreviewViewController(self, placeOrderResult: result)
+            self.delegate?.tradeItTradePreviewViewController(self, didPlaceOrderWithResult: result)
             
         }, onFailure: { errorResult in
             self.ezLoadingActivityManager.hide()
@@ -90,6 +90,7 @@ class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDel
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellData = previewCellData[indexPath.row]
+
         switch cellData {
         case let warningCellData as WarningCellData:
             let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
@@ -199,7 +200,7 @@ class TradeItTradingPreviewViewController: TradeItViewController, UITableViewDel
     }
 }
 
-protocol TradeItTradingPreviewViewControllerDelegate: class {
-    func tradeItTradingPreviewViewController(tradeItTradingPreviewViewController: TradeItTradingPreviewViewController,
-                                             placeOrderResult: TradeItPlaceOrderResult)
+protocol TradeItTradePreviewViewControllerDelegate: class {
+    func tradeItTradePreviewViewController(tradeItTradePreviewViewController: TradeItTradePreviewViewController,
+                                           didPlaceOrderWithResult placeOrderResult: TradeItPlaceOrderResult)
 }

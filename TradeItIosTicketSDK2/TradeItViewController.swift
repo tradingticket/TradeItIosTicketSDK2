@@ -24,13 +24,10 @@ class TradeItViewController: UIViewController {
     }
     
     func closeButtonWasTapped(sender: UIBarButtonItem) {
-        guard let viewControllers = self.navigationController?.viewControllers where viewControllers.count > 1 else {
+        if let viewControllers = self.navigationController?.viewControllers where viewControllers.count > 1 {
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
             self.dismissViewControllerAnimated(true, completion: nil)
-            return
         }
-        self.navigationController?.popViewControllerAnimated(true)
-        
     }
-
 }
-

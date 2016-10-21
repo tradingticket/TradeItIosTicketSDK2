@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItSessionProvider: TradeItSessionProvider {
     var tradeItSessionToProvide: TradeItSession?
 

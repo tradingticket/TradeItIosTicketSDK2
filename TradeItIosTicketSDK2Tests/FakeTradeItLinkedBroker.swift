@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
     let calls = SpyRecorder()
@@ -11,7 +13,9 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
     }
     
     override func authenticate(onSuccess onSuccess: () -> Void,
-                                         onSecurityQuestion: (TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void,
+                                         onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                    submitAnswer: (String) -> Void,
+                                                    onCancelSecurityQuestion: () -> Void) -> Void,
                                          onFailure: (TradeItErrorResult) -> Void) -> Void {
         self.calls.record(#function,
                           args: [

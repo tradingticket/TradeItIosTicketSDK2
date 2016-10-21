@@ -1,4 +1,5 @@
 import UIKit
+@testable import TradeItIosTicketSDK2
 
 class FakeTradeItTradingUIFlow: TradeItTradingUIFlow {
     

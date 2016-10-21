@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItSelectBrokerViewControllerDelegate: TradeItSelectBrokerViewControllerDelegate {
     let calls = SpyRecorder()
     

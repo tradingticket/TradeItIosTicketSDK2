@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+@testable import TradeItIosTicketSDK2
 
 class TradeItPortfolioViewControllerSpec: QuickSpec {
     override func spec() {
@@ -102,9 +103,9 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 describe("when account balances have been refreshed") {
                     beforeEach {
                         account1.balance = TradeItAccountOverview()
-                        account1.balance.totalValue = 123
+                        account1.balance!.totalValue = 123
                         account2.fxBalance = TradeItFxAccountOverview()
-                        account2.fxBalance.totalValueUSD = 234
+                        account2.fxBalance!.totalValueUSD = 234
                         let onFinished = linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                         flushAsyncEvents()
@@ -325,7 +326,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                     it("set the error to the linked broker") {
                         expect(linkedBrokerToReload.error).to(equal(errorResult))
-                        expect(linkedBrokerToReload.wasAuthenticated).to(equal(false))
                     }
 
                     it("populates the accounts table with the linked broker in error") {

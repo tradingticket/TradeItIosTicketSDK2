@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItConnector: TradeItConnector {
     let calls = SpyRecorder()
     var tradeItLinkedLoginToReturn: TradeItLinkedLogin!
@@ -39,11 +41,11 @@ class FakeTradeItConnector: TradeItConnector {
         return tradeItLinkedLoginToReturn
     }
     
-    override func updateUserToken(linkedLogin: TradeItLinkedLogin?, withAuthenticationInfo authInfo: TradeItAuthenticationInfo, andCompletionBlock: ((TradeItResult!) -> Void)!) {
-            self.calls.record(#function, args: [
-                "linkedLogin": linkedLogin,
-                "authInfo": authInfo,
-                "andCompletionBlock": andCompletionBlock
+    override func updateUserToken(linkedLogin: TradeItLinkedLogin?, withAuthenticationInfo authInfo: TradeItAuthenticationInfo?, andCompletionBlock completionBlock: ((TradeItResult?) -> Void)?) {
+        self.calls.record(#function, args: [
+            "linkedLogin": linkedLogin,
+            "authInfo": authInfo,
+            "andCompletionBlock": completionBlock
             ])
     }
 }

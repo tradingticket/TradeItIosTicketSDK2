@@ -1,6 +1,7 @@
 import Quick
 import Nimble
 import UIKit
+@testable import TradeItIosTicketSDK2
 
 class TradeItAlertSpec: QuickSpec {
     override func spec() {
@@ -101,11 +102,12 @@ class TradeItAlertSpec: QuickSpec {
                     let securityQuestion = TradeItSecurityQuestionResult()
                     securityQuestion.securityQuestion = "What is your quest?"
                     let onAnswerSecurityQuestion: (String) -> Void = { _ in }
-
+                    let onCancelSecurityQuestion:() -> Void = {_ in}
                     tradeItAlert.show(
                         securityQuestion: securityQuestion,
                         onViewController: controller,
-                        onAnswerSecurityQuestion: onAnswerSecurityQuestion
+                        onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                        onCancelSecurityQuestion: onCancelSecurityQuestion
                     )
 
                     let alert = controller.presentedViewController as! UIAlertController

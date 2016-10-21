@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+@testable import TradeItIosTicketSDK2
 
 class TradeItAccountManagementViewControllerSpec: QuickSpec {
     override func spec() {
@@ -8,7 +9,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
         var window: UIWindow!
         var nav: UINavigationController!
         var linkedBroker: FakeTradeItLinkedBroker!
-        var tradeItAlert: FakeTradeItAlert!
+        var alertManager: FakeTradeItAlertManager!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
 
@@ -32,8 +33,8 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker.accounts = [account1, account2]
                 controller.linkedBroker = linkedBroker
-                tradeItAlert = FakeTradeItAlert()
-                controller.tradeItAlert = tradeItAlert
+                alertManager = FakeTradeItAlertManager()
+                controller.alertManager = alertManager
 
                 nav = UINavigationController(rootViewController: controller)
 
@@ -101,7 +102,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                     }
 
                     it("call showTradeItErrorResultAlert to display the error") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                        let calls = alertManager.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
                         expect(calls[0].args["errorResult"] as! TradeItErrorResult).to(be(error))
                     }
@@ -124,14 +125,14 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 }
                 
                 it("calls tradeItAlert to show a modal") {
-                    let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
+                    let calls = alertManager.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                     expect(calls.count).to(equal(1))
                 }
                 
                 describe("The user taps on unlink") {
                     context("When the user has other broker accounts") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
+                            let calls = alertManager.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                             let onValidate = calls[0].args["onValidate"] as! () -> Void
                                 onValidate()
 
@@ -148,7 +149,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
 
                     beforeEach {
                         accounts = linkedBroker.accounts
-                        let calls = tradeItAlert.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
+                        let calls = alertManager.calls.forMethod("showValidationAlert(onViewController:title:message:actionTitle:onValidate:onCancel:)")
                         let onCancel = calls[0].args["onCancel"] as! () -> Void
                         onCancel()
                     }

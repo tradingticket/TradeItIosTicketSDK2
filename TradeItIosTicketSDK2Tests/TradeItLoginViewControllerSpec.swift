@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+@testable import TradeItIosTicketSDK2
 
 class TradeItLoginViewControllerSpec: QuickSpec {
     override func spec() {
@@ -7,7 +8,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var window: UIWindow!
         var nav: UINavigationController!
-        var tradeItAlert: FakeTradeItAlert!
+        var alertManager: FakeTradeItAlertManager!
         
         describe("initialization") {
             beforeEach {
@@ -20,8 +21,8 @@ class TradeItLoginViewControllerSpec: QuickSpec {
 
                 controller = storyboard.instantiateViewControllerWithIdentifier("TRADE_IT_LOGIN_VIEW") as! TradeItLoginViewController
                 controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")
-                tradeItAlert = FakeTradeItAlert()
-                controller.tradeItAlert = tradeItAlert
+                alertManager = FakeTradeItAlertManager()
+                controller.alertManager = alertManager
                 controller.delegate = FakeTradeItLoginViewControllerDelegate()
                 nav = UINavigationController(rootViewController: controller)
 
@@ -292,9 +293,9 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                 }
                 
                 context("when authentication fails") {
-                    var tradeItAlert: FakeTradeItAlert!
+                    var alertManager: FakeTradeItAlertManager!
                     beforeEach {
-                        tradeItAlert = controller.tradeItAlert as! FakeTradeItAlert
+                        alertManager = controller.alertManager as! FakeTradeItAlertManager
                         let errorResult = TradeItErrorResult()
                         errorResult.status = "ERROR"
                         errorResult.token = "My Special Token"
@@ -314,7 +315,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     }
                     
                     it("calls the showTradeItErrorResultAlert to show a modal") {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                        let calls = alertManager.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         expect(calls.count).to(equal(1))
                     }
                     
@@ -324,7 +325,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
                     
                     describe("dismissing the alert") {
                         beforeEach {
-                            let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                            let calls = alertManager.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                             let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                             onCompletion()
                         }
@@ -350,11 +351,11 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
         
         sharedExamples("linking/relinking fails") { (sharedExampleContext: SharedExampleContext) in
             var controller: TradeItLoginViewController!
-            var tradeItAlert: FakeTradeItAlert!
+            var alertManager: FakeTradeItAlertManager!
             var nav: UINavigationController!
             beforeEach {
                 controller = sharedExampleContext()["controller"] as! TradeItLoginViewController
-                tradeItAlert = controller.tradeItAlert as! FakeTradeItAlert
+                alertManager = controller.alertManager as! FakeTradeItAlertManager
                 nav = sharedExampleContext()["nav"] as! UINavigationController
 
             }
@@ -367,7 +368,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             }
             
             it("calls the showTradeItErrorResultAlert to show a modal") {
-                let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                let calls = alertManager.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                 expect(calls.count).to(equal(1))
             }
             
@@ -377,7 +378,7 @@ class TradeItLoginViewControllerSpecConfiguration: QuickConfiguration {
             
             describe("dismissing the alert") {
                 beforeEach {
-                        let calls = tradeItAlert.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
+                        let calls = alertManager.calls.forMethod("showTradeItErrorResultAlert(onViewController:errorResult:onAlertDismissed:)")
                         let onCompletion = calls[0].args["onAlertDismissed"] as! () -> Void
                         onCompletion()
                 }

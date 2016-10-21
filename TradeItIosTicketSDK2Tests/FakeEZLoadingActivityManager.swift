@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+@testable import TradeItIosTicketSDK2
 
 public class FakeEZLoadingActivityManager: EZLoadingActivityManager {
     var spinnerIsShowing = false

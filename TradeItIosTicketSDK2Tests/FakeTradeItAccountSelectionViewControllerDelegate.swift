@@ -1,4 +1,4 @@
-import UIKit
+@testable import TradeItIosTicketSDK2
 
 class FakeTradeItAccountSelectionViewControllerDelegate: TradeItAccountSelectionViewControllerDelegate {
 

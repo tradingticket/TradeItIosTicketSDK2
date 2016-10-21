@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItTradeService: TradeItTradeService {
     let calls = SpyRecorder()
 

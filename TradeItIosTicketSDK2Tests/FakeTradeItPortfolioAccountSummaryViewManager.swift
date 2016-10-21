@@ -1,3 +1,4 @@
+@testable import TradeItIosTicketSDK2
 
 class FakeTradeItPortfolioAccountSummaryViewManager: TradeItPortfolioAccountSummaryViewManager {
     let calls = SpyRecorder()

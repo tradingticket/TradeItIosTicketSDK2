@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItPortfolioAccountsTableViewManager: TradeItPortfolioAccountsTableViewManager {
     let calls = SpyRecorder()
 

@@ -33,7 +33,6 @@
 		756FAF6D1DB8198700D5B112 /* FakeTradeItSelectBrokerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF081DB818CD00D5B112 /* FakeTradeItSelectBrokerViewControllerDelegate.swift */; };
 		756FAF6E1DB8198700D5B112 /* FakeTradeItSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF091DB818CD00D5B112 /* FakeTradeItSession.swift */; };
 		756FAF6F1DB8198700D5B112 /* FakeTradeItSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF0A1DB818CD00D5B112 /* FakeTradeItSessionProvider.swift */; };
-		756FAF701DB8198700D5B112 /* FakeTradeItSymbolSearchTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF0B1DB818CD00D5B112 /* FakeTradeItSymbolSearchTableViewManager.swift */; };
 		756FAF711DB8198700D5B112 /* FakeTradeItSymbolSearchViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF0C1DB818CD00D5B112 /* FakeTradeItSymbolSearchViewControllerDelegate.swift */; };
 		756FAF721DB8198700D5B112 /* FakeTradeItTradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF0D1DB818CD00D5B112 /* FakeTradeItTradeService.swift */; };
 		756FAF731DB8198700D5B112 /* FakeTradeItTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF0E1DB818CD00D5B112 /* FakeTradeItTradingUIFlow.swift */; };
@@ -344,7 +343,6 @@
 		756FAF081DB818CD00D5B112 /* FakeTradeItSelectBrokerViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItSelectBrokerViewControllerDelegate.swift; sourceTree = "<group>"; };
 		756FAF091DB818CD00D5B112 /* FakeTradeItSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItSession.swift; sourceTree = "<group>"; };
 		756FAF0A1DB818CD00D5B112 /* FakeTradeItSessionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItSessionProvider.swift; sourceTree = "<group>"; };
-		756FAF0B1DB818CD00D5B112 /* FakeTradeItSymbolSearchTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItSymbolSearchTableViewManager.swift; sourceTree = "<group>"; };
 		756FAF0C1DB818CD00D5B112 /* FakeTradeItSymbolSearchViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItSymbolSearchViewControllerDelegate.swift; sourceTree = "<group>"; };
 		756FAF0D1DB818CD00D5B112 /* FakeTradeItTradeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItTradeService.swift; sourceTree = "<group>"; };
 		756FAF0E1DB818CD00D5B112 /* FakeTradeItTradingUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItTradingUIFlow.swift; sourceTree = "<group>"; };
@@ -692,7 +690,6 @@
 				756FAF081DB818CD00D5B112 /* FakeTradeItSelectBrokerViewControllerDelegate.swift */,
 				756FAF091DB818CD00D5B112 /* FakeTradeItSession.swift */,
 				756FAF0A1DB818CD00D5B112 /* FakeTradeItSessionProvider.swift */,
-				756FAF0B1DB818CD00D5B112 /* FakeTradeItSymbolSearchTableViewManager.swift */,
 				756FAF0C1DB818CD00D5B112 /* FakeTradeItSymbolSearchViewControllerDelegate.swift */,
 				756FAF0D1DB818CD00D5B112 /* FakeTradeItTradeService.swift */,
 				756FAF0E1DB818CD00D5B112 /* FakeTradeItTradingUIFlow.swift */,
@@ -1553,7 +1550,6 @@
 				756FAF5E1DB8198700D5B112 /* FakeTradeItBalanceService.swift in Sources */,
 				756FAF6E1DB8198700D5B112 /* FakeTradeItSession.swift in Sources */,
 				756FAF5C1DB8198700D5B112 /* FakeTradeItAccountSelectionViewControllerDelegate.swift in Sources */,
-				756FAF701DB8198700D5B112 /* FakeTradeItSymbolSearchTableViewManager.swift in Sources */,
 				756FAF7B1DB8198700D5B112 /* TradeItLauncherSpec.swift in Sources */,
 				756FAF5D1DB8198700D5B112 /* FakeTradeItAlert.swift in Sources */,
 			);

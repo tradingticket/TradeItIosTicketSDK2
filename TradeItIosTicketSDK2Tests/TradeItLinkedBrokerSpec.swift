@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+@testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerSpec: QuickSpec {
     override func spec() {
@@ -19,7 +20,7 @@ class TradeItLinkedBrokerSpec: QuickSpec {
 
         describe("initialization") {
             it("initializes wasAuthenticated to be false") {
-                expect(linkedBroker.wasAuthenticated).to(beFalse())
+                expect(linkedBroker.error).notTo(beNil())
             }
 
             it("sets the session") {
@@ -44,7 +45,7 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                     onSuccess: {
                         onSuccessWasCalled = true
                     },
-                    onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void in
+                    onSecurityQuestion: { (tradeItSecurityQuestionResult: TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void,  onCancelSecurityQuestion: () -> Void) -> Void in
                         onSecurityQuestionWasCalled = true
                     },
                     onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
@@ -70,7 +71,7 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                 }
 
                 it("updates wasAuthenticated to be true") {
-                    expect(linkedBroker.wasAuthenticated).to(beTrue())
+                    expect(linkedBroker.error).to(beNil())
                 }
 
                 it("populates accounts from the authentication response") {
@@ -131,7 +132,7 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                 }
                 
                 it("updates wasAuthenticated to be false") {
-                    expect(linkedBroker.wasAuthenticated).to(beFalse())
+                    expect(linkedBroker.error).notTo(beNil())
                 }
                 
                 it("keeps a reference to the error") {

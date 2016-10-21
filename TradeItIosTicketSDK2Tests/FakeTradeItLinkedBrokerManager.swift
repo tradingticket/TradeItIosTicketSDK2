@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     let calls = SpyRecorder()
 
@@ -5,7 +7,7 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
     var hackLinkedBrokersInErrorToReturn : [TradeItLinkedBroker] = []
 
     init() {
-        super.init(connector: FakeTradeItConnector())
+        super.init(apiKey: "My test api key", environment: TradeItEmsTestEnv)
     }
     
     override func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
@@ -53,11 +55,15 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
         return hackLinkedBrokersInErrorToReturn
     }
 
-    override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult, (String) -> Void) -> Void,
-                                                     onFinished: () -> Void) {
+    override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
+                                                                submitAnswer: (String) -> Void,
+                                                                onCancelSecurityQuestion: () -> Void) -> Void,
+                    onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+                    onFinished: () -> Void) {
         self.calls.record(#function,
                           args: [
                               "onSecurityQuestion": onSecurityQuestion,
+                              "onFailure": onFailure,
                               "onFinished": onFinished
                           ])
     }

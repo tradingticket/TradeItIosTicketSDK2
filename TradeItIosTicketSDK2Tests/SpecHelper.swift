@@ -1,3 +1,5 @@
+@testable import TradeItIosTicketSDK2
+
 class MethodInvocation {
     let name: String
     let args: [String: Any]

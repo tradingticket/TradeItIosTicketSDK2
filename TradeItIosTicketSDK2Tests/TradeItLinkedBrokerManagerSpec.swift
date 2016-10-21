@@ -1,5 +1,6 @@
 import Quick
 import Nimble
+@testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerManagerSpec: QuickSpec {
     override func spec() {
@@ -14,7 +15,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             tradeItSessionProvider = FakeTradeItSessionProvider()
             tradeItSessionProvider.tradeItSessionToProvide = tradeItSession
 
-            linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
+            linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: "My test api key", environment: TradeItEmsTestEnv)
             linkedBrokerManager.tradeItSessionProvider = tradeItSessionProvider
         }
 
@@ -30,7 +31,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let storedLinkedLogin = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
                     tradeItConnector.tradeItLinkedLoginArrayToReturn = [storedLinkedLogin]
 
-                    linkedBrokerManager = TradeItLinkedBrokerManager(connector: tradeItConnector)
+                    linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: "My test api key", environment: TradeItEmsTestEnv)
 
                     expect(linkedBrokerManager.linkedBrokers.count).to(equal(1))
                     expect(linkedBrokerManager.linkedBrokers[0].linkedLogin).to(equal(storedLinkedLogin))
@@ -443,16 +444,16 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                 beforeEach {
                     authenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    authenticatedLinkedBroker.wasAuthenticated = true
+                    authenticatedLinkedBroker.error =  nil
 
                     failedUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    failedUnauthenticatedLinkedBroker.wasAuthenticated = false
+                    failedUnauthenticatedLinkedBroker.error = TradeItErrorResult()
 
                     successfulUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    successfulUnauthenticatedLinkedBroker.wasAuthenticated = false
+                    successfulUnauthenticatedLinkedBroker.error = TradeItErrorResult()
 
                     securityQuestionUnauthenticatedLinkedBroker = FakeTradeItLinkedBroker()
-                    securityQuestionUnauthenticatedLinkedBroker.wasAuthenticated = false
+                    securityQuestionUnauthenticatedLinkedBroker.error = TradeItErrorResult()
 
                     linkedBrokerManager.linkedBrokers = [
                         authenticatedLinkedBroker,
@@ -464,7 +465,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     onFinishedAuthenticatingWasCalled = 0
 
                     linkedBrokerManager.authenticateAll(
-                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, onSecurityQuestionAnswer: (String) -> Void) -> Void in
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, onSecurityQuestionAnswer: (String) -> Void, onCancelSecurityQuestion: () -> Void) -> Void in
                             securityQuestionCalledWith = result
                         },
                         onFinished: {
@@ -538,7 +539,8 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     var onFinishedAuthenticatingWasCalled = 0
 
                     linkedBrokerManager.authenticateAll(
-                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, onSecurityQuestionAnswered: (String) -> Void) -> Void in
+                        onSecurityQuestion: { (result: TradeItSecurityQuestionResult, submitAnswer: (String) -> Void,  onCancelSecurityQuestion: () -> Void) -> Void in
+                            
                         },
                         onFinished: {
                             onFinishedAuthenticatingWasCalled += 1
@@ -565,21 +567,21 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                 let account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker1.accounts = [account11, account12]
-                linkedBroker1.wasAuthenticated = true
+                linkedBroker1.error = nil
 
                 let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
                 let tradeItSession2 = FakeTradeItSession()
                 linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
                 let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, brokerName: "Broker #2", accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker2.accounts = [account21]
-                linkedBroker2.wasAuthenticated = true
+                linkedBroker2.error = nil
 
                 let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")
                 let tradeItSession3 = FakeTradeItSession()
                 linkedBroker3 = FakeTradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedLogin3)
                 let account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker3.accounts = [account31]
-                linkedBroker3.wasAuthenticated = false
+                linkedBroker3.error = TradeItErrorResult()
 
                 linkedBrokerManager.linkedBrokers = [linkedBroker1, linkedBroker2, linkedBroker3]
 

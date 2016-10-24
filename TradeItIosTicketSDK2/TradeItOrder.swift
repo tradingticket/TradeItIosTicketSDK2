@@ -60,7 +60,9 @@ public class TradeItOrder {
             switch result {
             case let previewOrder as TradeItPreviewTradeResult:
                 onSuccess(previewOrder, self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService, previewOrder: previewOrder))
-            case let errorResult as TradeItErrorResult: onFailure(errorResult)
+            case let errorResult as TradeItErrorResult:
+                linkedBrokerAccount.linkedBroker.error = errorResult
+                onFailure(errorResult)
             default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
             }
         })

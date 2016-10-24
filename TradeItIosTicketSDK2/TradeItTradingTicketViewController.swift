@@ -92,7 +92,10 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     @IBAction func previewOrderTapped(sender: UIButton) {
         self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
-        self.order.linkedBrokerAccount?.linkedBroker.authenticateIfNeeded(
+        guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
+            else { return }
+        
+        linkedBroker.authenticateIfNeeded(
             onSuccess: {
                 self.ezLoadingActivityManager.updateText(text: "Previewing Order")
                 self.order.preview(onSuccess: { previewOrder, placeOrderCallback in
@@ -102,11 +105,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                         placeOrderCallback: placeOrderCallback)
                     
                 }, onFailure: { error in
-                    guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker else {
-                        return assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
-                    }
                     self.ezLoadingActivityManager.hide()
-                    
                     self.alertManager.showRelinkError(
                         error,
                         withLinkedBroker: linkedBroker,
@@ -127,7 +126,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             onFailure: { errorResult in
                 self.ezLoadingActivityManager.hide()
                 self.alertManager.showRelinkError(errorResult,
-                    withLinkedBroker: (self.order.linkedBrokerAccount?.linkedBroker)!,
+                    withLinkedBroker: linkedBroker,
                     onViewController: self,
                     onFinished: {})
             }

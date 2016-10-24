@@ -27,7 +27,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.holdingsActivityIndicator.hidesWhenStopped = true
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
         self.positionsTableViewManager.delegate = self

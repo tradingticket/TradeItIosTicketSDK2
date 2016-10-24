@@ -34,10 +34,6 @@ extension TradeItErrorResult {
     }
 
     func requiresAuthentication() -> Bool {
-        guard let integerCode = self.code?.integerValue
-            , let errorCode = TradeItErrorCode(rawValue: integerCode)
-            else { return false }
-
-        return errorCode == TradeItErrorCode.SESSION_ERROR || requiresRelink()
+        return !requiresRelink()
     }
 }

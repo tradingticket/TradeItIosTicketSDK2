@@ -91,27 +91,46 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     }
 
     @IBAction func previewOrderTapped(sender: UIButton) {
-        self.ezLoadingActivityManager.show(text: "Previewing Order", disableUI: true)
-
-        order.preview(onSuccess: { previewOrder, placeOrderCallback in
-            self.ezLoadingActivityManager.hide()
-            self.delegate?.tradeItTradingTicketViewController(self,
-                previewOrder: previewOrder,
-                placeOrderCallback: placeOrderCallback)
-            
-        }, onFailure: { error in
-            guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker else {
-                return assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
+        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+        guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
+            else { return }
+        
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                self.ezLoadingActivityManager.updateText(text: "Previewing Order")
+                self.order.preview(onSuccess: { previewOrder, placeOrderCallback in
+                    self.ezLoadingActivityManager.hide()
+                    self.delegate?.tradeItTradingTicketViewController(self,
+                        previewOrder: previewOrder,
+                        placeOrderCallback: placeOrderCallback)
+                    
+                }, onFailure: { error in
+                    self.ezLoadingActivityManager.hide()
+                    self.alertManager.showRelinkError(
+                        error,
+                        withLinkedBroker: linkedBroker,
+                        onViewController: self,
+                        onFinished: {} // TODO: Retry?
+                    )
+                })
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.ezLoadingActivityManager.hide()
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure: { errorResult in
+                self.ezLoadingActivityManager.hide()
+                self.alertManager.showRelinkError(errorResult,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self,
+                    onFinished: {})
             }
-            self.ezLoadingActivityManager.hide()
-
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: linkedBroker,
-                onViewController: self,
-                onFinished: {} // TODO: Retry?
-            )
-        })
+        )
     }
 
     @IBAction func symbolButtonWasTapped(sender: AnyObject) {

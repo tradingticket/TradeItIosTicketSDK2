@@ -84,7 +84,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            self.alertManager.showSecurityQuestion(
+            self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
                 onViewController: self,
                 onAnswerSecurityQuestion: answerSecurityQuestion,

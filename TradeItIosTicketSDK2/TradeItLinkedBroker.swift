@@ -9,11 +9,12 @@ public class TradeItLinkedBroker: NSObject {
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
-        //we need to provide an error to indicate that this new linkedBroker needs to authenticate
-        let errorResult = TradeItErrorResult()
-        errorResult.systemMessage = "This linked broker needs to authenticate"
-        errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
-        self.error = errorResult
+        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
+        self.error = TradeItErrorResult(
+                title: "Linked Broker initialized from keychain",
+                message: "This linked broker needs to authenticate.",
+                code: .SESSION_ERROR
+        )
     }
 
     public func authenticate(onSuccess onSuccess: () -> Void,

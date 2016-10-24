@@ -67,13 +67,13 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         placeOrderCallback(onSuccess: { result in
             self.ezLoadingActivityManager.hide()
             self.delegate?.tradeItTradePreviewViewController(self, didPlaceOrderWithResult: result)
-            
-        }, onFailure: { errorResult in
+        }, onFailure: { error in
             self.ezLoadingActivityManager.hide()
-            self.alertManager.show(tradeItErrorResult: errorResult,
-                                            onViewController: self,
-                                            withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
-                                            onFinished: {})
+            self.alertManager.showRelinkError(error,
+                withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
+                onViewController: self,
+                onFinished: {} // TODO: Retry?
+            )
         })
     }
 

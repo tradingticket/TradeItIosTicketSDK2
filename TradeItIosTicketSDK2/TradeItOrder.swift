@@ -51,9 +51,9 @@ public class TradeItOrder {
                            onFailure: (TradeItErrorResult) -> Void
         ) -> Void {
         guard let linkedBrokerAccount = linkedBrokerAccount else {
-            return onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("A linked broker account must be set before you preview an order.")) }
+            return onFailure(TradeItErrorResult(title: "Linked Broker Account", message: "A linked broker account must be set before you preview an order.")) }
         guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
-            return onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("There was a problem previewing your order. Please try again."))
+            return onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
         }
 
         linkedBrokerAccount.tradeService.previewTrade(previewPresenter.generateRequest(), withCompletionBlock: { result in
@@ -61,7 +61,7 @@ public class TradeItOrder {
             case let previewOrder as TradeItPreviewTradeResult:
                 onSuccess(previewOrder, self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService, previewOrder: previewOrder))
             case let errorResult as TradeItErrorResult: onFailure(errorResult)
-            default: onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("There was a problem previewing your order. Please try again."))
+            default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
             }
         })
     }

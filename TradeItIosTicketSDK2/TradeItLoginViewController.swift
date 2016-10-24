@@ -54,37 +54,33 @@ class TradeItLoginViewController: KeyboardViewController {
 
         self.disableLinkButton()
         
-        let tradeItAuthenticationInfo = TradeItAuthenticationInfo(id: self.userNameInput.text,
-                                                                  andPassword: self.passwordInput.text,
-                                                                  andBroker: brokerShortName)
+        let tradeItAuthenticationInfo = TradeItAuthenticationInfo(
+            id: self.userNameInput.text,
+            andPassword: self.passwordInput.text,
+            andBroker: brokerShortName
+        )
         
         if let linkedBrokerToRelink = self.linkedBrokerToRelink {
-            self.linkedBrokerManager.relinkBroker(linkedBrokerToRelink,
-                                                  authInfo: tradeItAuthenticationInfo,
-                                                  onSuccess: { (linkedBroker: TradeItLinkedBroker) -> Void in
-                                                      self.authenticateBroker(linkedBroker)
-                                                  },
-                                                  onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
-                                                      self.activityIndicator.stopAnimating()
-                                                      self.enableLinkButton()
-                                                      self.alertManager.showGenericError(
-                                                          tradeItErrorResult: tradeItErrorResult,
-                                                          onViewController: self
-                                                      )
-                                                  })
+            self.linkedBrokerManager.relinkBroker(
+                linkedBrokerToRelink,
+                authInfo: tradeItAuthenticationInfo,
+                onSuccess: self.authenticateBroker,
+                onFailure: { error in
+                    self.activityIndicator.stopAnimating()
+                    self.enableLinkButton()
+                    self.alertManager.showError(error, onViewController: self)
+                }
+            )
         } else {
-            self.linkedBrokerManager.linkBroker(authInfo: tradeItAuthenticationInfo,
-                                                onSuccess: {(linkedBroker: TradeItLinkedBroker) -> Void in
-                                                    self.authenticateBroker(linkedBroker)
-                                                },
-                                                onFailure: {(tradeItErrorResult: TradeItErrorResult) -> Void in
-                                                    self.activityIndicator.stopAnimating()
-                                                    self.enableLinkButton()
-                                                    self.alertManager.showGenericError(
-                                                        tradeItErrorResult: tradeItErrorResult,
-                                                        onViewController: self
-                                                    )
-                                                })
+            self.linkedBrokerManager.linkBroker(
+                authInfo: tradeItAuthenticationInfo,
+                onSuccess: self.authenticateBroker,
+                onFailure: { error in
+                    self.activityIndicator.stopAnimating()
+                    self.enableLinkButton()
+                    self.alertManager.showError(error, onViewController: self)
+                }
+            )
         }
     }
 
@@ -108,23 +104,21 @@ class TradeItLoginViewController: KeyboardViewController {
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.alertManager.show(
-                    securityQuestion: securityQuestion,
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
             },
-            onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
+            onFailure: { error in
                 self.linkedBrokerManager.unlinkBroker(linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
-                self.alertManager.showGenericError(tradeItErrorResult: tradeItErrorResult, onViewController: self)
+                self.alertManager.showError(error, onViewController: self)
             }
         )
     }
-
-    
 
     private func updateLinkButton() {
         if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.enabled) {

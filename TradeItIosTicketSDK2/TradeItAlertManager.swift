@@ -4,67 +4,65 @@ import UIKit
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
-    func showGenericError(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
-                            onViewController viewController: UIViewController,
-                                             onFinished: () -> Void = {}) {
-        let alertTitle = tradeItErrorResult.shortMessage ?? ""
-        let messages = (tradeItErrorResult.longMessages as? [String]) ?? []
-        let alertMessage = messages.joinWithSeparator(" ")
-        let alertActionTitle = "OK"
+    public func showError(error: TradeItErrorResult,
+                          onViewController viewController: UIViewController,
+                          onFinished: () -> Void = {}) {
+        let title = error.shortMessage ?? ""
+        let messages = (error.longMessages as? [String]) ?? []
+        let message = messages.joinWithSeparator(". ")
+        let actionTitle = "OK"
 
-        self.showOn(viewController: viewController,
-                    withAlertTitle: alertTitle,
-                    withAlertMessage: alertMessage,
-                    withAlertActionTitle: alertActionTitle,
+        self.showAlert(onViewController: viewController,
+                              withTitle: title,
+                            withMessage: message,
+                        withActionTitle: actionTitle,
                     onAlertActionTapped: onFinished)
     }
 
-    public func show(tradeItErrorResult tradeItErrorResult: TradeItErrorResult,
-                onViewController viewController: UIViewController,
-                withLinkedBroker linkedBroker: TradeItLinkedBroker,
-                                 onFinished : () -> Void) {
+    public func showRelinkError(error: TradeItErrorResult,
+                                withLinkedBroker linkedBroker: TradeItLinkedBroker,
+                                onViewController viewController: UIViewController,
+                                onFinished: () -> Void) {
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
                 linkedBroker: linkedBroker,
-                onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
+                onLinked: { presentedNavController, linkedBroker in
                     presentedNavController.dismissViewControllerAnimated(true, completion: nil)
-                    linkedBroker.refreshAccountBalances(
-                        onFinished: onFinished
-                    )
+                    linkedBroker.refreshAccountBalances(onFinished: onFinished)
                 },
-                onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    onFinished()
-                }
+                onFlowAborted: { _ in onFinished() }
             )
         }
 
-        switch tradeItErrorResult.errorCode() {
-        case TradeItErrorCode.BROKER_AUTHENTICATION_ERROR?:
-            self.showOn(viewController: viewController,
-                        withAlertTitle: "Update Login",
-                        withAlertMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
-                        withAlertActionTitle: "Update",
-                        onAlertActionTapped: onAlertActionRelinkAccount,
-                        onCancelActionTapped: onFinished)
-        case TradeItErrorCode.OAUTH_ERROR?:
-            self.showOn(viewController: viewController,
-                        withAlertTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
-                        withAlertMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
-                        withAlertActionTitle: "Update",
-                        onAlertActionTapped: onAlertActionRelinkAccount,
-                        onCancelActionTapped: onFinished)
+        switch error.errorCode() {
+        case .BROKER_AUTHENTICATION_ERROR?:
+            self.showAlert(
+                onViewController: viewController,
+                withTitle: "Update Login",
+                withMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
+                withActionTitle: "Update",
+                onAlertActionTapped: onAlertActionRelinkAccount,
+                onCancelActionTapped: onFinished)
+        case .OAUTH_ERROR?:
+            self.showAlert(
+                onViewController: viewController,
+                withTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
+                withMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
+                withActionTitle: "Update",
+                onAlertActionTapped: onAlertActionRelinkAccount,
+                onCancelActionTapped: onFinished)
         default:
-            self.showGenericError(tradeItErrorResult: tradeItErrorResult,
-                                  onViewController: viewController,
-                                  onFinished: onFinished)
+            self.showError(error,
+                onViewController: viewController,
+                      onFinished: onFinished)
         }
     }
 
-    public func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
-              onViewController viewController: UIViewController,
-                               onAnswerSecurityQuestion: (withAnswer: String) -> Void,
-                               onCancelSecurityQuestion: () -> Void) {
+    public func promptUserToAnswerSecurityQuestion(securityQuestion: TradeItSecurityQuestionResult,
+                                     onViewController viewController: UIViewController,
+                                     onAnswerSecurityQuestion: (withAnswer: String) -> Void,
+                                     onCancelSecurityQuestion: () -> Void) {
         let alertController = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
@@ -75,15 +73,15 @@ import UIKit
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    public func showOn(viewController viewController: UIViewController,
-                withAlertTitle alertTitle: String,
-              withAlertMessage alertMessage: String,
-          withAlertActionTitle alertActionTitle: String,
-                               onAlertActionTapped: () -> Void = {},
-                               onCancelActionTapped: (() -> Void)? = nil) {
-        let alertController = TradeItAlertProvider.provideAlert(alertTitle: alertTitle,
-                                                                alertMessage: alertMessage,
-                                                                alertActionTitle: alertActionTitle,
+    public func showAlert(onViewController viewController: UIViewController,
+                          withTitle title: String,
+                          withMessage message: String,
+                          withActionTitle actionTitle: String,
+                          onAlertActionTapped: () -> Void = {},
+                          onCancelActionTapped: (() -> Void)? = nil) {
+        let alertController = TradeItAlertProvider.provideAlert(alertTitle: title,
+                                                                alertMessage: message,
+                                                                alertActionTitle: actionTitle,
                                                                 onAlertActionTapped: onAlertActionTapped,
                                                                 onCanceledActionTapped: onCancelActionTapped)
         viewController.presentViewController(alertController, animated: true, completion: nil)

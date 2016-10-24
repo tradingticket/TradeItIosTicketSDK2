@@ -20,7 +20,7 @@ class TradeItMarketService {
             } else if let errorResult = tradeItResult as? TradeItErrorResult {
                 onFailure(errorResult)
             } else {
-                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Error loading market data quote. Please try again later."))
+                onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching the quote failed. Please try again later."))
             }
         })
     }
@@ -38,7 +38,7 @@ class TradeItMarketService {
             } else if let errorResult = tradeItResult as? TradeItErrorResult {
                 onFailure(errorResult)
             } else {
-                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Error loading market data symbolLookup. Please try again later."))
+                onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching data for symbol lookup failed. Please try again later."))
             }
         })
     }

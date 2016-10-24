@@ -26,11 +26,12 @@ import PromiseKit
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
         let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
         
-        //we need to provide an error when we load from the keychain in order to the authenticate all method to handle this linkBroker
-        let errorResult = TradeItErrorResult()
-        errorResult.systemMessage = "This linked broker needs to authenticate"
-        errorResult.code = TradeItErrorCode.SESSION_ERROR.rawValue
-        linkedBroker.error = errorResult
+        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
+        linkedBroker.error = TradeItErrorResult(
+            title: "Linked Broker initialized from keychain",
+            message: "This linked broker needs to authenticate.",
+            code: .SESSION_ERROR
+        )
 
         return linkedBroker
     }
@@ -92,12 +93,13 @@ import PromiseKit
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                     onSuccess(linkedBroker: linkedBroker)
                 } else {
-                    let errorResult = TradeItErrorResult()
-                    errorResult.systemMessage = "Failed to save linked login to keychain"
-                    onFailure(errorResult)
+                    onFailure(TradeItErrorResult(
+                        title: "Keychain error",
+                        message: "Failed to save the linked login to the keychain"
+                    ))
                 }
             default:
-                onFailure(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown error linking broker"))
+                onFailure(TradeItErrorResult(title: "Keychain error"))
             }
         }
     }
@@ -134,12 +136,12 @@ import PromiseKit
                     linkedBroker.linkedLogin = linkedLogin
                     onSuccess(linkedBroker: linkedBroker)
                 } else {
-                    let error = TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update linked login to keychain")
+                    let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
                     linkedBroker.error = error
                     onFailure(error)
                 }
             default:
-                let error = TradeItErrorResult.tradeErrorWithSystemMessage("Failed to update user token")
+                let error = TradeItErrorResult(title: "Keychain error")
                 linkedBroker.error = error
                 onFailure(error)
             }
@@ -148,7 +150,8 @@ import PromiseKit
 
     func unlinkBroker(linkedBroker: TradeItLinkedBroker) {
         self.tradeItConnector.unlinkLogin(linkedBroker.linkedLogin)
-        let index = self.linkedBrokers.indexOf(linkedBroker)
-        self.linkedBrokers.removeAtIndex(index!)
+        if let index = self.linkedBrokers.indexOf(linkedBroker) {
+            self.linkedBrokers.removeAtIndex(index)
+        }
     }
 }

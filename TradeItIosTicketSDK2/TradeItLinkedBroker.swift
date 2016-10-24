@@ -17,7 +17,7 @@ public class TradeItLinkedBroker: NSObject {
                                                             onCancelSecurityQuestion: () -> Void) -> Void,
                                        onFailure: (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
-            { (tradeItResult: TradeItResult!) in
+            { (tradeItResult: TradeItResult) in
                 switch tradeItResult {
                 case let authenticationResult as TradeItAuthenticationResult:
                     self.error = nil
@@ -32,14 +32,21 @@ public class TradeItLinkedBroker: NSObject {
                             self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
                         },
                         onCancelSecurityQuestion: {
-                            handler(TradeItErrorResult.tradeErrorWithSystemMessage("User canceled the security question."))
+                            handler(TradeItErrorResult(
+                                title: "Authentication failed",
+                                message: "The security question was canceled.",
+                                code: .BROKER_AUTHENTICATION_ERROR
+                            ))
                         }
                     )
                 case let error as TradeItErrorResult:
                     self.error = error
                     onFailure(error)
                 default:
-                    handler(TradeItErrorResult.tradeErrorWithSystemMessage("Unknown response sent from the server for authentication."))
+                    handler(TradeItErrorResult(
+                        title: "Authentication failed",
+                        code: .BROKER_AUTHENTICATION_ERROR
+                    ))
                 }
             }
         }

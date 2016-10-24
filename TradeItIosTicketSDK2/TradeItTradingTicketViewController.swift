@@ -99,9 +99,18 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 previewOrder: previewOrder,
                 placeOrderCallback: placeOrderCallback)
             
-        }, onFailure: { errorResult in
+        }, onFailure: { error in
+            guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker else {
+                return assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
+            }
             self.ezLoadingActivityManager.hide()
-            self.alertManager.show(tradeItErrorResult: errorResult, onViewController: self, withLinkedBroker: self.order.linkedBrokerAccount!.linkedBroker, onFinished: {})
+
+            self.alertManager.showRelinkError(
+                error,
+                withLinkedBroker: linkedBroker,
+                onViewController: self,
+                onFinished: {} // TODO: Retry?
+            )
         })
     }
 

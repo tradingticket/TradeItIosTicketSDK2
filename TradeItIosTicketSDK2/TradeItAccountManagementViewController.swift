@@ -48,10 +48,11 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     
     @IBAction func unlinkAccountWasTapped(sender: AnyObject) {
         
-        self.alertManager.showOn(viewController: self,
-                                              withAlertTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
-                                              withAlertMessage: "Are you sure you want to unlink your account and remove all the associated data ?",
-                                              withAlertActionTitle: "Unlink",
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
+            withMessage: "Are you sure you want to unlink your account and remove all the associated data?",
+            withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
                 
                 self.linkedBrokerManager.unlinkBroker(self.linkedBroker)
@@ -87,18 +88,17 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 })
             },
             onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
-                self.alertManager.show(
-                    securityQuestion: securityQuestion,
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
             },
-            onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
-                self.alertManager.show(
-                    tradeItErrorResult: tradeItErrorResult,
-                    onViewController: self,
+            onFailure: { error in
+                self.alertManager.showRelinkError(error,
                     withLinkedBroker: self.linkedBroker,
+                    onViewController: self,
                     onFinished : { () -> Void in
                         onRefreshComplete(withAccounts: self.linkedBroker.accounts)
                 })

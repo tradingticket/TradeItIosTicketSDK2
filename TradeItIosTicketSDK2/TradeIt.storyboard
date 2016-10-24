@@ -1715,6 +1715,7 @@
                                                     <outlet property="avgRateLabel" destination="z0f-ID-nWJ" id="OWl-qy-dbS"/>
                                                     <outlet property="bidLabelValue" destination="6OS-1g-WaI" id="nxY-y1-rcJ"/>
                                                     <outlet property="chevron" destination="dCk-Ng-okI" id="HRI-FV-Ute"/>
+                                                    <outlet property="fxPositionDetailsHeightConstraint" destination="8xe-D6-NqY" id="JMG-Y5-mAA"/>
                                                     <outlet property="fxPositionsDetails" destination="v9W-Gu-oDT" id="mwV-lg-gCK"/>
                                                     <outlet property="quantityLabelValue" destination="CbD-da-W7G" id="PVM-gB-Gt3"/>
                                                     <outlet property="spreadLabelValue" destination="kvc-kA-YhU" id="A80-sf-Wci"/>

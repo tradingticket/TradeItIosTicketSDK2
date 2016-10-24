@@ -6,7 +6,8 @@ import UIKit
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
-
+    let deviceManager = TradeItDeviceManager()
+    
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
@@ -30,8 +31,16 @@ import UIKit
                 }
             )
         } else {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            viewController.present(navController, animated: true, completion: nil)
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    print("Access granted")
+                    let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+                    viewController.present(navController, animated: true, completion: nil)
+                },
+                onFailure: {
+                    print("Access denied")
+                }
+            )
         }
     }
 
@@ -56,7 +65,15 @@ import UIKit
                 }
             )
         } else {
-            self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    print("Access granted")
+                    self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                },
+                onFailure: {
+                    print("Access denied")
+                }
+            )
         }
     }
     

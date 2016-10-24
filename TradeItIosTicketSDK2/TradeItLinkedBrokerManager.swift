@@ -32,16 +32,7 @@ import PromiseKit
 
     func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
-        let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
-        
-        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
-        linkedBroker.error = TradeItErrorResult(
-            title: "Linked Broker initialized from keychain",
-            message: "This linked broker needs to authenticate.",
-            code: .SESSION_ERROR
-        )
-
-        return linkedBroker
+        return TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
     }
 
     public func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,

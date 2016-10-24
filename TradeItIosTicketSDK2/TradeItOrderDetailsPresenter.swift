@@ -10,6 +10,10 @@ class TradeItOrderDetailsPresenter {
         return TradeItOrderExpirationPresenter.labelFor(self.orderDetails.expirationType())
     }
     
+    func getOrderActionLabel() -> String {
+        return self.orderDetails.orderAction.capitalizedString
+    }
+    
 }
 
 class TradeItOrderPriceTypePresenter {

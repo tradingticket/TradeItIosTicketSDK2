@@ -156,7 +156,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
             ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
-            ValueCellData(label: "ACTION", value: orderDetails.orderAction),
+            ValueCellData(label: "ACTION", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
             ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]

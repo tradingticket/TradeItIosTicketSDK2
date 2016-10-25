@@ -36,7 +36,7 @@ class TradeItLinkedBrokerCache {
         guard let userId = linkedBroker.linkedLogin.userId
             , let linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers
             , let serializedLinkedBroker = linkedBrokerCache[userId] as SerializedLinkedBroker?
-        else { return }
+            else { return }
 
         if let serializedAccounts = serializedLinkedBroker[ACCOUNTS_KEY] as? SerializedLinkedBrokerAccounts {
             let accounts = deserialize(serializedAccounts: serializedAccounts,
@@ -67,19 +67,14 @@ class TradeItLinkedBrokerCache {
 
     private func deserialize(serializedAccounts serializedAccounts: SerializedLinkedBrokerAccounts,
                              forLinkedBroker linkedBroker: TradeItLinkedBroker) -> [TradeItLinkedBrokerAccount] {
-        var accounts = [TradeItLinkedBrokerAccount]()
-
-        for (accountNumber, serializedAccount) in serializedAccounts {
-            let account = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker,
-                                                     accountName: serializedAccount[ACCOUNT_NAME_KEY] ?? "",
-                                                     accountNumber: accountNumber,
-                                                     balance: nil,
-                                                     fxBalance: nil,
-                                                     positions: [])
-            accounts.append(account)
+        return serializedAccounts.map { accountNumber, serializedAccount in
+            return TradeItLinkedBrokerAccount(linkedBroker: linkedBroker,
+                accountName: serializedAccount[ACCOUNT_NAME_KEY] ?? "",
+                accountNumber: accountNumber,
+                balance: nil,
+                fxBalance: nil,
+                positions: [])
         }
-
-        return accounts
     }
 
     private func serialize(accounts accounts: [TradeItLinkedBrokerAccount]) -> SerializedLinkedBrokerAccounts {

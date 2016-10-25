@@ -47,10 +47,27 @@ end
 
 In the Sandbox environment there is a Dummy broker available to perform tests without connecting a live broker account. All of the API interactions are stateless and return fake data. To login, select the Dummy broker and use the credentials:
 
-```
-Username: dummy
-Password: dummy
-```
+Depending on the username you choose (password will always be "pass"), you can emulate the following scenarios:
+
+|username              | response    |
+| -------------        | ----------                                                                                            
+|dummy                 | no errorResult|
+|dummyNotMargin        | returns error response if request is to place a sell short or buy to cover|
+|dummyNull             | returns null values for every field that can potentially return as null|
+|dummySecurity         | returns security question response (answer is tradingticket)|
+|dummyMultiple         | returns a user with multiple accounts|
+|dummySecurityImage    | returns response with challenge image (mainly used for IB)|
+|dummyOptionLong       | returns response with multiple options for the security question answer (answer is option1)|
+
+any other ID that is not dummy  returns error response with authentication error
+
+When username is dummy , dummyMultiple or dummySecurity:
+
+|Order Size                         |Returns |
+|-------------                      |-------------         |
+|quantity is below 50 returns       |review response with no warning messages |
+|quantity is between 50 and 99      |returns review response with warnings and ack messages |
+|quantity is 100 and up             |returns error response |
 
 ### Live broker accounts
 

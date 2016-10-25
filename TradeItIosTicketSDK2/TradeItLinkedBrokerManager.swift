@@ -5,11 +5,19 @@ import PromiseKit
     var tradeItSessionProvider: TradeItSessionProvider
     public var linkedBrokers: [TradeItLinkedBroker] = []
     
-    init(apiKey: String, environment: TradeitEmsEnvironments) {
+    public init(apiKey: String, environment: TradeitEmsEnvironments) {
         // TODO: TradeItConnector initializer returns optional - we should not force unwrap
-        tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
-        tradeItSessionProvider = TradeItSessionProvider()
+        self.tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
+        self.tradeItSessionProvider = TradeItSessionProvider()
 
+        super.init()
+        self.loadLinkedBrokersFromKeychain()
+    }
+    
+    init(tradeItConnector: TradeItConnector) {
+        self.tradeItConnector = tradeItConnector
+        self.tradeItSessionProvider = TradeItSessionProvider()
+        
         super.init()
         self.loadLinkedBrokersFromKeychain()
     }
@@ -24,16 +32,7 @@ import PromiseKit
 
     func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
-        let linkedBroker = TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
-        
-        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
-        linkedBroker.error = TradeItErrorResult(
-            title: "Linked Broker initialized from keychain",
-            message: "This linked broker needs to authenticate.",
-            code: .SESSION_ERROR
-        )
-
-        return linkedBroker
+        return TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
     }
 
     public func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
@@ -78,7 +77,7 @@ import PromiseKit
         }
     }
 
-    func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
+    public func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
                              onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
                              onFailure: (TradeItErrorResult) -> Void) -> Void {
         self.tradeItConnector.linkBrokerWithAuthenticationInfo(authInfo) { (tradeItResult: TradeItResult?) in
@@ -91,6 +90,7 @@ import PromiseKit
                 
                 if let linkedLogin = linkedLogin {
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+                    self.linkedBrokers.append(linkedBroker)
                     onSuccess(linkedBroker: linkedBroker)
                 } else {
                     onFailure(TradeItErrorResult(

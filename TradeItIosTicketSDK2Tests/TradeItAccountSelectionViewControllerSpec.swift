@@ -57,12 +57,12 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 }
                 
                 it("reauthenticates all the linkedBrokers") {
-                    expect(linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)").count).to(equal(1))
+                    expect(linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFailure:onFinished:)").count).to(equal(1))
                 }
                 
                 context("when authentication call finished") {
                     beforeEach {
-                        let onFinished = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)")[0].args["onFinished"] as! () -> Void
+                        let onFinished = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFailure:onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                     }
                     

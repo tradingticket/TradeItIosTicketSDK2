@@ -18,37 +18,41 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
             tradeItLinkedBrokerAccount.tradeItPositionService = tradeItPositionService
         }
 
-        // TODO: Needs to be fixed to use standard onSuccess/onFailure and not withCompletion
-        xdescribe("getAccountOverview") {
-            var isFinished = false
+        describe("getAccountOverview") {
+            var isError = false
+            var isSuccess = false
             beforeEach {
                 tradeItLinkedBrokerAccount.getAccountOverview(
-                    onSuccess: {},
-                    onFailure: {_ in }
+                    onSuccess: { isSuccess = true},
+                    onFailure: {_ in isError = true}
                 )
             }
             
-            it("doesn't call onFinished yet") {
-                expect(isFinished).to(beFalse())
+            it("doesn't call any callback yet") {
+                expect(isSuccess).to(beFalse())
+                expect(isError).to(beFalse())
             }
             
             context("when getAccountOverview fails") {
                 beforeEach {
-                    isFinished = false
+                    isError = false
+                    isSuccess = false
                     let tradeItErrorResult = TradeItErrorResult()
                     let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
                     completionBlock(tradeItResult: tradeItErrorResult)
                 }
 
-                it("calls onFinished") {
-                    expect(isFinished).to(beTrue())
+                it("calls onFailure") {
+                    expect(isSuccess).to(beFalse())
+                    expect(isError).to(beTrue())
                 }
             }
             
             context("when getAccountOverview successfuly fetches an equity balance") {
                 var accountOverview: TradeItAccountOverview!
                 beforeEach {
-                    isFinished = false
+                    isError = false
+                    isSuccess = false
                     let tradeItAccountOverviewResult = TradeItAccountOverviewResult()
                     accountOverview = TradeItAccountOverview()
                     accountOverview.accountBaseCurrency = "My account base currency"
@@ -73,13 +77,16 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                 }
                 
                 it("calls onFinished") {
-                    expect(isFinished).to(beTrue())
+                    expect(isSuccess).to(beTrue())
+                    expect(isError).to(beFalse())
                 }
             }
             
             context("when getAccountOverview successfuly fetches an fx balance") {
                 var fxAccountOverview: TradeItFxAccountOverview!
                 beforeEach {
+                    isError = false
+                    isSuccess = false
                     let tradeItAccountOverviewResult = TradeItAccountOverviewResult()
                     fxAccountOverview = TradeItFxAccountOverview()
                     fxAccountOverview.buyingPowerBaseCurrency = 6543678
@@ -105,46 +112,52 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                 }
                 
                 it("calls onFinished") {
-                    expect(isFinished).to(beTrue())
+                    expect(isSuccess).to(beTrue())
+                    expect(isError).to(beFalse())
                 }
             }
         }
         
         describe("getPositions") {
-            var isFinished = false
+            var isError = false
+            var isSuccess = false
             beforeEach {
-                //TODO handle onsuccess on failure
                 tradeItLinkedBrokerAccount.getPositions(
-                    onSuccess: {},
-                    onFailure: {_ in }
+                    onSuccess: { isSuccess = true},
+                    onFailure: {_ in isError = true}
                 )
             }
             
             it("doesn't call onFinished yet") {
-                expect(isFinished).to(beFalse())
+                expect(isSuccess).to(beFalse())
+                expect(isSuccess).to(beFalse())
             }
             
             context("when getPositions fails") {
                 beforeEach {
-                    isFinished = false
+                    isSuccess = false
+                    isError = false
                     let tradeItErrorResult = TradeItErrorResult()
                     let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
                     completionBlock(tradeItResult: tradeItErrorResult)
+                    flushAsyncEvents()
                 }
                 //TODO how do we handle positions error ?
                 it("updates the property isPositionsError to true") {
                    // expect(tradeItLinkedBrokerAccount.isPositionsError).to(beTrue())
                 }
                 
-                it("calls onFinished") {
-                    expect(isFinished).to(beTrue())
+                it("calls onFailure") {
+                    expect(isError).to(beTrue())
+                    expect(isSuccess).to(beFalse())
                 }
             }
             
             context("when getPositions succeeds") {
                 var positions: [TradeItPosition] = []
                 beforeEach {
-                    isFinished = false
+                    isSuccess = false
+                    isError = false
                     let tradeItGetPositionsResult = TradeItGetPositionsResult()
                     let position = TradeItPosition()
                     position.costbasis = 123
@@ -170,8 +183,9 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     expect(tradeItLinkedBrokerAccount.positions[0].position).to(be(positions[0]))
                 }
                 
-                it("calls onFinished") {
-                    expect(isFinished).to(beTrue())
+                it("calls onSuccess") {
+                    expect(isSuccess).to(beTrue())
+                    expect(isError).to(beFalse())
                 }
             }
         }
@@ -229,160 +243,161 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
             
         }
         
-        describe("getFormattedBuyingPower") {
-            context("when balance and fxBalance are nil") {
-                var returnedValue = ""
-                beforeEach {
-                    tradeItLinkedBrokerAccount.fxBalance = nil
-                    tradeItLinkedBrokerAccount.balance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
-
-                }
-                it("returns N/A") {
-                    expect(returnedValue).to(equal("N/A"))
-                }
-            }
-            
-            context("when balance only is not nil") {
-                var returnedValue = ""
-                beforeEach {
-                    let accountOverview = TradeItAccountOverview()
-                    accountOverview.accountBaseCurrency = "My account base currency"
-                    accountOverview.availableCash = 12345
-                    accountOverview.buyingPower = 2345
-                    accountOverview.dayAbsoluteReturn = 145
-                    accountOverview.dayPercentReturn = 5.43
-                    tradeItLinkedBrokerAccount.balance = accountOverview
-                    tradeItLinkedBrokerAccount.fxBalance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$2,345.00"))
-                }
-            }
-            
-            context("when fxBalance only is not nil") {
-                var returnedValue = ""
-                beforeEach {
-                    let fxAccountOverview = TradeItFxAccountOverview()
-                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
-                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
-                    fxAccountOverview.totalValueBaseCurrency = 45678
-                    fxAccountOverview.totalValueUSD = 9876
-                    fxAccountOverview.unrealizedProfitAndLossBaseCurrency = 45463
-                    
-                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
-                    tradeItLinkedBrokerAccount.balance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$6,543,678.00"))
-                }
-            }
-        }
-        
-        describe("getFormattedTotalValue") {
-            context("when balance and fxBalance are nil") {
-                var returnedValue = ""
-                beforeEach {
-                    tradeItLinkedBrokerAccount.fxBalance = nil
-                    tradeItLinkedBrokerAccount.balance = nil
-                    //TODO use presenter
-                    //returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
-                    
-                }
-                it("returns N/A") {
-                    expect(returnedValue).to(equal("N/A"))
-                }
-            }
-            context("when balance only is not nil and there is no totalPercent returned") {
-                var returnedValue = ""
-                beforeEach {
-                    let accountOverview = TradeItAccountOverview()
-                    accountOverview.accountBaseCurrency = "My account base currency"
-                    accountOverview.availableCash = 12345
-                    accountOverview.buyingPower = 2345
-                    accountOverview.dayAbsoluteReturn = 145
-                    accountOverview.dayPercentReturn = 5.43
-                    accountOverview.totalValue = 45678
-                    tradeItLinkedBrokerAccount.balance = accountOverview
-                    tradeItLinkedBrokerAccount.fxBalance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$45,678.00"))
-                }
-            }
-            
-            context("when balance only is not nil and there is totalPercent returned") {
-                var returnedValue = ""
-                beforeEach {
-                    let accountOverview = TradeItAccountOverview()
-                    accountOverview.accountBaseCurrency = "My account base currency"
-                    accountOverview.availableCash = 12345
-                    accountOverview.buyingPower = 2345
-                    accountOverview.dayAbsoluteReturn = 145
-                    accountOverview.dayPercentReturn = 5.43
-                    accountOverview.totalValue = 45678
-                    accountOverview.totalPercentReturn = 5.43
-                    tradeItLinkedBrokerAccount.balance = accountOverview
-                    tradeItLinkedBrokerAccount.fxBalance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$45,678.00 (5.43%)"))
-                }
-            }
-            
-            context("when fxBalance only is not nil and unrealized profit == 0") {
-                var returnedValue = ""
-                beforeEach {
-                    let fxAccountOverview = TradeItFxAccountOverview()
-                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
-                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
-                    fxAccountOverview.totalValueBaseCurrency = 40678
-                    fxAccountOverview.totalValueUSD = 9876
-                    
-                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
-                    tradeItLinkedBrokerAccount.balance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$40,678"))
-                }
-            }
-            
-            context("when fxBalance only is not nil and unrealized profit != 0") {
-                var returnedValue = ""
-                beforeEach {
-                    let fxAccountOverview = TradeItFxAccountOverview()
-                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
-                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
-                    fxAccountOverview.totalValueBaseCurrency = 40678
-                    fxAccountOverview.totalValueUSD = 9876
-                    fxAccountOverview.unrealizedProfitAndLossBaseCurrency = 45463
-                    
-                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
-                    tradeItLinkedBrokerAccount.balance = nil
-                    //TODO use presenter
-//                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
-                    
-                }
-                it("returns the expected format") {
-                    expect(returnedValue).to(equal("$40,678 (-9.5%)"))
-                }
-            }
-        }
+//--------------------------------------------------------------------------------------
+//        TODO: move to Presenter unit test
+//
+//        describe("getFormattedBuyingPower") {
+//            context("when balance and fxBalance are nil") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    tradeItLinkedBrokerAccount.fxBalance = nil
+//                    tradeItLinkedBrokerAccount.balance = nil
+//                    //TODO use presenter
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
+//
+//                }
+//                it("returns N/A") {
+//                    expect(returnedValue).to(equal("N/A"))
+//                }
+//            }
+//            
+//            context("when balance only is not nil") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let accountOverview = TradeItAccountOverview()
+//                    accountOverview.accountBaseCurrency = "My account base currency"
+//                    accountOverview.availableCash = 12345
+//                    accountOverview.buyingPower = 2345
+//                    accountOverview.dayAbsoluteReturn = 145
+//                    accountOverview.dayPercentReturn = 5.43
+//                    tradeItLinkedBrokerAccount.balance = accountOverview
+//                    tradeItLinkedBrokerAccount.fxBalance = nil
+//                    //TODO use presenter
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$2,345.00"))
+//                }
+//            }
+//            
+//            context("when fxBalance only is not nil") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let fxAccountOverview = TradeItFxAccountOverview()
+//                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
+//                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
+//                    fxAccountOverview.totalValueBaseCurrency = 45678
+//                    fxAccountOverview.totalValueUSD = 9876
+//                    fxAccountOverview.unrealizedProfitAndLossBaseCurrency = 45463
+//                    
+//                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
+//                    tradeItLinkedBrokerAccount.balance = nil
+//                    //TODO use presenter
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedBuyingPower()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$6,543,678.00"))
+//                }
+//            }
+//        }
+//        
+//        describe("getFormattedTotalValue") {
+//            context("when balance and fxBalance are nil") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    tradeItLinkedBrokerAccount.fxBalance = nil
+//                    tradeItLinkedBrokerAccount.balance = nil
+//                    //TODO use presenter
+//                    //returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
+//                    
+//                }
+//                it("returns N/A") {
+//                    expect(returnedValue).to(equal("N/A"))
+//                }
+//            }
+//            context("when balance only is not nil and there is no totalPercent returned") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let accountOverview = TradeItAccountOverview()
+//                    accountOverview.accountBaseCurrency = "My account base currency"
+//                    accountOverview.availableCash = 12345
+//                    accountOverview.buyingPower = 2345
+//                    accountOverview.dayAbsoluteReturn = 145
+//                    accountOverview.dayPercentReturn = 5.43
+//                    accountOverview.totalValue = 45678
+//                    tradeItLinkedBrokerAccount.balance = accountOverview
+//                    tradeItLinkedBrokerAccount.fxBalance = nil
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$45,678.00"))
+//                }
+//            }
+//            
+//            context("when balance only is not nil and there is totalPercent returned") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let accountOverview = TradeItAccountOverview()
+//                    accountOverview.accountBaseCurrency = "My account base currency"
+//                    accountOverview.availableCash = 12345
+//                    accountOverview.buyingPower = 2345
+//                    accountOverview.dayAbsoluteReturn = 145
+//                    accountOverview.dayPercentReturn = 5.43
+//                    accountOverview.totalValue = 45678
+//                    accountOverview.totalPercentReturn = 5.43
+//                    tradeItLinkedBrokerAccount.balance = accountOverview
+//                    tradeItLinkedBrokerAccount.fxBalance = nil
+//                    //TODO use presenter
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$45,678.00 (5.43%)"))
+//                }
+//            }
+//            
+//            context("when fxBalance only is not nil and unrealized profit == 0") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let fxAccountOverview = TradeItFxAccountOverview()
+//                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
+//                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
+//                    fxAccountOverview.totalValueBaseCurrency = 40678
+//                    fxAccountOverview.totalValueUSD = 9876
+//                    
+//                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
+//                    tradeItLinkedBrokerAccount.balance = nil
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$40,678"))
+//                }
+//            }
+//            
+//            context("when fxBalance only is not nil and unrealized profit != 0") {
+//                var returnedValue = ""
+//                beforeEach {
+//                    let fxAccountOverview = TradeItFxAccountOverview()
+//                    fxAccountOverview.buyingPowerBaseCurrency = 6543678
+//                    fxAccountOverview.realizedProfitAndLossBaseCurrency = 12345
+//                    fxAccountOverview.totalValueBaseCurrency = 40678
+//                    fxAccountOverview.totalValueUSD = 9876
+//                    fxAccountOverview.unrealizedProfitAndLossBaseCurrency = 45463
+//                    
+//                    tradeItLinkedBrokerAccount.fxBalance = fxAccountOverview
+//                    tradeItLinkedBrokerAccount.balance = nil
+//                    //TODO use presenter
+////                    returnedValue =  tradeItLinkedBrokerAccount.getFormattedTotalValueWithPercentage()
+//                    
+//                }
+//                it("returns the expected format") {
+//                    expect(returnedValue).to(equal("$40,678 (-9.5%)"))
+//                }
+//            }
+//        }
     }
 }

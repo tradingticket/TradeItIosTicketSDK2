@@ -19,7 +19,7 @@ class TradeItLinkedBrokerSpec: QuickSpec {
         }
 
         describe("initialization") {
-            it("initializes wasAuthenticated to be false") {
+            it("initializes linkedBroker as not authenticated") {
                 expect(linkedBroker.error).notTo(beNil())
             }
 
@@ -155,7 +155,6 @@ class TradeItLinkedBrokerSpec: QuickSpec {
                 onfinishedWasCalled = false
                 account11 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                 account12 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
-                
                 linkedBroker.accounts = [account11, account12]
                 
                 linkedBroker.refreshAccountBalances(onFinished: {
@@ -165,21 +164,24 @@ class TradeItLinkedBrokerSpec: QuickSpec {
             }
             
             it("calls getAccountsOverview for each account") {
-                expect(account11.calls.forMethod("getAccountOverview(onFinished:)").count).to(equal(1))
-                expect(account12.calls.forMethod("getAccountOverview(onFinished:)").count).to(equal(1))
+                expect(account11.calls.forMethod("getAccountOverview(onSuccess:onFailure:)").count).to(equal(1))
+                expect(account12.calls.forMethod("getAccountOverview(onSuccess:onFailure:)").count).to(equal(1))
             }
             
             context("when all the accounts balances have been fetched") {
                 beforeEach {
-                        let onFinished11 = account11.calls.forMethod("getAccountOverview(onFinished:)")[0].args["onFinished"] as! () -> Void
-                        onFinished11()
-                        let onFinished12 = account12.calls.forMethod("getAccountOverview(onFinished:)")[0].args["onFinished"] as! () -> Void
-                        onFinished12()
+                        let onSuccess = account11.calls.forMethod("getAccountOverview(onSuccess:onFailure:)")[0].args["onSuccess"] as! () -> Void
+                        onSuccess()
+                        let onFailure = account12.calls.forMethod("getAccountOverview(onSuccess:onFailure:)")[0].args["onFailure"] as! (TradeItErrorResult) -> Void
+                        onFailure(TradeItErrorResult())
+                        flushAsyncEvents()
                 }
                 
                 it("calls onFinished") {
-                    flushAsyncEvents()
                     expect(onfinishedWasCalled).to(beTrue())
+                }
+                it("the error is present on the linkedBroker because of the second balance call failure") {
+                    expect(linkedBroker.error).notTo(beNil())
                 }
             }
         }

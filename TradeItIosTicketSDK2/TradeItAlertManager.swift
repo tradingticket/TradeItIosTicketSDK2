@@ -64,23 +64,21 @@ import UIKit
                                      onViewController viewController: UIViewController,
                                      onAnswerSecurityQuestion: (withAnswer: String) -> Void,
                                      onCancelSecurityQuestion: () -> Void) {
-        alertQueue.add(alertClosure: {
-            let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
-                alertTitle: "Security Question",
-                alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
-                multipleOptions: securityQuestion.securityQuestionOptions ?? [],
-                alertActionTitle: "Submit",
-                onAnswerSecurityQuestion: { answer in
-                    onAnswerSecurityQuestion(withAnswer: answer)
-                    self.alertQueue.alertFinished()
-                },
-                onCancelSecurityQuestion: {
-                    onCancelSecurityQuestion()
-                    self.alertQueue.alertFinished()
-                }
-            )
-            viewController.presentViewController(alert, animated: true, completion: nil)
-        })
+        let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
+            alertTitle: "Security Question",
+            alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
+            multipleOptions: securityQuestion.securityQuestionOptions ?? [],
+            alertActionTitle: "Submit",
+            onAnswerSecurityQuestion: { answer in
+                onAnswerSecurityQuestion(withAnswer: answer)
+                self.alertQueue.alertFinished()
+            },
+            onCancelSecurityQuestion: {
+                onCancelSecurityQuestion()
+                self.alertQueue.alertFinished()
+            }
+        )
+        alertQueue.add(onViewController: viewController, alert: alert)
     }
 
     public func showAlert(onViewController viewController: UIViewController,
@@ -89,36 +87,35 @@ import UIKit
                           withActionTitle actionTitle: String,
                           onAlertActionTapped: () -> Void = {},
                           onCancelActionTapped: (() -> Void)? = nil) {
-        alertQueue.add(alertClosure: {
-            let alert = TradeItAlertProvider.provideAlert(
-                alertTitle: title,
-                alertMessage: message,
-                alertActionTitle: actionTitle,
-                onAlertActionTapped: {
-                    onAlertActionTapped()
-                    self.alertQueue.alertFinished()
-                },
-                onCanceledActionTapped: {
-                    onCancelActionTapped?()
-                    self.alertQueue.alertFinished()
-                }
-            )
-            viewController.presentViewController(alert, animated: true, completion: nil)
-        })
-    }
+        let alert = TradeItAlertProvider.provideAlert(
+            alertTitle: title,
+            alertMessage: message,
+            alertActionTitle: actionTitle,
+            onAlertActionTapped: {
+                onAlertActionTapped()
+                self.alertQueue.alertFinished()
+            },
+            onCanceledActionTapped: {
+                onCancelActionTapped?()
+                self.alertQueue.alertFinished()
+            }
+        )
 
+        alertQueue.add(onViewController: viewController, alert: alert)
+    }
 }
 
 private class TradeItAlertQueue {
     private static let sharedInstance = TradeItAlertQueue()
+    private typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
 
-    private var alertClosureQueue: [() -> Void] = []
+    private var queue: [AlertContext] = []
     private var alreadyPresentingAlert = false
 
     private init() {}
 
-    func add(alertClosure alertClosure: () -> Void) {
-        alertClosureQueue.append(alertClosure)
+    func add(onViewController viewController: UIViewController, alert: UIAlertController) {
+        queue.append((viewController, alert))
         self.showNextAlert()
     }
 
@@ -128,9 +125,9 @@ private class TradeItAlertQueue {
     }
 
     private func showNextAlert() {
-        if alreadyPresentingAlert || alertClosureQueue.count <= 0 { return }
-        let alertClosure = alertClosureQueue.removeFirst()
+        if alreadyPresentingAlert || queue.isEmpty { return }
+        let alertContext = queue.removeFirst()
         alreadyPresentingAlert = true
-        alertClosure()
+        alertContext.onViewController.presentViewController(alertContext.alertController, animated: true, completion: nil)
     }
 }

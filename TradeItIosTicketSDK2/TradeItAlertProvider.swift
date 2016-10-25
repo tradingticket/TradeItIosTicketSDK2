@@ -65,10 +65,6 @@ class TradeItAlertProvider {
             })
             alertController.addAction(submitAction)
         }
-        
-
-        
-        
 
         return alertController
     }

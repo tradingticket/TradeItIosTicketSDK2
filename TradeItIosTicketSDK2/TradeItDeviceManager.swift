@@ -14,55 +14,55 @@ class TradeItDeviceManager {
             return
         }
         
-        context.evaluatePolicy(LAPolicy.DeviceOwnerAuthentication,
-                               localizedReason: myLocalizedReasonString,
-                               reply: { (success: Bool, evaluationError: NSError?) -> Void in
-                                
-                                if success {
-                                    print("authenticateUserWithTouchId succeeded")
-                                    onSuccess()
-                                }
-                                else {
-                                    guard let error = evaluationError else {
-                                        print("authenticateUserWithTouchId failed")
-                                        onFailure()
-                                        return
-                                    }
-                                    
-                                    switch error.code {
-                                    case LAError.AuthenticationFailed.rawValue:
-                                        print("Authentication failed: invalid credentials")
-                                        onFailure()
-                                    case LAError.UserCancel.rawValue:
-                                        print("Authentication cancelled by the user")
-                                        onFailure()
-                                    case LAError.UserFallback.rawValue:
-                                        print("User tapped the fallback button")
-                                        onFailure()
-                                    case LAError.SystemCancel.rawValue:
-                                        print("Canceled by system (another application went to foreground)")
-                                        onFailure()
-                                    case LAError.PasscodeNotSet.rawValue:
-                                        print("Passcode not set")
-                                        onFailure()
-                                    case LAError.TouchIDNotAvailable.rawValue:
-                                        print("Touch id not available on the device")
-                                        onFailure()
-                                    case LAError.TouchIDLockout.rawValue:
-                                        print("TouchIDLockout")
-                                        onFailure()
-                                    case LAError.AppCancel.rawValue:
-                                        print("Authentication was canceled by application")
-                                        onFailure()
-                                    case LAError.InvalidContext.rawValue:
-                                        print("LAContext passed to this call has been previously invalidated.")
-                                        onFailure()
-                                    default:
-                                        print("Authentication failed")
-                                        onFailure()
-                                    }
-                                }
-                                
+        context.evaluatePolicy(
+            LAPolicy.DeviceOwnerAuthentication,
+            localizedReason: myLocalizedReasonString,
+            reply: { (success: Bool, evaluationError: NSError?) -> Void in
+            
+            if success {
+                print("authenticateUserWithTouchId succeeded")
+                onSuccess()
+            } else {
+                guard let error = evaluationError else {
+                    print("authenticateUserWithTouchId failed")
+                    onFailure()
+                    return
+                }
+                
+                switch error.code {
+                case LAError.AuthenticationFailed.rawValue:
+                    print("Authentication failed: invalid credentials")
+                    onFailure()
+                case LAError.UserCancel.rawValue:
+                    print("Authentication cancelled by the user")
+                    onFailure()
+                case LAError.UserFallback.rawValue:
+                    print("User tapped the fallback button")
+                    onFailure()
+                case LAError.SystemCancel.rawValue:
+                    print("Canceled by system (another application went to foreground)")
+                    onFailure()
+                case LAError.PasscodeNotSet.rawValue:
+                    print("Passcode not set")
+                    onSuccess()
+                case LAError.TouchIDNotAvailable.rawValue:
+                    print("Touch id not available on the device")
+                    onSuccess()
+                case LAError.TouchIDLockout.rawValue:
+                    print("TouchIDLockout")
+                    onFailure()
+                case LAError.AppCancel.rawValue:
+                    print("Authentication was canceled by application")
+                    onFailure()
+                case LAError.InvalidContext.rawValue:
+                    print("LAContext passed to this call has been previously invalidated.")
+                    onFailure()
+                default:
+                    print("Authentication failed")
+                    onFailure()
+                }
+            }
+            
         })
     }
     

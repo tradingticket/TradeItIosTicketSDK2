@@ -6,9 +6,9 @@ open class TradeItLinkedBroker: NSObject {
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
     public var brokerName: String {
-        return self.linkedLogin.broker
+        return self.linkedLogin.broker ?? ""
     }
-    
+
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin

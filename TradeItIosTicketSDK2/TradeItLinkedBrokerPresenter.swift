@@ -6,7 +6,7 @@ class TradeItLinkedBrokerPresenter: NSObject {
     }
     
     func getFormattedBrokerLabel() -> String {
-        var brokerLabel = self.linkedBroker.linkedLogin.broker
+        var brokerLabel = self.linkedBroker.linkedLogin.broker ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
         let numberOfAccounts = self.linkedBroker.accounts.count
         if numberOfAccounts > 1 {
             brokerLabel = brokerLabel! + (" (\(numberOfAccounts) accounts)")

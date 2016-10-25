@@ -9,6 +9,7 @@ enum Action: Int {
     case ManualAuthenticateAll
     case ManualBalances
     case ManualPositions
+    case LaunchAlertQueue
     case DeleteLinkedBrokers
     case ENUM_COUNT
 }
@@ -51,6 +52,26 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.manualBalances()
         case .ManualPositions:
             self.manualPositions()
+        case .LaunchAlertQueue:
+            alertManager.showAlert(
+                onViewController: self,
+                withTitle: "Alert 1",
+                withMessage: "Alert 1",
+                withActionTitle: "OK",
+                onAlertActionTapped: {}
+            )
+            let securityQuestion = TradeItSecurityQuestionResult()
+            securityQuestion.securityQuestion = "Security Question"
+            alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
+            )
+            alertManager.showAlert(
+                onViewController: self,
+                withTitle: "Alert 2",
+                withMessage: "Alert 2",
+                withActionTitle: "OK",
+                onAlertActionTapped: {}
+            )
         case .DeleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:

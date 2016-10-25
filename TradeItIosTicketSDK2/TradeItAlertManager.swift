@@ -1,6 +1,7 @@
 import UIKit
 
 @objc public class TradeItAlertManager: NSObject {
+    private var alertQueue = TradeItAlertQueue.sharedInstance
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
@@ -63,14 +64,21 @@ import UIKit
                                      onViewController viewController: UIViewController,
                                      onAnswerSecurityQuestion: (withAnswer: String) -> Void,
                                      onCancelSecurityQuestion: () -> Void) {
-        let alertController = TradeItAlertProvider.provideSecurityQuestionAlertWith(
+        let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
             multipleOptions: securityQuestion.securityQuestionOptions ?? [],
             alertActionTitle: "Submit",
-            onAnswerSecurityQuestion: onAnswerSecurityQuestion,
-            onCancelSecurityQuestion: onCancelSecurityQuestion)
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+            onAnswerSecurityQuestion: { answer in
+                onAnswerSecurityQuestion(withAnswer: answer)
+                self.alertQueue.alertFinished()
+            },
+            onCancelSecurityQuestion: {
+                onCancelSecurityQuestion()
+                self.alertQueue.alertFinished()
+            }
+        )
+        alertQueue.add(onViewController: viewController, alert: alert)
     }
 
     public func showAlert(onViewController viewController: UIViewController,
@@ -79,11 +87,47 @@ import UIKit
                           withActionTitle actionTitle: String,
                           onAlertActionTapped: () -> Void = {},
                           onCancelActionTapped: (() -> Void)? = nil) {
-        let alertController = TradeItAlertProvider.provideAlert(alertTitle: title,
-                                                                alertMessage: message,
-                                                                alertActionTitle: actionTitle,
-                                                                onAlertActionTapped: onAlertActionTapped,
-                                                                onCanceledActionTapped: onCancelActionTapped)
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        let alert = TradeItAlertProvider.provideAlert(
+            alertTitle: title,
+            alertMessage: message,
+            alertActionTitle: actionTitle,
+            onAlertActionTapped: {
+                onAlertActionTapped()
+                self.alertQueue.alertFinished()
+            },
+            onCanceledActionTapped: {
+                onCancelActionTapped?()
+                self.alertQueue.alertFinished()
+            }
+        )
+
+        alertQueue.add(onViewController: viewController, alert: alert)
+    }
+}
+
+private class TradeItAlertQueue {
+    private static let sharedInstance = TradeItAlertQueue()
+    private typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
+
+    private var queue: [AlertContext] = []
+    private var alreadyPresentingAlert = false
+
+    private init() {}
+
+    func add(onViewController viewController: UIViewController, alert: UIAlertController) {
+        queue.append((viewController, alert))
+        self.showNextAlert()
+    }
+
+    private func alertFinished() {
+        alreadyPresentingAlert = false
+        showNextAlert()
+    }
+
+    private func showNextAlert() {
+        if alreadyPresentingAlert || queue.isEmpty { return }
+        let alertContext = queue.removeFirst()
+        alreadyPresentingAlert = true
+        alertContext.onViewController.presentViewController(alertContext.alertController, animated: true, completion: nil)
     }
 }

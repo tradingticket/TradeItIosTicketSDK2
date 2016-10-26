@@ -12,7 +12,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
-    var isEnabled = true
+    public var isEnabled = true
 
     init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
@@ -83,6 +83,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
         var separator = " "
+
         if formattedAccountNumber.characters.count > 4 {
             let startIndex = formattedAccountNumber.characters.index(formattedAccountNumber.endIndex, offsetBy: -4)
             formattedAccountNumber = String(formattedAccountNumber.characters.suffix(from: startIndex))
@@ -96,5 +97,4 @@ public class TradeItLinkedBrokerAccount: NSObject {
 
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
-
 }

@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
- 
+
 use_frameworks!
 
 def testing_pods
@@ -10,7 +10,7 @@ def testing_pods
 end
 
 def app_pods
-  pod 'PromiseKit', '3.4'
+  pod 'PromiseKit', '~> 4.0'
   pod 'MBProgressHUD', '~> 1.0.0'
 end
 

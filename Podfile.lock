@@ -1,40 +1,31 @@
 PODS:
   - MBProgressHUD (1.0.0)
   - Nimble (4.1.0)
-  - OMGHTTPURLRQ (3.2.0):
-    - OMGHTTPURLRQ/RQ (= 3.2.0)
-  - OMGHTTPURLRQ/FormURLEncode (3.2.0)
-  - OMGHTTPURLRQ/RQ (3.2.0):
-    - OMGHTTPURLRQ/FormURLEncode
-    - OMGHTTPURLRQ/UserAgent
-  - OMGHTTPURLRQ/UserAgent (3.2.0)
-  - PromiseKit (3.4.0):
-    - PromiseKit/Foundation (= 3.4.0)
-    - PromiseKit/QuartzCore (= 3.4.0)
-    - PromiseKit/UIKit (= 3.4.0)
-  - PromiseKit/CorePromise (3.4.0)
-  - PromiseKit/Foundation (3.4.0):
-    - OMGHTTPURLRQ (~> 3.2.0)
+  - PromiseKit (4.0.3):
+    - PromiseKit/Foundation (= 4.0.3)
+    - PromiseKit/QuartzCore (= 4.0.3)
+    - PromiseKit/UIKit (= 4.0.3)
+  - PromiseKit/CorePromise (4.0.3)
+  - PromiseKit/Foundation (4.0.3):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (3.4.0):
+  - PromiseKit/QuartzCore (4.0.3):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (3.4.0):
+  - PromiseKit/UIKit (4.0.3):
     - PromiseKit/CorePromise
   - Quick (0.9.3)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
   - Nimble (= 4.1.0)
-  - PromiseKit (= 3.4)
+  - PromiseKit (~> 4.0)
   - Quick (= 0.9.3)
 
 SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
-  OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
-  PromiseKit: 72a1500ddedd052b5f69b44e3bb4091da2fd1a7d
+  PromiseKit: dfe8fcc6445674fb23378d89990838c1cbdbf05a
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
 
-PODFILE CHECKSUM: 243fc7ae85c9515067e1317decc8a67fcf585491
+PODFILE CHECKSUM: 95f31566f2b0c1086a16fa78073949f9a3b7e661
 
 COCOAPODS: 1.1.1

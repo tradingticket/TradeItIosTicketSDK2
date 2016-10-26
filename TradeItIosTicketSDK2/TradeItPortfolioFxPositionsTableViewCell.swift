@@ -13,17 +13,17 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var fxPositionDetailsHeightConstraint: NSLayoutConstraint!
     
-    private var selectedPosition: TradeItPortfolioPosition?
-    private var fxPositionsDetailsHeight = CGFloat(0.0)
+    fileprivate var selectedPosition: TradeItPortfolioPosition?
+    fileprivate var fxPositionsDetailsHeight = CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
-    private let chevronUpImage = UIImage(named: "chevron_up",
-                                         inBundle: NSBundle(forClass: TradeItPortfolioFxPositionsTableViewCell.self),
-                                         compatibleWithTraitCollection: nil)
+    fileprivate let chevronUpImage = UIImage(named: "chevron_up",
+                                         in: Bundle(for: TradeItPortfolioFxPositionsTableViewCell.self),
+                                         compatibleWith: nil)
 
-    private let chevronDownImage = UIImage(named: "chevron_down",
-                                           inBundle: NSBundle(forClass: TradeItPortfolioFxPositionsTableViewCell.self),
-                                           compatibleWithTraitCollection: nil)
+    fileprivate let chevronDownImage = UIImage(named: "chevron_down",
+                                           in: Bundle(for: TradeItPortfolioFxPositionsTableViewCell.self),
+                                           compatibleWith: nil)
 
     
     override func awakeFromNib() {
@@ -43,13 +43,13 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
         self.spreadLabelValue.text = presenter.getFormattedSpread()
     }
     
-    func showPositionDetails(show: Bool) {
+    func showPositionDetails(_ show: Bool) {
         if show {
-            self.fxPositionsDetails.hidden = false
+            self.fxPositionsDetails.isHidden = false
             self.fxPositionDetailsHeightConstraint.constant = self.fxPositionsDetailsHeight
             self.chevron.image = chevronUpImage
         } else {
-            self.fxPositionsDetails.hidden = true
+            self.fxPositionsDetails.isHidden = true
             self.fxPositionDetailsHeightConstraint.constant = 0
             self.chevron.image = chevronDownImage
         }

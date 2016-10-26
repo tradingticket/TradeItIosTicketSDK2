@@ -1,37 +1,37 @@
 class NumberFormatter: NSObject {
-    private static let formatter = NSNumberFormatter()
+    fileprivate static let formatter = Foundation.NumberFormatter()
 
-    static func formatCurrency(number: NSNumber) -> String {
+    static func formatCurrency(_ number: NSNumber) -> String {
         return NumberFormatter.formatCurrency(number, maximumFractionDigits: 2)
     }
     
-    static func formatCurrency(number: NSNumber, maximumFractionDigits: Int) -> String {
-        formatter.numberStyle = .CurrencyStyle
+    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int) -> String {
+        formatter.numberStyle = .currency
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = maximumFractionDigits
-        return formatter.stringFromNumber(number)!
+        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
-    static func formatCurrency(number: NSNumber, currencyCode: String) -> String {
-        formatter.numberStyle = .CurrencyStyle
+    static func formatCurrency(_ number: NSNumber, currencyCode: String) -> String {
+        formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
-        return formatter.stringFromNumber(number)!
+        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
-    static func formatQuantity(number: NSNumber) -> String {
-        formatter.numberStyle = .DecimalStyle
+    static func formatQuantity(_ number: NSNumber) -> String {
+        formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
-        return formatter.stringFromNumber(number)!
+        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
-    static func formatPercentage(number: NSNumber) -> String {
-        formatter.numberStyle = .PercentStyle
+    static func formatPercentage(_ number: NSNumber) -> String {
+        formatter.numberStyle = .percent
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
-        return formatter.stringFromNumber((number as Float)/100)!
+        let percentage = number.floatValue / 100
+        return formatter.string(from: NSNumber(value: percentage)) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
-
 }

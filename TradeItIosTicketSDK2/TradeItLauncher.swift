@@ -1,7 +1,7 @@
 import UIKit
 
-@objc public class TradeItLauncher: NSObject {
-    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
+@objc open class TradeItLauncher: NSObject {
+    open static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
@@ -15,7 +15,7 @@ import UIKit
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 
-    public func launchPortfolio(fromViewController viewController: UIViewController) {
+    open func launchPortfolio(fromViewController viewController: UIViewController) {
         // Show Welcome flow for users who have never linked before
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
@@ -26,18 +26,18 @@ import UIKit
                     presentedNavController.setViewControllers([portfolioViewController], animated: true)
                 },
                 onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    presentedNavController.topViewController?.dismissViewControllerAnimated(true, completion: nil)
+                    presentedNavController.topViewController?.dismiss(animated: true, completion: nil)
                 }
             )
         } else {
             let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            viewController.presentViewController(navController,
+            viewController.present(navController,
                                                  animated: true,
                                                  completion: nil)
         }
     }
 
-    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
+    open func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
         // Show Welcome flow for users who have never linked before
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
@@ -47,7 +47,7 @@ import UIKit
                     self.tradingUIFlow.pushTradingFlow(onNavigationController: presentedNavController, asRootViewController: true, withOrder: order)
                 },
                 onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                    presentedNavController.dismiss(animated: true, completion: nil)
                 }
             )
         } else {
@@ -55,9 +55,9 @@ import UIKit
         }
     }
     
-    public func launchAccountManagement(fromViewController viewController: UIViewController) {
+    open func launchAccountManagement(fromViewController viewController: UIViewController) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
-        viewController.presentViewController(navController,
+        viewController.present(navController,
                                              animated: true,
                                              completion: nil)
     }

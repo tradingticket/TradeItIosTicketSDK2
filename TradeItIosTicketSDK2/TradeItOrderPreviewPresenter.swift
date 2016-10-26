@@ -24,53 +24,53 @@ class TradeItOrderPreviewPresenter {
         return request
     }
 
-    private func action() -> String {
+    fileprivate func action() -> String {
         switch order.action {
-        case .Buy: return "buy"
-        case .Sell: return "sell"
-        case .BuyToCover: return "buyToCover"
-        case .SellShort: return "sellShort"
-        case .Unknown: return "unknown"
+        case .buy: return "buy"
+        case .sell: return "sell"
+        case .buyToCover: return "buyToCover"
+        case .sellShort: return "sellShort"
+        case .unknown: return "unknown"
         }
     }
 
-    private func priceType() -> String {
+    fileprivate func priceType() -> String {
         switch order.type {
-        case .Market: return "market"
-        case .Limit: return "limit"
-        case .StopLimit: return "stopLimit"
-        case .StopMarket: return "stopMarket"
-        case .Unknown: return "unknown"
+        case .market: return "market"
+        case .limit: return "limit"
+        case .stopLimit: return "stopLimit"
+        case .stopMarket: return "stopMarket"
+        case .unknown: return "unknown"
         }
     }
 
-    private func expiration() -> String {
+    fileprivate func expiration() -> String {
         switch order.expiration {
-        case .GoodForDay: return "day"
-        case .GoodUntilCanceled: return "gtc"
-        case .Unknown: return "unknown"
+        case .goodForDay: return "day"
+        case .goodUntilCanceled: return "gtc"
+        case .unknown: return "unknown"
         }
     }
 
-    private func quantity() -> Int {
+    fileprivate func quantity() -> NSDecimalNumber {
         guard let quantity = order.quantity else { return 0 }
-        return quantity.integerValue
+        return quantity
     }
 
-    private func symbol() -> String {
+    fileprivate func symbol() -> String {
         guard let symbol = order.symbol else { return "" }
         return symbol
     }
 
     // TODO: Move this sort of thing to TradeItOrder. Maybe a getter on the properties.
-    private func limitPrice() -> NSNumber? {
-        guard let limitPrice = order.limitPrice where order.requiresLimitPrice() else { return nil }
+    fileprivate func limitPrice() -> NSDecimalNumber? {
+        guard let limitPrice = order.limitPrice , order.requiresLimitPrice() else { return nil }
 
         return limitPrice
     }
 
-    private func stopPrice() -> NSNumber? {
-        guard let stopPrice = order.stopPrice where order.requiresStopPrice() else { return nil }
+    fileprivate func stopPrice() -> NSDecimalNumber? {
+        guard let stopPrice = order.stopPrice , order.requiresStopPrice() else { return nil }
 
         return stopPrice
     }

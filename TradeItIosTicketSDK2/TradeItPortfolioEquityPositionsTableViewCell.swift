@@ -21,18 +21,18 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
 
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
-    private var selectedPosition: TradeItPortfolioPosition?
-    private var positionDetailsHeight = CGFloat(0.0)
-    private var buttonHeight =  CGFloat(0.0)
+    fileprivate var selectedPosition: TradeItPortfolioPosition?
+    fileprivate var positionDetailsHeight = CGFloat(0.0)
+    fileprivate var buttonHeight =  CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
-    private let chevronUpImage = UIImage(named: "chevron_up",
-                                         inBundle: NSBundle(forClass: TradeItPortfolioEquityPositionsTableViewCell.self),
-                                         compatibleWithTraitCollection: nil)
+    fileprivate let chevronUpImage = UIImage(named: "chevron_up",
+                                         in: Bundle(for: TradeItPortfolioEquityPositionsTableViewCell.self),
+                                         compatibleWith: nil)
 
-    private let chevronDownImage = UIImage(named: "chevron_down",
-                                           inBundle: NSBundle(forClass: TradeItPortfolioEquityPositionsTableViewCell.self),
-                                           compatibleWithTraitCollection: nil)
+    fileprivate let chevronDownImage = UIImage(named: "chevron_down",
+                                           in: Bundle(for: TradeItPortfolioEquityPositionsTableViewCell.self),
+                                           compatibleWith: nil)
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -58,7 +58,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.updateTradeButtonVisibility()
     }
 
-    func showPositionDetails(show: Bool) {
+    func showPositionDetails(_ show: Bool) {
         if show {
             var buttonHeight = CGFloat(0.0)
 
@@ -66,11 +66,11 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
                 buttonHeight = self.buttonHeight
             }
 
-            self.positionDetailsView.hidden = false
+            self.positionDetailsView.isHidden = false
             self.positionDetailsHeightConstraint.constant = self.positionDetailsHeight - buttonHeight
             self.chevron.image = chevronUpImage
         } else {
-            self.positionDetailsView.hidden = true
+            self.positionDetailsView.isHidden = true
             self.positionDetailsHeightConstraint.constant = 0
             self.chevron.image = chevronDownImage
         }
@@ -78,24 +78,24 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     // MARK: private
     
-    private func updateTradeButtonVisibility() {
+    fileprivate func updateTradeButtonVisibility() {
         if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
-            self.buyButton.hidden = false
-            self.sellButton.hidden = false
+            self.buyButton.isHidden = false
+            self.sellButton.isHidden = false
         } else {
-            self.buyButton.hidden = true
-            self.sellButton.hidden = true
+            self.buyButton.isHidden = true
+            self.sellButton.isHidden = true
         }
     }
     
     // MARK: IBAction
     
-    @IBAction func buyButtonWasTapped(sender: AnyObject) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .Buy)
+    @IBAction func buyButtonWasTapped(_ sender: AnyObject) {
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .buy)
     }
     
-    @IBAction func sellButtonWasTapped(sender: AnyObject) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .Sell)
+    @IBAction func sellButtonWasTapped(_ sender: AnyObject) {
+        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .sell)
     }
 }
 

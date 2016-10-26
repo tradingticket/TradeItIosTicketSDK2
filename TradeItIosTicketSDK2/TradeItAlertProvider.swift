@@ -2,19 +2,19 @@ import UIKit
 
 // TODO: Make static methods instance methods so TradeItAlertProvider can be injected for tests
 class TradeItAlertProvider {
-    static func provideAlert(alertTitle alertTitle: String,
+    static func provideAlert(alertTitle: String,
                                         alertMessage: String,
                                         alertActionTitle: String,
-                                        onAlertActionTapped: () -> Void,
+                                        onAlertActionTapped: @escaping () -> Void,
                                         onCanceledActionTapped: (() -> Void)? = nil) -> UIAlertController {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
-                                                preferredStyle: UIAlertControllerStyle.Alert)
+                                                preferredStyle: UIAlertControllerStyle.alert)
 
         if let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
                 title: "Cancel",
-                style: UIAlertActionStyle.Default) { action in
+                style: UIAlertActionStyle.default) { action in
                     onCanceledActionTapped()
             }
 
@@ -23,7 +23,7 @@ class TradeItAlertProvider {
 
         let alertAction = UIAlertAction(
             title: alertActionTitle,
-            style: UIAlertActionStyle.Default) { action in
+            style: UIAlertActionStyle.default) { action in
                 onAlertActionTapped()
             }
 
@@ -32,19 +32,19 @@ class TradeItAlertProvider {
         return alertController
     }
 
-    static func provideSecurityQuestionAlertWith(alertTitle alertTitle: String,
+    static func provideSecurityQuestionAlertWith(alertTitle: String,
                                                             alertMessage: String,
                                                             multipleOptions: [String],
                                                             alertActionTitle: String,
-                                                            onAnswerSecurityQuestion: (withAnswer: String) -> Void,
-                                                            onCancelSecurityQuestion: () -> Void) -> UIAlertController {
+                                                            onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+                                                            onCancelSecurityQuestion: @escaping () -> Void) -> UIAlertController {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
-                                                preferredStyle: UIAlertControllerStyle.Alert)
+                                                preferredStyle: UIAlertControllerStyle.alert)
 
         let cancelAction = UIAlertAction(
             title: "Cancel",
-            style: UIAlertActionStyle.Default) { action in
+            style: UIAlertActionStyle.default) { action in
                 onCancelSecurityQuestion()
         }
         
@@ -52,16 +52,16 @@ class TradeItAlertProvider {
         
         if multipleOptions.count > 0 {
             for option in multipleOptions {
-                let optionAction = UIAlertAction(title: option, style: .Default, handler: { action in
-                    onAnswerSecurityQuestion(withAnswer: option)
+                let optionAction = UIAlertAction(title: option, style: .default, handler: { action in
+                    onAnswerSecurityQuestion(option)
                 })
                 alertController.addAction(optionAction)
             }
         } else {
-            alertController.addTextFieldWithConfigurationHandler(nil)
-            let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { action in
+            alertController.addTextField(configurationHandler: nil)
+            let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { action in
                 let textField = alertController.textFields![0] as UITextField
-                onAnswerSecurityQuestion(withAnswer: textField.text!)
+                onAnswerSecurityQuestion(textField.text!)
             })
             alertController.addAction(submitAction)
         }

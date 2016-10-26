@@ -14,11 +14,11 @@ import UIKit
         guard let placeOrderResult = placeOrderResult else { return }
         confirmationTextLabel.text = placeOrderResult.confirmationMessage
    }
-    @IBAction func tradeButtonWasTapped(sender: AnyObject) {
+    @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(self)
     }
     
-    @IBAction func portfolioButtonWasTapped(sender: AnyObject) {
+    @IBAction func portfolioButtonWasTapped(_ sender: AnyObject) {
         if let navigationController = self.navigationController {
             let initialViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
             navigationController.setViewControllers([initialViewController], animated: true)
@@ -27,5 +27,5 @@ import UIKit
 }
 
 protocol TradeItTradingConfirmationViewControllerDelegate: class {
-    func tradeButtonWasTapped(tradeItTradingConfirmationViewController: TradeItTradingConfirmationViewController)
+    func tradeButtonWasTapped(_ tradeItTradingConfirmationViewController: TradeItTradingConfirmationViewController)
 }

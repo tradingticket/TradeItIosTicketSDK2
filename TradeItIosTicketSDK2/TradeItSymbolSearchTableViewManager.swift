@@ -1,8 +1,8 @@
 import UIKit
 
 class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate {
-    private var symbolResults: [TradeItSymbolLookupCompany] = []
-    private var _table: UITableView?
+    fileprivate var symbolResults: [TradeItSymbolLookupCompany] = []
+    fileprivate var _table: UITableView?
     var symbolResultsTableView: UITableView? {
         get {
             return _table
@@ -16,7 +16,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
             }
         }
     }
-    private var _searchController: UISearchController?
+    fileprivate var _searchController: UISearchController?
     var searchController: UISearchController? {
         get {
             return _searchController
@@ -39,8 +39,8 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 
     // MARK: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedSymbolResult = self.symbolResults[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedSymbolResult = self.symbolResults[(indexPath as NSIndexPath).row]
         var symbol = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         if selectedSymbolResult.symbol != nil {
             symbol = selectedSymbolResult.symbol!
@@ -49,25 +49,25 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 
         // If you don't set searchController.active to false, the searchController will intercept the next
         // call to dismissViewController, preventing the search screen from being dismissed
-        self.searchController?.active = false
+        self.searchController?.isActive = false
     }
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.symbolResults.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
-        let symbolResult = self.symbolResults[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
+        let symbolResult = self.symbolResults[(indexPath as NSIndexPath).row]
         cell.populateWith(symbolResult)
         return cell
     }
     
     // MARK: UISearchResultsUpdating
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         let searchSymbol = searchController.searchBar.text!
 
         if (searchSymbol != "") {
@@ -79,13 +79,13 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 
     // MARK: UISearchControllerDelegate
 
-    func didPresentSearchController(searchController: UISearchController) {
+    func didPresentSearchController(_ searchController: UISearchController) {
         searchController.searchBar.showsCancelButton = false
     }
 
     // MARK: Private
     
-    func addSearchController(searchController searchController: UISearchController) {
+    func addSearchController(searchController: UISearchController) {
         searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Enter a symbol"
@@ -95,6 +95,6 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 }
 
 protocol TradeItSymbolSearchTableViewManagerDelegate: class{
-    func symbolSearchWasCalledWith(searchSymbol: String)
-    func symbolWasSelected(selectedSymbol: String)
+    func symbolSearchWasCalledWith(_ searchSymbol: String)
+    func symbolWasSelected(_ selectedSymbol: String)
 }

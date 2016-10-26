@@ -6,7 +6,7 @@ class TradeItViewControllerProvider {
 
         let navController = UINavigationController()
 
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier(storyboardId.rawValue)
+        let rootViewController = storyboard.instantiateViewController(withIdentifier: storyboardId.rawValue)
         navController.setViewControllers([rootViewController], animated: false)
 
         return navController
@@ -15,6 +15,6 @@ class TradeItViewControllerProvider {
     func provideViewController(forStoryboardId storyboardId: TradeItStoryboardID) -> UIViewController {
         let storyboard = UIStoryboard(name: "TradeIt", bundle: TradeItBundleProvider.provide())
 
-        return storyboard.instantiateViewControllerWithIdentifier(storyboardId.rawValue)
+        return storyboard.instantiateViewController(withIdentifier: storyboardId.rawValue)
     }
 }

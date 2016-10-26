@@ -1,31 +1,31 @@
 public enum TradeItOrderExpiration {
-    case GoodForDay
-    case GoodUntilCanceled
-    case Unknown
+    case goodForDay
+    case goodUntilCanceled
+    case unknown
 }
 
 public enum TradeItOrderPriceType {
-    case Market
-    case Limit
-    case StopMarket
-    case StopLimit
-    case Unknown
+    case market
+    case limit
+    case stopMarket
+    case stopLimit
+    case unknown
 }
 
 public enum TradeItOrderAction {
-    case Buy
-    case Sell
-    case BuyToCover
-    case SellShort
-    case Unknown
+    case buy
+    case sell
+    case buyToCover
+    case sellShort
+    case unknown
 }
 
 extension TradeItPreviewTradeOrderDetails {
     func expirationType() -> TradeItOrderExpiration {
         switch self.orderExpiration {
-        case "day": return .GoodForDay
-        case "gtc": return .GoodUntilCanceled
-        default: return .Unknown
+        case "day": return .goodForDay
+        case "gtc": return .goodUntilCanceled
+        default: return .unknown
         }
     }
 }

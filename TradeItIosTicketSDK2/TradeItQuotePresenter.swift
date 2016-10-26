@@ -39,7 +39,7 @@ class TradeItQuotePresenter: NSObject {
     
     func getChangeLabelColor() -> UIColor {
         guard let change = self.tradeItQuote?.change
-            else { return UIColor.lightTextColor() }
+            else { return UIColor.lightText }
         return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
 

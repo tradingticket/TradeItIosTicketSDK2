@@ -19,15 +19,15 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
+    override func viewWillAppear(_ animated: Bool) {
+        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: (self.linkedBrokerManager?.linkedBrokers)!)
     }
 
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == toAccountManagementScreen {
-            if let destinationViewController = segue.destinationViewController as? TradeItAccountManagementViewController,
-                broker = self.selectedLinkedBroker {
+            if let destinationViewController = segue.destination as? TradeItAccountManagementViewController,
+                let broker = self.selectedLinkedBroker {
                 destinationViewController.linkedBroker = broker
             }
         }
@@ -35,24 +35,24 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     
     // MARK: - TradeItBrokerManagementViewControllerBrokersTableDelegate methods
     
-    func linkedBrokerWasSelected(selectedLinkedBroker: TradeItLinkedBroker) {
+    func linkedBrokerWasSelected(_ selectedLinkedBroker: TradeItLinkedBroker) {
         self.selectedLinkedBroker = selectedLinkedBroker
-        self.performSegueWithIdentifier(toAccountManagementScreen, sender: self)
+        self.performSegue(withIdentifier: toAccountManagementScreen, sender: self)
     }
 
-    @IBAction func addAccountWasTapped(sender: AnyObject) {
+    @IBAction func addAccountWasTapped(_ sender: AnyObject) {
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,
             onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
-                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                presentedNavController.dismiss(animated: true, completion: nil)
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: self.linkedBrokerManager.linkedBrokers)
+                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: (self.linkedBrokerManager?.linkedBrokers)!)
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                presentedNavController.dismiss(animated: true, completion: nil)
             }
         )
     }

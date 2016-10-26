@@ -1,8 +1,8 @@
 extension NSCoder {
     class func empty() -> NSCoder {
         let data = NSMutableData()
-        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
+        let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.finishEncoding()
-        return NSKeyedUnarchiver(forReadingWithData: data)
+        return NSKeyedUnarchiver(forReadingWith: data as Data)
     }
 }

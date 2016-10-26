@@ -8,13 +8,13 @@ class TradeItAccountSummaryView: UIView {
 
     func populate(withAccount selectedAccount: TradeItLinkedBrokerAccount) {
         if selectedAccount.balance != nil {
-            self.accountFxSummaryView.hidden = true
-            self.accountEquitySummaryView.hidden = false
+            self.accountFxSummaryView.isHidden = true
+            self.accountEquitySummaryView.isHidden = false
             self.accountEquitySummaryView.populate(withAccount: selectedAccount)
         }
         else if selectedAccount.fxBalance != nil {
-            self.accountEquitySummaryView.hidden = true
-            self.accountFxSummaryView.hidden = false
+            self.accountEquitySummaryView.isHidden = true
+            self.accountFxSummaryView.isHidden = false
             self.accountFxSummaryView.populate(withAccount: selectedAccount)
         }
     }

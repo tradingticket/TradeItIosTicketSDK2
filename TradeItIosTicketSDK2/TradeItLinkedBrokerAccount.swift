@@ -1,10 +1,10 @@
-public class TradeItLinkedBrokerAccount: NSObject {
-    public var brokerName = ""
-    public var accountName = ""
-    public var accountNumber = ""
-    public var balance: TradeItAccountOverview?
-    public var fxBalance: TradeItFxAccountOverview?
-    public var positions: [TradeItPortfolioPosition] = []
+open class TradeItLinkedBrokerAccount: NSObject {
+    open var brokerName = ""
+    open var accountName = ""
+    open var accountNumber = ""
+    open var balance: TradeItAccountOverview?
+    open var fxBalance: TradeItFxAccountOverview?
+    open var positions: [TradeItPortfolioPosition] = []
     unowned var linkedBroker: TradeItLinkedBroker
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
@@ -30,7 +30,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
     }
 
-    public func getAccountOverview(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    open func getAccountOverview(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
         self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
             switch tradeItResult {
@@ -48,7 +48,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    public func getPositions(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    open func getPositions(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
@@ -78,13 +78,13 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    public func getFormattedAccountName() -> String {
+    open func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
         var separator = " "
         if formattedAccountNumber.characters.count > 4 {
-            let startIndex = formattedAccountNumber.endIndex.advancedBy(-4)
-            formattedAccountNumber = String(formattedAccountNumber.characters.suffixFrom(startIndex))
+            let startIndex = formattedAccountNumber.characters.index(formattedAccountNumber.endIndex, offsetBy: -4)
+            formattedAccountNumber = String(formattedAccountNumber.characters.suffix(from: startIndex))
             separator = "**"
         }
 

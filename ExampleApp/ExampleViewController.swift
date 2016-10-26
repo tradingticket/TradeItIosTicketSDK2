@@ -2,16 +2,16 @@ import UIKit
 import TradeItIosTicketSDK2
 
 enum Action: Int {
-    case LaunchPortfolio = 0
-    case LaunchTrading
-    case LaunchTradingWithSymbol
-    case LaunchAccountManagement
-    case ManualAuthenticateAll
-    case ManualBalances
-    case ManualPositions
-    case LaunchAlertQueue
-    case DeleteLinkedBrokers
-    case ENUM_COUNT
+    case launchPortfolio = 0
+    case launchTrading
+    case launchTradingWithSymbol
+    case launchAccountManagement
+    case manualAuthenticateAll
+    case manualBalances
+    case manualPositions
+    case launchAlertQueue
+    case deleteLinkedBrokers
+    case enum_COUNT
 }
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -32,27 +32,27 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     // Mark: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let action = Action(rawValue: indexPath.row) else { return }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let action = Action(rawValue: (indexPath as NSIndexPath).row) else { return }
 
         switch action {
-        case .LaunchPortfolio:
+        case .launchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
-        case .LaunchTrading:
+        case .launchTrading:
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
-        case .LaunchTradingWithSymbol:
+        case .launchTradingWithSymbol:
             let order = TradeItOrder()
             order.symbol = "CMG"
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
-        case .LaunchAccountManagement:
+        case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)
-        case .ManualAuthenticateAll:
+        case .manualAuthenticateAll:
             self.manualAuthenticateAll()
-        case .ManualBalances:
+        case .manualBalances:
             self.manualBalances()
-        case .ManualPositions:
+        case .manualPositions:
             self.manualPositions()
-        case .LaunchAlertQueue:
+        case .launchAlertQueue:
             alertManager.showAlert(
                 onViewController: self,
                 withTitle: "Alert 1",
@@ -72,7 +72,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 withActionTitle: "OK",
                 onAlertActionTapped: {}
             )
-        case .DeleteLinkedBrokers:
+        case .deleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
             return
@@ -81,20 +81,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Action.ENUM_COUNT.rawValue;
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Action.enum_COUNT.rawValue;
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "CELL_IDENTIFIER"
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
 
         if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
-        if let action = Action(rawValue: indexPath.row) {
+        if let action = Action(rawValue: (indexPath as NSIndexPath).row) {
             cell?.textLabel?.text = "\(action)"
         }
         
@@ -103,7 +103,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: Private
 
-    private func manualAuthenticateAll() {
+    fileprivate func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
@@ -119,7 +119,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func manualBalances() {
+    fileprivate func manualBalances() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -130,7 +130,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func manualPositions() {
+    fileprivate func manualPositions() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -143,11 +143,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func deleteLinkedBrokers() -> Void {
+    fileprivate func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
-        let appDomain = NSBundle.mainBundle().bundleIdentifier;
-        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain!);
+        let appDomain = Bundle.main.bundleIdentifier;
+        UserDefaults.standard.removePersistentDomain(forName: appDomain!);
 
         let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
         tradeItConnector.environment = self.ENVIRONMENT

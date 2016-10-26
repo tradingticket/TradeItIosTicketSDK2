@@ -25,39 +25,39 @@ extension XCTestCase {
         return NSPredicate(format:"hasKeyboardFocus == false")
     }
 
-    func waitForElementToDisappear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementToDisappear(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateDoesntExist(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateDoesntExist(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementToAppear(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementToAppear(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateExists(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateExists(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementNotToBeHittable(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementNotToBeHittable(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateIsNotHittable(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateIsNotHittable(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementToBeHittable(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementToBeHittable(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateIsHittable(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateIsHittable(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementToHaveKeyboardFocus(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementToHaveKeyboardFocus(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateHasKeyboardFocus(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateHasKeyboardFocus(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementNotToHaveKeyboardFocus(element: XCUIElement, withinSeconds seconds: NSTimeInterval = 5) {
+    func waitForElementNotToHaveKeyboardFocus(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
-        self.expectationForPredicate(self.predicateNotHasKeyboardFocus(), evaluatedWithObject:element, handler: nil)
-        self.waitForExpectationsWithTimeout(seconds, handler: nil)
+        self.expectation(for: self.predicateNotHasKeyboardFocus(), evaluatedWith:element, handler: nil)
+        self.waitForExpectations(timeout: seconds, handler: nil)
     }
 }

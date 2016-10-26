@@ -18,16 +18,16 @@ class TradeItViewController: UIViewController {
     }
     
     func createCloseButton() {
-        let closeButtonItem = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(closeButtonWasTapped(_:)))
+        let closeButtonItem = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeButtonWasTapped(_:)))
         
         self.navigationItem.rightBarButtonItem = closeButtonItem
     }
     
-    func closeButtonWasTapped(sender: UIBarButtonItem) {
-        if let viewControllers = self.navigationController?.viewControllers where viewControllers.count > 1 {
-            self.navigationController?.popViewControllerAnimated(true)
+    func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+        if let viewControllers = self.navigationController?.viewControllers , viewControllers.count > 1 {
+            self.navigationController?.popViewController(animated: true)
         } else {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

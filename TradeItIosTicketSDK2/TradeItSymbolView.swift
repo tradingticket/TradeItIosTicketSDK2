@@ -8,20 +8,20 @@ class TradeItSymbolView: UIView {
     @IBOutlet weak var quoteActivityIndicator: UIView!
 
     enum ActivityIndicatorState {
-        case LOADING
-        case LOADED
+        case loading
+        case loaded
     }
 
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
 
-    func updateSymbol(symbol: String?) {
+    func updateSymbol(_ symbol: String?) {
         guard let symbol = symbol else { return }
 
-        self.symbolButton.setTitle(symbol, forState: .Normal)
+        self.symbolButton.setTitle(symbol, for: UIControlState())
         clearQuote()
     }
 
-    func updateQuote(quote: TradeItQuote?) {
+    func updateQuote(_ quote: TradeItQuote?) {
         if let quote = quote {
             let presenter = TradeItQuotePresenter(quote)
             self.quoteLastPriceLabel.text = presenter.getLastPriceLabel()
@@ -35,22 +35,22 @@ class TradeItSymbolView: UIView {
         }
     }
 
-    func updateQuoteActivity(state: ActivityIndicatorState) {
+    func updateQuoteActivity(_ state: ActivityIndicatorState) {
         switch state {
-        case .LOADING:
-            quoteActivityIndicator.hidden = false
+        case .loading:
+            quoteActivityIndicator.isHidden = false
 
-            quoteLastPriceLabel.hidden = true
-            quoteChangeLabel.hidden = true
-        case .LOADED:
-            quoteActivityIndicator.hidden = true
+            quoteLastPriceLabel.isHidden = true
+            quoteChangeLabel.isHidden = true
+        case .loaded:
+            quoteActivityIndicator.isHidden = true
 
-            quoteLastPriceLabel.hidden = false
-            quoteChangeLabel.hidden = false
+            quoteLastPriceLabel.isHidden = false
+            quoteChangeLabel.isHidden = false
         }
     }
 
-    private func clearQuote() {
+    fileprivate func clearQuote() {
         self.quoteLastPriceLabel.text = nil
         self.quoteChangeLabel.text = nil
         self.updatedAtLabel.text = nil

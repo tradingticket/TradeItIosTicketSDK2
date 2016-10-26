@@ -7,7 +7,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var searchResultTableView: UITableView!
 
     let marketDataService = TradeItLauncher.marketDataService
-    private var symbolSearchResults: [TradeItSymbolLookupCompany] = []
+    fileprivate var symbolSearchResults: [TradeItSymbolLookupCompany] = []
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -17,31 +17,31 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         setupSearchTextField()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField.becomeFirstResponder()
     }
 
     // MARK: Private
 
-    private func setupSearchTextField() {
+    fileprivate func setupSearchTextField() {
         searchTextField.delegate = self
         let searchLabel = UILabel()
         searchLabel.text = " 🔍"
         searchLabel.sizeToFit()
         searchTextField.leftView = searchLabel
-        searchTextField.leftViewMode = .Always
+        searchTextField.leftViewMode = .always
     }
 
     // MARK: UITextFieldDelegate
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let currentText: NSString = textField.text ?? ""
-        let resultText = currentText.stringByReplacingCharactersInRange(range, withString: string)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText: NSString = textField.text as NSString? ?? ""
+        let resultText = currentText.replacingCharacters(in: range, with: string)
 
         self.activityIndicator.startAnimating()
 
-        self.marketDataService.symbolLookup(
+        self.marketDataService?.symbolLookup(
             resultText,
             onSuccess: { results in
                 self.activityIndicator.stopAnimating()
@@ -57,8 +57,8 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let selectedSymbol = symbolSearchResults[safe: indexPath.row]?.symbol else { return }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let selectedSymbol = symbolSearchResults[safe: (indexPath as NSIndexPath).row]?.symbol else { return }
 
         self.delegate?.symbolSearchViewController(self, didSelectSymbol: selectedSymbol)
     }
@@ -66,13 +66,13 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.symbolSearchResults.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
-        let symbolResult = self.symbolSearchResults[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
+        let symbolResult = self.symbolSearchResults[(indexPath as NSIndexPath).row]
         cell.populateWith(symbolResult)
 
         return cell
@@ -80,6 +80,6 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 }
 
 protocol TradeItSymbolSearchViewControllerDelegate: class {
-    func symbolSearchViewController(symbolSearchViewController: TradeItSymbolSearchViewController,
+    func symbolSearchViewController(_ symbolSearchViewController: TradeItSymbolSearchViewController,
                                     didSelectSymbol selectedSymbol: String)
 }

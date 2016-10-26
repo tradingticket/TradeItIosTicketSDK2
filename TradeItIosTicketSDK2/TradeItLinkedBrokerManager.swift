@@ -1,9 +1,9 @@
 import PromiseKit
 
-@objc public class TradeItLinkedBrokerManager: NSObject {
+@objc open class TradeItLinkedBrokerManager: NSObject {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
-    public var linkedBrokers: [TradeItLinkedBroker] = []
+    open var linkedBrokers: [TradeItLinkedBroker] = []
     
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         // TODO: TradeItConnector initializer returns optional - we should not force unwrap
@@ -30,22 +30,22 @@ import PromiseKit
         }
     }
 
-    func loadLinkedBrokerFromLinkedLogin(linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
+    func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
-        return TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
+        return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 
-    public func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
-                                                                 submitAnswer: (String) -> Void,
-                                                                 onCancelSecurityQuestion: () -> Void) -> Void,
-                                            onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
-                                            onFinished: () -> Void) {
+    open func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                                 _ submitAnswer: @escaping (String) -> Void,
+                                                                 _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                                            onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+                                            onFinished: @escaping () -> Void) {
         let promises = self.linkedBrokers.filter { $0.error != nil }.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticate(
                     onSuccess: fulfill,
                     onSecurityQuestion: onSecurityQuestion,
-                    onFailure: { (tradeItErrorResult: TradeItErrorResult) -> Void in
+                    onFailure: { tradeItErrorResult in
                         onFailure(tradeItErrorResult, linkedBroker)
                         fulfill()
                     }
@@ -53,45 +53,45 @@ import PromiseKit
             }
         }
 
-        when(promises).always(onFinished)
+        when(resolved: promises).always(execute: onFinished)
     }
 
-    public func refreshAccountBalances(onFinished onFinished: () -> Void) {
+    open func refreshAccountBalances(onFinished: @escaping () -> Void) {
         let promises = self.linkedBrokers.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
             }
         }
 
-        when(promises).always(onFinished)
+        when(resolved: promises).always(execute: onFinished)
     }
 
-    public func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
-                                       onFailure: () -> Void) {
-        self.tradeItConnector.getAvailableBrokersWithCompletionBlock { (availableBrokers: [TradeItBroker]?) in
+    open func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+                                       onFailure: @escaping () -> Void) {
+        self.tradeItConnector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
-                onSuccess(availableBrokers: availableBrokers)
+                onSuccess(availableBrokers)
             } else {
                 onFailure()
             }
         }
     }
 
-    public func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
-                             onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
-                             onFailure: (TradeItErrorResult) -> Void) -> Void {
-        self.tradeItConnector.linkBrokerWithAuthenticationInfo(authInfo) { (tradeItResult: TradeItResult?) in
+    open func linkBroker(authInfo: TradeItAuthenticationInfo,
+                             onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                             onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        self.tradeItConnector.linkBroker(with: authInfo) { (tradeItResult: TradeItResult?) in
             switch tradeItResult {
             case let tradeItErrorResult as TradeItErrorResult:
                 onFailure(tradeItErrorResult)
             case let tradeItAuthResult as TradeItAuthLinkResult:
                 let broker = authInfo.broker
-                let linkedLogin = self.tradeItConnector.saveLinkToKeychain(tradeItAuthResult, withBroker: broker)
+                let linkedLogin = self.tradeItConnector.saveLink(toKeychain: tradeItAuthResult, withBroker: broker)
                 
                 if let linkedLogin = linkedLogin {
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                     self.linkedBrokers.append(linkedBroker)
-                    onSuccess(linkedBroker: linkedBroker)
+                    onSuccess(linkedBroker)
                 } else {
                     onFailure(TradeItErrorResult(
                         title: "Keychain error",
@@ -120,21 +120,21 @@ import PromiseKit
         return self.linkedBrokers.filter { $0.error != nil }
     }
     
-    func relinkBroker(linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
-                      onSuccess: (linkedBroker: TradeItLinkedBroker) -> Void,
-                      onFailure: (TradeItErrorResult) -> Void) -> Void {
-        self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, withAuthenticationInfo: authInfo, andCompletionBlock: { tradeItResult in
+    func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
+                      onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                      onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, with: authInfo, andCompletionBlock: { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
                 linkedBroker.error = errorResult
                 onFailure(errorResult)
             case let updateLinkResult as TradeItUpdateLinkResult:
-                let linkedLogin = self.tradeItConnector.updateLinkInKeychain(updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
+                let linkedLogin = self.tradeItConnector.updateLink(inKeychain: updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
 
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
-                    onSuccess(linkedBroker: linkedBroker)
+                    onSuccess(linkedBroker)
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
                     linkedBroker.error = error
@@ -148,10 +148,10 @@ import PromiseKit
         })
     }
 
-    func unlinkBroker(linkedBroker: TradeItLinkedBroker) {
+    func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
         self.tradeItConnector.unlinkLogin(linkedBroker.linkedLogin)
-        if let index = self.linkedBrokers.indexOf(linkedBroker) {
-            self.linkedBrokers.removeAtIndex(index)
+        if let index = self.linkedBrokers.index(of: linkedBroker) {
+            self.linkedBrokers.remove(at: index)
         }
     }
 }

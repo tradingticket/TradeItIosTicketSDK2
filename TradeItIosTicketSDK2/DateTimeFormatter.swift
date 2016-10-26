@@ -1,8 +1,8 @@
 class DateTimeFormatter: NSObject {
-    private static let formatter = NSDateFormatter()
+    fileprivate static let formatter = DateFormatter()
 
-    static func time(datetime: NSDate = NSDate()) -> String {
+    static func time(_ datetime: Date = Date()) -> String {
         formatter.dateFormat = "hh:mma zzz"
-        return formatter.stringFromDate(datetime)
+        return formatter.string(from: datetime)
     }
 }

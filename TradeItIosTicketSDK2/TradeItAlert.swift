@@ -5,99 +5,99 @@ class TradeItAlert {
     
     func showTradeItErrorResultAlert(onViewController viewController: UIViewController,
                                                       errorResult: TradeItErrorResult,
-                                                      onAlertDismissed: () -> Void = {}) {
+                                                      onAlertDismissed: @escaping () -> Void = {}) {
         var title = ""
         if let shortMessage = errorResult.shortMessage {
             title = shortMessage
         }
         var message = ""
         if let longMessages = errorResult.longMessages {
-            message = (longMessages as! [String]).joinWithSeparator(" ")
+            message = (longMessages as! [String]).joined(separator: " ")
         }
         
         let alertController = UIAlertController(title: title,
                                                 message: message,
-                                                preferredStyle: UIAlertControllerStyle.Alert)
+                                                preferredStyle: UIAlertControllerStyle.alert)
         
         let okAction = UIAlertAction(title: "OK",
-                                     style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                                     style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                                         onAlertDismissed()
         }
         
         alertController.addAction(okAction)
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController.present(alertController, animated: true, completion: nil)
     }
     
     func showErrorAlert(onViewController viewController: UIViewController,
                                          title: String,
                                          message: String,
                                          actionTitle: String = "OK",
-                                         onAlertDismissed: () -> Void = {}) {
+                                         onAlertDismissed: @escaping () -> Void = {}) {
         let alert = UIAlertController(title: title,
                                       message: message,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let action = UIAlertAction(title: actionTitle,
-                                   style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                                   style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             onAlertDismissed()
         }
 
         alert.addAction(action)
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        viewController.present(alert, animated: true, completion: nil)
     }
 
     func showValidationAlert(onViewController viewController: UIViewController,
                                               title: String,
                                               message: String,
                                               actionTitle: String = "OK",
-                                              onValidate: () -> Void = {},
-                                              onCancel: () -> Void) {
+                                              onValidate: @escaping () -> Void = {},
+                                              onCancel: @escaping () -> Void) {
         
         let alert = UIAlertController(title: title,
                                       message: message,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
 
         let actionValidate = UIAlertAction(title: actionTitle,
-                                           style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                                           style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                                             onValidate()
         }
 
         let actionCancel = UIAlertAction(title: "Cancel",
-                                         style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                                         style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                                             onCancel()
         }
 
         alert.addAction(actionCancel)
         alert.addAction(actionValidate)
 
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        viewController.present(alert, animated: true, completion: nil)
     }
 
-    func show(securityQuestion securityQuestion: TradeItSecurityQuestionResult,
+    func show(securityQuestion: TradeItSecurityQuestionResult,
                 onViewController viewController: UIViewController,
-                       onAnswerSecurityQuestion: (withAnswer: String) -> Void,
-                       onCancelSecurityQuestion: () -> Void) {
+                       onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+                       onCancelSecurityQuestion: @escaping () -> Void) {
         let alert = UIAlertController(
             title: "Security Question",
             message: securityQuestion.securityQuestion,
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
 
-        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addTextField(configurationHandler: nil)
 
-        let submitAction = UIAlertAction(title: "Submit", style: .Default, handler: { action in
+        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { action in
             let textField = alert.textFields![0] as UITextField
-            onAnswerSecurityQuestion(withAnswer: textField.text!)
+            onAnswerSecurityQuestion(textField.text!)
         })
 
         alert.addAction(submitAction)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: { _ in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
             onCancelSecurityQuestion()
         })
 
         alert.addAction(cancelAction)
 
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        viewController.present(alert, animated: true, completion: nil)
     }
 }

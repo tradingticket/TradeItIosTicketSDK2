@@ -1,5 +1,5 @@
 class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
-    private var balance: TradeItAccountOverview?
+    fileprivate var balance: TradeItAccountOverview?
 
     init(_ tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) {
         if let balance = tradeItLinkedBrokerAccount.balance {

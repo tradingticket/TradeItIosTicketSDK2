@@ -20,7 +20,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         self.accountManagementTableManager.accountsTableView = self.accountsTableView
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let linkedBroker = self.linkedBroker {
             self.navigationItem.title = linkedBroker.linkedLogin.broker
             self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
@@ -29,12 +29,12 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
 
     // MARK: IBActions
 
-    @IBAction func relinkAccountWasTapped(sender: AnyObject) {
+    @IBAction func relinkAccountWasTapped(_ sender: AnyObject) {
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
             onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
-                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                presentedNavController.dismiss(animated: true, completion: nil)
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {
                         self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
@@ -46,7 +46,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         )
     }
     
-    @IBAction func unlinkAccountWasTapped(sender: AnyObject) {
+    @IBAction func unlinkAccountWasTapped(_ sender: AnyObject) {
         
         self.alertManager.showAlert(
             onViewController: self,
@@ -55,20 +55,20 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
                 
-                self.linkedBrokerManager.unlinkBroker(self.linkedBroker)
+                self.linkedBrokerManager?.unlinkBroker(self.linkedBroker)
 
-                if self.linkedBrokerManager.linkedBrokers.count > 0 {
-                    self.navigationController?.popViewControllerAnimated(true)
+                if (self.linkedBrokerManager?.linkedBrokers.count)! > 0 {
+                    self.navigationController?.popViewController(animated: true)
                 } else {
                     self.linkBrokerUIFlow.presentLinkBrokerFlow(
                         fromViewController: self,
                         showWelcomeScreen: true,
                         onLinked: { (presentedNavController, linkedBroker) in
-                            presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                            presentedNavController.dismiss(animated: true, completion: nil)
                         }, onFlowAborted: { (presentedNavController) in
-                            presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                            presentedNavController.dismiss(animated: true, completion: nil)
                             // For now go back to the broker selection screen which has the option to add a broker
-                            self.navigationController?.popViewControllerAnimated(true)
+                            self.navigationController?.popViewController(animated: true)
                         }
                     )
                 }
@@ -78,16 +78,16 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     // MARK: TradeItAccountManagementTableViewManagerDelegate
 
     func refreshRequested(fromAccountManagementTableViewManager manager: TradeItAccountManagementTableViewManager,
-                                                                onRefreshComplete: (withAccounts: [TradeItLinkedBrokerAccount]?) -> Void) {
+                                                                onRefreshComplete: @escaping (_ withAccounts: [TradeItLinkedBrokerAccount]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         self.linkedBroker.authenticate(
             onSuccess: { () -> Void in
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        onRefreshComplete(withAccounts: self.linkedBroker.accounts)
+                        onRefreshComplete(self.linkedBroker.accounts)
                 })
             },
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -99,8 +99,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 self.alertManager.showRelinkError(error,
                     withLinkedBroker: self.linkedBroker,
                     onViewController: self,
-                    onFinished : { () -> Void in
-                        onRefreshComplete(withAccounts: self.linkedBroker.accounts)
+                    onFinished : {
+                        onRefreshComplete(self.linkedBroker.accounts)
                 })
             }
         )

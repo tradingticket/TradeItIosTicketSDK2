@@ -1,5 +1,5 @@
 class TradeItPortfolioBalanceFXPresenter: TradeItPortfolioBalancePresenter  {
-    private var fxBalance: TradeItFxAccountOverview?
+    fileprivate var fxBalance: TradeItFxAccountOverview?
 
     init(_ tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) {
         if let fxBalance = tradeItLinkedBrokerAccount.fxBalance {
@@ -55,16 +55,16 @@ class TradeItPortfolioBalanceFXPresenter: TradeItPortfolioBalancePresenter  {
 
     // MARK: Private
 
-    private func getFormattedTotalPercentage() -> String {
+    fileprivate func getFormattedTotalPercentage() -> String {
         guard let totalValueBaseCurrency = fxBalance?.totalValueBaseCurrency?.floatValue
-            , let totalReturn = fxBalance?.unrealizedProfitAndLossBaseCurrency?.floatValue where totalReturn != 0
+            , let totalReturn = fxBalance?.unrealizedProfitAndLossBaseCurrency?.floatValue, totalReturn != 0
             else { return "" }
 
         let totalPercentReturn = totalReturn / (totalValueBaseCurrency - totalReturn)
-        return " (" + NumberFormatter.formatPercentage(totalPercentReturn) + ")"
+        return " (" + NumberFormatter.formatPercentage(NSNumber(value: totalPercentReturn)) + ")"
     }
 
-    private func formatCurrency(currency: NSNumber) -> String {
+    fileprivate func formatCurrency(_ currency: NSNumber) -> String {
         return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
     }
 }

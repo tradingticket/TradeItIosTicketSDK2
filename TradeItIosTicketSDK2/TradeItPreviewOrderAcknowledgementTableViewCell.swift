@@ -17,8 +17,8 @@ class TradeItPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
         self.delegate = delegate
     }
 
-    @IBAction func switchChanged(sender: UISwitch) {
-        cellData?.isAcknowledged = sender.on
+    @IBAction func switchChanged(_ sender: UISwitch) {
+        cellData?.isAcknowledged = sender.isOn
         delegate?.acknowledgementWasChanged()
     }
 }

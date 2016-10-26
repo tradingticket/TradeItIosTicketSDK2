@@ -12,8 +12,8 @@ extension TradeItPortfolioPositionPresenter {
         return formatCurrency(bidPrice)
     }
 
-    func formatCurrency(currency: NSNumber) -> String {
-                return NumberFormatter.formatCurrency(currency as Float)
+    func formatCurrency(_ currency: NSNumber) -> String {
+        return NumberFormatter.formatCurrency(currency)
     }
 
     func getFormattedAsk() -> String {
@@ -25,21 +25,21 @@ extension TradeItPortfolioPositionPresenter {
 
     func getFormattedSpread() -> String {
         guard let quote = getQuote()
-            , let high = quote.high as? Float
-            , let low = quote.low as? Float
+            , let high = quote.high?.floatValue
+            , let low = quote.low?.floatValue
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-        return formatCurrency(high - low)
+        return formatCurrency(NSNumber(value: high - low))
     }
 
     func getFormattedTotalValue() -> String {
-        guard let lastPrice = getQuote()?.lastPrice as? Float
-            , let quantity = getQuantity() as Float?
+        guard let lastPrice = getQuote()?.lastPrice?.floatValue
+            , let quantity = getQuantity()?.floatValue
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         let total = quantity * lastPrice
 
-        return formatCurrency(total)
+        return formatCurrency(NSNumber(value: total))
     }
 
     func getFormattedDayHighLow() -> String {
@@ -53,7 +53,7 @@ extension TradeItPortfolioPositionPresenter {
 }
 
 class TradeItPortfolioPositionPresenterFactory {
-    static func forTradeItPortfolioPosition(tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
+    static func forTradeItPortfolioPosition(_ tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
         if tradeItPortfolioPosition.position != nil {
             return TradeItPortfolioEquityPositionPresenter(tradeItPortfolioPosition)
         } else if tradeItPortfolioPosition.fxPosition != nil {

@@ -5,7 +5,7 @@ protocol TradeItPortfolioBalancePresenter {
 
 class TradeItPortfolioBalancePresenterFactory  {
 
-    static func forTradeItLinkedBrokerAccount(tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) -> TradeItPortfolioBalancePresenter {
+    static func forTradeItLinkedBrokerAccount(_ tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) -> TradeItPortfolioBalancePresenter {
         if tradeItLinkedBrokerAccount.balance != nil {
             return TradeItPortfolioBalanceEquityPresenter(tradeItLinkedBrokerAccount)
         } else if tradeItLinkedBrokerAccount.fxBalance != nil {

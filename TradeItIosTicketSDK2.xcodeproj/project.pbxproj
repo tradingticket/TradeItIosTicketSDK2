@@ -56,7 +56,6 @@
 		75BAAA991DB7EEB400E5435C /* chevron_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA441DB7EEB400E5435C /* chevron_down.png */; };
 		75BAAA9A1DB7EEB400E5435C /* chevron_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA451DB7EEB400E5435C /* chevron_up.png */; };
 		75BAAA9B1DB7EEB400E5435C /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA461DB7EEB400E5435C /* DateTimeFormatter.swift */; };
-		75BAAA9C1DB7EEB400E5435C /* EZLoadingActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA471DB7EEB400E5435C /* EZLoadingActivity.swift */; };
 		75BAAA9D1DB7EEB400E5435C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA481DB7EEB400E5435C /* indicator.png */; };
 		75BAAA9F1DB7EEB400E5435C /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA4A1DB7EEB400E5435C /* KeyboardViewController.swift */; };
 		75BAAAA01DB7EEB400E5435C /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA4B1DB7EEB400E5435C /* lock.png */; };
@@ -368,7 +367,6 @@
 		75BAAA441DB7EEB400E5435C /* chevron_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_down.png; sourceTree = "<group>"; };
 		75BAAA451DB7EEB400E5435C /* chevron_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_up.png; sourceTree = "<group>"; };
 		75BAAA461DB7EEB400E5435C /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
-		75BAAA471DB7EEB400E5435C /* EZLoadingActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EZLoadingActivity.swift; sourceTree = "<group>"; };
 		75BAAA481DB7EEB400E5435C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		75BAAA491DB7EEB400E5435C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75BAAA4A1DB7EEB400E5435C /* KeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
@@ -737,7 +735,6 @@
 			isa = PBXGroup;
 			children = (
 				75BAAA461DB7EEB400E5435C /* DateTimeFormatter.swift */,
-				75BAAA471DB7EEB400E5435C /* EZLoadingActivity.swift */,
 				75BAAA4E1DB7EEB400E5435C /* NumberFormatter.swift */,
 				75BAAA881DB7EEB400E5435C /* TradeItStoryboardID.swift */,
 				75BAAA961DB7EEB400E5435C /* YCombinator.swift */,
@@ -1612,7 +1609,6 @@
 				75BAAAB51DB7EEB400E5435C /* TradeItEquityAccountSummaryView.swift in Sources */,
 				75BAAAC21DB7EEB400E5435C /* TradeItOrderPreviewPresenter.swift in Sources */,
 				75BAABDB1DB7EF2F00E5435C /* TradeItQuotesRequest.m in Sources */,
-				75BAAA9C1DB7EEB400E5435C /* EZLoadingActivity.swift in Sources */,
 				75BAAAC61DB7EEB400E5435C /* TradeItPortfolioAccountSummaryViewManager.swift in Sources */,
 				75BAABE31DB7EF2F00E5435C /* TradeItSecurityQuestionRequest.m in Sources */,
 				75BAABB01DB7EF2F00E5435C /* TradeItFxAccountOverview.m in Sources */,

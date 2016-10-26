@@ -1,4 +1,5 @@
 import UIKit
+import MBProgressHUD
 
 @objc internal protocol PreviewCellData {}
 
@@ -33,7 +34,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
 
-    var ezLoadingActivityManager = EZLoadingActivityManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrder: TradeItPreviewTradeResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
@@ -62,13 +62,14 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             return
         }
 
-        self.ezLoadingActivityManager.show(text: "Placing Order", disableUI: true)
+        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        activityView.label.text = "Placing Order"
 
         placeOrderCallback(onSuccess: { result in
-            self.ezLoadingActivityManager.hide()
+            activityView.hideAnimated(true)
             self.delegate?.tradeItTradePreviewViewController(self, didPlaceOrderWithResult: result)
         }, onFailure: { error in
-            self.ezLoadingActivityManager.hide()
+            activityView.hideAnimated(true)
             self.alertManager.showRelinkError(error,
                 withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
                 onViewController: self,

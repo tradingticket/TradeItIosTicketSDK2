@@ -23,4 +23,5 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'UIKit'
   s.dependency 'PromiseKit', '~> 3.4'
+  s.dependency 'MBProgressHUD', '~> 1.0.0'
 end

@@ -1,4 +1,5 @@
 import UIKit
+import MBProgressHUD
 
 class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -7,7 +8,6 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
-    var ezLoadingActivityManager: EZLoadingActivityManager = EZLoadingActivityManager()
     var selectedBroker: TradeItBroker?
     
     override func viewDidLoad() {
@@ -15,12 +15,13 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         
         self.selectedBroker = nil
 
-        ezLoadingActivityManager.show(text: "Loading Brokers", disableUI: true)
+        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        activityView.label.text = "Loading Brokers"
 
         self.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 self.brokers = availableBrokers
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
@@ -30,7 +31,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
                     withMessage: "Could not fetch the brokers list. Please try again later.",
                     withActionTitle: "OK"
                 )
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
             }
         )
     }

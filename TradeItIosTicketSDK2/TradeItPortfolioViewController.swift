@@ -1,11 +1,11 @@
 import UIKit
 import PromiseKit
+import MBProgressHUD
 
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
-    var ezLoadingActivityManager = EZLoadingActivityManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
@@ -38,27 +38,28 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         self.portfolioErrorHandlingViewManager.errorHandlingView?.delegate = self
 
         self.portfolioErrorHandlingViewManager.accountInfoContainerView = self.accountInfoContainerView
-        
-        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+
+        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        activityView.label.text = "Authenticating"
 
         self.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) in
-                self.ezLoadingActivityManager.hide()
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                activityView.hideAnimated(true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: { answer in
-                        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+                        activityView.showAnimated(true)
                         answerSecurityQuestion(answer)
                     },
                     onCancelSecurityQuestion: cancelSecurityQuestion)
             },
             onFinished: {
-                self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
+                activityView.label.text = "Refreshing Accounts"
 
                 self.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
                         self.updatePortfolioScreen()
-                        self.ezLoadingActivityManager.hide()
+                        activityView.hideAnimated(true)
                     }
                 )
             }
@@ -153,10 +154,12 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             linkedBroker: linkedBroker,
             onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
                 presentedNavController.dismissViewControllerAnimated(true, completion: nil)
-                self.ezLoadingActivityManager.show(text: "Refreshing Accounts", disableUI: true)
+                let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                activityView.label.text = "Refreshing Accounts"
+
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        self.ezLoadingActivityManager.hide()
+                        activityView.hideAnimated(true)
                         self.updatePortfolioScreen()
                 })
             },
@@ -167,18 +170,21 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     }
     
     func reloadAccountWasTapped(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
+        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
         linkedBroker.authenticate(
             onSuccess: {
-                self.ezLoadingActivityManager.updateText(text: "Refreshing Accounts")
-                    linkedBroker.refreshAccountBalances(
-                        onFinished: {
-                            self.ezLoadingActivityManager.hide()
-                            self.updatePortfolioScreen()
-                    })
+                activityView.label.text = "Refreshing Accounts"
+                linkedBroker.refreshAccountBalances(
+                    onFinished: {
+                        activityView.hideAnimated(true)
+                        self.updatePortfolioScreen()
+                    }
+                )
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -187,7 +193,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 )
             },
             onFailure: { error in
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
             }
         )

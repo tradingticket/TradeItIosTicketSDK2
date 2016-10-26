@@ -4,7 +4,7 @@ import SwiftyUserDefaults
 @testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerCacheSpec: QuickSpec {
-    let defaults = NSUserDefaults(suiteName: "TEST")!
+    var defaults = NSUserDefaults(suiteName: "TEST")!
 
     override func spec() {
         var cache: TradeItLinkedBrokerCache!
@@ -14,7 +14,12 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
         var linkedBroker2: TradeItLinkedBroker!
 
         beforeEach {
+            // This doesn't work in the simulator.  Thanks, Apple.
             self.defaults.removeAll()
+
+            // So we have to do this nonsense instead.
+            self.defaults = NSUserDefaults(suiteName: "TEST \(NSDate().timeIntervalSince1970)")!
+
             expect(Defaults[.linkedBrokerCache]).to(beNil())
 
             cache = TradeItLinkedBrokerCache()
@@ -70,19 +75,19 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
             context("when the broker doesn't already exist in the cache") {
                 beforeEach {
                     //////
-                    let serializedBrokers = self.defaults[.linkedBrokerCache] as? TradeItLinkedBrokerCache.SerializedLinkedBrokerCache
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as? TradeItLinkedBrokerCache.SerializedLinkedBrokers
                     print("=====> serializedBrokers BEFORE FIRST ADD: \(serializedBrokers)")
                     /////
                     cache.cache(linkedBroker: linkedBroker1)
                 }
 
                 it("adds the broker to the cache") {
-                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerCache
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                     print("=====> serializedBrokers AFTER FIRST ADD: \(serializedBrokers)")
                     expect(serializedBrokers.keys.count).to(equal(1))
 
-                    let accounts = serializedBrokers["My Special User ID 1"] as TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                    let accounts = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
 
                     expect(accounts.count).to(equal(2))
 
@@ -101,16 +106,16 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("adds it to the cache") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerCache
+                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         print("=====> serializedBrokers AFTER SECOND ADD: \(serializedBrokers)")
                         expect(serializedBrokers.keys.count).to(equal(2))
 
-                        let accounts1 = serializedBrokers["My Special User ID 1"] as TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let accounts1 = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
 
                         expect(accounts1.count).to(equal(2))
 
-                        let accounts2 = serializedBrokers["My Special User ID 2"] as TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let accounts2 = serializedBrokers["My Special User ID 2"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
 
                         expect(accounts2.count).to(equal(1))
 
@@ -140,12 +145,12 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                 }
 
                 it("overwrites all of the broker's cached data") {
-                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerCache
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                     print("=====> serializedBrokers AFTER REWRITE: \(serializedBrokers)")
                     expect(serializedBrokers.keys.count).to(equal(2))
 
-                    let accounts = serializedBrokers["My Special User ID 1"] as TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                    let accounts = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
 
                     expect(accounts.count).to(equal(1))
 

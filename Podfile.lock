@@ -1,4 +1,5 @@
 PODS:
+  - MBProgressHUD (1.0.0)
   - Nimble (4.1.0)
   - OMGHTTPURLRQ (3.2.0):
     - OMGHTTPURLRQ/RQ (= 3.2.0)
@@ -22,16 +23,18 @@ PODS:
   - Quick (0.9.3)
 
 DEPENDENCIES:
+  - MBProgressHUD (~> 1.0.0)
   - Nimble (= 4.1.0)
   - PromiseKit (= 3.4)
   - Quick (= 0.9.3)
 
 SPEC CHECKSUMS:
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OMGHTTPURLRQ: 1e54807cb7d5dbb506926e53498e1e9ac5720c79
   PromiseKit: 72a1500ddedd052b5f69b44e3bb4091da2fd1a7d
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
 
-PODFILE CHECKSUM: 14a7ef1c75bb20c9814799f414c1198049d7dd88
+PODFILE CHECKSUM: 243fc7ae85c9515067e1317decc8a67fcf585491
 
 COCOAPODS: 1.1.1

@@ -1,4 +1,5 @@
 import UIKit
+import MBProgressHUD
 
 class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSearchViewControllerDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var symbolView: TradeItSymbolView!
@@ -19,7 +20,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     weak var delegate: TradeItTradingTicketViewControllerDelegate?
     
     var viewControllerProvider = TradeItViewControllerProvider()
-    var ezLoadingActivityManager = EZLoadingActivityManager()
     var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
@@ -91,21 +91,23 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     }
 
     @IBAction func previewOrderTapped(sender: UIButton) {
-        self.ezLoadingActivityManager.show(text: "Authenticating", disableUI: true)
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
             else { return }
-        
+
+        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                self.ezLoadingActivityManager.updateText(text: "Previewing Order")
+                activityView.label.text = "Previewing Order"
                 self.order.preview(onSuccess: { previewOrder, placeOrderCallback in
-                    self.ezLoadingActivityManager.hide()
+                    activityView.hideAnimated(true)
                     self.delegate?.tradeItTradingTicketViewController(self,
                         previewOrder: previewOrder,
                         placeOrderCallback: placeOrderCallback)
                     
                 }, onFailure: { error in
-                    self.ezLoadingActivityManager.hide()
+                    activityView.hideAnimated(true)
                     self.alertManager.showRelinkError(
                         error,
                         withLinkedBroker: linkedBroker,
@@ -115,7 +117,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 })
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -124,7 +126,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 )
             },
             onFailure: { errorResult in
-                self.ezLoadingActivityManager.hide()
+                activityView.hideAnimated(true)
                 self.alertManager.showRelinkError(errorResult,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,

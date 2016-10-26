@@ -100,12 +100,11 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
                 activityView.label.text = "Previewing Order"
-                self.order.preview(onSuccess: { previewOrder, placeOrderCallback in
-                    activityView.hide(animated: true)
-                    self.delegate?.tradeItTradingTicketViewController(self,
-                        previewOrder: previewOrder,
-                        placeOrderCallback: placeOrderCallback)
-                    
+                self.order.preview(onSuccess: { previewOrderResult, placeOrderCallback in
+                    activityView.hideAnimated(true)
+                    self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
+                                                              withPreviewOrderResult: previewOrderResult,
+                                                              placeOrderCallback: placeOrderCallback)
                 }, onFailure: { error in
                     activityView.hide(animated: true)
                     self.alertManager.showRelinkError(
@@ -391,8 +390,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 }
 
 protocol TradeItTradingTicketViewControllerDelegate: class {
-    func tradeItTradingTicketViewController(_ tradeItTradingTicketViewController: TradeItTradingTicketViewController,
-                                            previewOrder: TradeItPreviewTradeResult,
-                                            placeOrderCallback: @escaping TradeItPlaceOrderHandlers)
-
+    func orderSuccessfullyPreviewed(onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
+                                           withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+                                                                  placeOrderCallback: @escaping TradeItPlaceOrderHandlers)
 }

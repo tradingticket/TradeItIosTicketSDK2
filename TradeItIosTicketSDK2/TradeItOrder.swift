@@ -1,16 +1,17 @@
-typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
-typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void, _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
+public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
+public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
+public typealias TradeItPlaceOrderHandlers = (onSuccess: (TradeItPlaceOrderResult) -> Void, onFailure: (TradeItErrorResult) -> Void) -> Void
 
-open class TradeItOrder {
-    open var linkedBrokerAccount: TradeItLinkedBrokerAccount?
-    open var symbol: String?
-    open var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
-    open var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
-    open var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    open var quantity: NSDecimalNumber?
-    open var limitPrice: NSDecimalNumber?
-    open var stopPrice: NSDecimalNumber?
-    open var quoteLastPrice: NSDecimalNumber?
+public class TradeItOrder {
+    public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    public var symbol: String?
+    public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
+    public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
+    public var quantity: NSDecimalNumber?
+    public var limitPrice: NSDecimalNumber?
+    public var stopPrice: NSDecimalNumber?
+    public var quoteLastPrice: NSDecimalNumber?
 
     public init() {}
 
@@ -47,7 +48,7 @@ open class TradeItOrder {
         return price.multiplying(by: quantity)
     }
 
-    func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
+    public func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
                            onFailure: @escaping (TradeItErrorResult) -> Void
         ) -> Void {
         guard let linkedBrokerAccount = linkedBrokerAccount else {
@@ -58,8 +59,10 @@ open class TradeItOrder {
 
         linkedBrokerAccount.tradeService.previewTrade(previewPresenter.generateRequest(), withCompletionBlock: { result in
             switch result {
-            case let previewOrder as TradeItPreviewTradeResult:
-                onSuccess(previewOrder, self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService, previewOrder: previewOrder))
+            case let previewOrderResult as TradeItPreviewOrderResult:
+                onSuccess(previewOrderResult,
+                          self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService,
+                                                          previewOrderResult: previewOrderResult))
             case let errorResult as TradeItErrorResult:
                 linkedBrokerAccount.linkedBroker.error = errorResult
                 onFailure(errorResult)
@@ -110,13 +113,13 @@ open class TradeItOrder {
         return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 
-    fileprivate func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrder: TradeItPreviewTradeResult) -> TradeItPlaceOrderHandlers {
+    private func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onFailure in
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrder.orderId)
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
 
             tradeService.placeTrade(placeOrderRequest) { result in
                 switch result {
-                case let placeOrderResult as TradeItPlaceTradeResult: onSuccess(placeOrderResult)
+                case let placeOrderResult as TradeItPlaceOrderResult: onSuccess(placeOrderResult)
                 case let errorResult as TradeItErrorResult: onFailure(errorResult)
                 default: onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
                 }

@@ -136,7 +136,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
     // MARK: TradeItTradePreviewViewControllerDelegate
 
     func orderSuccessfullyPlaced(onTradePreviewViewController tradePreviewViewController: TradeItTradePreviewViewController,
-                                   withResultPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult) {
+                                   withPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult) {
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingConfirmationView)
         
         if let tradingConfirmationViewController = nextViewController as? TradeItTradingConfirmationViewController {

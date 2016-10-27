@@ -67,7 +67,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
         placeOrderCallback({ result in
             activityView.hide(animated: true)
-            self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withResultPlaceOrderResult: result)
+            self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
         }, { error in
             activityView.hide(animated: true)
             self.alertManager.showRelinkError(error,
@@ -204,5 +204,5 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
 protocol TradeItTradePreviewViewControllerDelegate: class {
     func orderSuccessfullyPlaced(onTradePreviewViewController tradePreviewViewController: TradeItTradePreviewViewController,
-                                   withResultPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult)
+                                 withPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult)
 }

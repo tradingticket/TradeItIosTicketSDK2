@@ -4,7 +4,7 @@ import SwiftyUserDefaults
 @testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerCacheSpec: QuickSpec {
-    var defaults = NSUserDefaults(suiteName: "TEST")!
+    var defaults = NSUserDefaults(suiteName: "it.trade")!
 
     override func spec() {
         var cache: TradeItLinkedBrokerCache!
@@ -42,7 +42,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
             let account1 = TradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker1,
-                accountName: "My Special Account 1",
+                accountName: "My Special Account Name 1",
                 accountNumber: "My Special Account Number 1",
                 balance: nil,
                 fxBalance: nil,
@@ -52,7 +52,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
             let account2 = TradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker1,
-                accountName: "My Special Account 2",
+                accountName: "My Special Account Name 2",
                 accountNumber: "My Special Account Number 2",
                 balance: nil,
                 fxBalance: nil,
@@ -62,7 +62,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
             let account3 = TradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker2,
-                accountName: "My Special Account 3",
+                accountName: "My Special Account Name 3",
                 accountNumber: "My Special Account Number 3",
                 balance: nil,
                 fxBalance: nil,
@@ -74,30 +74,31 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
         describe("cache(linkedBroker:)") {
             context("when the broker doesn't already exist in the cache") {
                 beforeEach {
-                    //////
-                    let serializedBrokers = self.defaults[.linkedBrokerCache] as? TradeItLinkedBrokerCache.SerializedLinkedBrokers
-                    print("=====> serializedBrokers BEFORE FIRST ADD: \(serializedBrokers)")
-                    /////
                     cache.cache(linkedBroker: linkedBroker1)
                 }
 
                 it("adds the broker to the cache") {
                     let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
-                    print("=====> serializedBrokers AFTER FIRST ADD: \(serializedBrokers)")
                     expect(serializedBrokers.keys.count).to(equal(1))
 
-                    let accounts = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                    let serializedBroker = serializedBrokers["My Special User ID 1"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker.keys.count).to(equal(1))
+
+                    let accounts = serializedBroker["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
                     expect(accounts.count).to(equal(2))
 
                     let serializedAccount1 = accounts["My Special Account Number 1"]!
 
-                    expect(serializedAccount1["accountName"]!).to(equal("My Special Account 1"))
+                    expect(serializedAccount1.keys.count).to(equal(1))
+                    expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
 
                     let serializedAccount2 = accounts["My Special Account Number 2"]!
 
-                    expect(serializedAccount2["accountName"]!).to(equal("My Special Account 2"))
+                    expect(serializedAccount2.keys.count).to(equal(1))
+                    expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
                 }
 
                 describe ("adding a subsequent linked broker") {
@@ -108,20 +109,28 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     it("adds it to the cache") {
                         let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
-                        print("=====> serializedBrokers AFTER SECOND ADD: \(serializedBrokers)")
                         expect(serializedBrokers.keys.count).to(equal(2))
 
-                        let accounts1 = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let serializedBroker1 = serializedBrokers["My Special User ID 1"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                        expect(serializedBroker1.keys.count).to(equal(1))
+
+                        let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                        expect(serializedBroker2.keys.count).to(equal(1))
+
+                        let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
                         expect(accounts1.count).to(equal(2))
 
-                        let accounts2 = serializedBrokers["My Special User ID 2"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
                         expect(accounts2.count).to(equal(1))
 
                         let serializedAccount3 = accounts2["My Special Account Number 3"]!
 
-                        expect(serializedAccount3["accountName"]!).to(equal("My Special Account 3"))
+                        expect(serializedAccount3.keys.count).to(equal(1))
+                        expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                     }
                 }
             }
@@ -133,7 +142,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                     let newAccount = TradeItLinkedBrokerAccount(
                         linkedBroker: linkedBroker1,
-                        accountName: "My New Account",
+                        accountName: "My New Account Name",
                         accountNumber: "My New Account Number",
                         balance: nil,
                         fxBalance: nil,
@@ -147,22 +156,262 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                 it("overwrites all of the broker's cached data") {
                     let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
-                    print("=====> serializedBrokers AFTER REWRITE: \(serializedBrokers)")
                     expect(serializedBrokers.keys.count).to(equal(2))
 
-                    let accounts = serializedBrokers["My Special User ID 1"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                    let serializedBroker1 = serializedBrokers["My Special User ID 1"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
-                    expect(accounts.count).to(equal(1))
+                    expect(serializedBroker1.keys.count).to(equal(1))
 
-                    let serializedAccount = accounts["My New Account Number"]!
+                    let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
 
-                    expect(serializedAccount["accountName"]!).to(equal("My New Account"))
+                    expect(accounts1.count).to(equal(1))
+
+                    let newSerializedAccount = accounts1["My New Account Number"]!
+
+                    expect(newSerializedAccount.keys.count).to(equal(1))
+                    expect(newSerializedAccount["ACCOUNT_NAME"]!).to(equal("My New Account Name"))
+
+                    let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker2.keys.count).to(equal(1))
+
+
+                    let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+
+                    expect(accounts2.count).to(equal(1))
+
+                    let serializedAccount3 = accounts2["My Special Account Number 3"]!
+
+                    expect(serializedAccount3.keys.count).to(equal(1))
+                    expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                 }
             }
         }
 
-        describe("syncFromCache(linkedBroker:)") {}
+        describe("syncFromCache(linkedBroker:)") {
+            beforeEach {
+                cache.cache(linkedBroker: linkedBroker1)
+                cache.cache(linkedBroker: linkedBroker2)
+            }
 
-        describe("remove(linkedBroker:)") {}
+            context("when the linked broker is in the cache") {
+                var linkedBrokerToSync: TradeItLinkedBroker!
+
+                beforeEach {
+                    linkedBrokerToSync = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: linkedLogin1)
+
+                    let account1 = TradeItLinkedBrokerAccount(
+                        linkedBroker: linkedBrokerToSync,
+                        accountName: "My Original Account Name",
+                        accountNumber: "My Original Account Number",
+                        balance: nil,
+                        fxBalance: nil,
+                        positions: [])
+                    
+                    linkedBrokerToSync.accounts.append(account1)
+
+                    cache.syncFromCache(linkedBroker: linkedBrokerToSync)
+                }
+
+                it("should update the synced broker") {
+                    let syncedAccounts = linkedBrokerToSync.accounts
+
+                    expect(syncedAccounts.count).to(equal(2))
+
+                    let syncedAccount1 = syncedAccounts.filter { (account) -> Bool in
+                        return account.accountNumber == "My Special Account Number 1"
+                    }.first
+
+                    expect(syncedAccount1?.accountName).to(equal("My Special Account Name 1"))
+
+                    let syncedAccount2 = syncedAccounts.filter { (account) -> Bool in
+                        return account.accountNumber == "My Special Account Number 2"
+                    }.first
+
+                    expect(syncedAccount2?.accountName).to(equal("My Special Account Name 2"))
+                }
+
+                it("doesn't alter the cached brokers") {
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+
+                    expect(serializedBrokers.keys.count).to(equal(2))
+
+                    let serializedBroker1 = serializedBrokers["My Special User ID 1"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker1.keys.count).to(equal(1))
+
+                    let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+
+                    expect(serializedAccounts1.count).to(equal(2))
+
+                    let serializedAccount1 = serializedAccounts1["My Special Account Number 1"]!
+
+                    expect(serializedAccount1.keys.count).to(equal(1))
+                    expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
+
+                    let serializedAccount2 = serializedAccounts1["My Special Account Number 2"]!
+
+                    expect(serializedAccount2.keys.count).to(equal(1))
+                    expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
+
+                    let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker2.keys.count).to(equal(1))
+
+                    let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+
+                    expect(serializedAccounts2.count).to(equal(1))
+
+                    let serializedAccount3 = serializedAccounts2["My Special Account Number 3"]!
+
+                    expect(serializedAccount3.keys.count).to(equal(1))
+                    expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                }
+            }
+
+            context("when the linked broker is not in the cache") {
+                var linkedBrokerToSync: TradeItLinkedBroker!
+
+                beforeEach {
+                    let uncachedLinkedLogin = TradeItLinkedLogin(
+                        label: "My Special Label 1",
+                        broker: "My Special Broker 1",
+                        userId: "My Uncached User ID",
+                        andKeyChainId: "My Special Keychain ID 1")
+
+                    linkedBrokerToSync = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: uncachedLinkedLogin)
+
+                    let account1 = TradeItLinkedBrokerAccount(
+                        linkedBroker: linkedBrokerToSync,
+                        accountName: "My Original Account Name",
+                        accountNumber: "My Original Account Number",
+                        balance: nil,
+                        fxBalance: nil,
+                        positions: [])
+
+                    linkedBrokerToSync.accounts.append(account1)
+
+                    cache.syncFromCache(linkedBroker: linkedBrokerToSync)
+                }
+
+                it("doesn't alter the synced broker") {
+                    let syncedAccounts = linkedBrokerToSync.accounts
+
+                    expect(syncedAccounts.count).to(equal(1))
+
+                    let syncedAccount1 = syncedAccounts.filter { (account) -> Bool in
+                        return account.accountNumber == "My Original Account Number"
+                    }.first
+
+                    expect(syncedAccount1?.accountName).to(equal("My Original Account Name"))
+                }
+
+                it("doesn't alter the cached brokers") {
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+
+                    expect(serializedBrokers.keys.count).to(equal(2))
+
+                    let serializedBroker1 = serializedBrokers["My Special User ID 1"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker1.keys.count).to(equal(1))
+
+                    let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+
+                    expect(serializedAccounts1.count).to(equal(2))
+
+                    let serializedAccount1 = serializedAccounts1["My Special Account Number 1"]!
+
+                    expect(serializedAccount1.keys.count).to(equal(1))
+                    expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
+
+                    let serializedAccount2 = serializedAccounts1["My Special Account Number 2"]!
+
+                    expect(serializedAccount2.keys.count).to(equal(1))
+                    expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
+
+                    let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
+
+                    expect(serializedBroker2.keys.count).to(equal(1))
+
+                    let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+
+                    expect(serializedAccounts2.count).to(equal(1))
+
+                    let serializedAccount3 = serializedAccounts2["My Special Account Number 3"]!
+                    
+                    expect(serializedAccount3.keys.count).to(equal(1))
+                    expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                }
+            }
+        }
+
+        describe("remove(linkedBroker:)") {
+            beforeEach {
+                cache.cache(linkedBroker: linkedBroker1)
+                cache.cache(linkedBroker: linkedBroker2)
+            }
+
+            context("when the linked broker is in the cache") {
+                var linkedBrokerToRemove: TradeItLinkedBroker!
+
+                beforeEach {
+                    linkedBrokerToRemove = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: linkedLogin1)
+
+                    let account1 = TradeItLinkedBrokerAccount(
+                        linkedBroker: linkedBrokerToRemove,
+                        accountName: "My Original Account Name",
+                        accountNumber: "My Original Account Number",
+                        balance: nil,
+                        fxBalance: nil,
+                        positions: [])
+
+                    linkedBrokerToRemove.accounts.append(account1)
+
+                    cache.remove(linkedBroker: linkedBrokerToRemove)
+                }
+
+                it("removes only the matching linked broker") {
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+
+                    expect(serializedBrokers.keys.count).to(equal(1))
+                    expect(serializedBrokers["My Special User ID 1"]).to(beNil())
+                    expect(serializedBrokers["My Special User ID 2"]).notTo(beNil())
+                }
+            }
+
+            context("when the linked broker is not in the cache") {
+                var linkedBrokerToRemove: TradeItLinkedBroker!
+
+                beforeEach {
+                    let uncachedLinkedLogin = TradeItLinkedLogin(
+                        label: "My Special Label 1",
+                        broker: "My Special Broker 1",
+                        userId: "My Uncached User ID",
+                        andKeyChainId: "My Special Keychain ID 1")
+
+                    linkedBrokerToRemove = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: uncachedLinkedLogin)
+
+                    let account1 = TradeItLinkedBrokerAccount(
+                        linkedBroker: linkedBrokerToRemove,
+                        accountName: "My Original Account Name",
+                        accountNumber: "My Original Account Number",
+                        balance: nil,
+                        fxBalance: nil,
+                        positions: [])
+
+                    linkedBrokerToRemove.accounts.append(account1)
+
+                    cache.remove(linkedBroker: linkedBrokerToRemove)
+                }
+
+                it("doesn't remove any linked brokers") {
+                    let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+
+                    expect(serializedBrokers.keys.count).to(equal(2))
+                    expect(serializedBrokers["My Special User ID 1"]).notTo(beNil())
+                    expect(serializedBrokers["My Special User ID 2"]).notTo(beNil())
+                }
+            }
+        }
     }
 }

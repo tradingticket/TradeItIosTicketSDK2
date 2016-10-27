@@ -1,7 +1,5 @@
 import SwiftyUserDefaults
 
-// https://github.com/radex/SwiftyUserDefaults
-
 extension DefaultsKeys {
     static let linkedBrokerCache = DefaultsKey<NSDictionary?>("linkedBrokerCache")
 }
@@ -54,13 +52,14 @@ class TradeItLinkedBrokerCache {
             else { return }
 
         linkedBrokerCache[userId] = nil
+        defaults[.linkedBrokerCache] = linkedBrokerCache
     }
 
     // MARK: Private
 
     private func serialize(linkedBroker linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
         return [
-            ACCOUNTS_LAST_UPDATED_KEY: 0, // linkedBroker.accountsLastUpdated // NSDate().timeIntervalSince1970
+//            ACCOUNTS_LAST_UPDATED_KEY: 0, // linkedBroker.accountsLastUpdated // NSDate().timeIntervalSince1970
             ACCOUNTS_KEY: serialize(accounts: linkedBroker.accounts)
         ]
     }

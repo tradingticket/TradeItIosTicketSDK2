@@ -239,18 +239,18 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
 
                     let tradeItSession1 = FakeTradeItSession()
-                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1!)
-                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     linkedOldBroker1.accounts.append(account11)
-                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                     linkedOldBroker1.accounts.append(account12)
 
                     let tradeItSession2 = FakeTradeItSession()
                     let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2!)
                     
                     let tradeItSession3 = FakeTradeItSession()
-                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3!)
-                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                     linkedOldBroker3.accounts.append(account31)
 
                     linkedBrokerManager.linkedBrokers.append(linkedOldBroker1)
@@ -296,11 +296,11 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
                     
                     let tradeItSession1 = FakeTradeItSession()
-                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1!)
-                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     
                     linkedOldBroker1.accounts.append(account11)
-                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                     account12.isEnabled = false
                     linkedOldBroker1.accounts.append(account12)
                     
@@ -309,8 +309,8 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2!)
                     
                     let tradeItSession3 = FakeTradeItSession()
-                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3!)
-                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                     linkedOldBroker3.accounts.append(account31)
                     
                     linkedBrokerManager.linkedBrokers.append(linkedOldBroker1)
@@ -355,11 +355,11 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
                     
                     let tradeItSession1 = FakeTradeItSession()
-                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1!)
-                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     account11.isEnabled = false
                     linkedOldBroker1.accounts.append(account11)
-                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                     account12.isEnabled = false
                     linkedOldBroker1.accounts.append(account12)
                     
@@ -368,8 +368,8 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2!)
                     
                     let tradeItSession3 = FakeTradeItSession()
-                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3!)
-                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                     account31.isEnabled = false
                     linkedOldBroker3.accounts.append(account31)
                     
@@ -397,11 +397,11 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
                     
                     let tradeItSession1 = FakeTradeItSession()
-                    linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1!)
-                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
+                    account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     account11.isEnabled = false
                     linkedOldBroker1.accounts.append(account11)
-                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                    account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                     account12.isEnabled = true
                     linkedOldBroker1.accounts.append(account12)
                     
@@ -410,8 +410,8 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     let linkedOldBroker2 = TradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedOldLogin2!)
                     
                     let tradeItSession3 = FakeTradeItSession()
-                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3!)
-                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                    let linkedOldBroker3 = TradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedOldLogin3)
+                    account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                     account31.isEnabled = false
                     linkedOldBroker3.accounts.append(account31)
                     
@@ -563,22 +563,22 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
                 let tradeItSession = FakeTradeItSession()
                 linkedBroker1 = FakeTradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin1)
-                let account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker1.accounts = [account11, account12]
                 linkedBroker1.error = nil
 
                 let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")!
                 let tradeItSession2 = FakeTradeItSession()
                 linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
-                let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, brokerName: "Broker #2", accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker2.accounts = [account21]
                 linkedBroker2.error = nil
 
                 let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")!
                 let tradeItSession3 = FakeTradeItSession()
                 linkedBroker3 = FakeTradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedLogin3)
-                let account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker3, brokerName: "Broker #3", accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
+                let account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker3.accounts = [account31]
                 linkedBroker3.error = TradeItErrorResult()
 

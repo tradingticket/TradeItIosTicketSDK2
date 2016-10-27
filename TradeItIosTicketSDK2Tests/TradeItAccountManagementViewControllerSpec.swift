@@ -29,8 +29,8 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 controller.accountManagementTableManager = accountManagementTableManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
                 linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker.accounts = [account1, account2]
                 controller.linkedBroker = linkedBroker
                 alertManager = FakeTradeItAlertManager()
@@ -193,7 +193,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                     describe("when refreshing balances is finished") {
                         var account1: TradeItLinkedBrokerAccount!
                         beforeEach {
-                            account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                            account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                             linkedBroker.accounts = [account1]
                             let onFinished = linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                             onFinished()

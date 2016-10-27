@@ -9,7 +9,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var nav: UINavigationController!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var tradeItConnector: FakeTradeItConnector!
-//        var ezLoadingActivityManager: FakeEZLoadingActivityManager!
+//        var ezLoadingActivityManager: FakeEZLoadingActivityManager! // TODO: Replace with MBProgressHUD
         var delegate: FakeTradeItSelectBrokerViewControllerDelegate!
         
         describe("initialization") {
@@ -27,6 +27,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
 
                 controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.selectBrokerView.rawValue) as! TradeItSelectBrokerViewController
                 
+                // TODO: Replace with MBProgressHUD
 //                ezLoadingActivityManager = FakeEZLoadingActivityManager()
 //                controller.ezLoadingActivityManager = ezLoadingActivityManager
                 controller.delegate = delegate
@@ -44,10 +45,11 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 expect(linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)").count).to(equal(1))
             }
 
-//            it("shows a spinner") {
+            it("shows a spinner") {
+                // TODO: Replace with MBProgressHUD
 //                expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
 //                expect(ezLoadingActivityManager.spinnerText).to(equal("Loading Brokers"))
-//            }
+            }
 
             context("when request to get brokers fails") {
                 beforeEach {
@@ -55,9 +57,9 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                     completionHandler()
                 }
 
-//                it("hides the spinner") {
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
-//                }
+                it("hides the spinner") {
+//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
+                }
 
                 it("leaves the broker table empty") {
                     let brokerRowCount = controller.tableView(controller.brokerTable, numberOfRowsInSection: 0)
@@ -80,9 +82,9 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                     completionHandler(brokersResponse)
                 }
 
-//                it("hides the spinner") {
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse())
-//                }
+                it("hides the spinner") {
+//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
+                }
 
                 it("populates the broker table") {
                     let brokerRowCount = controller.tableView(controller.brokerTable, numberOfRowsInSection: 0)

@@ -280,7 +280,6 @@
 		D33505F91DC24EDE00BC5BC5 /* TradeItSDK2UITestsTradeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F41DC24EDE00BC5BC5 /* TradeItSDK2UITestsTradeFlow.swift */; };
 		D33505FA1DC24EDE00BC5BC5 /* TradeItSDKUITestsAuthFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F51DC24EDE00BC5BC5 /* TradeItSDKUITestsAuthFlow.swift */; };
 		FA994F4C1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA994F4B1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift */; };
-		FA994F4D1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA994F4B1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift */; };
 		FA994F4F1DB9D36500BAF27B /* TradeItLinkedBrokerCacheSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA994F4E1DB9D36500BAF27B /* TradeItLinkedBrokerCacheSpec.swift */; };
 /* End PBXBuildFile section */
 
@@ -1558,7 +1557,6 @@
 				756FAF6C1DB8198700D5B112 /* FakeTradeItPositionService.swift in Sources */,
 				756FAF7E1DB8198700D5B112 /* TradeItLinkedBrokerSpec.swift in Sources */,
 				756FAF7C1DB8198700D5B112 /* TradeItLinkedBrokerAccountSpec.swift in Sources */,
-				FA994F4D1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift in Sources */,
 				756FAF611DB8198700D5B112 /* FakeTradeItLinkBrokerUIFlow.swift in Sources */,
 				756FAF601DB8198700D5B112 /* FakeTradeItConnector.swift in Sources */,
 				756FAF5E1DB8198700D5B112 /* FakeTradeItBalanceService.swift in Sources */,
@@ -1646,7 +1644,6 @@
 				75BAAB8A1DB7EF2F00E5435C /* TradeItAccountOverview.m in Sources */,
 				75BAABEB1DB7EF2F00E5435C /* TradeItSymbolLookupRequest.m in Sources */,
 				75BAAAB61DB7EEB400E5435C /* TradeItErrorResult+ErrorCodeHelpers.swift in Sources */,
-				75BAAAE21DB7EEB400E5435C /* TradeItTicketOrderActionPresenter.swift in Sources */,
 				FA994F4C1DB9D33B00BAF27B /* TradeItLinkedBrokerCache.swift in Sources */,
 				75BAAB921DB7EF2F00E5435C /* TradeItAdsResult.m in Sources */,
 				75BAABA81DB7EF2F00E5435C /* TradeItBrokerListRequest.m in Sources */,

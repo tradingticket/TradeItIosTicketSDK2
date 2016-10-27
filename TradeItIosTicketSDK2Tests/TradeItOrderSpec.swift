@@ -11,7 +11,6 @@ class TradeItOrderSpec: QuickSpec {
             let linkedBroker = FakeTradeItLinkedBroker()
             linkedBrokerAccount = FakeTradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker,
-                brokerName: "Fake",
                 accountName: "my-special-account-name",
                 accountNumber: "my-special-account-number",
                 balance: nil,
@@ -293,7 +292,7 @@ class TradeItOrderSpec: QuickSpec {
             var tradeService: FakeTradeItTradeService!
 
             beforeEach {
-                linkedBrokerAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: FakeTradeItLinkedBroker(), brokerName: "Dummy", accountName: "Dummy Account Name", accountNumber: "Dummy Account Number", balance: nil, fxBalance: nil, positions: [])
+                linkedBrokerAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: FakeTradeItLinkedBroker(), accountName: "Dummy Account Name", accountNumber: "Dummy Account Number", balance: nil, fxBalance: nil, positions: [])
                 tradeService = FakeTradeItTradeService()
                 linkedBrokerAccount.tradeService = tradeService
                 order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount, symbol: "AAPL")

@@ -10,7 +10,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
         var linkedBroker: FakeTradeItLinkedBroker!
         beforeEach {
             linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-            tradeItLinkedBrokerAccount = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My special broker name", accountName: "My special account name", accountNumber: "My special account number", balance: nil, fxBalance: nil, positions: [])
+            tradeItLinkedBrokerAccount = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My special account name", accountNumber: "My special account number", balance: nil, fxBalance: nil, positions: [])
             linkedBroker.accounts = [tradeItLinkedBrokerAccount]
             tradeItBalanceService = FakeTradeItBalanceService()
             tradeItPositionService = FakeTradeItPositionService()

@@ -153,8 +153,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
             var onfinishedWasCalled = false
             beforeEach {
                 onfinishedWasCalled = false
-                account11 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker,brokerName: "Broker #1", accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                account12 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "Broker #1", accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                account11 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                account12 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker.accounts = [account11, account12]
                 
                 linkedBroker.refreshAccountBalances(onFinished: {

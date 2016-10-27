@@ -49,25 +49,25 @@ In the Sandbox environment there is a Dummy broker available to perform tests wi
 
 Depending on the username you choose (password will always be "pass"), you can emulate the following scenarios:
 
-|username              | response    |
-| -------------        | ----------                                                                                            
-|dummy                 | no errorResult|
-|dummyNotMargin        | returns error response if request is to place a sell short or buy to cover|
-|dummyNull             | returns null values for every field that can potentially return as null|
-|dummySecurity         | returns security question response (answer is tradingticket)|
-|dummyMultiple         | returns a user with multiple accounts|
-|dummySecurityImage    | returns response with challenge image (mainly used for IB)|
-|dummyOptionLong       | returns response with multiple options for the security question answer (answer is option1)|
+| Username           | Response                                                                                    |
+| -------------      | ----------                                                                                  |
+| dummy              | no errorResult                                                                              |
+| dummyNotMargin     | returns error response if request is to place a sell short or buy to cover                  |
+| dummyNull          | returns null values for every field that can potentially return as null                     |
+| dummySecurity      | returns security question response (answer is tradingticket)                                |
+| dummyMultiple      | returns a user with multiple accounts                                                       |
+| dummySecurityImage | returns response with challenge image (mainly used for IB)                                  |
+| dummyOptionLong    | returns response with multiple options for the security question answer (answer is option1) |
 
-any other ID that is not dummy  returns error response with authentication error
+Any other credentials will fail to authenticate.
 
-When username is dummy , dummyMultiple or dummySecurity:
+When username is dummy, dummyMultiple or dummySecurity:
 
-|Order Size                         |Returns |
-|-------------                      |-------------         |
-|quantity is below 50 returns       |review response with no warning messages |
-|quantity is between 50 and 99      |returns review response with warnings and ack messages |
-|quantity is 100 and up             |returns error response |
+| Order Size           | Returns                                                |
+| -------------        | -------------                                          |
+| quantity < 50        | review response with no warning messages               |
+| 50 <= quantity < 100 | returns review response with warnings and ack messages |
+| quantity >= 100      | returns error response                                 |
 
 ### Live broker accounts
 
@@ -93,7 +93,7 @@ launcher.launchTrading(fromViewController: self)
 // Launch the trading ticket with pre-configured order
 let order = TradeItOrder()
 order.symbol = "SYMB"
-order.action = .BuyToCover
+order.action = .buyToCover
 launcher.launchTrading(fromViewController: self, withOrder: order)
 
 // Launch Account Management
@@ -141,18 +141,18 @@ linkedBrokerAccount.getPositions(onSuccess: {
 let order = TradeItOrder()
 order.linkedBrokerAccount = linkedBrokerAccount
 order.symbol = "CMG"
-order.action = .Buy
-order.type = .Limit
-order.expiration = .GoodUntilCanceled
+order.action = .buy
+order.type = .limit
+order.expiration = .goodUntilCanceled
 quantity = 100.0
 limitPrice = 395.65
 
 order.preview(onSuccess: { previewOrder, placeOrderCallback in
     // Display previewOrder contents to user for review
     // When the user confirms, call the placeOrderCallback to place the trade
-    placeOrderCallback(onSuccess: { result in
+    placeOrderCallback({ result in
         // Display result contents to the user
-    }, onFailure: { errorResult in
+    }, { errorResult in
         // Display errorResult contents to user
     })
 }, onFailure: { errorResult in

@@ -3,7 +3,8 @@ import PromiseKit
 @objc open class TradeItLinkedBrokerManager: NSObject {
     var tradeItConnector: TradeItConnector
     var tradeItSessionProvider: TradeItSessionProvider
-    open var linkedBrokers: [TradeItLinkedBroker] = []
+    private var linkedBrokerCache = TradeItLinkedBrokerCache()
+    public var linkedBrokers: [TradeItLinkedBroker] = []
     
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         // TODO: TradeItConnector initializer returns optional - we should not force unwrap
@@ -26,7 +27,9 @@ import PromiseKit
         let linkedLoginsFromKeychain = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
 
         self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
-            return loadLinkedBrokerFromLinkedLogin(linkedLogin)
+            let linkedBroker = loadLinkedBrokerFromLinkedLogin(linkedLogin)
+            self.linkedBrokerCache.syncFromCache(linkedBroker: linkedBroker)
+            return linkedBroker
         }
     }
 

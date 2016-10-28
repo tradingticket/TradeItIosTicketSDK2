@@ -43,7 +43,7 @@ class TradeItLinkedBrokerCache {
             linkedBroker.accounts = accounts
         }
 
-//        linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] ?? 0
+        linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? NSDate
     }
 
     func remove(linkedBroker linkedBroker: TradeItLinkedBroker) {
@@ -58,10 +58,15 @@ class TradeItLinkedBrokerCache {
     // MARK: Private
 
     private func serialize(linkedBroker linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
-        return [
-//            ACCOUNTS_LAST_UPDATED_KEY: 0, // linkedBroker.accountsLastUpdated // NSDate().timeIntervalSince1970
+        var serializedLinkedBroker: SerializedLinkedBroker = [
             ACCOUNTS_KEY: serialize(accounts: linkedBroker.accounts)
         ]
+
+        if let accountsLastUpdated = linkedBroker.accountsLastUpdated {
+            serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] = accountsLastUpdated
+        }
+
+        return serializedLinkedBroker
     }
 
     private func deserialize(serializedAccounts serializedAccounts: SerializedLinkedBrokerAccounts,

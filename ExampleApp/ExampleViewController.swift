@@ -104,11 +104,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: Private
 
     private func test() {
-//        Defaults[.linkedBrokerAccountsCache] = [["asdf": "asdfasdf"], ["zxcv": "1234", "qwer": "qewqwer"]]
-
-//        let cache = Defaults[.linkedBrokerAccountsCache]
-
-//        print("=====> MY CACHE: \(cache[1])")
+        // Put code you want to test here...
     }
 
     private func printLinkedBrokers() {

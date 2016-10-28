@@ -3,6 +3,8 @@ import PromiseKit
 open class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
+    private var linkedBrokerCache = TradeItLinkedBrokerCache()
+    public var accountsLastUpdated: NSDate?
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
     public var brokerName: String {
@@ -33,6 +35,11 @@ open class TradeItLinkedBroker: NSObject {
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
                     self.accounts = self.mapToLinkedBrokerAccounts(accounts)
+
+                    self.accountsLastUpdated = NSDate()
+
+                    self.linkedBrokerCache.cache(linkedBroker: self)
+
                     onSuccess()
                 case let securityQuestion as TradeItSecurityQuestionResult:
                     onSecurityQuestion(

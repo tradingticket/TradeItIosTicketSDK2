@@ -43,8 +43,8 @@ For Swift 2.3 compatibility, use version `0.0.1`.
 
 | Environment   | Enum                       |
 | ------------- | ----------                 |
-| Sandbox       | `.TradeItEmsTestEnv`       |
-| Production    | `.TradeItEmsProductionEnv` |
+| Sandbox       | `TradeItEmsTestEnv`       |
+| Production    | `TradeItEmsProductionEnv` |
 
 ### Dummy broker account
 

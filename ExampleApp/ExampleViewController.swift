@@ -6,6 +6,7 @@ enum Action: Int {
     case launchTrading
     case launchTradingWithSymbol
     case launchAccountManagement
+    case launchAccountLinking
     case manualAuthenticateAll
     case manualBalances
     case manualPositions
@@ -46,6 +47,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)
+        case .launchAccountLinking:
+            self.tradeItLauncher.launchAccountLinking(fromViewController: self, onLinked: { linkedBroker in
+                print("Newly linked broker: \(linkedBroker)")
+            }, onFlowAborted: {
+                print("User aborted linking")
+            })
         case .manualAuthenticateAll:
             self.manualAuthenticateAll()
         case .manualBalances:
@@ -53,25 +60,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case .manualPositions:
             self.manualPositions()
         case .launchAlertQueue:
-            alertManager.showAlert(
-                onViewController: self,
-                withTitle: "Alert 1",
-                withMessage: "Alert 1",
-                withActionTitle: "OK",
-                onAlertActionTapped: {}
-            )
-            let securityQuestion = TradeItSecurityQuestionResult()
-            securityQuestion.securityQuestion = "Security Question"
-            alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
-            )
-            alertManager.showAlert(
-                onViewController: self,
-                withTitle: "Alert 2",
-                withMessage: "Alert 2",
-                withActionTitle: "OK",
-                onAlertActionTapped: {}
-            )
+            self.launchAlertQueue()
         case .deleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
@@ -143,11 +132,33 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
+    fileprivate func launchAlertQueue() {
+        alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Alert 1",
+            withMessage: "Alert 1",
+            withActionTitle: "OK",
+            onAlertActionTapped: {}
+        )
+        let securityQuestion = TradeItSecurityQuestionResult()
+        securityQuestion.securityQuestion = "Security Question"
+        alertManager.promptUserToAnswerSecurityQuestion(
+            securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
+        )
+        alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Alert 2",
+            withMessage: "Alert 2",
+            withActionTitle: "OK",
+            onAlertActionTapped: {}
+        )
+    }
+
     fileprivate func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
         let appDomain = Bundle.main.bundleIdentifier;
-        UserDefaults.standard.removePersistentDomain(forName: appDomain!);
+        UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
         tradeItConnector.environment = self.ENVIRONMENT

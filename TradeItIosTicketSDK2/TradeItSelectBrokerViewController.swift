@@ -67,6 +67,11 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         
         return cell!
     }
+
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+        super.closeButtonWasTapped(sender)
+        self.delegate?.cancelWasTapped(fromSelectBrokerViewController: self)
+    }
 }
 
 protocol TradeItSelectBrokerViewControllerDelegate {

@@ -31,9 +31,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
             rootViewController.delegate = self
         }
         
-        viewController.present(navController,
-                                             animated: true,
-                                             completion: nil)
+        viewController.present(navController, animated: true, completion: nil)
     }
 
     func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
@@ -52,9 +50,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
             rootViewController.linkedBrokerToRelink = linkedBroker
         }
         
-        viewController.present(navController,
-                                             animated: true,
-                                             completion: nil)
+        viewController.present(navController, animated: true, completion: nil)
     }
 
     

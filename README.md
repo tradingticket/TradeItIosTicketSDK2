@@ -103,6 +103,14 @@ launcher.launchTrading(fromViewController: self, withOrder: order)
 
 // Launch Account Management
 launcher.launchAccountManagement(fromViewController: self)
+
+// Launch Account Linking
+launcher.launchAccountLinking(fromViewController: self, onLinked: { linkedBroker in
+    print("Newly linked broker: \(linkedBroker)")
+}, onFlowAborted: {
+    print("User aborted linking")
+})
+
 ```
 
 ## Deep Integration

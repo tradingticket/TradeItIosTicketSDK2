@@ -7,6 +7,7 @@ open class TradeItLinkedBroker: NSObject {
     public var accountsLastUpdated: NSDate?
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
+
     public var brokerName: String {
         return self.linkedLogin.broker ?? ""
     }

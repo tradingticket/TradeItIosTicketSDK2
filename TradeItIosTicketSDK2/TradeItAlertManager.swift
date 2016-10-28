@@ -60,10 +60,10 @@ import UIKit
         }
     }
 
-    open func promptUserToAnswerSecurityQuestion(_ securityQuestion: TradeItSecurityQuestionResult,
-                                     onViewController viewController: UIViewController,
-                                     onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
-                                     onCancelSecurityQuestion: @escaping () -> Void) {
+    public func promptUserToAnswerSecurityQuestion(_ securityQuestion: TradeItSecurityQuestionResult,
+                                                   onViewController viewController: UIViewController,
+                                                   onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+                                                   onCancelSecurityQuestion: @escaping () -> Void) {
         let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",

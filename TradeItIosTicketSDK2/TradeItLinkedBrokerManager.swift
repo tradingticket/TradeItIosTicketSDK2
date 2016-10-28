@@ -122,6 +122,10 @@ import PromiseKit
     func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error != nil }
     }
+
+    func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
+        return self.linkedBrokers.filter { $0.error == nil }
+    }
     
     func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,

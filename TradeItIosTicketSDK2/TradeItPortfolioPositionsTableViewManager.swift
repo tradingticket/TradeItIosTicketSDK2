@@ -33,17 +33,17 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // if the user click on the already expanded row, deselect it
-        if self.selectedPositionIndex == (indexPath as NSIndexPath).row {
+        if self.selectedPositionIndex == indexPath.row {
             self.selectedPositionIndex = -1
             self.reloadTableViewAtIndexPath([indexPath])
         } else if self.selectedPositionIndex != -1 {
             let prevPath = IndexPath(row: self.selectedPositionIndex, section: 0);
-            self.selectedPositionIndex = (indexPath as NSIndexPath).row
+            self.selectedPositionIndex = indexPath.row
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([prevPath, indexPath])
             })
         } else {
-            self.selectedPositionIndex = (indexPath as NSIndexPath).row
+            self.selectedPositionIndex = indexPath.row
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([indexPath])
             })
@@ -78,10 +78,10 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let position = self.positions[(indexPath as NSIndexPath).row]
+        let position = self.positions[indexPath.row]
         let cell = self.provideCell(forTableView: tableView,
                                     forPortfolioPosition: position,
-                                    selected: self.selectedPositionIndex == (indexPath as NSIndexPath).row)
+                                    selected: self.selectedPositionIndex == indexPath.row)
         return cell
     }
     
@@ -105,7 +105,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if let nonFxPosition = self.positions[safe: (indexPath as NSIndexPath).row]?.position , nonFxPosition.instrumentType() == .EQUITY_OR_ETF && self.selectedPositionIndex != (indexPath as NSIndexPath).row {
+        if let nonFxPosition = self.positions[safe: indexPath.row]?.position , nonFxPosition.instrumentType() == .EQUITY_OR_ETF && self.selectedPositionIndex != indexPath.row {
             return true
         } else {
             return false

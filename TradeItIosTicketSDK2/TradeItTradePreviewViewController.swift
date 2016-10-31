@@ -90,7 +90,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = previewCellData[(indexPath as NSIndexPath).row]
+        let cellData = previewCellData[indexPath.row]
 
         switch cellData {
         case let warningCellData as WarningCellData:

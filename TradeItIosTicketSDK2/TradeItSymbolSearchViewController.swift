@@ -58,7 +58,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedSymbol = symbolSearchResults[safe: (indexPath as NSIndexPath).row]?.symbol else { return }
+        guard let selectedSymbol = symbolSearchResults[safe: indexPath.row]?.symbol else { return }
 
         self.delegate?.symbolSearchViewController(self, didSelectSymbol: selectedSymbol)
     }
@@ -72,7 +72,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
-        let symbolResult = self.symbolSearchResults[(indexPath as NSIndexPath).row]
+        let symbolResult = self.symbolSearchResults[indexPath.row]
         cell.populateWith(symbolResult)
 
         return cell

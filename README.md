@@ -92,6 +92,9 @@ let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)
 // Launching the portfolio
 launcher.launchPortfolio(fromViewController: self)
 
+// Launching the portfolio with an account selected
+launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
+
 // Launch the trading ticket
 launcher.launchTrading(fromViewController: self)
 

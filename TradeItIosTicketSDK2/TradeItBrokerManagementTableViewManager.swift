@@ -27,8 +27,8 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row < self.linkedBrokers.count {
-            self.delegate?.linkedBrokerWasSelected(self.linkedBrokers[(indexPath as NSIndexPath).row])
+        if indexPath.row < self.linkedBrokers.count {
+            self.delegate?.linkedBrokerWasSelected(self.linkedBrokers[indexPath.row])
         }
     }
     
@@ -39,10 +39,10 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row < self.linkedBrokers.count {
+        if indexPath.row < self.linkedBrokers.count {
             let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as! TradeItBrokerManagementTableViewCell
-            cell.populate(withLinkedBroker: self.linkedBrokers[(indexPath as NSIndexPath).row])
+            cell.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
             return cell
         }
         else { // last cell is the 'Add Account' action

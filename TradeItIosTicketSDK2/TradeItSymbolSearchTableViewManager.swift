@@ -40,7 +40,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedSymbolResult = self.symbolResults[(indexPath as NSIndexPath).row]
+        let selectedSymbolResult = self.symbolResults[indexPath.row]
         var symbol = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         if selectedSymbolResult.symbol != nil {
             symbol = selectedSymbolResult.symbol!
@@ -60,7 +60,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
-        let symbolResult = self.symbolResults[(indexPath as NSIndexPath).row]
+        let symbolResult = self.symbolResults[indexPath.row]
         cell.populateWith(symbolResult)
         return cell
     }

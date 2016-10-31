@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-
     fileprivate var _table: UITableView?
     fileprivate var linkedBrokers: [TradeItLinkedBroker] = []
     fileprivate var refreshControl: UIRefreshControl?
@@ -28,8 +27,8 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let linkedBroker = self.linkedBrokers[(indexPath as NSIndexPath).section]
-        let selectedAccount = linkedBroker.getEnabledAccounts()[(indexPath as NSIndexPath).row]
+        let linkedBroker = self.linkedBrokers[indexPath.section]
+        let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
     }
     
@@ -62,8 +61,8 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let linkedBroker = self.linkedBrokers[(indexPath as NSIndexPath).section]
-        let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[(indexPath as NSIndexPath).row]
+        let linkedBroker = self.linkedBrokers[indexPath.section]
+        let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") as! TradeItAccountSelectionTableViewCell
         cell.populate(withLinkedBrokerAccount: linkedBrokerAccount)
         return cell

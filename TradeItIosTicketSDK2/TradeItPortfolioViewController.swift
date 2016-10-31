@@ -5,7 +5,7 @@ import MBProgressHUD
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
-    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
+    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager!
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
@@ -24,6 +24,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     @IBOutlet weak var accountInfoContainerView: UIView!
     
     var selectedAccount: TradeItLinkedBrokerAccount!
+    var initialAccount: TradeItLinkedBrokerAccount?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
-        self.linkedBrokerManager?.authenticateAll(
+        self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(securityQuestion,
@@ -56,7 +57,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             onFinished: {
                 activityView.label.text = "Refreshing Accounts"
 
-                self.linkedBrokerManager?.refreshAccountBalances(
+                self.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
                         self.updatePortfolioScreen()
                         activityView.hide(animated: true)
@@ -73,11 +74,11 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     // MARK: private methods
 
     fileprivate func updatePortfolioScreen() {
-        let accounts = self.linkedBrokerManager?.getAllEnabledAccounts()
-        let linkedBrokersInError = self.linkedBrokerManager?.getAllLinkedBrokersInError()
-        self.accountsTableViewManager.updateAccounts(withAccounts: accounts!, withLinkedBrokersInError: linkedBrokersInError!)
-        self.updateTotalValueLabel(withAccounts: accounts!)
-        if (accounts?.count == 0) {
+        let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
+        let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
+        self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
+        self.updateTotalValueLabel(withAccounts: accounts)
+        if (accounts.count == 0) {
             self.positionsTableViewManager.updatePositions(withPositions: [])
         }
     }

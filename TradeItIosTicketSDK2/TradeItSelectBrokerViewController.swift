@@ -39,7 +39,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.selectedBroker = self.brokers[(indexPath as NSIndexPath).row]
+        self.selectedBroker = self.brokers[indexPath.row]
         self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
     }
@@ -61,7 +61,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             cell?.textLabel?.textColor = UIColor.darkText
         }
 
-        if let brokerLongName = self.brokers[(indexPath as NSIndexPath).row].brokerLongName {
+        if let brokerLongName = self.brokers[indexPath.row].brokerLongName {
             cell?.textLabel?.text = brokerLongName
         }
         

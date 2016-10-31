@@ -3,6 +3,7 @@ import TradeItIosTicketSDK2
 
 enum Action: Int {
     case launchPortfolio = 0
+    case launchPortfolioForLinkedBrokerAccount
     case launchTrading
     case launchTradingWithSymbol
     case launchAccountManagement
@@ -34,11 +35,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let action = Action(rawValue: (indexPath as NSIndexPath).row) else { return }
+        guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
         case .launchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
+        case .launchPortfolioForLinkedBrokerAccount:
+            guard let linkedBrokerAccount = TradeItLauncher.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+                return print("You must link a broker with an account first")
+            }
+            self.tradeItLauncher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
         case .launchTrading:
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
         case .launchTradingWithSymbol:
@@ -83,7 +89,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
-        if let action = Action(rawValue: (indexPath as NSIndexPath).row) {
+        if let action = Action(rawValue: indexPath.row) {
             cell?.textLabel?.text = "\(action)"
         }
         

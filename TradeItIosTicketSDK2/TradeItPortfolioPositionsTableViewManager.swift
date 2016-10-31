@@ -53,8 +53,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
     fileprivate func reloadTableViewAtIndexPath(_ indexPaths: [IndexPath]) {
         self.positionsTable?.beginUpdates()
         self.positionsTable?.reloadRows(at: indexPaths, with: .automatic)
-        self.positionsTable?.scrollToNearestSelectedRow(at: .top, animated: true)
         self.positionsTable?.endUpdates()
+        self.positionsTable?.selectRow(at: indexPaths.last, animated: true, scrollPosition: .top)
     }
 
     // MARK: UITableViewDataSource

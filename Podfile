@@ -5,8 +5,8 @@ platform :ios, '8.0'
 use_frameworks!
 
 def testing_pods
-    pod 'Quick', '0.9.3'
-    pod 'Nimble', '4.1.0'
+  pod 'Quick', '~> 0.10.0'
+  pod 'Nimble', '~> 5.0.0'
 end
 
 def app_pods
@@ -15,14 +15,14 @@ def app_pods
 end
 
 target 'TradeItIosTicketSDK2Tests' do
-    testing_pods
-    app_pods
+  testing_pods
+  app_pods
 end
 
 target 'TradeItIosTicketSDK2' do
-    app_pods
+  app_pods
 end
 
 target 'ExampleApp' do
-   app_pods
+  app_pods
 end

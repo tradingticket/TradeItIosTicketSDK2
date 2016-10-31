@@ -1,6 +1,6 @@
 PODS:
   - MBProgressHUD (1.0.0)
-  - Nimble (4.1.0)
+  - Nimble (5.0.0)
   - PromiseKit (4.0.3):
     - PromiseKit/Foundation (= 4.0.3)
     - PromiseKit/QuartzCore (= 4.0.3)
@@ -12,20 +12,20 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (4.0.3):
     - PromiseKit/CorePromise
-  - Quick (0.9.3)
+  - Quick (0.10.0)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
-  - Nimble (= 4.1.0)
+  - Nimble (~> 5.0.0)
   - PromiseKit (~> 4.0)
-  - Quick (= 0.9.3)
+  - Quick (~> 0.10.0)
 
 SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
+  Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
   PromiseKit: dfe8fcc6445674fb23378d89990838c1cbdbf05a
-  Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
+  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: 95f31566f2b0c1086a16fa78073949f9a3b7e661
+PODFILE CHECKSUM: 36481a948d8910328367c44baf63056bcb4fc452
 
 COCOAPODS: 1.1.1

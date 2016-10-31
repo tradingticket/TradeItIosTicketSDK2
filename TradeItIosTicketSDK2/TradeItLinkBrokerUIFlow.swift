@@ -52,7 +52,6 @@ class TradeItLinkBrokerUIFlow: NSObject,
         
         viewController.present(navController, animated: true, completion: nil)
     }
-
     
     // MARK: TradeItWelcomeViewControllerDelegate
 

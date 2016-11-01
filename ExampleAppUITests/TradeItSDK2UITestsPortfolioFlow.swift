@@ -33,10 +33,10 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
-        waitForElementToAppear(app.navigationBars["Portfolio"])
         app.navigationBars["Portfolio"].buttons["Close"].tap()
+        waitForElementToBeHittable(app.tables.staticTexts["launchPortfolio"])
         app.tables.staticTexts["launchPortfolio"].tap()
-        waitForElementToDisappear(app.staticTexts["Refreshing Account"])
+        waitForElementToAppear(app.navigationBars["Portfolio"])
         XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
     }
     

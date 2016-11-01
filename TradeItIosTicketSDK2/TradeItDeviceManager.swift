@@ -8,6 +8,13 @@ class TradeItDeviceManager {
         
         let context = LAContext()
         
+        //If it is UITesting, it will bypass touch ID/security login
+        if NSProcessInfo.processInfo().arguments.contains("isUITesting") {
+            print("UITesting: bypassing...")
+            onSuccess()
+            return
+        }
+        
         guard context.canEvaluatePolicy(LAPolicy.DeviceOwnerAuthentication, error: &error) else {
             print("touch id not available on this device: \(error)")
             onSuccess()

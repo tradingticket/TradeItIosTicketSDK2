@@ -16,6 +16,9 @@
 @property (nullable) NSString *userId;
 @property (nullable) NSString *keychainId;
 
--(id) initWithLabel:(NSString *) label broker:(NSString *) broker userId:(NSString *) userId andKeyChainId:(NSString *) keychainId;
+- (nonnull id)initWithLabel:(NSString *)label
+                     broker:(NSString *)broker
+                     userId:(NSString *)userId
+              andKeyChainId:(NSString *)keychainId;
 
 @end

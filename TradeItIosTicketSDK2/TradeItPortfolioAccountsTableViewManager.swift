@@ -25,7 +25,9 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
     
-    func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount], withLinkedBrokersInError linkedBrokersInError: [TradeItLinkedBroker], withSelectedAccount selectedAccount: TradeItLinkedBrokerAccount?) {
+    func updateAccounts(withAccounts accounts: [TradeItLinkedBrokerAccount],
+                        withLinkedBrokersInError linkedBrokersInError: [TradeItLinkedBroker],
+                        withSelectedAccount selectedAccount: TradeItLinkedBrokerAccount?) {
         self.accounts = accounts
         self.linkedBrokersInError = linkedBrokersInError
         self.accountsTable?.reloadData()
@@ -49,8 +51,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         if indexPath.row < self.accounts.count {
             let selectedAccount = self.accounts[indexPath.row]
             self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
-        }
-        else {
+        } else {
             let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
             self.delegate?.linkedBrokerInErrorWasSelected(selectedBrokerInError: linkedBrokerInError)
         }
@@ -79,8 +80,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             let account = accounts[indexPath.row]
             accountCell.populate(withAccount: account)
             cell = accountCell
-        }
-        else {
+        } else {
             let errorCell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ERROR_CELL_ID) as! TradeItPortfolioErrorTableViewCell
             let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
             errorCell.populate(withLinkedBroker: linkedBrokerInError)

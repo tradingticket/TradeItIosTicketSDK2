@@ -15,6 +15,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var portfolioErrorHandlingViewManager: FakeTradeItPortfolioErrorHandlingViewManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
         var tradingUIFlow: FakeTradeItTradingUIFlow!
+
         describe("initialization") {
             beforeEach {
 //                ezLoadingActivityManager = FakeEZLoadingActivityManager() // TODO: Replace with MBProgressHUD

@@ -4,7 +4,7 @@ open class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
     private var linkedBrokerCache = TradeItLinkedBrokerCache()
-    public var accountsLastUpdated: NSDate?
+    public var accountsLastUpdated: Date?
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
 
@@ -37,7 +37,7 @@ open class TradeItLinkedBroker: NSObject {
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
                     self.accounts = self.mapToLinkedBrokerAccounts(accounts)
 
-                    self.accountsLastUpdated = NSDate()
+                    self.accountsLastUpdated = Date()
 
                     self.linkedBrokerCache.cache(linkedBroker: self)
 

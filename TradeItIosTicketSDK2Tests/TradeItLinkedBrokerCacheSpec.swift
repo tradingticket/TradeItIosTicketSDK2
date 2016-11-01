@@ -5,11 +5,11 @@ import SwiftyUserDefaults
 @testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerCacheSpec: QuickSpec {
-    var defaults = NSUserDefaults(suiteName: "it.trade")!
+    var defaults = UserDefaults(suiteName: "it.trade")!
 
-    private func getNewDate() -> NSDate {
+    private func getNewDate() -> Date {
         usleep(10000)
-        return NSDate()
+        return Date()
     }
 
     override func spec() {
@@ -18,16 +18,16 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
         var linkedLogin2: TradeItLinkedLogin!
         var linkedBroker1: TradeItLinkedBroker!
         var linkedBroker2: TradeItLinkedBroker!
-        var date1: NSDate!
-        var date2: NSDate!
+        var date1: Date!
+        var date2: Date!
 
-        fdescribe("TradeItLinkedBrokerCache") {
+        describe("TradeItLinkedBrokerCache") {
             beforeEach {
                 // This doesn't work in the simulator.  Thanks, Apple.
                 self.defaults.removeAll()
 
                 // So we have to do this nonsense instead.
-                self.defaults = NSUserDefaults(suiteName: "TEST \(NSDate().timeIntervalSince1970)")!
+                self.defaults = UserDefaults(suiteName: "TEST \(Date().timeIntervalSince1970)")!
 
                 expect(Defaults[.linkedBrokerCache]).to(beNil())
 
@@ -101,7 +101,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker.keys.count).to(equal(2))
 
-                        let cachedDate1 = serializedBroker["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate1 = serializedBroker["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
                         let accounts = serializedBroker["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
@@ -133,15 +133,15 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                             expect(serializedBroker1.keys.count).to(equal(2))
 
-                            let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                            let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                             expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
                             let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
                             expect(serializedBroker2.keys.count).to(equal(2))
 
-                            let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! NSDate
-                            expect(cachedDate2.compare(date2)).to(equal(NSComparisonResult.OrderedSame))
+                            let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
+                            expect(cachedDate2.compare(date2)).to(equal(ComparisonResult.orderedSame))
 
                             let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
@@ -160,7 +160,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                 }
 
                 context("when the broker already exists in the cache") {
-                    var newDate: NSDate!
+                    var newDate: Date!
 
                     beforeEach {
                         cache.cache(linkedBroker: linkedBroker1)
@@ -193,10 +193,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker1.keys.count).to(equal(2))
 
-                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(newDate.timeIntervalSince1970))
 
-                        let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
                         expect(accounts1.count).to(equal(1))
 
@@ -209,10 +209,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker2.keys.count).to(equal(2))
 
-                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
-                        let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts!
+                        let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
 
                         expect(accounts2.count).to(equal(1))
 
@@ -280,7 +280,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker1.keys.count).to(equal(2))
 
-                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
                         let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
@@ -301,7 +301,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker2.keys.count).to(equal(2))
 
-                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
                         let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
@@ -317,7 +317,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                 context("when the linked broker is not in the cache") {
                     var linkedBrokerToSync: TradeItLinkedBroker!
-                    var originalDate: NSDate!
+                    var originalDate: Date!
 
                     beforeEach {
                         let uncachedLinkedLogin = TradeItLinkedLogin(
@@ -367,7 +367,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker1.keys.count).to(equal(2))
 
-                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
                         let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
@@ -388,7 +388,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         expect(serializedBroker2.keys.count).to(equal(2))
 
-                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! NSDate
+                        let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
                         let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts

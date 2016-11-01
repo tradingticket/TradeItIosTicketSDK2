@@ -43,7 +43,7 @@ class TradeItLinkedBrokerCache {
             linkedBroker.accounts = accounts
         }
 
-        linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? NSDate
+        linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? Date
     }
 
     func remove(linkedBroker: TradeItLinkedBroker) {

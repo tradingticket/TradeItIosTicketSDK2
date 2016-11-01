@@ -123,7 +123,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
         self.portfolioErrorHandlingViewManager.showAccountInfoContainerView()
         self.holdingsActivityIndicator.startAnimating()
-        self.accountSummaryViewManager.populateSummarySection(selectedAccount)
+        self.accountSummaryViewManager.populateSummarySection(selectedAccount: selectedAccount)
         selectedAccount.getPositions(
             onSuccess: {
                 self.holdingsLabel.text = selectedAccount.getFormattedAccountName() + " Holdings"

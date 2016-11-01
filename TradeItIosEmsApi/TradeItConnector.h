@@ -57,7 +57,7 @@
  *
  *  @return TradeItResult returned into the completion block will indicate success/failure of the credentials
  */
-- (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo * _Nullable)authInfo
+- (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo * _Nullable)authenticationInfo
                       andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 /**
@@ -66,26 +66,26 @@
  *  @return TradeItResult returned in completion block if successful will include a new userId and userToken
  */
 - (void)updateUserToken:(TradeItLinkedLogin * _Nullable)linkedLogin
- withAuthenticationInfo:(TradeItAuthenticationInfo * _Nullable)authInfo
+               authInfo:(TradeItAuthenticationInfo * _Nullable)authInfo
      andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 /**
  *  Using a successful response from the linkBrokerWithAuthenticationInfo:andCompletionBlock: this method will save basic information to the user preferences, and a UUID pointed to the actual user token which will be stored in the keychain.
  */
-- (TradeItLinkedLogin * _Nullable)saveLinkToKeychain:(TradeItAuthLinkResult * _Nullable)link
+- (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
                                           withBroker:(NSString * _Nullable)broker;
 
 /**
  *  Same as above, but with a custom label. Useful if allowing users to link to more than one login per broker. The default, in the above method, is just the broker name.
  */
-- (TradeItLinkedLogin * _Nullable)saveLinkToKeychain:(TradeItAuthLinkResult * _Nullable)link
+- (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
                                           withBroker:(NSString * _Nullable)broker
                                             andLabel:(NSString * _Nullable)label;
 
 /**
  *  Using a successful response from the updateUserToken:withAuthenticationInfo:andCompletionBlock: this method will update the keychain token for an already linked account.
  */
-- (TradeItLinkedLogin * _Nullable)updateLinkInKeychain:(TradeItUpdateLinkResult * _Nullable)link
+- (TradeItLinkedLogin * _Nullable)updateKeychainWithLink:(TradeItUpdateLinkResult * _Nullable)link
                                   withBroker:(NSString * _Nullable)broker;
 
 /**

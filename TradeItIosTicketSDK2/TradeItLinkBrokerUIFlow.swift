@@ -83,7 +83,7 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     // MARK: TradeItLoginViewControllerDelegate
 
-    func brokerLinked(_ fromTradeItLoginViewController: TradeItLoginViewController,
+    func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController,
                       withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         self.onLinkedCallback?(fromTradeItLoginViewController.navigationController!, linkedBroker)
     }

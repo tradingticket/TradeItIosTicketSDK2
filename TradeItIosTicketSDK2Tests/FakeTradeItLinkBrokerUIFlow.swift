@@ -4,7 +4,7 @@ import UIKit
 class FakeTradeItLinkBrokerUIFlow: TradeItLinkBrokerUIFlow {
     
     let calls = SpyRecorder()
-    override func presentRelinkBrokerFlow(inViewController viewController: UIViewController, linkedBroker: TradeItLinkedBroker, onLinked: (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void, onFlowAborted: (presentedNavController: UINavigationController) -> Void) {
+    override func presentRelinkBrokerFlow(inViewController viewController: UIViewController, linkedBroker: TradeItLinkedBroker, onLinked: @escaping (_ presentedNavController: UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void, onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
         self.calls.record(#function,
                           args: [
                             "inViewController": viewController,
@@ -13,5 +13,5 @@ class FakeTradeItLinkBrokerUIFlow: TradeItLinkBrokerUIFlow {
                             "onFlowAborted": onFlowAborted
             ])
     }
-   
+
 }

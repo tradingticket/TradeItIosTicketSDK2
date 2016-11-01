@@ -97,7 +97,7 @@ class TradeItLoginViewController: KeyboardViewController {
     fileprivate func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticate(
             onSuccess: { () -> Void in
-                self.delegate?.brokerLinked(self, withLinkedBroker: linkedBroker)
+                self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
@@ -140,5 +140,5 @@ class TradeItLoginViewController: KeyboardViewController {
 }
 
 protocol TradeItLoginViewControllerDelegate {
-    func brokerLinked(_ fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker)
+    func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker)
 }

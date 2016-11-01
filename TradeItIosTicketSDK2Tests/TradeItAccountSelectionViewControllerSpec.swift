@@ -22,7 +22,7 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
                 
-                controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
+                controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
                 
                 controller.accountSelectionTableManager = accountSelectionTableManager
                 controller.delegate = fakeTradeItAccountSelectionViewControllerDelegate

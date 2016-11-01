@@ -10,9 +10,9 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
         super.init(apiKey: "My test api key", environment: TradeItEmsTestEnv)
     }
     
-    override func linkBroker(authInfo authInfo: TradeItAuthenticationInfo,
-                                      onSuccess: (TradeItLinkedBroker) -> Void,
-                                      onFailure: (TradeItErrorResult) -> Void) -> Void {
+    override func linkBroker(authInfo: TradeItAuthenticationInfo,
+                                      onSuccess: @escaping (TradeItLinkedBroker) -> Void,
+                                      onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.calls.record(#function,
                           args: [
                               "authInfo": authInfo,
@@ -21,10 +21,10 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
                           ])
     }
     
-    override func relinkBroker(linkedBroker: TradeItLinkedBroker,
+    override func relinkBroker(_ linkedBroker: TradeItLinkedBroker,
                                authInfo: TradeItAuthenticationInfo,
-                               onSuccess: (TradeItLinkedBroker) -> Void,
-                               onFailure: (TradeItErrorResult) -> Void) -> Void {
+                               onSuccess: @escaping (TradeItLinkedBroker) -> Void,
+                               onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.calls.record(#function,
                           args: [
                             "linkedBroker": linkedBroker,
@@ -34,8 +34,8 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
             ])
     }
 
-    override func getAvailableBrokers(onSuccess onSuccess: (availableBrokers: [TradeItBroker]) -> Void,
-                                                onFailure: () -> Void) -> Void {
+    override func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+                                                onFailure: @escaping () -> Void) -> Void {
         self.calls.record(#function,
                           args: [
                             "onSuccess": onSuccess,
@@ -55,11 +55,11 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
         return hackLinkedBrokersInErrorToReturn
     }
 
-    override func authenticateAll(onSecurityQuestion onSecurityQuestion: (TradeItSecurityQuestionResult,
-                                                                submitAnswer: (String) -> Void,
-                                                                onCancelSecurityQuestion: () -> Void) -> Void,
-                    onFailure: (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
-                    onFinished: () -> Void) {
+    override func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                                _ submitAnswer: @escaping (String) -> Void,
+                                                                _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                    onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+                    onFinished: @escaping () -> Void) {
         self.calls.record(#function,
                           args: [
                               "onSecurityQuestion": onSecurityQuestion,
@@ -68,14 +68,14 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
                           ])
     }
 
-    override func refreshAccountBalances(onFinished onFinished: () -> Void) {
+    override func refreshAccountBalances(onFinished: @escaping () -> Void) {
         self.calls.record(#function,
                           args: [
                               "onFinished": onFinished
                           ])
     }
     
-    override func unlinkBroker(linkedBroker: TradeItLinkedBroker) {
+    override func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
         self.calls.record(#function,
                           args: [
                             "linkedBroker": linkedBroker

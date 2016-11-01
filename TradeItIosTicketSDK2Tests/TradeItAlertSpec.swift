@@ -27,7 +27,7 @@ class TradeItAlertSpec: QuickSpec {
                     }
                     
                     it("display a modal with an empty title and message") {
-                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
                         expect(controller.presentedViewController?.title).to(equal(""))
                     }
                 }
@@ -39,7 +39,7 @@ class TradeItAlertSpec: QuickSpec {
                     }
                     
                     it("display a modal with an empty title and message") {
-                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
                         let alert = controller.presentedViewController as! UIAlertController
                         expect(alert.title).to(equal(""))
                         expect(alert.message).to(equal(""))
@@ -55,7 +55,7 @@ class TradeItAlertSpec: QuickSpec {
                     }
                     
                     it("display a modal with an empty title and message") {
-                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
                         let alert = controller.presentedViewController as! UIAlertController
                         expect(alert.title).to(equal("My special short message."))
                         expect(alert.message).to(equal("My special long message."))
@@ -71,7 +71,7 @@ class TradeItAlertSpec: QuickSpec {
                     }
                     
                     it("display a modal with an empty title and message") {
-                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                        expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
                         let alert = controller.presentedViewController as! UIAlertController
                         expect(alert.title).to(equal("My special short message."))
                         expect(alert.message).to(equal("My special long message. My special 2 long message."))
@@ -90,7 +90,7 @@ class TradeItAlertSpec: QuickSpec {
                 }
                 
                 it("display a modal with an empty title and message") {
-                    expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController))
+                    expect(controller.presentedViewController).toEventually(beAnInstanceOf(UIAlertController.self))
                     let alert = controller.presentedViewController as! UIAlertController
                     expect(alert.title).to(equal(title))
                     expect(alert.message).to(equal(message))
@@ -114,7 +114,7 @@ class TradeItAlertSpec: QuickSpec {
                     expect(alert.title).to(equal("Security Question"))
                     expect(alert.message).to(equal("What is your quest?"))
                     expect(alert.textFields!.count).to(equal(1))
-                    expect(alert.textFields!.first).to(beAKindOf(UITextField))
+                    expect(alert.textFields!.first).to(beAKindOf(UITextField.self))
                 }
             }
         }

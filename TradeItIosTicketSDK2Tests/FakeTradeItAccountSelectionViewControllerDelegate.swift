@@ -4,7 +4,7 @@ class FakeTradeItAccountSelectionViewControllerDelegate: TradeItAccountSelection
 
     let calls = SpyRecorder()
     
-    func accountSelectionViewController(accountSelectionViewController: TradeItAccountSelectionViewController, didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController, didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.calls.record(#function,
                           args: [
                             "accountSelectionViewController": accountSelectionViewController,

@@ -3,7 +3,7 @@
 class FakeTradeItSelectBrokerViewControllerDelegate: TradeItSelectBrokerViewControllerDelegate {
     let calls = SpyRecorder()
     
-    func brokerWasSelected(fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker) {
+    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker) {
         self.calls.record(#function, args: [
                 "fromSelectBrokerViewController": fromSelectBrokerViewController,
                 "broker": broker

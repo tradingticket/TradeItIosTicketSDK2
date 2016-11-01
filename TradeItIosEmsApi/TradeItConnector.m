@@ -115,7 +115,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)updateUserToken:(TradeItLinkedLogin *)linkedLogin
- withAuthenticationInfo:(TradeItAuthenticationInfo *)authInfo
+               authInfo:(TradeItAuthenticationInfo *)authInfo
      andCompletionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItUpdateLinkRequest *updateLinkRequest = [[TradeItUpdateLinkRequest alloc] initWithUserId:linkedLogin.userId
@@ -159,14 +159,14 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
         authLinkResult.userId = link.userId;
         authLinkResult.userToken = link.userToken;
 
-        return [self saveLinkToKeychain:authLinkResult
+        return [self saveToKeychainWithLink:authLinkResult
                              withBroker:broker];
     }
 }
 
-- (TradeItLinkedLogin *)saveLinkToKeychain:(TradeItAuthLinkResult *)link
+- (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
                                 withBroker:(NSString *)broker {
-    return [self saveLinkToKeychain:link withBroker:broker andLabel:broker];
+    return [self saveToKeychainWithLink:link withBroker:broker andLabel:broker];
 }
 
 - (TradeItLinkedLogin *)saveLinkToKeychain:(TradeItAuthLinkResult *)link

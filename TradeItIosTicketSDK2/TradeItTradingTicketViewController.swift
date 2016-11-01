@@ -101,7 +101,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             onSuccess: {
                 activityView.label.text = "Previewing Order"
                 self.order.preview(onSuccess: { previewOrderResult, placeOrderCallback in
-                    activityView.hideAnimated(true)
+                    activityView.hide(animated: true)
                     self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
                                                               withPreviewOrderResult: previewOrderResult,
                                                               placeOrderCallback: placeOrderCallback)

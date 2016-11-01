@@ -1,6 +1,6 @@
 PODS:
   - MBProgressHUD (1.0.0)
-  - Nimble (5.0.0)
+  - Nimble (5.1.1)
   - PromiseKit (4.0.4):
     - PromiseKit/Foundation (= 4.0.4)
     - PromiseKit/QuartzCore (= 4.0.4)
@@ -13,22 +13,22 @@ PODS:
   - PromiseKit/UIKit (4.0.4):
     - PromiseKit/CorePromise
   - Quick (0.10.0)
-  - SwiftyUserDefaults (2.2.1)
+  - SwiftyUserDefaults (3.0.0)
 
 DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
-  - Nimble (~> 5.0.0)
+  - Nimble (~> 5.1.1)
   - PromiseKit (~> 4.0)
   - Quick (~> 0.10.0)
-  - SwiftyUserDefaults (= 2.2.1)
+  - SwiftyUserDefaults (~> 3.0.0)
 
 SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   PromiseKit: 8e8ee39d33ff199d92a1a883b5396f6285be6c91
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
-  SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
+  SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
 
-PODFILE CHECKSUM: ced21e85165db73416bd9d7d213832e5e3261a7a
+PODFILE CHECKSUM: f4746ba202cad9ceb747c590438ef5d60b5e399c
 
 COCOAPODS: 1.1.1

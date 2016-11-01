@@ -1,13 +1,13 @@
 import SwiftyUserDefaults
 
 extension DefaultsKeys {
-    static let linkedBrokerCache = DefaultsKey<NSDictionary?>("linkedBrokerCache")
+    static let linkedBrokerCache = DefaultsKey<[String: Any]?>("linkedBrokerCache")
 }
 
 class TradeItLinkedBrokerCache {
     typealias UserId = String
     typealias AccountNumber = String
-    typealias SerializedLinkedBroker = [String: AnyObject]
+    typealias SerializedLinkedBroker = [String: Any]
     typealias SerializedLinkedBrokers = [UserId: SerializedLinkedBroker]
     typealias SerializedLinkedBrokerAccount = [String: String]
     typealias SerializedLinkedBrokerAccounts = [AccountNumber: SerializedLinkedBrokerAccount]
@@ -16,9 +16,9 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNTS_LAST_UPDATED_KEY = "ACCOUNTS_LAST_UPDATED"
     private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
 
-    var defaults = NSUserDefaults(suiteName: "it.trade")!
+    var defaults = UserDefaults(suiteName: "it.trade")!
 
-    func cache(linkedBroker linkedBroker: TradeItLinkedBroker) {
+    func cache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId else { return }
 
         var linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
@@ -30,7 +30,7 @@ class TradeItLinkedBrokerCache {
         defaults[.linkedBrokerCache] = linkedBrokerCache
     }
 
-    func syncFromCache(linkedBroker linkedBroker: TradeItLinkedBroker) {
+    func syncFromCache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
             , let linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers
             , let serializedLinkedBroker = linkedBrokerCache[userId] as SerializedLinkedBroker?
@@ -46,7 +46,7 @@ class TradeItLinkedBrokerCache {
         linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? NSDate
     }
 
-    func remove(linkedBroker linkedBroker: TradeItLinkedBroker) {
+    func remove(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
             , var linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers
             else { return }
@@ -57,7 +57,7 @@ class TradeItLinkedBrokerCache {
 
     // MARK: Private
 
-    private func serialize(linkedBroker linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
+    private func serialize(linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
         var serializedLinkedBroker: SerializedLinkedBroker = [
             ACCOUNTS_KEY: serialize(accounts: linkedBroker.accounts)
         ]
@@ -69,7 +69,7 @@ class TradeItLinkedBrokerCache {
         return serializedLinkedBroker
     }
 
-    private func deserialize(serializedAccounts serializedAccounts: SerializedLinkedBrokerAccounts,
+    private func deserialize(serializedAccounts: SerializedLinkedBrokerAccounts,
                              forLinkedBroker linkedBroker: TradeItLinkedBroker) -> [TradeItLinkedBrokerAccount] {
         return serializedAccounts.map { accountNumber, serializedAccount in
             return TradeItLinkedBrokerAccount(linkedBroker: linkedBroker,
@@ -81,7 +81,7 @@ class TradeItLinkedBrokerCache {
         }
     }
 
-    private func serialize(accounts accounts: [TradeItLinkedBrokerAccount]) -> SerializedLinkedBrokerAccounts {
+    private func serialize(accounts: [TradeItLinkedBrokerAccount]) -> SerializedLinkedBrokerAccounts {
         var serializedAccounts = SerializedLinkedBrokerAccounts()
 
         for account in accounts {

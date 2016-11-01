@@ -5,14 +5,14 @@ platform :ios, '8.0'
 use_frameworks!
 
 def testing_pods
-  pod 'Quick', '~> 0.10.0'
-  pod 'Nimble', '~> 5.0.0'
+    pod 'Quick', '~> 0.10.0'
+    pod 'Nimble', '~> 5.1.1'
 end
 
 def app_pods
   pod 'PromiseKit', '~> 4.0'
   pod 'MBProgressHUD', '~> 1.0.0'
-  pod 'SwiftyUserDefaults', '2.2.1'
+  pod 'SwiftyUserDefaults', '~> 3.0.0'
 end
 
 target 'TradeItIosTicketSDK2Tests' do

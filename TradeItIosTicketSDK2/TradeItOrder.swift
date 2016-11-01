@@ -1,6 +1,7 @@
 public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
-public typealias TradeItPlaceOrderHandlers = (onSuccess: (TradeItPlaceOrderResult) -> Void, onFailure: (TradeItErrorResult) -> Void) -> Void
+public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+                                              _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
 
 public class TradeItOrder {
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?

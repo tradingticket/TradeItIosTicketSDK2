@@ -64,13 +64,17 @@ class TradeItOrderPreviewPresenter {
 
     // TODO: Move this sort of thing to TradeItOrder. Maybe a computed property.
     private func limitPrice() -> NSDecimalNumber? {
-        guard let limitPrice = order.limitPrice where order.requiresLimitPrice() else { return nil }
+        guard let limitPrice = order.limitPrice,
+            order.requiresLimitPrice()
+            else { return nil }
 
         return limitPrice
     }
 
     fileprivate func stopPrice() -> NSDecimalNumber? {
-        guard let stopPrice = order.stopPrice where order.requiresStopPrice() else { return nil }
+        guard let stopPrice = order.stopPrice,
+            order.requiresStopPrice()
+            else { return nil }
 
         return stopPrice
     }

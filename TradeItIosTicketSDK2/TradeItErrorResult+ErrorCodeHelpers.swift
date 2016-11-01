@@ -9,7 +9,9 @@ enum TradeItErrorCode: Int {
 }
 
 extension TradeItErrorResult {
-    convenience init(title: String, message: String = "Unknown response sent from the server.", code: TradeItErrorCode = .systemError) {
+    convenience init(title: String,
+                     message: String = "Unknown response sent from the server.",
+                     code: TradeItErrorCode = .systemError) {
         self.init()
         self.shortMessage = title
         self.longMessages = [message]
@@ -34,10 +36,10 @@ extension TradeItErrorResult {
     }
 
     func requiresAuthentication() -> Bool {
-        guard let integerCode = self.code?.integerValue
+        guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
-        return [TradeItErrorCode.BROKER_ACCOUNT_ERROR, TradeItErrorCode.SESSION_ERROR].contains(errorCode)
+        return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError].contains(errorCode)
     }
 }

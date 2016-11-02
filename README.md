@@ -108,7 +108,7 @@ launcher.launchTrading(fromViewController: self, withOrder: order)
 launcher.launchAccountManagement(fromViewController: self)
 
 // Launch Account Linking
-launcher.launchAccountLinking(fromViewController: self, onLinked: { linkedBroker in
+launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
     print("Newly linked broker: \(linkedBroker)")
 }, onFlowAborted: {
     print("User aborted linking")

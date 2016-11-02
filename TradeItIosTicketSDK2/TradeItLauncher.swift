@@ -65,7 +65,7 @@ import UIKit
         viewController.present(navController, animated: true, completion: nil)
     }
 
-    public func launchAccountLinking(fromViewController viewController: UIViewController, onLinked: @escaping (TradeItLinkedBroker) -> Void, onFlowAborted: @escaping () -> Void) {
+    public func launchBrokerLinking(fromViewController viewController: UIViewController, onLinked: @escaping (TradeItLinkedBroker) -> Void, onFlowAborted: @escaping () -> Void) {
         self.linkBrokerUIFlow.presentLinkBrokerFlow(fromViewController: viewController, showWelcomeScreen: false, onLinked: { presentedNavController, linkedBroker in
             presentedNavController.dismiss(animated: true, completion: nil)
             onLinked(linkedBroker)

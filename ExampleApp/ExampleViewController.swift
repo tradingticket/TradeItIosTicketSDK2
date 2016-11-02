@@ -7,7 +7,7 @@ enum Action: Int {
     case launchTrading
     case launchTradingWithSymbol
     case launchAccountManagement
-    case launchAccountLinking
+    case launchBrokerLinking
     case manualAuthenticateAll
     case manualBalances
     case manualPositions
@@ -58,8 +58,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)
-        case .launchAccountLinking:
-            self.tradeItLauncher.launchAccountLinking(fromViewController: self, onLinked: { linkedBroker in
+        case .launchBrokerLinking:
+            self.tradeItLauncher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
                 print("Newly linked broker: \(linkedBroker)")
             }, onFlowAborted: {
                 print("User aborted linking")

@@ -167,7 +167,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         self.order.symbol = selectedSymbol
         updateSymbolView()
         updateTradingBrokerAccountView()
-        symbolSearchViewController.navigationController?.popViewController(animated: true)
+        _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: TradeItAccountSelectionViewControllerDelegate
@@ -176,7 +176,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         updateTradingBrokerAccountView()
-        accountSelectionViewController.navigationController?.popViewController(animated: true)
+        _ = accountSelectionViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private - Order changed handlers
@@ -274,13 +274,24 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     fileprivate func updateTradingBrokerAccountView() {
         guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
 
-        linkedBrokerAccount.getAccountOverview(onSuccess: {
-            self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
+        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+            linkedBrokerAccount.getAccountOverview(onSuccess: {
+                self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
+                self.updateSharesOwnedLabel()
+            }, onFailure: { errorResult in
+                    print(errorResult)
+            })
+        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+            securityQuestion,
+            onViewController: self,
+            onAnswerSecurityQuestion: answerSecurityQuestion,
+            onCancelSecurityQuestion: cancelQuestion)
         }, onFailure: { errorResult in
             print(errorResult)
         })
 
-        updateSharesOwnedLabel()
+
     }
 
     fileprivate func updateSharesOwnedLabel() {

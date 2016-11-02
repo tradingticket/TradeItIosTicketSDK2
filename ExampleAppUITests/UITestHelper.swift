@@ -64,20 +64,20 @@ extension XCTestCase {
     //******************//
     //* Helper methods *//
     //******************//
-     func symbolSearch(app: XCUIApplication, symbol: String){
+     func symbolSearch(_ app: XCUIApplication, symbol: String){
         let symbolSearchField = app.textFields["Enter a symbol"]
         waitForElementToHaveKeyboardFocus(symbolSearchField)
         symbolSearchField.typeText("\(symbol)")
     }
     
-    func testConfirmation(app: XCUIApplication){
+    func testConfirmation(_ app: XCUIApplication){
         XCTAssert(app.images["success_icon.png"].exists)
         XCTAssert(app.staticTexts["Confirmed"].exists)
         XCTAssert(app.buttons["Trade Again"].exists)
         XCTAssert(app.buttons["View Portfolio"].exists)
     }
     
-    func testPreviewValues(app: XCUIApplication, symbol: String, limitPrice: String, stopPrice: String, quantity: String){
+    func testPreviewValues(_ app: XCUIApplication, symbol: String, limitPrice: String, stopPrice: String, quantity: String){
         XCTAssert(app.staticTexts["ACCOUNT"].exists)
         XCTAssert(app.staticTexts["SYMBOL"].exists)
         XCTAssert(app.staticTexts["QUANTITY"].exists)
@@ -95,7 +95,7 @@ extension XCTestCase {
         XCTAssert(app.buttons["Place Order"].exists)
     }
     
-    func fillOrder(app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, share: String, expiration: String){
+    func fillOrder(_ app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, share: String, expiration: String){
         //Shares
         app.textFields["Shares"].tap()
         waitForElementToHaveKeyboardFocus(app.textFields["Shares"])
@@ -110,7 +110,7 @@ extension XCTestCase {
         app.textFields["Stop Price"].typeText("\(stopPrice)")
     }
     
-    func testTradeScreenValues(app: XCUIApplication){
+    func testTradeScreenValues(_ app: XCUIApplication){
         XCTAssert(app.buttons["Buy"].exists)
         XCTAssert(app.buttons["Market"].exists)
         XCTAssert(app.textFields["Shares"].exists)
@@ -144,13 +144,13 @@ extension XCTestCase {
         waitForElementToDisappear(app.sheets["Order Expiration"])
     }
     
-    func clearData(app: XCUIApplication) {
-        let deleteLinkedBrokersText = app.tables.staticTexts["DeleteLinkedBrokers"]
+    func clearData(_ app: XCUIApplication) {
+        let deleteLinkedBrokersText = app.tables.staticTexts["deleteLinkedBrokers"]
         waitForElementToBeHittable(deleteLinkedBrokersText)
         deleteLinkedBrokersText.tap()
     }
     
-    func handleWelcomeScreen(app: XCUIApplication, launchOption: String) {
+    func handleWelcomeScreen(_ app: XCUIApplication, launchOption: String) {
         let launchPortfolioText = app.tables.staticTexts["\(launchOption)"]
         waitForElementToBeHittable(launchPortfolioText)
         launchPortfolioText.tap()
@@ -159,7 +159,7 @@ extension XCTestCase {
         app.buttons["Get Started Now"].tap()
     }
     
-    func selectBrokerFromTheBrokerSelectionScreen(app: XCUIApplication, longBrokerName: String) {
+    func selectBrokerFromTheBrokerSelectionScreen(_ app: XCUIApplication, longBrokerName: String) {
         XCTAssert(app.navigationBars["Select Your Broker"].exists)
         let ezLoadingActivity = app.staticTexts["Loading Brokers"]
         waitForElementToDisappear(ezLoadingActivity)
@@ -169,7 +169,7 @@ extension XCTestCase {
         app.tables.staticTexts[longBrokerName].tap()
     }
     
-    func submitValidCredentialsOnTheLoginScreen(app: XCUIApplication, longBrokerName: String, username: String = "dummy", password: String = "dummy") {
+    func submitValidCredentialsOnTheLoginScreen(_ app: XCUIApplication, longBrokerName: String, username: String = "dummy", password: String = "dummy") {
         XCTAssert(app.navigationBars["Login"].exists)
         let usernameTextField = app.textFields["\(longBrokerName) Username"]
         let passwordTextField = app.secureTextFields["\(longBrokerName) Password"]
@@ -188,19 +188,19 @@ extension XCTestCase {
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
     }
     
-    func selectAccountOnPortfolioScreen(app: XCUIApplication, rowNum: Int) {
+    func selectAccountOnPortfolioScreen(_ app: XCUIApplication, rowNum: Int) {
         waitForElementToAppear(app.navigationBars["Portfolio"])
         var ezLoadingActivity = app.staticTexts["Authenticating"]
         waitForElementToDisappear(ezLoadingActivity, withinSeconds: 10)
         ezLoadingActivity = app.staticTexts["Retreiving Account Summary"]
         waitForElementToDisappear(ezLoadingActivity)
-        let tableView = app.tables.elementBoundByIndex(0)
+        let tableView = app.tables.element(boundBy: 0)
         XCTAssertTrue(tableView.cells.count > 0)
-        let cell = tableView.cells.elementBoundByIndex(UInt(rowNum)) // index 0 is header
+        let cell = tableView.cells.element(boundBy: UInt(rowNum)) // index 0 is header
         cell.tap()
     }
     
-    func testPortfolioValues(app: XCUIApplication, brokerName: String){
+    func testPortfolioValues(_ app: XCUIApplication, brokerName: String){
         if(brokerName == "Dummy"){
             //AccountTotalValue
             XCTAssert(app.staticTexts["$76,489.23"].exists)

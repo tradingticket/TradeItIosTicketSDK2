@@ -18,7 +18,7 @@ class TradeItSDKUITestsAuthFlow: XCTestCase {
     
     func testSecurityQuestionFlow() {
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummySecurity")
         
@@ -41,7 +41,7 @@ class TradeItSDKUITestsAuthFlow: XCTestCase {
     
     func testDummyOptionFlow(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyOption")
         

@@ -47,10 +47,9 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     }
     
     @IBAction func unlinkAccountWasTapped(_ sender: AnyObject) {
-        
         self.alertManager.showAlert(
             onViewController: self,
-            withTitle: "Unlink \(self.linkedBroker.linkedLogin.broker)",
+            withTitle: "Unlink \(self.linkedBroker.brokerName)",
             withMessage: "Are you sure you want to unlink your account and remove all the associated data?",
             withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
@@ -58,17 +57,17 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 self.linkedBrokerManager?.unlinkBroker(self.linkedBroker)
 
                 if (self.linkedBrokerManager?.linkedBrokers.count)! > 0 {
-                    self.navigationController?.popViewController(animated: true)
+                    _ = self.navigationController?.popViewController(animated: true)
                 } else {
                     self.linkBrokerUIFlow.presentLinkBrokerFlow(
                         fromViewController: self,
                         showWelcomeScreen: true,
-                        onLinked: { (presentedNavController, linkedBroker) in
+                        onLinked: { presentedNavController, linkedBroker in
                             presentedNavController.dismiss(animated: true, completion: nil)
                         }, onFlowAborted: { (presentedNavController) in
                             presentedNavController.dismiss(animated: true, completion: nil)
                             // For now go back to the broker selection screen which has the option to add a broker
-                            self.navigationController?.popViewController(animated: true)
+                            _ = self.navigationController?.popViewController(animated: true)
                         }
                     )
                 }

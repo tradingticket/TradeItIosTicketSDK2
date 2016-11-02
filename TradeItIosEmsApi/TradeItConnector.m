@@ -169,7 +169,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
     return [self saveToKeychainWithLink:link withBroker:broker andLabel:broker];
 }
 
-- (TradeItLinkedLogin *)saveLinkToKeychain:(TradeItAuthLinkResult *)link
+- (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
                                 withBroker:(NSString *)broker
                                   andLabel:(NSString *)label {
     NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];

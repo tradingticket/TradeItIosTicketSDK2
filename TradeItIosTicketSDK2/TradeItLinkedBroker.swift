@@ -99,7 +99,7 @@ open class TradeItLinkedBroker: NSObject {
             }
         }
 
-        when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).always(execute: onFinished)
     }
 
     open func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {

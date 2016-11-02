@@ -38,7 +38,7 @@ import PromiseKit
         return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 
-    open func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+    public func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
                                                                  _ submitAnswer: @escaping (String) -> Void,
                                                                  _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
                                             onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
@@ -59,7 +59,7 @@ import PromiseKit
         let _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    open func refreshAccountBalances(onFinished: @escaping () -> Void) {
+    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
         let promises = self.linkedBrokers.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(onFinished: fulfill)
@@ -69,7 +69,7 @@ import PromiseKit
         let _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    open func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+    public func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
                                        onFailure: @escaping () -> Void) {
         self.tradeItConnector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
@@ -80,7 +80,7 @@ import PromiseKit
         }
     }
 
-    open func linkBroker(authInfo: TradeItAuthenticationInfo,
+    public func linkBroker(authInfo: TradeItAuthenticationInfo,
                              onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                              onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.tradeItConnector.linkBroker(with: authInfo) { tradeItResult in
@@ -107,27 +107,27 @@ import PromiseKit
         }
     }
 
-    func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
+    public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.linkedBrokers.flatMap { $0.accounts }
     }
     
-    func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAccounts().filter { $0.isEnabled }
     }
     
-    func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
+    public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
     
-    func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
+    public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error != nil }
     }
 
-    func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
+    public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error == nil }
     }
     
-    func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
+    public func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, authInfo: authInfo, andCompletionBlock: { tradeItResult in
@@ -155,7 +155,7 @@ import PromiseKit
         })
     }
 
-    func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
+    public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
         self.tradeItConnector.unlinkLogin(linkedBroker.linkedLogin)
         if let index = self.linkedBrokers.index(of: linkedBroker) {
             self.linkedBrokers.remove(at: index)

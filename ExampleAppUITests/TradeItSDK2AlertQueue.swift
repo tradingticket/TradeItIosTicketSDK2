@@ -13,7 +13,7 @@ class TradeItSDK2AlertQueue: XCTestCase{
     }
     
     func testAlertQueue(){
-        app.tables.staticTexts["LaunchAlertQueue"].tap()
+        app.tables.staticTexts["launchAlertQueue"].tap()
         waitForElementToAppear(app.alerts["Alert 1"])
         app.alerts["Alert 1"].buttons["OK"].tap()
         waitForElementToAppear(app.alerts["Security Question"])

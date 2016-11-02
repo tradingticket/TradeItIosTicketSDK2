@@ -12,14 +12,14 @@ class FakeUINavigationController: UINavigationController {
         self.calls.record(#function)
     }
     
-    override func setViewControllers(viewControllers: [UIViewController], animated: Bool) {
+    override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
         self.calls.record(#function, args: [
             "viewControllers": viewControllers,
             "animated": animated
             ])
     }
     
-    override func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?) {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?) {
         self.calls.record(#function, args: [
             "flag": flag,
             "completion": completion

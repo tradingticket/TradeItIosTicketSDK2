@@ -9,13 +9,13 @@ class TradeItPortfolioErrorTableViewCell: UITableViewCell {
         self.brokerNameLabel.text = linkedBroker.linkedLogin.broker
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
-            self.selectedIcon.hidden = false
+            self.selectedIcon.isHidden = false
         }
         else {
-            self.selectedIcon.hidden = true
+            self.selectedIcon.isHidden = true
         }
         
     }

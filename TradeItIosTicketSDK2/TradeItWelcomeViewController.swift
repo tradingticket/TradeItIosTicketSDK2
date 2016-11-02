@@ -9,16 +9,16 @@ class TradeItWelcomeViewController: TradeItViewController {
 
     // MARK: IBActions
 
-    @IBAction func getStartedButtonWasTapped(sender: UIButton) {
+    @IBAction func getStartedButtonWasTapped(_ sender: UIButton) {
         self.delegate?.getStartedButtonWasTapped(self)
     }
 
-    override func closeButtonWasTapped(sender: UIBarButtonItem) {
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
         self.delegate?.cancelWasTapped(fromWelcomeViewController: self)
     }
 }
 
 protocol TradeItWelcomeViewControllerDelegate {
-    func getStartedButtonWasTapped(fromViewController: TradeItWelcomeViewController)
+    func getStartedButtonWasTapped(_ fromViewController: TradeItWelcomeViewController)
     func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController)
 }

@@ -15,13 +15,13 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         
         self.selectedBroker = nil
 
-        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading Brokers"
 
         self.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 self.brokers = availableBrokers
-                activityView.hideAnimated(true)
+                activityView.hide(animated: true)
                 self.brokerTable.reloadData()
             },
             onFailure: { () -> Void in
@@ -31,34 +31,34 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
                     withMessage: "Could not fetch the brokers list. Please try again later.",
                     withActionTitle: "OK"
                 )
-                activityView.hideAnimated(true)
+                activityView.hide(animated: true)
             }
         )
     }
 
     // MARK: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedBroker = self.brokers[indexPath.row]
-        self.brokerTable.deselectRowAtIndexPath(indexPath, animated: true)
+        self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
     }
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.brokers.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let brokerCellIdentifier = "BROKER_CELL_IDENTIFIER"
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(brokerCellIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: brokerCellIdentifier)
 
         if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: brokerCellIdentifier)
-            cell?.textLabel?.font = UIFont.systemFontOfSize(13.0)
-            cell?.textLabel?.textColor = UIColor.darkTextColor()
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: brokerCellIdentifier)
+            cell?.textLabel?.font = UIFont.systemFont(ofSize: 13.0)
+            cell?.textLabel?.textColor = UIColor.darkText
         }
 
         if let brokerLongName = self.brokers[indexPath.row].brokerLongName {
@@ -67,10 +67,15 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         
         return cell!
     }
+
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+        super.closeButtonWasTapped(sender)
+        self.delegate?.cancelWasTapped(fromSelectBrokerViewController: self)
+    }
 }
 
 protocol TradeItSelectBrokerViewControllerDelegate {
-    func brokerWasSelected(fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
+    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
 
     func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
 }

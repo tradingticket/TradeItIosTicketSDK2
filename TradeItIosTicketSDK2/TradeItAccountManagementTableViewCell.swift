@@ -7,16 +7,16 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
     @IBOutlet weak var accountEnabledSwitch: UISwitch!
     var selectedBrokerAccount: TradeItLinkedBrokerAccount!
     
-    func populate(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
         self.selectedBrokerAccount = linkedBrokerAccount
-        self.accountEnabledSwitch.on = self.selectedBrokerAccount.isEnabled
+        self.accountEnabledSwitch.isOn = self.selectedBrokerAccount.isEnabled
         self.accountNameLabel.text = linkedBrokerAccount.getFormattedAccountName()
         self.buyingPowerLabel.text = presenter.getFormattedBuyingPower()
     }
     
     //MARK: IBAction
-    @IBAction func accountEnabledSwitchWasTapped(sender: AnyObject) {
-        self.selectedBrokerAccount.isEnabled =  accountEnabledSwitch.on
+    @IBAction func accountEnabledSwitchWasTapped(_ sender: AnyObject) {
+        self.selectedBrokerAccount.isEnabled =  accountEnabledSwitch.isOn
     }
 }

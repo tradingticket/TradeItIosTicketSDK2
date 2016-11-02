@@ -1,17 +1,20 @@
 import UIKit
-import TradeItIosTicketSDK2
+@testable import TradeItIosTicketSDK2
 
 enum Action: Int {
-    case LaunchPortfolio = 0
-    case LaunchTrading
-    case LaunchTradingWithSymbol
-    case LaunchAccountManagement
-    case ManualAuthenticateAll
-    case ManualBalances
-    case ManualPositions
-    case LaunchAlertQueue
-    case DeleteLinkedBrokers
-    case ENUM_COUNT
+    case launchPortfolio = 0
+    case launchPortfolioForLinkedBrokerAccount
+    case launchTrading
+    case launchTradingWithSymbol
+    case launchAccountManagement
+    case launchAccountLinking
+    case manualAuthenticateAll
+    case manualBalances
+    case manualPositions
+    case launchAlertQueue
+    case deleteLinkedBrokers
+    case TEST
+    case enum_COUNT
 }
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -28,51 +31,48 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
         self.alertManager = TradeItAlertManager()
+
+        printLinkedBrokers()
     }
 
     // Mark: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
-        case .LaunchPortfolio:
+        case .TEST:
+            test()
+        case .launchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
-        case .LaunchTrading:
+        case .launchPortfolioForLinkedBrokerAccount:
+            guard let linkedBrokerAccount = TradeItLauncher.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+                return print("You must link a broker with an account first")
+            }
+            self.tradeItLauncher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
+        case .launchTrading:
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
-        case .LaunchTradingWithSymbol:
+        case .launchTradingWithSymbol:
             let order = TradeItOrder()
             order.symbol = "CMG"
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
-        case .LaunchAccountManagement:
+        case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)
-        case .ManualAuthenticateAll:
+        case .launchAccountLinking:
+            self.tradeItLauncher.launchAccountLinking(fromViewController: self, onLinked: { linkedBroker in
+                print("Newly linked broker: \(linkedBroker)")
+            }, onFlowAborted: {
+                print("User aborted linking")
+            })
+        case .manualAuthenticateAll:
             self.manualAuthenticateAll()
-        case .ManualBalances:
+        case .manualBalances:
             self.manualBalances()
-        case .ManualPositions:
+        case .manualPositions:
             self.manualPositions()
-        case .LaunchAlertQueue:
-            alertManager.showAlert(
-                onViewController: self,
-                withTitle: "Alert 1",
-                withMessage: "Alert 1",
-                withActionTitle: "OK",
-                onAlertActionTapped: {}
-            )
-            let securityQuestion = TradeItSecurityQuestionResult()
-            securityQuestion.securityQuestion = "Security Question"
-            alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
-            )
-            alertManager.showAlert(
-                onViewController: self,
-                withTitle: "Alert 2",
-                withMessage: "Alert 2",
-                withActionTitle: "OK",
-                onAlertActionTapped: {}
-            )
-        case .DeleteLinkedBrokers:
+        case .launchAlertQueue:
+            self.launchAlertQueue()
+        case .deleteLinkedBrokers:
             self.deleteLinkedBrokers()
         default:
             return
@@ -81,17 +81,17 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Action.ENUM_COUNT.rawValue;
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Action.enum_COUNT.rawValue;
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "CELL_IDENTIFIER"
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
 
         if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
         if let action = Action(rawValue: indexPath.row) {
@@ -103,7 +103,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: Private
 
-    private func manualAuthenticateAll() {
+    private func test() {
+        // Put code you want to test here...
+    }
+
+    private func printLinkedBrokers() {
+        print("\n\n=====> LINKED BROKERS:")
+
+        for linkedBroker in TradeItLauncher.linkedBrokerManager.linkedBrokers {
+            let linkedLogin = linkedBroker.linkedLogin
+            print("=====> \(linkedLogin.broker)(\(linkedBroker.accounts.count) accounts) - \(linkedLogin.userId) - \(linkedLogin.label ?? "NO LABEL")")
+        }
+
+        print("=====> ===============\n\n")
+    }
+
+    fileprivate func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
@@ -119,7 +134,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func manualBalances() {
+    fileprivate func manualBalances() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -130,7 +145,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func manualPositions() {
+    fileprivate func manualPositions() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -143,11 +158,33 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    private func deleteLinkedBrokers() -> Void {
+    fileprivate func launchAlertQueue() {
+        alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Alert 1",
+            withMessage: "Alert 1",
+            withActionTitle: "OK",
+            onAlertActionTapped: {}
+        )
+        let securityQuestion = TradeItSecurityQuestionResult()
+        securityQuestion.securityQuestion = "Security Question"
+        alertManager.promptUserToAnswerSecurityQuestion(
+            securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
+        )
+        alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Alert 2",
+            withMessage: "Alert 2",
+            withActionTitle: "OK",
+            onAlertActionTapped: {}
+        )
+    }
+
+    fileprivate func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
-        let appDomain = NSBundle.mainBundle().bundleIdentifier;
-        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain!);
+        let appDomain = Bundle.main.bundleIdentifier;
+        UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
         tradeItConnector.environment = self.ENVIRONMENT

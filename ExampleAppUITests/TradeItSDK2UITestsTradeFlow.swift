@@ -18,16 +18,16 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
 
     func testTradingWithWelcomeSingleAcc() {
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchTrading")
+        handleWelcomeScreen(app, launchOption: "launchTrading")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         //symbol Search screen
         symbolSearch(app, symbol: "GE")
         let activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        XCTAssertTrue(app.tables.element.cells.elementBoundByIndex(0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.elementBoundByIndex(0))
-        app.tables.element.cells.elementBoundByIndex(0).tap()
+        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
+        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
+        app.tables.element.cells.element(boundBy: 0).tap()
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
@@ -51,7 +51,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
     
     func testTradingFromPortfolioFlow(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         waitForElementToAppear(app.navigationBars["Portfolio"])
@@ -62,9 +62,9 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         symbolSearch(app, symbol: "GE")
         let activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        XCTAssertTrue(app.tables.element.cells.elementBoundByIndex(0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.elementBoundByIndex(0))
-        app.tables.element.cells.elementBoundByIndex(0).tap()
+        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
+        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
+        app.tables.element.cells.element(boundBy: 0).tap()
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
@@ -88,15 +88,15 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToAppear(app.navigationBars["Search"])
         symbolSearch(app, symbol: "APPL")
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        XCTAssertTrue(app.tables.element.cells.elementBoundByIndex(0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.elementBoundByIndex(0))
-        app.tables.element.cells.elementBoundByIndex(0).tap()
+        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
+        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
+        app.tables.element.cells.element(boundBy: 0).tap()
         waitForElementToAppear(app.navigationBars["Trade"])
     }
     
     func testTradingFromPortfolioPositionFlow(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         waitForElementToAppear(app.navigationBars["Portfolio"])

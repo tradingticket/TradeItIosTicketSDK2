@@ -1,11 +1,17 @@
 import PromiseKit
 
-public class TradeItLinkedBroker: NSObject {
+open class TradeItLinkedBroker: NSObject {
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
+    private var linkedBrokerCache = TradeItLinkedBrokerCache()
+    public var accountsLastUpdated: Date?
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
-    
+
+    public var brokerName: String {
+        return self.linkedLogin.broker ?? ""
+    }
+
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
@@ -13,15 +19,15 @@ public class TradeItLinkedBroker: NSObject {
         self.error = TradeItErrorResult(
                 title: "Linked Broker initialized from keychain",
                 message: "This linked broker needs to authenticate.",
-                code: .SESSION_ERROR
+                code: .sessionError
         )
     }
 
-    public func authenticate(onSuccess onSuccess: () -> Void,
-                                       onSecurityQuestion: (TradeItSecurityQuestionResult,
-                                                            submitAnswer: (String) -> Void,
-                                                            onCancelSecurityQuestion: () -> Void) -> Void,
-                                       onFailure: (TradeItErrorResult) -> Void) -> Void {
+    open func authenticate(onSuccess: @escaping () -> Void,
+                                       onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                            _ submitAnswer: @escaping (String) -> Void,
+                                                            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult) in
                 switch tradeItResult {
@@ -30,18 +36,23 @@ public class TradeItLinkedBroker: NSObject {
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
                     self.accounts = self.mapToLinkedBrokerAccounts(accounts)
+
+                    self.accountsLastUpdated = Date()
+
+                    self.linkedBrokerCache.cache(linkedBroker: self)
+
                     onSuccess()
                 case let securityQuestion as TradeItSecurityQuestionResult:
                     onSecurityQuestion(
                         securityQuestion,
-                        submitAnswer: { securityQuestionAnswer in
+                        { securityQuestionAnswer in
                             self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
                         },
-                        onCancelSecurityQuestion: {
+                        {
                             handler(TradeItErrorResult(
                                 title: "Authentication failed",
                                 message: "The security question was canceled.",
-                                code: .BROKER_AUTHENTICATION_ERROR
+                                code: .brokerAuthenticationError
                             ))
                         }
                     )
@@ -51,7 +62,7 @@ public class TradeItLinkedBroker: NSObject {
                 default:
                     handler(TradeItErrorResult(
                         title: "Authentication failed",
-                        code: .BROKER_AUTHENTICATION_ERROR
+                        code: .brokerAuthenticationError
                     ))
                 }
             }
@@ -60,11 +71,13 @@ public class TradeItLinkedBroker: NSObject {
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
     
-    public func authenticateIfNeeded(onSuccess onSuccess: () -> Void,
-                                     onSecurityQuestion: (TradeItSecurityQuestionResult,
-                                                          submitAnswer: (String) -> Void,
-                                                          onCancelSecurityQuestion: () -> Void) -> Void,
-                                     onFailure: (TradeItErrorResult) -> Void) -> Void {
+    open func authenticateIfNeeded(
+        onSuccess: @escaping () -> Void,
+        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         guard let error = self.error else {
                 onSuccess()
                 return
@@ -77,7 +90,7 @@ public class TradeItLinkedBroker: NSObject {
         }
     }
 
-    public func refreshAccountBalances(onFinished onFinished: () -> Void) {
+    open func refreshAccountBalances(onFinished: @escaping () -> Void) {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
                 account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
@@ -86,18 +99,17 @@ public class TradeItLinkedBroker: NSObject {
             }
         }
 
-        when(promises).always(onFinished)
+        _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    open func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
 
-    private func mapToLinkedBrokerAccounts(accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
+    fileprivate func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
         return accounts.map { account in
             return TradeItLinkedBrokerAccount(
                 linkedBroker: self,
-                brokerName: self.linkedLogin.broker,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
                 balance: nil,

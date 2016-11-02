@@ -4,7 +4,7 @@ class FakeTradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount {
 
     let calls = SpyRecorder()
     
-    override func getAccountOverview(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    override func getAccountOverview(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.calls.record(#function, args: [
             "onSuccess": onSuccess,
             "onFailure": onFailure
@@ -12,7 +12,7 @@ class FakeTradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount {
 
     }
     
-    override func getPositions(onSuccess onSuccess: () -> Void, onFailure: (TradeItErrorResult) -> Void) {
+    override func getPositions(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.calls.record(#function, args: [
             "onSuccess": onSuccess,
             "onFailure": onFailure

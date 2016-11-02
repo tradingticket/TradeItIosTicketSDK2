@@ -5,7 +5,7 @@ class TradeItPresenter {
     static let INDICATOR_UP = "▲"
     static let INDICATOR_DOWN = "▼"
     
-    static func indicator(value: Double) -> String {
+    static func indicator(_ value: Double) -> String {
         if value > 0.0 {
             return TradeItPresenter.INDICATOR_UP
         } else if value < 0 {
@@ -15,13 +15,13 @@ class TradeItPresenter {
         }
     }
     
-    static func stockChangeColor(value: Double) -> UIColor {
+    static func stockChangeColor(_ value: Double) -> UIColor {
         if value > 0.0 {
             return UIColor.tradeItMoneyGreenColor()
         } else if value < 0 {
             return UIColor.tradeItDeepRoseColor()
         } else {
-            return UIColor.lightTextColor()
+            return UIColor.lightText
         }
     }
 }

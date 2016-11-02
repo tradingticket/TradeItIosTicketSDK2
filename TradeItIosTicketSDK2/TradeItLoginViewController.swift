@@ -28,18 +28,18 @@ class TradeItLoginViewController: KeyboardViewController {
         }
         
         if self.linkedBrokerToRelink != nil {
-            linkButton.setTitle("Relink Broker", forState: .Normal)
+            linkButton.setTitle("Relink Broker", for: UIControlState())
         }
         else {
-            linkButton.setTitle("Link Broker", forState: .Normal)
+            linkButton.setTitle("Link Broker", for: UIControlState())
         }
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.userNameInput {
             self.passwordInput.becomeFirstResponder()
         } else if textField == self.passwordInput {
-            self.linkButton.sendActionsForControlEvents(.TouchUpInside)
+            self.linkButton.sendActions(for: .touchUpInside)
         }
 
         return true
@@ -47,7 +47,7 @@ class TradeItLoginViewController: KeyboardViewController {
 
     // MARK: IBActions
 
-    @IBAction func linkButtonWasTapped(sender: UIButton) {
+    @IBAction func linkButtonWasTapped(_ sender: UIButton) {
         guard let brokerShortName = self.selectedBroker?.brokerShortName else { return }
 
         self.activityIndicator.startAnimating()
@@ -58,7 +58,7 @@ class TradeItLoginViewController: KeyboardViewController {
             id: self.userNameInput.text,
             andPassword: self.passwordInput.text,
             andBroker: brokerShortName
-        )
+        )!
         
         if let linkedBrokerToRelink = self.linkedBrokerToRelink {
             self.linkedBrokerManager.relinkBroker(
@@ -84,24 +84,24 @@ class TradeItLoginViewController: KeyboardViewController {
         }
     }
 
-    @IBAction func userNameOnEditingChanged(sender: UITextField) {
+    @IBAction func userNameOnEditingChanged(_ sender: UITextField) {
         self.updateLinkButton()
     }
 
-    @IBAction func passwordOnEditingChanged(sender: UITextField) {
+    @IBAction func passwordOnEditingChanged(_ sender: UITextField) {
         self.updateLinkButton()
     }
     
     // MARK: Private
 
-    private func authenticateBroker(linkedBroker: TradeItLinkedBroker) {
+    fileprivate func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticate(
             onSuccess: { () -> Void in
-                self.delegate?.brokerLinked(self, withLinkedBroker: linkedBroker)
+                self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: (String) -> Void, cancelSecurityQuestion: () -> Void) -> Void in
+            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: @escaping (String) -> Void, cancelSecurityQuestion: @escaping () -> Void) -> Void in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -120,21 +120,21 @@ class TradeItLoginViewController: KeyboardViewController {
         )
     }
 
-    private func updateLinkButton() {
-        if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.enabled) {
+    fileprivate func updateLinkButton() {
+        if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.isEnabled) {
             self.enableLinkButton()
-        } else if ( (self.userNameInput.text == "" || self.passwordInput.text == "") && self.linkButton.enabled) {
+        } else if ( (self.userNameInput.text == "" || self.passwordInput.text == "") && self.linkButton.isEnabled) {
             self.disableLinkButton()
         }
     }
     
-    private func disableLinkButton() {
-        self.linkButton.enabled = false
+    fileprivate func disableLinkButton() {
+        self.linkButton.isEnabled = false
         self.linkButton.alpha = 0.5
     }
     
-    private func enableLinkButton() {
-        self.linkButton.enabled = true
+    fileprivate func enableLinkButton() {
+        self.linkButton.isEnabled = true
         self.linkButton.alpha = 1.0
     }
 }

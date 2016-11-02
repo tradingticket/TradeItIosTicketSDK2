@@ -35,7 +35,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var placeOrderButton: UIButton!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
-    var previewOrder: TradeItPreviewTradeResult?
+    var previewOrderResult: TradeItPreviewOrderResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData: [PreviewCellData] = []
     var acknowledgementCellData: [AcknowledgementCellData] = []
@@ -56,20 +56,20 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         updatePlaceOrderButtonStatus()
     }
 
-    @IBAction func placeOrderTapped(sender: UIButton) {
+    @IBAction func placeOrderTapped(_ sender: UIButton) {
         guard let placeOrderCallback = placeOrderCallback else {
             print("TradeIt SDK ERROR: placeOrderCallback not set!")
             return
         }
 
-        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Placing Order"
 
-        placeOrderCallback(onSuccess: { result in
-            activityView.hideAnimated(true)
-            self.delegate?.tradeItTradePreviewViewController(self, didPlaceOrderWithResult: result)
-        }, onFailure: { error in
-            activityView.hideAnimated(true)
+        placeOrderCallback({ result in
+            activityView.hide(animated: true)
+            self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
+        }, { error in
+            activityView.hide(animated: true)
             self.alertManager.showRelinkError(error,
                 withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
                 onViewController: self,
@@ -80,29 +80,29 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return previewCellData.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = previewCellData[indexPath.row]
 
         switch cellData {
         case let warningCellData as WarningCellData:
-            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
             cell.populate(withWarning: warningCellData.warning)
             return cell
         case let acknowledgementCellData as AcknowledgementCellData:
-            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
             cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
             return cell
         case let valueCellData as ValueCellData:
-            let cell = tableView.dequeueReusableCellWithIdentifier("PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
             cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
             return cell
         default:
@@ -110,11 +110,11 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         }
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
@@ -126,23 +126,23 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: Private
 
-    private func updatePlaceOrderButtonStatus() {
+    fileprivate func updatePlaceOrderButtonStatus() {
         if allAcknowledgementsAccepted() {
-            placeOrderButton.enabled = true
+            placeOrderButton.isEnabled = true
             placeOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
         } else {
-            placeOrderButton.enabled = false
+            placeOrderButton.isEnabled = false
             placeOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
         }
     }
 
-    private func allAcknowledgementsAccepted() -> Bool {
+    fileprivate func allAcknowledgementsAccepted() -> Bool {
         return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
     }
 
-    private func generatePreviewCellData() -> [PreviewCellData] {
+    fileprivate func generatePreviewCellData() -> [PreviewCellData] {
         guard let linkedBrokerAccount = linkedBrokerAccount,
-            let orderDetails = previewOrder?.orderDetails
+            let orderDetails = previewOrderResult?.orderDetails
             else { return [] }
 
         var cells: [PreviewCellData] = []
@@ -156,18 +156,18 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         cells += [
             ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
-            ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity.floatValue)),
+            ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "ACTION", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
             ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {
-            cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings.floatValue)))
+            cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings)))
         }
 
         if let shortHoldings = orderDetails.shortHoldings {
-            cells.append(ValueCellData(label: "SHARES HELD SHORT", value: NumberFormatter.formatQuantity(shortHoldings.floatValue)))
+            cells.append(ValueCellData(label: "SHARES HELD SHORT", value: NumberFormatter.formatQuantity(shortHoldings)))
         }
 
         if let buyingPower = orderDetails.buyingPower {
@@ -186,7 +186,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func generateWarningCellData() -> [PreviewCellData] {
-        guard let warnings = previewOrder?.warningsList as? [String] else { return [] }
+        guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
 
         return warnings.map({ warning in
             return WarningCellData(warning: warning)
@@ -194,7 +194,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
-        guard let acknowledgements = previewOrder?.ackWarningsList as? [String] else { return [] }
+        guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
 
         return acknowledgements.map({ acknowledgement in
             return AcknowledgementCellData(acknowledgement: acknowledgement)
@@ -203,6 +203,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 }
 
 protocol TradeItTradePreviewViewControllerDelegate: class {
-    func tradeItTradePreviewViewController(tradeItTradePreviewViewController: TradeItTradePreviewViewController,
-                                           didPlaceOrderWithResult placeOrderResult: TradeItPlaceOrderResult)
+    func orderSuccessfullyPlaced(onTradePreviewViewController tradePreviewViewController: TradeItTradePreviewViewController,
+                                 withPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult)
 }

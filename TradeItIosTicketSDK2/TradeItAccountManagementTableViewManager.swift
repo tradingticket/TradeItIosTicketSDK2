@@ -1,9 +1,9 @@
 import UIKit
 
 class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-    private var _table: UITableView?
-    private var linkedBrokerAccounts: [TradeItLinkedBrokerAccount] = []
-    private var refreshControl: UIRefreshControl?
+    fileprivate var _table: UITableView?
+    fileprivate var linkedBrokerAccounts: [TradeItLinkedBrokerAccount] = []
+    fileprivate var refreshControl: UIRefreshControl?
     var delegate: TradeItAccountManagementTableViewManagerDelegate?
 
     var accountsTableView: UITableView? {
@@ -28,17 +28,17 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     
     // MARK: UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
     // MARK: UITableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return linkedBrokerAccounts.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ACCOUNT_MANAGEMENT_CELL_ID") as! TradeItAccountManagementTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_MANAGEMENT_CELL_ID") as! TradeItAccountManagementTableViewCell
         cell.populate(self.linkedBrokerAccounts[indexPath.row])
         return cell
     }
@@ -50,7 +50,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
-                                 forControlEvents: UIControlEvents.ValueChanged)
+                                 for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
@@ -69,6 +69,8 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
 }
 
 protocol TradeItAccountManagementTableViewManagerDelegate {
-    func refreshRequested(fromAccountManagementTableViewManager manager: TradeItAccountManagementTableViewManager,
-                                                                onRefreshComplete: (withAccounts: [TradeItLinkedBrokerAccount]?) -> Void)
+    func refreshRequested(
+        fromAccountManagementTableViewManager manager: TradeItAccountManagementTableViewManager,
+        onRefreshComplete: @escaping (_ withAccounts: [TradeItLinkedBrokerAccount]?) -> Void
+    )
 }

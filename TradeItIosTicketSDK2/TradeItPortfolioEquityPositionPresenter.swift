@@ -26,7 +26,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
 
-        let holdingTypeSuffix = holdingType.caseInsensitiveCompare("LONG") == .OrderedSame ? " shares" : " short"
+        let holdingTypeSuffix = holdingType.caseInsensitiveCompare("LONG") == .orderedSame ? " shares" : " short"
 
         return NumberFormatter.formatQuantity(quantity) + holdingTypeSuffix
     }
@@ -39,7 +39,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     
     func getFormattedTotalReturnColor() -> UIColor {
         guard let totalGainLossDollars = self.position?.totalGainLossDollar
-            else { return UIColor.lightTextColor() }
+            else { return UIColor.lightText }
         return TradeItPresenter.stockChangeColor(totalGainLossDollars.doubleValue)
     }
     
@@ -47,14 +47,14 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         guard let totalGainLossPercentage = self.position?.totalGainLossPercentage
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-        return NumberFormatter.formatPercentage(totalGainLossPercentage.floatValue);
+        return NumberFormatter.formatPercentage(totalGainLossPercentage)
     }
 
     func getAvgCost() -> String {
-        guard let cost = self.position?.costbasis, quantity = getQuantity() where quantity != 0
+        guard let cost = self.position?.costbasis, let quantity = getQuantity() , quantity != 0
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        let avgCost = cost.floatValue/quantity.floatValue
-        return formatCurrency(avgCost)
+        let avgCost = cost.floatValue / quantity.floatValue
+        return formatCurrency(NSDecimalNumber(value: avgCost))
     }
 
     func getLastPrice() -> String {
@@ -77,7 +77,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     
     func getFormattedDayChangeColor() -> UIColor {
         guard let change = self.getQuote()?.change
-            else { return UIColor.lightTextColor() }
+            else { return UIColor.lightText }
         return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
     

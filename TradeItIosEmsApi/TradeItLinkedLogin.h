@@ -12,10 +12,13 @@
 @interface TradeItLinkedLogin : NSObject
 
 @property (nullable) NSString *label;
-@property NSString *broker;
-@property NSString *userId;
-@property NSString *keychainId;
+@property (nullable) NSString *broker;
+@property (nullable) NSString *userId;
+@property (nullable) NSString *keychainId;
 
--(id) initWithLabel:(NSString *) label broker:(NSString *) broker userId:(NSString *) userId andKeyChainId:(NSString *) keychainId;
+- (nonnull id)initWithLabel:(NSString *)label
+                     broker:(NSString *)broker
+                     userId:(NSString *)userId
+              andKeyChainId:(NSString *)keychainId;
 
 @end

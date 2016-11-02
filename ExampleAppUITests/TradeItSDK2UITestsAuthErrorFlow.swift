@@ -57,9 +57,9 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
         genericErrorFlow("dummyRetirement", errorMessage: expectMessage)
     }
     
-    private func genericErrorFlow(dummyUsername: String, errorMessage: String){
+    private func genericErrorFlow(_ dummyUsername: String, errorMessage: String){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: dummyUsername)
         waitForElementToAppear(app.alerts["Could Not Login"])

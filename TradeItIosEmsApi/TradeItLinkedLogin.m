@@ -10,7 +10,7 @@
 
 @implementation TradeItLinkedLogin
 
--(id) initWithLabel:(NSString *) label broker:(NSString *) broker userId:(NSString *) userId andKeyChainId:(NSString *) keychainId {
+- (id)initWithLabel:(NSString *) label broker:(NSString *) broker userId:(NSString *) userId andKeyChainId:(NSString *) keychainId {
     self = [super init];
     if (self) {
         self.label = label;
@@ -21,7 +21,7 @@
     return self;
 }
 
--(NSString *) description {
+- (NSString *)description {
     return [NSString stringWithFormat:@"Label: %@, Broker: %@, UserId: %@, KeychainId: %@", self.label, self.broker, self.userId, self.keychainId];
 }
 

@@ -1,10 +1,9 @@
 import UIKit
 
 class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-
-    private var _table: UITableView?
-    private var linkedBrokers: [TradeItLinkedBroker] = []
-    private var refreshControl: UIRefreshControl?
+    fileprivate var _table: UITableView?
+    fileprivate var linkedBrokers: [TradeItLinkedBroker] = []
+    fileprivate var refreshControl: UIRefreshControl?
     var delegate: TradeItAccountSelectionTableViewManagerDelegate?
 
     var accountsTable: UITableView? {
@@ -27,30 +26,30 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
 
     // MARK: UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let linkedBroker = self.linkedBrokers[indexPath.section]
         let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
     }
     
     // MARK: UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
             return self.linkedBrokers.count
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30.0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let linkedBroker = self.linkedBrokers[section]
-        let cell = tableView.dequeueReusableCellWithIdentifier("ACCOUNT_SELECTION_HEADER_ID") as! TradeItAccountSelectionTableViewHeader
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_HEADER_ID") as! TradeItAccountSelectionTableViewHeader
         cell.populate(withLinkedBroker: linkedBroker)
     
         return cell
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var numberOfLinkedAccounts = 0
 
         if self.linkedBrokers.count > 0 {
@@ -61,10 +60,10 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         return numberOfLinkedAccounts
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let linkedBroker = self.linkedBrokers[indexPath.section]
         let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("ACCOUNT_SELECTION_CELL_ID") as! TradeItAccountSelectionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") as! TradeItAccountSelectionTableViewCell
         cell.populate(withLinkedBrokerAccount: linkedBrokerAccount)
         return cell
     }
@@ -76,14 +75,14 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
-                                 forControlEvents: UIControlEvents.ValueChanged)
+                                 for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
     
     func refreshControlActivated() {
         self.delegate?.refreshRequested(fromAccountSelectionTableViewManager: self,
-                                        onRefreshComplete: { (linkedBrokers: [TradeItLinkedBroker]?) in
+                                        onRefreshComplete: { linkedBrokers in
                                             if let linkedBrokers = linkedBrokers {
                                                 self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
                                             }
@@ -94,9 +93,9 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 }
 
 protocol TradeItAccountSelectionTableViewManagerDelegate {
-    func linkedBrokerAccountWasSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount)
+    func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount)
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
-                                                                onRefreshComplete: (withLinkedBrokers: [TradeItLinkedBroker]?) -> Void)
+                                                                onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void)
 }
 
 

@@ -2,7 +2,7 @@ import UIKit
 
 class TradeItPortfolioErrorHandlingViewManager: NSObject {
 
-    private var _accountInfoContainerView: UIView?
+    fileprivate var _accountInfoContainerView: UIView?
     var accountInfoContainerView: UIView? {
         get {
             return _accountInfoContainerView
@@ -10,13 +10,13 @@ class TradeItPortfolioErrorHandlingViewManager: NSObject {
         
         set(accountInfoContainerView) {
             if let accountInfoContainerView = accountInfoContainerView {
-                accountInfoContainerView.hidden = false
+                accountInfoContainerView.isHidden = false
                 _accountInfoContainerView = accountInfoContainerView
             }
         }
     }
     
-    private var _errorHandlingView: TradeItPortfolioErrorHandlingView?
+    fileprivate var _errorHandlingView: TradeItPortfolioErrorHandlingView?
     var errorHandlingView: TradeItPortfolioErrorHandlingView? {
         get {
             return _errorHandlingView
@@ -24,20 +24,20 @@ class TradeItPortfolioErrorHandlingViewManager: NSObject {
         
         set(errorHandlingView) {
             if let errorHandlingView = errorHandlingView {
-                errorHandlingView.hidden = true
+                errorHandlingView.isHidden = true
                 _errorHandlingView = errorHandlingView
             }
         }
     }
     
     func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker) {
-        self.accountInfoContainerView?.hidden = true
-        self.errorHandlingView?.hidden = false
+        self.accountInfoContainerView?.isHidden = true
+        self.errorHandlingView?.isHidden = false
         self.errorHandlingView?.populateWithLinkedBrokerError(linkedBrokerInError)
     }
     
     func showAccountInfoContainerView() {
-        self.errorHandlingView?.hidden = true
-        self.accountInfoContainerView?.hidden = false
+        self.errorHandlingView?.isHidden = true
+        self.accountInfoContainerView?.isHidden = false
     }
 }

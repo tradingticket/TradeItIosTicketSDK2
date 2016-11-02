@@ -1,24 +1,26 @@
 enum TradeItErrorCode: Int {
-    case SYSTEM_ERROR = 100
-    case BROKER_EXECUTION_ERROR = 200
-    case BROKER_AUTHENTICATION_ERROR = 300
-    case BROKER_ACCOUNT_ERROR = 400
-    case PARAMS_ERROR = 500
-    case SESSION_ERROR = 600
-    case OAUTH_ERROR = 700
+    case systemError = 100
+    case brokerExecutionError = 200
+    case brokerAuthenticationError = 300
+    case brokerAccountError = 400
+    case paramsError = 500
+    case sessionError = 600
+    case oauthError = 700
 }
 
 extension TradeItErrorResult {
-    convenience init(title: String, message: String = "Unknown response sent from the server.", code: TradeItErrorCode = .SYSTEM_ERROR) {
+    convenience init(title: String,
+                     message: String = "Unknown response sent from the server.",
+                     code: TradeItErrorCode = .systemError) {
         self.init()
         self.shortMessage = title
         self.longMessages = [message]
         self.systemMessage = message
-        self.code = code.rawValue
+        self.code = NSDecimalNumber(value: code.rawValue)
     }
 
     func errorCode() -> TradeItErrorCode? {
-        if let code = self.code?.integerValue {
+        if let code = self.code?.intValue {
             return TradeItErrorCode(rawValue: code)
         } else {
             return nil
@@ -26,14 +28,18 @@ extension TradeItErrorResult {
     }
 
     func requiresRelink() -> Bool {
-        guard let integerCode = self.code?.integerValue
+        guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
-        return [TradeItErrorCode.BROKER_AUTHENTICATION_ERROR, TradeItErrorCode.OAUTH_ERROR].contains(errorCode)
+        return [TradeItErrorCode.brokerAuthenticationError, TradeItErrorCode.oauthError].contains(errorCode)
     }
 
     func requiresAuthentication() -> Bool {
-        return !requiresRelink()
+        guard let integerCode = self.code?.intValue
+            , let errorCode = TradeItErrorCode(rawValue: integerCode)
+            else { return false }
+
+        return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError].contains(errorCode)
     }
 }

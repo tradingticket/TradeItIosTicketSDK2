@@ -22,13 +22,13 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
                 
-                controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
+                controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
                 
                 controller.accountSelectionTableManager = accountSelectionTableManager
                 controller.delegate = fakeTradeItAccountSelectionViewControllerDelegate
                 let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker.accounts = [account1, account2]
                 linkedBrokerManager.linkedBrokers = [linkedBroker]
                 
@@ -92,7 +92,7 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 var account1: TradeItLinkedBrokerAccount!
                 beforeEach {
                     let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     controller.linkedBrokerAccountWasSelected(account1)
                 }
                 

@@ -1,16 +1,16 @@
 import UIKit
 
-@objc public class TradeItAlertManager: NSObject {
-    private var alertQueue = TradeItAlertQueue.sharedInstance
+@objc open class TradeItAlertManager: NSObject {
+    fileprivate var alertQueue = TradeItAlertQueue.sharedInstance
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
 
-    public func showError(error: TradeItErrorResult,
+    open func showError(_ error: TradeItErrorResult,
                           onViewController viewController: UIViewController,
-                          onFinished: () -> Void = {}) {
+                          onFinished: @escaping () -> Void = {}) {
         let title = error.shortMessage ?? ""
         let messages = (error.longMessages as? [String]) ?? []
-        let message = messages.joinWithSeparator(". ")
+        let message = messages.joined(separator: ". ")
         let actionTitle = "OK"
 
         self.showAlert(onViewController: viewController,
@@ -20,16 +20,16 @@ import UIKit
                     onAlertActionTapped: onFinished)
     }
 
-    public func showRelinkError(error: TradeItErrorResult,
+    open func showRelinkError(_ error: TradeItErrorResult,
                                 withLinkedBroker linkedBroker: TradeItLinkedBroker,
                                 onViewController viewController: UIViewController,
-                                onFinished: () -> Void) {
+                                onFinished: @escaping () -> Void) {
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
                 linkedBroker: linkedBroker,
                 onLinked: { presentedNavController, linkedBroker in
-                    presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                    presentedNavController.dismiss(animated: true, completion: nil)
                     linkedBroker.refreshAccountBalances(onFinished: onFinished)
                 },
                 onFlowAborted: { _ in onFinished() }
@@ -37,7 +37,7 @@ import UIKit
         }
 
         switch error.errorCode() {
-        case .BROKER_AUTHENTICATION_ERROR?:
+        case .brokerAuthenticationError?:
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Update Login",
@@ -45,7 +45,7 @@ import UIKit
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 onCancelActionTapped: onFinished)
-        case .OAUTH_ERROR?:
+        case .oauthError?:
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
@@ -60,17 +60,17 @@ import UIKit
         }
     }
 
-    public func promptUserToAnswerSecurityQuestion(securityQuestion: TradeItSecurityQuestionResult,
-                                     onViewController viewController: UIViewController,
-                                     onAnswerSecurityQuestion: (withAnswer: String) -> Void,
-                                     onCancelSecurityQuestion: () -> Void) {
+    public func promptUserToAnswerSecurityQuestion(_ securityQuestion: TradeItSecurityQuestionResult,
+                                                   onViewController viewController: UIViewController,
+                                                   onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+                                                   onCancelSecurityQuestion: @escaping () -> Void) {
         let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
             multipleOptions: securityQuestion.securityQuestionOptions ?? [],
             alertActionTitle: "Submit",
             onAnswerSecurityQuestion: { answer in
-                onAnswerSecurityQuestion(withAnswer: answer)
+                onAnswerSecurityQuestion(answer)
                 self.alertQueue.alertFinished()
             },
             onCancelSecurityQuestion: {
@@ -81,11 +81,11 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlert(onViewController viewController: UIViewController,
+    open func showAlert(onViewController viewController: UIViewController,
                           withTitle title: String,
                           withMessage message: String,
                           withActionTitle actionTitle: String,
-                          onAlertActionTapped: () -> Void = {},
+                          onAlertActionTapped: @escaping () -> Void = {},
                           onCancelActionTapped: (() -> Void)? = nil) {
         let alert = TradeItAlertProvider.provideAlert(
             alertTitle: title,
@@ -106,28 +106,28 @@ import UIKit
 }
 
 private class TradeItAlertQueue {
-    private static let sharedInstance = TradeItAlertQueue()
-    private typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
+    fileprivate static let sharedInstance = TradeItAlertQueue()
+    fileprivate typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
 
-    private var queue: [AlertContext] = []
-    private var alreadyPresentingAlert = false
+    fileprivate var queue: [AlertContext] = []
+    fileprivate var alreadyPresentingAlert = false
 
-    private init() {}
+    fileprivate init() {}
 
     func add(onViewController viewController: UIViewController, alert: UIAlertController) {
         queue.append((viewController, alert))
         self.showNextAlert()
     }
 
-    private func alertFinished() {
+    fileprivate func alertFinished() {
         alreadyPresentingAlert = false
         showNextAlert()
     }
 
-    private func showNextAlert() {
+    fileprivate func showNextAlert() {
         if alreadyPresentingAlert || queue.isEmpty { return }
         let alertContext = queue.removeFirst()
         alreadyPresentingAlert = true
-        alertContext.onViewController.presentViewController(alertContext.alertController, animated: true, completion: nil)
+        alertContext.onViewController.present(alertContext.alertController, animated: true, completion: nil)
     }
 }

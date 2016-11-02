@@ -1,7 +1,7 @@
 import UIKit
 
-@objc public class TradeItLauncher: NSObject {
-    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
+@objc open class TradeItLauncher: NSObject {
+    open static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
@@ -21,20 +21,25 @@ import UIKit
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
-                onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
+                onLinked: { presentedNavController, linkedBroker in
                     let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
                     presentedNavController.setViewControllers([portfolioViewController], animated: true)
                 },
-                onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    presentedNavController.topViewController?.dismissViewControllerAnimated(true, completion: nil)
+                onFlowAborted: { presentedNavController in
+                    presentedNavController.topViewController?.dismiss(animated: true, completion: nil)
                 }
             )
         } else {
             let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            viewController.presentViewController(navController,
-                                                 animated: true,
-                                                 completion: nil)
+            viewController.present(navController, animated: true, completion: nil)
         }
+    }
+
+    public func launchPortfolio(fromViewController viewController: UIViewController, forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+        guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
+        portfolioViewController.initialAccount = linkedBrokerAccount
+        viewController.present(navController, animated: true, completion: nil)
     }
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
@@ -43,11 +48,11 @@ import UIKit
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
-                onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
+                onLinked: { presentedNavController, linkedBroker in
                     self.tradingUIFlow.pushTradingFlow(onNavigationController: presentedNavController, asRootViewController: true, withOrder: order)
                 },
-                onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                    presentedNavController.dismissViewControllerAnimated(true, completion: nil)
+                onFlowAborted: { presentedNavController in
+                    presentedNavController.dismiss(animated: true, completion: nil)
                 }
             )
         } else {
@@ -57,8 +62,16 @@ import UIKit
     
     public func launchAccountManagement(fromViewController viewController: UIViewController) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
-        viewController.presentViewController(navController,
-                                             animated: true,
-                                             completion: nil)
+        viewController.present(navController, animated: true, completion: nil)
+    }
+
+    public func launchAccountLinking(fromViewController viewController: UIViewController, onLinked: @escaping (TradeItLinkedBroker) -> Void, onFlowAborted: @escaping () -> Void) {
+        self.linkBrokerUIFlow.presentLinkBrokerFlow(fromViewController: viewController, showWelcomeScreen: false, onLinked: { presentedNavController, linkedBroker in
+            presentedNavController.dismiss(animated: true, completion: nil)
+            onLinked(linkedBroker)
+        }, onFlowAborted: { presentedNavController in
+            presentedNavController.dismiss(animated: true, completion: nil)
+            onFlowAborted()
+        })
     }
 }

@@ -1,6 +1,6 @@
 class TradeItOrderDetailsPresenter {
 
-    private var orderDetails: TradeItPreviewTradeOrderDetails
+    fileprivate var orderDetails: TradeItPreviewTradeOrderDetails
 
     init(orderDetails: TradeItPreviewTradeOrderDetails) {
         self.orderDetails = orderDetails
@@ -11,93 +11,93 @@ class TradeItOrderDetailsPresenter {
     }
     
     func getOrderActionLabel() -> String {
-        return self.orderDetails.orderAction.capitalizedString
+        return self.orderDetails.orderAction.capitalized
     }
     
 }
 
 class TradeItOrderPriceTypePresenter {
-    static let DEFAULT: TradeItOrderPriceType            = .Market
-    static let TYPES: [TradeItOrderPriceType]            = [.Market, .Limit, .StopMarket, .StopLimit]
-    static let LIMIT_TYPES: [TradeItOrderPriceType]      = [.Limit, .StopLimit]
-    static let STOP_TYPES: [TradeItOrderPriceType]       = [.StopLimit, .StopMarket]
-    static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.Limit, .StopMarket, .StopLimit]
+    static let DEFAULT: TradeItOrderPriceType            = .market
+    static let TYPES: [TradeItOrderPriceType]            = [.market, .limit, .stopMarket, .stopLimit]
+    static let LIMIT_TYPES: [TradeItOrderPriceType]      = [.limit, .stopLimit]
+    static let STOP_TYPES: [TradeItOrderPriceType]       = [.stopLimit, .stopMarket]
+    static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.limit, .stopMarket, .stopLimit]
     
     static func labels() -> [String] {
         return TYPES.map(labelFor)
     }
     
-    static func labelFor(type: TradeItOrderPriceType) -> String {
+    static func labelFor(_ type: TradeItOrderPriceType) -> String {
         switch(type) {
-        case .Market: return "Market"
-        case .Limit: return "Limit"
-        case .StopMarket: return "Stop Market"
-        case .StopLimit: return "Stop Limit"
-        case .Unknown: return "Unknown"
+        case .market: return "Market"
+        case .limit: return "Limit"
+        case .stopMarket: return "Stop Market"
+        case .stopLimit: return "Stop Limit"
+        case .unknown: return "Unknown"
         }
     }
     
-    static func enumFor(type: String) -> TradeItOrderPriceType {
+    static func enumFor(_ type: String) -> TradeItOrderPriceType {
         switch(type) {
-        case "Market": return .Market
-        case "Limit": return .Limit
-        case "Stop Market": return .StopMarket
-        case "Stop Limit": return .StopLimit
-        default: return .Unknown
+        case "Market": return .market
+        case "Limit": return .limit
+        case "Stop Market": return .stopMarket
+        case "Stop Limit": return .stopLimit
+        default: return .unknown
         }
     }
 }
 
 class TradeItOrderActionPresenter {
-    static let DEFAULT: TradeItOrderAction = .Buy
-    static let ACTIONS: [TradeItOrderAction] = [.Buy, .Sell, .BuyToCover, .SellShort]
+    static let DEFAULT: TradeItOrderAction = .buy
+    static let ACTIONS: [TradeItOrderAction] = [.buy, .sell, .buyToCover, .sellShort]
     
     static func labels() -> [String] {
         return ACTIONS.map(labelFor)
     }
     
-    static func labelFor(type: TradeItOrderAction) -> String {
+    static func labelFor(_ type: TradeItOrderAction) -> String {
         switch(type) {
-        case .Buy: return "Buy"
-        case .Sell: return "Sell"
-        case .BuyToCover: return "Buy to Cover"
-        case .SellShort: return "Sell Short"
-        case .Unknown: return "Unknown"
+        case .buy: return "Buy"
+        case .sell: return "Sell"
+        case .buyToCover: return "Buy to Cover"
+        case .sellShort: return "Sell Short"
+        case .unknown: return "Unknown"
         }
     }
     
-    static func enumFor(type: String) -> TradeItOrderAction {
+    static func enumFor(_ type: String) -> TradeItOrderAction {
         switch(type) {
-        case "Buy": return .Buy
-        case "Sell": return .Sell
-        case "Buy to Cover": return .BuyToCover
-        case "Sell Short": return .SellShort
-        default: return .Unknown
+        case "Buy": return .buy
+        case "Sell": return .sell
+        case "Buy to Cover": return .buyToCover
+        case "Sell Short": return .sellShort
+        default: return .unknown
         }
     }
 }
 
 class TradeItOrderExpirationPresenter {
-    static let DEFAULT: TradeItOrderExpiration = .GoodForDay
-    static let ACTIONS: [TradeItOrderExpiration] = [.GoodForDay, .GoodUntilCanceled]
+    static let DEFAULT: TradeItOrderExpiration = .goodForDay
+    static let ACTIONS: [TradeItOrderExpiration] = [.goodForDay, .goodUntilCanceled]
 
     static func labels() -> [String] {
         return ACTIONS.map(labelFor)
     }
     
-    static func labelFor(type: TradeItOrderExpiration) -> String {
+    static func labelFor(_ type: TradeItOrderExpiration) -> String {
         switch(type) {
-        case .GoodForDay: return "Good for day"
-        case .GoodUntilCanceled: return "Good until canceled"
-        case .Unknown : return "Unknown"
+        case .goodForDay: return "Good for day"
+        case .goodUntilCanceled: return "Good until canceled"
+        case .unknown : return "Unknown"
         }
     }
     
-    static func enumFor(type: String) -> TradeItOrderExpiration {
+    static func enumFor(_ type: String) -> TradeItOrderExpiration {
         switch(type) {
-        case "Good for day": return .GoodForDay
-        case "Good until canceled": return .GoodUntilCanceled
-        default: return .Unknown
+        case "Good for day": return .goodForDay
+        case "Good until canceled": return .goodUntilCanceled
+        default: return .unknown
         }
     }
 }

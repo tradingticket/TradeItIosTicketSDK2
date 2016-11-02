@@ -21,12 +21,12 @@ class SpyRecorder {
         return methodInvocations.count
     }
 
-    func record(methodName: String, args: [String: Any] = [:]) {
+    func record(_ methodName: String, args: [String: Any] = [:]) {
         print("=====> SPY: Recording invocation for \(methodName) with args: \(args)")
         methodInvocations.append(MethodInvocation(methodName: methodName, args: args))
     }
 
-    func forMethod(methodName: String) -> [MethodInvocation] {
+    func forMethod(_ methodName: String) -> [MethodInvocation] {
         return methodInvocations.filter() {
             (invocation: MethodInvocation) in
             return invocation.name == methodName
@@ -41,5 +41,5 @@ class SpyRecorder {
 class Stubs {} // TODO: Implement me!
 
 func flushAsyncEvents() {
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    RunLoop.current.run(until: Date())
 }

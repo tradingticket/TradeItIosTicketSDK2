@@ -21,7 +21,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     //******************//
     func testPortfolioWithWelcomeSingleAcc() {
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         selectAccountOnPortfolioScreen(app, rowNum: 1)
@@ -30,19 +30,19 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     
     func testPortfolioWithoutWelcome(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         waitForElementToAppear(app.navigationBars["Portfolio"])
         app.navigationBars["Portfolio"].buttons["Close"].tap()
-        app.tables.staticTexts["LaunchPortfolio"].tap()
+        app.tables.staticTexts["launchPortfolio"].tap()
         waitForElementToDisappear(app.staticTexts["Refreshing Account"])
         XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
     }
     
     func testPortfolioWithWelcomeMultiAcc(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
@@ -70,7 +70,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     
     func testUnlinkingAcc(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
@@ -81,7 +81,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         app.tables.staticTexts["Dummy (5 accounts)"].tap()
         waitForElementToAppear(app.navigationBars["Dummy"])
         app.tables.switches["Joint 401k**cct3, BUYING POWER, $2,408.12"].tap()
-        app.navigationBars["Dummy"].buttons.elementBoundByIndex(0).tap()
+        app.navigationBars["Dummy"].buttons.element(boundBy: 0).tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists) //true: 401k acc is unlinked
         XCTAssertTrue(app.staticTexts["$305,956.91"].exists) // true: totally value reflects change
@@ -105,7 +105,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         //exit app
         app.navigationBars["Portfolio"].buttons["Close"].tap()
         //and relaunch portfolio
-        let launchPortfolioText = app.tables.staticTexts["LaunchPortfolio"]
+        let launchPortfolioText = app.tables.staticTexts["launchPortfolio"]
         waitForElementToBeHittable(launchPortfolioText)
         launchPortfolioText.tap()
         let activityIndicator = app.activityIndicators.element
@@ -120,7 +120,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     
     func testFxWelcomeFlow() {
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "LaunchPortfolio")
+        handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy FX Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
         selectAccountOnPortfolioScreen(app, rowNum: 1)

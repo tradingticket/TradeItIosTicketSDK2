@@ -10,7 +10,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
         var linkedBroker: FakeTradeItLinkedBroker!
         beforeEach {
             linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-            tradeItLinkedBrokerAccount = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My special broker name", accountName: "My special account name", accountNumber: "My special account number", balance: nil, fxBalance: nil, positions: [])
+            tradeItLinkedBrokerAccount = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My special account name", accountNumber: "My special account number", balance: nil, fxBalance: nil, positions: [])
             linkedBroker.accounts = [tradeItLinkedBrokerAccount]
             tradeItBalanceService = FakeTradeItBalanceService()
             tradeItPositionService = FakeTradeItPositionService()
@@ -38,8 +38,8 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     isError = false
                     isSuccess = false
                     let tradeItErrorResult = TradeItErrorResult()
-                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
-                    completionBlock(tradeItResult: tradeItErrorResult)
+                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (_ tradeItResult: TradeItResult?) -> Void
+                    completionBlock(tradeItErrorResult)
                 }
 
                 it("calls onFailure") {
@@ -63,8 +63,8 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                     tradeItAccountOverviewResult.accountOverview = accountOverview
                     tradeItAccountOverviewResult.fxAccountOverview = nil
-                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
-                    completionBlock(tradeItResult: tradeItAccountOverviewResult)
+                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (_ tradeItResult: TradeItResult?) -> Void
+                    completionBlock(tradeItAccountOverviewResult)
                 }
 
                 it("updates the balance property") {
@@ -97,8 +97,8 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     
                     tradeItAccountOverviewResult.fxAccountOverview = fxAccountOverview
                     tradeItAccountOverviewResult.accountOverview = nil
-                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
-                    completionBlock(tradeItResult: tradeItAccountOverviewResult)
+                    let completionBlock = tradeItBalanceService.calls.forMethod("getAccountOverview(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (_ tradeItResult: TradeItResult?) -> Void
+                    completionBlock(tradeItAccountOverviewResult)
                 }
                 
                 it("updates the fxBalance property") {
@@ -138,8 +138,8 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     isSuccess = false
                     isError = false
                     let tradeItErrorResult = TradeItErrorResult()
-                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
-                    completionBlock(tradeItResult: tradeItErrorResult)
+                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (_ tradeItResult: TradeItResult?) -> Void
+                    completionBlock(tradeItErrorResult)
                     flushAsyncEvents()
                 }
                 //TODO how do we handle positions error ?
@@ -171,8 +171,8 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     positions = [position]
                     tradeItGetPositionsResult.positions = positions
                     tradeItGetPositionsResult.fxPositions = []
-                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (tradeItResult: TradeItResult!) -> Void
-                    completionBlock(tradeItResult: tradeItGetPositionsResult)
+                    let completionBlock = tradeItPositionService.calls.forMethod("getAccountPositions(_:withCompletionBlock:)")[0].args["withCompletionBlock"] as! (_ tradeItResult: TradeItResult?) -> Void
+                    completionBlock(tradeItGetPositionsResult)
                 }
                 //TODO how do we handle positions error ?
                 it("updates the property isPositionsError to false") {

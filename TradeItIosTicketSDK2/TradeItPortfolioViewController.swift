@@ -5,7 +5,7 @@ import MBProgressHUD
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
-    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
+    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager!
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
@@ -24,6 +24,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     @IBOutlet weak var accountInfoContainerView: UIView!
     
     var selectedAccount: TradeItLinkedBrokerAccount!
+    var initialAccount: TradeItLinkedBrokerAccount?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,16 +40,16 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
 
         self.portfolioErrorHandlingViewManager.accountInfoContainerView = self.accountInfoContainerView
 
-        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
         self.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                activityView.hideAnimated(true)
+                activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: { answer in
-                        activityView.showAnimated(true)
+                        activityView.show(animated: true)
                         answerSecurityQuestion(answer)
                     },
                     onCancelSecurityQuestion: cancelSecurityQuestion)
@@ -59,42 +60,42 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 self.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
                         self.updatePortfolioScreen()
-                        activityView.hideAnimated(true)
+                        activityView.hide(animated: true)
                     }
                 )
             }
         )
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.updatePortfolioScreen()
     }
     
     // MARK: private methods
 
-    private func updatePortfolioScreen() {
+    fileprivate func updatePortfolioScreen() {
         let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
         let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
-        self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError)
+        self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
         self.updateTotalValueLabel(withAccounts: accounts)
         if (accounts.count == 0) {
             self.positionsTableViewManager.updatePositions(withPositions: [])
         }
     }
     
-    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+    fileprivate func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalAccountsValue: Float = 0
         for account in accounts {
             if let balance = account.balance, let totalValue = balance.totalValue {
-                totalAccountsValue += totalValue  as Float
+                totalAccountsValue += totalValue.floatValue
             } else if let fxBalance = account.fxBalance, let totalValueUSD = fxBalance.totalValueUSD {
-                totalAccountsValue += totalValueUSD as Float
+                totalAccountsValue += totalValueUSD.floatValue
             }
         }
-        self.totalValueLabel.text = NumberFormatter.formatCurrency(totalAccountsValue)
+        self.totalValueLabel.text = NumberFormatter.formatCurrency(NSNumber(value: totalAccountsValue))
     }
     
-    private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
+    fileprivate func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,
                                                    orderAction: TradeItOrderAction?) -> TradeItOrder {
             let order = TradeItOrder()
@@ -108,21 +109,21 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     
     // MARK: IBActions
     
-    @IBAction func closeButtonTapped(sender: UIBarButtonItem) {
-        self.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
+        self.parent?.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func tradeButtonWasTapped(sender: AnyObject) {
+    @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
         let order = provideOrder(forPortFolioPosition: nil, account: self.selectedAccount, orderAction: nil)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
-    func linkedBrokerAccountWasSelected(selectedAccount selectedAccount: TradeItLinkedBrokerAccount) {
+    func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
         self.portfolioErrorHandlingViewManager.showAccountInfoContainerView()
         self.holdingsActivityIndicator.startAnimating()
-        self.accountSummaryViewManager.populateSummarySection(selectedAccount)
+        self.accountSummaryViewManager.populateSummarySection(selectedAccount: selectedAccount)
         selectedAccount.getPositions(
             onSuccess: {
                 self.holdingsLabel.text = selectedAccount.getFormattedAccountName() + " Holdings"
@@ -135,7 +136,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         )
     }
     
-    func linkedBrokerInErrorWasSelected(selectedBrokerInError selectedBrokerInError: TradeItLinkedBroker) {
+    func linkedBrokerInErrorWasSelected(selectedBrokerInError: TradeItLinkedBroker) {
         self.portfolioErrorHandlingViewManager.showErrorHandlingView(withLinkedBrokerInError: selectedBrokerInError)
     }
     
@@ -153,13 +154,13 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             inViewController: self,
             linkedBroker: linkedBroker,
             onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
-                presentedNavController.dismissViewControllerAnimated(true, completion: nil)
-                let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                presentedNavController.dismiss(animated: true, completion: nil)
+                let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
                 activityView.label.text = "Refreshing Accounts"
 
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        activityView.hideAnimated(true)
+                        activityView.hide(animated: true)
                         self.updatePortfolioScreen()
                 })
             },
@@ -170,7 +171,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     }
     
     func reloadAccountWasTapped(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        let activityView = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
         linkedBroker.authenticate(
@@ -178,13 +179,13 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 activityView.label.text = "Refreshing Accounts"
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        activityView.hideAnimated(true)
+                        activityView.hide(animated: true)
                         self.updatePortfolioScreen()
                     }
                 )
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                activityView.hideAnimated(true)
+                activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -193,7 +194,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 )
             },
             onFailure: { error in
-                activityView.hideAnimated(true)
+                activityView.hide(animated: true)
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
             }
         )

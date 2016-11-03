@@ -65,11 +65,6 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
         waitForElementToAppear(app.alerts["Could Not Login"])
         let alert = app.alerts["Could Not Login"]
         XCTAssert(alert.staticTexts[errorMessage].exists)
-        alert.buttons["Cancel"].tap()
-        waitForElementToDisappear(alert)
-        app.buttons["Link Broker"].tap()
-        waitForElementToAppear(alert)
-        XCTAssert(alert.staticTexts[errorMessage].exists)
         alert.buttons["OK"].tap()
         waitForElementToDisappear(alert)
         app.buttons["Link Broker"].tap()

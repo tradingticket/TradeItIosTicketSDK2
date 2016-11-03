@@ -70,7 +70,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
         XCTAssert(app.buttons[username].exists)
         XCTAssert(app.staticTexts["$2,408.12"].exists)
-        XCTAssert(app.buttons["GE"].exists)
+        waitForElementToAppear(app.buttons["GE"])
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", share: "1", expiration: "gtc")

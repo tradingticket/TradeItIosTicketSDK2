@@ -68,24 +68,27 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     @IBAction func orderActionTapped(_ sender: UIButton) {
         presentOptions(
-            "Order Action",
+            title: "Order Action",
             options: TradeItOrderActionPresenter.labels(),
+            sender: sender,
             handler: self.orderActionSelected
         )
     }
 
     @IBAction func orderTypeTapped(_ sender: UIButton) {
         presentOptions(
-            "Order Type",
+            title: "Order Type",
             options: TradeItOrderPriceTypePresenter.labels(),
+            sender: sender,
             handler: self.orderTypeSelected
         )
     }
 
     @IBAction func orderExpirationTapped(_ sender: UIButton) {
         presentOptions(
-            "Order Expiration",
+            title: "Order Expiration",
             options: TradeItOrderExpirationPresenter.labels(),
+            sender: sender,
             handler: self.orderExpirationSelected
         )
     }
@@ -384,12 +387,14 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private - Action sheet helper
 
-    fileprivate func presentOptions(_ title: String, options: [String], handler: @escaping (UIAlertAction) -> Void) {
+    fileprivate func presentOptions(title: String, options: [String], sender: UIButton, handler: @escaping (UIAlertAction) -> Void) {
         let actionSheet: UIAlertController = UIAlertController(
             title: title,
             message: nil,
             preferredStyle: .actionSheet
         )
+
+        actionSheet.popoverPresentationController?.sourceView = sender
 
         options.map { option in UIAlertAction(title: option, style: .default, handler: handler) }
             .forEach(actionSheet.addAction)

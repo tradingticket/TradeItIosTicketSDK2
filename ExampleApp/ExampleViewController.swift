@@ -186,7 +186,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let appDomain = Bundle.main.bundleIdentifier;
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
-        let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)!
+        let tradeItConnector = TradeItConnector(apiKey: self.API_KEY)
         tradeItConnector.environment = self.ENVIRONMENT
 
         let linkedLogins = tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]

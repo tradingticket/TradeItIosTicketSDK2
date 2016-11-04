@@ -7,8 +7,7 @@ import PromiseKit
     public var linkedBrokers: [TradeItLinkedBroker] = []
     
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
-        // TODO: TradeItConnector initializer returns optional - we should not force unwrap
-        self.tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)!
+        self.tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
         self.tradeItSessionProvider = TradeItSessionProvider()
 
         super.init()

@@ -11,7 +11,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
     var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
-    var tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var tradingUIFlow = TradeItTradingUIFlow()
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!

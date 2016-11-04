@@ -12,7 +12,7 @@ import UIKit
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
-        self.tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+        self.tradingUIFlow = TradeItTradingUIFlow()
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 

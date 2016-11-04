@@ -1,14 +1,14 @@
 class TradeItMarketService {
-    var tradeItConnector: TradeItConnector
-    var tradeItSessionProvider: TradeItSessionProvider
+    var connector: TradeItConnector
+    var sessionProvider: TradeItSessionProvider
 
     init(apiKey: String, environment: TradeitEmsEnvironments) {
-        tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        tradeItSessionProvider = TradeItSessionProvider()
+        connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        sessionProvider = TradeItSessionProvider()
     }
 
     func getQuote(_ symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
-        let session = tradeItSessionProvider.provide(connector: tradeItConnector)
+        let session = sessionProvider.provide(connector: connector)
         let marketDataService = TradeItMarketDataService(session: session)
         let quotesRequest = TradeItQuotesRequest(symbol: symbol)
 
@@ -25,7 +25,7 @@ class TradeItMarketService {
     }
     
     func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
-        let session = tradeItSessionProvider.provide(connector: tradeItConnector)
+        let session = sessionProvider.provide(connector: connector)
         let marketDataService = TradeItMarketDataService(session: session)
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
         

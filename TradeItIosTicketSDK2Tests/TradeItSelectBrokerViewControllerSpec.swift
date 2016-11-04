@@ -8,17 +8,17 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var window: UIWindow!
         var nav: UINavigationController!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
-        var tradeItConnector: FakeTradeItConnector!
+        var connector: FakeTradeItConnector!
 //        var ezLoadingActivityManager: FakeEZLoadingActivityManager! // TODO: Replace with MBProgressHUD
         var delegate: FakeTradeItSelectBrokerViewControllerDelegate!
         
         describe("initialization") {
             beforeEach {
-                tradeItConnector = FakeTradeItConnector()
+                connector = FakeTradeItConnector()
                 delegate = FakeTradeItSelectBrokerViewControllerDelegate()
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
-                linkedBrokerManager.tradeItConnector = tradeItConnector
-                linkedBrokerManager.tradeItSessionProvider = FakeTradeItSessionProvider()
+                linkedBrokerManager.connector = connector
+                linkedBrokerManager.sessionProvider = FakeTradeItSessionProvider()
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
 
                 window = UIWindow()

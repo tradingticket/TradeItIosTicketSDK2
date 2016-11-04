@@ -1,29 +1,29 @@
 import PromiseKit
 
 @objc open class TradeItLinkedBrokerManager: NSObject {
-    var tradeItConnector: TradeItConnector
-    var tradeItSessionProvider: TradeItSessionProvider
+    var connector: TradeItConnector
+    var sessionProvider: TradeItSessionProvider
     private var linkedBrokerCache = TradeItLinkedBrokerCache()
     public var linkedBrokers: [TradeItLinkedBroker] = []
     
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
-        self.tradeItConnector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        self.tradeItSessionProvider = TradeItSessionProvider()
+        self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self.sessionProvider = TradeItSessionProvider()
 
         super.init()
         self.loadLinkedBrokersFromKeychain()
     }
     
-    init(tradeItConnector: TradeItConnector) {
-        self.tradeItConnector = tradeItConnector
-        self.tradeItSessionProvider = TradeItSessionProvider()
+    init(connector: TradeItConnector) {
+        self.connector = connector
+        self.sessionProvider = TradeItSessionProvider()
         
         super.init()
         self.loadLinkedBrokersFromKeychain()
     }
     
     func loadLinkedBrokersFromKeychain() {
-        let linkedLoginsFromKeychain = self.tradeItConnector.getLinkedLogins() as! [TradeItLinkedLogin]
+        let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]
 
         self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
             let linkedBroker = loadLinkedBrokerFromLinkedLogin(linkedLogin)
@@ -33,7 +33,7 @@ import PromiseKit
     }
 
     func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
-        let tradeItSession = tradeItSessionProvider.provide(connector: self.tradeItConnector)
+        let tradeItSession = sessionProvider.provide(connector: self.connector)
         return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 
@@ -70,7 +70,7 @@ import PromiseKit
 
     public func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
                                        onFailure: @escaping () -> Void) {
-        self.tradeItConnector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
+        self.connector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
             if let availableBrokers = availableBrokers {
                 onSuccess(availableBrokers)
             } else {
@@ -82,13 +82,13 @@ import PromiseKit
     public func linkBroker(authInfo: TradeItAuthenticationInfo,
                              onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                              onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
-        self.tradeItConnector.linkBroker(with: authInfo) { tradeItResult in
+        self.connector.linkBroker(with: authInfo) { tradeItResult in
             switch tradeItResult {
             case let tradeItErrorResult as TradeItErrorResult:
                 onFailure(tradeItErrorResult)
             case let tradeItAuthResult as TradeItAuthLinkResult:
                 let broker = authInfo.broker
-                let linkedLogin = self.tradeItConnector.saveToKeychain(withLink: tradeItAuthResult, withBroker: broker)
+                let linkedLogin = self.connector.saveToKeychain(withLink: tradeItAuthResult, withBroker: broker)
 
                 if let linkedLogin = linkedLogin {
                     let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
@@ -129,13 +129,13 @@ import PromiseKit
     public func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
-        self.tradeItConnector.updateUserToken(linkedBroker.linkedLogin, authInfo: authInfo, andCompletionBlock: { tradeItResult in
+        self.connector.updateUserToken(linkedBroker.linkedLogin, authInfo: authInfo, andCompletionBlock: { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
                 linkedBroker.error = errorResult
                 onFailure(errorResult)
             case let updateLinkResult as TradeItUpdateLinkResult:
-                let linkedLogin = self.tradeItConnector.updateKeychain(withLink: updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
+                let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
 
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
@@ -155,7 +155,7 @@ import PromiseKit
     }
 
     public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
-        self.tradeItConnector.unlinkLogin(linkedBroker.linkedLogin)
+        self.connector.unlinkLogin(linkedBroker.linkedLogin)
         if let index = self.linkedBrokers.index(of: linkedBroker) {
             self.linkedBrokers.remove(at: index)
         }

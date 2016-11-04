@@ -6,7 +6,8 @@ import UIKit
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
-
+    let deviceManager = TradeItDeviceManager()
+    
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
@@ -30,16 +31,31 @@ import UIKit
                 }
             )
         } else {
-            let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-            viewController.present(navController, animated: true, completion: nil)
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    print("Access granted")
+                    let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+                    viewController.present(navController, animated: true, completion: nil)
+                },
+                onFailure: {
+                    print("Access denied")
+                }
+            )
         }
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController, forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
-        guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
-        portfolioViewController.initialAccount = linkedBrokerAccount
-        viewController.present(navController, animated: true, completion: nil)
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                print("Access granted")
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
+                portfolioViewController.initialAccount = linkedBrokerAccount
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("Access denied")
+            }
+        )
     }
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
@@ -56,13 +72,28 @@ import UIKit
                 }
             )
         } else {
-            self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    print("Access granted")
+                    self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                },
+                onFailure: {
+                    print("Access denied")
+                }
+            )
         }
     }
     
     public func launchAccountManagement(fromViewController viewController: UIViewController) {
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
-        viewController.present(navController, animated: true, completion: nil)
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                print("Access granted")
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("Access denied")
+            }
+        )
     }
 
     public func launchBrokerLinking(fromViewController viewController: UIViewController, onLinked: @escaping (TradeItLinkedBroker) -> Void, onFlowAborted: @escaping () -> Void) {

@@ -16,7 +16,7 @@
     if (self) {
         self.orderSymbol = @"";
         self.orderAction = @"";
-        self.orderQuantity = 0;
+        self.orderQuantity = [NSNumber numberWithInt:0];
         self.orderExpiration = @"";
         self.orderPrice = @"";
         self.orderValueLabel = @"";

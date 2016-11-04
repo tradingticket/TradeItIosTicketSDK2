@@ -139,7 +139,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
         account.getAccountOverview(onSuccess: {
-            print(account.balance)
+            print(account.balance ?? "Something went wrong!")
         }, onFailure: { errorResult in
             print(errorResult)
         })

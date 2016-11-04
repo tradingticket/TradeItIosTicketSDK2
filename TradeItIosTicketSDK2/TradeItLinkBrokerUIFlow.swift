@@ -5,14 +5,9 @@ class TradeItLinkBrokerUIFlow: NSObject,
                                TradeItSelectBrokerViewControllerDelegate,
                                TradeItLoginViewControllerDelegate {
 
-    let linkedBrokerManager: TradeItLinkedBrokerManager
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var onLinkedCallback: ((UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
-
-    init(linkedBrokerManager: TradeItLinkedBrokerManager) {
-        self.linkedBrokerManager = linkedBrokerManager
-    }
 
     func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
                                                   showWelcomeScreen: Bool,

@@ -6,7 +6,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()
     var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     @IBOutlet weak var accountsTableView: UITableView!
 

@@ -2,8 +2,7 @@ import UIKit
 
 @objc open class TradeItAlertManager: NSObject {
     fileprivate var alertQueue = TradeItAlertQueue.sharedInstance
-    var linkedBrokerManager = TradeItLauncher.linkedBrokerManager
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     open func showError(_ error: TradeItErrorResult,
                           onViewController viewController: UIViewController,

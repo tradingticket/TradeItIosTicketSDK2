@@ -15,22 +15,22 @@
 /**
  *  The symbol passed into the order
  */
-@property (copy) NSString *orderSymbol;
+@property (nonnull, copy) NSString *orderSymbol;
 
 /**
  *  The action passed into the order
  */
-@property (copy) NSString *orderAction;
+@property (nonnull, copy) NSString *orderAction;
 
 /**
  *  The number of shares passed in the order
  */
-@property (copy) NSNumber *orderQuantity;
+@property (nonnull, copy) NSNumber *orderQuantity;
 
 /**
  *  The expiration passed into order. Values are either Day or 'Good Till Cancelled'
  */
-@property (copy) NSString *orderExpiration;
+@property (nonnull, copy) NSString *orderExpiration;
 
 /**
  *  The price at which the order will execute, contains:
@@ -39,17 +39,17 @@
  *  <stop price>  for stop market orders (i.e 30.67)
  *  <stop limit price> (trigger:<stop price>) for stop limit orders (i.e 34.56(trigger:30.67) )
  */
-@property (copy) NSString *orderPrice;
+@property (nonnull, copy) NSString *orderPrice;
 
 /**
  *  "Estimated Proceeds" or "Estimated Cost" depending on the order action
  */
-@property (copy) NSString *orderValueLabel;
+@property (nonnull, copy) NSString *orderValueLabel;
 
 /**
  *  A user friendly description of the order. i.e "You are about to place a market order to buy AAPL" or "You are about to place a limit order to sell short AAPL"
  */
-@property (copy) NSString *orderMessage;
+@property (nonnull, copy) NSString *orderMessage;
 
 /**
  *  Quote from the broker, last trade price

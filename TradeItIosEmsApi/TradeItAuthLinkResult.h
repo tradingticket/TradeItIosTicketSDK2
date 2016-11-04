@@ -14,6 +14,6 @@
 @property (nullable) NSString *userId;
 @property (nullable) NSString *userToken;
 
-- (NSString *)description;
+- (NSString * _Nonnull)description;
 
 @end

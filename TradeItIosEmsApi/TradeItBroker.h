@@ -14,7 +14,7 @@
 
 @property (nullable, copy) NSString *brokerLongName;
 
-- (id)initWithShortName:(NSString *)brokerShortName
-               longName:(NSString *)brokerLongName;
+- (nonnull id)initWithShortName:(NSString * _Nullable)brokerShortName
+                       longName:(NSString * _Nullable)brokerLongName;
 
 @end

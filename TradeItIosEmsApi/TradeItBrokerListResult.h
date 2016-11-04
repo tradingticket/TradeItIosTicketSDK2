@@ -12,5 +12,5 @@
 
 @property (nullable, copy) NSArray *brokerList;
 
-- (NSString *)description;
+- (NSString * _Nonnull)description;
 @end

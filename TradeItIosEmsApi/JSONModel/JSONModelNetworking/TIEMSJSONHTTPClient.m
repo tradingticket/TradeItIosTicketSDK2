@@ -120,11 +120,12 @@ static NSString* requestContentType = nil;
     NSAssert([value isKindOfClass:[NSString class]], @"request parameters can be only of NSString or NSNumber classes. '%@' is of class %@.", value, [value class]);
         
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                                                 NULL,
-                                                                                 (__bridge CFStringRef) value,
-                                                                                 NULL,
-                                                                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                 kCFStringEncodingUTF8));
+        NULL,
+        (__bridge CFStringRef) value,
+        NULL,
+        (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+        kCFStringEncodingUTF8
+    ));
 }
 
 #pragma mark - networking worker methods

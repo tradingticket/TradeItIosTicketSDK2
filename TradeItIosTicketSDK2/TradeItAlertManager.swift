@@ -95,11 +95,9 @@ import UIKit
                 onAlertActionTapped()
                 self.alertQueue.alertFinished()
             },
-            onCanceledActionTapped: onCancelActionTapped.map { onCancelActionTapped in
-                return {
-                    onCancelActionTapped()
-                    self.alertQueue.alertFinished()
-                }
+            onCanceledActionTapped: {
+                onCancelActionTapped?()
+                self.alertQueue.alertFinished()
             }
         )
 

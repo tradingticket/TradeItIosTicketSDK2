@@ -1,0 +1,4 @@
+github "mxcl/PromiseKit" ~> 4.0
+github "jdg/MBProgressHUD" ~> 1.0.0
+github "radex/SwiftyUserDefaults" ~> 3.0.0
+

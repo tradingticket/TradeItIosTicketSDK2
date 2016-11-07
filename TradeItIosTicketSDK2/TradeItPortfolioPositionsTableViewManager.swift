@@ -129,13 +129,13 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
                      selected: Bool = false) -> UITableViewCell {
         var cell: UITableViewCell?
 
-        if let nonFxPosition = position.position {
+        if position.position != nil {
             let equityCell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             equityCell.delegate = self
             equityCell.populate(withPosition: position)
             equityCell.showPositionDetails(selected)
             cell = equityCell
-        } else if let fxPosition = position.fxPosition {
+        } else if position.fxPosition != nil {
             let fxCell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
             fxCell.populate(withPosition: position)
             fxCell.showPositionDetails(selected)

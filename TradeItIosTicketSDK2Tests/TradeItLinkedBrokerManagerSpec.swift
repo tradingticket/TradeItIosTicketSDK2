@@ -5,17 +5,17 @@ import Nimble
 class TradeItLinkedBrokerManagerSpec: QuickSpec {
     override func spec() {
         var linkedBrokerManager: TradeItLinkedBrokerManager!
-        var tradeItConnector: FakeTradeItConnector!
+        var connector: FakeTradeItConnector!
         var tradeItSession: FakeTradeItSession!
-        var tradeItSessionProvider: FakeTradeItSessionProvider!
+        var sessionProvider: FakeTradeItSessionProvider!
 
         beforeEach {
-            tradeItConnector = FakeTradeItConnector(apiKey: "My test api key", environment: TradeItEmsTestEnv, version: TradeItEmsApiVersion_2)
+            connector = FakeTradeItConnector(apiKey: "My test api key", environment: TradeItEmsTestEnv, version: TradeItEmsApiVersion_2)
             tradeItSession = FakeTradeItSession()
-            tradeItSessionProvider = FakeTradeItSessionProvider()
-            tradeItSessionProvider.tradeItSessionToProvide = tradeItSession
-            linkedBrokerManager = TradeItLinkedBrokerManager(tradeItConnector: tradeItConnector)
-            linkedBrokerManager.tradeItSessionProvider = tradeItSessionProvider
+            sessionProvider = FakeTradeItSessionProvider()
+            sessionProvider.tradeItSessionToProvide = tradeItSession
+            linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
+            linkedBrokerManager.sessionProvider = sessionProvider
         }
 
         describe("init") {
@@ -28,9 +28,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             context("when linked brokers exist in the keychain") {
                 it("initializes linkedBrokers from the linked brokers stored in the keychain") {
                     let storedLinkedLogin = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
-                    tradeItConnector.tradeItLinkedLoginArrayToReturn = [storedLinkedLogin]
+                    connector.tradeItLinkedLoginArrayToReturn = [storedLinkedLogin]
 
-                    linkedBrokerManager = TradeItLinkedBrokerManager(tradeItConnector: tradeItConnector)
+                    linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
 
                     expect(linkedBrokerManager.linkedBrokers.count).to(equal(1))
                     expect(linkedBrokerManager.linkedBrokers[0].linkedLogin).to(equal(storedLinkedLogin))
@@ -61,7 +61,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             xit("gets the list of available brokers from the connector") {
-                let getBrokersCalls = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
+                let getBrokersCalls = connector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
                 expect(getBrokersCalls.count).to(equal(1))
             }
 
@@ -74,7 +74,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                                            longName: "My Special Long Name")
                     ]
 
-                    let getBrokersCalls = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
+                    let getBrokersCalls = connector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
                     let completionBlock = getBrokersCalls[0].args["completionBlock"] as! ([TradeItBroker]?) -> Void
 
                     completionBlock(brokersResult)
@@ -89,7 +89,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
             xcontext("when getting available brokers fails") {
                 beforeEach {
-                    let getBrokersCalls = tradeItConnector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
+                    let getBrokersCalls = connector.calls.forMethod("getAvailableBrokersWithCompletionBlock")
                     let completionBlock = getBrokersCalls[0].args["completionBlock"] as! ([TradeItBroker]?) -> Void
 
                     completionBlock(nil)
@@ -132,7 +132,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
 
             xit("links the broker with the connector") {
-                let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                let linkCalls = connector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
                 expect(linkCalls.count).to(equal(1))
             }
 
@@ -141,16 +141,16 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let linkedLogin = TradeItLinkedLogin()
 
                 beforeEach {
-                    tradeItConnector.tradeItLinkedLoginToReturn = linkedLogin
+                    connector.tradeItLinkedLoginToReturn = linkedLogin
 
-                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                    let linkCalls = connector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
                     let completionBlock = linkCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
 
                     completionBlock(linkResult)
                 }
 
                 it("saves the linkedLogin to the Keychain") {
-                    let saveLinkToKeychainCalls = tradeItConnector.calls.forMethod("saveLinkToKeychain(_:withBroker:)")
+                    let saveLinkToKeychainCalls = connector.calls.forMethod("saveLinkToKeychain(_:withBroker:)")
                     expect(saveLinkToKeychainCalls.count).to(equal(1))
 
                     let linkResultArg = saveLinkToKeychainCalls[0].args["link"] as! TradeItAuthLinkResult
@@ -178,9 +178,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let linkResult = TradeItAuthLinkResult()
 
                 beforeEach {
-                    tradeItConnector.tradeItLinkedLoginToReturn = nil
+                    connector.tradeItLinkedLoginToReturn = nil
 
-                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                    let linkCalls = connector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
                     let completionBlock = linkCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
 
                     completionBlock(linkResult)
@@ -198,7 +198,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let errorResult = TradeItErrorResult()
 
                 beforeEach {
-                    let linkCalls = tradeItConnector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
+                    let linkCalls = connector.calls.forMethod("linkBrokerWithAuthenticationInfo(_:andCompletionBlock:)")
                     let completionBlock = linkCalls[0].args["andCompletionBlock"] as! (TradeItResult!) -> Void
 
                     completionBlock(errorResult)
@@ -634,7 +634,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             var relinkLinkedBroker: TradeItLinkedBroker!
             var relinkSession: TradeItSession!
             beforeEach {
-                tradeItConnector.calls.reset()
+                connector.calls.reset()
                 relinkSession = FakeTradeItSession()
                 relinkLinkedBroker = TradeItLinkedBroker(session: relinkSession, linkedLogin: TradeItLinkedLogin(label: "my label", broker: "My broker", userId: "My user Id", andKeyChainId: "My keychain Id "))
                 linkedBrokerManager.linkedBrokers = [relinkLinkedBroker]
@@ -660,7 +660,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             }
             
             xit("updates the user token with the connector") {
-                let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                let updateTokenCalls = connector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
                 expect(updateTokenCalls.count).to(equal(1))
             }
             
@@ -669,9 +669,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let linkedLogin = TradeItLinkedLogin()
                 
                 beforeEach {
-                    tradeItConnector.tradeItLinkedLoginToReturn = linkedLogin
+                    connector.tradeItLinkedLoginToReturn = linkedLogin
                     
-                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let updateTokenCalls = connector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
                     let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult?) -> Void
                     
                     completionBlock(linkResult)
@@ -679,7 +679,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 }
                 
                 it("updates the link to the Keychain") {
-                    let updateLinkToKeychainCalls = tradeItConnector.calls.forMethod("updateLinkInKeychain(_:withBroker:)")
+                    let updateLinkToKeychainCalls = connector.calls.forMethod("updateLinkInKeychain(_:withBroker:)")
                     expect(updateLinkToKeychainCalls.count).to(equal(1))
                     
                     let linkResultArg = updateLinkToKeychainCalls[0].args["link"] as! TradeItUpdateLinkResult
@@ -707,9 +707,9 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let linkResult = TradeItUpdateLinkResult()
                 
                 beforeEach {
-                    tradeItConnector.tradeItLinkedLoginToReturn = nil
+                    connector.tradeItLinkedLoginToReturn = nil
                     
-                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let updateTokenCalls = connector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
                     let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult?) -> Void
                     
                     completionBlock(linkResult)
@@ -727,7 +727,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let errorResult = TradeItErrorResult()
                 
                 beforeEach {
-                    let updateTokenCalls = tradeItConnector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
+                    let updateTokenCalls = connector.calls.forMethod("updateUserToken(_:withAuthenticationInfo:andCompletionBlock:)")
                     let completionBlock = updateTokenCalls[0].args["andCompletionBlock"] as! (TradeItResult?) -> Void
                     
                     completionBlock(errorResult)

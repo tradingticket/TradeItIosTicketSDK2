@@ -10,8 +10,8 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
     var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
-    var tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    var tradingUIFlow = TradeItTradingUIFlow()
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
@@ -65,10 +65,6 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 )
             }
         )
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.updatePortfolioScreen()
     }
     
     // MARK: private methods

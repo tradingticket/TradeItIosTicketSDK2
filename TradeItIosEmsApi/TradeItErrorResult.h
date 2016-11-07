@@ -31,6 +31,6 @@
 @property (nullable, copy) NSNumber<Optional> *code;
 
 
-+ (TradeItErrorResult *)tradeErrorWithSystemMessage:(NSString *)systemMessage;
++ (TradeItErrorResult * _Nonnull)tradeErrorWithSystemMessage:(NSString * _Nonnull)systemMessage;
 
 @end

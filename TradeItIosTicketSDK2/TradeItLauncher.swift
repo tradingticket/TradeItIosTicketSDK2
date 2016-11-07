@@ -11,8 +11,8 @@ import UIKit
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
-        self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
-        self.tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+        self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+        self.tradingUIFlow = TradeItTradingUIFlow()
         self.viewControllerProvider = TradeItViewControllerProvider()
     }
 

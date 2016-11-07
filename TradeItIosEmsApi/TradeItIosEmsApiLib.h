@@ -13,6 +13,8 @@
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
+#import "TradeItJsonConverter.h"
+#import "TradeItKeychain.h"
 
 // Start with the connector, you'll set your API key and the environment
 // Then link a user to their brokerage(s) account(s)
@@ -23,16 +25,17 @@
 #import "TradeItAuthenticationResult.h"
 #import "TradeItAuthLinkRequest.h"
 #import "TradeItAuthLinkResult.h"
+#import "TradeItUpdateLinkRequest.h"
 #import "TradeItBroker.h"
 #import "TradeItBrokerAccount.h"
-
 #import "TradeItMarketDataService.h"
-#import "TradeItQuotesRequest.h"
+#import "TradeItBrokerListRequest.h"
 
 // Once you have a link you'll establish a session using the linkedLogin
 #import "TradeItSession.h"
 #import "TradeItSecurityQuestionRequest.h"
 #import "TradeItSecurityQuestionResult.h"
+#import "TradeItQuotesRequest.h"
 #import "TradeItQuotesResult.h"
 #import "TradeItQuote.h"
 
@@ -73,5 +76,13 @@
 
 // EMS API Util classes
 #import "TradeItTypeDefs.h"
+
+// TIEMSJSON
+#import "NSArray+TIEMSJSONModel.h"
+#import "TIEMSJSONAPI.h"
+#import "TIEMSJSONHTTPClient.h"
+#import "TIEMSJSONModel+networking.h"
+#import "TIEMSJSONModelClassProperty.h"
+#import "TIEMSJSONModelLib.h"
 
 #endif

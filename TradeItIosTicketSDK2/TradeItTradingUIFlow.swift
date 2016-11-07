@@ -2,13 +2,8 @@ import UIKit
 
 class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate, TradeItTradingTicketViewControllerDelegate, TradeItTradePreviewViewControllerDelegate, TradeItTradingConfirmationViewControllerDelegate {
 
-    let linkedBrokerManager: TradeItLinkedBrokerManager
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var order = TradeItOrder()
-
-    init(linkedBrokerManager: TradeItLinkedBrokerManager) {
-        self.linkedBrokerManager = linkedBrokerManager
-    }
 
     func pushTradingFlow(onNavigationController navController: UINavigationController,
                                                 asRootViewController: Bool,
@@ -40,11 +35,9 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
     // MARK: Private
 
     fileprivate func initializeLinkedAccount(forOrder order: TradeItOrder) {
-        let enabledAccounts = self.linkedBrokerManager.getAllEnabledAccounts()
+        let enabledAccounts = TradeItLauncher.linkedBrokerManager.getAllEnabledAccounts()
 
-        if (enabledAccounts.count == 1) {
-            order.linkedBrokerAccount = enabledAccounts.first
-        }
+        order.linkedBrokerAccount = enabledAccounts.first
     }
 
     fileprivate func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {

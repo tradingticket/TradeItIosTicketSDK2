@@ -25,7 +25,7 @@ class TradeItViewController: UIViewController {
     
     func closeButtonWasTapped(_ sender: UIBarButtonItem) {
         if let viewControllers = self.navigationController?.viewControllers , viewControllers.count > 1 {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         } else {
             self.dismiss(animated: true, completion: nil)
         }

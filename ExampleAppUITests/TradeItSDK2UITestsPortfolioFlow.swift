@@ -71,10 +71,12 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     func testUnlinkingAcc(){
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
+
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
         selectAccountOnPortfolioScreen(app, rowNum: 1)
+
         //unlink and test if portfolio view if reflect the change
         app.buttons["Edit Accounts"].tap()
         waitForElementToAppear(app.navigationBars["Accounts"])
@@ -85,13 +87,16 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists) //true: 401k acc is unlinked
         XCTAssertTrue(app.staticTexts["$305,956.91"].exists) // true: totally value reflects change
+
         //log into dummy acc
         app.buttons["Edit Accounts"].tap()
         app.buttons["Add Account"].tap()
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+
         //back to portfolio view
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
+
         //delete dummy broker
         app.buttons["Edit Accounts"].tap()
         app.tables.staticTexts["Dummy (5 accounts)"].tap()
@@ -102,14 +107,15 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
         XCTAssert(app.staticTexts["$0.00"].exists) // true: dummyMultiple accs are removed
+
         //exit app
         app.navigationBars["Portfolio"].buttons["Close"].tap()
+
         //and relaunch portfolio
         let launchPortfolioText = app.tables.staticTexts["launchPortfolio"]
         waitForElementToBeHittable(launchPortfolioText)
         launchPortfolioText.tap()
-        let activityIndicator = app.activityIndicators.element
-        waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
+
         //test if data is persistent
         testPortfolioValues(app, brokerName: "Dummy")
         XCTAssertFalse(app.tables.staticTexts["Joint IRA **cct2"].exists)

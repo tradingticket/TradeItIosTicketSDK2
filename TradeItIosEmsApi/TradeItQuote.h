@@ -49,6 +49,6 @@
 @property (nullable, copy) NSString<Optional> *dateTime;
 
 // Initialize with dictionary containing property data
-- (id)initWithQuoteData:(NSDictionary *)quoteData;
+- (nonnull id)initWithQuoteData:(NSDictionary * _Nonnull)quoteData;
 
 @end

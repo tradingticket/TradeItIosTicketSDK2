@@ -1,17 +1,15 @@
 import UIKit
 
 class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
-
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
     let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
     var selectedLinkedBroker: TradeItLinkedBroker!
-    
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+
     @IBOutlet weak var brokersTableView: UITableView!
-    
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,7 +20,6 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     override func viewWillAppear(_ animated: Bool) {
         self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: (self.linkedBrokerManager?.linkedBrokers)!)
     }
-
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == toAccountManagementScreen {

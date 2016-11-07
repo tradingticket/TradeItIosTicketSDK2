@@ -4,7 +4,7 @@ import UIKit
     @IBOutlet weak var confirmationTextLabel: UILabel!
     var placeOrderResult: TradeItPlaceOrderResult?
     var viewControllerProvider = TradeItViewControllerProvider()
-    var tradingUIFlow = TradeItTradingUIFlow(linkedBrokerManager: TradeItLauncher.linkedBrokerManager)
+    var tradingUIFlow = TradeItTradingUIFlow()
 
     weak var delegate: TradeItTradingConfirmationViewControllerDelegate?
 

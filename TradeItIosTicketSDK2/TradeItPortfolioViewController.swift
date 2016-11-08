@@ -88,7 +88,8 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 totalAccountsValue += totalValueUSD.floatValue
             }
         }
-        self.totalValueLabel.text = NumberFormatter.formatCurrency(NSNumber(value: totalAccountsValue))
+        // TODO: CurrencyCode here should not be nil. Currency could be set per position or per account, so an aggregate makes no sense unless we convert it all to a single currency.
+        self.totalValueLabel.text = NumberFormatter.formatCurrency(NSNumber(value: totalAccountsValue), currencyCode: nil)
     }
     
     fileprivate func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,

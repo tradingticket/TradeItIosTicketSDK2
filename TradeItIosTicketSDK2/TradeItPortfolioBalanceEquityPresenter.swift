@@ -11,14 +11,14 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
         guard let totalValue = self.balance?.totalValue
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
 
-        return NumberFormatter.formatCurrency(totalValue)
+        return NumberFormatter.formatCurrency(totalValue, currencyCode: balance?.accountBaseCurrency)
     }
 
     func getFormattedDayReturn() -> String {
         var dayReturnString = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
-            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn)
+            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let dayPercentReturn = self.balance?.dayPercentReturn {
@@ -32,14 +32,14 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
         guard let availableCash = self.balance?.availableCash
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
 
-        return NumberFormatter.formatCurrency(availableCash)
+        return NumberFormatter.formatCurrency(availableCash, currencyCode: balance?.accountBaseCurrency)
     }
 
     func getFormattedTotalReturnValue() -> String {
         var totalReturnString = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let totalAbsoluteReturn = self.balance?.totalAbsoluteReturn {
-            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn)
+            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let totalPercentReturn = self.balance?.totalPercentReturn {
@@ -53,14 +53,14 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
         guard let buyingPower = self.balance?.buyingPower
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-        return NumberFormatter.formatCurrency(buyingPower)
+        return NumberFormatter.formatCurrency(buyingPower, currencyCode: balance?.accountBaseCurrency)
     }
 
     func getFormattedTotalValueWithPercentage() -> String {
         var formattedTotalValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let totalValue = self.balance?.totalValue {
-            formattedTotalValue = NumberFormatter.formatCurrency(totalValue)
+            formattedTotalValue = NumberFormatter.formatCurrency(totalValue, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let totalPercentReturn = self.balance?.totalPercentReturn {

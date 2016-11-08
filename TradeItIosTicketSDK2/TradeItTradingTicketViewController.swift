@@ -342,7 +342,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     fileprivate func updateEstimatedChangedLabel() {
         if let estimatedChange = order.estimatedChange() {
-            let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange)
+            let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
             if order.action == .buy {
                 estimatedChangeLabel.text = "Est. Cost \(formattedEstimatedChange)"
             } else {

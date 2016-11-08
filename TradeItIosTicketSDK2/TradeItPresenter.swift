@@ -1,6 +1,7 @@
 import UIKit
 
 class TradeItPresenter {
+    static let DEFAULT_CURRENCY_CODE = "USD"
     static let MISSING_DATA_PLACEHOLDER = "N/A"
     static let INDICATOR_UP = "▲"
     static let INDICATOR_DOWN = "▼"

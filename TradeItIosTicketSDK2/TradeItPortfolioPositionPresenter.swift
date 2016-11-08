@@ -3,6 +3,7 @@ protocol TradeItPortfolioPositionPresenter {
     func getQuantity() -> NSNumber?
     func getFormattedSymbol() -> String
     func getHoldingType() -> String?
+    func getCurrencyCode() -> String
 }
 
 extension TradeItPortfolioPositionPresenter {
@@ -13,7 +14,7 @@ extension TradeItPortfolioPositionPresenter {
     }
 
     func formatCurrency(_ currency: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(currency)
+        return NumberFormatter.formatCurrency(currency, currencyCode: getCurrencyCode())
     }
 
     func getFormattedAsk() -> String {

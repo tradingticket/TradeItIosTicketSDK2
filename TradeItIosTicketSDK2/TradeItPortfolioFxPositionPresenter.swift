@@ -21,7 +21,7 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
     }
 
     func formatCurrency(_ currency: NSDecimalNumber) -> String {
-        return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits)
+        return NumberFormatter.formatCurrency(currency, maximumFractionDigits: TradeItPortfolioPosition.fxMaximumFractionDigits, currencyCode: getCurrencyCode())
     }
 
     func getFormattedQuantity() -> String {
@@ -53,4 +53,7 @@ class TradeItPortfolioFxPositionPresenter: TradeItPortfolioPositionPresenter {
         return self.fxPosition.holdingType
     }
     
+    func getCurrencyCode() -> String {
+        return TradeItPresenter.DEFAULT_CURRENCY_CODE
+    }
 }

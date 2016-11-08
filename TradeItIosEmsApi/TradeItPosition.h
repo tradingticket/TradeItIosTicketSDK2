@@ -44,4 +44,6 @@
 // The total percentage of gain/loss for the position
 @property (nullable, copy) NSNumber<Optional> *totalGainLossPercentage;
 
+@property (nullable, copy) NSString<Optional> *currencyCode;
+
 @end

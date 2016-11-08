@@ -2,6 +2,26 @@ import UIKit
 
 class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
+    private var publishers: [TradeItBrokerCenterBroker] = []
+
+    var publishersTable: UITableView? {
+        get {
+            return _table
+        }
+
+        set(newTable) {
+            if let newTable = newTable {
+                newTable.dataSource = self
+                newTable.delegate = self
+                _table = newTable
+            }
+        }
+    }
+
+    func update(publishers: [TradeItBrokerCenterBroker]) {
+        self.publishers = publishers
+        self.publishersTable?.reloadData()
+    }
 
     // MARK: UITableViewDelegate
 
@@ -12,9 +32,7 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO
-        //return self.symbolResults.count
-        return 1
+        return self.publishers.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -25,9 +43,8 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
 
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "BROKER_CENTER_TABLE_CELL") as! TTSDKBrokerCenterTableViewCell
-        //cell.configure(with: <#T##TradeItBrokerCenterBroker!#>)
-        //let symbolResult = self.symbolResults[indexPath.row]
-        //cell.populateWith(symbolResult)
+        let publisher = self.publishers[indexPath.row]
+        cell.configure(with: publisher)
         return cell
     }
 }

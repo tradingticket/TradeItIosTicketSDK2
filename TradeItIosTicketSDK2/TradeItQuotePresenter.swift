@@ -11,7 +11,7 @@ class TradeItQuotePresenter: NSObject {
     func getLastPriceLabel() -> String {
         guard let lastPrice = self.tradeItQuote?.lastPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return NumberFormatter.formatCurrency(lastPrice)
+        return NumberFormatter.formatCurrency(lastPrice, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
     }
     
     func getLastPriceValue() -> NSDecimalNumber {

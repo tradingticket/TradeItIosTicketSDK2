@@ -302,8 +302,8 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             , let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
 
-        linkedBrokerAccount.getPositions(onSuccess: {
-            let positionsMatchingSymbol = linkedBrokerAccount.positions.filter { portfolioPosition in
+        linkedBrokerAccount.getPositions(onSuccess: { positions in
+            let positionsMatchingSymbol = positions.filter { portfolioPosition in
                 TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol
             }
 
@@ -342,7 +342,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     fileprivate func updateEstimatedChangedLabel() {
         if let estimatedChange = order.estimatedChange() {
-            let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange)
+            let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
             if order.action == .buy {
                 estimatedChangeLabel.text = "Est. Cost \(formattedEstimatedChange)"
             } else {

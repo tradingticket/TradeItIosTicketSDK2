@@ -126,7 +126,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: Private
 
-    fileprivate func updatePlaceOrderButtonStatus() {
+    private func updatePlaceOrderButtonStatus() {
         if allAcknowledgementsAccepted() {
             placeOrderButton.isEnabled = true
             placeOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
@@ -136,11 +136,11 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         }
     }
 
-    fileprivate func allAcknowledgementsAccepted() -> Bool {
+    private func allAcknowledgementsAccepted() -> Bool {
         return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
     }
 
-    fileprivate func generatePreviewCellData() -> [PreviewCellData] {
+    private func generatePreviewCellData() -> [PreviewCellData] {
         guard let linkedBrokerAccount = linkedBrokerAccount,
             let orderDetails = previewOrderResult?.orderDetails
             else { return [] }
@@ -171,15 +171,15 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         }
 
         if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "BUYING POWER", value: NumberFormatter.formatCurrency(buyingPower)))
+            cells.append(ValueCellData(label: "BUYING POWER", value: formatCurrency(buyingPower)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: "BROKER FEE", value: NumberFormatter.formatCurrency(estimatedOrderCommission)))
+            cells.append(ValueCellData(label: "BROKER FEE", value: formatCurrency(estimatedOrderCommission)))
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            cells.append(ValueCellData(label: "ESTIMATED COST", value: NumberFormatter.formatCurrency(estimatedTotalValue)))
+            cells.append(ValueCellData(label: "ESTIMATED COST", value: formatCurrency(estimatedTotalValue)))
         }
 
         return cells
@@ -199,6 +199,10 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         return acknowledgements.map({ acknowledgement in
             return AcknowledgementCellData(acknowledgement: acknowledgement)
         })
+    }
+
+    private func formatCurrency(_ value: NSNumber) -> String {
+        return NumberFormatter.formatCurrency(value, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
     }
 }
 

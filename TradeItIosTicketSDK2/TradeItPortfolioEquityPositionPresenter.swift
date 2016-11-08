@@ -34,7 +34,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     func getFormattedTotalReturn() -> String {
         guard let totalGainLossDollars = self.position?.totalGainLossDollar
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return TradeItPresenter.indicator(totalGainLossDollars.doubleValue) + " " + "\(NumberFormatter.formatCurrency(totalGainLossDollars))(\(returnPercent()))";
+        return TradeItPresenter.indicator(totalGainLossDollars.doubleValue) + " " + "\(formatCurrency(totalGainLossDollars))(\(returnPercent()))";
     }
     
     func getFormattedTotalReturnColor() -> UIColor {
@@ -83,5 +83,9 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     
     func getHoldingType() -> String? {
         return self.position?.holdingType
+    }
+
+    func getCurrencyCode() -> String {
+        return self.position?.currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
     }
 }

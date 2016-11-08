@@ -1,22 +1,13 @@
 class NumberFormatter: NSObject {
     fileprivate static let formatter = Foundation.NumberFormatter()
-
-    static func formatCurrency(_ number: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(number, maximumFractionDigits: 2)
-    }
     
-    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int) -> String {
-        formatter.numberStyle = .currency
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = maximumFractionDigits
-        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
-    }
-    
-    static func formatCurrency(_ number: NSNumber, currencyCode: String) -> String {
+    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, currencyCode: String?) -> String {
+        let currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
         formatter.numberStyle = .currency
         formatter.currencyCode = currencyCode
+        formatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)
         formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = maximumFractionDigits
         return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
@@ -33,5 +24,12 @@ class NumberFormatter: NSObject {
         formatter.maximumFractionDigits = 2
         let percentage = number.floatValue / 100
         return formatter.string(from: NSNumber(value: percentage)) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+    }
+
+    private static func overrideCurrencySymbol(forCurrencyCode currencyCode: String) -> String? {
+        switch currencyCode {
+        case "SGD": return "S$"
+        default: return nil
+        }
     }
 }

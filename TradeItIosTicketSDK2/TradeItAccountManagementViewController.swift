@@ -33,7 +33,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
-            onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
+            onLinked: { presentedNavController, linkedBroker in
                 presentedNavController.dismiss(animated: true, completion: nil)
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {

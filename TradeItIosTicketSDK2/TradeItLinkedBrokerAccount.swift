@@ -49,27 +49,24 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    open func getPositions(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    open func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
             case let positionsResult as TradeItGetPositionsResult:
-                var positionsPortfolio: [TradeItPortfolioPosition] = []
-
-                let positions = positionsResult.positions as! [TradeItPosition]
-                for position in positions {
-                    let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, position: position)
-                    positionsPortfolio.append(positionPortfolio)
+                let equityPositions = positionsResult.positions as! [TradeItPosition]
+                let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
+                    equityPosition.currencyCode = positionsResult.accountBaseCurrency
+                    return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
                 }
 
                 let fxPositions = positionsResult.fxPositions as! [TradeItFxPosition]
-                for fxPosition in fxPositions {
-                    let positionPortfolio = TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
-                    positionsPortfolio.append(positionPortfolio)
+                let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in
+                    return TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
                 }
 
-                self.positions = positionsPortfolio
-                onSuccess()
+                self.positions = portfolioEquityPositions + portfolioFxPositions
+                onSuccess(self.positions)
             case let errorResult as TradeItErrorResult:
                 self.linkedBroker.error = errorResult
                 onFailure(errorResult)

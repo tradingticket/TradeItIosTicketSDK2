@@ -8,6 +8,7 @@ enum Action: Int {
     case launchTradingWithSymbol
     case launchAccountManagement
     case launchBrokerLinking
+    case launchBrokerCenter
     case manualAuthenticateAll
     case manualBalances
     case manualPositions
@@ -64,6 +65,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             }, onFlowAborted: {
                 print("User aborted linking")
             })
+        case .launchBrokerCenter:
+            self.tradeItLauncher.launchBrokerCenter(fromViewController: self)
         case .manualAuthenticateAll:
             self.manualAuthenticateAll()
         case .manualBalances:

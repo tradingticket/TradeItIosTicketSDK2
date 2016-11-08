@@ -105,4 +105,9 @@ import UIKit
             onFlowAborted()
         })
     }
+
+    public func launchBrokerCenter(fromViewController viewController: UIViewController) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerCenterView)
+        viewController.present(navController, animated: true, completion: nil)
+    }
 }

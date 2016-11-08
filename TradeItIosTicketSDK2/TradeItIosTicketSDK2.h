@@ -2,5 +2,6 @@
 #define TradeItIosTicketSDK2_h
 
 #import "TradeItIosEmsApiLib.h"
+#import "TTSDKBrokerCenterTableViewCell.h"
 
 #endif

@@ -37,9 +37,9 @@
  */
 @property TradeItEmsApiVersion version;
 
-- (nonnull id)initWithApiKey:(NSString * _Nullable)apiKey;
+- (nonnull id)initWithApiKey:(nonnull NSString *)apiKey;
 
-- (nonnull id)initWithApiKey:(NSString * _Nullable)apiKey
+- (nonnull id)initWithApiKey:(nonnull NSString *)apiKey
                    environment:(TradeitEmsEnvironments)environment
                        version:(TradeItEmsApiVersion)version;
 

@@ -26,7 +26,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     var tradeItLauncher: TradeItLauncher!
 
     var alertManager: TradeItAlertManager!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

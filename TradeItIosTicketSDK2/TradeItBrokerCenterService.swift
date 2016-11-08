@@ -1,9 +1,25 @@
-//
-//  TradeItBrokerCenterService.swift
-//  TradeItIosTicketSDK2
-//
-//  Created by James Robert Somers on 11/8/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
+class TradeItBrokerCenterService {
+    var connector: TradeItConnector
+    var sessionProvider: TradeItSessionProvider
 
-import Foundation
+    init(apiKey: String, environment: TradeitEmsEnvironments) {
+        connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        sessionProvider = TradeItSessionProvider()
+    }
+
+    func getPublishers(onSuccess: @escaping ([TradeItBrokerCenterBroker]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        let publisherService = TradeItPublisherService(connector: connector)
+        let publisherRequest = TradeItPublisherDataRequest()
+
+        publisherService?.getPublisherData(publisherRequest, withCompletionBlock: { tradeItResult in
+            if let publisherDataResult = tradeItResult as? TradeItPublisherDataResult,
+                let publishers = publisherDataResult.brokers as? [TradeItBrokerCenterBroker] {
+                onSuccess(publishers)
+            } else if let errorResult = tradeItResult as? TradeItErrorResult {
+                onFailure(errorResult)
+            } else {
+                onFailure(TradeItErrorResult(title: "Publisher Data failed", message: "Fetching publisher data. Please try again later."))
+            }
+        })
+    }
+}

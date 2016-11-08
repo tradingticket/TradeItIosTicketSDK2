@@ -3,14 +3,16 @@ import UIKit
 @objc open class TradeItLauncher: NSObject {
     open static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
+    static var brokerCenterService: TradeItBrokerCenterService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
     let deviceManager = TradeItDeviceManager()
-    
+
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
+        TradeItLauncher.brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
         self.tradingUIFlow = TradeItTradingUIFlow()
         self.viewControllerProvider = TradeItViewControllerProvider()
@@ -83,7 +85,7 @@ import UIKit
             )
         }
     }
-    
+
     public func launchAccountManagement(fromViewController viewController: UIViewController) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {

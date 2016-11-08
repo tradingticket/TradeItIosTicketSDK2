@@ -161,8 +161,8 @@ linkedBrokerAccount.getAccountOverview(onSuccess: {
 })
 
 // Account positions - given an authenticated broker account
-linkedBrokerAccount.getPositions(onSuccess: {
-    print(linkedBrokerAccount.positions.map({ position in
+linkedBrokerAccount.getPositions(onSuccess: { positions in
+    print(positions.map({ position in
         return position.position
     }))
 }, onFailure: { errorResult in

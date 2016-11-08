@@ -49,7 +49,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    open func getPositions(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    open func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
@@ -66,7 +66,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
                 }
 
                 self.positions = portfolioEquityPositions + portfolioFxPositions
-                onSuccess()
+                onSuccess(self.positions)
             case let errorResult as TradeItErrorResult:
                 self.linkedBroker.error = errorResult
                 onFailure(errorResult)

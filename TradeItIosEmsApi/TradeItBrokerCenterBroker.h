@@ -14,6 +14,7 @@
 
 @interface TradeItBrokerCenterBroker : TIEMSJSONModel<NSCopying>
 
+@property (nullable, copy) NSString<Optional> *broker;
 @property (nullable, copy) NSNumber<Optional> *active;
 @property (nullable, copy) NSString<Optional> *signupTitle;
 @property (nullable, copy) NSString<Optional> *signupDescription;

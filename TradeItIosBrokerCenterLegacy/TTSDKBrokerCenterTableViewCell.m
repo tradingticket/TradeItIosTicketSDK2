@@ -182,7 +182,7 @@ static NSString * kBulletLayerName = @"circle_layer";
     } else {
         self.logo.image = nil;
         self.logoLabel.hidden = NO;
-        self.logoLabel.text = @"TODO: FIX";
+        self.logoLabel.text = self.data.broker;
     }
 }
 

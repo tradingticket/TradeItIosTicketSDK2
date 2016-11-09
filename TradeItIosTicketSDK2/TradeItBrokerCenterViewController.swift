@@ -5,6 +5,7 @@ class TradeItBrokerCenterViewController: TradeItViewController {
     var tableManager = TradeItBrokerCenterTableViewManager()
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         tableManager.publishersTable = tableView
         TradeItLauncher.brokerCenterService.getPublishers(onSuccess: { publishers in
             self.tableManager.update(publishers: publishers)

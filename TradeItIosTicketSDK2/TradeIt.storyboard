@@ -2222,7 +2222,7 @@
             </objects>
             <point key="canvasLocation" x="1049" y="-1194"/>
         </scene>
-        <!--Trade It Broker Center View Controller-->
+        <!--Broker Center-->
         <scene sceneID="Vzd-AG-sBs">
             <objects>
                 <viewController storyboardIdentifier="TRADE_IT_BROKER_CENTER_VIEW" id="I2O-GK-IUD" customClass="TradeItBrokerCenterViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
@@ -2235,18 +2235,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Er2-zE-lm0">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Er2-zE-lm0" firstAttribute="top" secondItem="Mqe-8h-aUb" secondAttribute="topMargin" id="2yr-Jh-dwm"/>
                             <constraint firstItem="5uw-WG-VrL" firstAttribute="top" secondItem="Er2-zE-lm0" secondAttribute="bottom" id="7lH-bI-dRo"/>
-                            <constraint firstItem="Er2-zE-lm0" firstAttribute="top" secondItem="QCL-oP-EWx" secondAttribute="bottom" id="M6u-Ce-AAF"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Er2-zE-lm0" secondAttribute="bottom" id="Kyh-ni-gZf"/>
                             <constraint firstAttribute="trailing" secondItem="Er2-zE-lm0" secondAttribute="trailing" id="QMd-Z6-bmC"/>
                             <constraint firstItem="Er2-zE-lm0" firstAttribute="leading" secondItem="Mqe-8h-aUb" secondAttribute="leading" id="VfX-nO-ypD"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Broker Center" id="Pts-cH-jOs"/>
                     <connections>
                         <outlet property="tableView" destination="Er2-zE-lm0" id="fUz-y0-B9H"/>
                     </connections>
@@ -2827,6 +2829,6 @@
         <image name="success_icon.png" width="101" height="101"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="i1C-J7-yWX"/>
+        <segue reference="Wfr-Io-4LG"/>
     </inferredMetricsTieBreakers>
 </document>

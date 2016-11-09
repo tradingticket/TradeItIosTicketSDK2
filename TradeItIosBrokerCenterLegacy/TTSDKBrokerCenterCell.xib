@@ -89,7 +89,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="oTU-sw-M4t" userLabel="Arrow">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="oTU-sw-M4t" userLabel="Arrow">
                         <rect key="frame" x="142" y="138" width="36" height="12"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="12" id="p6a-ZJ-Vfn"/>
@@ -107,7 +107,7 @@
                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
-                            <action selector="toggleExpandedPressed:" destination="OGm-Yw-MtB" eventType="touchUpInside" id="Qyo-2s-g1z"/>
+                            <action selector="toggleExpandedPressed:" destination="OGm-Yw-MtB" eventType="touchUpInside" id="qxf-ko-l1M"/>
                         </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F0L-SS-cWk" userLabel="ExpandedView">
@@ -366,6 +366,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="arrow_down.png" width="201" height="126"/>
+        <image name="chevron_down.png" width="128" height="87"/>
     </resources>
 </document>

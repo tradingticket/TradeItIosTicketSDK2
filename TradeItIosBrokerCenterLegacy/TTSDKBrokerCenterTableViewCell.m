@@ -492,9 +492,10 @@ static NSString * kBulletLayerName = @"circle_layer";
 #pragma Mark Events
 
 - (IBAction)toggleExpandedPressed:(id)sender {
+   /* NSLog(@"TOGGLE");
     if ([self.delegate respondsToSelector:@selector(didToggleExpandedView:atIndexPath:)]) {
         [self.delegate didToggleExpandedView:!self.expandedViewToggled atIndexPath:self.indexPath];
-    }
+    }*/
 }
 
 - (IBAction)promptPressed:(id)sender {

@@ -16,7 +16,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
                 newTable.dataSource = self
                 newTable.delegate = self
                 newTable.rowHeight = UITableViewAutomaticDimension
-                newTable.estimatedRowHeight = 150
+                newTable.estimatedRowHeight = 158
                 _table = newTable
             }
         }

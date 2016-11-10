@@ -1,9 +1,9 @@
 import UIKit
 
 @objc open class TradeItLauncher: NSObject {
-    open static var linkedBrokerManager: TradeItLinkedBrokerManager!
+    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
-    static var brokerCenterService: TradeItBrokerCenterService!
+    public static var brokerCenterService: TradeItBrokerCenterService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider

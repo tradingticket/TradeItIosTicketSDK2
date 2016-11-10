@@ -178,11 +178,10 @@ static NSString * kBulletLayerName = @"circle_layer";
         float scaleFactor = self.logoWidthConstraint.constant / img.size.width;
         float imageHeight = img.size.height * scaleFactor;
         self.logoHeightConstraint.constant = imageHeight;
-
     } else {
         self.logo.image = nil;
         self.logoLabel.hidden = NO;
-        self.logoLabel.text = self.data.broker;
+        self.logoLabel.text = self.data.broker; // TODO: Get broker long name
     }
 }
 
@@ -196,11 +195,17 @@ static NSString * kBulletLayerName = @"circle_layer";
         self.detailsArrow.hidden = NO;
         self.expandedView.hidden = YES;
 
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
+        //[CATransaction begin];
+        //[CATransaction setDisableActions:YES];
         self.promptButtonWebViewContainer.hidden = YES;
-        [CATransaction commit];
+        //[CATransaction commit];
     }
+    [self layoutSubviews];
+    [self layoutIfNeeded];
+    [self layoutMargins];
+    [self setNeedsDisplay];
+    [self setNeedsLayout];
+    [self setNeedsUpdateConstraints];
 }
 
 -(void) configureDisclaimers:(UIView *)disclaimerView {
@@ -492,16 +497,14 @@ static NSString * kBulletLayerName = @"circle_layer";
 #pragma Mark Events
 
 - (IBAction)toggleExpandedPressed:(id)sender {
-   /* NSLog(@"TOGGLE");
     if ([self.delegate respondsToSelector:@selector(didToggleExpandedView:atIndexPath:)]) {
         [self.delegate didToggleExpandedView:!self.expandedViewToggled atIndexPath:self.indexPath];
-    }*/
+    }
 }
 
 - (IBAction)promptPressed:(id)sender {
     if ([self.delegate respondsToSelector:@selector(didSelectLink:withTitle:)] && ![self.data.promptUrl isEqualToString:@""]) {
-        // TODO: not sure what this prompt is doing
-        //[self.delegate didSelectLink: self.data.promptUrl withTitle: [self.ticket getBrokerDisplayString: self.data.broker]];
+        [self.delegate didSelectLink: self.data.promptUrl withTitle: self.data.broker];
     }
 }
 

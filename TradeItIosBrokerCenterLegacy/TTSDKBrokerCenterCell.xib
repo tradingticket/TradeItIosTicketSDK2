@@ -107,7 +107,7 @@
                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
-                            <action selector="toggleExpandedPressed:" destination="OGm-Yw-MtB" eventType="touchUpInside" id="qxf-ko-l1M"/>
+                            <action selector="toggleExpandedPressed:" destination="OGm-Yw-MtB" eventType="touchUpInside" id="Qyo-2s-g1z"/>
                         </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F0L-SS-cWk" userLabel="ExpandedView">

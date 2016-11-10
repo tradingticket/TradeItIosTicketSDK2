@@ -16,7 +16,7 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
                 newTable.dataSource = self
                 newTable.delegate = self
                 newTable.rowHeight = UITableViewAutomaticDimension
-                newTable.estimatedRowHeight = 150
+                newTable.estimatedRowHeight = 600
                 _table = newTable
             }
         }
@@ -30,15 +30,14 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("WHATT")
         // if the user click on the already expanded row, deselect it
         if self.selectedPublisherIndex == indexPath.row {
             self.selectedPublisherIndex = -1
             self.reloadTableViewAtIndexPath([indexPath])
-        } else if self.selectedPublisherIndex != -1 {
+        /*} else if self.selectedPublisherIndex != -1 {
             let prevPath = IndexPath(row: self.selectedPublisherIndex, section: 0)
             self.selectedPublisherIndex = indexPath.row
-            self.reloadTableViewAtIndexPath([prevPath, indexPath])
+            self.reloadTableViewAtIndexPath([prevPath, indexPath])*/
         } else {
             self.selectedPublisherIndex = indexPath.row
             self.reloadTableViewAtIndexPath([indexPath])
@@ -49,12 +48,17 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
         self.publishersTable?.beginUpdates()
         self.publishersTable?.reloadRows(at: indexPaths, with: .automatic)
         self.publishersTable?.endUpdates()
-        self.publishersTable?.selectRow(at: indexPaths.last, animated: true, scrollPosition: .top)
+        //self.publishersTable?.selectRow(at: indexPaths.last, animated: true, scrollPosition: .top)
     }
 
-    /*func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 293.0;
-    }*/
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300//UITableViewAutomaticDimension
+    }
 
     // MARK: UITableViewDataSource
 
@@ -65,13 +69,14 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let brokerCenterNib = UINib(nibName: "TTSDKBrokerCenterCell", bundle: TradeItBundleProvider.provide())
 
-        _table?.register(brokerCenterNib, forCellReuseIdentifier: "BROKER_CENTER_TABLE_CELL")
+        publishersTable?.register(brokerCenterNib, forCellReuseIdentifier: "BROKER_CENTER_TABLE_CELL")
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "BROKER_CENTER_TABLE_CELL") as! TTSDKBrokerCenterTableViewCell
         let publisher = self.publishers[indexPath.row]
         cell.configure(with: publisher)
         cell.addImage(image(forBroker: publisher.broker))
-        cell.configureSelectedState(self.selectedPublisherIndex == indexPath.row)
+        //cell.configureSelectedState(self.selectedPublisherIndex == indexPath.row)
+        cell.configureSelectedState(true)
         return cell
     }
 
@@ -81,9 +86,3 @@ class TradeItBrokerCenterTableViewManager: NSObject, UITableViewDelegate, UITabl
         return UIImage(named: filename, in: bundle, compatibleWith: nil)
     }
 }
-
-/*extension TTSDKBrokerCenterTableViewCell {
-    func showDetails(selected: Bool) {
-
-    }
-}*/

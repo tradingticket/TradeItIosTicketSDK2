@@ -13,8 +13,8 @@ enum Action: Int {
     case manualPositions
     case launchAlertQueue
     case deleteLinkedBrokers
-    case TEST
-    case enum_COUNT
+    case test
+    case enumCount
 }
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -41,7 +41,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let action = Action(rawValue: indexPath.row) else { return }
 
         switch action {
-        case .TEST:
+        case .test:
             test()
         case .launchPortfolio:
             self.tradeItLauncher.launchPortfolio(fromViewController: self)
@@ -82,7 +82,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Action.enum_COUNT.rawValue;
+        return Action.enumCount.rawValue;
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

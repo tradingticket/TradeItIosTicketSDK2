@@ -1,6 +1,8 @@
 # TradeIt iOS Ticket SDK 
 
-The TradeIt Ticket SDK provides screens and flows for iOS developers who want to integrate live trading in to their app. Included are trading, portfolio and account management screens as well as an interface for pulling positions data directly to display anywhere in the app.
+There are two ways to use the Trade.it SDK:
+- The SDK includes pre-built screens and UI workflows that minimize the effort to integrate Trade.it trading, portfolio, and account management into an app.
+- The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and user's portfolio data.
 
 ## Beta Notice
 
@@ -8,7 +10,7 @@ This library is in beta. We are actively working on it and you should pull the l
 
 ## Installation
 
-### Cocoapods
+### Cocoapods (preferred)
 Follow the [Cocoapods: Getting started guide](https://guides.cocoapods.org/using/getting-started.html) and [Cocoapods: Using Cocoapods guide](https://guides.cocoapods.org/using/using-cocoapods.html) if you've never used Cocoapods before.
 
 Inside your `Podfile` you need to add the TradeIt spec repo as a source:
@@ -20,7 +22,7 @@ source 'https://github.com/tradingticket/SpecRepo'
 Under your project target add our Ticket SDK pod as a dependency:
 
 ```ruby
-pod 'TradeItIosTicketSDK2', '~> 1.0.0'
+pod 'TradeItIosTicketSDK2', '~> 1.0.6'
 ```
 
 This is a base example of what it should look like:
@@ -30,69 +32,26 @@ source 'https://github.com/tradingticket/SpecRepo'
 
 target 'YourProjectTargetName' do
   use_frameworks!
-  pod 'TradeItIosTicketSDK2', '~> 1.0.0'
+  pod 'TradeItIosTicketSDK2', '~> 1.0.6'
 end
 ```
 
-###
-For Swift 2.3 compatibility, use version `0.0.1`.
-
-## Configuration
-
-### Environments
-
-| Environment   | Enum                       |
-| ------------- | ----------                 |
-| Sandbox       | `TradeItEmsTestEnv`       |
-| Production    | `TradeItEmsProductionEnv` |
-
-### Dummy broker account
-
-In the Sandbox environment there is a Dummy broker available to perform tests without connecting a live broker account. All of the API interactions are stateless and return fake data. To login, select the Dummy broker and use the credentials:
-
-Depending on the username you choose (password will always be "pass"), you can emulate the following scenarios:
-
-| Username           | Response                                                                                    |
-| -------------      | ----------                                                                                  |
-| dummy              | no errorResult                                                                              |
-| dummyNotMargin     | returns error response if request is to place a sell short or buy to cover                  |
-| dummyNull          | returns null values for every field that can potentially return as null                     |
-| dummySecurity      | returns security question response (answer is tradingticket)                                |
-| dummyMultiple      | returns a user with multiple accounts                                                       |
-| dummySecurityImage | returns response with challenge image (mainly used for IB)                                  |
-| dummyOptionLong    | returns response with multiple options for the security question answer (answer is option1) |
-
-Any other credentials will fail to authenticate.
-
-When username is dummy, dummyMultiple or dummySecurity:
-
-| Order Size           | Returns                                                |
-| -------------        | -------------                                          |
-| quantity < 50        | review response with no warning messages               |
-| 50 <= quantity < 100 | returns review response with warnings and ack messages |
-| quantity >= 100      | returns error response                                 |
-
-### Live broker accounts
-
-Be aware that our Sandbox environment points to live broker environments. Connecting a live broker account while pointing at our Sandbox will perform real trade requests to brokers.
-
-### Keychain Access
-
-The Ticket SDK uses the keychain to store data. Ensure the `Keychain Sharing` entitlement is enabled by going to your app target, selecting Capabilities and switching Keychain Sharing on.
+### Carthage
+To integrate the Trade.it SDK into your Xcode project using [Carthage](https://github.com/Carthage/Carthage), specify it in your Cartfile:
+```
+github "tradingticket/TradeItIosTicketSDK2" ~> 1.0.6
+```
 
 # Usage
-
 ## Launching the TradeIt Screens
-
-This is the minimal effort integration using all of the workflows and screens included in the SDK. The `TradeItLauncher` is the central object for initiating flows using the TradeIt screens. 
-
+### Launching the portfolio
 ```swift
 let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)
 
-// Launching the portfolio
 launcher.launchPortfolio(fromViewController: self)
-
-// Launching the portfolio with an account selected
+```
+###Launching the portfolio with an account selected
+```swift
 launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
 
 // Launch the trading ticket
@@ -199,3 +158,42 @@ order.preview(onSuccess: { previewOrder, placeOrderCallback in
 ## Example App
 
 The SDK includes an example Swift app target. To run, switch to the `Example App` target and click run.
+
+## Configuration
+
+### Environments
+
+| Environment   | Enum                      |
+| ------------- | ----------                |
+| Sandbox       | `TradeItEmsTestEnv`       |
+| Production    | `TradeItEmsProductionEnv` |
+
+### Dummy broker account
+
+In the Sandbox environment there is a Dummy broker available to perform tests without connecting a live broker account. All of the API interactions are stateless and return fake data. To login, select the Dummy broker and use the credentials:
+
+Depending on the username you choose (password will always be "pass"), you can emulate the following scenarios:
+
+| Username           | Response                                                                                    |
+| -------------      | ----------                                                                                  |
+| dummy              | no errorResult                                                                              |
+| dummyNotMargin     | returns error response if request is to place a sell short or buy to cover                  |
+| dummyNull          | returns null values for every field that can potentially return as null                     |
+| dummySecurity      | returns security question response (answer is tradingticket)                                |
+| dummyMultiple      | returns a user with multiple accounts                                                       |
+| dummySecurityImage | returns response with challenge image (mainly used for IB)                                  |
+| dummyOptionLong    | returns response with multiple options for the security question answer (answer is option1) |
+
+Any other credentials will fail to authenticate.
+
+When username is dummy, dummyMultiple or dummySecurity:
+
+| Order Size           | Returns                                                |
+| -------------        | -------------                                          |
+| quantity < 50        | review response with no warning messages               |
+| 50 <= quantity < 100 | returns review response with warnings and ack messages |
+| quantity >= 100      | returns error response                                 |
+
+### Live broker accounts
+
+Be aware that our Sandbox environment points to live broker environments. Connecting a live broker account while pointing at our Sandbox will perform real trade requests to brokers.

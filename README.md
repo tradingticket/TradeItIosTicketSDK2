@@ -2,7 +2,7 @@
 
 There are two ways to use the Trade.it SDK:
 - The SDK includes pre-built screens and UI workflows that minimize the effort to integrate Trade.it trading, portfolio, and account management into an app.
-- The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and user's portfolio data.
+- The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and users' portfolio data.
 
 ## Beta Notice
 

@@ -4,28 +4,16 @@ There are two ways to use the Trade.it SDK:
 - The SDK includes pre-built screens and UI workflows that minimize the effort to integrate Trade.it trading, portfolio, and account management into an app.
 - The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and users' portfolio data.
 
-## Beta Notice
+## &#x2757; Beta Notice &#x2757;
 
-This library is in beta. We are actively working on it and you should pull the latest changes frequently. At this point we should have a stabilized interface for you to integrate against and we will make every effort to minimize changes to that interface. Please file a Github issue for bugs.
+*This library is in beta. We are actively working on it and you should pull the latest changes frequently. At this point we should have a stabilized interface for you to integrate against and we will make every effort to minimize changes to that interface. Please file a Github issue for bugs.*
 
 ## Installation
 
 ### Cocoapods (preferred)
 Follow the [Cocoapods: Getting started guide](https://guides.cocoapods.org/using/getting-started.html) and [Cocoapods: Using Cocoapods guide](https://guides.cocoapods.org/using/using-cocoapods.html) if you've never used Cocoapods before.
 
-Inside your `Podfile` you need to add the TradeIt spec repo as a source:
-
-```ruby
-source 'https://github.com/tradingticket/SpecRepo'
-```
-
-Under your project target add our Ticket SDK pod as a dependency:
-
-```ruby
-pod 'TradeItIosTicketSDK2', '~> 1.0.6'
-```
-
-This is a base example of what it should look like:
+Add the TradeIt spec repo as a source and the Ticket SDK pod as a dependency of the project target:
 
 ```ruby
 source 'https://github.com/tradingticket/SpecRepo'
@@ -43,36 +31,54 @@ github "tradingticket/TradeItIosTicketSDK2" ~> 1.0.6
 ```
 
 # Usage
-## Launching the TradeIt Screens
-### Launching the portfolio
+To use the SDK, first instantiate the `TradeItLauncher`:
 ```swift
 let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)
+```
+It serves as the global managing object for the SDK.
 
+## Linked Brokers
+Whenever a user links their broker, the SDK will automatically save the link (in the form of the associated Trade.it OAuth token) in the secure iOS keychain. When the app is relaunched and the `TradeItLauncher` is reinstantiated, the saved brokers are loaded from the keychain.
+
+## Launching pre-built UI
+If the user has no previously linked brokers, launching any of the pre-built screens will result in the user first being prompted to link a broker.
+
+### Launching into the portfolio screen
+By default the first valid account is preselected.
+```swift
 launcher.launchPortfolio(fromViewController: self)
 ```
-###Launching the portfolio with an account selected
+### Launching the portfolio with an account selected
 ```swift
-launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
+let linkedBroker = launcher.linkedBrokerManager.linkedBrokers.first
+let account = linkedBroker.accounts.first
 
-// Launch the trading ticket
+launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: account)
+```
+### Launch the trading ticket
+```swift
 launcher.launchTrading(fromViewController: self)
-
-// Launch the trading ticket with pre-configured order
+```
+### Launch the trading ticket with pre-configured order
+```swift
 let order = TradeItOrder()
 order.symbol = "SYMB"
+order.quantity = 100
 order.action = .buyToCover
+order.expiration = .goodForDay
 launcher.launchTrading(fromViewController: self, withOrder: order)
-
-// Launch Account Management
+```
+### Launch Account Management
+```swift
 launcher.launchAccountManagement(fromViewController: self)
-
-// Launch Account Linking
+```
+### Launch Account Linking
+```swift
 launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
     print("Newly linked broker: \(linkedBroker)")
 }, onFlowAborted: {
     print("User aborted linking")
 })
-
 ```
 
 ## Deep Integration

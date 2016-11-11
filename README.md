@@ -45,18 +45,19 @@ By default the first valid account is preselected.
 ```swift
 launcher.launchPortfolio(fromViewController: self)
 ```
-### Launching the portfolio with an account selected
+### Launching into the portfolio screen with a specific account selected
 ```swift
 let linkedBroker = launcher.linkedBrokerManager.linkedBrokers.first
 let account = linkedBroker.accounts.first
 
 launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: account)
 ```
-### Launch the trading ticket
+### Launch into the trading screen
 ```swift
 launcher.launchTrading(fromViewController: self)
 ```
-### Launch the trading ticket with pre-configured order
+### Launch into the trading screen with a pre-configured order
+If a `TradeItOrder` is passed when launching trading, the trading ticket screen inputs will be prepopulated from the provided order.
 ```swift
 let order = TradeItOrder()
 order.symbol = "SYMB"

@@ -1,15 +1,8 @@
-# TradeIt iOS Ticket SDK 
-
-There are two ways to use the Trade.it SDK:
-- The SDK includes pre-built screens and UI workflows that minimize the effort to integrate Trade.it trading, portfolio, and account management into an app.
-- The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and users' portfolio data.
-
-## &#x2757; Beta Notice &#x2757;
-
-*This library is in beta. We are actively working on it and you should pull the latest changes frequently. At this point we should have a stabilized interface for you to integrate against and we will make every effort to minimize changes to that interface. Please file a Github issue for bugs.*
+# TradeIt iOS Ticket SDK
+### &#x2757; Beta Notice &#x2757;
+*This library is in beta. We are actively working on it and you should pull the latest changes frequently.  Please file a Github issue for bugs.*
 
 ## Installation
-
 ### Cocoapods (preferred)
 Follow the [Cocoapods: Getting started guide](https://guides.cocoapods.org/using/getting-started.html) and [Cocoapods: Using Cocoapods guide](https://guides.cocoapods.org/using/using-cocoapods.html) if you've never used Cocoapods before.
 
@@ -31,6 +24,10 @@ github "tradingticket/TradeItIosTicketSDK2" ~> 1.0.6
 ```
 
 # Usage
+There are two ways to use the Trade.it SDK:
+- The SDK includes pre-built screens and UI workflows that minimize the effort to integrate Trade.it trading, portfolio, and account management into an app.
+- The SDK also includes a set of classes that allow developers to build custom screens and UI workflows for "deep integration" with the Trade.it API trading workflow and users' portfolio data.
+
 To use the SDK, first instantiate the `TradeItLauncher`:
 ```swift
 let launcher = TradeItLauncher(apiKey: API_KEY, environment: TradeItEmsTestEnv)

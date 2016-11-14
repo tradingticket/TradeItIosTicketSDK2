@@ -590,20 +590,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0rh-GM-L5c">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="575"/>
                                 <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="xYJ-xj-EpF" id="uRl-P4-lel"/>
                                     <outlet property="delegate" destination="xYJ-xj-EpF" id="1pe-HV-f91"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYh-FK-Th3">
+                                <rect key="frame" x="62" y="611" width="250" height="40"/>
+                                <color key="backgroundColor" red="0.25573506950000002" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="WAX-2f-3cT"/>
+                                    <constraint firstAttribute="width" constant="250" id="e2w-Yk-AGK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Open a new account">
+                                    <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="linkButtonWasTapped:" destination="Pi3-6E-5Lo" eventType="touchUpInside" id="63Z-L6-kve"/>
+                                    <action selector="openAccountTapped:" destination="xYJ-xj-EpF" eventType="touchUpInside" id="3iY-RU-8VS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Jki-nr-TvV" firstAttribute="top" secondItem="0rh-GM-L5c" secondAttribute="bottom" id="SJc-UY-nsU"/>
+                            <constraint firstItem="DYh-FK-Th3" firstAttribute="top" secondItem="0rh-GM-L5c" secondAttribute="bottom" constant="16" id="Dyb-5I-bLa"/>
+                            <constraint firstItem="Jki-nr-TvV" firstAttribute="top" secondItem="DYh-FK-Th3" secondAttribute="bottom" constant="16" id="TCz-nw-Tes"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="top" secondItem="tMX-1x-5GL" secondAttribute="bottom" id="cYb-C1-Ic1"/>
                             <constraint firstItem="0rh-GM-L5c" firstAttribute="leading" secondItem="aUA-LR-llV" secondAttribute="leading" id="gNI-gA-uQm"/>
                             <constraint firstAttribute="trailing" secondItem="0rh-GM-L5c" secondAttribute="trailing" id="yWU-gI-chD"/>
+                            <constraint firstItem="DYh-FK-Th3" firstAttribute="centerX" secondItem="aUA-LR-llV" secondAttribute="centerX" id="yh0-WL-3AH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX">

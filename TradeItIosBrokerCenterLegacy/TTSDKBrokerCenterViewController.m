@@ -59,12 +59,13 @@ static CGFloat kExpandedHeight = 293.0f;
 }
 
 - (void)configureNavigationItem {
-
-    UIBarButtonItem *closeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
-                                                                        style:UIBarButtonItemStylePlain
-                                                                       target:self
-                                                                       action:@selector(closeButtonWasTapped)];
-    self.navigationItem.rightBarButtonItem = closeButtonItem;
+    if (self.navigationController && self.navigationController.viewControllers.count <= 1) {
+        UIBarButtonItem *closeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                            style:UIBarButtonItemStylePlain
+                                                                           target:self
+                                                                           action:@selector(closeButtonWasTapped)];
+        self.navigationItem.rightBarButtonItem = closeButtonItem;
+    }
 }
 
 - (void)closeButtonWasTapped {

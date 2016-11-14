@@ -9,6 +9,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
     var selectedBroker: TradeItBroker?
+    let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
                 activityView.hide(animated: true)
                 self.brokerTable.reloadData()
             },
-            onFailure: { () -> Void in
+            onFailure: {
                 self.alertManager.showAlert(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
@@ -34,6 +35,11 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
                 activityView.hide(animated: true)
             }
         )
+    }
+
+    @IBAction func openAccountTapped(_ sender: UIButton) {
+        let brokerCenterViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.brokerCenterView) as! TTSDKBrokerCenterViewController
+        self.navigationController?.pushViewController(brokerCenterViewController, animated: true)
     }
 
     // MARK: UITableViewDelegate

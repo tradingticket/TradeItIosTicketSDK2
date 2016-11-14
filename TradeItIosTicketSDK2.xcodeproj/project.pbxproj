@@ -53,7 +53,6 @@
 		75B857AD1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B857AA1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib */; };
 		75B857AE1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 75B857AB1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75B857AF1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B857AC1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m */; };
-		75B857B11DD13FE4003AB7AB /* TradeItBrokerCenterTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B01DD13FE4003AB7AB /* TradeItBrokerCenterTableViewManager.swift */; };
 		75B857B31DD222ED003AB7AB /* TradeItBrokerCenterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */; };
 		75B857BF1DD3AB91003AB7AB /* etrade_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B857B51DD3AB91003AB7AB /* etrade_logo.png */; };
 		75B857C01DD3AB91003AB7AB /* fidelity_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B857B61DD3AB91003AB7AB /* fidelity_logo.png */; };
@@ -610,7 +609,6 @@
 		75B857AA1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTSDKBrokerCenterCell.xib; sourceTree = "<group>"; };
 		75B857AB1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSDKBrokerCenterTableViewCell.h; sourceTree = "<group>"; };
 		75B857AC1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSDKBrokerCenterTableViewCell.m; sourceTree = "<group>"; };
-		75B857B01DD13FE4003AB7AB /* TradeItBrokerCenterTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerCenterTableViewManager.swift; sourceTree = "<group>"; };
 		75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerCenterService.swift; sourceTree = "<group>"; };
 		75B857B51DD3AB91003AB7AB /* etrade_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = etrade_logo.png; sourceTree = "<group>"; };
 		75B857B61DD3AB91003AB7AB /* fidelity_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fidelity_logo.png; sourceTree = "<group>"; };
@@ -1082,7 +1080,6 @@
 				75BAAA781DB7EEB400E5435C /* TradeItPortfolioErrorHandlingViewManager.swift */,
 				75BAAA7E1DB7EEB400E5435C /* TradeItPortfolioPositionsTableViewManager.swift */,
 				75BAAA8A1DB7EEB400E5435C /* TradeItSymbolSearchTableViewManager.swift */,
-				75B857B01DD13FE4003AB7AB /* TradeItBrokerCenterTableViewManager.swift */,
 			);
 			name = ViewManagers;
 			sourceTree = "<group>";
@@ -2109,7 +2106,6 @@
 				75BAAB981DB7EF2F00E5435C /* TradeItAuthenticationResult.m in Sources */,
 				75BAAAC81DB7EEB400E5435C /* TradeItPortfolioBalanceFXPresenter.swift in Sources */,
 				75BAAB7D1DB7EF2F00E5435C /* NSArray+TIEMSJSONModel.m in Sources */,
-				75B857B11DD13FE4003AB7AB /* TradeItBrokerCenterTableViewManager.swift in Sources */,
 				75BAABDD1DB7EF2F00E5435C /* TradeItQuotesResult.m in Sources */,
 				75BAAAC51DB7EEB400E5435C /* TradeItPortfolioAccountsTableViewManager.swift in Sources */,
 				75BAAB751DB7EF2F00E5435C /* TIEMSJSONModel.m in Sources */,

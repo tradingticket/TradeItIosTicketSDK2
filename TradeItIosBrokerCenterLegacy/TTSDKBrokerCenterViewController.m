@@ -10,9 +10,9 @@
 #import "TTSDKBrokerCenterTableViewCell.h"
 
 #ifdef CARTHAGE
-    #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
 #else
-    #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
 #endif
 
 
@@ -29,6 +29,7 @@
 @property CGFloat currentDisclaimerHeight;
 @property BOOL disclaimerOpen;
 @property NSBundle *bundle;
+@property NSString *currentSelection;
 
 @end
 
@@ -53,6 +54,25 @@ static CGFloat kExpandedHeight = 293.0f;
     self.bundle = [TradeItBundleProvider provide];
 
     [self populateBrokerDataByActiveFilter];
+
+    [self configureNavigationItem];
+}
+
+- (void)configureNavigationItem {
+
+    UIBarButtonItem *closeButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                                        style:UIBarButtonItemStylePlain
+                                                                       target:self
+                                                                       action:@selector(closeButtonWasTapped)];
+    self.navigationItem.rightBarButtonItem = closeButtonItem;
+}
+
+- (void)closeButtonWasTapped {
+    if (self.navigationController && self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 -(void) populateBrokerDataByActiveFilter {
@@ -324,7 +344,7 @@ static CGFloat kExpandedHeight = 293.0f;
         }
         // TODO: Reimplement
 
-        /*[self showPicker:@"Select a link" withSelection:[firstLinkItem valueForKey:@"href"] andOptions:[optionsArray copy] onSelection:^(void){
+        [self showPicker:@"Select a link" withSelection:[firstLinkItem valueForKey:@"href"] andOptions:[optionsArray copy] onSelection:^(void){
             dispatch_async(dispatch_get_main_queue(), ^{
 
                 for (NSDictionary * optionsItem in optionsArray) {
@@ -337,8 +357,46 @@ static CGFloat kExpandedHeight = 293.0f;
                     }
                 }
             });
-        }];*/
+        }];
     }
+}
+
+-(void) showPicker:(NSString *)pickerTitle withSelection:(NSString *)selection andOptions:(NSArray *)options onSelection:(void (^)(void))selectionBlock {
+    self.currentSelection = selection;
+
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:pickerTitle
+                                                                              message:nil
+                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
+        alert.modalPresentationStyle = UIModalPresentationPopover;
+
+        NSAttributedString * attributedTitle = [[NSAttributedString alloc] initWithString:pickerTitle];
+        [alert setValue:attributedTitle forKey:@"attributedTitle"];
+
+        for (NSDictionary *optionContainer in options) {
+            NSString * k = [optionContainer.allKeys firstObject];
+            NSString * v = optionContainer[k];
+
+            UIAlertAction * action = [UIAlertAction actionWithTitle:k style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                self.currentSelection = v;
+                selectionBlock();
+            }];
+
+            [alert addAction: action];
+        }
+
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+            // do nothing
+        }];
+        [alert addAction: cancelAction];
+
+        [self presentViewController:alert animated:YES completion:nil];
+
+//        [self.utils styleAlertController:alert.view];
+
+        UIPopoverPresentationController * alertPresentationController = alert.popoverPresentationController;
+        alertPresentationController.sourceView = self.view;
+        alertPresentationController.permittedArrowDirections = 0;
+        alertPresentationController.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0);
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -507,17 +565,7 @@ static CGFloat kExpandedHeight = 293.0f;
 }
 
 - (void)showWebViewWithURL:(NSString *)url andTitle:(NSString *)title {
-    UIStoryboard *ticketStoryboard = [UIStoryboard storyboardWithName:@"Ticket"
-                                                               bundle:self.bundle];
-
-    TradeItWebViewController *webViewController = (TradeItWebViewController *)[ticketStoryboard instantiateViewControllerWithIdentifier: @"TRADE_IT_WEB_VIEW"];
-    [webViewController setModalPresentationStyle:UIModalPresentationFullScreen];
-
-    //webViewController.pageTitle = title;
-
-    [self presentViewController:webViewController animated:YES completion:^(void) {
-        [webViewController.webView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString:url]]];
-    }];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
 @end

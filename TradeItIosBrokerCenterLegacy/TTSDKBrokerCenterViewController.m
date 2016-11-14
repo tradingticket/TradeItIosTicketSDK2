@@ -35,8 +35,8 @@
 
 @implementation TTSDKBrokerCenterViewController
 
-static CGFloat kDefaultHeight = 158.0f;
-static CGFloat kExpandedHeight = 293.0f;
+static CGFloat kDefaultHeight = 138.0f;
+static CGFloat kExpandedHeight = 273.0f;
 
 
 -(void) viewDidLoad {
@@ -343,7 +343,6 @@ static CGFloat kExpandedHeight = 293.0f;
         for (NSDictionary *linkItem in selectedLinksList) {
             [optionsArray addObject:@{[linkItem valueForKey:@"title"]: [linkItem valueForKey:@"href"]}];
         }
-        // TODO: Reimplement
 
         [self showPicker:@"Select a link" withSelection:[firstLinkItem valueForKey:@"href"] andOptions:[optionsArray copy] onSelection:^(void){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -391,8 +390,6 @@ static CGFloat kExpandedHeight = 293.0f;
         [alert addAction: cancelAction];
 
         [self presentViewController:alert animated:YES completion:nil];
-
-//        [self.utils styleAlertController:alert.view];
 
         UIPopoverPresentationController * alertPresentationController = alert.popoverPresentationController;
         alertPresentationController.sourceView = self.view;

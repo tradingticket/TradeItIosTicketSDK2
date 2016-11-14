@@ -90,7 +90,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="oTU-sw-M4t" userLabel="Arrow">
-                        <rect key="frame" x="142" y="138" width="36" height="12"/>
+                        <rect key="frame" x="142" y="118" width="36" height="12"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="12" id="p6a-ZJ-Vfn"/>
                             <constraint firstAttribute="width" constant="36" id="pyB-ui-3QH"/>
@@ -111,7 +111,7 @@
                         </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F0L-SS-cWk" userLabel="ExpandedView">
-                        <rect key="frame" x="8" y="138" width="304" height="153"/>
+                        <rect key="frame" x="8" y="118" width="304" height="173"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Features:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ttA-bv-AIc">
                                 <rect key="frame" x="120" y="0.0" width="64" height="16"/>
@@ -290,7 +290,7 @@
                 <constraints>
                     <constraint firstItem="F0L-SS-cWk" firstAttribute="top" secondItem="oTU-sw-M4t" secondAttribute="top" id="2NC-ea-1mY"/>
                     <constraint firstItem="28h-EB-YOo" firstAttribute="top" secondItem="5sP-fW-h3U" secondAttribute="bottom" id="2Pn-WW-pLb"/>
-                    <constraint firstItem="oTU-sw-M4t" firstAttribute="top" secondItem="pbT-rv-LFl" secondAttribute="topMargin" constant="130" id="7jk-nx-NYQ"/>
+                    <constraint firstItem="oTU-sw-M4t" firstAttribute="top" secondItem="pbT-rv-LFl" secondAttribute="topMargin" constant="110" id="7jk-nx-NYQ"/>
                     <constraint firstItem="zO8-d5-exM" firstAttribute="top" secondItem="pbT-rv-LFl" secondAttribute="topMargin" constant="11" id="9Bn-Nw-riw"/>
                     <constraint firstItem="Rcu-6t-b2C" firstAttribute="leading" secondItem="pbT-rv-LFl" secondAttribute="leadingMargin" id="9Lv-eR-C9E"/>
                     <constraint firstItem="28h-EB-YOo" firstAttribute="width" secondItem="x3j-fi-bcP" secondAttribute="width" multiplier="0.48" id="9Z4-6p-HxE"/>

@@ -2274,40 +2274,6 @@
             </objects>
             <point key="canvasLocation" x="1030" y="-474"/>
         </scene>
-        <!--Title-->
-        <scene sceneID="PJS-T5-G0m">
-            <objects>
-                <viewController storyboardIdentifier="TRADE_IT_WEB_VIEW" id="Cir-Wb-iqB" customClass="TradeItWebViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="h2W-nr-5Ey"/>
-                        <viewControllerLayoutGuide type="bottom" id="gqS-Bu-2VD"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9f2-g0-Ytz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fxK-lx-ceX">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="fxK-lx-ceX" firstAttribute="leading" secondItem="9f2-g0-Ytz" secondAttribute="leading" id="5MC-1n-5V0"/>
-                            <constraint firstItem="gqS-Bu-2VD" firstAttribute="top" secondItem="fxK-lx-ceX" secondAttribute="bottom" id="AeG-jK-pK5"/>
-                            <constraint firstAttribute="trailing" secondItem="fxK-lx-ceX" secondAttribute="trailing" id="HsD-xs-ZJr"/>
-                            <constraint firstItem="fxK-lx-ceX" firstAttribute="top" secondItem="h2W-nr-5Ey" secondAttribute="bottom" id="dta-5D-S2S"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Title" id="Giu-vQ-37w"/>
-                    <connections>
-                        <outlet property="webView" destination="fxK-lx-ceX" id="OAx-Lf-i9G"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w7U-vf-hZe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1777" y="-475"/>
-        </scene>
         <!--Review-->
         <scene sceneID="Uej-tc-O6r">
             <objects>

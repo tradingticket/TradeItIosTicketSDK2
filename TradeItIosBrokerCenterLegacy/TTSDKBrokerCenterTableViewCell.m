@@ -7,8 +7,6 @@
 //
 
 #import "TTSDKBrokerCenterTableViewCell.h"
-//#import "TTSDKTradeItTicket.h"
-
 
 @interface TTSDKBrokerCenterTableViewCell()
 

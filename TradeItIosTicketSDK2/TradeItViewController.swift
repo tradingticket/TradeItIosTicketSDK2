@@ -1,7 +1,7 @@
 import UIKit
 
-public class TradeItViewController: UIViewController {
-    override public func viewDidLoad() {
+class TradeItViewController: UIViewController {
+    override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationItem()
     }

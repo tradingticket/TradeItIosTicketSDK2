@@ -36,12 +36,35 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             }
         )
     }
+    
+    //MARK: IBAction
 
     @IBAction func openAccountTapped(_ sender: UIButton) {
         let brokerCenterViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.brokerCenterView) as! TTSDKBrokerCenterViewController
         self.navigationController?.pushViewController(brokerCenterViewController, animated: true)
     }
+    
+    @IBAction func helpLinkWasTapped(_ sender: AnyObject) {
+        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/faq")
+    }
+    
+    @IBAction func privacyLinkWasTapped(_ sender: AnyObject) {
+        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy")
+    }
+    
+    @IBAction func termsLinkWasTapped(_ sender: AnyObject) {
+        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms")
+    }
+    
 
+    //MARK: private methods
+    private func showWebView(pageTitle: String, url: String) {
+        let webViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.webView) as! TradeItWebViewController
+        webViewController.pageTitle = pageTitle
+        webViewController.url = url
+        self.navigationController?.pushViewController(webViewController, animated: true)
+    }
+    
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

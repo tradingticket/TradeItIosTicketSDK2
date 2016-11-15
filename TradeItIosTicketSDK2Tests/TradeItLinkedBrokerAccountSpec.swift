@@ -123,13 +123,13 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
             var isSuccess = false
             beforeEach {
                 tradeItLinkedBrokerAccount.getPositions(
-                    onSuccess: { isSuccess = true},
+                    onSuccess: { _ in isSuccess = true},
                     onFailure: {_ in isError = true}
                 )
             }
             
             it("doesn't call onFinished yet") {
-                expect(isSuccess).to(beFalse())
+                expect(isError).to(beFalse())
                 expect(isSuccess).to(beFalse())
             }
             

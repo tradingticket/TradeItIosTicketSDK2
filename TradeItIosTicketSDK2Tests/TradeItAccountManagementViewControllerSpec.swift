@@ -22,7 +22,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
 
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
-                linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
+                linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow()
 
                 controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountManagementView.rawValue) as? TradeItAccountManagementViewController
 

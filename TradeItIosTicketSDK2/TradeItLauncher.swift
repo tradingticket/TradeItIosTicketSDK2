@@ -7,7 +7,7 @@ import UIKit
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
-    let deviceManager = TradeItDeviceManager()
+    var deviceManager = TradeItDeviceManager()
 
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)

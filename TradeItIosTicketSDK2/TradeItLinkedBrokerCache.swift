@@ -1,9 +1,3 @@
-import SwiftyUserDefaults
-
-extension DefaultsKeys {
-    static let linkedBrokerCache = DefaultsKey<[String: Any]?>("linkedBrokerCache")
-}
-
 class TradeItLinkedBrokerCache {
     typealias UserId = String
     typealias AccountNumber = String
@@ -15,24 +9,25 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNTS_KEY = "ACCOUNTS"
     private let ACCOUNTS_LAST_UPDATED_KEY = "ACCOUNTS_LAST_UPDATED"
     private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
+    private let LINKED_BROKER_CACHE_KEY = "LINKED_BROKER_CACHE"
 
     var defaults = UserDefaults(suiteName: "it.trade")!
 
     func cache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId else { return }
 
-        var linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
+        var linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
 
         let serializedLinkedBroker = serialize(linkedBroker: linkedBroker)
 
         linkedBrokerCache[userId] = serializedLinkedBroker
 
-        defaults[.linkedBrokerCache] = linkedBrokerCache
+        defaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
-            , let linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers
+            , let linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
             , let serializedLinkedBroker = linkedBrokerCache[userId] as SerializedLinkedBroker?
             else { return }
 
@@ -48,11 +43,11 @@ class TradeItLinkedBrokerCache {
 
     func remove(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
-            , var linkedBrokerCache = defaults[.linkedBrokerCache] as? SerializedLinkedBrokers
+            , var linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
             else { return }
 
         linkedBrokerCache[userId] = nil
-        defaults[.linkedBrokerCache] = linkedBrokerCache
+        defaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 
     // MARK: Private

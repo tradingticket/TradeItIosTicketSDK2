@@ -12,7 +12,7 @@ class FakeTradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount {
 
     }
     
-    override func getPositions(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    override func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.calls.record(#function, args: [
             "onSuccess": onSuccess,
             "onFailure": onFailure

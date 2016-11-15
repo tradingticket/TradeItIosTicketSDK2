@@ -1,16 +1,18 @@
 import UIKit
 
 @objc open class TradeItLauncher: NSObject {
-    open static var linkedBrokerManager: TradeItLinkedBrokerManager!
+    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
     static var marketDataService: TradeItMarketService!
+    public static var brokerCenterService: TradeItBrokerCenterService!
     var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
     var tradingUIFlow: TradeItTradingUIFlow
     var viewControllerProvider: TradeItViewControllerProvider
     let deviceManager = TradeItDeviceManager()
-    
+
     public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
         TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
+        TradeItLauncher.brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
         self.tradingUIFlow = TradeItTradingUIFlow()
         self.viewControllerProvider = TradeItViewControllerProvider()
@@ -83,7 +85,7 @@ import UIKit
             )
         }
     }
-    
+
     public func launchAccountManagement(fromViewController viewController: UIViewController) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
@@ -104,5 +106,10 @@ import UIKit
             presentedNavController.dismiss(animated: true, completion: nil)
             onFlowAborted()
         })
+    }
+
+    public func launchBrokerCenter(fromViewController viewController: UIViewController) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerCenterView)
+        viewController.present(navController, animated: true, completion: nil)
     }
 }

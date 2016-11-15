@@ -5,7 +5,7 @@ import PromiseKit
     var sessionProvider: TradeItSessionProvider
     private var linkedBrokerCache = TradeItLinkedBrokerCache()
     public var linkedBrokers: [TradeItLinkedBroker] = []
-    
+
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
         self.sessionProvider = TradeItSessionProvider()
@@ -13,15 +13,15 @@ import PromiseKit
         super.init()
         self.loadLinkedBrokersFromKeychain()
     }
-    
+
     init(connector: TradeItConnector) {
         self.connector = connector
         self.sessionProvider = TradeItSessionProvider()
-        
+
         super.init()
         self.loadLinkedBrokersFromKeychain()
     }
-    
+
     func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]
 
@@ -109,15 +109,15 @@ import PromiseKit
     public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.linkedBrokers.flatMap { $0.accounts }
     }
-    
+
     public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAccounts().filter { $0.isEnabled }
     }
-    
+
     public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
-    
+
     public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error != nil }
     }
@@ -125,7 +125,7 @@ import PromiseKit
     public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error == nil }
     }
-    
+
     public func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {

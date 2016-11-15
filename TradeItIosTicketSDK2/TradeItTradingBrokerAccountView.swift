@@ -6,8 +6,8 @@ class TradeItTradingBrokerAccountView: UIView {
     @IBOutlet weak var resourceAvailabilityDescriptionLabel: UILabel!
 
     enum PresentationMode {
-        case buying_POWER
-        case shares_OWNED
+        case buyingPower
+        case sharesOwned
     }
 
     enum ActivityIndicatorState {
@@ -16,7 +16,7 @@ class TradeItTradingBrokerAccountView: UIView {
     }
 
     var brokerAccount: TradeItLinkedBrokerAccount?
-    var presentationMode = PresentationMode.buying_POWER
+    var presentationMode = PresentationMode.buyingPower
     var sharesOwned: NSNumber = 0
     var holdingType : String?
 
@@ -39,12 +39,12 @@ class TradeItTradingBrokerAccountView: UIView {
 
     fileprivate func updateResourceAvailabilityLabels() {
         switch presentationMode {
-        case .buying_POWER:
+        case .buyingPower:
             guard let brokerAccount = brokerAccount else { return }
             let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(brokerAccount)
             self.resourceAvailabilityLabel.text = presenter.getFormattedBuyingPower()
             self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
-        case .shares_OWNED:
+        case .sharesOwned:
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned)
             if let holdingType = self.holdingType {
                 self.resourceAvailabilityDescriptionLabel.text = holdingType.caseInsensitiveCompare("LONG") == .orderedSame ? "Shares Owned" : "Shares Shorted"

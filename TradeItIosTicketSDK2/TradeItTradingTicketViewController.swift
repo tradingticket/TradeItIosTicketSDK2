@@ -201,9 +201,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         orderActionButton.setTitle(TradeItOrderActionPresenter.labelFor(order.action), for: UIControlState())
 
         if order.action == .buy {
-            tradingBrokerAccountView.updatePresentationMode(.buying_POWER)
+            tradingBrokerAccountView.updatePresentationMode(.buyingPower)
         } else {
-            tradingBrokerAccountView.updatePresentationMode(.shares_OWNED)
+            tradingBrokerAccountView.updatePresentationMode(.sharesOwned)
         }
     }
 

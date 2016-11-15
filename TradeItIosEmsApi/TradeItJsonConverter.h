@@ -11,4 +11,5 @@
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
                     jsonString:(NSString *)jsonString;
 
++ (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
 @end

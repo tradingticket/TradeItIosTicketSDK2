@@ -23,6 +23,7 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItOAuthDeleteLinkRequest.h"
 #import "TradeItParseErrorResult.h"
+#import "UserAgent.h"
 
 #ifdef CARTHAGE
 #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
@@ -36,7 +37,6 @@
 - (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin;
 
 @end
-
 
 @implementation TradeItConnector {
     BOOL runAsyncCompletionBlockOnMainThread;
@@ -433,6 +433,9 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         NSURLSession *session = [NSURLSession sharedSession];
+        NSString* userAgent = [UserAgent getUserAgent];
+        [request addValue:userAgent forHTTPHeaderField:@"User-Agent"];
+
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
               if ((data == nil) || ([httpResponse statusCode] != 200)) {

@@ -384,6 +384,8 @@
 		B5FDB6811DDE40F700CA558D /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
 		B5FDB6821DDE40F700CA558D /* truste.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB6801DDE40F700CA558D /* truste.png */; };
 		CBA8E0CD6C673C37283F6277 /* Pods_ExampleAppObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D050ED253E2B66D47A6809 /* Pods_ExampleAppObjC.framework */; };
+		B58BC7271DDBBE260079ED8B /* UserAgent.h in Headers */ = {isa = PBXBuildFile; fileRef = B58BC7251DDBBE260079ED8B /* UserAgent.h */; };
+		B58BC7281DDBBE260079ED8B /* UserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7261DDBBE260079ED8B /* UserAgent.m */; };
 		D33505F61DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F11DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift */; };
 		D33505F71DC24EDE00BC5BC5 /* TradeItSDK2UITestsAuthErrorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F21DC24EDE00BC5BC5 /* TradeItSDK2UITestsAuthErrorFlow.swift */; };
 		D33505F81DC24EDE00BC5BC5 /* TradeItSDK2UITestsPortfolioFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F31DC24EDE00BC5BC5 /* TradeItSDK2UITestsPortfolioFlow.swift */; };
@@ -979,6 +981,8 @@
 		B5FDB67F1DDE40F700CA558D /* norton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = norton.png; sourceTree = "<group>"; };
 		B5FDB6801DDE40F700CA558D /* truste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = truste.png; sourceTree = "<group>"; };
 		BA2C2105E6203F11E285CA10 /* Pods-ExampleAppObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleAppObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleAppObjC/Pods-ExampleAppObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		B58BC7251DDBBE260079ED8B /* UserAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAgent.h; sourceTree = "<group>"; };
+		B58BC7261DDBBE260079ED8B /* UserAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAgent.m; sourceTree = "<group>"; };
 		C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFA3D7027ABB635CCC657394 /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D33505F11DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSDK2AlertQueue.swift; sourceTree = "<group>"; };
@@ -1444,6 +1448,8 @@
 				75BAAB391DB7EF2F00E5435C /* TradeItKeychain.h */,
 				75BAAB3A1DB7EF2F00E5435C /* TradeItKeychain.m */,
 				75BAAB6F1DB7EF2F00E5435C /* TradeItTypeDefs.h */,
+				B58BC7251DDBBE260079ED8B /* UserAgent.h */,
+				B58BC7261DDBBE260079ED8B /* UserAgent.m */,
 			);
 			path = TradeItIosEmsApi;
 			sourceTree = "<group>";
@@ -1690,6 +1696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75BAABB51DB7EF2F00E5435C /* TradeItGetPositionsResult.h in Headers */,
+				B58BC7271DDBBE260079ED8B /* UserAgent.h in Headers */,
 				75BAABB71DB7EF2F00E5435C /* TradeItIosEmsApiLib.h in Headers */,
 				7591A9111EFB09F0008EB943 /* TradeItFxOrderInfoResult.h in Headers */,
 				75AB474A1EFEEF5000A8BEC6 /* TradeItInstrumentOrderCapabilities.h in Headers */,
@@ -2530,6 +2537,7 @@
 				75BAAAE51DB7EEB400E5435C /* TradeItTradePreviewViewController.swift in Sources */,
 				75F426171E1EEBE00054E15F /* TradeItThemeConfigurator.swift in Sources */,
 				75BAAAD21DB7EEB400E5435C /* TradeItPortfolioPositionPresenter.swift in Sources */,
+				B58BC7281DDBBE260079ED8B /* UserAgent.m in Sources */,
 				75BAAB8C1DB7EF2F00E5435C /* TradeItAccountOverviewRequest.m in Sources */,
 				75BAAAE01DB7EEB400E5435C /* TradeItSymbolSearchViewController.swift in Sources */,
 				75BAABE91DB7EF2F00E5435C /* TradeItSymbolLookupCompany.m in Sources */,

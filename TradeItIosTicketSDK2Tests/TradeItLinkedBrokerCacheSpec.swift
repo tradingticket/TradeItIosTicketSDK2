@@ -1,7 +1,6 @@
 import Quick
 import Nimble
 import Foundation
-import SwiftyUserDefaults
 @testable import TradeItIosTicketSDK2
 
 class TradeItLinkedBrokerCacheSpec: QuickSpec {
@@ -24,12 +23,12 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
         describe("TradeItLinkedBrokerCache") {
             beforeEach {
                 // This doesn't work in the simulator.  Thanks, Apple.
-                self.defaults.removeAll()
+                // self.defaults.removeSuite(named: "TRADE IT TEST SUITE")
 
                 // So we have to do this nonsense instead.
                 self.defaults = UserDefaults(suiteName: "TEST \(Date().timeIntervalSince1970)")!
 
-                expect(Defaults[.linkedBrokerCache]).to(beNil())
+                expect(self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE")).to(beNil())
 
                 cache = TradeItLinkedBrokerCache()
                 cache.defaults = self.defaults
@@ -93,7 +92,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("adds the broker to the cache") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(1))
 
@@ -125,7 +124,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         }
 
                         it("adds it to the cache") {
-                            let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                            let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                             expect(serializedBrokers.keys.count).to(equal(2))
 
@@ -185,7 +184,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("overwrites all of the broker's cached data") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(2))
 
@@ -272,7 +271,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("doesn't alter the cached brokers") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(2))
 
@@ -359,7 +358,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("doesn't alter the cached brokers") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(2))
 
@@ -429,7 +428,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("removes only the matching linked broker") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(1))
                         expect(serializedBrokers["My Special User ID 1"]).to(beNil())
@@ -463,7 +462,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     }
 
                     it("doesn't remove any linked brokers") {
-                        let serializedBrokers = self.defaults[.linkedBrokerCache] as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
+                        let serializedBrokers = self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE") as! TradeItLinkedBrokerCache.SerializedLinkedBrokers
 
                         expect(serializedBrokers.keys.count).to(equal(2))
                         expect(serializedBrokers["My Special User ID 1"]).notTo(beNil())

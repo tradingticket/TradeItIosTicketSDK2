@@ -42,7 +42,7 @@ import PromiseKit
                                                                  _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
                                             onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
                                             onFinished: @escaping () -> Void) {
-        let promises = self.linkedBrokers.filter { $0.error != nil }.map { linkedBroker in
+        let promises = self.getAllLinkedBrokersInError().map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticate(
                     onSuccess: fulfill,

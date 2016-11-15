@@ -21,19 +21,19 @@ public class TradeItOrder {
         self.symbol = symbol
     }
 
-    func requiresLimitPrice() -> Bool {
+    public func requiresLimitPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
-    func requiresStopPrice() -> Bool {
+    public func requiresStopPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
-    func requiresExpiration() -> Bool {
+    public func requiresExpiration() -> Bool {
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
-    func estimatedChange() -> NSDecimalNumber? {
+    public func estimatedChange() -> NSDecimalNumber? {
         var optionalPrice: NSDecimalNumber?
         switch type {
         case .market: optionalPrice = quoteLastPrice
@@ -72,7 +72,7 @@ public class TradeItOrder {
         })
     }
 
-    func isValid() -> Bool {
+    public func isValid() -> Bool {
         return validateQuantity()
             && validateOrderPriceType()
             && symbol != nil

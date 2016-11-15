@@ -76,7 +76,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 beforeEach {
                     let broker1 = TradeItBroker(shortName: "Broker Short #1", longName: "Broker Long #1")
                     let broker2 = TradeItBroker(shortName: "Broker Short #2", longName: "Broker Long #2")
-                    let brokersResponse = [broker1!, broker2!]
+                    let brokersResponse = [broker1, broker2]
 
                     let completionHandler = linkedBrokerManager.calls.forMethod("getAvailableBrokers(onSuccess:onFailure:)")[0].args["onSuccess"] as! (([TradeItBroker]) -> Void)
                     completionHandler(brokersResponse)

@@ -24,8 +24,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
                 accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
                 portfolioErrorHandlingViewManager = FakeTradeItPortfolioErrorHandlingViewManager()
-                linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow(linkedBrokerManager: linkedBrokerManager)
-                tradingUIFlow = FakeTradeItTradingUIFlow(linkedBrokerManager: linkedBrokerManager)
+                linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow()
+                tradingUIFlow = FakeTradeItTradingUIFlow()
 
                 window = UIWindow()
                 let bundle = Bundle(identifier: "TradeIt.TradeItIosTicketSDK2")
@@ -135,6 +135,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
             describe("when an account is selected") {
                 var account1: FakeTradeItLinkedBrokerAccount!
+                var portfolioPosition: FakeTradeItPortfolioPositions!
+
                 beforeEach {
                     let position = TradeItPosition()
                     position.costbasis = 123
@@ -148,7 +150,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                     account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
 
-                    let portfolioPosition = FakeTradeItPortfolioPositions(linkedBrokerAccount: account1, position: position)
+                    portfolioPosition = FakeTradeItPortfolioPositions(linkedBrokerAccount: account1, position: position)
                     account1.positions = [portfolioPosition]
 
                     controller.linkedBrokerAccountWasSelected(selectedAccount: account1)
@@ -170,8 +172,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                 describe("when positions have been refreshed") {
                     beforeEach {
-                        let onSuccess = account1.calls.forMethod("getPositions(onSuccess:onFailure:)")[0].args["onSuccess"] as! () -> Void
-                        onSuccess()
+                        let onSuccess = account1.calls.forMethod("getPositions(onSuccess:onFailure:)")[0].args["onSuccess"] as! ([TradeItPortfolioPosition]) -> Void
+                        onSuccess([portfolioPosition])
                     }
 
 //                    it("hides the spinner") {

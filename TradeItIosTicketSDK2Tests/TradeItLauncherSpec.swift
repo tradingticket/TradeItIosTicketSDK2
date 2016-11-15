@@ -6,15 +6,21 @@ class TradeItLauncherSpec: QuickSpec {
     override func spec() {
         var tradeItLauncher: TradeItLauncher!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
+        var deviceManager: FakeTradeItDeviceManager!
         var viewController: UIViewController!
         var window: UIWindow!
         
         describe("TradeItLauncher") {
             beforeEach {
                 window = UIWindow()
-                tradeItLauncher = TradeItLauncher(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
+                deviceManager = FakeTradeItDeviceManager()
+
+                tradeItLauncher = TradeItLauncher(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
+                tradeItLauncher.deviceManager = deviceManager
+
                 TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+
                 viewController = UIViewController()
 
                 expect(viewController.view).notTo(beNil())

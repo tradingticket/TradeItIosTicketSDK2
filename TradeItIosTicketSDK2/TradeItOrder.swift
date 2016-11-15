@@ -81,12 +81,12 @@ public class TradeItOrder {
 
     // MARK: Private
 
-    fileprivate func validateQuantity() -> Bool {
+    private func validateQuantity() -> Bool {
         guard let quantity = quantity else { return false }
         return isGreaterThanZero(quantity)
     }
 
-    fileprivate func validateOrderPriceType() -> Bool {
+    private func validateOrderPriceType() -> Bool {
         switch type {
         case .market: return true
         case .limit: return validateLimit()
@@ -96,21 +96,21 @@ public class TradeItOrder {
         }
     }
 
-    fileprivate func validateLimit() -> Bool {
+    private func validateLimit() -> Bool {
         guard let limitPrice = limitPrice else { return false }
         return isGreaterThanZero(limitPrice)
     }
 
-    fileprivate func validateStopMarket() -> Bool {
+    private func validateStopMarket() -> Bool {
         guard let stopPrice = stopPrice else { return false }
         return isGreaterThanZero(stopPrice)
     }
 
-    fileprivate func validateStopLimit() -> Bool {
+    private func validateStopLimit() -> Bool {
         return validateLimit() && validateStopMarket()
     }
 
-    fileprivate func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
+    private func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
         return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 

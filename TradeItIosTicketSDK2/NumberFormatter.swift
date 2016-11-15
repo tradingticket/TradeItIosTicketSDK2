@@ -1,5 +1,5 @@
 class NumberFormatter: NSObject {
-    fileprivate static let formatter = Foundation.NumberFormatter()
+    private static let formatter = Foundation.NumberFormatter()
     
     static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, currencyCode: String?) -> String {
         let currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE

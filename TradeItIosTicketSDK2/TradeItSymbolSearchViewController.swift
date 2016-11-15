@@ -7,7 +7,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var searchResultTableView: UITableView!
 
     let marketDataService = TradeItLauncher.marketDataService
-    fileprivate var symbolSearchResults: [TradeItSymbolLookupCompany] = []
+    private var symbolSearchResults: [TradeItSymbolLookupCompany] = []
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
     // MARK: Private
 
-    fileprivate func setupSearchTextField() {
+    private func setupSearchTextField() {
         searchTextField.delegate = self
         let searchLabel = UILabel()
         searchLabel.text = " 🔍"

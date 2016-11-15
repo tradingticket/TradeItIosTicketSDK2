@@ -1,7 +1,7 @@
 import UIKit
 
 @objc open class TradeItAlertManager: NSObject {
-    fileprivate var alertQueue = TradeItAlertQueue.sharedInstance
+    private var alertQueue = TradeItAlertQueue.sharedInstance
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     open func showError(_ error: TradeItErrorResult,
@@ -105,25 +105,25 @@ import UIKit
 }
 
 private class TradeItAlertQueue {
-    fileprivate static let sharedInstance = TradeItAlertQueue()
-    fileprivate typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
+    static let sharedInstance = TradeItAlertQueue()
+    private typealias AlertContext = (onViewController: UIViewController, alertController: UIAlertController)
 
-    fileprivate var queue: [AlertContext] = []
-    fileprivate var alreadyPresentingAlert = false
+    private var queue: [AlertContext] = []
+    private var alreadyPresentingAlert = false
 
-    fileprivate init() {}
+    private init() {}
 
     func add(onViewController viewController: UIViewController, alert: UIAlertController) {
         queue.append((viewController, alert))
         self.showNextAlert()
     }
 
-    fileprivate func alertFinished() {
+    func alertFinished() {
         alreadyPresentingAlert = false
         showNextAlert()
     }
 
-    fileprivate func showNextAlert() {
+    func showNextAlert() {
         if alreadyPresentingAlert || queue.isEmpty { return }
         let alertContext = queue.removeFirst()
         alreadyPresentingAlert = true

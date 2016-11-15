@@ -1,8 +1,8 @@
 import UIKit
 
 class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate {
-    fileprivate var symbolResults: [TradeItSymbolLookupCompany] = []
-    fileprivate var _table: UITableView?
+    private var symbolResults: [TradeItSymbolLookupCompany] = []
+    private var _table: UITableView?
     var symbolResultsTableView: UITableView? {
         get {
             return _table
@@ -16,7 +16,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
             }
         }
     }
-    fileprivate var _searchController: UISearchController?
+    private var _searchController: UISearchController?
     var searchController: UISearchController? {
         get {
             return _searchController

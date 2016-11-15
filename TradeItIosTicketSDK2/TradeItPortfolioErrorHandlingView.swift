@@ -5,7 +5,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     @IBOutlet weak var longMessageLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     
-    fileprivate var linkedBrokerInError: TradeItLinkedBroker?
+    private var linkedBrokerInError: TradeItLinkedBroker?
     
     var delegate: TradeItPortfolioErrorHandlingViewDelegate?
     
@@ -16,7 +16,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     }
     
     //MARK: private
-    fileprivate func updateMessages() {
+    private func updateMessages() {
         let error = self.linkedBrokerInError?.error
 
         self.shortMessageLabel.text = error?.shortMessage ?? ""
@@ -25,7 +25,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
         self.longMessageLabel.text = longMessages.joined(separator: " ")
     }
     
-    fileprivate func updateButtonText() {
+    private func updateButtonText() {
         var text = "Reload Account"
 
         if let errorCode = self.linkedBrokerInError?.error?.errorCode() {

@@ -147,7 +147,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private
 
-    fileprivate func presentSymbolSelectionScreen() {
+    private func presentSymbolSelectionScreen() {
         let symbolSearchViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.symbolSearchView) as! TradeItSymbolSearchViewController
 
         symbolSearchViewController.delegate = self
@@ -155,7 +155,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         self.navigationController?.pushViewController(symbolSearchViewController, animated: true)
     }
 
-    fileprivate func presentAccountSelectionScreen() {
+    private func presentAccountSelectionScreen() {
         let accountSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.accountSelectionView) as! TradeItAccountSelectionViewController
 
         accountSelectionViewController.delegate = self
@@ -184,19 +184,19 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private - Order changed handlers
 
-    fileprivate func orderActionSelected(_ action: UIAlertAction) {
+    private func orderActionSelected(_ action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
     }
 
-    fileprivate func orderTypeSelected(action: UIAlertAction) {
+    private func orderTypeSelected(action: UIAlertAction) {
         orderTypeSelected(orderType: action.title)
     }
 
-    fileprivate func orderExpirationSelected(_ action: UIAlertAction) {
+    private func orderExpirationSelected(_ action: UIAlertAction) {
         orderExpirationSelected(orderExpiration: action.title)
     }
 
-    fileprivate func orderActionSelected(orderAction: String!) {
+    private func orderActionSelected(orderAction: String!) {
         order.action = TradeItOrderActionPresenter.enumFor(orderAction)
         orderActionButton.setTitle(TradeItOrderActionPresenter.labelFor(order.action), for: UIControlState())
 
@@ -207,7 +207,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         }
     }
 
-    fileprivate func orderTypeSelected(orderType: String!) {
+    private func orderTypeSelected(orderType: String!) {
         order.type = TradeItOrderPriceTypePresenter.enumFor(orderType)
         orderTypeButton.setTitle(TradeItOrderPriceTypePresenter.labelFor(order.type), for: UIControlState())
 
@@ -237,12 +237,12 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         updatePreviewOrderButtonStatus()
     }
 
-    fileprivate func orderExpirationSelected(orderExpiration: String!) {
+    private func orderExpirationSelected(orderExpiration: String!) {
         order.expiration = TradeItOrderExpirationPresenter.enumFor(orderExpiration)
         orderExpirationButton.setTitle(TradeItOrderExpirationPresenter.labelFor(order.expiration), for: UIControlState())
     }
 
-    fileprivate func updatePreviewOrderButtonStatus() {
+    private func updatePreviewOrderButtonStatus() {
         if order.isValid() {
             previewOrderButton.isEnabled = true
             previewOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
@@ -252,7 +252,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         }
     }
 
-    fileprivate func updateSymbolView() {
+    private func updateSymbolView() {
         guard let symbol = order.symbol else { return }
 
         symbolView.updateSymbol(symbol)
@@ -274,7 +274,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         updateSharesOwnedLabel()
     }
 
-    fileprivate func updateTradingBrokerAccountView() {
+    private func updateTradingBrokerAccountView() {
         guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
 
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
@@ -297,7 +297,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     }
 
-    fileprivate func updateSharesOwnedLabel() {
+    private func updateSharesOwnedLabel() {
         guard let symbol = order.symbol
             , let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
@@ -318,7 +318,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private - Text view configurators
 
-    fileprivate func registerTextFieldNotifications() {
+    private func registerTextFieldNotifications() {
         let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
 
         orderTypeInputs.forEach { input in
@@ -330,17 +330,17 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         }
     }
 
-    fileprivate func configureLimitInput(_ input: UITextField) {
+    private func configureLimitInput(_ input: UITextField) {
         input.placeholder = "Limit Price"
         input.isHidden = false
     }
 
-    fileprivate func configureStopInput(_ input: UITextField) {
+    private func configureStopInput(_ input: UITextField) {
         input.placeholder = "Stop Price"
         input.isHidden = false
     }
 
-    fileprivate func updateEstimatedChangedLabel() {
+    private func updateEstimatedChangedLabel() {
         if let estimatedChange = order.estimatedChange() {
             let formattedEstimatedChange = NumberFormatter.formatCurrency(estimatedChange, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
             if order.action == .buy {
@@ -355,7 +355,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private - Keyboard event handlers
 
-    fileprivate func registerKeyboardNotifications() {
+    private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.keyboardWillShow(_:)),
@@ -370,7 +370,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         )
     }
 
-    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         let info = (notification as NSNotification).userInfo!
         let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
 
@@ -379,7 +379,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         })
     }
 
-    @objc fileprivate func keyboardWillHide(_: Notification) {
+    @objc private func keyboardWillHide(_: Notification) {
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
             self.bottomConstraint.constant = TradeItTradingTicketViewController.BOTTOM_CONSTRAINT_CONSTANT
         })
@@ -387,7 +387,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     // MARK: Private - Action sheet helper
 
-    fileprivate func presentOptions(title: String, options: [String], sender: UIButton, handler: @escaping (UIAlertAction) -> Void) {
+    private func presentOptions(title: String, options: [String], sender: UIButton, handler: @escaping (UIAlertAction) -> Void) {
         let actionSheet: UIAlertController = UIAlertController(
             title: title,
             message: nil,

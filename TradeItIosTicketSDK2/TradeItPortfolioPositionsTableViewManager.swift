@@ -2,10 +2,10 @@ import UIKit
 
 class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
 
-    fileprivate var positions: [TradeItPortfolioPosition] = []
-    fileprivate var selectedPositionIndex = -1
+    private var positions: [TradeItPortfolioPosition] = []
+    private var selectedPositionIndex = -1
 
-    fileprivate var _table: UITableView?
+    private var _table: UITableView?
     var positionsTable: UITableView? {
         get {
             return _table
@@ -50,7 +50,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         }
     }
     
-    fileprivate func reloadTableViewAtIndexPath(_ indexPaths: [IndexPath]) {
+    private func reloadTableViewAtIndexPath(_ indexPaths: [IndexPath]) {
         self.positionsTable?.beginUpdates()
         self.positionsTable?.reloadRows(at: indexPaths, with: .automatic)
         self.positionsTable?.endUpdates()

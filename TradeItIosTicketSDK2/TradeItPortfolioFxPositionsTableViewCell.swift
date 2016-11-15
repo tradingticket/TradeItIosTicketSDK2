@@ -13,15 +13,15 @@ class TradeItPortfolioFxPositionsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var fxPositionDetailsHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var selectedPosition: TradeItPortfolioPosition?
-    fileprivate var fxPositionsDetailsHeight = CGFloat(0.0)
+    private var selectedPosition: TradeItPortfolioPosition?
+    private var fxPositionsDetailsHeight = CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
-    fileprivate let chevronUpImage = UIImage(named: "chevron_up",
+    private let chevronUpImage = UIImage(named: "chevron_up",
                                          in: Bundle(for: TradeItPortfolioFxPositionsTableViewCell.self),
                                          compatibleWith: nil)
 
-    fileprivate let chevronDownImage = UIImage(named: "chevron_down",
+    private let chevronDownImage = UIImage(named: "chevron_down",
                                            in: Bundle(for: TradeItPortfolioFxPositionsTableViewCell.self),
                                            compatibleWith: nil)
 

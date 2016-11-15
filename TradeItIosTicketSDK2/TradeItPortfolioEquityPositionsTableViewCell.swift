@@ -21,16 +21,16 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
 
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
-    fileprivate var selectedPosition: TradeItPortfolioPosition?
-    fileprivate var positionDetailsHeight = CGFloat(0.0)
-    fileprivate var buttonHeight =  CGFloat(0.0)
+    private var selectedPosition: TradeItPortfolioPosition?
+    private var positionDetailsHeight = CGFloat(0.0)
+    private var buttonHeight =  CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
-    fileprivate let chevronUpImage = UIImage(named: "chevron_up",
+    private let chevronUpImage = UIImage(named: "chevron_up",
                                          in: Bundle(for: TradeItPortfolioEquityPositionsTableViewCell.self),
                                          compatibleWith: nil)
 
-    fileprivate let chevronDownImage = UIImage(named: "chevron_down",
+    private let chevronDownImage = UIImage(named: "chevron_down",
                                            in: Bundle(for: TradeItPortfolioEquityPositionsTableViewCell.self),
                                            compatibleWith: nil)
 
@@ -78,7 +78,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     // MARK: private
     
-    fileprivate func updateTradeButtonVisibility() {
+    private func updateTradeButtonVisibility() {
         if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
             self.buyButton.isHidden = false
             self.sellButton.isHidden = false

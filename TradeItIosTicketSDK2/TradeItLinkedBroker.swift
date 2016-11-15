@@ -106,7 +106,7 @@ open class TradeItLinkedBroker: NSObject {
         return self.accounts.filter { return $0.isEnabled }
     }
 
-    fileprivate func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
+    private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
         return accounts.map { account in
             return TradeItLinkedBrokerAccount(
                 linkedBroker: self,

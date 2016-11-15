@@ -2,8 +2,8 @@ import UIKit
 
 class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     
-    fileprivate var _table: UITableView?
-    fileprivate var linkedBrokers: [TradeItLinkedBroker] = []
+    private var _table: UITableView?
+    private var linkedBrokers: [TradeItLinkedBroker] = []
     var brokersTable: UITableView? {
         get {
             return _table

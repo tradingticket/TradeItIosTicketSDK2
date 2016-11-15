@@ -2,7 +2,7 @@ import UIKit
 
 class TradeItPortfolioErrorHandlingViewManager: NSObject {
 
-    fileprivate var _accountInfoContainerView: UIView?
+    private var _accountInfoContainerView: UIView?
     var accountInfoContainerView: UIView? {
         get {
             return _accountInfoContainerView
@@ -16,7 +16,7 @@ class TradeItPortfolioErrorHandlingViewManager: NSObject {
         }
     }
     
-    fileprivate var _errorHandlingView: TradeItPortfolioErrorHandlingView?
+    private var _errorHandlingView: TradeItPortfolioErrorHandlingView?
     var errorHandlingView: TradeItPortfolioErrorHandlingView? {
         get {
             return _errorHandlingView

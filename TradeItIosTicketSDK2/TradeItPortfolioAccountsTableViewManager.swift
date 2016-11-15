@@ -5,9 +5,9 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     let PORTFOLIO_ACCOUNTS_CELL_ID = "PORTFOLIO_ACCOUNTS_CELL_ID"
     let PORTFOLIO_ERROR_CELL_ID = "PORTFOLIO_ERROR_CELL_ID"
 
-    fileprivate var _table: UITableView?
-    fileprivate var accounts: [TradeItLinkedBrokerAccount] = []
-    fileprivate var linkedBrokersInError: [TradeItLinkedBroker] = []
+    private var _table: UITableView?
+    private var accounts: [TradeItLinkedBrokerAccount] = []
+    private var linkedBrokersInError: [TradeItLinkedBroker] = []
     
     var accountsTable: UITableView? {
         get {

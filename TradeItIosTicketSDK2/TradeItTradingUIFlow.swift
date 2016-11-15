@@ -34,13 +34,13 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
     // MARK: Private
 
-    fileprivate func initializeLinkedAccount(forOrder order: TradeItOrder) {
+    private func initializeLinkedAccount(forOrder order: TradeItOrder) {
         let enabledAccounts = TradeItLauncher.linkedBrokerManager.getAllEnabledAccounts()
 
         order.linkedBrokerAccount = enabledAccounts.first
     }
 
-    fileprivate func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
+    private func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
         var initialStoryboardId: TradeItStoryboardID!
 
         self.initializeLinkedAccount(forOrder: order)

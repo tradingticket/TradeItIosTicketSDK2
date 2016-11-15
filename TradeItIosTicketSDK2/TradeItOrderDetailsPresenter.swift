@@ -1,6 +1,6 @@
 class TradeItOrderDetailsPresenter {
 
-    fileprivate var orderDetails: TradeItPreviewTradeOrderDetails
+    private var orderDetails: TradeItPreviewTradeOrderDetails
 
     init(orderDetails: TradeItPreviewTradeOrderDetails) {
         self.orderDetails = orderDetails

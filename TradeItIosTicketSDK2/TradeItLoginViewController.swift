@@ -94,7 +94,7 @@ class TradeItLoginViewController: KeyboardViewController {
     
     // MARK: Private
 
-    fileprivate func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
+    private func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticate(
             onSuccess: { () -> Void in
                 self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
@@ -120,7 +120,7 @@ class TradeItLoginViewController: KeyboardViewController {
         )
     }
 
-    fileprivate func updateLinkButton() {
+    private func updateLinkButton() {
         if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.isEnabled) {
             self.enableLinkButton()
         } else if ( (self.userNameInput.text == "" || self.passwordInput.text == "") && self.linkButton.isEnabled) {
@@ -128,12 +128,12 @@ class TradeItLoginViewController: KeyboardViewController {
         }
     }
     
-    fileprivate func disableLinkButton() {
+    private func disableLinkButton() {
         self.linkButton.isEnabled = false
         self.linkButton.alpha = 0.5
     }
     
-    fileprivate func enableLinkButton() {
+    private func enableLinkButton() {
         self.linkButton.isEnabled = true
         self.linkButton.alpha = 1.0
     }

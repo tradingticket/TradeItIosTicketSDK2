@@ -37,7 +37,7 @@ class TradeItTradingBrokerAccountView: UIView {
         updateResourceAvailabilityLabels()
     }
 
-    fileprivate func updateResourceAvailabilityLabels() {
+    private func updateResourceAvailabilityLabels() {
         switch presentationMode {
         case .buyingPower:
             guard let brokerAccount = brokerAccount else { return }

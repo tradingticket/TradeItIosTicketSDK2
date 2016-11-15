@@ -50,7 +50,7 @@ class TradeItSymbolView: UIView {
         }
     }
 
-    fileprivate func clearQuote() {
+    private func clearQuote() {
         self.quoteLastPriceLabel.text = nil
         self.quoteChangeLabel.text = nil
         self.updatedAtLabel.text = nil

@@ -121,7 +121,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         print("=====> ===============\n\n")
     }
 
-    fileprivate func manualAuthenticateAll() {
+    private func manualAuthenticateAll() {
         TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
@@ -137,7 +137,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    fileprivate func manualBalances() {
+    private func manualBalances() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -148,7 +148,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    fileprivate func manualPositions() {
+    private func manualPositions() {
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
@@ -161,7 +161,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
 
-    fileprivate func launchAlertQueue() {
+    private func launchAlertQueue() {
         alertManager.showAlert(
             onViewController: self,
             withTitle: "Alert 1",
@@ -183,7 +183,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    fileprivate func deleteLinkedBrokers() -> Void {
+    private func deleteLinkedBrokers() -> Void {
         print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
 
         let appDomain = Bundle.main.bundleIdentifier;

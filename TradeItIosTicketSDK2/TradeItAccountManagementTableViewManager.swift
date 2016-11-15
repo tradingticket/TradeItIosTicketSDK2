@@ -1,9 +1,9 @@
 import UIKit
 
 class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-    fileprivate var _table: UITableView?
-    fileprivate var linkedBrokerAccounts: [TradeItLinkedBrokerAccount] = []
-    fileprivate var refreshControl: UIRefreshControl?
+    private var _table: UITableView?
+    private var linkedBrokerAccounts: [TradeItLinkedBrokerAccount] = []
+    private var refreshControl: UIRefreshControl?
     var delegate: TradeItAccountManagementTableViewManagerDelegate?
 
     var accountsTableView: UITableView? {

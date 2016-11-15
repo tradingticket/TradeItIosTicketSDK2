@@ -69,7 +69,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     
     // MARK: private methods
 
-    fileprivate func updatePortfolioScreen() {
+    private func updatePortfolioScreen() {
         let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
         let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
         self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
@@ -79,7 +79,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         }
     }
     
-    fileprivate func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
+    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
         var totalAccountsValue: Float = 0
         for account in accounts {
             if let balance = account.balance, let totalValue = balance.totalValue {
@@ -92,7 +92,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         self.totalValueLabel.text = NumberFormatter.formatCurrency(NSNumber(value: totalAccountsValue), currencyCode: nil)
     }
     
-    fileprivate func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
+    private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,
                                                    orderAction: TradeItOrderAction?) -> TradeItOrder {
             let order = TradeItOrder()

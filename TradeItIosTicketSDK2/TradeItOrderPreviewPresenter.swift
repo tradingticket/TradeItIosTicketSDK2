@@ -24,7 +24,7 @@ class TradeItOrderPreviewPresenter {
         return request
     }
 
-    fileprivate func action() -> String {
+    private func action() -> String {
         switch order.action {
         case .buy: return "buy"
         case .sell: return "sell"
@@ -34,7 +34,7 @@ class TradeItOrderPreviewPresenter {
         }
     }
 
-    fileprivate func priceType() -> String {
+    private func priceType() -> String {
         switch order.type {
         case .market: return "market"
         case .limit: return "limit"
@@ -44,7 +44,7 @@ class TradeItOrderPreviewPresenter {
         }
     }
 
-    fileprivate func expiration() -> String {
+    private func expiration() -> String {
         switch order.expiration {
         case .goodForDay: return "day"
         case .goodUntilCanceled: return "gtc"
@@ -52,12 +52,12 @@ class TradeItOrderPreviewPresenter {
         }
     }
 
-    fileprivate func quantity() -> NSDecimalNumber {
+    private func quantity() -> NSDecimalNumber {
         guard let quantity = order.quantity else { return 0 }
         return quantity
     }
 
-    fileprivate func symbol() -> String {
+    private func symbol() -> String {
         guard let symbol = order.symbol else { return "" }
         return symbol
     }
@@ -71,7 +71,7 @@ class TradeItOrderPreviewPresenter {
         return limitPrice
     }
 
-    fileprivate func stopPrice() -> NSDecimalNumber? {
+    private func stopPrice() -> NSDecimalNumber? {
         guard let stopPrice = order.stopPrice,
             order.requiresStopPrice()
             else { return nil }

@@ -24,7 +24,7 @@ class TradeItMarketService {
         })
     }
     
-    func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let session = sessionProvider.provide(connector: connector)
         let marketDataService = TradeItMarketDataService(session: session)
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)

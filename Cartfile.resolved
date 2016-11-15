@@ -1,3 +1,2 @@
 github "jdg/MBProgressHUD" "1.0.0"
 github "mxcl/PromiseKit" "4.0.5"
-github "radex/SwiftyUserDefaults" "3.0.0"

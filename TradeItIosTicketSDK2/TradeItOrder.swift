@@ -3,7 +3,7 @@ public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
 public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
                                               _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
 
-public class TradeItOrder {
+@objc public class TradeItOrder: NSObject {
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
     public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
@@ -14,7 +14,9 @@ public class TradeItOrder {
     public var stopPrice: NSDecimalNumber?
     public var quoteLastPrice: NSDecimalNumber?
 
-    public init() {}
+    public override init() {
+        super.init()
+    }
 
     public init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
         self.linkedBrokerAccount = linkedBrokerAccount

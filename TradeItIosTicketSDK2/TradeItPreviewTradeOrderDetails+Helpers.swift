@@ -1,10 +1,10 @@
-public enum TradeItOrderExpiration {
+@objc public enum TradeItOrderExpiration: Int {
     case goodForDay
     case goodUntilCanceled
     case unknown
 }
 
-public enum TradeItOrderPriceType {
+@objc public enum TradeItOrderPriceType: Int {
     case market
     case limit
     case stopMarket
@@ -12,7 +12,7 @@ public enum TradeItOrderPriceType {
     case unknown
 }
 
-public enum TradeItOrderAction {
+@objc public enum TradeItOrderAction: Int {
     case buy
     case sell
     case buyToCover

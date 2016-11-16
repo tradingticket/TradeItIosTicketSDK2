@@ -144,7 +144,9 @@ import PromiseKit
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
-                    self.authenticationDelegate?.didLink(linkedBroker: linkedBroker, userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
+                    if let userId = updateLinkResult.userId, let userToken = updateLinkResult.userToken {
+                        self.authenticationDelegate?.didLink(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                    }
                     onSuccess(linkedBroker)
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")

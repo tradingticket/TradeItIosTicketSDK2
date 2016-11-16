@@ -50,6 +50,8 @@
 		756FAF811DB8198700D5B112 /* TradeItPortfolioViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF1C1DB818CD00D5B112 /* TradeItPortfolioViewControllerSpec.swift */; };
 		756FAF821DB8198700D5B112 /* TradeItSelectBrokerViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF1D1DB818CD00D5B112 /* TradeItSelectBrokerViewControllerSpec.swift */; };
 		756FAF831DB8198700D5B112 /* TradeItSymbolSearchViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756FAF1E1DB818CD00D5B112 /* TradeItSymbolSearchViewControllerSpec.swift */; };
+		75828B881DDCE6160001B26C /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75828B871DDCE6160001B26C /* NumberField.swift */; };
+		75828B891DDCE6160001B26C /* NumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75828B871DDCE6160001B26C /* NumberField.swift */; };
 		75B857AD1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B857AA1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib */; };
 		75B857AE1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 75B857AB1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75B857AF1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B857AC1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m */; };
@@ -606,6 +608,7 @@
 		756FAF1D1DB818CD00D5B112 /* TradeItSelectBrokerViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectBrokerViewControllerSpec.swift; sourceTree = "<group>"; };
 		756FAF1E1DB818CD00D5B112 /* TradeItSymbolSearchViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSymbolSearchViewControllerSpec.swift; sourceTree = "<group>"; };
 		756FAF4E1DB8191800D5B112 /* TradeItIosTicketSDK2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradeItIosTicketSDK2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		75828B871DDCE6160001B26C /* NumberField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberField.swift; sourceTree = "<group>"; };
 		75B857AA1DD13E55003AB7AB /* TTSDKBrokerCenterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTSDKBrokerCenterCell.xib; sourceTree = "<group>"; };
 		75B857AB1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSDKBrokerCenterTableViewCell.h; sourceTree = "<group>"; };
 		75B857AC1DD13E55003AB7AB /* TTSDKBrokerCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSDKBrokerCenterTableViewCell.m; sourceTree = "<group>"; };
@@ -1043,13 +1046,13 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		756FAF891DB81D9700D5B112 /* UI Flows */ = {
+		756FAF891DB81D9700D5B112 /* UIFlows */ = {
 			isa = PBXGroup;
 			children = (
 				75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */,
 				75BAAA641DB7EEB400E5435C /* TradeItLinkBrokerUIFlow.swift */,
 			);
-			name = "UI Flows";
+			name = UIFlows;
 			sourceTree = "<group>";
 		};
 		756FAF8A1DB81E0300D5B112 /* Presenters */ = {
@@ -1145,6 +1148,14 @@
 			name = Providers;
 			sourceTree = "<group>";
 		};
+		75828B861DDCE5CD0001B26C /* InputFields */ = {
+			isa = PBXGroup;
+			children = (
+				75828B871DDCE6160001B26C /* NumberField.swift */,
+			);
+			name = InputFields;
+			sourceTree = "<group>";
+		};
 		75B857A91DD13E55003AB7AB /* TradeItIosBrokerCenterLegacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1204,8 +1215,9 @@
 		75BAAA421DB7EEB400E5435C /* TradeItIosTicketSDK2 */ = {
 			isa = PBXGroup;
 			children = (
+				75828B861DDCE5CD0001B26C /* InputFields */,
 				756FAF881DB81D5500D5B112 /* Extensions */,
-				756FAF891DB81D9700D5B112 /* UI Flows */,
+				756FAF891DB81D9700D5B112 /* UIFlows */,
 				756FAF871DB81D4C00D5B112 /* Helpers */,
 				756FAF8A1DB81E0300D5B112 /* Presenters */,
 				756FAF8F1DB81FE200D5B112 /* Providers */,
@@ -2150,6 +2162,7 @@
 				75BAAB8C1DB7EF2F00E5435C /* TradeItAccountOverviewRequest.m in Sources */,
 				75BAAAE01DB7EEB400E5435C /* TradeItSymbolSearchViewController.swift in Sources */,
 				75BAABE91DB7EF2F00E5435C /* TradeItSymbolLookupCompany.m in Sources */,
+				75828B881DDCE6160001B26C /* NumberField.swift in Sources */,
 				75BAAAAB1DB7EEB400E5435C /* TradeItAccountSelectionTableViewManager.swift in Sources */,
 				75BAAA9F1DB7EEB400E5435C /* KeyboardViewController.swift in Sources */,
 				B55CFDC41DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift in Sources */,
@@ -2322,6 +2335,7 @@
 				FC6E7A1A1DCD1F8B005225CC /* TradeItAccountOverviewRequest.m in Sources */,
 				FC6E7A1B1DCD1F8B005225CC /* TradeItSymbolSearchViewController.swift in Sources */,
 				FC6E7A1C1DCD1F8B005225CC /* TradeItSymbolLookupCompany.m in Sources */,
+				75828B891DDCE6160001B26C /* NumberField.swift in Sources */,
 				FC6E7A1D1DCD1F8B005225CC /* TradeItAccountSelectionTableViewManager.swift in Sources */,
 				FC6E7A1E1DCD1F8B005225CC /* KeyboardViewController.swift in Sources */,
 				FC6E7A1F1DCD1F8B005225CC /* TradeItPreviewTradeOrderDetails+Helpers.swift in Sources */,

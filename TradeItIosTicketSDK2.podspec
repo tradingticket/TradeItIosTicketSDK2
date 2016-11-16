@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '1.0.6'
+  s.version          = '1.0.7'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC
@@ -15,14 +15,18 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'TradeItIosTicketSDK2/**/*.{swift,h}', 'TradeItIosEmsApi/**/*.{h,m}'
+  s.source_files = 'TradeItIosTicketSDK2/**/*.{swift,h}', 
+    'TradeItIosEmsApi/**/*.{h,m}',
+    'TradeItIosBrokerCenterLegacy/**/*.{h,m}'
 
   s.resource_bundles = {
-    'TradeItIosTicketSDK2' => ['TradeItIosTicketSDK2/**/*.{storyboard,xib,png}']
+    'TradeItIosTicketSDK2' => [
+      'TradeItIosTicketSDK2/**/*.{storyboard,xib,png}',
+      'TTSDKBrokerCenterCell.xib'
+    ]
   }
 
   s.frameworks = 'UIKit'
   s.dependency 'PromiseKit', '~> 4.0'
   s.dependency 'MBProgressHUD', '~> 1.0.0'
-  s.dependency 'SwiftyUserDefaults', '~> 3.0.0'
 end

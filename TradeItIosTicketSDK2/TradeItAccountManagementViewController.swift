@@ -71,7 +71,9 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                         }
                     )
                 }
-            })
+            },
+            showCancelAction: true
+        )
     }
 
     // MARK: TradeItAccountManagementTableViewManagerDelegate

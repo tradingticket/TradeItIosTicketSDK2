@@ -43,7 +43,9 @@ import UIKit
                 withMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
-                onCancelActionTapped: onFinished)
+                showCancelAction: true,
+                onCancelActionTapped: onFinished
+            )
         case .oauthError?:
             self.showAlert(
                 onViewController: viewController,
@@ -51,11 +53,14 @@ import UIKit
                 withMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
-                onCancelActionTapped: onFinished)
+                showCancelAction: true,
+                onCancelActionTapped: onFinished
+            )
         default:
             self.showError(error,
                 onViewController: viewController,
-                      onFinished: onFinished)
+                      onFinished: onFinished
+            )
         }
     }
 
@@ -85,6 +90,7 @@ import UIKit
                           withMessage message: String,
                           withActionTitle actionTitle: String,
                           onAlertActionTapped: @escaping () -> Void = {},
+                          showCancelAction: Bool = false,
                           onCancelActionTapped: (() -> Void)? = nil) {
         let alert = TradeItAlertProvider.provideAlert(
             alertTitle: title,
@@ -94,6 +100,7 @@ import UIKit
                 onAlertActionTapped()
                 self.alertQueue.alertFinished()
             },
+            showCancelAction: showCancelAction,
             onCanceledActionTapped: {
                 onCancelActionTapped?()
                 self.alertQueue.alertFinished()

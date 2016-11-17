@@ -40,12 +40,12 @@ Whenever a user links their broker, the SDK will automatically save the link (in
 ## Launching pre-built UI
 If the user has no previously linked brokers, launching any of the pre-built screens will result in the user first being prompted to link a broker.
 
-### Launching Portfolio
+### Launch Portfolio
 By default the first valid account is preselected.
 ```swift
 launcher.launchPortfolio(fromViewController: self)
 ```
-### Launching Portfolio with a specific account pre-selected
+### Launch Portfolio with a specific account pre-selected
 ```swift
 let linkedBroker = launcher.linkedBrokerManager.linkedBrokers.first
 let account = linkedBroker.accounts.first

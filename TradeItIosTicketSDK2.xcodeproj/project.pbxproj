@@ -299,6 +299,8 @@
 		B57ABA301DBEA9C1009B82A3 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */; };
 		B57ABA321DBEAA39009B82A3 /* TradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */; };
 		B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
+		B5FDB6811DDE40F700CA558D /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
+		B5FDB6821DDE40F700CA558D /* truste.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB6801DDE40F700CA558D /* truste.png */; };
 		D33505F61DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F11DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift */; };
 		D33505F71DC24EDE00BC5BC5 /* TradeItSDK2UITestsAuthErrorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F21DC24EDE00BC5BC5 /* TradeItSDK2UITestsAuthErrorFlow.swift */; };
 		D33505F81DC24EDE00BC5BC5 /* TradeItSDK2UITestsPortfolioFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F31DC24EDE00BC5BC5 /* TradeItSDK2UITestsPortfolioFlow.swift */; };
@@ -855,6 +857,8 @@
 		B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItDeviceManager.swift; sourceTree = "<group>"; };
 		B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItWebViewController.swift; sourceTree = "<group>"; };
+		B5FDB67F1DDE40F700CA558D /* norton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = norton.png; sourceTree = "<group>"; };
+		B5FDB6801DDE40F700CA558D /* truste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = truste.png; sourceTree = "<group>"; };
 		C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFA3D7027ABB635CCC657394 /* Pods-ExampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleApp/Pods-ExampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D33505F11DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSDK2AlertQueue.swift; sourceTree = "<group>"; };
@@ -1091,6 +1095,8 @@
 		756FAF8C1DB81EC500D5B112 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5FDB67F1DDE40F700CA558D /* norton.png */,
+				B5FDB6801DDE40F700CA558D /* truste.png */,
 				75B857B41DD3AB7C003AB7AB /* Logos */,
 				75BAAA441DB7EEB400E5435C /* chevron_down.png */,
 				75BAAA451DB7EEB400E5435C /* chevron_up.png */,
@@ -1791,6 +1797,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5FDB6821DDE40F700CA558D /* truste.png in Resources */,
 				75B857C81DD3AB91003AB7AB /* tradier_logo.png in Resources */,
 				75B857C21DD3AB91003AB7AB /* optionshouse_logo.png in Resources */,
 				75B857C31DD3AB91003AB7AB /* schwab_logo.png in Resources */,
@@ -1804,6 +1811,7 @@
 				75B857BF1DD3AB91003AB7AB /* etrade_logo.png in Resources */,
 				75BAAAA11DB7EEB400E5435C /* native_arrow.png in Resources */,
 				75BAAAA41DB7EEB400E5435C /* success_icon.png in Resources */,
+				B5FDB6811DDE40F700CA558D /* norton.png in Resources */,
 				75BAAAA51DB7EEB400E5435C /* TradeIt.storyboard in Resources */,
 				75B857C11DD3AB91003AB7AB /* ib_logo.png in Resources */,
 				75B857C01DD3AB91003AB7AB /* fidelity_logo.png in Resources */,

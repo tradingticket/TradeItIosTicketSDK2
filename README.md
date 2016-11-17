@@ -40,23 +40,23 @@ Whenever a user links their broker, the SDK will automatically save the link (in
 ## Launching pre-built UI
 If the user has no previously linked brokers, launching any of the pre-built screens will result in the user first being prompted to link a broker.
 
-### Launching into the portfolio screen
+### Launching Portfolio
 By default the first valid account is preselected.
 ```swift
 launcher.launchPortfolio(fromViewController: self)
 ```
-### Launching into the portfolio screen with a specific account selected
+### Launching Portfolio with a specific account pre-selected
 ```swift
 let linkedBroker = launcher.linkedBrokerManager.linkedBrokers.first
 let account = linkedBroker.accounts.first
 
 launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: account)
 ```
-### Launch into the trading screen
+### Launch Trading
 ```swift
 launcher.launchTrading(fromViewController: self)
 ```
-### Launch into the trading screen with a pre-configured order
+### Launch Trading with a pre-configured order
 If a `TradeItOrder` is passed when launching trading, the trading ticket screen inputs will be prepopulated from the provided order.
 ```swift
 let order = TradeItOrder()
@@ -83,8 +83,10 @@ launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker 
 
 Deep integration refers to using the SDK as a programmatic workflow upon which you can build your own workflow and screens or use the raw data in your app.
 
-### Linking a user's broker login
+### Error handling
+Any methods which have an error/failure callback will return a `TradeItErrorResult` object that has an error code `errorCode` enum property.  These codes, and how to handle them, are detailed here: https://www.trade.it/documentation/api#ErrorHandling
 
+### Linking a user's broker login
 ```swift
 let authInfo = TradeItAuthenticationInfo(
     id: "dummy",
@@ -101,12 +103,40 @@ TradeItLauncher.linkedBrokerManager.linkBroker(
 )
 ```
 
-### Authenticating accounts
+### Authenticating a linked broker
+Authenticating a linked broker creates a temporary session (~15 minutes) with the broker that allows for all other actions to be taken, such as trading and retrieving portfolio information.
+```swift
+linkedBroker.authenticateIfNeeded(
+    onSuccess: {},
+    onSecurityQuestion: { (securityQuestion, answerSecurityQuestion: (String) -> Void, cancelQuestion: () -> Void) in
+        // Manually prompt the user for an answer and then submit it to finish authenticating
+        answerSecurityQuestion("answer")
+
+        // OR use the provided alert manager
+        self.alertManager.promptUserToAnswerSecurityQuestion(
+            securityQuestion,
+            onViewController: self,
+            onAnswerSecurityQuestion: answerSecurityQuestion,
+            onCancelSecurityQuestion: cancelQuestion)
+    }, onFailure: { (errorResult) in
+        // handle error
+})
+```
+
+### Authenticating all accounts
+This can be used when the app starts up and none of the linked brokers have a valid session yet.  NOTE: This method does not have a callback for authentication errors.  If a linked broker could not be authenticated, the `linkedBroker.error` property will be set.
 
 ```swift
 TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion in
-    // Prompt the user for an answer and then submit it to finish authenticating
+    // Manually prompt the user for an answer and then submit it to finish authenticating
     answerSecurityQuestion(/* answer from user */)
+    
+    // OR use the provided alert manager
+        self.alertManager.promptUserToAnswerSecurityQuestion(
+            securityQuestion,
+            onViewController: self,
+            onAnswerSecurityQuestion: answerSecurityQuestion,
+            onCancelSecurityQuestion: cancelQuestion)
 }, onFinished: {
     // Brokers that did not successfully authenticate will have the TradeItErrorResult error property set: linkedBroker.error?
     print("\(TradeItLauncher.linkedBrokerManager.linkedBrokers.map { $0.error == nil }.count) brokers authenticated.")

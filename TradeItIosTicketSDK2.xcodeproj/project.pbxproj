@@ -518,7 +518,6 @@
 		FC6E7A6E1DCD1F8B005225CC /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA481DB7EEB400E5435C /* indicator.png */; };
 		FC6E7A781DCD2005005225CC /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6E7A751DCD2005005225CC /* MBProgressHUD.framework */; };
 		FC6E7A791DCD2005005225CC /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6E7A761DCD2005005225CC /* PromiseKit.framework */; };
-		FC6E7A7A1DCD2005005225CC /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6E7A771DCD2005005225CC /* SwiftyUserDefaults.framework */; };
 		FC6E7A7C1DCF9BC6005225CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6E7A7B1DCF9BC6005225CC /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -912,7 +911,6 @@
 				FC6E7A211DCD1F8B005225CC /* LocalAuthentication.framework in Frameworks */,
 				FC6E7A781DCD2005005225CC /* MBProgressHUD.framework in Frameworks */,
 				FC6E7A791DCD2005005225CC /* PromiseKit.framework in Frameworks */,
-				FC6E7A7A1DCD2005005225CC /* SwiftyUserDefaults.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

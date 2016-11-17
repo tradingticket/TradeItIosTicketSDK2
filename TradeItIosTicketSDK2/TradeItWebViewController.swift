@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItWebViewController: UIViewController, UIWebViewDelegate {
-
     @IBOutlet weak var webView: UIWebView!
     var url = ""
     var pageTitle = ""
@@ -20,7 +19,4 @@ class TradeItWebViewController: UIViewController, UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
         self.navigationItem.title = self.pageTitle;
     }
-    
-
-   
 }

@@ -288,6 +288,7 @@
 		75BAACC11DB7FFBB00E5435C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAC0C1DB7F15000E5435C /* AppDelegate.swift */; };
 		75BAACDA1DB800B600E5435C /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAACC61DB8004900E5435C /* UITestHelper.swift */; };
 		75E6604F1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E6604E1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift */; };
+		75EDCEA41DDE597C000739C9 /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
 		7FA99DE16BF593DC46613B34 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EB96CDD132BE944FB0BC75 /* Pods_ExampleApp.framework */; };
 		96AD45E1D5B8B3240E839907 /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */; };
 		B55933F81DB8F78400620A57 /* TradeItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55933F71DB8F78400620A57 /* TradeItViewController.swift */; };
@@ -2204,6 +2205,7 @@
 				FC6E79A91DCD1F8B005225CC /* TradeItAlertProvider.swift in Sources */,
 				FC6E79AA1DCD1F8B005225CC /* TradeItPortfolioViewController.swift in Sources */,
 				FC6E79AB1DCD1F8B005225CC /* TIEMSJSONKeyMapper.m in Sources */,
+				75EDCEA41DDE597C000739C9 /* TradeItWebViewController.swift in Sources */,
 				FC6E79AC1DCD1F8B005225CC /* TradeItQuotePresenter.swift in Sources */,
 				FC6E79AD1DCD1F8B005225CC /* TradeItPositionService.m in Sources */,
 				FC6E79AE1DCD1F8B005225CC /* NSCoder+TradeIt.swift in Sources */,

@@ -37,7 +37,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         waitForElementToBeHittable(app.tables.staticTexts["launchPortfolio"])
         app.tables.staticTexts["launchPortfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
+        waitForElementToAppear(app.tables.staticTexts["Individual**cct1"])
     }
     
     func testPortfolioWithWelcomeMultiAcc(){

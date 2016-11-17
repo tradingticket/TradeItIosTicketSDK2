@@ -1,12 +1,13 @@
 import PromiseKit
 
-open class TradeItLinkedBroker: NSObject {
-    var session: TradeItSession
-    var linkedLogin: TradeItLinkedLogin
-    private var linkedBrokerCache = TradeItLinkedBrokerCache()
+@objc public class TradeItLinkedBroker: NSObject {
     public var accountsLastUpdated: Date?
     public var accounts: [TradeItLinkedBrokerAccount] = []
     public var error: TradeItErrorResult?
+    var session: TradeItSession
+    var linkedLogin: TradeItLinkedLogin
+    private var linkedBrokerCache = TradeItLinkedBrokerCache()
+
 
     public var brokerName: String {
         return self.linkedLogin.broker ?? ""
@@ -23,7 +24,7 @@ open class TradeItLinkedBroker: NSObject {
         )
     }
 
-    open func authenticate(onSuccess: @escaping () -> Void,
+    public func authenticate(onSuccess: @escaping () -> Void,
                            onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
                                                _ submitAnswer: @escaping (String) -> Void,
                                                _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
@@ -71,7 +72,7 @@ open class TradeItLinkedBroker: NSObject {
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
     
-    open func authenticateIfNeeded(
+    public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
@@ -90,7 +91,7 @@ open class TradeItLinkedBroker: NSObject {
         }
     }
 
-    open func refreshAccountBalances(onFinished: @escaping () -> Void) {
+    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
                 account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
@@ -102,7 +103,7 @@ open class TradeItLinkedBroker: NSObject {
         _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    open func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
 

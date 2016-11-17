@@ -1,6 +1,6 @@
 import PromiseKit
 
-@objc open class TradeItLinkedBrokerManager: NSObject {
+@objc public class TradeItLinkedBrokerManager: NSObject {
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public var authenticationDelegate: TradeItAuthenticationDelegate?
     var connector: TradeItConnector
@@ -23,21 +23,6 @@ import PromiseKit
         self.loadLinkedBrokersFromKeychain()
     }
 
-    func loadLinkedBrokersFromKeychain() {
-        let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]
-
-        self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
-            let linkedBroker = loadLinkedBrokerFromLinkedLogin(linkedLogin)
-            self.linkedBrokerCache.syncFromCache(linkedBroker: linkedBroker)
-            return linkedBroker
-        }
-    }
-
-    func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
-        let tradeItSession = sessionProvider.provide(connector: self.connector)
-        return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
-    }
-
     public func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
                                                                  _ submitAnswer: @escaping (String) -> Void,
                                                                  _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
@@ -56,7 +41,7 @@ import PromiseKit
             }
         }
 
-        let _ = when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).always(execute: onFinished)
     }
 
     public func refreshAccountBalances(onFinished: @escaping () -> Void) {
@@ -167,6 +152,22 @@ import PromiseKit
             self.authenticationDelegate?.didUnlink(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
         }
+    }
+
+
+    func loadLinkedBrokersFromKeychain() {
+        let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]
+
+        self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
+            let linkedBroker = loadLinkedBrokerFromLinkedLogin(linkedLogin)
+            self.linkedBrokerCache.syncFromCache(linkedBroker: linkedBroker)
+            return linkedBroker
+        }
+    }
+
+    func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
+        let tradeItSession = sessionProvider.provide(connector: self.connector)
+        return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 }
 

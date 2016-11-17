@@ -3,15 +3,17 @@ import UIKit
 // TODO: Make static methods instance methods so TradeItAlertProvider can be injected for tests
 class TradeItAlertProvider {
     static func provideAlert(alertTitle: String,
-                                        alertMessage: String,
-                                        alertActionTitle: String,
-                                        onAlertActionTapped: @escaping () -> Void,
-                                        onCanceledActionTapped: (() -> Void)? = nil) -> UIAlertController {
+                             alertMessage: String,
+                             alertActionTitle: String,
+                             onAlertActionTapped: @escaping () -> Void,
+                             showCancelAction: Bool = false,
+                             onCanceledActionTapped: (() -> Void)? = nil
+                             ) -> UIAlertController {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
                                                 preferredStyle: UIAlertControllerStyle.alert)
 
-        if let onCanceledActionTapped = onCanceledActionTapped {
+        if showCancelAction, let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
                 title: "Cancel",
                 style: UIAlertActionStyle.default) { action in
@@ -33,11 +35,11 @@ class TradeItAlertProvider {
     }
 
     static func provideSecurityQuestionAlertWith(alertTitle: String,
-                                                            alertMessage: String,
-                                                            multipleOptions: [String],
-                                                            alertActionTitle: String,
-                                                            onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
-                                                            onCancelSecurityQuestion: @escaping () -> Void) -> UIAlertController {
+                                                 alertMessage: String,
+                                                 multipleOptions: [String],
+                                                 alertActionTitle: String,
+                                                 onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+                                                 onCancelSecurityQuestion: @escaping () -> Void) -> UIAlertController {
         let alertController = UIAlertController(title: alertTitle,
                                                 message: alertMessage,
                                                 preferredStyle: UIAlertControllerStyle.alert)

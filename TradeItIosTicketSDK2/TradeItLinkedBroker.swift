@@ -86,7 +86,7 @@ open class TradeItLinkedBroker: NSObject {
         if error.requiresAuthentication() {
             self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
         } else {
-            onFailure(error)
+            onSuccess()
         }
     }
 

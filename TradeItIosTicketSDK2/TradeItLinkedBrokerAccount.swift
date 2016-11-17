@@ -1,4 +1,4 @@
-public class TradeItLinkedBrokerAccount: NSObject {
+@objc public class TradeItLinkedBrokerAccount: NSObject {
     public var brokerName: String {
         return self.linkedBroker.brokerName
     }
@@ -31,7 +31,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
     }
 
-    open func getAccountOverview(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getAccountOverview(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
         self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
             switch tradeItResult {
@@ -49,7 +49,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    open func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
@@ -76,7 +76,7 @@ public class TradeItLinkedBrokerAccount: NSObject {
         }
     }
 
-    open func getFormattedAccountName() -> String {
+    public func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
         var separator = " "

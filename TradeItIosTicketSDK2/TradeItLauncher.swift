@@ -1,6 +1,6 @@
 import UIKit
 
-@objc open class TradeItLauncher: NSObject {
+@objc public class TradeItLauncher: NSObject {
     public static var linkedBrokerManager: TradeItLinkedBrokerManager!
     public static var marketDataService: TradeItMarketService!
     public static var brokerCenterService: TradeItBrokerCenterService!

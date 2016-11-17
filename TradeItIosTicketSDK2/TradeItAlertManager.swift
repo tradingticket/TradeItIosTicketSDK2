@@ -1,10 +1,10 @@
 import UIKit
 
-@objc open class TradeItAlertManager: NSObject {
+@objc public class TradeItAlertManager: NSObject {
     private var alertQueue = TradeItAlertQueue.sharedInstance
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
-    open func showError(_ error: TradeItErrorResult,
+    public func showError(_ error: TradeItErrorResult,
                           onViewController viewController: UIViewController,
                           onFinished: @escaping () -> Void = {}) {
         let title = error.shortMessage ?? ""
@@ -19,7 +19,7 @@ import UIKit
                     onAlertActionTapped: onFinished)
     }
 
-    open func showRelinkError(_ error: TradeItErrorResult,
+    public func showRelinkError(_ error: TradeItErrorResult,
                                 withLinkedBroker linkedBroker: TradeItLinkedBroker,
                                 onViewController viewController: UIViewController,
                                 onFinished: @escaping () -> Void) {
@@ -85,7 +85,7 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    open func showAlert(onViewController viewController: UIViewController,
+    public func showAlert(onViewController viewController: UIViewController,
                           withTitle title: String,
                           withMessage message: String,
                           withActionTitle actionTitle: String,

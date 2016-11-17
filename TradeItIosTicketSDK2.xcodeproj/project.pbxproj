@@ -370,6 +370,8 @@
 		B55933F81DB8F78400620A57 /* TradeItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55933F71DB8F78400620A57 /* TradeItViewController.swift */; };
 		B55CFDC41DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55CFDC31DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift */; };
 		B55CFDC61DB9156800DA2928 /* TradeItOrderDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55CFDC51DB9156800DA2928 /* TradeItOrderDetailsPresenter.swift */; };
+		B5719C171DDE616F000EE0BD /* UserAgent.h in Headers */ = {isa = PBXBuildFile; fileRef = B58BC7251DDBBE260079ED8B /* UserAgent.h */; };
+		B5719C181DDE6173000EE0BD /* UserAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7261DDBBE260079ED8B /* UserAgent.m */; };
 		B57ABA301DBEA9C1009B82A3 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */; };
 		B57ABA321DBEAA39009B82A3 /* TradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */; };
 		B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
@@ -1776,6 +1778,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC6E7A241DCD1F8B005225CC /* TradeItGetPositionsResult.h in Headers */,
+				B5719C171DDE616F000EE0BD /* UserAgent.h in Headers */,
 				FC6E7A251DCD1F8B005225CC /* TradeItIosEmsApiLib.h in Headers */,
 				7591A9121EFB09F0008EB943 /* TradeItFxOrderInfoResult.h in Headers */,
 				75AB474B1EFEEF5000A8BEC6 /* TradeItInstrumentOrderCapabilities.h in Headers */,
@@ -2711,6 +2714,7 @@
 				FC6E79F91DCD1F8B005225CC /* TradeItAccountManagementViewController.swift in Sources */,
 				FC6E79FA1DCD1F8B005225CC /* TradeItPreviewTradeResult.m in Sources */,
 				FC6E79FB1DCD1F8B005225CC /* TradeItWelcomeViewController.swift in Sources */,
+				B5719C181DDE6173000EE0BD /* UserAgent.m in Sources */,
 				FC6E79FC1DCD1F8B005225CC /* TradeItViewController.swift in Sources */,
 				FC6E79FD1DCD1F8B005225CC /* TradeItTradeService.m in Sources */,
 				FC6E79FE1DCD1F8B005225CC /* TradeItPreviewTradeRequest.m in Sources */,

@@ -19,8 +19,11 @@
     
     NSString * hardwareString = [self getSysInfoByName:"hw.model"];
     
-    NSString * version = @"TradeItIosTicketSDK2";
-    return [NSString stringWithFormat:@"%@/%@ (%@) / %@", appDescriptor,  osDescriptor, hardwareString, version];
+    NSDictionary<NSString *, id> *bundleSDK2 = [[NSBundle bundleWithIdentifier:@"TradeIt.TradeItIosTicketSDK2"] infoDictionary];
+    NSString *sdkName = [bundleSDK2 valueForKey:@"CFBundleName"];
+    NSString *sdkVersion = [bundleSDK2 valueForKey:@"CFBundleShortVersionString"];
+    
+    return [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
 }
 
 + (NSString *) getSysInfoByName:(char *)typeSpecifier

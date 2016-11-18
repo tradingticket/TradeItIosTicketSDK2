@@ -60,6 +60,18 @@ import UIKit
         )
     }
 
+    public func launchPortfolio(fromViewController viewController: UIViewController, forAccountNumber accountNumber: String) {
+        let accounts = TradeItLauncher.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter{ $0.accountNumber == accountNumber}
+        if accounts.isEmpty {
+            print("No linked broker accounts found matching the account number " + accountNumber)
+        } else {
+            if accounts.count > 1 {
+                print("WARNING: there are several linked broker accounts with the same account number... taking the first one")
+            }
+            self.launchPortfolio(fromViewController: viewController, forLinkedBrokerAccount: accounts[0])
+        }
+    }
+
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
         // Show Welcome flow for users who have never linked before
         if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {

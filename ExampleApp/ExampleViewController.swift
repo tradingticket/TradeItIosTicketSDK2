@@ -4,6 +4,7 @@ import UIKit
 enum Action: Int {
     case launchPortfolio = 0
     case launchPortfolioForLinkedBrokerAccount
+    case launchPortfolioForAccountNumber
     case launchTrading
     case launchTradingWithSymbol
     case launchAccountManagement
@@ -51,6 +52,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 return print("You must link a broker with an account first")
             }
             self.tradeItLauncher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
+        case .launchPortfolioForAccountNumber: // brkAcct1 is on the Dummy account
+            self.tradeItLauncher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
         case .launchTrading:
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
         case .launchTradingWithSymbol:

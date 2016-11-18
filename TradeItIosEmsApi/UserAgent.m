@@ -2,6 +2,12 @@
 #include <UIKit/UIKit.h>
 #include <sys/sysctl.h>
 
+#ifdef CARTHAGE
+    #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+    #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
+
 @implementation UserAgent
 
 
@@ -19,9 +25,10 @@
     
     NSString * hardwareString = [self getSysInfoByName:"hw.model"];
     
-    NSDictionary<NSString *, id> *bundleSDK2 = [[NSBundle bundleWithIdentifier:@"TradeIt.TradeItIosTicketSDK2"] infoDictionary];
-    NSString *sdkName = [bundleSDK2 valueForKey:@"CFBundleName"];
-    NSString *sdkVersion = [bundleSDK2 valueForKey:@"CFBundleShortVersionString"];
+    NSDictionary<NSString *, id> * bundleProviderSDK2 = [[TradeItBundleProvider provide] infoDictionary];
+    
+    NSString *sdkName = [bundleProviderSDK2 valueForKey:@"CFBundleName"];
+    NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleShortVersionString"];
     
     return [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
 }

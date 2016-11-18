@@ -291,10 +291,10 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     private func updatePreviewOrderButtonStatus() {
         if order.isValid() {
             previewOrderButton.isEnabled = true
-            previewOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
+            previewOrderButton.alpha = 1.0
         } else {
             previewOrderButton.isEnabled = false
-            previewOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
+            previewOrderButton.alpha = 0.5
         }
     }
 

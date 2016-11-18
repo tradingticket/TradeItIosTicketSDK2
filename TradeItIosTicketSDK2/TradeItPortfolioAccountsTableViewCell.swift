@@ -7,6 +7,14 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var selectedIcon: UIImageView!
 
+    override func awakeFromNib() {
+        self.accountNameLabel.textColor = TradeItTheme.textColor
+        self.brokerNameLabel.textColor = TradeItTheme.textColor
+        self.buyingPowerLabel.textColor = TradeItTheme.textColor
+        self.totalValueLabel.textColor = TradeItTheme.textColor
+        // TODO: Configure selectedIcon to fit theme
+    }
+
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(account)
         self.accountNameLabel.text = account.getFormattedAccountName()

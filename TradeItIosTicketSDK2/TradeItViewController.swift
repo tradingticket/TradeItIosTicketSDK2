@@ -43,7 +43,7 @@ class TradeItViewController: UIViewController {
 
     func configureTheme(targetView: UIView) {
         targetView.backgroundColor = TradeItTheme.backgroundColor
-        targetView.subviews.forEach({ subview in
+        targetView.subviews.forEach { subview in
             switch subview {
             case let label as UILabel:
                 label.textColor = TradeItTheme.textColor
@@ -56,14 +56,14 @@ class TradeItViewController: UIViewController {
                 }
             case let input as UITextField:
                 input.backgroundColor = UIColor.clear
-                input.layer.borderColor = TradeItTheme.textColor.cgColor
+                input.layer.borderColor = TradeItTheme.inputFrameColor.cgColor
                 input.layer.borderWidth = 1
                 input.layer.cornerRadius = 4
                 input.layer.masksToBounds = true
                 input.textColor = TradeItTheme.textColor
                 input.attributedPlaceholder = NSAttributedString(
                     string: input.placeholder ?? "",
-                    attributes: [NSForegroundColorAttributeName: TradeItTheme.inputPlaceholderColor]
+                    attributes: [NSForegroundColorAttributeName: TradeItTheme.inputFrameColor]
                 )
             case let input as UISwitch:
                 input.tintColor = TradeItTheme.interactiveElementColor
@@ -77,7 +77,7 @@ class TradeItViewController: UIViewController {
             default:
                 configureTheme(targetView: subview)
             }
-        })
+        }
     }
 
     private func isTemplateImage(imageView: UIImageView) -> Bool {

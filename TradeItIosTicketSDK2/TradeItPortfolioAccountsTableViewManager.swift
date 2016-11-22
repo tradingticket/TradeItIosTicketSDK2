@@ -34,7 +34,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
         if accounts.count > 0 {
             let selectedAccount = selectedAccount ?? self.accounts[0]
-            let selectedAccountIndex = self.accounts.index(of: selectedAccount) ?? 0
+            let selectedAccountIndex = self.accounts.index(where: {$0.accountNumber == selectedAccount.accountNumber && $0.brokerName == selectedAccount.brokerName}) ?? 0
             let selectedIndexPath = IndexPath(row: selectedAccountIndex, section: 0)
             self.accountsTable?.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .top)
             self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)

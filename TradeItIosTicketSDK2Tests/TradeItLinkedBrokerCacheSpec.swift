@@ -103,19 +103,22 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate1 = serializedBroker["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
-                        let accounts = serializedBroker["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let accounts = serializedBroker["ACCOUNTS"]! as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(accounts.count).to(equal(2))
 
-                        let serializedAccount1 = accounts["My Special Account Number 1"]!
+                        let serializedAccount1 = accounts[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(1))
+                        expect(serializedAccount1.keys.count).to(equal(2))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
+                        expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
 
-                        let serializedAccount2 = accounts["My Special Account Number 2"]!
 
-                        expect(serializedAccount2.keys.count).to(equal(1))
+                        let serializedAccount2 = accounts[1]
+
+                        expect(serializedAccount2.keys.count).to(equal(2))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
+                        expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
                     }
 
                     describe ("adding a subsequent linked broker") {
@@ -142,18 +145,20 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                             expect(cachedDate2.compare(date2)).to(equal(ComparisonResult.orderedSame))
 
-                            let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                            let accounts1 = serializedBroker1["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                             expect(accounts1.count).to(equal(2))
 
-                            let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                            let accounts2 = serializedBroker2["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                             expect(accounts2.count).to(equal(1))
 
-                            let serializedAccount3 = accounts2["My Special Account Number 3"]!
+                            let serializedAccount3 = accounts2[0]
 
-                            expect(serializedAccount3.keys.count).to(equal(1))
+                            expect(serializedAccount3.keys.count).to(equal(2))
                             expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                            expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                            
                         }
                     }
                 }
@@ -195,14 +200,16 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(newDate.timeIntervalSince1970))
 
-                        let accounts1 = serializedBroker1["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let accounts1 = serializedBroker1["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(accounts1.count).to(equal(1))
 
-                        let newSerializedAccount = accounts1["My New Account Number"]!
+                        let newSerializedAccount = accounts1[0]
 
-                        expect(newSerializedAccount.keys.count).to(equal(1))
+                        expect(newSerializedAccount.keys.count).to(equal(2))
                         expect(newSerializedAccount["ACCOUNT_NAME"]!).to(equal("My New Account Name"))
+                        expect(newSerializedAccount["ACCOUNT_NUMBER"]!).to(equal("My New Account Number"))
+                        
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
@@ -211,14 +218,16 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
-                        let accounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let accounts2 = serializedBroker2["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(accounts2.count).to(equal(1))
 
-                        let serializedAccount3 = accounts2["My Special Account Number 3"]!
+                        let serializedAccount3 = accounts2[0]
 
-                        expect(serializedAccount3.keys.count).to(equal(1))
+                        expect(serializedAccount3.keys.count).to(equal(2))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                        expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                        
                     }
                 }
             }
@@ -282,19 +291,21 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
-                        let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(serializedAccounts1.count).to(equal(2))
 
-                        let serializedAccount1 = serializedAccounts1["My Special Account Number 1"]!
+                        let serializedAccount1 = serializedAccounts1[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(1))
+                        expect(serializedAccount1.keys.count).to(equal(2))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
+                        expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
 
-                        let serializedAccount2 = serializedAccounts1["My Special Account Number 2"]!
+                        let serializedAccount2 = serializedAccounts1[1]
 
-                        expect(serializedAccount2.keys.count).to(equal(1))
+                        expect(serializedAccount2.keys.count).to(equal(2))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
+                        expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
@@ -303,14 +314,16 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
-                        let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(serializedAccounts2.count).to(equal(1))
 
-                        let serializedAccount3 = serializedAccounts2["My Special Account Number 3"]!
+                        let serializedAccount3 = serializedAccounts2[0]
 
-                        expect(serializedAccount3.keys.count).to(equal(1))
+                        expect(serializedAccount3.keys.count).to(equal(2))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                        expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                        
                     }
                 }
 
@@ -369,19 +382,21 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate1 = serializedBroker1["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate1.timeIntervalSince1970).to(equal(date1.timeIntervalSince1970))
 
-                        let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let serializedAccounts1 = serializedBroker1["ACCOUNTS"]! as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(serializedAccounts1.count).to(equal(2))
 
-                        let serializedAccount1 = serializedAccounts1["My Special Account Number 1"]!
+                        let serializedAccount1 = serializedAccounts1[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(1))
+                        expect(serializedAccount1.keys.count).to(equal(2))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
+                        expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
 
-                        let serializedAccount2 = serializedAccounts1["My Special Account Number 2"]!
+                        let serializedAccount2 = serializedAccounts1[1]
 
-                        expect(serializedAccount2.keys.count).to(equal(1))
+                        expect(serializedAccount2.keys.count).to(equal(2))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
+                        expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
@@ -390,14 +405,15 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         let cachedDate2 = serializedBroker2["ACCOUNTS_LAST_UPDATED"]! as! Date
                         expect(cachedDate2.timeIntervalSince1970).to(equal(date2.timeIntervalSince1970))
 
-                        let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! TradeItLinkedBrokerCache.SerializedLinkedBrokerAccounts
+                        let serializedAccounts2 = serializedBroker2["ACCOUNTS"] as! [TradeItLinkedBrokerCache.SerializedLinkedBrokerAccount]
 
                         expect(serializedAccounts2.count).to(equal(1))
 
-                        let serializedAccount3 = serializedAccounts2["My Special Account Number 3"]!
+                        let serializedAccount3 = serializedAccounts2[0]
                         
-                        expect(serializedAccount3.keys.count).to(equal(1))
+                        expect(serializedAccount3.keys.count).to(equal(2))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
+                        expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
                     }
                 }
             }

@@ -106,6 +106,11 @@ import PromiseKit
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
+    
+    public func isStillLinked() -> Bool {
+        let linkedBrokers = TradeItLauncher.linkedBrokerManager.linkedBrokers
+        return linkedBrokers.index(of: self) != nil
+    }
 
     private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
         return accounts.map { account in

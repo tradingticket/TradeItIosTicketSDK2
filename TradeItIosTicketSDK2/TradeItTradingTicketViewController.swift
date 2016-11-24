@@ -41,6 +41,11 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         super.viewWillAppear(animated)
         registerKeyboardNotifications()
         registerTextFieldNotifications()
+    
+        guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker, linkedBroker.isStillLinked() else {
+            self.presentAccountSelectionScreen()
+            return
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {

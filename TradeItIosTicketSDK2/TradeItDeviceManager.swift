@@ -6,16 +6,25 @@ class TradeItDeviceManager {
         
         let context = LAContext()
 
+        let onSuccessOnMainThread = {
+            DispatchQueue.main.async { onSuccess() }
+        }
+
+        let onFailureOnMainThread = {
+            DispatchQueue.main.async { onFailure() }
+        }
+
+
         // If it is UITesting, it will bypass touch ID/security login
         if ProcessInfo.processInfo.arguments.contains("isUITesting") {
             print("UITesting: bypassing...")
-            onSuccess()
+            onSuccessOnMainThread()
             return
         }
         
         guard context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) else {
             print("deviceOwnerAuthentication is not available on this device: \(error)")
-            onSuccess()
+            onSuccessOnMainThread()
             return
         }
         
@@ -25,45 +34,45 @@ class TradeItDeviceManager {
             reply: { success, evaluationError in
                 if success {
                     print("deviceOwnerAuthentication: succeeded")
-                    onSuccess()
+                    onSuccessOnMainThread()
                 } else {
                     guard let error = evaluationError else {
                         print("deviceOwnerAuthentication: unknown failure")
-                        onFailure()
+                        onFailureOnMainThread()
                         return
                     }
 
                     switch error {
                     case LAError.authenticationFailed:
                         print("deviceOwnerAuthentication: invalid credentials")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.userCancel:
                         print("deviceOwnerAuthentication: cancelled by user")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.userFallback:
                         print("deviceOwnerAuthentication: user tapped the fallback button")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.systemCancel:
                         print("deviceOwnerAuthentication: canceled by system (another application went to foreground)")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.passcodeNotSet:
                         print("deviceOwnerAuthentication: passcode is not set")
-                        onSuccess()
+                        onSuccessOnMainThread()
                     case LAError.touchIDNotAvailable:
                         print("deviceOwnerAuthentication: TouchID is not available on the device")
-                        onSuccess()
+                        onSuccessOnMainThread()
                     case LAError.touchIDLockout:
                         print("deviceOwnerAuthentication: TouchID is locked out")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.appCancel:
                         print("deviceOwnerAuthentication: Authentication was canceled by application")
-                        onFailure()
+                        onFailureOnMainThread()
                     case LAError.invalidContext:
                         print("deviceOwnerAuthentication: LAContext passed to this call has been previously invalidated")
-                        onFailure()
+                        onFailureOnMainThread()
                     default:
                         print("deviceOwnerAuthentication: unknown failure")
-                        onFailure()
+                        onFailureOnMainThread()
                     }
                 }
             }

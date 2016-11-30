@@ -19,13 +19,15 @@
          accountNumber: String,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
-         positions: [TradeItPortfolioPosition]) {
+         positions: [TradeItPortfolioPosition],
+         isEnabled: Bool=true) {
         self.linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
         self.balance = balance
         self.fxBalance = fxBalance
         self.positions = positions
+        self.isEnabled = isEnabled
         self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)

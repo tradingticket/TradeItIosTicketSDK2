@@ -8,7 +8,10 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNTS_LAST_UPDATED_KEY = "ACCOUNTS_LAST_UPDATED"
     private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
     private let ACCOUNT_NUMBER_KEY = "ACCOUNT_NUMBER"
+    private let ACCOUNT_ENABLED_KEY = "ACCOUNT_ENABLED"
     private let LINKED_BROKER_CACHE_KEY = "LINKED_BROKER_CACHE"
+    private let ACCOUNT_ENABLED = "ENABLED"
+    private let ACCOUNT_DISABLED = "DISABLED"
 
     var defaults = UserDefaults(suiteName: "it.trade")!
 
@@ -51,6 +54,14 @@ class TradeItLinkedBrokerCache {
 
     // MARK: Private
 
+    private func deserialize(accountEnabled: String?) -> Bool {
+        return accountEnabled != ACCOUNT_DISABLED
+    }
+
+    private func serializeAccountEnabled(isEnabled: Bool) -> String {
+        return isEnabled ? ACCOUNT_ENABLED : ACCOUNT_DISABLED
+    }
+
     private func serialize(linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
         var serializedLinkedBroker: SerializedLinkedBroker = [
             ACCOUNTS_KEY: serialize(accounts: linkedBroker.accounts)
@@ -73,7 +84,8 @@ class TradeItLinkedBrokerCache {
                                               accountNumber: serializedAccount[ACCOUNT_NUMBER_KEY] ?? "",
                                               balance: nil,
                                               fxBalance: nil,
-                                              positions: [])
+                                              positions: [],
+                                              isEnabled: deserialize(accountEnabled: serializedAccount[ACCOUNT_ENABLED_KEY]))
         }
     }
 
@@ -83,6 +95,7 @@ class TradeItLinkedBrokerCache {
             var serializedAccount = SerializedLinkedBrokerAccount()
             serializedAccount[ACCOUNT_NAME_KEY] = account.accountName
             serializedAccount[ACCOUNT_NUMBER_KEY] = account.accountNumber
+            serializedAccount[ACCOUNT_ENABLED_KEY] = account.isEnabled ? ACCOUNT_ENABLED : ACCOUNT_DISABLED
             serializeAccountsList.append(serializedAccount)
         }
         

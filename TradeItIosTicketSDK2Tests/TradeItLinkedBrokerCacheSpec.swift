@@ -70,7 +70,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     accountNumber: "My Special Account Number 2",
                     balance: nil,
                     fxBalance: nil,
-                    positions: [])
+                    positions: [],
+                    isEnabled: false)
 
                 linkedBroker1.accounts.append(account2)
 
@@ -109,16 +110,17 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount1 = accounts[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(2))
+                        expect(serializedAccount1.keys.count).to(equal(3))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
                         expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
-
+                        expect(serializedAccount1["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
 
                         let serializedAccount2 = accounts[1]
 
-                        expect(serializedAccount2.keys.count).to(equal(2))
+                        expect(serializedAccount2.keys.count).to(equal(3))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
                         expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
+                        expect(serializedAccount2["ACCOUNT_ENABLED"]!).to(equal("DISABLED"))
                     }
 
                     describe ("adding a subsequent linked broker") {
@@ -155,10 +157,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                             let serializedAccount3 = accounts2[0]
 
-                            expect(serializedAccount3.keys.count).to(equal(2))
+                            expect(serializedAccount3.keys.count).to(equal(3))
                             expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                             expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
-                            
+                            expect(serializedAccount3["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
                         }
                     }
                 }
@@ -206,9 +208,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let newSerializedAccount = accounts1[0]
 
-                        expect(newSerializedAccount.keys.count).to(equal(2))
+                        expect(newSerializedAccount.keys.count).to(equal(3))
                         expect(newSerializedAccount["ACCOUNT_NAME"]!).to(equal("My New Account Name"))
                         expect(newSerializedAccount["ACCOUNT_NUMBER"]!).to(equal("My New Account Number"))
+                        expect(newSerializedAccount["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
                         
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
@@ -224,9 +227,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount3 = accounts2[0]
 
-                        expect(serializedAccount3.keys.count).to(equal(2))
+                        expect(serializedAccount3.keys.count).to(equal(3))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                         expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                        expect(serializedAccount3["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
                         
                     }
                 }
@@ -271,12 +275,14 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         }.first
 
                         expect(syncedAccount1?.accountName).to(equal("My Special Account Name 1"))
+                        expect(syncedAccount1?.isEnabled).to(beTrue())
 
                         let syncedAccount2 = syncedAccounts.filter { (account) -> Bool in
                             return account.accountNumber == "My Special Account Number 2"
                         }.first
 
                         expect(syncedAccount2?.accountName).to(equal("My Special Account Name 2"))
+                        expect(syncedAccount2?.isEnabled).to(beFalse())
                     }
 
                     it("doesn't alter the cached brokers") {
@@ -297,15 +303,17 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount1 = serializedAccounts1[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(2))
+                        expect(serializedAccount1.keys.count).to(equal(3))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
                         expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
+                        expect(serializedAccount1["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
 
                         let serializedAccount2 = serializedAccounts1[1]
 
-                        expect(serializedAccount2.keys.count).to(equal(2))
+                        expect(serializedAccount2.keys.count).to(equal(3))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
                         expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
+                        expect(serializedAccount2["ACCOUNT_ENABLED"]!).to(equal("DISABLED"))
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
@@ -320,9 +328,11 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount3 = serializedAccounts2[0]
 
-                        expect(serializedAccount3.keys.count).to(equal(2))
+                        expect(serializedAccount3.keys.count).to(equal(3))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                         expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                        expect(serializedAccount3["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
+
                         
                     }
                 }
@@ -368,6 +378,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                         }.first
 
                         expect(syncedAccount1?.accountName).to(equal("My Original Account Name"))
+                        expect(syncedAccount1?.isEnabled).to(beTrue())
                     }
 
                     it("doesn't alter the cached brokers") {
@@ -388,15 +399,17 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount1 = serializedAccounts1[0]
 
-                        expect(serializedAccount1.keys.count).to(equal(2))
+                        expect(serializedAccount1.keys.count).to(equal(3))
                         expect(serializedAccount1["ACCOUNT_NAME"]!).to(equal("My Special Account Name 1"))
                         expect(serializedAccount1["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 1"))
+                        expect(serializedAccount1["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
 
                         let serializedAccount2 = serializedAccounts1[1]
 
-                        expect(serializedAccount2.keys.count).to(equal(2))
+                        expect(serializedAccount2.keys.count).to(equal(3))
                         expect(serializedAccount2["ACCOUNT_NAME"]!).to(equal("My Special Account Name 2"))
                         expect(serializedAccount2["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 2"))
+                        expect(serializedAccount2["ACCOUNT_ENABLED"]!).to(equal("DISABLED"))
 
                         let serializedBroker2 = serializedBrokers["My Special User ID 2"]! as TradeItLinkedBrokerCache.SerializedLinkedBroker
 
@@ -411,9 +424,10 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
 
                         let serializedAccount3 = serializedAccounts2[0]
                         
-                        expect(serializedAccount3.keys.count).to(equal(2))
+                        expect(serializedAccount3.keys.count).to(equal(3))
                         expect(serializedAccount3["ACCOUNT_NAME"]!).to(equal("My Special Account Name 3"))
                         expect(serializedAccount3["ACCOUNT_NUMBER"]!).to(equal("My Special Account Number 3"))
+                        expect(serializedAccount3["ACCOUNT_ENABLED"]!).to(equal("ENABLED"))
                     }
                 }
             }

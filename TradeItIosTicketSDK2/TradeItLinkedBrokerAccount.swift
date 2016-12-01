@@ -1,3 +1,5 @@
+private let linkedBrokerCache = TradeItLinkedBrokerCache()
+
 @objc public class TradeItLinkedBrokerAccount: NSObject {
     public var brokerName: String {
         return self.linkedBroker.brokerName
@@ -12,7 +14,20 @@
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
-    public var isEnabled = true
+
+    private var _enabled = true
+    public var isEnabled: Bool {
+        get {
+            return _enabled
+        }
+
+        set(newValue) {
+            if _enabled != newValue {
+                _enabled = newValue
+                linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
+            }
+        }
+    }
 
     init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
@@ -27,7 +42,7 @@
         self.balance = balance
         self.fxBalance = fxBalance
         self.positions = positions
-        self.isEnabled = isEnabled
+        self._enabled = isEnabled
         self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)

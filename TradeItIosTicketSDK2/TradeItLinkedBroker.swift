@@ -71,7 +71,7 @@ import PromiseKit
 
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
-    
+
     public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
@@ -83,7 +83,7 @@ import PromiseKit
                 onSuccess()
                 return
         }
-        
+
         if error.requiresAuthentication() {
             self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
         } else {
@@ -106,21 +106,34 @@ import PromiseKit
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
-    
+
     public func isStillLinked() -> Bool {
         let linkedBrokers = TradeItLauncher.linkedBrokerManager.linkedBrokers
         return linkedBrokers.index(of: self) != nil
     }
 
+    public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
+        let matchingAccounts = self.accounts.filter { (account: TradeItLinkedBrokerAccount) -> Bool in
+            return account.accountNumber == accountNumber
+        }
+
+        return matchingAccounts.first
+    }
+
+    // MARK: Private
+
     private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
         return accounts.map { account in
+            let accountEnabled = findAccount(byAccountNumber: account.accountNumber)?.isEnabled ?? true
+
             return TradeItLinkedBrokerAccount(
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
                 balance: nil,
                 fxBalance: nil,
-                positions: []
+                positions: [],
+                isEnabled: accountEnabled
             )
         }
     }

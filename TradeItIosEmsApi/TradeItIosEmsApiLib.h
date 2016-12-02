@@ -30,6 +30,12 @@
 #import "TradeItBrokerAccount.h"
 #import "TradeItMarketDataService.h"
 #import "TradeItBrokerListRequest.h"
+#import "TradeItOAuthLoginPopupUrlForMobileRequest.h"
+#import "TradeItOAuthLoginPopupUrlForMobileResult.h"
+#import "TradeItOAuthAccessTokenRequest.h"
+#import "TradeItOAuthAccessTokenResult.h"
+#import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
+#import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 
 // Once you have a link you'll establish a session using the linkedLogin
 #import "TradeItSession.h"

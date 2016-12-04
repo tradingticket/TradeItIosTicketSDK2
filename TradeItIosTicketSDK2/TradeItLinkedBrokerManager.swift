@@ -42,6 +42,8 @@ import PromiseKit
         }
     }
 
+    // TODO: WIPWIPWIPWIPWIPWIPWIP - HOW DO WE KNOW WHAT TO DO ABOUT RELINKING?????
+
     public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String,
                                                     userId: String,
                                                     deepLinkCallback: String,
@@ -104,6 +106,8 @@ import PromiseKit
                     message: "Could not complete OAuth"
                 ))
             }
+
+            self.currentOAuthBroker = nil
         }
     }
 

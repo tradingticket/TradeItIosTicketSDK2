@@ -8,6 +8,7 @@ enum Action: Int {
     case launchTrading
     case launchTradingWithSymbol
     case launchAccountManagement
+    case launchOAuthFlow
     case launchBrokerLinking
     case launchBrokerCenter
     case manualAuthenticateAll
@@ -19,15 +20,11 @@ enum Action: Int {
     case enumCount
 }
 
-// TODO: WIPWIPWIPWIPWIPWIPWIPWIP
-// UIApplication.shared.open(NSURL(string:"http://www.reddit.com/") as! URL, options: [:], completionHandler: nil)
-
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
 
     let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     let ENVIRONMENT = TradeItEmsTestEnv
-
     var alertManager: TradeItAlertManager!
 
     override func viewDidLoad() {
@@ -71,6 +68,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
+        case .launchOAuthFlow:
+            self.launchOAuthFlow()
         case .launchBrokerLinking:
             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
                 print("Newly linked broker: \(linkedBroker)")
@@ -92,6 +91,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         default:
             return
         }
+    }
+
+    func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        self.alertManager.showAlert(onViewController: self,
+                                    withTitle: "Great Success!",
+                                    withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
+                                    withActionTitle: "OK")
     }
 
     // MARK: UITableViewDataSource
@@ -120,6 +126,26 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func test() {
         // Put code you want to test here...
+    }
+
+    private func launchOAuthFlow() {
+        TradeItLauncher.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: "dummy",
+            deepLinkCallback: "tradeItExample://completeOAuth",
+            onSuccess: { url in
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "OAuthPopupUrl",
+                    withMessage: "URL: \(url)",
+                    withActionTitle: "Make it so!",
+                    onAlertActionTapped: {
+                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                    }, showCancelAction: false)
+            }, onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+            }
+        )
     }
 
     private func printLinkedBrokers() {
@@ -201,8 +227,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let appDomain = Bundle.main.bundleIdentifier;
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
-        let connector = TradeItConnector(apiKey: self.API_KEY)
-        connector.environment = self.ENVIRONMENT
+        let connector = TradeItConnector(apiKey: AppDelegate.API_KEY)
+        connector.environment = AppDelegate.ENVIRONMENT
 
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
 

@@ -19,6 +19,9 @@ enum Action: Int {
     case enumCount
 }
 
+// TODO: WIPWIPWIPWIPWIPWIPWIPWIP
+// UIApplication.shared.open(NSURL(string:"http://www.reddit.com/") as! URL, options: [:], completionHandler: nil)
+
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
 

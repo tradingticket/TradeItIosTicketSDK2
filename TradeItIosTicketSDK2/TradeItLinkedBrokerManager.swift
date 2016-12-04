@@ -6,6 +6,7 @@ import PromiseKit
     var connector: TradeItConnector
     var sessionProvider: TradeItSessionProvider
     private var linkedBrokerCache = TradeItLinkedBrokerCache()
+    private var currentOAuthBroker: String?
 
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
@@ -21,6 +22,89 @@ import PromiseKit
 
         super.init()
         self.loadLinkedBrokersFromKeychain()
+    }
+
+    public func getOAuthLoginPopupUrl(withBroker broker: String,
+                                      deepLinkCallback: String,
+                                      onSuccess: @escaping (_ oAuthLoginPopupUrl: String) -> Void,
+                                      onFailure: @escaping (TradeItErrorResult) -> Void) {
+        self.connector.getOAuthLoginPopupUrlForMobile(withBroker: broker,
+                                                      interAppAddressCallback: deepLinkCallback) { tradeItResult in
+            switch tradeItResult {
+            case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
+                self.currentOAuthBroker = broker
+                onSuccess(oAuthLoginPopupUrlForMobileResult.oAuthURL ?? "")
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            default:
+                onFailure(TradeItErrorResult(title: "Failed to retrieve OAuth login popup URL"))
+            }
+        }
+    }
+
+    public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String,
+                                                    userId: String,
+                                                    deepLinkCallback: String,
+                                                    onSuccess: @escaping (_ oAuthLoginPopupUrl: String) -> Void,
+                                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
+        self.connector.getOAuthLoginPopupURLForTokenUpdate(withBroker: broker,
+                                                           userId: userId,
+                                                           interAppAddressCallback: deepLinkCallback) { tradeItResult in
+            switch tradeItResult {
+            case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
+                onSuccess(oAuthLoginPopupUrlForTokenUpdateResult.oAuthURL ?? "")
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            default:
+                onFailure(TradeItErrorResult(title: "Failed to retrieve OAuth login popup URL for token update"))
+            }
+        }
+    }
+
+    public func completeOAuthBrokerLinking(withOAuthVerifier oAuthVerifier: String,
+                                           onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                                           onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        guard self.currentOAuthBroker != nil else {
+            onFailure(TradeItErrorResult(
+                title: "OAuth Error",
+                message: "Cannot complete OAuth, no broker selected"
+            ))
+
+            return
+        }
+
+        self.connector.getOAuthAccessToken(withOAuthVerifier: oAuthVerifier) { tradeItResult in
+            switch tradeItResult {
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            case let oAuthAccessTokenResult as TradeItOAuthAccessTokenResult:
+                let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
+                                                                withBroker: self.currentOAuthBroker)
+
+                if let linkedLogin = linkedLogin {
+                    let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+                    self.linkedBrokers.append(linkedBroker)
+
+                    if let userId = oAuthAccessTokenResult.userId, let userToken = oAuthAccessTokenResult.userToken {
+                        self.authenticationDelegate?.didLink(linkedBroker: linkedBroker,
+                                                             userId: userId,
+                                                             userToken: userToken)
+                    }
+
+                    onSuccess(linkedBroker)
+                } else {
+                    onFailure(TradeItErrorResult(
+                        title: "Keychain Error",
+                        message: "Failed to save the linked login to the keychain"
+                    ))
+                }
+            default:
+                onFailure(TradeItErrorResult(
+                    title: "OAuth Error",
+                    message: "Could not complete OAuth"
+                ))
+            }
+        }
     }
 
     public func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
@@ -148,6 +232,7 @@ import PromiseKit
         }
     }
 
+    // MARK: Private
 
     private func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]

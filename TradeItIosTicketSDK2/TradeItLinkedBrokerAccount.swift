@@ -48,7 +48,7 @@ private let linkedBrokerCache = TradeItLinkedBrokerCache()
         self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
     }
 
-    public func getAccountOverview(onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getAccountOverview(onSuccess: @escaping (TradeItAccountOverview?) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
         self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
             switch tradeItResult {
@@ -56,7 +56,7 @@ private let linkedBrokerCache = TradeItLinkedBrokerCache()
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
                 self.linkedBroker.error = nil
-                onSuccess()
+                onSuccess(accountOverviewResult.accountOverview)
             case let errorResult as TradeItErrorResult:
                 self.linkedBroker.error = errorResult
                 onFailure(errorResult)

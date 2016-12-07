@@ -25,16 +25,33 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.order.linkedBrokerAccount == nil {
+        guard let linkedBrokerAccount = self.order.linkedBrokerAccount else {
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
+            return
         }
         
         orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
-        
-        updateSymbolView()
-        updateTradingBrokerAccountView()
+
+        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
+                self.updateSymbolView()
+                self.updateTradingBrokerAccountView()
+            }, onFailure: { errorResult in
+                print(errorResult)
+            })
+        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelQuestion
+            )
+        }, onFailure: { errorResult in
+            print(errorResult)
+        })
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -283,7 +300,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
 
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
-            linkedBrokerAccount.getAccountOverview(onSuccess: {
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
                 self.updateSharesOwnedLabel()
             }, onFailure: { errorResult in
@@ -291,10 +308,11 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             })
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
-            securityQuestion,
-            onViewController: self,
-            onAnswerSecurityQuestion: answerSecurityQuestion,
-            onCancelSecurityQuestion: cancelQuestion)
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelQuestion
+            )
         }, onFailure: { errorResult in
             print(errorResult)
         })
@@ -307,15 +325,25 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             , let linkedBrokerAccount = order.linkedBrokerAccount
             else { return }
 
-        linkedBrokerAccount.getPositions(onSuccess: { positions in
-            let positionsMatchingSymbol = positions.filter { portfolioPosition in
-                TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol
-            }
+        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+            linkedBrokerAccount.getPositions(onSuccess: { positions in
+                let positionsMatchingSymbol = positions.filter { portfolioPosition in
+                    TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol
+                }
 
-            guard let position = positionsMatchingSymbol.first else { return }
+                guard let position = positionsMatchingSymbol.first else { return }
 
-            let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
-            self.tradingBrokerAccountView.updateSharesOwned(presenter)
+                let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
+                self.tradingBrokerAccountView.updateSharesOwned(presenter)
+            }, onFailure: { errorResult in
+                print(errorResult)
+            })
+        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelQuestion)
         }, onFailure: { errorResult in
             print(errorResult)
         })

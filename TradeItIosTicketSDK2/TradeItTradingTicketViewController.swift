@@ -35,7 +35,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
 
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
-            linkedBrokerAccount.getAccountOverview(onSuccess: {
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.updateSymbolView()
                 self.updateTradingBrokerAccountView()
             }, onFailure: { errorResult in
@@ -300,7 +300,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
 
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
-            linkedBrokerAccount.getAccountOverview(onSuccess: {
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
                 self.updateSharesOwnedLabel()
             }, onFailure: { errorResult in

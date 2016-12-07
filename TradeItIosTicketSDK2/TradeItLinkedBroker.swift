@@ -94,7 +94,9 @@ import PromiseKit
     public func refreshAccountBalances(onFinished: @escaping () -> Void) {
         let promises = accounts.map { account in
             return Promise<Void> { fulfill, reject in
-                account.getAccountOverview(onSuccess: fulfill, onFailure: { errorResult in
+                account.getAccountOverview(onSuccess: { _ in
+                    fulfill()
+                }, onFailure: { errorResult in
                     fulfill()
                 })
             }

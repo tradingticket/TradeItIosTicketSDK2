@@ -144,8 +144,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
-        account.getAccountOverview(onSuccess: {
-            print(account.balance ?? "Something went wrong!")
+        account.getAccountOverview(onSuccess: { balance in
+            print(balance ?? "Something went wrong!")
         }, onFailure: { errorResult in
             print(errorResult)
         })

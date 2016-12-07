@@ -42,8 +42,6 @@ import PromiseKit
         }
     }
 
-    // TODO: WIPWIPWIPWIPWIPWIPWIP - HOW DO WE KNOW WHAT TO DO ABOUT RELINKING?????
-
     public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String,
                                                     userId: String,
                                                     deepLinkCallback: String,
@@ -54,6 +52,7 @@ import PromiseKit
                                                            interAppAddressCallback: deepLinkCallback) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
+                self.currentOAuthBroker = broker
                 onSuccess(oAuthLoginPopupUrlForTokenUpdateResult.oAuthURL ?? "")
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
@@ -63,9 +62,9 @@ import PromiseKit
         }
     }
 
-    public func completeOAuthBrokerLinking(withOAuthVerifier oAuthVerifier: String,
-                                           onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-                                           onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+    public func completeOAuth(withOAuthVerifier oAuthVerifier: String,
+                              onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                              onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         guard self.currentOAuthBroker != nil else {
             onFailure(TradeItErrorResult(
                 title: "OAuth Error",
@@ -80,25 +79,55 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let oAuthAccessTokenResult as TradeItOAuthAccessTokenResult:
-                let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
-                                                                withBroker: self.currentOAuthBroker)
+                guard let userId = oAuthAccessTokenResult.userId,
+                    let userToken = oAuthAccessTokenResult.userToken
+                else {
+                    onFailure(TradeItErrorResult(
+                        title: "OAuth Error",
+                        message: "Failed to link broker, did not receive OAuth token")
+                    )
 
-                if let linkedLogin = linkedLogin {
-                    let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
-                    self.linkedBrokers.append(linkedBroker)
+                    return
+                }
 
-                    if let userId = oAuthAccessTokenResult.userId, let userToken = oAuthAccessTokenResult.userToken {
+                if let linkedBroker = self.getLinkedBroker(forUserId: userId) {
+                    // userId already exists, this is a relink
+                    print("=====> FOUND LINKED BROKER") // TRACEAKAKAK
+                    let linkedLogin = self.connector.updateKeychain(withLink: oAuthAccessTokenResult,
+                                                                    withBroker: linkedBroker.linkedLogin.broker)
+                    if let linkedLogin = linkedLogin {
+                        linkedBroker.error = nil
+                        linkedBroker.linkedLogin = linkedLogin
+
                         self.authenticationDelegate?.didLink(linkedBroker: linkedBroker,
                                                              userId: userId,
                                                              userToken: userToken)
+                        onSuccess(linkedBroker)
+                    } else {
+                        let error = TradeItErrorResult(title: "Keychain error",
+                                                       message: "Failed to update linked login in the keychain")
+                        linkedBroker.error = error
+                        onFailure(error)
                     }
-
-                    onSuccess(linkedBroker)
                 } else {
-                    onFailure(TradeItErrorResult(
-                        title: "Keychain Error",
-                        message: "Failed to save the linked login to the keychain"
-                    ))
+                    print("=====> DIDN'T FIND LINKED BROKER") // TRACEAKAKAK
+                    let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
+                                                                    withBroker: self.currentOAuthBroker)
+                    if let linkedLogin = linkedLogin {
+                        let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+                        self.linkedBrokers.append(linkedBroker)
+
+                        self.authenticationDelegate?.didLink(linkedBroker: linkedBroker,
+                                                             userId: userId,
+                                                             userToken: userToken)
+
+                        onSuccess(linkedBroker)
+                    } else {
+                        onFailure(TradeItErrorResult(
+                            title: "Keychain error",
+                            message: "Failed to save the linked login to the device keychain"
+                        ))
+                    }
                 }
             default:
                 onFailure(TradeItErrorResult(
@@ -200,20 +229,34 @@ import PromiseKit
     public func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
-        self.connector.updateUserToken(linkedBroker.linkedLogin, authInfo: authInfo, andCompletionBlock: { result in
+        self.connector.updateUserToken(linkedBroker.linkedLogin,
+                                       authInfo: authInfo,
+                                       andCompletionBlock: { result in
             switch result {
             case let errorResult as TradeItErrorResult:
                 linkedBroker.error = errorResult
                 onFailure(errorResult)
             case let updateLinkResult as TradeItUpdateLinkResult:
-                let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult, withBroker: linkedBroker.linkedLogin.broker)
+                guard let userId = updateLinkResult.userId,
+                    let userToken = updateLinkResult.userToken
+                else {
+                    onFailure(TradeItErrorResult(
+                        title: "Linking Error",
+                        message: "Failed to relink broker, did not receive token")
+                    )
+
+                    return
+                }
+
+                let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult,
+                                                                withBroker: linkedBroker.linkedLogin.broker)
 
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
-                    if let userId = updateLinkResult.userId, let userToken = updateLinkResult.userToken {
-                        self.authenticationDelegate?.didLink(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
-                    }
+                    self.authenticationDelegate?.didLink(linkedBroker: linkedBroker,
+                                                         userId: userId,
+                                                         userToken: userToken)
                     onSuccess(linkedBroker)
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
@@ -237,6 +280,10 @@ import PromiseKit
     }
 
     // MARK: Private
+
+    private func getLinkedBroker(forUserId userId: String) -> TradeItLinkedBroker? {
+        return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
+    }
 
     private func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]

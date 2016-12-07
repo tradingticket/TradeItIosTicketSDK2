@@ -267,7 +267,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 
 }
 
-- (TradeItLinkedLogin *)updateKeychainWithLink:(TradeItUpdateLinkResult *)link
+- (TradeItLinkedLogin *)updateKeychainWithLink:(TradeItAuthLinkResult *)link
                                   withBroker:(NSString *)broker {
     NSDictionary *linkDict = [self getLinkedLoginDictByuserId:link.userId];
 

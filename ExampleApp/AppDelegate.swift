@@ -30,35 +30,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      open url: URL,
                      sourceApplication: String?,
                      annotation: Any) -> Bool {
-        guard url.scheme == "tradeitexample",
-            url.host == "completeOAuth",
-            let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+        // Check for the intended url.scheme, url.host, and url.path before proceeding
+        if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            urlComponents.scheme == "tradeitexample",
+            urlComponents.host == "completeOAuth",
             let queryItems = urlComponents.queryItems,
-            let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value
-        else {
-            print("=====> ERROR: Received unvalid deep link URL: \(url)")
+            let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
+            TradeItLauncher.linkedBrokerManager.completeOAuth(
+                withOAuthVerifier: oAuthVerifier,
+                onSuccess: { linkedBroker in
+                    print("=====> OAuth successful for \(linkedBroker.brokerName)!")
+
+                    if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+                        while let presentedViewController = topViewController.presentedViewController {
+                            topViewController = presentedViewController
+                        }
+
+                        if let navController = topViewController as? UINavigationController,
+                            let exampleViewController = navController.topViewController as? ExampleViewController {
+                            exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                        }
+                    }
+                }, onFailure: { errorResult in
+                    print("=====> ERROR: OAuth failed! \(errorResult.errorCode()): \(errorResult.shortMessage): \(errorResult.longMessages?.first)")
+                }
+            )
+        } else {
+            print("=====> ERROR: Received invalid deep link URL: \(url)")
             return false
         }
-
-        TradeItLauncher.linkedBrokerManager.completeOAuthBrokerLinking(
-            withOAuthVerifier: oAuthVerifier,
-            onSuccess: { linkedBroker in
-                print("=====> OAuth broker linking successful for \(linkedBroker.brokerName)!")
-
-                if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
-                    while let presentedViewController = topViewController.presentedViewController {
-                        topViewController = presentedViewController
-                    }
-
-                    if let navController = topViewController as? UINavigationController,
-                        let exampleViewController = navController.topViewController as? ExampleViewController {
-                        exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
-                    }
-                }
-            }, onFailure: { errorResult in
-                print("=====> ERROR: OAuth broker linking failed! \(errorResult.errorCode()): \(errorResult.shortMessage): \(errorResult.longMessages?.first)")
-            }
-        )
 
         return true
     }

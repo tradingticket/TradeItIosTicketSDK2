@@ -9,6 +9,7 @@ enum Action: Int {
     case launchTradingWithSymbol
     case launchAccountManagement
     case launchOAuthFlow
+    case launchOAuthRelinkFlow
     case launchBrokerLinking
     case launchBrokerCenter
     case manualAuthenticateAll
@@ -73,6 +74,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
         case .launchOAuthFlow:
             self.launchOAuthFlow()
+        case .launchOAuthRelinkFlow:
+            self.launchOAuthRelinkFlow()
         case .launchBrokerLinking:
             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
                 print("Newly linked broker: \(linkedBroker)")
@@ -133,18 +136,54 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchOAuthFlow() {
+        let broker = "dummy"
         TradeItLauncher.linkedBrokerManager.getOAuthLoginPopupUrl(
-            withBroker: "dummy",
+            withBroker: broker,
             deepLinkCallback: "tradeItExample://completeOAuth",
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
-                    withTitle: "OAuthPopupUrl",
+                    withTitle: "OAuthPopupUrl for Linking \(broker)",
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
                         UIApplication.shared.openURL(NSURL(string:url) as! URL)
                     }, showCancelAction: false)
+            }, onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+            }
+        )
+    }
+
+    private func launchOAuthRelinkFlow() {
+        guard let linkedBroker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else {
+            print("=====> No linked brokers to relink!")
+
+            self.alertManager.showAlert(
+                onViewController: self,
+                withTitle: "ERROR",
+                withMessage: "No linked brokers to relink!",
+                withActionTitle: "Oops!"
+            )
+
+            return
+        }
+
+        TradeItLauncher.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
+            withBroker: linkedBroker.brokerName,
+            userId: linkedBroker.linkedLogin.userId ?? "",
+            deepLinkCallback: "tradeItExample://completeOAuth",
+            onSuccess: { url in
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "OAuthPopupUrl for Relinking \(linkedBroker.brokerName)",
+                    withMessage: "URL: \(url)",
+                    withActionTitle: "Make it so!",
+                    onAlertActionTapped: {
+                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                    }, showCancelAction: false
+                )
             }, onFailure: { errorResult in
                 self.alertManager.showError(errorResult,
                                             onViewController: self)

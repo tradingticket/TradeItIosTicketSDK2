@@ -32,7 +32,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         TradeItSDK.configure(apiKey: API_KEY, environment: ENVIRONMENT)
         self.alertManager = TradeItAlertManager()
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         printLinkedBrokers()
     }
 
@@ -94,6 +97,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        self.printLinkedBrokers()
         self.alertManager.showAlert(onViewController: self,
                                     withTitle: "Great Success!",
                                     withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
@@ -153,7 +157,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
             let linkedLogin = linkedBroker.linkedLogin
-            print("=====> \(linkedLogin.broker)(\(linkedBroker.accounts.count) accounts) - \(linkedLogin.userId) - \(linkedLogin.label ?? "NO LABEL")")
+            let userToken = TradeItLauncher.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
+            print("=====> \(linkedLogin.broker ?? "MISSING BROKER")(\(linkedBroker.accounts.count) accounts)\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
         }
 
         print("=====> ===============\n\n")

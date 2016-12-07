@@ -23,7 +23,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
             var isSuccess = false
             beforeEach {
                 tradeItLinkedBrokerAccount.getAccountOverview(
-                    onSuccess: { isSuccess = true},
+                    onSuccess: { _ in isSuccess = true},
                     onFailure: {_ in isError = true}
                 )
             }

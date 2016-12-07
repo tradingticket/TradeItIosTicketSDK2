@@ -182,9 +182,9 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
                     it("populates the positions table from the selectedAccount") {
                         let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withPositions:)")
-                        expect(updatePositionsCalls.count).to(equal(2))
+                        expect(updatePositionsCalls.count).to(equal(1))
                         
-                        let positionsArg = updatePositionsCalls[1].args["withPositions"] as! [TradeItPortfolioPosition]
+                        let positionsArg = updatePositionsCalls[0].args["withPositions"] as! [TradeItPortfolioPosition]
                         expect(positionsArg).to(equal(account1.positions))
                     }
                 }

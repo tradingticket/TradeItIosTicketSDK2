@@ -35,9 +35,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             linkedBroker: self.linkedBroker,
             onLinked: { presentedNavController, linkedBroker in
                 presentedNavController.dismiss(animated: true, completion: nil)
-                self.linkedBroker.refreshAccountBalances(
-                    onFinished: {
-                        self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
+                self.linkedBroker.refreshAccountBalances(onFinished: {
+                    self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
@@ -81,8 +80,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     func refreshRequested(fromAccountManagementTableViewManager manager: TradeItAccountManagementTableViewManager,
                                                                 onRefreshComplete: @escaping (_ withAccounts: [TradeItLinkedBrokerAccount]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
-        self.linkedBroker.authenticate(
-            onSuccess: { () -> Void in
+        self.linkedBroker.authenticateIfNeeded(
+            onSuccess: {
                 self.linkedBroker.refreshAccountBalances(
                     onFinished: {
                         onRefreshComplete(self.linkedBroker.accounts)
@@ -102,7 +101,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                     onViewController: self,
                     onFinished : {
                         onRefreshComplete(self.linkedBroker.accounts)
-                })
+                    }
+                )
             }
         )
     }

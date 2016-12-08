@@ -58,7 +58,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
         case .launchTradingWithSymbol:
             let order = TradeItOrder()
+            // Any order fields that are set will pre-populate the ticket.
             order.symbol = "CMG"
+            order.quantity = 10
+            order.action = .sell
+            order.type = .stopLimit
+            order.limitPrice = 20
+            order.stopPrice = 30
+            order.expiration = .goodUntilCanceled
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)

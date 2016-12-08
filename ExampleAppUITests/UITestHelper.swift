@@ -184,8 +184,6 @@ extension XCTestCase {
         passwordTextField.typeText(password)
         
         app.buttons["Link Broker"].tap()
-        let activityIndicator = app.activityIndicators.element
-        waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
     }
     
     func selectAccountOnPortfolioScreen(_ app: XCUIApplication, rowNum: Int) {

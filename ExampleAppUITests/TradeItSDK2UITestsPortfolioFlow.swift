@@ -85,8 +85,8 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         app.tables.switches["Joint 401k**cct3, BUYING POWER, $2,408.12"].tap()
         app.navigationBars["Dummy"].buttons.element(boundBy: 0).tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
-        XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists) //true: 401k acc is unlinked
-        XCTAssertTrue(app.staticTexts["$305,956.91"].exists) // true: totally value reflects change
+        XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists) // true: 401k acc is unlinked
+        XCTAssertTrue(app.staticTexts["$305,956.91"].exists) // true: total value reflects change
 
         //log into dummy acc
         app.buttons["Edit Accounts"].tap()

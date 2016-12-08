@@ -66,6 +66,10 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             }
         )
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.updatePortfolioScreen()
+    }
     
     // MARK: private methods
 

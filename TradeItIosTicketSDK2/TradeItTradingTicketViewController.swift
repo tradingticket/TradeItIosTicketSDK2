@@ -29,10 +29,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
             return
         }
-        
-        orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
-        orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
-        orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
+        prepopulateOrderForm()
 
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
             linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
@@ -168,6 +165,25 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     }
 
     // MARK: Private
+
+    private func prepopulateOrderForm() {
+        orderActionSelected(orderAction: TradeItOrderActionPresenter.labelFor(order.action))
+        orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
+        orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
+
+        orderSharesInput.text = order.quantity?.stringValue
+        switch order.type {
+        case .limit:
+            orderTypeInput1.text = order.limitPrice?.stringValue
+        case .stopMarket:
+            orderTypeInput1.text = order.stopPrice?.stringValue
+        case .stopLimit:
+            orderTypeInput1.text = order.limitPrice?.stringValue
+            orderTypeInput2.text = order.stopPrice?.stringValue
+        default:
+            break
+        }
+    }
 
     private func presentSymbolSelectionScreen() {
         let symbolSearchViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.symbolSearchView) as! TradeItSymbolSearchViewController

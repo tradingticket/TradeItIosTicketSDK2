@@ -59,6 +59,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case .launchTradingWithSymbol:
             let order = TradeItOrder()
             order.symbol = "CMG"
+            order.quantity = 100
+            order.action = .sell
+            order.type = .stopLimit
+            order.expiration = .goodUntilCanceled
+            order.limitPrice = 80
+            order.stopPrice = 30
             self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
             self.tradeItLauncher.launchAccountManagement(fromViewController: self)

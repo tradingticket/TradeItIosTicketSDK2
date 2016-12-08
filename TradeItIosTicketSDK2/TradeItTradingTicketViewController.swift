@@ -36,7 +36,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 self.updateSymbolView()
                 self.updateTradingBrokerAccountView()
             }, onFailure: { errorResult in
-                print(errorResult)
+                self.alertManager.showError(errorResult, onViewController: self)
             })
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -46,7 +46,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 onCancelSecurityQuestion: cancelQuestion
             )
         }, onFailure: { errorResult in
-            print(errorResult)
+            self.alertManager.showError(errorResult, onViewController: self)
         })
 
     }
@@ -320,7 +320,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
                 self.updateSharesOwnedLabel()
             }, onFailure: { errorResult in
-                    print(errorResult)
+                self.alertManager.showError(errorResult, onViewController: self)
             })
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -330,7 +330,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 onCancelSecurityQuestion: cancelQuestion
             )
         }, onFailure: { errorResult in
-            print(errorResult)
+            self.alertManager.showError(errorResult, onViewController: self)
         })
 
 
@@ -352,7 +352,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
                 self.tradingBrokerAccountView.updateSharesOwned(presenter)
             }, onFailure: { errorResult in
-                print(errorResult)
+                self.alertManager.showError(errorResult, onViewController: self)
             })
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -361,7 +361,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 onAnswerSecurityQuestion: answerSecurityQuestion,
                 onCancelSecurityQuestion: cancelQuestion)
         }, onFailure: { errorResult in
-            print(errorResult)
+            self.alertManager.showError(errorResult, onViewController: self)
         })
     }
 

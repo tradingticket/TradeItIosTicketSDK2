@@ -312,7 +312,8 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-34-hZk">
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shares" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IM5-R5-Xb0">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IM5-R5-Xb0">
+                                                <rect key="frame" x="203" y="0.0" width="140" height="40"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -546,7 +547,7 @@
                         <outlet property="estimatedChangeLabel" destination="rpw-3P-BXS" id="Krg-12-pgu"/>
                         <outlet property="orderActionButton" destination="615-Jh-l12" id="Vy4-Er-fQH"/>
                         <outlet property="orderExpirationButton" destination="vN0-Bw-xh8" id="h86-EI-hle"/>
-                        <outlet property="orderSharesInput" destination="IM5-R5-Xb0" id="uRB-Rg-1zC"/>
+                        <outlet property="orderQuantityInput" destination="IM5-R5-Xb0" id="lnG-6W-YEG"/>
                         <outlet property="orderTypeButton" destination="KmL-u6-9mn" id="5mr-NX-bal"/>
                         <outlet property="orderTypeInput1" destination="Wrt-4B-FIn" id="9MK-CN-Vv0"/>
                         <outlet property="orderTypeInput2" destination="b4J-xl-4jZ" id="uHv-Ob-B4p"/>
@@ -943,10 +944,10 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="GIn-Nb-tIp"/>
+                                                    <exclude reference="WqG-yz-pg7"/>
                                                     <exclude reference="1oV-h3-mrD"/>
                                                     <exclude reference="Qcm-6A-n2k"/>
-                                                    <exclude reference="WqG-yz-pg7"/>
-                                                    <exclude reference="GIn-Nb-tIp"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1006,10 +1007,10 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="Z7l-2M-RgI"/>
+                                                    <exclude reference="S3K-MX-Rew"/>
                                                     <exclude reference="Fuo-L4-nVX"/>
                                                     <exclude reference="IhL-Oy-om8"/>
-                                                    <exclude reference="S3K-MX-Rew"/>
-                                                    <exclude reference="Z7l-2M-RgI"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>

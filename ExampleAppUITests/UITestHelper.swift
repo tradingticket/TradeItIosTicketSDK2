@@ -95,11 +95,11 @@ extension XCTestCase {
         XCTAssert(app.buttons["Place Order"].exists)
     }
     
-    func fillOrder(_ app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, share: String, expiration: String){
+    func fillOrder(_ app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, quantity: String, expiration: String){
         //Shares
-        app.textFields["Shares"].tap()
-        waitForElementToHaveKeyboardFocus(app.textFields["Shares"])
-        app.textFields["Shares"].typeText("\(share)")
+        app.textFields["Quantity"].tap()
+        waitForElementToHaveKeyboardFocus(app.textFields["Quantity"])
+        app.textFields["Quantity"].typeText("\(quantity)")
         //Limit Price
         app.textFields["Limit Price"].tap()
         waitForElementToHaveKeyboardFocus(app.textFields["Limit Price"])
@@ -113,7 +113,7 @@ extension XCTestCase {
     func testTradeScreenValues(_ app: XCUIApplication){
         XCTAssert(app.buttons["Buy"].exists)
         XCTAssert(app.buttons["Market"].exists)
-        XCTAssert(app.textFields["Shares"].exists)
+        XCTAssert(app.textFields["Quantity"].exists)
         app.buttons["Buy"].tap()
         waitForElementToAppear(app.sheets["Order Action"])
         XCTAssert(app.sheets.buttons["Buy"].exists)

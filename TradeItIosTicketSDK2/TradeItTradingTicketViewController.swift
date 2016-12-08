@@ -7,7 +7,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     @IBOutlet weak var orderActionButton: UIButton!
     @IBOutlet weak var orderTypeButton: UIButton!
     @IBOutlet weak var orderExpirationButton: UIButton!
-    @IBOutlet weak var orderSharesInput: UITextField!
+    @IBOutlet weak var orderQuantityInput: UITextField!
     @IBOutlet weak var orderTypeInput1: UITextField!
     @IBOutlet weak var orderTypeInput2: UITextField!
     @IBOutlet weak var estimatedChangeLabel: UILabel!
@@ -76,7 +76,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             order.limitPrice = NSDecimalNumber(string: textField.text)
         } else if textField.placeholder == "Stop Price" {
             order.stopPrice = NSDecimalNumber(string: textField.text)
-        } else if textField.placeholder == "Shares" {
+        } else if textField.placeholder == "Quantity" {
             order.quantity = NSDecimalNumber(string: textField.text)
             updateEstimatedChangedLabel()
         }
@@ -171,7 +171,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         orderTypeSelected(orderType: TradeItOrderPriceTypePresenter.labelFor(order.type))
         orderExpirationSelected(orderExpiration: TradeItOrderExpirationPresenter.labelFor(order.expiration))
 
-        orderSharesInput.text = order.quantity?.stringValue
+        orderQuantityInput.text = order.quantity?.stringValue
         switch order.type {
         case .limit:
             orderTypeInput1.text = order.limitPrice?.stringValue
@@ -368,7 +368,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     // MARK: Private - Text view configurators
 
     private func registerTextFieldNotifications() {
-        let orderTypeInputs = [orderSharesInput, orderTypeInput1, orderTypeInput2]
+        let orderTypeInputs = [orderQuantityInput, orderTypeInput1, orderTypeInput2]
 
         orderTypeInputs.forEach { input in
             input?.addTarget(

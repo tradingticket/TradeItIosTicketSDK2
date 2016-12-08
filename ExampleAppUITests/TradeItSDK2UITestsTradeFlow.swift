@@ -36,7 +36,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         XCTAssert(app.buttons["GE"].exists)
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
-        fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", share: "1", expiration: "gtc")
+        fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
         waitForElementToBeHittable(app.buttons["Preview Order"])
         app.buttons["Preview Order"].tap()
         //Review screen
@@ -73,7 +73,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToAppear(app.buttons["GE"])
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
-        fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", share: "1", expiration: "gtc")
+        fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
         waitForElementToBeHittable(app.buttons["Preview Order"])
         app.buttons["Preview Order"].tap()
         //Review screen

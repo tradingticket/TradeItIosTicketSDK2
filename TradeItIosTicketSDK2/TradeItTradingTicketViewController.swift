@@ -30,32 +30,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             return
         }
         prepopulateOrderForm()
-
-        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        activityView.label.text = "Authenticating"
-
-        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
-            activityView.hide(animated: true)
-            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
-                self.updateSymbolView()
-                self.updateTradingBrokerAccountView()
-            }, onFailure: { errorResult in
-                self.alertManager.showError(errorResult, onViewController: self)
-            })
-        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            activityView.hide(animated: true)
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelQuestion
-            )
-        }, onFailure: { errorResult in
-            activityView.hide(animated: true)
-            self.alertManager.showError(errorResult, onViewController: self)
-        })
+        accountSelected(linkedBrokerAccount: linkedBrokerAccount)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         registerKeyboardNotifications()
@@ -220,12 +197,40 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
-        self.order.linkedBrokerAccount = linkedBrokerAccount
-        updateTradingBrokerAccountView()
+
+        accountSelected(linkedBrokerAccount: linkedBrokerAccount)
         _ = accountSelectionViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private - Order changed handlers
+
+    private func accountSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.order.linkedBrokerAccount = linkedBrokerAccount
+
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
+        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+            activityView.hide(animated: true)
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
+                self.updateSymbolView()
+                self.updateTradingBrokerAccountView()
+            }, onFailure: { errorResult in
+                self.alertManager.showError(errorResult, onViewController: self)
+            })
+        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            activityView.hide(animated: true)
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelQuestion
+            )
+        }, onFailure: { errorResult in
+            activityView.hide(animated: true)
+            self.alertManager.showError(errorResult, onViewController: self)
+        })
+    }
 
     private func orderActionSelected(_ action: UIAlertAction) {
         orderActionSelected(orderAction: action.title)
@@ -337,8 +342,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         }, onFailure: { errorResult in
             self.alertManager.showError(errorResult, onViewController: self)
         })
-
-
     }
 
     private func updateSharesOwnedLabel() {
@@ -364,7 +367,8 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 securityQuestion,
                 onViewController: self,
                 onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelQuestion)
+                onCancelSecurityQuestion: cancelQuestion
+            )
         }, onFailure: { errorResult in
             self.alertManager.showError(errorResult, onViewController: self)
         })

@@ -31,7 +31,11 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         }
         prepopulateOrderForm()
 
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
         linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+            activityView.hide(animated: true)
             linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.updateSymbolView()
                 self.updateTradingBrokerAccountView()
@@ -39,6 +43,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 self.alertManager.showError(errorResult, onViewController: self)
             })
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            activityView.hide(animated: true)
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
                 onViewController: self,
@@ -46,9 +51,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                 onCancelSecurityQuestion: cancelQuestion
             )
         }, onFailure: { errorResult in
+            activityView.hide(animated: true)
             self.alertManager.showError(errorResult, onViewController: self)
         })
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

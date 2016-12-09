@@ -3,7 +3,7 @@ import UIKit
 class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
-    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
+    let linkedBrokerManager = TradeItSDK.linkedBrokerManager
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
     var selectedLinkedBroker: TradeItLinkedBroker!
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()

@@ -20,7 +20,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     weak var delegate: TradeItTradingTicketViewControllerDelegate?
     
     var viewControllerProvider = TradeItViewControllerProvider()
-    var marketDataService = TradeItLauncher.marketDataService
+    var marketDataService = TradeItSDK.marketDataService
     var order = TradeItOrder()
 
     override func viewDidLoad() {

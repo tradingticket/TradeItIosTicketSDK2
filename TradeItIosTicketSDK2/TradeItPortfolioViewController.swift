@@ -5,7 +5,7 @@ import MBProgressHUD
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     
     var alertManager = TradeItAlertManager()
-    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager!
+    let linkedBrokerManager = TradeItSDK.linkedBrokerManager!
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()

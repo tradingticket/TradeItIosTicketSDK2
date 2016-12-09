@@ -2,7 +2,7 @@ import UIKit
 
 class TradeItLoginViewController: KeyboardViewController {
 
-    let linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
+    let linkedBrokerManager: TradeItLinkedBrokerManager = TradeItSDK.linkedBrokerManager
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!

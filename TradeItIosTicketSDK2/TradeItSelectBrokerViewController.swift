@@ -5,7 +5,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
     var alertManager = TradeItAlertManager()
-    var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItLauncher.linkedBrokerManager
+    var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItSDK.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
     var selectedBroker: TradeItBroker?

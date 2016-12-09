@@ -24,14 +24,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     let ENVIRONMENT = TradeItEmsTestEnv
-    var tradeItLauncher: TradeItLauncher!
 
     var alertManager: TradeItAlertManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tradeItLauncher = TradeItLauncher(apiKey: API_KEY, environment: ENVIRONMENT)
+        TradeItSDK.configure(apiKey: API_KEY, environment: ENVIRONMENT)
         self.alertManager = TradeItAlertManager()
 
         printLinkedBrokers()
@@ -46,16 +45,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case .test:
             test()
         case .launchPortfolio:
-            self.tradeItLauncher.launchPortfolio(fromViewController: self)
+            TradeItSDK.launcher.launchPortfolio(fromViewController: self)
         case .launchPortfolioForLinkedBrokerAccount:
-            guard let linkedBrokerAccount = TradeItLauncher.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
                 return print("You must link a broker with an account first")
             }
-            self.tradeItLauncher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
+            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
         case .launchPortfolioForAccountNumber: // brkAcct1 is on the Dummy account
-            self.tradeItLauncher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
+            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
         case .launchTrading:
-            self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
+            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
         case .launchTradingWithSymbol:
             let order = TradeItOrder()
             // Any order fields that are set will pre-populate the ticket.
@@ -66,17 +65,17 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             order.limitPrice = 20
             order.stopPrice = 30
             order.expiration = .goodUntilCanceled
-            self.tradeItLauncher.launchTrading(fromViewController: self, withOrder: order)
+            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
         case .launchAccountManagement:
-            self.tradeItLauncher.launchAccountManagement(fromViewController: self)
+            TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
         case .launchBrokerLinking:
-            self.tradeItLauncher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
+            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
                 print("Newly linked broker: \(linkedBroker)")
             }, onFlowAborted: {
                 print("User aborted linking")
             })
         case .launchBrokerCenter:
-            self.tradeItLauncher.launchBrokerCenter(fromViewController: self)
+            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
         case .manualAuthenticateAll:
             self.manualAuthenticateAll()
         case .manualBalances:
@@ -123,7 +122,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func printLinkedBrokers() {
         print("\n\n=====> LINKED BROKERS:")
 
-        for linkedBroker in TradeItLauncher.linkedBrokerManager.linkedBrokers {
+        for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
             let linkedLogin = linkedBroker.linkedLogin
             print("=====> \(linkedLogin.broker)(\(linkedBroker.accounts.count) accounts) - \(linkedLogin.userId) - \(linkedLogin.label ?? "NO LABEL")")
         }
@@ -132,7 +131,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualAuthenticateAll() {
-        TradeItLauncher.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+        TradeItSDK.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
                 onViewController: self,
@@ -142,13 +141,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.alertManager.showAlert(
                 onViewController: self,
                 withTitle: "authenticateAll finished",
-                withMessage: "\(TradeItLauncher.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
+                withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
                 withActionTitle: "OK")
         })
     }
 
     private func manualBalances() {
-        guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
+        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
         account.getAccountOverview(onSuccess: { balance in
@@ -159,7 +158,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualPositions() {
-        guard let broker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
+        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
 
         account.getPositions(onSuccess: { positions in
@@ -194,7 +193,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func deleteLinkedBrokers() -> Void {
-        print("=====> Keychain Linked Login count before clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
+        print("=====> Keychain Linked Login count before clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
 
         let appDomain = Bundle.main.bundleIdentifier;
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
@@ -208,8 +207,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             connector.unlinkLogin(linkedLogin)
         }
 
-        TradeItLauncher.linkedBrokerManager.linkedBrokers = []
+        TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
-        print("=====> Keychain Linked Login count after clearing: \(TradeItLauncher.linkedBrokerManager.linkedBrokers.count)")
+        print("=====> Keychain Linked Login count after clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
     }
 }

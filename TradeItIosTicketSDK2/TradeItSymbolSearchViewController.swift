@@ -6,7 +6,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchResultTableView: UITableView!
 
-    let marketDataService = TradeItLauncher.marketDataService
+    let marketDataService = TradeItSDK.marketDataService
     private var symbolSearchResults: [TradeItSymbolLookupCompany] = []
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
 

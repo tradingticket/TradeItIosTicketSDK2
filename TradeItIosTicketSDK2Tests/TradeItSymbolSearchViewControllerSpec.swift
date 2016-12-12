@@ -13,7 +13,7 @@ class TradeItSymbolSearchViewControllerSpec : QuickSpec {
         describe("initialization") {
             beforeEach {
                 marketDataService = FakeTradeItMarketService(apiKey: "My api key", environment: TradeItEmsTestEnv)
-                TradeItLauncher.marketDataService = marketDataService
+                TradeItSDK._marketDataService = marketDataService
                 delegate = FakeTradeItSymbolSearchViewControllerDelegate()
                 
                 window = UIWindow()

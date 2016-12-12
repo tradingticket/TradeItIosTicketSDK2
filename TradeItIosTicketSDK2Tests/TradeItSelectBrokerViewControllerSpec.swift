@@ -19,7 +19,7 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 linkedBrokerManager.connector = connector
                 linkedBrokerManager.sessionProvider = FakeTradeItSessionProvider()
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
 
                 window = UIWindow()
                 let bundle = Bundle(identifier: "TradeIt.TradeItIosTicketSDK2")

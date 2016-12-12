@@ -17,7 +17,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
 
                 controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_LOGIN_VIEW") as! TradeItLoginViewController
                 controller.selectedBroker = TradeItBroker(shortName: "B5", longName: "Broker #5")

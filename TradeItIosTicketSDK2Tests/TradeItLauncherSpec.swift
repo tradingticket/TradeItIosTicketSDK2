@@ -4,7 +4,6 @@ import Nimble
 
 class TradeItLauncherSpec: QuickSpec {
     override func spec() {
-        var tradeItLauncher: TradeItLauncher!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var deviceManager: FakeTradeItDeviceManager!
         var viewController: UIViewController!
@@ -16,10 +15,10 @@ class TradeItLauncherSpec: QuickSpec {
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 deviceManager = FakeTradeItDeviceManager()
 
-                tradeItLauncher = TradeItLauncher(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
-                tradeItLauncher.deviceManager = deviceManager
+                TradeItSDK.configure(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
+                TradeItSDK.launcher.deviceManager = deviceManager
 
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
 
                 viewController = UIViewController()
 
@@ -31,7 +30,7 @@ class TradeItLauncherSpec: QuickSpec {
             describe("launchPortfolio(fromViewController:)") {
                 context("when there are no linked brokers") {
                     it("presents the Trade It Welcome view") {
-                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
+                        TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Welcome"))
@@ -43,7 +42,7 @@ class TradeItLauncherSpec: QuickSpec {
                         let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                         linkedBrokerManager.linkedBrokers = [linkedBroker]
 
-                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
+                        TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Portfolio"))

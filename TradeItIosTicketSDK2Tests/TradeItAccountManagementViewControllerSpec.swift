@@ -21,7 +21,7 @@ class TradeItAccountManagementViewControllerSpec: QuickSpec {
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
 
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow()
 
                 controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountManagementView.rawValue) as? TradeItAccountManagementViewController

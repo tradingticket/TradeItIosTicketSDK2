@@ -31,7 +31,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 let bundle = Bundle(identifier: "TradeIt.TradeItIosTicketSDK2")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
                 
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
                 controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_PORTFOLIO_VIEW") as! TradeItPortfolioViewController
 

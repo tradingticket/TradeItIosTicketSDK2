@@ -2,7 +2,7 @@
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
-    let deviceManager = TradeItDeviceManager()
+    var deviceManager = TradeItDeviceManager()
 
     override internal init() {}
 

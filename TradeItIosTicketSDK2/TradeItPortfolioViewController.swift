@@ -3,9 +3,7 @@ import PromiseKit
 import MBProgressHUD
 
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
-    
     var alertManager = TradeItAlertManager()
-    let linkedBrokerManager = TradeItSDK.linkedBrokerManager!
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
@@ -43,7 +41,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
-        self.linkedBrokerManager.authenticateAll(
+        TradeItSDK.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(securityQuestion,
@@ -57,7 +55,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             onFinished: {
                 activityView.label.text = "Refreshing Accounts"
 
-                self.linkedBrokerManager.refreshAccountBalances(
+                TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
                         self.updatePortfolioScreen()
                         activityView.hide(animated: true)
@@ -74,8 +72,8 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     // MARK: private methods
 
     private func updatePortfolioScreen() {
-        let accounts = self.linkedBrokerManager.getAllEnabledAccounts()
-        let linkedBrokersInError = self.linkedBrokerManager.getAllLinkedBrokersInError()
+        let accounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
+        let linkedBrokersInError = TradeItSDK.linkedBrokerManager.getAllLinkedBrokersInError()
         self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
         self.updateTotalValueLabel(withAccounts: accounts)
         if (accounts.count == 0) {

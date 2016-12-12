@@ -5,7 +5,6 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var brokerTable: UITableView!
     var delegate: TradeItSelectBrokerViewControllerDelegate?
     var alertManager = TradeItAlertManager()
-    var linkedBrokerManager: TradeItLinkedBrokerManager = TradeItSDK.linkedBrokerManager
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
     var selectedBroker: TradeItBroker?
@@ -19,7 +18,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading Brokers"
 
-        self.linkedBrokerManager.getAvailableBrokers(
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 self.brokers = availableBrokers
                 activityView.hide(animated: true)

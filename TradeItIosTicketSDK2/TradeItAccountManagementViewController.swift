@@ -5,7 +5,6 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()
-    var linkedBrokerManager = TradeItSDK.linkedBrokerManager
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     @IBOutlet weak var accountsTableView: UITableView!
@@ -53,9 +52,9 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
                 
-                self.linkedBrokerManager?.unlinkBroker(self.linkedBroker)
+                TradeItSDK.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
-                if (self.linkedBrokerManager?.linkedBrokers.count)! > 0 {
+                if (TradeItSDK.linkedBrokerManager.linkedBrokers.count) > 0 {
                     _ = self.navigationController?.popViewController(animated: true)
                 } else {
                     self.linkBrokerUIFlow.presentLinkBrokerFlow(

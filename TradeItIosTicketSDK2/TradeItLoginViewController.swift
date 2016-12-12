@@ -1,9 +1,6 @@
 import UIKit
 
 class TradeItLoginViewController: KeyboardViewController {
-
-    let linkedBrokerManager: TradeItLinkedBrokerManager = TradeItSDK.linkedBrokerManager
-
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var userNameInput: UITextField!
     @IBOutlet weak var passwordInput: UITextField!
@@ -61,7 +58,7 @@ class TradeItLoginViewController: KeyboardViewController {
         )!
         
         if let linkedBrokerToRelink = self.linkedBrokerToRelink {
-            self.linkedBrokerManager.relinkBroker(
+            TradeItSDK.linkedBrokerManager.relinkBroker(
                 linkedBrokerToRelink,
                 authInfo: tradeItAuthenticationInfo,
                 onSuccess: self.authenticateBroker,
@@ -72,7 +69,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 }
             )
         } else {
-            self.linkedBrokerManager.linkBroker(
+            TradeItSDK.linkedBrokerManager.linkBroker(
                 authInfo: tradeItAuthenticationInfo,
                 onSuccess: self.authenticateBroker,
                 onFailure: { error in
@@ -112,7 +109,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 )
             },
             onFailure: { error in
-                self.linkedBrokerManager.unlinkBroker(linkedBroker)
+                TradeItSDK.linkedBrokerManager.unlinkBroker(linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
                 self.alertManager.showError(error, onViewController: self)

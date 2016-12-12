@@ -6,7 +6,6 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchResultTableView: UITableView!
 
-    let marketDataService = TradeItSDK.marketDataService
     private var symbolSearchResults: [TradeItSymbolLookupCompany] = []
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
 
@@ -41,7 +40,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.activityIndicator.startAnimating()
 
-        self.marketDataService?.symbolLookup(
+        TradeItSDK.marketDataService.symbolLookup(
             resultText,
             onSuccess: { results in
                 self.activityIndicator.stopAnimating()

@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
-    let linkedBrokerManager = TradeItSDK.linkedBrokerManager
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!
@@ -19,8 +18,8 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let enabledBrokers = self.linkedBrokerManager?.getAllEnabledLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers!)
+        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }
     
     // MARK: TradeItAccounSelectionTableViewManagerDelegate
@@ -28,7 +27,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
                           onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
-        self.linkedBrokerManager?.authenticateAll(
+        TradeItSDK.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -40,14 +39,14 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             onFailure:  { error, linkedBroker in
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
                     // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
-                        onRefreshComplete(self.linkedBrokerManager?.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
                 )
             },
             onFinished: {
-                self.linkedBrokerManager?.refreshAccountBalances(
+                TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
-                        onRefreshComplete(self.linkedBrokerManager?.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
                 )
             }

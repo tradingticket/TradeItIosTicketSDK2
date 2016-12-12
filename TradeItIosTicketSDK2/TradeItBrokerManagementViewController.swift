@@ -3,7 +3,6 @@ import UIKit
 class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
-    let linkedBrokerManager = TradeItLauncher.linkedBrokerManager
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
     var selectedLinkedBroker: TradeItLinkedBroker!
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
@@ -18,7 +17,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: (self.linkedBrokerManager?.linkedBrokers)!)
+        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -45,7 +44,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
                 presentedNavController.dismiss(animated: true, completion: nil)
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: (self.linkedBrokerManager?.linkedBrokers)!)
+                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
                 })
             },
             onFlowAborted: { (presentedNavController: UINavigationController) -> Void in

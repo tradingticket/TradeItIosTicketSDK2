@@ -1,26 +1,14 @@
-import UIKit
-
 @objc public class TradeItLauncher: NSObject {
-    public static var linkedBrokerManager: TradeItLinkedBrokerManager!
-    public static var marketDataService: TradeItMarketService!
-    public static var brokerCenterService: TradeItBrokerCenterService!
-    var linkBrokerUIFlow: TradeItLinkBrokerUIFlow
-    var tradingUIFlow: TradeItTradingUIFlow
-    var viewControllerProvider: TradeItViewControllerProvider
-    var deviceManager = TradeItDeviceManager()
+    let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    let tradingUIFlow = TradeItTradingUIFlow()
+    let viewControllerProvider = TradeItViewControllerProvider()
+    let deviceManager = TradeItDeviceManager()
 
-    public init(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
-        TradeItLauncher.linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-        TradeItLauncher.marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
-        TradeItLauncher.brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-        self.linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
-        self.tradingUIFlow = TradeItTradingUIFlow()
-        self.viewControllerProvider = TradeItViewControllerProvider()
-    }
+    override internal init() {}
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
         // Show Welcome flow for users who have never linked before
-        if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
+        if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
@@ -61,7 +49,7 @@ import UIKit
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController, forAccountNumber accountNumber: String) {
-        let accounts = TradeItLauncher.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter{ $0.accountNumber == accountNumber}
+        let accounts = TradeItSDK.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter{ $0.accountNumber == accountNumber }
         if accounts.isEmpty {
             print("No linked broker accounts found matching the account number " + accountNumber)
         } else {
@@ -74,7 +62,7 @@ import UIKit
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder = TradeItOrder()) {
         // Show Welcome flow for users who have never linked before
-        if (TradeItLauncher.linkedBrokerManager.linkedBrokers.count == 0) {
+        if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,

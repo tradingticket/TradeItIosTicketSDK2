@@ -110,7 +110,7 @@ import PromiseKit
     }
 
     public func isStillLinked() -> Bool {
-        let linkedBrokers = TradeItLauncher.linkedBrokerManager.linkedBrokers
+        let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
         return linkedBrokers.index(of: self) != nil
     }
 

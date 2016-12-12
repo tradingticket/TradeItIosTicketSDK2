@@ -20,7 +20,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     weak var delegate: TradeItTradingTicketViewControllerDelegate?
     
     var viewControllerProvider = TradeItViewControllerProvider()
-    var marketDataService = TradeItLauncher.marketDataService
     var order = TradeItOrder()
 
     override func viewDidLoad() {
@@ -306,7 +305,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         symbolView.updateSymbol(symbol)
         symbolView.updateQuoteActivity(.loading)
 
-        self.marketDataService?.getQuote(symbol, onSuccess: { quote in
+        TradeItSDK.marketDataService.getQuote(symbol, onSuccess: { quote in
             let presenter = TradeItQuotePresenter(quote)
             self.order.quoteLastPrice = presenter.getLastPriceValue()
             self.symbolView.updateQuote(quote)

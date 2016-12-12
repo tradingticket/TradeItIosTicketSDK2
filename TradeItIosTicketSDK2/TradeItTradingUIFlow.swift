@@ -35,7 +35,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
     // MARK: Private
 
     private func initializeLinkedAccount(forOrder order: TradeItOrder) {
-        let enabledAccounts = TradeItLauncher.linkedBrokerManager.getAllEnabledAccounts()
+        let enabledAccounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
 
         order.linkedBrokerAccount = enabledAccounts.first
     }

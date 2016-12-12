@@ -77,7 +77,7 @@ static CGFloat kExpandedHeight = 273.0f;
 }
 
 -(void) populateBrokerDataByActiveFilter {
-    [[TradeItLauncher brokerCenterService] getBrokersOnSuccess:^(NSArray<TradeItBrokerCenterBroker *> * _Nonnull brokers) {
+    [[TradeItSDK brokerCenterService] getBrokersOnSuccess:^(NSArray<TradeItBrokerCenterBroker *> * _Nonnull brokers) {
         self.brokerCenterData = [brokers copy];
         [self setDisclaimerLabelsAndSizes];
         [self loadWebViews];
@@ -555,7 +555,7 @@ static CGFloat kExpandedHeight = 273.0f;
 
         NSString *brokerName = broker.broker;
 
-        NSString * urlStr = [[TradeItLauncher brokerCenterService] getButtonUrlWithBroker:brokerName];
+        NSString * urlStr = [[TradeItSDK brokerCenterService] getButtonUrlWithBroker:brokerName];
 
         [buttonWebView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString:urlStr]]];
         [self.brokerCenterButtonViews addObject: @{@"broker": broker.broker, @"webView": buttonWebView}];

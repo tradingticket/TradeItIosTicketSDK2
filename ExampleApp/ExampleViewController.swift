@@ -24,16 +24,7 @@ enum Action: Int {
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var table: UITableView!
 
-    let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
-    let ENVIRONMENT = TradeItEmsTestEnv
-    var alertManager: TradeItAlertManager!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        TradeItSDK.configure(apiKey: API_KEY, environment: ENVIRONMENT)
-        self.alertManager = TradeItAlertManager()
-    }
+    let alertManager: TradeItAlertManager = TradeItAlertManager()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -137,7 +128,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func launchOAuthFlow() {
         let broker = "dummy"
-        TradeItLauncher.linkedBrokerManager.getOAuthLoginPopupUrl(
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
             deepLinkCallback: "tradeItExample://completeOAuth",
             onSuccess: { url in
@@ -157,7 +148,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchOAuthRelinkFlow() {
-        guard let linkedBroker = TradeItLauncher.linkedBrokerManager.linkedBrokers.first else {
+        guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
             print("=====> No linked brokers to relink!")
 
             self.alertManager.showAlert(
@@ -170,7 +161,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             return
         }
 
-        TradeItLauncher.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
             withBroker: linkedBroker.brokerName,
             userId: linkedBroker.linkedLogin.userId ?? "",
             deepLinkCallback: "tradeItExample://completeOAuth",
@@ -196,7 +187,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
             let linkedLogin = linkedBroker.linkedLogin
-            let userToken = TradeItLauncher.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
+            let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
             print("=====> \(linkedLogin.broker ?? "MISSING BROKER")(\(linkedBroker.accounts.count) accounts)\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
         }
 

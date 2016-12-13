@@ -6,14 +6,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
-    let tradeItLauncher: TradeItLauncher
 
     override init() {
-        tradeItLauncher = TradeItLauncher(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
+        TradeItSDK.configure(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
         super.init()
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         if ProcessInfo.processInfo.arguments.contains("isUITesting") {
             UIView.setAnimationsEnabled(false)
         }
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             urlComponents.host == "completeOAuth",
             let queryItems = urlComponents.queryItems,
             let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
-            TradeItLauncher.linkedBrokerManager.completeOAuth(
+            TradeItSDK.linkedBrokerManager.completeOAuth(
                 withOAuthVerifier: oAuthVerifier,
                 onSuccess: { linkedBroker in
                     print("=====> OAuth successful for \(linkedBroker.brokerName)!")

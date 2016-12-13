@@ -4,7 +4,7 @@
     private static var configured = false
     public static let launcher = TradeItLauncher()
 
-    private static var _linkedBrokerManager: TradeItLinkedBrokerManager?
+    internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
             precondition(_linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
@@ -12,7 +12,7 @@
         }
     }
 
-    private static var _marketDataService: TradeItMarketService?
+    internal static var _marketDataService: TradeItMarketService?
     public static var marketDataService: TradeItMarketService {
         get {
             precondition(_marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before calling TradeItSDK.configure()!")

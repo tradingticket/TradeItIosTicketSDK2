@@ -45,9 +45,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.linkedBrokerAccount == nil {
-            assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingPreviewViewController loaded without setting linkedBrokerAccount.")
-        }
+        precondition(self.linkedBrokerAccount != nil, "TradeItIosTicketSDK ERROR: TradeItTradingPreviewViewController loaded without setting linkedBrokerAccount.")
 
         previewCellData = generatePreviewCellData()
 

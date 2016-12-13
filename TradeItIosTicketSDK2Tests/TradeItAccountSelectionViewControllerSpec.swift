@@ -20,7 +20,7 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 let bundle = TradeItBundleProvider.provide()
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
                 
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
                 controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
                 

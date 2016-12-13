@@ -25,8 +25,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let linkedBrokerAccount = self.order.linkedBrokerAccount else {
-            assertionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
-            return
+            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
         prepopulateOrderForm()
         accountSelected(linkedBrokerAccount: linkedBrokerAccount)

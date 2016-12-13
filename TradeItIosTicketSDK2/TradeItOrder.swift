@@ -7,7 +7,19 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
     public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
-    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
+    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT {
+        didSet {
+            if !requiresExpiration() {
+                expiration = TradeItOrderExpirationPresenter.DEFAULT
+            }
+            if !requiresLimitPrice() {
+                limitPrice = nil
+            }
+            if !requiresStopPrice() {
+                stopPrice = nil
+            }
+        }
+    }
     public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
     public var quantity: NSDecimalNumber?
     public var limitPrice: NSDecimalNumber?

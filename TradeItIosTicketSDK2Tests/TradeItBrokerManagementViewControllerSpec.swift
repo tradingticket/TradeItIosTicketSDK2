@@ -19,7 +19,7 @@ class TradeItBrokerManagementViewControllerSpec: QuickSpec {
                 let bundle = Bundle(identifier: "TradeIt.TradeItIosTicketSDK2Tests")
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
                 
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
                 controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.brokerManagementView.rawValue) as! TradeItBrokerManagementViewController
                 

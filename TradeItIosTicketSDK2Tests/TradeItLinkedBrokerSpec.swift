@@ -170,8 +170,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
             
             context("when all the accounts balances have been fetched") {
                 beforeEach {
-                        let onSuccess = account11.calls.forMethod("getAccountOverview(onSuccess:onFailure:)")[0].args["onSuccess"] as! () -> Void
-                        onSuccess()
+                        let onSuccess = account11.calls.forMethod("getAccountOverview(onSuccess:onFailure:)")[0].args["onSuccess"] as! (TradeItAccountOverview?) -> Void
+                        onSuccess(TradeItAccountOverview())
                         let onFailure = account12.calls.forMethod("getAccountOverview(onSuccess:onFailure:)")[0].args["onFailure"] as! (TradeItErrorResult) -> Void
                         onFailure(TradeItErrorResult())
                         flushAsyncEvents()

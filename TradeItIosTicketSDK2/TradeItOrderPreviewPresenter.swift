@@ -18,8 +18,8 @@ class TradeItOrderPreviewPresenter {
         request.orderExpiration = expiration()
         request.orderQuantity = quantity()
         request.orderSymbol = symbol()
-        request.orderLimitPrice = limitPrice()
-        request.orderStopPrice = stopPrice()
+        request.orderLimitPrice = order.limitPrice
+        request.orderStopPrice = order.stopPrice
 
         return request
     }
@@ -60,22 +60,5 @@ class TradeItOrderPreviewPresenter {
     private func symbol() -> String {
         guard let symbol = order.symbol else { return "" }
         return symbol
-    }
-
-    // TODO: Move this sort of thing to TradeItOrder. Maybe a computed property.
-    private func limitPrice() -> NSDecimalNumber? {
-        guard let limitPrice = order.limitPrice,
-            order.requiresLimitPrice()
-            else { return nil }
-
-        return limitPrice
-    }
-
-    private func stopPrice() -> NSDecimalNumber? {
-        guard let stopPrice = order.stopPrice,
-            order.requiresStopPrice()
-            else { return nil }
-
-        return stopPrice
     }
 }

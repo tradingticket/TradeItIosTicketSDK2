@@ -1,5 +1,5 @@
 import UIKit
-@testable import TradeItIosTicketSDK2
+import TradeItIosTicketSDK2
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

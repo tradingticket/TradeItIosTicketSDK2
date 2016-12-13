@@ -1,4 +1,4 @@
-enum TradeItErrorCode: Int {
+public enum TradeItErrorCode: Int {
     case systemError = 100
     case brokerExecutionError = 200
     case brokerAuthenticationError = 300
@@ -19,7 +19,7 @@ extension TradeItErrorResult {
         self.code = NSDecimalNumber(value: code.rawValue)
     }
 
-    func errorCode() -> TradeItErrorCode? {
+    public func errorCode() -> TradeItErrorCode? {
         if let code = self.code?.intValue {
             return TradeItErrorCode(rawValue: code)
         } else {
@@ -27,7 +27,7 @@ extension TradeItErrorResult {
         }
     }
 
-    func requiresRelink() -> Bool {
+    public func requiresRelink() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
@@ -35,7 +35,7 @@ extension TradeItErrorResult {
         return [TradeItErrorCode.brokerAuthenticationError, TradeItErrorCode.oauthError].contains(errorCode)
     }
 
-    func requiresAuthentication() -> Bool {
+    public func requiresAuthentication() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }

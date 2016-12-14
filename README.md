@@ -4,6 +4,3 @@
 
 ### Getting Started
 [Read the Wiki to get started!](https://github.com/tradingticket/TradeItIosTicketSDK2/wiki)
-
-### Documentation
-[Wiki](https://github.com/tradingticket/TradeItIosTicketSDK2/wiki)

@@ -82,6 +82,11 @@
                                           withBroker:(NSString * _Nullable)broker
                                             andLabel:(NSString * _Nullable)label;
 
+- (TradeItLinkedLogin * _Nullable)saveToKeychainWithUserId:(NSString * _Nullable)userId
+                                              andUserToken:(NSString * _Nullable)userToken
+                                                 andBroker:(NSString * _Nullable)broker
+                                                  andLabel:(NSString * _Nullable)label;
+
 /**
  *  Using a successful response from the updateUserToken:withAuthenticationInfo:andCompletionBlock: this method will update the keychain token for an already linked account.
  */

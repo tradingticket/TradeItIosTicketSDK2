@@ -170,26 +170,33 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
-                                withBroker:(NSString *)broker
-                                  andLabel:(NSString *)label {
+                                    withBroker:(NSString *)broker
+                                      andLabel:(NSString *)label {
+    return [self saveToKeychainWithUserId:link.userId andUserToken:link.userToken andBroker:broker andLabel:label];
+}
+
+- (TradeItLinkedLogin *)saveToKeychainWithUserId:(NSString *)userId
+                                    andUserToken:(NSString *)userToken
+                                       andBroker:(NSString *)broker
+                                        andLabel:(NSString *)label {
     NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSString *keychainId = [[NSUUID UUID] UUIDString];
     
     NSDictionary *newRecord = @{@"label":label,
                                  @"broker":broker,
-                                 @"userId":link.userId,
+                                 @"userId":userId,
                                  @"keychainId":keychainId};
 
     [accounts addObject:newRecord];
     
     [standardUserDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
     
-    [TradeItKeychain saveString:link.userToken forKey:keychainId];
+    [TradeItKeychain saveString:userToken forKey:keychainId];
     
     return [[TradeItLinkedLogin alloc] initWithLabel:label
                                               broker:broker
-                                              userId:link.userId
+                                              userId:userId
                                        andKeyChainId:keychainId];
 }
 

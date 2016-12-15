@@ -92,7 +92,6 @@ import PromiseKit
 
                 if let linkedBroker = self.getLinkedBroker(forUserId: userId) {
                     // userId already exists, this is a relink
-                    print("=====> FOUND LINKED BROKER") // TRACEAKAKAK
                     let linkedLogin = self.connector.updateKeychain(withLink: oAuthAccessTokenResult,
                                                                     withBroker: linkedBroker.linkedLogin.broker)
                     if let linkedLogin = linkedLogin {
@@ -110,7 +109,6 @@ import PromiseKit
                         onFailure(error)
                     }
                 } else {
-                    print("=====> DIDN'T FIND LINKED BROKER") // TRACEAKAKAK
                     let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
                                                                     withBroker: self.currentOAuthBroker)
                     if let linkedLogin = linkedLogin {

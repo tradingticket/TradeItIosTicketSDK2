@@ -130,7 +130,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let broker = "dummy"
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
-            deepLinkCallback: "tradeItExample://completeOAuth",
+            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
@@ -164,7 +164,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
             withBroker: linkedBroker.brokerName,
             userId: linkedBroker.linkedLogin.userId ?? "",
-            deepLinkCallback: "tradeItExample://completeOAuth",
+            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,

@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      annotation: Any) -> Bool {
         // Check for the intended url.scheme, url.host, and url.path before proceeding
         if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
-            urlComponents.scheme == "tradeitexample",
+            urlComponents.scheme == "tradeitexamplescheme",
             urlComponents.host == "completeOAuth",
             let queryItems = urlComponents.queryItems,
             let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {

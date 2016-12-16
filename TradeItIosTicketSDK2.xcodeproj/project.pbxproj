@@ -291,6 +291,8 @@
 		75BAACDA1DB800B600E5435C /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAACC61DB8004900E5435C /* UITestHelper.swift */; };
 		75D191781DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
 		75D191791DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
+		75D1917C1E03217000FF5E0F /* cimb_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75D1917B1E03217000FF5E0F /* cimb_logo.png */; };
+		75D1917D1E0326C000FF5E0F /* cimb_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75D1917B1E03217000FF5E0F /* cimb_logo.png */; };
 		75E6604F1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E6604E1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift */; };
 		75EDCEA41DDE597C000739C9 /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
 		75EDCEA51DDF559C000739C9 /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
@@ -863,6 +865,7 @@
 		75BAACC61DB8004900E5435C /* UITestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITestHelper.swift; sourceTree = "<group>"; };
 		75BAACCE1DB8005A00E5435C /* ExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D191771DFB37E200FF5E0F /* TradeItSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSDK.swift; sourceTree = "<group>"; };
+		75D1917B1E03217000FF5E0F /* cimb_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cimb_logo.png; sourceTree = "<group>"; };
 		75E6604E1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItDeviceManager.swift; sourceTree = "<group>"; };
 		849EFA742276C47F5D1FCA64 /* Pods-TradeItIosTicketSDK2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.release.xcconfig"; sourceTree = "<group>"; };
 		98A2390A961A32AF0F09BD1B /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1192,6 +1195,7 @@
 		75B857B41DD3AB7C003AB7AB /* Logos */ = {
 			isa = PBXGroup;
 			children = (
+				75D1917B1E03217000FF5E0F /* cimb_logo.png */,
 				75B857B51DD3AB91003AB7AB /* etrade_logo.png */,
 				75B857B61DD3AB91003AB7AB /* fidelity_logo.png */,
 				75B857B71DD3AB91003AB7AB /* ib_logo.png */,
@@ -1830,6 +1834,7 @@
 				75BAAAA41DB7EEB400E5435C /* success_icon.png in Resources */,
 				B5FDB6811DDE40F700CA558D /* norton.png in Resources */,
 				75BAAAA51DB7EEB400E5435C /* TradeIt.storyboard in Resources */,
+				75D1917C1E03217000FF5E0F /* cimb_logo.png in Resources */,
 				75B857C11DD3AB91003AB7AB /* ib_logo.png in Resources */,
 				75B857C01DD3AB91003AB7AB /* fidelity_logo.png in Resources */,
 				75B857C61DD3AB91003AB7AB /* tradeking_logo.png in Resources */,
@@ -1858,6 +1863,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75D1917D1E0326C000FF5E0F /* cimb_logo.png in Resources */,
 				75EDCEA51DDF559C000739C9 /* norton.png in Resources */,
 				75EDCEA61DDF559C000739C9 /* truste.png in Resources */,
 				75EDCEA71DDF559C000739C9 /* etrade_logo.png in Resources */,

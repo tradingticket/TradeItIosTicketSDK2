@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '1.0.15'
+  s.version          = '1.0.16'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
     'TradeItIosTicketSDK2' => [
       'TradeItIosTicketSDK2/**/*.{storyboard,xib,png}',
-      'TTSDKBrokerCenterCell.xib'
+      'TradeItIosBrokerCenterLegacy/TTSDKBrokerCenterCell.xib'
     ]
   }
 

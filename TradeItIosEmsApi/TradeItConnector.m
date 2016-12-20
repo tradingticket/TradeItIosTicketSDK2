@@ -57,40 +57,6 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
     return self;
 }
 
-// TODO: WIPWIPWIPWIPWIPWIP
-//
-// getOAuthLoginPopupUrlForMobile(String apiKey, String broker, String interAppAddressCallback)
-//
-// api/v1/user/getOAuthLoginPopupUrlForMobile
-//
-// https://www.tradingticket.com/ems/oAuth/getOAuthLoginPopupUrlForMobile?apiKey=tradeit-test-api-key&broker=Etrade&interAppAddressCallback=myMobileApp://oAuthHandler
-//
-// {
-//     "longMessages":null,
-//     "oAuthURL":"https://localhost:8443/oAuth/tradeItAuthScreen?oAuthTempToken=2bae6cc8-8d37-4b4a-ae5e-6bbde9209ac4",
-//     "shortMessage":"oAuth URL succesfully generated",
-//     "status":"SUCCESS",
-//     "token":""
-// }
-//
-// getOAuthAccessToken(String oAuthVerifier, String apiKey)
-//
-// api/v1/user/getOAuthAccessToken
-//
-// https://www.tradingticket.com/ems/oAuth/getOAuthAccessToken?apiKey=tradeit-test-api-key&oAuthVerifier=46eb5b7c-06e7-4a97-a285-8f5aa260700a
-//
-// {  "longMessages": null,
-//     "oAuthVerifier": null,
-//     "shortMessage": "User successfully linked",
-//     "status": "SUCCESS",
-//     "token": "038cd8daffaa4a77984f8845758f4c06",
-//     "userId": "1b8147939916588775ae",
-//     "userToken":"C%2BJCsxTmLl2np7IS8p3bLXRyaycsWtUrwhToUtzFGFet9XRS6sX%2B3rhi7OwVqHAvRpgnw%2BMbhQckTgIK23wem2f9AQ7NIVA0KR9Pvt6IvFL7dr8TTP3ILJlJnI0PPC6RonUTblFDrIEMrb6JMkgh3w%3D%3D"
-// }
-//
-// api/v1/user/getOAuthLoginPopupURLForTokenUpdate?apiKey=tradeit-test-api-key&broker=Etrade&interAppAddressCallback=myMobileApp://oAuthHandler&userId=1234556
-//
-
 
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString *)broker
                          interAppAddressCallback:(NSString *)interAppAddressCallback

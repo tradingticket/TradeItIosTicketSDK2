@@ -6,11 +6,8 @@
 //  Copyright © 2016 Antonio Reyes. All rights reserved.
 //
 
-#import "TradeItResult.h"
+#import "TradeItAuthLinkResult.h"
 
-@interface TradeItUpdateLinkResult : TradeItResult
-
-@property (nullable) NSString *userId;
-@property (nullable) NSString *userToken;
+@interface TradeItUpdateLinkResult : TradeItAuthLinkResult
 
 @end

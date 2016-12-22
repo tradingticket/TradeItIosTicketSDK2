@@ -32,6 +32,14 @@ import PromiseKit
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
                 self.currentOAuthBroker = broker
+
+                guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthURL,
+                    !oAuthUrl.isEmpty
+                else {
+                    onFailure(TradeItErrorResult(title: "Received empty OAuth login popup URL"))
+                    return
+                }
+
                 onSuccess(oAuthLoginPopupUrlForMobileResult.oAuthURL ?? "")
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)

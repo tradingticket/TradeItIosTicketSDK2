@@ -22,12 +22,30 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 
+@interface TradeItConnector()
+
+- (NSUserDefaults *)userDefaults;
+
+@end
+
+
 @implementation TradeItConnector {
     BOOL runAsyncCompletionBlockOnMainThread;
 }
 
-NSString * BROKER_LIST_KEYNAME = @"TRADEIT_BROKERS";
-NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
+NSString *BROKER_LIST_KEYNAME = @"TRADEIT_BROKERS";
+NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
+
+- (NSUserDefaults *)userDefaults {
+    static NSUserDefaults *userDefaults = nil;
+    static dispatch_once_t onceToken;
+
+    dispatch_once(&onceToken, ^{
+        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
+    });
+
+    return userDefaults;
+}
 
 - (id)initWithApiKey:(NSString *)apiKey
          environment:(TradeitEmsEnvironments)environment
@@ -273,7 +291,6 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
                                     andUserToken:(NSString *)userToken
                                        andBroker:(NSString *)broker
                                         andLabel:(NSString *)label {
-    NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSString *keychainId = [[NSUUID UUID] UUIDString];
     
@@ -284,7 +301,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [accounts addObject:newRecord];
     
-    [standardUserDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+    [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
     
     [TradeItKeychain saveString:userToken forKey:keychainId];
     
@@ -314,8 +331,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (NSArray *)getLinkedLoginsRaw {
-    NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
-    NSArray *linkedAccounts = [standardUserDefaults arrayForKey:BROKER_LIST_KEYNAME];
+    NSArray *linkedAccounts = [self.userDefaults arrayForKey:BROKER_LIST_KEYNAME];
     
     if (!linkedAccounts) {
         linkedAccounts = [[NSArray alloc] init];
@@ -347,7 +363,6 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)unlinkBroker:(NSString *)broker {
-    NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
     
@@ -362,11 +377,10 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
         [accounts removeObject:account];
     }
     
-    [standardUserDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+    [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
 }
 
 - (void)unlinkLogin:(TradeItLinkedLogin *)login {
-    NSUserDefaults *standardUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:USER_DEFAULTS_SUITE];
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
@@ -381,7 +395,7 @@ NSString * USER_DEFAULTS_SUITE = @"TRADEIT";
         [accounts removeObject:account];
     }
     
-    [standardUserDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+    [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
 }
 
 - (NSString *)userTokenFromKeychainId:(NSString *)keychainId {

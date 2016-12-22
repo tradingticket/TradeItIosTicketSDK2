@@ -1,5 +1,3 @@
-private let linkedBrokerCache = TradeItLinkedBrokerCache()
-
 @objc public class TradeItLinkedBrokerAccount: NSObject {
     public var brokerName: String {
         return self.linkedBroker.brokerName
@@ -24,7 +22,7 @@ private let linkedBrokerCache = TradeItLinkedBrokerCache()
         set(newValue) {
             if _enabled != newValue {
                 _enabled = newValue
-                linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
             }
         }
     }

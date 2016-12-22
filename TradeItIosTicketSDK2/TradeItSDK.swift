@@ -3,6 +3,7 @@
     private static var environment: TradeitEmsEnvironments?
     private static var configured = false
     public static let launcher = TradeItLauncher()
+    internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {

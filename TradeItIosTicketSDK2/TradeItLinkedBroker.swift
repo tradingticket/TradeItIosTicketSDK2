@@ -6,8 +6,6 @@ import PromiseKit
     public var error: TradeItErrorResult?
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
-    private var linkedBrokerCache = TradeItLinkedBrokerCache()
-
 
     public var brokerName: String {
         return self.linkedLogin.broker ?? ""
@@ -40,7 +38,7 @@ import PromiseKit
 
                     self.accountsLastUpdated = Date()
 
-                    self.linkedBrokerCache.cache(linkedBroker: self)
+                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
 
                     onSuccess()
                 case let securityQuestion as TradeItSecurityQuestionResult:

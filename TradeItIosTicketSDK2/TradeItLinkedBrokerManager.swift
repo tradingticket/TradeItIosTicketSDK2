@@ -5,7 +5,6 @@ import PromiseKit
     public var authenticationDelegate: TradeItAuthenticationDelegate?
     var connector: TradeItConnector
     var sessionProvider: TradeItSessionProvider
-    private var linkedBrokerCache = TradeItLinkedBrokerCache()
     private var currentOAuthBroker: String?
 
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
@@ -33,6 +32,14 @@ import PromiseKit
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
                 self.currentOAuthBroker = broker
+
+                guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthURL,
+                    !oAuthUrl.isEmpty
+                else {
+                    onFailure(TradeItErrorResult(title: "Received empty OAuth login popup URL"))
+                    return
+                }
+
                 onSuccess(oAuthLoginPopupUrlForMobileResult.oAuthURL ?? "")
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
@@ -288,7 +295,7 @@ import PromiseKit
 
         self.linkedBrokers = linkedLoginsFromKeychain.map { linkedLogin in
             let linkedBroker = loadLinkedBrokerFromLinkedLogin(linkedLogin)
-            self.linkedBrokerCache.syncFromCache(linkedBroker: linkedBroker)
+            TradeItSDK.linkedBrokerCache.syncFromCache(linkedBroker: linkedBroker)
             return linkedBroker
         }
     }

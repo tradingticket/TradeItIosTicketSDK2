@@ -13,23 +13,28 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNT_ENABLED = "ENABLED"
     private let ACCOUNT_DISABLED = "DISABLED"
 
-    var defaults = UserDefaults(suiteName: "it.trade")!
+    internal static let _userDefaults = UserDefaults(suiteName: "it.trade")!
+    internal var userDefaults: UserDefaults {
+        get {
+            return TradeItLinkedBrokerCache._userDefaults
+        }
+    }
 
     func cache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId else { return }
 
-        var linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
+        var linkedBrokerCache = userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
 
         let serializedLinkedBroker = serialize(linkedBroker: linkedBroker)
 
         linkedBrokerCache[userId] = serializedLinkedBroker
 
-        defaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
+        self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
-            , let linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
+            , let linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
             , let serializedLinkedBroker = linkedBrokerCache[userId] as SerializedLinkedBroker?
             else { return }
 
@@ -45,11 +50,11 @@ class TradeItLinkedBrokerCache {
 
     func remove(linkedBroker: TradeItLinkedBroker) {
         guard let userId = linkedBroker.linkedLogin.userId
-            , var linkedBrokerCache = defaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
+            , var linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
             else { return }
 
         linkedBrokerCache[userId] = nil
-        defaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
+        self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 
     // MARK: Private
@@ -101,5 +106,4 @@ class TradeItLinkedBrokerCache {
         
         return serializeAccountsList
     }
-
 }

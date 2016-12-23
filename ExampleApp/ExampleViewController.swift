@@ -46,7 +46,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 return print("You must link a broker with an account first")
             }
             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
-        case .launchPortfolioForAccountNumber: // brkAcct1 is on the Dummy account
+        case .launchPortfolioForAccountNumber: // brkAcct1 is the account number of the Dummy login
             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
         case .launchTrading:
             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())

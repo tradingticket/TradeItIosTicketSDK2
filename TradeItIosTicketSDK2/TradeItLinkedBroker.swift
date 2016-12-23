@@ -23,10 +23,10 @@ import PromiseKit
     }
 
     public func authenticate(onSuccess: @escaping () -> Void,
-                           onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-                                               _ submitAnswer: @escaping (String) -> Void,
-                                               _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
-                           onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+                             onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                            _ submitAnswer: @escaping (String) -> Void,
+                                                            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                             onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult) in
                 switch tradeItResult {

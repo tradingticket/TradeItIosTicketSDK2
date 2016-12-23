@@ -195,7 +195,11 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let authResult as TradeItAuthLinkResult:
-                self.saveLinkedBrokerToKeychain(userId: authResult.userId, userToken: authResult.userToken, broker: authInfo.broker, onSuccess: onSuccess, onFailure: onFailure)
+                self.saveLinkedBrokerToKeychain(userId: authResult.userId,
+                                                userToken: authResult.userToken,
+                                                broker: authInfo.broker,
+                                                onSuccess: onSuccess,
+                                                onFailure: onFailure)
             default:
                 onFailure(TradeItErrorResult(title: "Keychain error"))
             }
@@ -208,7 +212,11 @@ import PromiseKit
                            broker: String,
                            onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                            onFailure: @escaping (TradeItErrorResult) -> Void) {
-        saveLinkedBrokerToKeychain(userId: userId, userToken: userToken, broker: broker, onSuccess: onSuccess, onFailure: onFailure)
+        saveLinkedBrokerToKeychain(userId: userId,
+                                   userToken: userToken,
+                                   broker: broker,
+                                   onSuccess: onSuccess,
+                                   onFailure: onFailure)
     }
 
     public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {

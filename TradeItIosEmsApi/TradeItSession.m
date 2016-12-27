@@ -9,12 +9,16 @@
 #import "TradeItSession.h"
 #import "TradeItAuthenticationRequest.h"
 #import "TradeItJsonConverter.h"
-#import "TradeItErrorResult.h"
 #import "TradeItAuthenticationResult.h"
 #import "TradeItSecurityQuestionResult.h"
 #import "TradeItSecurityQuestionRequest.h"
 #import "TradeItBrokerAccount.h"
-#import "TradeItErrorResult.h"
+
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
 
 @implementation TradeItSession
 
@@ -72,7 +76,8 @@
         resultToReturn = [TradeItJsonConverter buildResult:[TradeItSecurityQuestionResult alloc] jsonString:jsonResponse];
         
     } else if ([status isEqualToString:@"ERROR"]) {
-        resultToReturn = [TradeItJsonConverter buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
+        TradeItErrorResult *error = [TradeItErrorResult alloc];
+        resultToReturn = [TradeItJsonConverter buildResult:error jsonString:jsonResponse];
     }
 
     return resultToReturn;

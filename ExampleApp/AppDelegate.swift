@@ -2,7 +2,7 @@ import UIKit
 import TradeItIosTicketSDK2
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, TradeItAuthenticationDelegate {
     static let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
@@ -10,6 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         TradeItSDK.configure(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
         super.init()
+        TradeItSDK.linkedBrokerManager.authenticationDelegate = self
     }
 
     func application(_ application: UIApplication,
@@ -56,5 +57,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return true
+    }
+
+    func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
+        linkedBroker.authenticateIfNeeded(onSuccess: {
+            for account in linkedBroker.accounts {
+                account.getPositions(onSuccess: { positions in
+                    print(positions)
+                }, onFailure: { error in
+                    print(error)
+                })
+            }
+            print("SUCCESS")
+        }, onSecurityQuestion: { _, _, _ in
+            print("SECURITY QUESTION")
+        }, onFailure: { error in
+            print(error)
+        })
+    }
+
+    func didUnlink(linkedBroker: TradeItLinkedBroker) {
+
     }
 }

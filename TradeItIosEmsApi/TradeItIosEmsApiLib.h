@@ -12,7 +12,6 @@
 // Generic classes for the request/results sent the to EMS server
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
-#import "TradeItErrorResult.h"
 #import "TradeItJsonConverter.h"
 #import "TradeItKeychain.h"
 

@@ -136,7 +136,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
                 switch result {
                 case let placeOrderResult as TradeItPlaceOrderResult: onSuccess(placeOrderResult)
                 case let errorResult as TradeItErrorResult: onFailure(errorResult)
-                default: onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
+                default: onFailure(TradeItErrorResult.tradeError(systemMessage: "Error placing order."))
                 }
             }
         }

@@ -144,23 +144,9 @@ static TIEMSJSONKeyMapper* globalKeyMapper = nil;
 
 -(id)initWithString:(NSString*)string error:(TIEMSJSONModelError**)err
 {
-    TIEMSJSONModelError* initError = nil;
-    id objModel = [self initWithString:string usingEncoding:NSUTF8StringEncoding error:&initError];
-    if (initError && err) *err = initError;
-    return objModel;
-}
-
--(id)initWithString:(NSString *)string usingEncoding:(NSStringEncoding)encoding error:(TIEMSJSONModelError**)err
-{
-    //check for nil input
-    if (!string) {
-        if (err) *err = [TIEMSJSONModelError errorInputIsNil];
-        return nil;
-    }
-    
-    TIEMSJSONModelError* initError = nil;
-    id objModel = [self initWithData:[string dataUsingEncoding:encoding] error:&initError];
-    if (initError && err) *err = initError;
+    //TIEMSJSONModelError* initError = nil;
+    id objModel = [self initWithData:[string dataUsingEncoding:NSUTF8StringEncoding] error:err];
+    //if (initError && err) *err = initError;
     return objModel;
 
 }

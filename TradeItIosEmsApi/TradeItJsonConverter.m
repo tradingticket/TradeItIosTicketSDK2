@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "TradeItJsonConverter.h"
-#import "TradeItErrorResult.h"
+
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
 
 @implementation TradeItJsonConverter
 

@@ -17,24 +17,23 @@
     }
 
     func refreshQuote(onFinished: @escaping () -> Void) {
-        if let position = self.position, let equitySymbol = position.symbol {
-            TradeItSDK.marketDataService.getQuote(symbol: equitySymbol, onSuccess: { quote in
-                self.quote = quote
-                onFinished()
-            }, onFailure: { _ in
-                onFinished()
-            })
+        var symbol = ""
+        self.quote = nil
+
+        if let position = self.position,  let equitySymbol = position.symbol {
+            symbol = equitySymbol
         } else if let fxPosition = self.fxPosition, let fxSymbol = fxPosition.symbol {
-            let broker = self.linkedBrokerAccount.brokerName
-            TradeItSDK.marketDataService.getFxQuote(symbol: fxSymbol, broker: broker, onSuccess: { quote in
-                self.quote = quote
-                onFinished()
-            }, onFailure: { _ in
-                onFinished()
-            })
+            symbol = fxSymbol
         } else {
             onFinished()
             return
         }
+
+        TradeItSDK.marketDataService.getQuote(symbol, onSuccess: { quote in
+            self.quote = quote
+            onFinished()
+        }, onFailure: { errorResult in
+            onFinished()
+        })
     }
 }

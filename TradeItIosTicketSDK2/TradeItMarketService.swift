@@ -21,13 +21,13 @@
         })
     }
 
-    func getQuote(symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    func getQuote(_ symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let quotesRequest = TradeItQuotesRequest(symbol: symbol)
 
         getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
     }
 
-    func getFxQuote(symbol: String, broker: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    func getFXQuote(_ symbol: String, broker: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let quotesRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: broker)
 
         getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)

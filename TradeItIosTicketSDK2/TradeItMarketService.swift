@@ -1,18 +1,15 @@
 @objc public class TradeItMarketService: NSObject {
-    var connector: TradeItConnector
-    var sessionProvider: TradeItSessionProvider
+    let marketDataService: TradeItMarketDataService
 
     init(apiKey: String, environment: TradeitEmsEnvironments) {
-        connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        sessionProvider = TradeItSessionProvider()
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        marketDataService = TradeItMarketDataService(connector: connector)
     }
 
     public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
-        let session = sessionProvider.provide(connector: connector)
-        let marketDataService = TradeItMarketDataService(session: session)
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
 
-        marketDataService?.symbolLookup(symbolLookupRequest, withCompletionBlock: { tradeItResult in
+        self.marketDataService.symbolLookup(symbolLookupRequest, withCompletionBlock: { tradeItResult in
             if let symbolLookupResult = tradeItResult as? TradeItSymbolLookupResult,
                 let results = symbolLookupResult.results as? [TradeItSymbolLookupCompany] {
                 onSuccess(results)
@@ -24,16 +21,24 @@
         })
     }
 
-    func getQuote(_ symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
-        let session = sessionProvider.provide(connector: connector)
-        let marketDataService = TradeItMarketDataService(session: session)
+    func getQuote(symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let quotesRequest = TradeItQuotesRequest(symbol: symbol)
 
-        marketDataService?.getQuoteData(quotesRequest, withCompletionBlock: { tradeItResult in
-            if let quotesResult = tradeItResult as? TradeItQuotesResult,
+        getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
+    }
+
+    func getFxQuote(symbol: String, broker: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        let quotesRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: broker)
+
+        getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
+    }
+
+    private func getQuote(quoteRequest: TradeItQuotesRequest, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        self.marketDataService.getQuoteData(quoteRequest, withCompletionBlock: { result in
+            if let quotesResult = result as? TradeItQuotesResult,
                 let quote = quotesResult.quotes?.first as? TradeItQuote {
                 onSuccess(quote)
-            } else if let errorResult = tradeItResult as? TradeItErrorResult {
+            } else if let errorResult = result as? TradeItErrorResult {
                 onFailure(errorResult)
             } else {
                 onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching the quote failed. Please try again later."))

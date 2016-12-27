@@ -10,19 +10,18 @@
 
 @interface TradeItQuotesRequest : TradeItRequest
 
-@property (copy) NSString * symbol;
-@property (copy) NSString * broker;
-@property (copy) NSString * symbols;
-@property (copy) NSString * apiKey;
-@property (copy) NSString * suffixMarket;
+@property (copy) NSString * _Nullable symbol;
+@property (copy) NSString * _Nullable broker;
+@property (copy) NSString * _Nullable symbols;
+@property (copy) NSString * _Nullable apiKey;
+@property (copy) NSString * _Nullable suffixMarket;
 @property BOOL isFxMarket;
 
--(id) initWithSymbol:(NSString *) symbol;
--(id) initWithFxSymbol:(NSString *) symbol andBroker: (NSString *) broker;
+- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol;
+- (id _Nonnull)initWithFxSymbol:(NSString * _Nonnull) symbol andBroker: (NSString * _Nonnull) broker;
 
--(id) initWithSymbols:(NSArray *) symbols;
+- (id _Nonnull)initWithSymbols:(NSArray * _Nonnull) symbols;
 
--(id) initWithSymbol:(NSString *) symbol andMarketSuffix: (NSString *) suffix;
-
+- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol andMarketSuffix: (NSString * _Nonnull) suffix;
 
 @end

@@ -14,16 +14,16 @@
 
 @implementation TradeItMarketDataService
 
- -(id)initWithSession:(TradeItSession *)session {
+ -(id)initWithConnector:(TradeItConnector *)connector {
     self = [super init];
     if(self) {
-        self.session = session;
+        self.connector = connector;
     }
     return self;
 }
 
 - (void)getQuoteData:(TradeItQuotesRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
-    request.apiKey = self.session.connector.apiKey;
+    request.apiKey = self.connector.apiKey;
 
     NSString *endpoint;
     if (request.isFxMarket) {
@@ -41,9 +41,9 @@
 
     NSMutableURLRequest *quoteRequest = [TradeItJsonConverter buildJsonRequestForModel:request
                                                                              emsAction:endpoint
-                                                                           environment:self.session.connector.environment];
+                                                                           environment:self.connector.environment];
 
-    [self.session.connector sendEMSRequest:quoteRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
+    [self.connector sendEMSRequest:quoteRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
 
         if ([result.status isEqual:@"SUCCESS"]) {
@@ -57,9 +57,9 @@
 - (void)symbolLookup:(TradeItSymbolLookupRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSMutableURLRequest *symbolLookupRequest = [TradeItJsonConverter buildJsonRequestForModel:request
                                                                                     emsAction:@"marketdata/symbolLookup"
-                                                                                  environment:self.session.connector.environment];
+                                                                                  environment:self.connector.environment];
     
-    [self.session.connector sendEMSRequest:symbolLookupRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
+    [self.connector sendEMSRequest:symbolLookupRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
         
         if ([result.status isEqual:@"SUCCESS"]) {

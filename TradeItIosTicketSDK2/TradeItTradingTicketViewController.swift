@@ -304,7 +304,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         symbolView.updateSymbol(symbol)
         symbolView.updateQuoteActivity(.loading)
 
-        TradeItSDK.marketDataService.getQuote(symbol, onSuccess: { quote in
+        TradeItSDK.marketDataService.getQuote(symbol: symbol, onSuccess: { quote in
             let presenter = TradeItQuotePresenter(quote)
             self.order.quoteLastPrice = presenter.getLastPriceValue()
             self.symbolView.updateQuote(quote)

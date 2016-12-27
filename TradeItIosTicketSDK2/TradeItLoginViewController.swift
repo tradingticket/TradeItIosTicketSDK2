@@ -92,13 +92,13 @@ class TradeItLoginViewController: KeyboardViewController {
     // MARK: Private
 
     private func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
-        linkedBroker.authenticate(
-            onSuccess: { () -> Void in
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
                 self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
             },
-            onSecurityQuestion: { (securityQuestion: TradeItSecurityQuestionResult, answerSecurityQuestion: @escaping (String) -> Void, cancelSecurityQuestion: @escaping () -> Void) -> Void in
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 self.activityIndicator.stopAnimating()
                 self.enableLinkButton()
                 self.alertManager.promptUserToAnswerSecurityQuestion(

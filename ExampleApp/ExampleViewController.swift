@@ -29,6 +29,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        TradeItSDK.linkedBrokerManager.authenticationDelegate = self
         printLinkedBrokers()
     }
 

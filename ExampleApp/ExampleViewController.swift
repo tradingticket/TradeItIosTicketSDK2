@@ -15,6 +15,7 @@ enum Action: Int {
     case manualAuthenticateAll
     case manualBalances
     case manualPositions
+    case manualBuildLinkedBroker
     case launchAlertQueue
     case deleteLinkedBrokers
     case test
@@ -81,6 +82,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.manualBalances()
         case .manualPositions:
             self.manualPositions()
+        case .manualBuildLinkedBroker:
+            self.manualBuildLinkedBroker()
         case .launchAlertQueue:
             self.launchAlertQueue()
         case .deleteLinkedBrokers:
@@ -123,7 +126,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: TradeItAuthenticationDelegate
 
     func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
-        print("=====> Linked \(linkedBroker.brokerName) with userId: \(linkedBroker.userId), userToken: \(linkedBroker.userToken)")
+        print("=====> Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")
     }
 
     func didUnlink(linkedBroker: TradeItLinkedBroker) {
@@ -134,6 +137,33 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func test() {
         // Put code you want to test here...
+    }
+
+    private func manualBuildLinkedBroker() {
+        TradeItSDK.linkedBrokerManager.linkedBrokers = []
+
+        TradeItSDK.linkedBrokerManager.linkBroker(
+            userId: "e041482902073625472a",
+            userToken: "R4U3fyK4vjFAMCa9hRwm1qbfgaN669WGkwksirBgKulUcW5WJhqLEGPOhXJ6MsiV6hH3BTIDrkRQXlLCqBj1tEIIODef%2FiJJbMcJ49pKW%2FLlKTcCW2Ygzz%2BrFDIKlq38H8yMa6R%2B%2F0NHuYC6THvD4A%3D%3D",
+            broker: "dummy",
+            onSuccess: { linkedBroker in
+                linkedBroker.accounts = [
+                    TradeItLinkedBrokerAccount(
+                        linkedBroker: linkedBroker,
+                        accountName: "Manual Account Name",
+                        accountNumber: "Manual Account Number",
+                        balance: nil,
+                        fxBalance: nil,
+                        positions: [])
+                ]
+
+                print("=====> MANUALLY BUILT LINK!")
+                self.printLinkedBrokers()
+            },
+            onFailure: { errorResult in
+                print("=====> Failed to manually link: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
+            }
+        )
     }
 
     private func launchOAuthFlow() {

@@ -45,7 +45,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             TradeItSDK.launcher.launchPortfolio(fromViewController: self)
         case .launchPortfolioForLinkedBrokerAccount:
             guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
-                return print("You must link a broker with an account first")
+                return print("=====> You must link a broker with an account first")
             }
             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
         case .launchPortfolioForAccountNumber: // brkAcct1 is the account number of the Dummy login
@@ -71,9 +71,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             self.launchOAuthRelinkFlow()
         case .launchBrokerLinking:
             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
-                print("Newly linked broker: \(linkedBroker)")
+                print("=====> Newly linked broker: \(linkedBroker)")
             }, onFlowAborted: {
-                print("User aborted linking")
+                print("=====> User aborted linking")
             })
         case .launchBrokerCenter:
             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
@@ -252,8 +252,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualBalances() {
-        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
-        guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
+        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("=====> You must link a broker first.") }
+        guard let account = broker.accounts.first else { return print("=====> Accounts list is empty. Call authenticate on the broker first.") }
 
         account.getAccountOverview(onSuccess: { balance in
             print(balance ?? "Something went wrong!")
@@ -263,8 +263,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualPositions() {
-        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("You must link a broker first.") }
-        guard let account = broker.accounts.first else { return print("Accounts is empty. Call authenticate on the broker first.") }
+        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("=====> You must link a broker first.") }
+        guard let account = broker.accounts.first else { return print("=====> Accounts list is empty. Call authenticate on the broker first.") }
 
         account.getPositions(onSuccess: { positions in
             print(positions.map({ position in

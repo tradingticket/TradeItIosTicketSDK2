@@ -21,7 +21,7 @@ enum Action: Int {
     case enumCount
 }
 
-class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItAuthenticationDelegate {
     @IBOutlet weak var table: UITableView!
 
     let alertManager: TradeItAlertManager = TradeItAlertManager()
@@ -119,7 +119,17 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell!
     }
-    
+
+    // MARK: TradeItAuthenticationDelegate
+
+    func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
+        print("=====> Linked \(linkedBroker.brokerName) with userId: \(linkedBroker.userId), userToken: \(linkedBroker.userToken)")
+    }
+
+    func didUnlink(linkedBroker: TradeItLinkedBroker) {
+        print("=====> Unlinked \(linkedBroker.brokerName)")
+    }
+
     // MARK: Private
 
     private func test() {

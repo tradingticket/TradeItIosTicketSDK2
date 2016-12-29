@@ -4,7 +4,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     private var _table: UITableView?
     private var linkedBrokers: [TradeItLinkedBroker] = []
     private var refreshControl: UIRefreshControl?
-    var delegate: TradeItAccountSelectionTableViewManagerDelegate?
+    internal weak var delegate: TradeItAccountSelectionTableViewManagerDelegate?
 
     var accountsTable: UITableView? {
         get {
@@ -92,10 +92,10 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
 }
 
-protocol TradeItAccountSelectionTableViewManagerDelegate {
+protocol TradeItAccountSelectionTableViewManagerDelegate: class {
     func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount)
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
-                                                                onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void)
+                          onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void)
 }
 
 

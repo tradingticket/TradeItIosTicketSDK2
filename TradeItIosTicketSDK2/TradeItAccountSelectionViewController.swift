@@ -6,7 +6,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     @IBOutlet weak var accountsTableView: UITableView!
 
     var selectedLinkedBroker: TradeItLinkedBroker?
-    var delegate: TradeItAccountSelectionViewControllerDelegate?
+    internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
     
     override func viewDidLoad() {
@@ -58,7 +58,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     }
 }
 
-protocol TradeItAccountSelectionViewControllerDelegate {
+protocol TradeItAccountSelectionViewControllerDelegate: class {
     func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount)
 }

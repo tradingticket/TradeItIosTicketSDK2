@@ -17,7 +17,7 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
         }
     }
     
-    weak var delegate: TradeItBrokerManagementViewControllerBrokersTableDelegate?
+    internal weak var delegate: TradeItBrokerManagementViewControllerBrokersTableDelegate?
     
     func updateLinkedBrokers(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
         self.linkedBrokers = linkedBrokers

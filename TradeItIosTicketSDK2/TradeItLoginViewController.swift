@@ -7,7 +7,7 @@ class TradeItLoginViewController: KeyboardViewController {
     @IBOutlet weak var linkButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    var delegate: TradeItLoginViewControllerDelegate?
+    internal weak var delegate: TradeItLoginViewControllerDelegate?
     var selectedBroker: TradeItBroker?
     var linkedBrokerToRelink: TradeItLinkedBroker?
     var alertManager = TradeItAlertManager()
@@ -136,6 +136,6 @@ class TradeItLoginViewController: KeyboardViewController {
     }
 }
 
-protocol TradeItLoginViewControllerDelegate {
+protocol TradeItLoginViewControllerDelegate: class {
     func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController, withLinkedBroker linkedBroker: TradeItLinkedBroker)
 }

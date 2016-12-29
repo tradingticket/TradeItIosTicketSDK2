@@ -1,7 +1,7 @@
 import UIKit
 
 class TradeItWelcomeViewController: TradeItViewController {
-    var delegate: TradeItWelcomeViewControllerDelegate?
+    internal weak var delegate: TradeItWelcomeViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,7 @@ class TradeItWelcomeViewController: TradeItViewController {
     }
 }
 
-protocol TradeItWelcomeViewControllerDelegate {
+protocol TradeItWelcomeViewControllerDelegate: class {
     func getStartedButtonWasTapped(_ fromViewController: TradeItWelcomeViewController)
     func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController)
 }

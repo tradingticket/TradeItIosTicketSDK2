@@ -7,7 +7,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     
     private var linkedBrokerInError: TradeItLinkedBroker?
     
-    var delegate: TradeItPortfolioErrorHandlingViewDelegate?
+    internal weak var delegate: TradeItPortfolioErrorHandlingViewDelegate?
     
     func populateWithLinkedBrokerError(_ linkedBrokerInError: TradeItLinkedBroker) {
         self.linkedBrokerInError = linkedBrokerInError

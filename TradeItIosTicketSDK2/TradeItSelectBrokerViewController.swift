@@ -3,7 +3,7 @@ import MBProgressHUD
 
 class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
-    var delegate: TradeItSelectBrokerViewControllerDelegate?
+    internal weak var delegate: TradeItSelectBrokerViewControllerDelegate?
     var alertManager = TradeItAlertManager()
     var brokers: [TradeItBroker] = []
     let toLoginScreenSegueId = "TO_LOGIN_SCREEN_SEGUE"
@@ -102,7 +102,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     }
 }
 
-protocol TradeItSelectBrokerViewControllerDelegate {
+protocol TradeItSelectBrokerViewControllerDelegate: class {
     func brokerWasSelected(_ fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker)
 
     func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)

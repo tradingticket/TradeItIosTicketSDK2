@@ -4,7 +4,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     private var _table: UITableView?
     private var linkedBrokerAccounts: [TradeItLinkedBrokerAccount] = []
     private var refreshControl: UIRefreshControl?
-    var delegate: TradeItAccountManagementTableViewManagerDelegate?
+    internal weak var delegate: TradeItAccountManagementTableViewManagerDelegate?
 
     var accountsTableView: UITableView? {
         get {
@@ -64,11 +64,10 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
 
                                             self.refreshControl?.endRefreshing()
                                         })
-
     }
 }
 
-protocol TradeItAccountManagementTableViewManagerDelegate {
+protocol TradeItAccountManagementTableViewManagerDelegate: class {
     func refreshRequested(
         fromAccountManagementTableViewManager manager: TradeItAccountManagementTableViewManager,
         onRefreshComplete: @escaping (_ withAccounts: [TradeItLinkedBrokerAccount]?) -> Void

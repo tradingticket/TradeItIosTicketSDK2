@@ -1,6 +1,6 @@
 import UIKit
 
-internal protocol AcknowledgementDelegate {
+internal protocol AcknowledgementDelegate: class {
     func acknowledgementWasChanged()
 }
 
@@ -9,7 +9,7 @@ class TradeItPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
     @IBOutlet weak var acknowledgementLabel: UILabel!
 
     var cellData: AcknowledgementCellData?
-    var delegate: AcknowledgementDelegate?
+    internal weak var delegate: AcknowledgementDelegate?
 
     func populate(withCellData cellData: AcknowledgementCellData, andDelegate delegate: AcknowledgementDelegate) {
         self.cellData = cellData

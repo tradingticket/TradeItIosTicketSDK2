@@ -94,7 +94,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
 }
 
-protocol TradeItSymbolSearchTableViewManagerDelegate: class{
+protocol TradeItSymbolSearchTableViewManagerDelegate: class {
     func symbolSearchWasCalledWith(_ searchSymbol: String)
     func symbolWasSelected(_ selectedSymbol: String)
 }

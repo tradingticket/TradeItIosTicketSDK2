@@ -2,7 +2,7 @@ import PromiseKit
 
 @objc public class TradeItLinkedBrokerManager: NSObject {
     public var linkedBrokers: [TradeItLinkedBroker] = []
-    public var authenticationDelegate: TradeItAuthenticationDelegate?
+    public weak var oAuthDelegate: TradeItOAuthDelegate?
     var connector: TradeItConnector
     var sessionProvider: TradeItSessionProvider
     private var currentOAuthBroker: String?
@@ -106,9 +106,9 @@ import PromiseKit
                         linkedBroker.error = nil
                         linkedBroker.linkedLogin = linkedLogin
 
-                        self.authenticationDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                              userId: userId,
-                                                              userToken: userToken)
+                        self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
+                                                     userId: userId,
+                                                     userToken: userToken)
                         onSuccess(linkedBroker)
                     } else {
                         let error = TradeItErrorResult(title: "Keychain error",
@@ -123,9 +123,9 @@ import PromiseKit
                         let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                         self.linkedBrokers.append(linkedBroker)
 
-                        self.authenticationDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                              userId: userId,
-                                                              userToken: userToken)
+                        self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
+                                                     userId: userId,
+                                                     userToken: userToken)
 
                         onSuccess(linkedBroker)
                     } else {
@@ -268,9 +268,9 @@ import PromiseKit
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
-                    self.authenticationDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                          userId: userId,
-                                                          userToken: userToken)
+                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
+                                                 userId: userId,
+                                                 userToken: userToken)
                     onSuccess(linkedBroker)
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
@@ -289,7 +289,7 @@ import PromiseKit
         self.connector.unlinkLogin(linkedBroker.linkedLogin)
         if let index = self.linkedBrokers.index(of: linkedBroker) {
             self.linkedBrokers.remove(at: index)
-            self.authenticationDelegate?.didUnlink?(linkedBroker: linkedBroker)
+            self.oAuthDelegate?.didUnlink?(linkedBroker: linkedBroker)
         }
     }
 
@@ -324,7 +324,7 @@ import PromiseKit
         if let linkedLogin = linkedLogin, let userId = userId, let userToken = userToken {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
             self.linkedBrokers.append(linkedBroker)
-            self.authenticationDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
             onSuccess(linkedBroker)
         } else {
             onFailure(TradeItErrorResult(
@@ -335,7 +335,7 @@ import PromiseKit
     }
 }
 
-@objc public protocol TradeItAuthenticationDelegate {
+@objc public protocol TradeItOAuthDelegate {
     @objc optional func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String)
     @objc optional func didUnlink(linkedBroker: TradeItLinkedBroker)
 }

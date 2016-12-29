@@ -22,14 +22,14 @@ enum Action: Int {
     case enumCount
 }
 
-class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItAuthenticationDelegate {
+class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 
     let alertManager: TradeItAlertManager = TradeItAlertManager()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        TradeItSDK.linkedBrokerManager.authenticationDelegate = self
+        TradeItSDK.linkedBrokerManager.oAuthDelegate = self
         printLinkedBrokers()
     }
 
@@ -124,7 +124,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
 
-    // MARK: TradeItAuthenticationDelegate
+    // MARK: TradeItOAuthDelegate
 
     func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
         print("=====> Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")

@@ -1,6 +1,7 @@
 @objc public class TradeItLauncher: NSObject {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
+    let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
     var deviceManager = TradeItDeviceManager()
 
@@ -49,7 +50,7 @@
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController, forAccountNumber accountNumber: String) {
-        let accounts = TradeItSDK.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter{ $0.accountNumber == accountNumber }
+        let accounts = TradeItSDK.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter { $0.accountNumber == accountNumber }
         if accounts.isEmpty {
             print("No linked broker accounts found matching the account number " + accountNumber)
         } else {
@@ -111,5 +112,40 @@
     public func launchBrokerCenter(fromViewController viewController: UIViewController) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerCenterView)
         viewController.present(navController, animated: true, completion: nil)
+    }
+
+    public func launchAccountSelection(fromViewController viewController: UIViewController, onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
+        if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
+            self.linkBrokerUIFlow.presentLinkBrokerFlow(
+                fromViewController: viewController,
+                showWelcomeScreen: true,
+                onLinked: { presentedNavController, linkedBroker in
+                    self.accountSelectionUIFlow.pushAccountSelectionFlow(
+                        onNavigationController: presentedNavController,
+                        onSelected: { presentedNavController, linkedBrokerAccount in
+                            presentedNavController.dismiss(animated: true, completion: nil)
+                            onSelected(linkedBrokerAccount)
+                        },
+                        onFlowAborted: { presentedNavController in
+                            presentedNavController.dismiss(animated: true, completion: nil)
+                        }
+                    )
+                },
+                onFlowAborted: { presentedNavController in
+                    presentedNavController.dismiss(animated: true, completion: nil)
+                }
+            )
+        } else {
+            self.accountSelectionUIFlow.presentAccountSelectionFlow(
+                fromViewController: viewController,
+                onSelected: { presentedNavController, linkedBrokerAccount in
+                    presentedNavController.dismiss(animated: true, completion: nil)
+                    onSelected(linkedBrokerAccount)
+                },
+                onFlowAborted: { presentedNavController in
+                    presentedNavController.dismiss(animated: true, completion: nil)
+                }
+            )
+        }
     }
 }

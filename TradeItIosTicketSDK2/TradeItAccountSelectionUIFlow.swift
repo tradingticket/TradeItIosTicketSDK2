@@ -6,6 +6,7 @@ class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewContro
     var onFlowAbortedCallback: ((_ presentedNavController: UINavigationController) -> Void)?
 
     func presentAccountSelectionFlow(fromViewController viewController: UIViewController,
+                                     title: String? = nil,
                                      onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void,
                                      onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
         self.onSelectedCallback = onSelected
@@ -13,21 +14,24 @@ class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewContro
 
         let navController = viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .accountSelectionView)
 
-        if let rootViewController = navController.viewControllers[0] as? TradeItAccountSelectionViewController {
-            rootViewController.delegate = self
+        if let accountSelectionViewController = navController.viewControllers[0] as? TradeItAccountSelectionViewController {
+            accountSelectionViewController.delegate = self
+            accountSelectionViewController.promptText = title
         }
 
         viewController.present(navController, animated: true)
     }
 
     func pushAccountSelectionFlow(onNavigationController navController: UINavigationController,
-                                     onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void,
-                                     onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
+                                  title: String? = nil,
+                                  onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void,
+                                  onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
         self.onSelectedCallback = onSelected
         self.onFlowAbortedCallback = onFlowAborted
 
         let accountSelectionViewController = viewControllerProvider.provideViewController(forStoryboardId: .accountSelectionView) as? TradeItAccountSelectionViewController
         accountSelectionViewController?.delegate = self
+        accountSelectionViewController?.promptText = title
 
         navController.setViewControllers([accountSelectionViewController!], animated: true)
     }

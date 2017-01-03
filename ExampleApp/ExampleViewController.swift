@@ -79,6 +79,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case .launchAccountSelection:
             TradeItSDK.launcher.launchAccountSelection(
                 fromViewController: self,
+                title: "Select account to sync",
                 onSelected: { selectedLinkedBrokerAccount in
                     print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
                 }

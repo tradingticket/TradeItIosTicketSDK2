@@ -114,7 +114,7 @@
         viewController.present(navController, animated: true, completion: nil)
     }
 
-    public func launchAccountSelection(fromViewController viewController: UIViewController, onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
+    public func launchAccountSelection(fromViewController viewController: UIViewController, title: String? = nil, onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
@@ -122,6 +122,7 @@
                 onLinked: { presentedNavController, linkedBroker in
                     self.accountSelectionUIFlow.pushAccountSelectionFlow(
                         onNavigationController: presentedNavController,
+                        title: title,
                         onSelected: { presentedNavController, linkedBrokerAccount in
                             presentedNavController.dismiss(animated: true, completion: nil)
                             onSelected(linkedBrokerAccount)
@@ -138,6 +139,7 @@
         } else {
             self.accountSelectionUIFlow.presentAccountSelectionFlow(
                 fromViewController: viewController,
+                title: title,
                 onSelected: { presentedNavController, linkedBrokerAccount in
                     presentedNavController.dismiss(animated: true, completion: nil)
                     onSelected(linkedBrokerAccount)

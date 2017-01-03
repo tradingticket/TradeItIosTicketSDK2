@@ -4,10 +4,12 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!
+    @IBOutlet weak var promptLabel: UILabel!
 
     var selectedLinkedBroker: TradeItLinkedBroker?
     internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
+    var promptText: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }

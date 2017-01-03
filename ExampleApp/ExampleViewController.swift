@@ -12,6 +12,7 @@ enum Action: Int {
     case launchOAuthRelinkFlow
     case launchBrokerLinking
     case launchBrokerCenter
+    case launchAccountSelection
     case manualAuthenticateAll
     case manualBalances
     case manualPositions
@@ -77,6 +78,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             })
         case .launchBrokerCenter:
             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
+        case .launchAccountSelection:
+            TradeItSDK.launcher.launchAccountSelection(
+                fromViewController: self,
+                title: "Select account to sync",
+                onSelected: { selectedLinkedBrokerAccount in
+                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
+                }
+            )
         case .manualAuthenticateAll:
             self.manualAuthenticateAll()
         case .manualBalances:

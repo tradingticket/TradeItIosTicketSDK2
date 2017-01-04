@@ -39,6 +39,9 @@ let sections = [
     Section(label: "Debugging", actions: [
         Action(label: "deleteLinkedBrokers"),
         Action(label: "test")
+    ]),
+    Section(label: "Yahoo", actions: [
+        Action(label: "launchOAuthFlow"),
     ])
 ]
 
@@ -88,11 +91,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         case "launchOAuthRelinkFlow":
             self.launchOAuthRelinkFlow()
         case "launchBrokerLinking":
-            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
-                print("=====> Newly linked broker: \(linkedBroker)")
-            }, onFlowAborted: {
-                print("=====> User aborted linking")
-            })
+            TradeItSDK.launcher.launchBrokerLinking(
+                fromViewController: self,
+                onLinked: { linkedBroker in
+                    print("=====> Newly linked broker: \(linkedBroker)")
+                }, onFlowAborted: {
+                    print("=====> User aborted linking")
+                }
+            )
         case "launchBrokerCenter":
             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
         case "launchAccountSelection":
@@ -162,22 +168,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         cell?.textLabel?.text = sections[indexPath.section].actions[indexPath.row].label
         
         return cell!
-    }
-
-    // MARK: TradeItOAuthDelegate
-
-    func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
-        print("=====> Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")
-    }
-
-    func didUnlink(linkedBroker: TradeItLinkedBroker) {
-        print("=====> Unlinked \(linkedBroker.brokerName)")
-    }
-
-    // MARK: Private
-
-    private func test() {
-        // Put code you want to test here...
     }
 
     private func manualBuildLinkedBroker() {

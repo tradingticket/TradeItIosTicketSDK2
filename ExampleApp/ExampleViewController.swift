@@ -56,6 +56,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         printLinkedBrokers()
     }
 
+    func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        self.printLinkedBrokers()
+        self.alertManager.showAlert(onViewController: self,
+                                    withTitle: "Great Success!",
+                                    withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
+                                    withActionTitle: "OK")
+
+        // TODO: LAUNCH CONFIRMATION SCREEN
+    }
+
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -95,7 +105,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 fromViewController: self,
                 onLinked: { linkedBroker in
                     print("=====> Newly linked broker: \(linkedBroker)")
-                }, onFlowAborted: {
+                },
+                onFlowAborted: {
                     print("=====> User aborted linking")
                 }
             )
@@ -170,6 +181,32 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
 
+    private func launchYahooOAuthFlow() {
+        print("=====> launchYahooOAuthFlow")
+
+        let broker = "dummy"
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: broker,
+            deepLinkCallback: "tradeItExampleScheme://completeYahooOAuth",
+            onSuccess: { url in
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "OAuthPopupUrl for Linking \(broker)",
+                    withMessage: "URL: \(url)",
+                    withActionTitle: "Make it so!",
+                    onAlertActionTapped: {
+                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                    },
+                    showCancelAction: false
+                )
+            },
+            onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+            }
+        )
+    }
+
     private func manualBuildLinkedBroker() {
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
@@ -210,8 +247,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
                         UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    }, showCancelAction: false)
-            }, onFailure: { errorResult in
+                    },
+                    showCancelAction: false
+                )
+            },
+            onFailure: { errorResult in
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
@@ -244,9 +284,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
                         UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    }, showCancelAction: false
+                    },
+                    showCancelAction: false
                 )
-            }, onFailure: { errorResult in
+            },
+            onFailure: { errorResult in
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
@@ -266,19 +308,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualAuthenticateAll() {
-        TradeItSDK.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelQuestion)
-        }, onFinished: {
-            self.alertManager.showAlert(
-                onViewController: self,
-                withTitle: "authenticateAll finished",
-                withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
-                withActionTitle: "OK")
-        })
+        TradeItSDK.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelQuestion)
+            },
+            onFinished: {
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "authenticateAll finished",
+                    withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
+                    withActionTitle: "OK")
+            }
+        )
     }
 
     private func manualBalances() {

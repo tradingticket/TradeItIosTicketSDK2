@@ -25,10 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      open url: URL,
                      sourceApplication: String?,
                      annotation: Any) -> Bool {
+        let HOST = "completeOAuth"
+        let YAHOO_HOST = "completeYahooOAuth"
+
         // Check for the intended url.scheme, url.host, and url.path before proceeding
         if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
             urlComponents.scheme == "tradeitexamplescheme",
-            urlComponents.host == "completeOAuth",
+            let host = urlComponents.host,
+            [HOST, YAHOO_HOST].contains(host),
             let queryItems = urlComponents.queryItems,
             let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
             TradeItSDK.linkedBrokerManager.completeOAuth(
@@ -43,7 +47,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                         if let navController = topViewController as? UINavigationController,
                             let exampleViewController = navController.topViewController as? ExampleViewController {
-                            exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                            switch host {
+                            case HOST:
+                                exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                            case YAHOO_HOST:
+                                exampleViewController.yahooOAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                            default:
+                                print("=====> ERROR: Received invalid deep link URL: \(url)")
+                            }
                         }
                     }
                 }, onFailure: { errorResult in

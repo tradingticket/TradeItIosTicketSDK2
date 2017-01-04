@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItPortfolioErrorTableViewCell: UITableViewCell {
-
     @IBOutlet weak var selectedIcon: UIImageView!
     @IBOutlet weak var brokerNameLabel: UILabel!
     

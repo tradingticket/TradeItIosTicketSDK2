@@ -1,12 +1,15 @@
 import UIKit
 
 class TradeItAccountManagementTableViewCell: UITableViewCell {
-
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var buyingPowerLabel: UILabel!
     @IBOutlet weak var accountEnabledSwitch: UISwitch!
     var selectedBrokerAccount: TradeItLinkedBrokerAccount!
-    
+
+    override func awakeFromNib() {
+        TradeItThemeConfigurator.configure(view: self)
+    }
+
     func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
         self.selectedBrokerAccount = linkedBrokerAccount

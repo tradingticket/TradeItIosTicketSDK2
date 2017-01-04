@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-    
     private var _table: UITableView?
     private var linkedBrokers: [TradeItLinkedBroker] = []
     var brokersTable: UITableView? {
@@ -43,15 +42,16 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
             let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as! TradeItBrokerManagementTableViewCell
             cell.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
+            TradeItThemeConfigurator.configure(view: cell)
             return cell
         }
         else { // last cell is the 'Add Account' action
             let brokerManagerCellIdentifier = "BROKER_MANAGER_ADD_ACCOUNT_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier)
+            TradeItThemeConfigurator.configure(view: cell)
             return cell!
         }
     }
-
 }
 
 protocol TradeItBrokerManagementViewControllerBrokersTableDelegate: class {

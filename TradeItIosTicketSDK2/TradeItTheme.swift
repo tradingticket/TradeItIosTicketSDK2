@@ -2,7 +2,6 @@ import UIKit
 
 @objc public class TradeItTheme: NSObject {
     static public var textColor = UIColor.white
-    //static public var headerTextColor = UIColor(red: 1.00, green: 0.57, blue: 0.00, alpha: 1.0)
     static public var warningTextColor = UIColor.tradeItDeepRoseColor()
 
     static public var backgroundColor = UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0)
@@ -43,11 +42,9 @@ import UIKit
         header.layoutIfNeeded()
     }
 
-    static func configureTableCell(cell: UIView?) {
+    static func configureTableCell(cell: UITableViewCell?) {
         guard let cell = cell else { return }
-        configureTableCellTheme(cell: cell)
-        cell.setNeedsLayout()
-        cell.layoutIfNeeded()
+        cell.backgroundColor = TradeItTheme.tableBackgroundColor
     }
 
     private static func configureTableHeaderTheme(view: UIView) {
@@ -56,22 +53,11 @@ import UIKit
             label.textColor = TradeItTheme.tableHeaderTextColor
         default:
             view.backgroundColor = TradeItTheme.tableHeaderBackgroundColor
-            print(type(of: view))
         }
 
         view.subviews.forEach { subview in
             configureTableHeaderTheme(view: subview)
         }
-    }
-
-    private static func configureTableCellTheme(cell: UIView) {
-//        switch view {
-//        case let label as UILabel:
-//            label.textColor = TradeItTheme.tableHeaderTextColor
-//        default:
-//            view.backgroundColor = TradeItTheme.tableHeaderBackgroundColor
-//            print(type(of: view))
-//        }
     }
 
     private static func configureTheme(view: UIView) {
@@ -113,11 +99,8 @@ import UIKit
         case is UITableViewCell:
             break
         default:
-            //if view.self === UIView.self {
-            //    view.backgroundColor = TradeItTheme.backgroundColor
-            //} else {
-                print(type(of: view))
-            //}
+            print(type(of: view))
+            break
         }
 
         view.subviews.forEach { subview in

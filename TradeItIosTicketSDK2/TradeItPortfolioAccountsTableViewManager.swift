@@ -87,6 +87,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             errorCell.populate(withLinkedBroker: linkedBrokerInError)
             cell = errorCell
         }
+
+        TradeItThemeConfigurator.configureTableCell(cell: cell)
         
         return cell
     }

@@ -85,13 +85,13 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
 
         if cell == nil {
             cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: brokerCellIdentifier)
-            cell?.textLabel?.font = UIFont.systemFont(ofSize: 13.0)
-            cell?.textLabel?.textColor = UIColor.darkText
         }
 
         if let brokerLongName = self.brokers[indexPath.row].brokerLongName {
             cell?.textLabel?.text = brokerLongName
         }
+
+        TradeItThemeConfigurator.configureTableCell(cell: cell)
         
         return cell!
     }

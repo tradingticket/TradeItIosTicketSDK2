@@ -979,7 +979,7 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="irK-hn-jmI">
                                                     <rect key="frame" x="0.0" y="20" width="10" height="15"/>
-                                                    <accessibility key="accessibilityConfiguration" label="selectorLabel">
+                                                    <accessibility key="accessibilityConfiguration" identifier="selectorLabel">
                                                         <bool key="isElement" value="YES"/>
                                                     </accessibility>
                                                     <constraints>
@@ -1055,7 +1055,7 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="indicator.png" translatesAutoresizingMaskIntoConstraints="NO" id="hYH-iL-Xoh">
                                                     <rect key="frame" x="0.0" y="20" width="10" height="15"/>
-                                                    <accessibility key="accessibilityConfiguration" label="selectorLabel">
+                                                    <accessibility key="accessibilityConfiguration" identifier="selectorLabel">
                                                         <bool key="isElement" value="YES"/>
                                                     </accessibility>
                                                     <constraints>
@@ -1587,7 +1587,9 @@
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="XJJ-3P-SG7">
                                                             <rect key="frame" x="345" y="16" width="15" height="10"/>
-                                                            <accessibility key="accessibilityConfiguration" identifier="chevron_down"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="chevron_down">
+                                                                <bool key="isElement" value="YES"/>
+                                                            </accessibility>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="10" id="xti-Hm-wi1"/>
                                                                 <constraint firstAttribute="width" constant="15" id="zCN-qn-P1y"/>
@@ -1787,6 +1789,7 @@
                                                                 </view>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.95160442590713501" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="POSITION_DETAILS_VIEW"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="100" id="7nz-7K-Qxu"/>
                                                                 <constraint firstItem="wNa-o1-Ujd" firstAttribute="top" secondItem="9cx-9D-ndX" secondAttribute="top" id="8LJ-pv-xww"/>
@@ -2124,6 +2127,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-n3-Jsd">
                                                     <rect key="frame" x="8" y="12" width="55" height="20"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="STOCK_SYMBOL"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

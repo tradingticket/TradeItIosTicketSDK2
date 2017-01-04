@@ -65,6 +65,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") as! TradeItAccountSelectionTableViewCell
         cell.populate(withLinkedBrokerAccount: linkedBrokerAccount)
+        TradeItThemeConfigurator.configureTableCell(cell: cell)
         return cell
     }
     

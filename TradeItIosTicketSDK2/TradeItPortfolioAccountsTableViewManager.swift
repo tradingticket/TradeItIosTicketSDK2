@@ -74,7 +74,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell :UITableViewCell!
+        var cell: UITableViewCell!
         
         if indexPath.row < self.accounts.count {
             let accountCell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell

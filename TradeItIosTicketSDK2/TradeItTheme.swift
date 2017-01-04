@@ -7,6 +7,7 @@ import UIKit
     static public var backgroundColor = UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0)
 
     static public var tableBackgroundColor = UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0)
+    static public var tableBackgroundSecondaryColor = UIColor(red: 0.66, green: 0.66, blue: 0.66, alpha: 1.0)
     static public var tableHeaderBackgroundColor = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
     static public var tableHeaderTextColor = UIColor.white
 
@@ -21,10 +22,13 @@ import UIKit
 
 
 @objc class TradeItThemeConfigurator: NSObject {
-    static let TEMPLATE_ACCESSIBILITY_IDENTIFIERS = [
+    // TODO: Fix these labels
+    static let ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT = [
+        "STOCK_SYMBOL",
         "chevron_up",
         "chevron_down",
-        "native_arrow"
+        "native_arrow",
+        "selectorLabel"
     ]
 
     static func configure(view: UIView?) {
@@ -45,6 +49,7 @@ import UIKit
     static func configureTableCell(cell: UITableViewCell?) {
         guard let cell = cell else { return }
         cell.backgroundColor = TradeItTheme.tableBackgroundColor
+        configureTableCellTheme(view: cell)
     }
 
     private static func configureTableHeaderTheme(view: UIView) {
@@ -57,6 +62,27 @@ import UIKit
 
         view.subviews.forEach { subview in
             configureTableHeaderTheme(view: subview)
+        }
+    }
+
+    private static func configureTableCellTheme(view: UIView) {
+        switch view {
+        case let label as UILabel:
+            if isViewToHighlight(label) {
+                label.textColor = TradeItTheme.interactivePrimaryColor
+            } else {
+                label.textColor = TradeItTheme.tableHeaderTextColor
+            }
+        case let imageView as UIImageView:
+            highlight(imageView: imageView)
+        default:
+            break
+        }
+
+        if view.accessibilityIdentifier != "POSITION_DETAILS_VIEW" {
+            view.subviews.forEach { subview in
+                configureTableCellTheme(view: subview)
+            }
         }
     }
 
@@ -89,17 +115,14 @@ import UIKit
             input.tintColor = TradeItTheme.interactivePrimaryColor
             input.onTintColor = TradeItTheme.interactivePrimaryColor
         case let imageView as UIImageView:
-            if isTemplateImage(imageView: imageView) {
-                let image = imageView.image?.withRenderingMode(.alwaysTemplate)
-                imageView.image = image
-                imageView.tintColor = TradeItTheme.interactivePrimaryColor
-            }
+            highlight(imageView: imageView)
         case let tableView as UITableView:
             tableView.backgroundColor = TradeItTheme.tableBackgroundColor
+        case let activityIndicator as UIActivityIndicatorView:
+            activityIndicator.color = TradeItTheme.interactivePrimaryColor
         case is UITableViewCell:
             break
         default:
-            print(type(of: view))
             break
         }
 
@@ -108,7 +131,15 @@ import UIKit
         }
     }
 
-    private static func isTemplateImage(imageView: UIImageView) -> Bool {
-        return self.TEMPLATE_ACCESSIBILITY_IDENTIFIERS.contains(imageView.accessibilityIdentifier ?? "")
+    private static func highlight(imageView: UIImageView) {
+        if isViewToHighlight(imageView) {
+            let image = imageView.image?.withRenderingMode(.alwaysTemplate)
+            imageView.image = image
+            imageView.tintColor = TradeItTheme.interactivePrimaryColor
+        }
+    }
+
+    private static func isViewToHighlight(_ view: UIView) -> Bool {
+        return self.ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT.contains(view.accessibilityIdentifier ?? "")
     }
 }

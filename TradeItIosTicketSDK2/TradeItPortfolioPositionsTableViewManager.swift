@@ -82,6 +82,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         let cell = self.provideCell(forTableView: tableView,
                                     forPortfolioPosition: position,
                                     selected: self.selectedPositionIndex == indexPath.row)
+        TradeItThemeConfigurator.configureTableCell(cell: cell)
         return cell
     }
     

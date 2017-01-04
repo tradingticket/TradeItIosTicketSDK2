@@ -73,8 +73,10 @@ import UIKit
             } else {
                 label.textColor = TradeItTheme.tableHeaderTextColor
             }
+        case let button as UIButton:
+            styleButton(button)
         case let imageView as UIImageView:
-            highlight(imageView: imageView)
+            styleImage(imageView)
         default:
             break
         }
@@ -91,15 +93,7 @@ import UIKit
         case let label as UILabel:
             label.textColor = TradeItTheme.textColor
         case let button as UIButton:
-            if button.backgroundColor == UIColor.clear {
-                button.setTitleColor(TradeItTheme.interactivePrimaryColor, for: .normal)
-            } else if button.title(for: .normal) == "Unlink Account" {
-                button.setTitleColor(TradeItTheme.warningSecondaryColor, for: .normal)
-                button.backgroundColor = TradeItTheme.warningPrimaryColor
-            } else {
-                button.setTitleColor(TradeItTheme.interactiveSecondaryColor, for: .normal)
-                button.backgroundColor = TradeItTheme.interactivePrimaryColor
-            }
+            styleButton(button)
         case let input as UITextField:
             input.backgroundColor = UIColor.clear
             input.layer.borderColor = TradeItTheme.inputFrameColor.cgColor
@@ -115,7 +109,7 @@ import UIKit
             input.tintColor = TradeItTheme.interactivePrimaryColor
             input.onTintColor = TradeItTheme.interactivePrimaryColor
         case let imageView as UIImageView:
-            highlight(imageView: imageView)
+            styleImage(imageView)
         case let tableView as UITableView:
             tableView.backgroundColor = TradeItTheme.tableBackgroundColor
         case let activityIndicator as UIActivityIndicatorView:
@@ -131,11 +125,23 @@ import UIKit
         }
     }
 
-    private static func highlight(imageView: UIImageView) {
+    private static func styleImage(_ imageView: UIImageView) {
         if isViewToHighlight(imageView) {
             let image = imageView.image?.withRenderingMode(.alwaysTemplate)
             imageView.image = image
             imageView.tintColor = TradeItTheme.interactivePrimaryColor
+        }
+    }
+
+    private static func styleButton(_ button: UIButton) {
+        if button.backgroundColor == UIColor.clear {
+            button.setTitleColor(TradeItTheme.interactivePrimaryColor, for: .normal)
+        } else if button.title(for: .normal) == "Unlink Account" { // TODO: Extract to const
+            button.setTitleColor(TradeItTheme.warningSecondaryColor, for: .normal)
+            button.backgroundColor = TradeItTheme.warningPrimaryColor
+        } else {
+            button.setTitleColor(TradeItTheme.interactiveSecondaryColor, for: .normal)
+            button.backgroundColor = TradeItTheme.interactivePrimaryColor
         }
     }
 

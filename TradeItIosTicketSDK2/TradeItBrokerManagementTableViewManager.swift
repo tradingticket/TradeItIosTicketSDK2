@@ -42,13 +42,11 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
             let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as! TradeItBrokerManagementTableViewCell
             cell.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
             return cell
         }
         else { // last cell is the 'Add Account' action
             let brokerManagerCellIdentifier = "BROKER_MANAGER_ADD_ACCOUNT_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier)
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
             return cell!
         }
     }

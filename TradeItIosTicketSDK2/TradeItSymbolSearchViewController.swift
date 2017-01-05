@@ -73,7 +73,6 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "SYMBOL_SEARCH_CELL_ID") as! TradeItSymbolSearchTableViewCell
         let symbolResult = self.symbolSearchResults[indexPath.row]
         cell.populateWith(symbolResult)
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
         return cell
     }
 }

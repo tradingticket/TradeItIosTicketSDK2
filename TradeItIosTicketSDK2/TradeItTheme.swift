@@ -22,13 +22,20 @@ import UIKit
 
 
 @objc class TradeItThemeConfigurator: NSObject {
-    // TODO: Fix these labels
     static let ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT = [
         "STOCK_SYMBOL",
-        "chevron_up",
-        "chevron_down",
-        "native_arrow",
-        "selectorLabel"
+        "CHEVRON_UP",
+        "CHEVRON_DOWN",
+        "NATIVE_ARROW",
+        "SELECTED_INDICATOR"
+    ]
+
+    static let CELL_ELEMENTS_TO_SKIP = [
+        "POSITION_DETAILS_VIEW"
+    ]
+
+    static let BUTTON_TEXT_TO_HIGHLIGHT = [
+        "Unlink Account"
     ]
 
     static func configure(view: UIView?) {
@@ -42,8 +49,6 @@ import UIKit
     static func configureTableHeader(header: UIView?) {
         guard let header = header else { return }
         configureTableHeaderTheme(view: header)
-        header.setNeedsLayout()
-        header.layoutIfNeeded()
     }
 
     static func configureTableCell(cell: UITableViewCell?) {
@@ -77,11 +82,13 @@ import UIKit
             styleButton(button)
         case let imageView as UIImageView:
             styleImage(imageView)
+        case let input as UISwitch:
+            styleSwitch(input)
         default:
             break
         }
 
-        if view.accessibilityIdentifier != "POSITION_DETAILS_VIEW" {
+        if !self.CELL_ELEMENTS_TO_SKIP.contains(view.accessibilityIdentifier ?? "") {
             view.subviews.forEach { subview in
                 configureTableCellTheme(view: subview)
             }
@@ -106,8 +113,7 @@ import UIKit
                 attributes: [NSForegroundColorAttributeName: TradeItTheme.inputFrameColor]
             )
         case let input as UISwitch:
-            input.tintColor = TradeItTheme.interactivePrimaryColor
-            input.onTintColor = TradeItTheme.interactivePrimaryColor
+            styleSwitch(input)
         case let imageView as UIImageView:
             styleImage(imageView)
         case let tableView as UITableView:
@@ -136,13 +142,18 @@ import UIKit
     private static func styleButton(_ button: UIButton) {
         if button.backgroundColor == UIColor.clear {
             button.setTitleColor(TradeItTheme.interactivePrimaryColor, for: .normal)
-        } else if button.title(for: .normal) == "Unlink Account" { // TODO: Extract to const
+        } else if self.BUTTON_TEXT_TO_HIGHLIGHT.contains(button.title(for: .normal) ?? "") {
             button.setTitleColor(TradeItTheme.warningSecondaryColor, for: .normal)
             button.backgroundColor = TradeItTheme.warningPrimaryColor
         } else {
             button.setTitleColor(TradeItTheme.interactiveSecondaryColor, for: .normal)
             button.backgroundColor = TradeItTheme.interactivePrimaryColor
         }
+    }
+
+    private static func styleSwitch(_ input: UISwitch) {
+        input.tintColor = TradeItTheme.interactivePrimaryColor
+        input.onTintColor = TradeItTheme.interactivePrimaryColor
     }
 
     private static func isViewToHighlight(_ view: UIView) -> Bool {

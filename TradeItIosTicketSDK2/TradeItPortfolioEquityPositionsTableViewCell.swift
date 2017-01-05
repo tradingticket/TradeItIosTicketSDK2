@@ -35,12 +35,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
                                            compatibleWith: nil)
 
     override func awakeFromNib() {
-        super.awakeFromNib()
-        self.symbolLabelValue.textColor = TradeItTheme.textColor
-        self.quantityLabelValue.textColor = TradeItTheme.textColor
-        self.lastPriceLabelValue.textColor = TradeItTheme.textColor
-        self.avgCostLabelValue.textColor = TradeItTheme.textColor
-        // TODO: Pass in Chevron to configure to theme
+        TradeItThemeConfigurator.configureTableCell(cell: self)
         self.positionDetailsHeight = self.positionDetailsHeightConstraint.constant
         self.buttonHeight = self.buttonBuyHeight.constant
     }

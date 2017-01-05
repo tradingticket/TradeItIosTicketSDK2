@@ -12,7 +12,7 @@ class TradeItPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
     internal weak var delegate: AcknowledgementDelegate?
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configureTableCell(cell: self)
         self.acknowledgementLabel.textColor = TradeItTheme.warningTextColor
     }
 

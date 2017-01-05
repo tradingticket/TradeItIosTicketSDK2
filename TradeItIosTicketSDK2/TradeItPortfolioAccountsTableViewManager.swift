@@ -88,8 +88,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             cell = errorCell
         }
 
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
-        
         return cell
     }
 }

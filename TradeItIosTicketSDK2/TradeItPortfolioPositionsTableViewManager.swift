@@ -82,7 +82,6 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         let cell = self.provideCell(forTableView: tableView,
                                     forPortfolioPosition: position,
                                     selected: self.selectedPositionIndex == indexPath.row)
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
         return cell
     }
     
@@ -135,18 +134,15 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             equityCell.delegate = self
             equityCell.populate(withPosition: position)
             equityCell.showPositionDetails(selected)
-            TradeItThemeConfigurator.configure(view: cell)
-            //equityCell.positionDetailsView.backgroundColor = UIColor.blue//TradeItTheme.inputFrameColor
             cell = equityCell
         } else if position.fxPosition != nil {
             let fxCell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
             fxCell.populate(withPosition: position)
             fxCell.showPositionDetails(selected)
-            TradeItThemeConfigurator.configure(view: cell)
-            //fxCell.fxPositionsDetails.backgroundColor = UIColor.blue//TradeItTheme.inputFrameColor
             cell = fxCell
         }
 
+        TradeItThemeConfigurator.configureTableCell(cell: cell)
 
         if let cell = cell {
             cell.setNeedsUpdateConstraints()
@@ -161,5 +157,4 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
 
 protocol TradeItPortfolioPositionsTableDelegate: class {
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
-
 }

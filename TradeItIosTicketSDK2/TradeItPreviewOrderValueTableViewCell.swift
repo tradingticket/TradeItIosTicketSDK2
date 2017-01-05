@@ -5,7 +5,7 @@ class TradeItPreviewOrderValueTableViewCell: UITableViewCell {
     @IBOutlet weak var value: UILabel!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configureTableCell(cell: self)
     }
 
     func populate(withLabel label: String, andValue value: String) {

@@ -5,7 +5,7 @@ class TradeItAccountSelectionTableViewCell: UITableViewCell {
     @IBOutlet weak var buyingPowerLabelValue: UILabel!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configureTableCell(cell: self)
     }
 
     func populate(withLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {

@@ -4,7 +4,7 @@ class TradeItPreviewOrderWarningTableViewCell: UITableViewCell {
     @IBOutlet weak var warning: UILabel!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configureTableCell(cell: self)
         self.warning.textColor = TradeItTheme.warningTextColor
     }
 

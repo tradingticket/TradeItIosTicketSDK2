@@ -5,7 +5,7 @@ class TradeItSymbolSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var companyNameLabel: UILabel!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configureTableCell(cell: self)
         self.symbolLabel.textColor = TradeItTheme.interactivePrimaryColor
         self.companyNameLabel.textColor = TradeItTheme.textColor
     }

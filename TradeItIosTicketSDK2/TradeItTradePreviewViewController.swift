@@ -94,22 +94,17 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         case let warningCellData as WarningCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
             cell.populate(withWarning: warningCellData.warning)
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
             return cell
         case let acknowledgementCellData as AcknowledgementCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
             cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
             cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
             return cell
         default:
-            let cell = UITableViewCell()
-            TradeItThemeConfigurator.configureTableCell(cell: cell)
-            return cell
+            return UITableViewCell()
         }
     }
 

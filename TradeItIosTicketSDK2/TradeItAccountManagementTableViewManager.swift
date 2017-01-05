@@ -40,7 +40,6 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_MANAGEMENT_CELL_ID") as! TradeItAccountManagementTableViewCell
         cell.populate(self.linkedBrokerAccounts[indexPath.row])
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
         return cell
     }
 

@@ -5,8 +5,8 @@ class TradeItAccountSelectionTableViewHeader: UITableViewCell {
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configureTableHeader(header: self)
-        self.backgroundColor = TradeItTheme.tableHeaderBackgroundColor
-        self.brokerLabel.textColor = TradeItTheme.tableHeaderTextColor
+        self.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+        self.brokerLabel.textColor = TradeItSDK.theme.tableHeaderTextColor
     }
     
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {

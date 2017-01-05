@@ -5,7 +5,7 @@ class TradeItPreviewOrderWarningTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configureTableCell(cell: self)
-        self.warning.textColor = TradeItTheme.warningTextColor
+        self.warning.textColor = TradeItSDK.theme.warningTextColor
     }
 
     func populate(withWarning warning: String) {

@@ -29,7 +29,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
         self.buttonBackgrounds.forEach { buttonBackground in
-            buttonBackground.backgroundColor = TradeItTheme.inputFrameColor
+            buttonBackground.backgroundColor = TradeItSDK.theme.inputFrameColor
         }
         prepopulateOrderForm()
         accountSelected(linkedBrokerAccount: linkedBrokerAccount)

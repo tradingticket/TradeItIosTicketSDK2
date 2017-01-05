@@ -1,23 +1,64 @@
 import UIKit
 
-@objc public class TradeItTheme: NSObject {
-    static public var textColor = UIColor.white
-    static public var warningTextColor = UIColor.tradeItDeepRoseColor()
+public struct TradeItTheme {
+    public var textColor: UIColor
+    public var warningTextColor: UIColor
 
-    static public var backgroundColor = UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0)
+    public var backgroundColor: UIColor
 
-    static public var tableBackgroundColor = UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0)
-    static public var tableBackgroundSecondaryColor = UIColor(red: 0.66, green: 0.66, blue: 0.66, alpha: 1.0)
-    static public var tableHeaderBackgroundColor = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
-    static public var tableHeaderTextColor = UIColor.white
+    public var tableBackgroundColor: UIColor
+    public var tableHeaderBackgroundColor: UIColor
+    public var tableHeaderTextColor: UIColor
 
-    static public var interactivePrimaryColor = UIColor(red: 1.00, green: 0.57, blue: 0.00, alpha: 1.0)
-    static public var interactiveSecondaryColor = backgroundColor
+    public var interactivePrimaryColor: UIColor
+    public var interactiveSecondaryColor: UIColor
 
-    static public var warningPrimaryColor = UIColor.tradeItDeepRoseColor()
-    static public var warningSecondaryColor = UIColor.white
+    public var warningPrimaryColor: UIColor
+    public var warningSecondaryColor: UIColor
 
-    static public var inputFrameColor = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
+    public var inputFrameColor: UIColor
+
+    static public func light() -> TradeItTheme {
+        return TradeItTheme(
+            textColor: UIColor.darkText,
+            warningTextColor: UIColor.tradeItDeepRoseColor(),
+
+            backgroundColor: UIColor.white,
+
+            tableBackgroundColor: UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0),
+            tableHeaderBackgroundColor: UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0),
+            tableHeaderTextColor: UIColor.darkText,
+
+            interactivePrimaryColor: UIColor.tradeItCoolBlueColor(),
+            interactiveSecondaryColor: UIColor.white,
+
+            warningPrimaryColor: UIColor.tradeItDeepRoseColor(),
+            warningSecondaryColor: UIColor.white,
+
+            inputFrameColor: UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
+        )
+    }
+
+    static public func dark() -> TradeItTheme {
+        return TradeItTheme(
+            textColor: UIColor.white,
+            warningTextColor: UIColor.tradeItDeepRoseColor(),
+
+            backgroundColor: UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0),
+
+            tableBackgroundColor: UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0),
+            tableHeaderBackgroundColor: UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0),
+            tableHeaderTextColor: UIColor.white,
+
+            interactivePrimaryColor: UIColor(red: 1.00, green: 0.57, blue: 0.00, alpha: 1.0),
+            interactiveSecondaryColor: UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0),
+
+            warningPrimaryColor: UIColor.tradeItDeepRoseColor(),
+            warningSecondaryColor: UIColor.white,
+
+            inputFrameColor: UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
+        )
+    }
 }
 
 
@@ -40,7 +81,7 @@ import UIKit
 
     static func configure(view: UIView?) {
         guard let view = view else { return }
-        view.backgroundColor = TradeItTheme.backgroundColor
+        view.backgroundColor = TradeItSDK.theme.backgroundColor
         configureTheme(view: view)
         view.setNeedsLayout()
         view.layoutIfNeeded()
@@ -53,16 +94,16 @@ import UIKit
 
     static func configureTableCell(cell: UITableViewCell?) {
         guard let cell = cell else { return }
-        cell.backgroundColor = TradeItTheme.tableBackgroundColor
+        cell.backgroundColor = TradeItSDK.theme.tableBackgroundColor
         configureTableCellTheme(view: cell)
     }
 
     private static func configureTableHeaderTheme(view: UIView) {
         switch view {
         case let label as UILabel:
-            label.textColor = TradeItTheme.tableHeaderTextColor
+            label.textColor = TradeItSDK.theme.tableHeaderTextColor
         default:
-            view.backgroundColor = TradeItTheme.tableHeaderBackgroundColor
+            view.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
         }
 
         view.subviews.forEach { subview in
@@ -74,9 +115,9 @@ import UIKit
         switch view {
         case let label as UILabel:
             if isViewToHighlight(label) {
-                label.textColor = TradeItTheme.interactivePrimaryColor
+                label.textColor = TradeItSDK.theme.interactivePrimaryColor
             } else {
-                label.textColor = TradeItTheme.tableHeaderTextColor
+                label.textColor = TradeItSDK.theme.tableHeaderTextColor
             }
         case let button as UIButton:
             styleButton(button)
@@ -98,28 +139,28 @@ import UIKit
     private static func configureTheme(view: UIView) {
         switch view {
         case let label as UILabel:
-            label.textColor = TradeItTheme.textColor
+            label.textColor = TradeItSDK.theme.textColor
         case let button as UIButton:
             styleButton(button)
         case let input as UITextField:
             input.backgroundColor = UIColor.clear
-            input.layer.borderColor = TradeItTheme.inputFrameColor.cgColor
+            input.layer.borderColor = TradeItSDK.theme.inputFrameColor.cgColor
             input.layer.borderWidth = 1
             input.layer.cornerRadius = 4
             input.layer.masksToBounds = true
-            input.textColor = TradeItTheme.textColor
+            input.textColor = TradeItSDK.theme.textColor
             input.attributedPlaceholder = NSAttributedString(
                 string: input.placeholder ?? "",
-                attributes: [NSForegroundColorAttributeName: TradeItTheme.inputFrameColor]
+                attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.inputFrameColor]
             )
         case let input as UISwitch:
             styleSwitch(input)
         case let imageView as UIImageView:
             styleImage(imageView)
         case let tableView as UITableView:
-            tableView.backgroundColor = TradeItTheme.tableBackgroundColor
+            tableView.backgroundColor = TradeItSDK.theme.tableBackgroundColor
         case let activityIndicator as UIActivityIndicatorView:
-            activityIndicator.color = TradeItTheme.interactivePrimaryColor
+            activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
         case is UITableViewCell:
             break
         default:
@@ -135,25 +176,25 @@ import UIKit
         if isViewToHighlight(imageView) {
             let image = imageView.image?.withRenderingMode(.alwaysTemplate)
             imageView.image = image
-            imageView.tintColor = TradeItTheme.interactivePrimaryColor
+            imageView.tintColor = TradeItSDK.theme.interactivePrimaryColor
         }
     }
 
     private static func styleButton(_ button: UIButton) {
         if button.backgroundColor == UIColor.clear {
-            button.setTitleColor(TradeItTheme.interactivePrimaryColor, for: .normal)
+            button.setTitleColor(TradeItSDK.theme.interactivePrimaryColor, for: .normal)
         } else if self.BUTTON_TEXT_TO_HIGHLIGHT.contains(button.title(for: .normal) ?? "") {
-            button.setTitleColor(TradeItTheme.warningSecondaryColor, for: .normal)
-            button.backgroundColor = TradeItTheme.warningPrimaryColor
+            button.setTitleColor(TradeItSDK.theme.warningSecondaryColor, for: .normal)
+            button.backgroundColor = TradeItSDK.theme.warningPrimaryColor
         } else {
-            button.setTitleColor(TradeItTheme.interactiveSecondaryColor, for: .normal)
-            button.backgroundColor = TradeItTheme.interactivePrimaryColor
+            button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .normal)
+            button.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
         }
     }
 
     private static func styleSwitch(_ input: UISwitch) {
-        input.tintColor = TradeItTheme.interactivePrimaryColor
-        input.onTintColor = TradeItTheme.interactivePrimaryColor
+        input.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        input.onTintColor = TradeItSDK.theme.interactivePrimaryColor
     }
 
     private static func isViewToHighlight(_ view: UIView) -> Bool {

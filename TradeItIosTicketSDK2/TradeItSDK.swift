@@ -30,7 +30,7 @@
         }
     }
 
-    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv, theme: TradeItTheme = TradeItTheme.light()) {
+    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv, theme: TradeItTheme = TradeItTheme.dark()) {
         if !self.configured {
             self.configured = true
             self.apiKey = apiKey

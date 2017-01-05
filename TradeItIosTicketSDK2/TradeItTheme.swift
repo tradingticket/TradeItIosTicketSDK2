@@ -4,9 +4,9 @@ import UIKit
     public var textColor: UIColor = UIColor.darkText
     public var warningTextColor: UIColor = UIColor.tradeItDeepRoseColor()
 
-    public var backgroundColor: UIColor = UIColor.white
+    public var backgroundColor: UIColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 1.0)
 
-    public var tableBackgroundColor: UIColor = UIColor(red: 0.93, green: 0.93, blue: 0.93, alpha: 1.0)
+    public var tableBackgroundColor: UIColor = UIColor.white
     public var tableHeaderBackgroundColor: UIColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
     public var tableHeaderTextColor: UIColor = UIColor.darkText
 
@@ -33,8 +33,8 @@ import UIKit
 
         theme.backgroundColor = UIColor(red: 0.26, green: 0.26, blue: 0.26, alpha: 1.0)
 
-        theme.tableBackgroundColor = UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0)
-        theme.tableHeaderBackgroundColor = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
+        theme.tableBackgroundColor = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
+        theme.tableHeaderBackgroundColor = UIColor(red: 0.36, green: 0.36, blue: 0.36, alpha: 1.0)
         theme.tableHeaderTextColor = UIColor.white
 
         theme.interactivePrimaryColor = UIColor(red: 1.00, green: 0.57, blue: 0.00, alpha: 1.0)

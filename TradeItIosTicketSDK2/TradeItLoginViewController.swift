@@ -17,6 +17,7 @@ class TradeItLoginViewController: KeyboardViewController {
         self.userNameInput.becomeFirstResponder()
         self.disableLinkButton()
         self.activityIndicator.hidesWhenStopped = true
+        TradeItThemeConfigurator.configure(view: self.view)
 
         if let brokerName = self.selectedBroker?.brokerLongName {
             self.loginLabel.text = "Log in to \(brokerName)"

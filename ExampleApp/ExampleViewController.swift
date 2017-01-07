@@ -58,12 +58,21 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         self.printLinkedBrokers()
-        self.alertManager.showAlert(onViewController: self,
-                                    withTitle: "Great Success!",
-                                    withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
-                                    withActionTitle: "OK")
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Great Success!",
+            withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
+            withActionTitle: "OK",
+            onAlertActionTapped: {
+                print("=====> OK!")
 
-        // TODO: LAUNCH CONFIRMATION SCREEN
+                if let oAuthConfirmationScreen = TradeItSDK.yahooLauncher.getOAuthConfirmationScreen(withLinkedBroker: linkedBroker) {
+                    self.navigationController?.pushViewController(oAuthConfirmationScreen, animated: true)
+                } else {
+                    print("=====> OMG WTF HAPPAN!!!!??")
+                }
+            }
+        )
     }
 
     // Mark: UITableViewDelegate

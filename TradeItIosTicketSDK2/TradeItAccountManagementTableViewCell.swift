@@ -7,7 +7,7 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
     var selectedBrokerAccount: TradeItLinkedBrokerAccount!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configureTableCell(cell: self)
+        TradeItThemeConfigurator.configure(view: self)
     }
 
     func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {

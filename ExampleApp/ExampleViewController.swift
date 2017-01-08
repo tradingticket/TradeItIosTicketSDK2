@@ -1,27 +1,46 @@
 import UIKit
 @testable import TradeItIosTicketSDK2
 
-enum Action: Int {
-    case launchPortfolio = 0
-    case launchPortfolioForLinkedBrokerAccount
-    case launchPortfolioForAccountNumber
-    case launchTrading
-    case launchTradingWithSymbol
-    case launchAccountManagement
-    case launchOAuthFlow
-    case launchOAuthRelinkFlow
-    case launchBrokerLinking
-    case launchBrokerCenter
-    case launchAccountSelection
-    case manualAuthenticateAll
-    case manualBalances
-    case manualPositions
-    case manualBuildLinkedBroker
-    case launchAlertQueue
-    case deleteLinkedBrokers
-    case test
-    case enumCount
+struct Section {
+    let label: String
+    let actions: [Action]
 }
+
+struct Action {
+    let label: String
+}
+
+let sections = [
+    Section(label: "TradeIt Flows", actions: [
+        Action(label: "launchPortfolio"),
+        Action(label: "launchPortfolioForLinkedBrokerAccount"),
+        Action(label: "launchPortfolioForAccountNumber"),
+        Action(label: "launchTrading"),
+        Action(label: "launchTradingWithSymbol"),
+        Action(label: "launchAccountManagement"),
+        Action(label: "launchOAuthFlow"),
+        Action(label: "launchOAuthRelinkFlow"),
+        Action(label: "launchBrokerLinking"),
+        Action(label: "launchBrokerCenter"),
+        Action(label: "launchAccountSelection"),
+        Action(label: "launchAlertQueue")
+    ]),
+    Section(label: "Themes", actions: [
+        Action(label: "setLightTheme"),
+        Action(label: "setDarkTheme"),
+        Action(label: "setCustomTheme")
+    ]),
+    Section(label: "Deep Integration", actions: [
+        Action(label: "manualAuthenticateAll"),
+        Action(label: "manualBalances"),
+        Action(label: "manualPositions"),
+        Action(label: "manualBuildLinkedBroker")
+    ]),
+    Section(label: "Debugging", actions: [
+        Action(label: "deleteLinkedBrokers"),
+        Action(label: "test")
+    ])
+]
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
@@ -37,23 +56,21 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let action = Action(rawValue: indexPath.row) else { return }
-
-        switch action {
-        case .test:
+        switch sections[indexPath.section].actions[indexPath.row].label {
+        case "test":
             test()
-        case .launchPortfolio:
+        case "launchPortfolio":
             TradeItSDK.launcher.launchPortfolio(fromViewController: self)
-        case .launchPortfolioForLinkedBrokerAccount:
+        case "launchPortfolioForLinkedBrokerAccount":
             guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
                 return print("=====> You must link a broker with an account first")
             }
             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
-        case .launchPortfolioForAccountNumber: // brkAcct1 is the account number of the Dummy login
+        case "launchPortfolioForAccountNumber": // brkAcct1 is the account number of the Dummy login
             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
-        case .launchTrading:
+        case "launchTrading":
             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
-        case .launchTradingWithSymbol:
+        case "launchTradingWithSymbol":
             let order = TradeItOrder()
             // Any order fields that are set will pre-populate the ticket.
             order.symbol = "CMG"
@@ -64,21 +81,21 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             order.stopPrice = 30
             order.expiration = .goodUntilCanceled
             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
-        case .launchAccountManagement:
+        case "launchAccountManagement":
             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
-        case .launchOAuthFlow:
+        case "launchOAuthFlow":
             self.launchOAuthFlow()
-        case .launchOAuthRelinkFlow:
+        case "launchOAuthRelinkFlow":
             self.launchOAuthRelinkFlow()
-        case .launchBrokerLinking:
+        case "launchBrokerLinking":
             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
                 print("=====> Newly linked broker: \(linkedBroker)")
             }, onFlowAborted: {
                 print("=====> User aborted linking")
             })
-        case .launchBrokerCenter:
+        case "launchBrokerCenter":
             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
-        case .launchAccountSelection:
+        case "launchAccountSelection":
             TradeItSDK.launcher.launchAccountSelection(
                 fromViewController: self,
                 title: "Select account to sync",
@@ -86,17 +103,25 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
                 }
             )
-        case .manualAuthenticateAll:
+        case "setLightTheme":
+            TradeItSDK.theme = TradeItTheme.light()
+        case "setDarkTheme":
+            TradeItSDK.theme = TradeItTheme.dark()
+        case "setCustomTheme":
+            let customTheme = TradeItTheme()
+            customTheme.textColor = UIColor.brown
+            TradeItSDK.theme = customTheme
+        case "manualAuthenticateAll":
             self.manualAuthenticateAll()
-        case .manualBalances:
+        case "manualBalances":
             self.manualBalances()
-        case .manualPositions:
+        case "manualPositions":
             self.manualPositions()
-        case .manualBuildLinkedBroker:
+        case "manualBuildLinkedBroker":
             self.manualBuildLinkedBroker()
-        case .launchAlertQueue:
+        case "launchAlertQueue":
             self.launchAlertQueue()
-        case .deleteLinkedBrokers:
+        case "deleteLinkedBrokers":
             self.deleteLinkedBrokers()
         default:
             return
@@ -113,8 +138,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     // MARK: UITableViewDataSource
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].label
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Action.enumCount.rawValue;
+        return sections[section].actions.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -126,9 +159,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
-        if let action = Action(rawValue: indexPath.row) {
-            cell?.textLabel?.text = "\(action)"
-        }
+        cell?.textLabel?.text = sections[indexPath.section].actions[indexPath.row].label
         
         return cell!
     }

@@ -1511,7 +1511,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="cAp-EE-tcm" firstAttribute="leading" secondItem="O9o-di-wTY" secondAttribute="leadingMargin" constant="10" id="NFK-6K-L1N"/>
                                                         <constraint firstItem="Xjt-1n-Blf" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="VdB-cn-EXo"/>
@@ -1548,7 +1547,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="PHd-Wd-R2w" firstAttribute="centerY" secondItem="U1m-gx-Uli" secondAttribute="centerY" id="5eK-g2-E4t"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="obj-su-KHD" secondAttribute="trailing" id="AYc-G2-ooI"/>
@@ -2060,6 +2058,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.94156193733215332" green="0.94153380393981934" blue="0.94154977798461914" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <accessibility key="accessibilityConfiguration" identifier="PORTFOLIO_VIEW"/>
                         <constraints>
                             <constraint firstItem="jjm-KA-5qy" firstAttribute="leading" secondItem="oqc-AE-0p4" secondAttribute="leading" id="1OM-Rk-Hdm"/>
                             <constraint firstAttribute="trailing" secondItem="1fv-sU-vaB" secondAttribute="trailing" id="46s-iA-Gj6"/>
@@ -2400,10 +2399,10 @@
             </objects>
             <point key="canvasLocation" x="1030" y="-474"/>
         </scene>
-        <!--Review-->
+        <!--Preview-->
         <scene sceneID="Uej-tc-O6r">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_TRADING_PREVIEW_VIEW" title="Review" automaticallyAdjustsScrollViewInsets="NO" id="mZZ-q3-U3W" customClass="TradeItTradePreviewViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_TRADING_PREVIEW_VIEW" title="Preview" automaticallyAdjustsScrollViewInsets="NO" id="mZZ-q3-U3W" customClass="TradeItTradePreviewViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LDU-0f-JMd"/>
                         <viewControllerLayoutGuide type="bottom" id="gl1-uY-nDN"/>
@@ -2570,26 +2569,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RY-1L-0nT">
-                                <rect key="frame" x="16" y="28" width="343" height="34"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="success_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ug6-ZR-aFE">
-                                <rect key="frame" x="16" y="70" width="343" height="128"/>
+                                <rect key="frame" x="16" y="40" width="343" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="bYf-YM-7IQ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmation Text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8df-lV-kgX">
-                                <rect key="frame" x="16" y="214" width="343" height="21"/>
+                                <rect key="frame" x="16" y="184" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-hO-aBt" userLabel="Trade Again">
-                                <rect key="frame" x="26" y="305" width="150" height="40"/>
+                                <rect key="frame" x="26" y="275" width="150" height="40"/>
                                 <color key="backgroundColor" red="0.25573506950000002" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="c4s-E2-Mlt"/>
@@ -2610,7 +2603,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiz-kG-4ho" userLabel="View Portfolio">
-                                <rect key="frame" x="199" y="305" width="150" height="40"/>
+                                <rect key="frame" x="199" y="275" width="150" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="NwX-mg-oWT"/>
@@ -2635,16 +2628,13 @@
                         <constraints>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" constant="10" id="9LT-Yh-K2l"/>
                             <constraint firstItem="8df-lV-kgX" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="GV7-zI-cdf"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="7RY-1L-0nT" secondAttribute="trailing" id="KlC-uh-ZlC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ug6-ZR-aFE" secondAttribute="trailing" id="MJ9-n8-yHP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8df-lV-kgX" secondAttribute="trailing" id="QKI-rB-CdZ"/>
+                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="top" secondItem="qXR-zx-InJ" secondAttribute="bottom" constant="20" id="TV5-lZ-7BX"/>
                             <constraint firstItem="8df-lV-kgX" firstAttribute="top" secondItem="Ug6-ZR-aFE" secondAttribute="bottom" constant="16" id="VHY-dh-Y6I"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="width" secondItem="Tiz-kG-4ho" secondAttribute="width" id="VYd-EX-43w"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="top" secondItem="8df-lV-kgX" secondAttribute="bottom" constant="70" id="W13-s0-USD"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="top" secondItem="8df-lV-kgX" secondAttribute="bottom" constant="70" id="ZEE-A1-1SA"/>
-                            <constraint firstItem="7RY-1L-0nT" firstAttribute="top" secondItem="qXR-zx-InJ" secondAttribute="bottom" constant="8" id="aJG-y6-KTM"/>
-                            <constraint firstItem="7RY-1L-0nT" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="ezP-KX-sUh"/>
-                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="top" secondItem="7RY-1L-0nT" secondAttribute="bottom" constant="8" id="kov-id-669"/>
                             <constraint firstItem="Ug6-ZR-aFE" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="oOY-O6-23d"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="leading" secondItem="dPH-hO-aBt" secondAttribute="trailing" constant="23" id="p0s-iu-Qxl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Tiz-kG-4ho" secondAttribute="trailing" constant="10" id="qcG-sV-IBW"/>
@@ -2671,7 +2661,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ntd-kO-gOZ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_CELL_ID" rowHeight="50" id="8rL-7J-jGy" customClass="TradeItBrokerManagementTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
@@ -2953,6 +2943,6 @@
         <image name="truste.png" width="405" height="102"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="1iK-NS-IHY"/>
+        <segue reference="Wfr-Io-4LG"/>
     </inferredMetricsTieBreakers>
 </document>

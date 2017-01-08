@@ -313,6 +313,9 @@
 		75EDCEB31DDF8687000739C9 /* TradeItTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EDCEB11DDF8687000739C9 /* TradeItTheme.swift */; };
 		75F426171E1EEBE00054E15F /* TradeItThemeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F426161E1EEBE00054E15F /* TradeItThemeConfigurator.swift */; };
 		75F426181E1EEBE00054E15F /* TradeItThemeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F426161E1EEBE00054E15F /* TradeItThemeConfigurator.swift */; };
+		75F4261A1E22D7250054E15F /* tradeit_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F426191E22D7250054E15F /* tradeit_logo.png */; };
+		75F4261B1E22D7E50054E15F /* tradeit_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F426191E22D7250054E15F /* tradeit_logo.png */; };
+		75F4261C1E22D7E70054E15F /* tradeit_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75F426191E22D7250054E15F /* tradeit_logo.png */; };
 		7FA99DE16BF593DC46613B34 /* Pods_ExampleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EB96CDD132BE944FB0BC75 /* Pods_ExampleApp.framework */; };
 		96AD45E1D5B8B3240E839907 /* Pods_TradeItIosTicketSDK2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */; };
 		B55933F81DB8F78400620A57 /* TradeItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55933F71DB8F78400620A57 /* TradeItViewController.swift */; };
@@ -900,6 +903,7 @@
 		75E6604E1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItDeviceManager.swift; sourceTree = "<group>"; };
 		75EDCEB11DDF8687000739C9 /* TradeItTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTheme.swift; sourceTree = "<group>"; };
 		75F426161E1EEBE00054E15F /* TradeItThemeConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItThemeConfigurator.swift; sourceTree = "<group>"; };
+		75F426191E22D7250054E15F /* tradeit_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tradeit_logo.png; sourceTree = "<group>"; };
 		849EFA742276C47F5D1FCA64 /* Pods-TradeItIosTicketSDK2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2/Pods-TradeItIosTicketSDK2.release.xcconfig"; sourceTree = "<group>"; };
 		98A2390A961A32AF0F09BD1B /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradeItIosTicketSDK2Tests/Pods-TradeItIosTicketSDK2Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B55933F71DB8F78400620A57 /* TradeItViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItViewController.swift; sourceTree = "<group>"; };
@@ -1241,6 +1245,7 @@
 		75B857B41DD3AB7C003AB7AB /* Logos */ = {
 			isa = PBXGroup;
 			children = (
+				75F426191E22D7250054E15F /* tradeit_logo.png */,
 				75D1917B1E03217000FF5E0F /* cimb_logo.png */,
 				75B857B51DD3AB91003AB7AB /* etrade_logo.png */,
 				75B857B61DD3AB91003AB7AB /* fidelity_logo.png */,
@@ -1942,6 +1947,7 @@
 				75B857C11DD3AB91003AB7AB /* ib_logo.png in Resources */,
 				75B857C01DD3AB91003AB7AB /* fidelity_logo.png in Resources */,
 				75B857C61DD3AB91003AB7AB /* tradeking_logo.png in Resources */,
+				75F4261A1E22D7250054E15F /* tradeit_logo.png in Resources */,
 				75BAAA9D1DB7EEB400E5435C /* indicator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1950,6 +1956,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75F4261C1E22D7E70054E15F /* tradeit_logo.png in Resources */,
 				75BAACBE1DB7FFAF00E5435C /* Main.storyboard in Resources */,
 				75BAACC01DB7FFB700E5435C /* Assets.xcassets in Resources */,
 				75BAACBF1DB7FFB300E5435C /* LaunchScreen.storyboard in Resources */,
@@ -1987,6 +1994,7 @@
 				FC6E7A6B1DCD1F8B005225CC /* native_arrow.png in Resources */,
 				FC6E7A6C1DCD1F8B005225CC /* success_icon.png in Resources */,
 				FC6E7A6D1DCD1F8B005225CC /* TradeIt.storyboard in Resources */,
+				75F4261B1E22D7E50054E15F /* tradeit_logo.png in Resources */,
 				FC6E7A6E1DCD1F8B005225CC /* indicator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

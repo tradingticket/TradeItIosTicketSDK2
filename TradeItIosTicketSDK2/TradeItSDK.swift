@@ -3,8 +3,8 @@
     private static var environment: TradeitEmsEnvironments?
     private static var configured = false
     public static let launcher = TradeItLauncher()
+    public static var theme: TradeItTheme = TradeItTheme.light()
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
-    internal static var theme: TradeItTheme = TradeItTheme.light()
 
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
@@ -30,12 +30,11 @@
         }
     }
 
-    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv, theme: TradeItTheme = TradeItTheme.dark()) {
+    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
         if !self.configured {
             self.configured = true
             self.apiKey = apiKey
             self.environment = environment
-            self.theme = theme
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)

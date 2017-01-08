@@ -91,7 +91,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             cell?.textLabel?.text = brokerLongName
         }
 
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
+        TradeItThemeConfigurator.configure(view: cell)
         
         return cell!
     }

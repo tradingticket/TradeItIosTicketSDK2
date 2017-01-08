@@ -5,7 +5,7 @@ class TradeItPortfolioErrorTableViewCell: UITableViewCell {
     @IBOutlet weak var brokerNameLabel: UILabel!
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configureTableCell(cell: self)
+        TradeItThemeConfigurator.configure(view: self)
     }
 
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {

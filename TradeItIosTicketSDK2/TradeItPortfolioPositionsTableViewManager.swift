@@ -74,7 +74,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
         }
         
         TradeItThemeConfigurator.configureTableHeader(header: cell)
-        return cell?.contentView
+        return cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -142,7 +142,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             cell = fxCell
         }
 
-        TradeItThemeConfigurator.configureTableCell(cell: cell)
+        TradeItThemeConfigurator.configure(view: cell)
 
         if let cell = cell {
             cell.setNeedsUpdateConstraints()

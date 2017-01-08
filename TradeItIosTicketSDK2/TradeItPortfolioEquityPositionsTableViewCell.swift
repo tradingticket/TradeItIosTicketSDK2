@@ -35,7 +35,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
                                            compatibleWith: nil)
 
     override func awakeFromNib() {
-        super.awakeFromNib()
+        TradeItThemeConfigurator.configure(view: self)
         self.positionDetailsHeight = self.positionDetailsHeightConstraint.constant
         self.buttonHeight = self.buttonBuyHeight.constant
     }

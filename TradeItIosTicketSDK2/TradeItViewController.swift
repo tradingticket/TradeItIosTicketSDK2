@@ -4,8 +4,10 @@ class TradeItViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationItem()
+
+        TradeItThemeConfigurator.configure(view: self.view)
     }
-    
+
     func configureNavigationItem() {
         guard let viewControllers = self.navigationController?.viewControllers else {
             self.createCloseButton()

@@ -7,6 +7,10 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var selectedIcon: UIImageView!
 
+    override func awakeFromNib() {
+        TradeItThemeConfigurator.configure(view: self)
+    }
+
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(account)
         self.accountNameLabel.text = account.getFormattedAccountName()
@@ -17,6 +21,7 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
         if selected {
             self.selectedIcon.isHidden = false
         }
@@ -25,5 +30,4 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
         }
         
     }
-    
 }

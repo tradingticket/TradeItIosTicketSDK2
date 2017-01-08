@@ -69,11 +69,12 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ACCOUNTS_HEADER_ID)
+        TradeItThemeConfigurator.configureTableHeader(header: cell)
         return cell
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell :UITableViewCell!
+        var cell: UITableViewCell!
         
         if indexPath.row < self.accounts.count {
             let accountCell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
@@ -86,7 +87,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             errorCell.populate(withLinkedBroker: linkedBrokerInError)
             cell = errorCell
         }
-        
+
         return cell
     }
 }

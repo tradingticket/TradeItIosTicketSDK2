@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
-
     private var positions: [TradeItPortfolioPosition] = []
     private var selectedPositionIndex = -1
 
@@ -73,8 +72,9 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
                 cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_FX_POSITIONS_HEADER_ID")
             }
         }
-
-        return cell?.contentView
+        
+        TradeItThemeConfigurator.configureTableHeader(header: cell)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -142,6 +142,8 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             cell = fxCell
         }
 
+        TradeItThemeConfigurator.configure(view: cell)
+
         if let cell = cell {
             cell.setNeedsUpdateConstraints()
             cell.updateConstraintsIfNeeded()
@@ -155,5 +157,4 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
 
 protocol TradeItPortfolioPositionsTableDelegate: class {
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
-
 }

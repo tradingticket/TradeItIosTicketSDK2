@@ -127,10 +127,10 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     private func updatePlaceOrderButtonStatus() {
         if allAcknowledgementsAccepted() {
             placeOrderButton.isEnabled = true
-            placeOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
+            placeOrderButton.alpha = 1.0
         } else {
             placeOrderButton.isEnabled = false
-            placeOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
+            placeOrderButton.alpha = 0.5
         }
     }
 

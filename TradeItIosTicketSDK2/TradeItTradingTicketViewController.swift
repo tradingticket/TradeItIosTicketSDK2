@@ -13,6 +13,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     @IBOutlet weak var estimatedChangeLabel: UILabel!
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet var buttonBackgrounds: [UIView]!
 
     static let BOTTOM_CONSTRAINT_CONSTANT = CGFloat(20)
 
@@ -26,6 +27,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         super.viewDidLoad()
         guard let linkedBrokerAccount = self.order.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
+        }
+        self.buttonBackgrounds.forEach { buttonBackground in
+            buttonBackground.backgroundColor = TradeItSDK.theme.inputFrameColor
         }
         prepopulateOrderForm()
         accountSelected(linkedBrokerAccount: linkedBrokerAccount)
@@ -291,10 +295,10 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     private func updatePreviewOrderButtonStatus() {
         if order.isValid() {
             previewOrderButton.isEnabled = true
-            previewOrderButton.backgroundColor = UIColor.tradeItClearBlueColor()
+            previewOrderButton.alpha = 1.0
         } else {
             previewOrderButton.isEnabled = false
-            previewOrderButton.backgroundColor = UIColor.tradeItGreyishBrownColor()
+            previewOrderButton.alpha = 0.5
         }
     }
 

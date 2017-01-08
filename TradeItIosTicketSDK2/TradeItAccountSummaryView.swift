@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItAccountSummaryView: UIView {
-
     @IBOutlet weak var accountEquitySummaryView: TradeItEquityAccountSummaryView!
     @IBOutlet weak var accountFxSummaryView: TradeItFxAccountSummaryView!
     @IBOutlet weak var summaryLabel: UILabel!

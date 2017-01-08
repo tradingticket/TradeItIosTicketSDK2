@@ -1,7 +1,6 @@
 import UIKit
 
 class KeyboardViewController: TradeItViewController {
-    
     var submitButtonBottomSpaceConstraintConstant:CGFloat = 0.0
     
     @IBOutlet weak var submitButtonBottomSpaceConstraint: NSLayoutConstraint!

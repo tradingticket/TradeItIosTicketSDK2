@@ -2,7 +2,7 @@ import UIKit
 import TradeItIosTicketSDK2
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, TradeItAuthenticationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, TradeItOAuthDelegate {
     static let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TradeItAuthenticationDele
     override init() {
         TradeItSDK.configure(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
         super.init()
-        TradeItSDK.linkedBrokerManager.authenticationDelegate = self
+        TradeItSDK.linkedBrokerManager.oAuthDelegate = self
     }
 
     func application(_ application: UIApplication,

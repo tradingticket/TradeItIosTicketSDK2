@@ -167,11 +167,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: TradeItOAuthDelegate
 
     func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
-        print("=====> Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")
+        print("=====> TradeItOAuthDelegate: Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")
+        linkedBroker.authenticateIfNeeded(onSuccess: {
+            print(linkedBroker.accounts)
+
+        }, onSecurityQuestion: { _, _, _ in
+            print("security q")
+        }, onFailure: { error in
+            print(error)
+        })
+
     }
 
     func didUnlink(linkedBroker: TradeItLinkedBroker) {
-        print("=====> Unlinked \(linkedBroker.brokerName)")
+        print("=====> TradeItOAuthDelegate: Unlinked \(linkedBroker.brokerName)")
     }
 
     // MARK: Private

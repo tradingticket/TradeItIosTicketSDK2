@@ -16,9 +16,9 @@ import PromiseKit
         self.linkedLogin = linkedLogin
         // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
         self.error = TradeItErrorResult(
-                title: "Linked Broker initialized from keychain",
-                message: "This linked broker needs to authenticate.",
-                code: .sessionError
+            title: "Linked Broker initialized from keychain",
+            message: "This linked broker needs to authenticate.",
+            code: .sessionError
         )
     }
 
@@ -51,7 +51,7 @@ import PromiseKit
                             handler(TradeItErrorResult(
                                 title: "Authentication failed",
                                 message: "The security question was canceled.",
-                                code: .brokerAuthenticationError
+                                code: .sessionError
                             ))
                         }
                     )

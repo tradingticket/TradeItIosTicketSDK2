@@ -25,6 +25,10 @@ let sections = [
         Action(label: "launchAccountSelection"),
         Action(label: "launchAlertQueue")
     ]),
+    Section(label: "Debugging", actions: [
+        Action(label: "deleteLinkedBrokers"),
+        Action(label: "test")
+    ]),
     Section(label: "Themes", actions: [
         Action(label: "setLightTheme"),
         Action(label: "setDarkTheme"),
@@ -35,10 +39,6 @@ let sections = [
         Action(label: "manualBalances"),
         Action(label: "manualPositions"),
         Action(label: "manualBuildLinkedBroker")
-    ]),
-    Section(label: "Debugging", actions: [
-        Action(label: "deleteLinkedBrokers"),
-        Action(label: "test")
     ])
 ]
 

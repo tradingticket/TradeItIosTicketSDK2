@@ -8,7 +8,7 @@
     case oauthError = 700
 }
 
-@objc public class TradeItErrorResult: TradeItResult {
+@objc public class TradeItErrorResult: TradeItResult, Error {
     var systemMessage: String?
     var errorFields: [String?] = []
     var code: NSDecimalNumber?

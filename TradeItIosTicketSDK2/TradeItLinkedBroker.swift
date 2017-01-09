@@ -26,12 +26,86 @@ import PromiseKit
 
     public func authenticate(onSuccess: @escaping () -> Void,
                              onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-                                                            _ submitAnswer: @escaping (String) -> Void,
-                                                            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                                _ submitAnswer: @escaping (String) -> Void,
+                                _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
                              onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        self.authenticationPromise = self.authenticationPromise ?? Promise { fulfill, reject in
+            authenticateInternal(
+                onSuccess: fulfill,
+                onSecurityQuestion: onSecurityQuestion,
+                onFailure: reject
+            )
+        }
+
+        authenticationPromise?
+            .then(execute: onSuccess)
+            .catch(execute: { error in
+                print(error)
+                let error = error as! TradeItErrorResult // TODO: Check for other error types?
+                onFailure(error)
+            })
+    }
+
+    public func authenticateIfNeeded(
+        onSuccess: @escaping () -> Void,
+        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        guard let error = self.error else {
+                onSuccess()
+                return
+        }
+
+        if error.requiresAuthentication() {
+            self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
+        } else {
+            onSuccess()
+        }
+    }
+
+    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
+        let promises = accounts.map { account in
+            return Promise<Void> { fulfill, reject in
+                account.getAccountOverview(onSuccess: { _ in
+                    fulfill()
+                }, onFailure: { errorResult in
+                    fulfill()
+                })
+            }
+        }
+
+        _ = when(resolved: promises).always(execute: onFinished)
+    }
+
+    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+        return self.accounts.filter { return $0.isEnabled }
+    }
+
+    public func isStillLinked() -> Bool {
+        let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
+        return linkedBrokers.index(of: self) != nil
+    }
+
+    public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
+        let matchingAccounts = self.accounts.filter { (account: TradeItLinkedBrokerAccount) -> Bool in
+            return account.accountNumber == accountNumber
+        }
+
+        return matchingAccounts.first
+    }
+
+    // MARK: Private
+
+    private func authenticateInternal(onSuccess: @escaping () -> Void,
+                                      onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        _ submitAnswer: @escaping (String) -> Void,
+        _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                                      onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
-            { (tradeItResult: TradeItResult) in
-                switch tradeItResult {
+            { (result: TradeItResult) in
+                switch result {
                 case let authenticationResult as TradeItAuthenticationResult:
                     self.error = nil
 
@@ -68,74 +142,8 @@ import PromiseKit
                 }
             }
         }
-
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
-
-    public func authenticateIfNeeded(
-        onSuccess: @escaping () -> Void,
-        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-            _ submitAnswer: @escaping (String) -> Void,
-            _ onCancelSecurityQuestion: @escaping () -> Void
-        ) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
-        guard let error = self.error else {
-                onSuccess()
-                return
-        }
-
-        // TODO: Look at making TradeItErrorResult inherit from Error
-        let authenticationPromise = self.authenticationPromise ?? Promise { fulfill, reject in
-            if error.requiresAuthentication() {
-                self.authenticate(onSuccess: fulfill, onSecurityQuestion: onSecurityQuestion, onFailure: { error in
-                        onFailure(TradeItErrorResult(title: "WHAT"))
-//                        onFailure(TradeItErrorResult(title: "What", message: error.localizedDescription))
-                })
-            } else {
-                fulfill()
-            }
-        }
-
-        authenticationPromise.then(execute: onSuccess).catch(execute: { error in
-            print(error)
-            onFailure(TradeItErrorResult(title: "What", message: error.localizedDescription))
-        })
-
-        self.authenticationPromise = authenticationPromise
-    }
-
-    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
-        let promises = accounts.map { account in
-            return Promise<Void> { fulfill, reject in
-                account.getAccountOverview(onSuccess: { _ in
-                    fulfill()
-                }, onFailure: { errorResult in
-                    fulfill()
-                })
-            }
-        }
-
-        _ = when(resolved: promises).always(execute: onFinished)
-    }
-
-    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
-        return self.accounts.filter { return $0.isEnabled }
-    }
-
-    public func isStillLinked() -> Bool {
-        let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
-        return linkedBrokers.index(of: self) != nil
-    }
-
-    public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
-        let matchingAccounts = self.accounts.filter { (account: TradeItLinkedBrokerAccount) -> Bool in
-            return account.accountNumber == accountNumber
-        }
-
-        return matchingAccounts.first
-    }
-
-    // MARK: Private
 
     private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
         return accounts.map { account in

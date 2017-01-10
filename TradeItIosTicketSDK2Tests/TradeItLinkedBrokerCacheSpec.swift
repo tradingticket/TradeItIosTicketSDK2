@@ -31,7 +31,7 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                 expect(self.defaults.dictionary(forKey: "LINKED_BROKER_CACHE")).to(beNil())
 
                 cache = TradeItLinkedBrokerCache()
-                cache._userDefaults = self.defaults
+                TradeItLinkedBrokerCache._userDefaults = self.defaults
 
                 linkedLogin1 = TradeItLinkedLogin(
                     label: "My Special Label 1",

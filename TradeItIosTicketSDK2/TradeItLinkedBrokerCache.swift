@@ -13,7 +13,7 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNT_ENABLED = "ENABLED"
     private let ACCOUNT_DISABLED = "DISABLED"
 
-    internal static let _userDefaults = UserDefaults(suiteName: "it.trade")!
+    internal static var _userDefaults = UserDefaults(suiteName: "it.trade")!
     internal var userDefaults: UserDefaults {
         get {
             return TradeItLinkedBrokerCache._userDefaults

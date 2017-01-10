@@ -33,7 +33,7 @@ class FakeTradeItConnector: TradeItConnector {
         return tradeItLinkedLoginArrayToReturn as [TradeItLinkedLogin]
     }
     
-    override func updateKeychain(withLink link: TradeItUpdateLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin? {
+    override func updateKeychain(withLink link: TradeItAuthLinkResult?, withBroker broker: String?) -> TradeItLinkedLogin? {
         self.calls.record(#function, args: [
             "link": link,
             "broker": broker

@@ -70,28 +70,11 @@
      andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 /**
- *  Using a successful response from the linkBrokerWithAuthenticationInfo:andCompletionBlock: this method will save basic information to the user preferences, and a UUID pointed to the actual user token which will be stored in the keychain.
+ *  Using a successful response from the updateUserToken:withAuthenticationInfo:andCompletionBlock: this method add or update a linked broker stored to the keychain.
  */
-- (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
-                                              withBroker:(NSString * _Nullable)broker;
-
-/**
- *  Same as above, but with a custom label. Useful if allowing users to link to more than one login per broker. The default, in the above method, is just the broker name.
- */
-- (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
-                                              withBroker:(NSString * _Nullable)broker
-                                                andLabel:(NSString * _Nullable)label;
-
-- (TradeItLinkedLogin * _Nullable)saveToKeychainWithUserId:(NSString * _Nullable)userId
-                                              andUserToken:(NSString * _Nullable)userToken
-                                                 andBroker:(NSString * _Nullable)broker
-                                                  andLabel:(NSString * _Nullable)label;
-
-/**
- *  Using a successful response from the updateUserToken:withAuthenticationInfo:andCompletionBlock: this method will update the keychain token for an already linked account.
- */
-- (TradeItLinkedLogin * _Nullable)updateKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
-                                              withBroker:(NSString * _Nullable)broker;
+- (TradeItLinkedLogin * _Nullable)addOrUpdateLinkedBrokerInKeychainWithUserId: (NSString * _Nullable)userId
+                                                                 andUserToken: (NSString * _Nullable)userToken
+                                                                    andBroker: (NSString * _Nullable)broker;
 
 /**
  *  Retrieve a list of stored linkedLogins

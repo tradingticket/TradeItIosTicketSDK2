@@ -251,40 +251,27 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 }
 
-- (TradeItLinkedLogin *)updateKeychainWithLink:(TradeItAuthLinkResult *)link
-                                  withBroker:(NSString *)broker {
-    NSDictionary *linkDict = [self getLinkedLoginDictByuserId:link.userId];
+- (TradeItLinkedLogin *)addOrUpdateLinkedBrokerInKeychainWithUserId: (NSString *)userId
+                                                       andUserToken: (NSString *)userToken
+                                                          andBroker: (NSString *)broker {
+    NSDictionary *linkDict = [self getLinkedLoginDictByuserId:userId];
 
     if (linkDict) {
         // If the saved link is found, update the token in the keychain for its keychainId
         NSString *keychainId = linkDict[@"keychainId"];
 
-        [TradeItKeychain saveString:link.userToken forKey:keychainId];
-        
+        [TradeItKeychain saveString:userToken forKey:keychainId];
+
         return [[TradeItLinkedLogin alloc] initWithLabel:linkDict[@"label"]
                                                   broker:broker
-                                                  userId:link.userId
+                                                  userId:userId
                                            andKeyChainId:keychainId];
     } else {
-        // No existing link for that userId so make a new one
-        TradeItAuthLinkResult *authLinkResult = [[TradeItAuthLinkResult alloc] init];
-        authLinkResult.userId = link.userId;
-        authLinkResult.userToken = link.userToken;
-
-        return [self saveToKeychainWithLink:authLinkResult
-                             withBroker:broker];
+        return [self saveToKeychainWithUserId:userId
+                                 andUserToken:userToken
+                                    andBroker:broker
+                                     andLabel:broker];
     }
-}
-
-- (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
-                                withBroker:(NSString *)broker {
-    return [self saveToKeychainWithLink:link withBroker:broker andLabel:broker];
-}
-
-- (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
-                                    withBroker:(NSString *)broker
-                                      andLabel:(NSString *)label {
-    return [self saveToKeychainWithUserId:link.userId andUserToken:link.userToken andBroker:broker andLabel:label];
 }
 
 - (TradeItLinkedLogin *)saveToKeychainWithUserId:(NSString *)userId
@@ -440,7 +427,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         //first convert to a generic result to check the type
         TradeItResult *tradeItResult = [TradeItJsonConverter buildResult:[TradeItResult alloc]
                                                                jsonString:jsonResponse];
-        
+        // TODO: Remove?
         if ([tradeItResult.status isEqual:@"ERROR"]) {
             TradeItErrorResult * errorResult;
             

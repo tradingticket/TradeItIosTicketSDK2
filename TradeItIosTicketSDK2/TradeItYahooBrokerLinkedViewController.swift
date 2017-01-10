@@ -3,6 +3,7 @@ import UIKit
 @objc public class TradeItYahooBrokerLinkedViewController: UIViewController {
     @IBOutlet weak var brokerLabel: UILabel!
     var linkedBroker: TradeItLinkedBroker?
+    var delegate: TradeItYahooBrokerLinkedViewControllerDelegate?
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,5 +20,11 @@ import UIKit
 
     @IBAction func viewPortfolioButtonTapped(_ sender: UIButton) {
         print("=====> VIEW PORTFOLIO TAPPED!!!!!!")
+        delegate?.viewPortfolioButtonTapped(fromViewController: self)
+
     }
+}
+
+@objc public protocol TradeItYahooBrokerLinkedViewControllerDelegate {
+    func viewPortfolioButtonTapped(fromViewController viewController: TradeItYahooBrokerLinkedViewController)
 }

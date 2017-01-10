@@ -63,6 +63,16 @@ class TradeItLoginViewController: KeyboardViewController {
                 linkedBrokerToRelink,
                 authInfo: tradeItAuthenticationInfo,
                 onSuccess: self.brokerLinked,
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                    self.activityIndicator.stopAnimating()
+                    self.enableLinkButton()
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelSecurityQuestion
+                    )
+                },
                 onFailure: { error in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()

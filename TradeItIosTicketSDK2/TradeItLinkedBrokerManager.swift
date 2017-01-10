@@ -254,6 +254,10 @@ import PromiseKit
 
     public func relinkBroker(_ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
                       onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                      onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                        _ submitAnswer: @escaping (String) -> Void,
+                        _ onCancelSecurityQuestion: @escaping () -> Void
+                      ) -> Void,
                       onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.connector.updateUserToken(linkedBroker.linkedLogin,
                                        authInfo: authInfo,
@@ -266,12 +270,10 @@ import PromiseKit
                 guard let userId = updateLinkResult.userId,
                     let userToken = updateLinkResult.userToken
                 else {
-                    onFailure(TradeItErrorResult(
+                    return onFailure(TradeItErrorResult(
                         title: "Linking Error",
                         message: "Failed to relink broker, did not receive token")
                     )
-
-                    return
                 }
 
                 let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult,
@@ -280,10 +282,14 @@ import PromiseKit
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil
                     linkedBroker.linkedLogin = linkedLogin
-                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                 userId: userId,
-                                                 userToken: userToken)
-                    onSuccess(linkedBroker)
+                    linkedBroker.authenticate(
+                        onSuccess: {
+                            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                            onSuccess(linkedBroker)
+                        },
+                        onSecurityQuestion: onSecurityQuestion,
+                        onFailure: onFailure
+                    )
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
                     linkedBroker.error = error

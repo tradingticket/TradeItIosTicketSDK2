@@ -106,7 +106,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 }
                 
                 it("uses the linkedBrokerManager to relink the account") {
-                    let relinkCalls = linkedBrokerManager.calls.forMethod("relinkBroker(_:authInfo:onSuccess:onFailure:)")
+                    let relinkCalls = linkedBrokerManager.calls.forMethod("relinkBroker(_:authInfo:onSuccess:onSecurityQuestion:onFailure:)")
                     
                     expect(relinkCalls.count).to(equal(1))
                     expect(linkedBrokerManager.calls.count).to(equal(1))
@@ -128,17 +128,11 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 
                 context("when linking is successful") {
                     beforeEach {
-                        let relinkCalls = linkedBrokerManager.calls.forMethod("relinkBroker(_:authInfo:onSuccess:onFailure:)")
+                        let relinkCalls = linkedBrokerManager.calls.forMethod("relinkBroker(_:authInfo:onSuccess:onSecurityQuestion:onFailure:)")
 
                         let onSuccess = relinkCalls[0].args["onSuccess"] as! ((TradeItLinkedBroker) -> Void)
                         
                         onSuccess(relinkedBroker)
-                    }
-                    
-                    it("authenticates the linkedBroker") {
-                        let linkCalls = relinkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                        expect(linkCalls.count).to(equal(1))
-                        expect(linkedBrokerManager.calls.count).to(equal(1))
                     }
                     
                     // FIX: itBehavesLike("authenticating the broker") {["controller": controller, "linkedBroker": relinkedBroker, "nav": nav]}
@@ -178,7 +172,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                 }
 
                 it("uses the linkedBrokerManager to link the account") {
-                    let linkCalls = linkedBrokerManager.calls.forMethod("linkBroker(authInfo:onSuccess:onFailure:)")
+                    let linkCalls = linkedBrokerManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")
 
                     expect(linkCalls.count).to(equal(1))
                     expect(linkedBrokerManager.calls.count).to(equal(1))
@@ -202,7 +196,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     var linkedBroker: FakeTradeItLinkedBroker!
 
                     beforeEach {
-                        let onSuccess = linkedBrokerManager.calls.forMethod("linkBroker(authInfo:onSuccess:onFailure:)")[0].args["onSuccess"] as! ((TradeItLinkedBroker) -> Void)
+                        let onSuccess = linkedBrokerManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! ((TradeItLinkedBroker) -> Void)
                         
                         linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(),
                                                            linkedLogin: TradeItLinkedLogin(label: "",
@@ -211,13 +205,7 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                                                                                            andKeyChainId: ""))
                         onSuccess(linkedBroker)
                     }
-                    
-                    it("authenticates the linkedBroker") {
-                        let linkCalls = linkedBroker.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")
-                        expect(linkCalls.count).to(equal(1))
-                        expect(linkedBrokerManager.calls.count).to(equal(1))
-                    }
-                    
+
                     // FIX: itBehavesLike("authenticating the broker") {["controller": controller, "linkedBroker": linkedBroker, "nav": nav]}
                     
                     

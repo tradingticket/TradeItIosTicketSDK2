@@ -192,7 +192,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         self.order.symbol = selectedSymbol
         updateSymbolView()
         updateTradingBrokerAccountView()
-        symbolSearchViewController.navigationController?.popViewController(animated: true)
+        _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: TradeItAccountSelectionViewControllerDelegate
@@ -201,7 +201,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
 
         accountSelected(linkedBrokerAccount: linkedBrokerAccount)
-        accountSelectionViewController.navigationController?.popViewController(animated: true)
+        _ = accountSelectionViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private - Order changed handlers

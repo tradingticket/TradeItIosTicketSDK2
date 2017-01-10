@@ -190,17 +190,24 @@ import PromiseKit
 
     public func linkBroker(authInfo: TradeItAuthenticationInfo,
                            onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                           onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                               _ submitAnswer: @escaping (String) -> Void,
+                               _ onCancelSecurityQuestion: @escaping () -> Void
+                           ) -> Void,
                            onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.connector.linkBroker(with: authInfo) { authResult in
             switch authResult {
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let authResult as TradeItAuthLinkResult:
-                self.saveLinkedBrokerToKeychain(userId: authResult.userId,
-                                                userToken: authResult.userToken,
-                                                broker: authInfo.broker,
-                                                onSuccess: onSuccess,
-                                                onFailure: onFailure)
+                self.saveLinkedBrokerToKeychain(
+                    userId: authResult.userId,
+                    userToken: authResult.userToken,
+                    broker: authInfo.broker,
+                    onSuccess: onSuccess,
+                    onSecurityQuestion: onSecurityQuestion,
+                    onFailure: onFailure
+                )
             default:
                 onFailure(TradeItErrorResult(title: "Keychain error"))
             }
@@ -212,11 +219,16 @@ import PromiseKit
                            userToken: String,
                            broker: String,
                            onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                           onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                _ submitAnswer: @escaping (String) -> Void,
+                                _ onCancelSecurityQuestion: @escaping () -> Void
+                            ) -> Void,
                            onFailure: @escaping (TradeItErrorResult) -> Void) {
         saveLinkedBrokerToKeychain(userId: userId,
                                    userToken: userToken,
                                    broker: broker,
                                    onSuccess: onSuccess,
+                                   onSecurityQuestion: onSecurityQuestion,
                                    onFailure: onFailure)
     }
 
@@ -318,14 +330,25 @@ import PromiseKit
                                             userToken: String?,
                                             broker: String,
                                             onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+                                            onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                _ submitAnswer: @escaping (String) -> Void,
+                                                _ onCancelSecurityQuestion: @escaping () -> Void
+                                            ) -> Void,
                                             onFailure: @escaping (TradeItErrorResult) -> Void) {
         let linkedLogin = self.connector.saveToKeychain(withUserId: userId, andUserToken: userToken, andBroker: broker, andLabel: broker)
 
         if let linkedLogin = linkedLogin, let userId = userId, let userToken = userToken {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
-            self.linkedBrokers.append(linkedBroker)
-            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
-            onSuccess(linkedBroker)
+
+            linkedBroker.authenticateIfNeeded(
+                onSuccess: {
+                    self.linkedBrokers.append(linkedBroker)
+                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                    onSuccess(linkedBroker)
+                },
+                onSecurityQuestion: onSecurityQuestion,
+                onFailure: onFailure // Question: How do we handle this? Should we remove it from the keychain?
+            )
         } else {
             onFailure(TradeItErrorResult(
                 title: "Keychain error",

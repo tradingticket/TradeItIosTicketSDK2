@@ -317,6 +317,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 print("=====> MANUALLY BUILT LINK!")
                 self.printLinkedBrokers()
             },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelQuestion)
+            },
             onFailure: { errorResult in
                 print("=====> Failed to manually link: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
             }

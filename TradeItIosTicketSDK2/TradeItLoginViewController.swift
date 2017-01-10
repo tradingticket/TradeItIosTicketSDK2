@@ -62,7 +62,7 @@ class TradeItLoginViewController: KeyboardViewController {
             TradeItSDK.linkedBrokerManager.relinkBroker(
                 linkedBrokerToRelink,
                 authInfo: tradeItAuthenticationInfo,
-                onSuccess: self.authenticateBroker,
+                onSuccess: self.brokerLinked,
                 onFailure: { error in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
@@ -72,7 +72,17 @@ class TradeItLoginViewController: KeyboardViewController {
         } else {
             TradeItSDK.linkedBrokerManager.linkBroker(
                 authInfo: tradeItAuthenticationInfo,
-                onSuccess: self.authenticateBroker,
+                onSuccess: self.brokerLinked,
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                    self.activityIndicator.stopAnimating()
+                    self.enableLinkButton()
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelSecurityQuestion
+                    )
+                },
                 onFailure: { error in
                     self.activityIndicator.stopAnimating()
                     self.enableLinkButton()
@@ -92,30 +102,12 @@ class TradeItLoginViewController: KeyboardViewController {
     
     // MARK: Private
 
-    private func authenticateBroker(_ linkedBroker: TradeItLinkedBroker) {
-        linkedBroker.authenticateIfNeeded(
-            onSuccess: {
-                self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
-                self.activityIndicator.stopAnimating()
-                self.enableLinkButton()
-            },
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.activityIndicator.stopAnimating()
-                self.enableLinkButton()
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelSecurityQuestion
-                )
-            },
-            onFailure: { error in
-                TradeItSDK.linkedBrokerManager.unlinkBroker(linkedBroker)
-                self.activityIndicator.stopAnimating()
-                self.enableLinkButton()
-                self.alertManager.showError(error, onViewController: self)
-            }
-        )
+    private func brokerLinked(_ linkedBroker: TradeItLinkedBroker) {
+        self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
+        self.activityIndicator.stopAnimating()
+        self.enableLinkButton()
+
+//      TradeItSDK.linkedBrokerManager.unlinkBroker(linkedBroker) // TODO: Maybe this should move down to the failure case?
     }
 
     private func updateLinkButton() {

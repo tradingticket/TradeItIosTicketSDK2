@@ -8,44 +8,192 @@ struct Section {
 
 struct Action {
     let label: String
+    let action: () -> Void
 }
-
-let sections = [
-    Section(label: "TradeIt Flows", actions: [
-        Action(label: "launchPortfolio"),
-        Action(label: "launchPortfolioForLinkedBrokerAccount"),
-        Action(label: "launchPortfolioForAccountNumber"),
-        Action(label: "launchTrading"),
-        Action(label: "launchTradingWithSymbol"),
-        Action(label: "launchAccountManagement"),
-        Action(label: "launchOAuthFlow"),
-        Action(label: "launchOAuthRelinkFlow"),
-        Action(label: "launchBrokerLinking"),
-        Action(label: "launchBrokerCenter"),
-        Action(label: "launchAccountSelection"),
-        Action(label: "launchAlertQueue")
-    ]),
-    Section(label: "Themes", actions: [
-        Action(label: "setLightTheme"),
-        Action(label: "setDarkTheme"),
-        Action(label: "setCustomTheme")
-    ]),
-    Section(label: "Deep Integration", actions: [
-        Action(label: "manualAuthenticateAll"),
-        Action(label: "manualBalances"),
-        Action(label: "manualPositions"),
-        Action(label: "manualBuildLinkedBroker")
-    ]),
-    Section(label: "Debugging", actions: [
-        Action(label: "deleteLinkedBrokers"),
-        Action(label: "test")
-    ])
-]
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 
+    var sections: [Section]!
     let alertManager: TradeItAlertManager = TradeItAlertManager()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        sections = [
+            Section(
+                label: "TradeIt Flows",
+                actions: [
+                    Action(
+                        label: "launchPortfolio",
+                        action: {
+                            TradeItSDK.launcher.launchPortfolio(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "launchPortfolioForLinkedBrokerAccount",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+
+                            TradeItSDK.launcher.launchPortfolio(
+                                fromViewController: self,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
+                    Action(
+                        label: "launchPortfolioForAccountNumber",
+                        action: {
+                            // brkAcct1 is the account number of the Dummy login
+                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
+                        }
+                    ),
+                    Action(
+                        label: "launchTrading",
+                        action: {
+                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
+                        }
+                    ),
+                    Action(
+                        label: "launchTradingWithSymbol",
+                        action: {
+                            let order = TradeItOrder()
+                            // Any order fields that are set will pre-populate the ticket.
+                            order.symbol = "CMG"
+                            order.quantity = 10
+                            order.action = .sell
+                            order.type = .stopLimit
+                            order.limitPrice = 20
+                            order.stopPrice = 30
+                            order.expiration = .goodUntilCanceled
+                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+                        }
+                    ),
+                    Action(
+                        label: "launchAccountManagement",
+                        action: {
+                            TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "launchOAuthFlow",
+                        action: launchOAuthFlow
+                    ),
+                    Action(
+                        label: "launchOAuthRelinkFlow",
+                        action: launchOAuthRelinkFlow
+                    ),
+                    Action(
+                        label: "launchBrokerLinking",
+                        action: {
+                            TradeItSDK.launcher.launchBrokerLinking(
+                                fromViewController: self,
+                                onLinked: { linkedBroker in
+                                    print("=====> Newly linked broker: \(linkedBroker)")
+                                },
+                                onFlowAborted: {
+                                    print("=====> User aborted linking")
+                                }
+                            )
+                        }
+                    ),
+                    Action(
+                        label: "launchBrokerCenter",
+                        action: {
+                            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "launchAccountSelection",
+                        action: {
+                            TradeItSDK.launcher.launchAccountSelection(
+                                fromViewController: self,
+                                title: "Select account to sync",
+                                onSelected: { selectedLinkedBrokerAccount in
+                                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
+                                }
+                            )
+                        }
+                    ),
+                    Action(
+                        label: "launchAlertQueue",
+                        action: launchAlertQueue
+                    )
+                ]
+            ),
+            Section(
+                label: "Themes",
+                actions: [
+                    Action(
+                        label: "setLightTheme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.light()
+                        }
+                    ),
+                    Action(
+                        label: "setDarkTheme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.dark()
+                        }
+                    ),
+                    Action(
+                        label: "setCustomTheme",
+                        action: {
+                            let customTheme = TradeItTheme()
+                            customTheme.textColor = UIColor.magenta
+                            customTheme.backgroundColor = UIColor.green
+                            TradeItSDK.theme = customTheme
+                        }
+                    )
+                ]
+            ),
+            Section(
+                label: "Deep Integration",
+                actions: [
+                    Action(
+                        label: "manualAuthenticateAll",
+                        action: manualAuthenticateAll
+                    ),
+                    Action(
+                        label: "manualBalances",
+                        action: manualBalances
+                    ),
+                    Action(
+                        label: "manualPositions",
+                        action: manualPositions
+                    ),
+                    Action(
+                        label: "manualBuildLinkedBroker",
+                        action: manualBuildLinkedBroker
+                    )
+                ]
+            ),
+            Section(
+                label: "Debugging",
+                actions: [
+                    Action(
+                        label: "deleteLinkedBrokers",
+                        action: deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "test",
+                        action: test
+                    )
+                ]
+            ),
+            Section(
+                label: "Yahoo",
+                actions: [
+                    Action(
+                        label: "launchOAuthFlow",
+                        action: launchYahooOAuthFlow
+                    )
+                ]
+            )
+        ]
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,87 +201,39 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         printLinkedBrokers()
     }
 
+    func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        self.printLinkedBrokers()
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Great Success!",
+            withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
+            withActionTitle: "OK"
+        )
+    }
+
+    func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        self.printLinkedBrokers()
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Great Success!",
+            withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
+            withActionTitle: "OK",
+            onAlertActionTapped: {
+                print("=====> OK!")
+
+                if let oAuthConfirmationScreen = TradeItSDK.yahooLauncher.getOAuthConfirmationScreen(withLinkedBroker: linkedBroker) {
+                    self.navigationController?.pushViewController(oAuthConfirmationScreen, animated: true)
+                } else {
+                    print("=====> Yahoo OAuth flow could not launch confirmation screen!")
+                }
+            }
+        )
+    }
+
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch sections[indexPath.section].actions[indexPath.row].label {
-        case "test":
-            test()
-        case "launchPortfolio":
-            TradeItSDK.launcher.launchPortfolio(fromViewController: self)
-        case "launchPortfolioForLinkedBrokerAccount":
-            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
-                return print("=====> You must link a broker with an account first")
-            }
-            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forLinkedBrokerAccount: linkedBrokerAccount)
-        case "launchPortfolioForAccountNumber": // brkAcct1 is the account number of the Dummy login
-            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
-        case "launchTrading":
-            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
-        case "launchTradingWithSymbol":
-            let order = TradeItOrder()
-            // Any order fields that are set will pre-populate the ticket.
-            order.symbol = "CMG"
-            order.quantity = 10
-            order.action = .sell
-            order.type = .stopLimit
-            order.limitPrice = 20
-            order.stopPrice = 30
-            order.expiration = .goodUntilCanceled
-            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
-        case "launchAccountManagement":
-            TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
-        case "launchOAuthFlow":
-            self.launchOAuthFlow()
-        case "launchOAuthRelinkFlow":
-            self.launchOAuthRelinkFlow()
-        case "launchBrokerLinking":
-            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self, onLinked: { linkedBroker in
-                print("=====> Newly linked broker: \(linkedBroker)")
-            }, onFlowAborted: {
-                print("=====> User aborted linking")
-            })
-        case "launchBrokerCenter":
-            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
-        case "launchAccountSelection":
-            TradeItSDK.launcher.launchAccountSelection(
-                fromViewController: self,
-                title: "Select account to sync",
-                onSelected: { selectedLinkedBrokerAccount in
-                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
-                }
-            )
-        case "setLightTheme":
-            TradeItSDK.theme = TradeItTheme.light()
-        case "setDarkTheme":
-            TradeItSDK.theme = TradeItTheme.dark()
-        case "setCustomTheme":
-            let customTheme = TradeItTheme()
-            customTheme.textColor = UIColor.brown
-            TradeItSDK.theme = customTheme
-        case "manualAuthenticateAll":
-            self.manualAuthenticateAll()
-        case "manualBalances":
-            self.manualBalances()
-        case "manualPositions":
-            self.manualPositions()
-        case "manualBuildLinkedBroker":
-            self.manualBuildLinkedBroker()
-        case "launchAlertQueue":
-            self.launchAlertQueue()
-        case "deleteLinkedBrokers":
-            self.deleteLinkedBrokers()
-        default:
-            return
-        }
-    }
-
-    func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.printLinkedBrokers()
-        self.alertManager.showAlert(onViewController: self,
-                                    withTitle: "Great Success!",
-                                    withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
-                                    withActionTitle: "OK")
+        sections[indexPath.section].actions[indexPath.row].action()
     }
 
     // MARK: UITableViewDataSource
@@ -164,20 +264,36 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
 
-    // MARK: TradeItOAuthDelegate
-
-    func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String) {
-        print("=====> Linked \(linkedBroker.brokerName) with userId: \(userId), userToken: \(userToken)")
-    }
-
-    func didUnlink(linkedBroker: TradeItLinkedBroker) {
-        print("=====> Unlinked \(linkedBroker.brokerName)")
-    }
-
     // MARK: Private
 
     private func test() {
-        // Put code you want to test here...
+        // Placeholder method for testing random code
+    }
+
+    private func launchYahooOAuthFlow() {
+        print("=====> launchYahooOAuthFlow")
+
+        let broker = "dummy"
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: broker,
+            deepLinkCallback: "tradeItExampleScheme://completeYahooOAuth",
+            onSuccess: { url in
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "OAuthPopupUrl for Linking \(broker)",
+                    withMessage: "URL: \(url)",
+                    withActionTitle: "Make it so!",
+                    onAlertActionTapped: {
+                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                    },
+                    showCancelAction: false
+                )
+            },
+            onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+            }
+        )
     }
 
     private func manualBuildLinkedBroker() {
@@ -220,8 +336,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
                         UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    }, showCancelAction: false)
-            }, onFailure: { errorResult in
+                    },
+                    showCancelAction: false
+                )
+            },
+            onFailure: { errorResult in
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
@@ -254,9 +373,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
                         UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    }, showCancelAction: false
+                    },
+                    showCancelAction: false
                 )
-            }, onFailure: { errorResult in
+            },
+            onFailure: { errorResult in
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
@@ -276,19 +397,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualAuthenticateAll() {
-        TradeItSDK.linkedBrokerManager.authenticateAll(onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelQuestion)
-        }, onFinished: {
-            self.alertManager.showAlert(
-                onViewController: self,
-                withTitle: "authenticateAll finished",
-                withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
-                withActionTitle: "OK")
-        })
+        TradeItSDK.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelQuestion)
+            },
+            onFinished: {
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "authenticateAll finished",
+                    withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
+                    withActionTitle: "OK")
+            }
+        )
     }
 
     private func manualBalances() {

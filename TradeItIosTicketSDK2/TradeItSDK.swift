@@ -4,6 +4,7 @@
     private static var configured = false
     public static let launcher = TradeItLauncher()
     public static var theme: TradeItTheme = TradeItTheme.light()
+    public static let yahooLauncher = TradeItYahooLauncher()
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?

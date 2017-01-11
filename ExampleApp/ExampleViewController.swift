@@ -50,27 +50,24 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 //                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
 //                        }
 //                    ),
-                    Action(
-                        label: "launchTrading",
-                        action: {
-                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
-                        }
-                    ),
 //                    Action(
-//                        label: "launchTradingWithSymbol",
+//                        label: "launchTrading",
 //                        action: {
-//                            let order = TradeItOrder()
-//                            // Any order fields that are set will pre-populate the ticket.
-//                            order.symbol = "CMG"
-//                            order.quantity = 10
-//                            order.action = .sell
-//                            order.type = .stopLimit
-//                            order.limitPrice = 20
-//                            order.stopPrice = 30
-//                            order.expiration = .goodUntilCanceled
-//                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+//                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
 //                        }
 //                    ),
+                    Action(
+                        label: "launchTradingWithSymbol",
+                        action: {
+                            let order = TradeItOrder()
+                            // Any order fields that are set will pre-populate the ticket.
+                            order.symbol = "CMG"
+                            order.action = .buy
+                            order.type = .market
+                            order.expiration = .goodForDay
+                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+                        }
+                    ),
                     Action(
                         label: "launchAccountManagement",
                         action: {
@@ -78,12 +75,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "launchOAuthFlow",
-                        action: launchOAuthFlow
+                        label: "launchDummyOAuthFlow",
+                        action: {
+                            self.launchOAuthFlow(forBroker: "dummy")
+                        }
                     ),
                     Action(
                         label: "launchTradeKingOAuthFlow",
-                        action: launchTradeKingOAuthFlow
+                        action: {
+                            self.launchOAuthFlow(forBroker: "tradeking")
+                        }
                     ),
 //                    Action(
 //                        label: "launchOAuthRelinkFlow",
@@ -327,8 +328,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    private func launchOAuthFlow() {
-        let broker = "dummy"
+    private func launchOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
             deepLinkCallback: "tradeItExampleScheme://completeOAuth",
@@ -348,30 +348,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
-        )
-    }
-
-    private func launchTradeKingOAuthFlow() {
-        let broker = "tradeking"
-        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
-            withBroker: broker,
-            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
-            onSuccess: { url in
-                self.alertManager.showAlert(
-                    onViewController: self,
-                    withTitle: "OAuthPopupUrl for Linking \(broker)",
-                    withMessage: "URL: \(url)",
-                    withActionTitle: "Make it so!",
-                    onAlertActionTapped: {
-                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                },
-                    showCancelAction: false
-                )
-        },
-            onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
-        }
         )
     }
 

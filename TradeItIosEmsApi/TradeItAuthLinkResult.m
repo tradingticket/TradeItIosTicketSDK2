@@ -11,7 +11,7 @@
 @implementation TradeItAuthLinkResult
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"TradeItAuthLinkResult: %@ userId=%@  userToken=%@",[super description],self.userId, self.userToken];
+    return [NSString stringWithFormat:@"TradeItAuthLinkResult: %@ broker=%@ userId=%@ userToken=%@",[super description], self.broker, self.userId, self.userToken];
 }
 
 @end

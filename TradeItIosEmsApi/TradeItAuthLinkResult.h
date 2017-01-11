@@ -13,6 +13,7 @@
 
 @property (nullable) NSString *userId;
 @property (nullable) NSString *userToken;
+@property (nullable) NSString *broker;
 
 - (NSString * _Nonnull)description;
 

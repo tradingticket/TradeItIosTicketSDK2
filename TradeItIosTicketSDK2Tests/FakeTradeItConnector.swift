@@ -5,7 +5,7 @@ class FakeTradeItConnector: TradeItConnector {
     var tradeItLinkedLoginToReturn: TradeItLinkedLogin!
     var tradeItLinkedLoginArrayToReturn: [TradeItLinkedLogin] = []
 
-    override func getAvailableBrokers(completionBlock: (([TradeItBroker]?) -> Void)?) {
+    override func getAvailableBrokers(completionBlock: (([TradeItBroker]?) -> Void)!) {
         self.calls.record(#function, args: [
             "completionBlock": completionBlock
         ])
@@ -18,30 +18,23 @@ class FakeTradeItConnector: TradeItConnector {
             "andCompletionBlock": andCompletionBlock
         ])
     }
-    
-    override func saveToKeychain(withLink link: TradeItAuthLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin? {
+
+    override func addOrUpdateLinkedBrokerInKeychain(withUserId userId: String!, andUserToken userToken: String!, andBroker broker: String!) -> TradeItLinkedLogin? {
         self.calls.record(#function, args: [
-            "link": link,
+            "userId": userId,
+            "userToken": userToken,
             "broker": broker
         ])
 
         return tradeItLinkedLoginToReturn
     }
-    
+
     override func getLinkedLogins() -> [Any]? {
         self.calls.record(#function)
         return tradeItLinkedLoginArrayToReturn as [TradeItLinkedLogin]
     }
-    
-    override func updateKeychain(withLink link: TradeItAuthLinkResult?, withBroker broker: String?) -> TradeItLinkedLogin? {
-        self.calls.record(#function, args: [
-            "link": link,
-            "broker": broker
-        ])
-        return tradeItLinkedLoginToReturn
-    }
-    
-    override func updateUserToken(_ linkedLogin: TradeItLinkedLogin?, authInfo: TradeItAuthenticationInfo?, andCompletionBlock completionBlock: ((TradeItResult?) -> Void)?) {
+
+    override func updateUserToken(_ linkedLogin: TradeItLinkedLogin!, authInfo: TradeItAuthenticationInfo!, andCompletionBlock completionBlock: ((TradeItResult?) -> Void)!) {
         self.calls.record(#function, args: [
             "linkedLogin": linkedLogin,
             "authInfo": authInfo,

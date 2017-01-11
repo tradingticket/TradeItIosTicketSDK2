@@ -400,48 +400,42 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     */
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-        NSHTTPURLResponse *response;
-        NSError *error;
-        NSData *responseJsonData = [NSURLConnection sendSynchronousRequest:request
-                                                         returningResponse:&response
-                                                                     error:&error];
+        NSURLSession *session = [NSURLSession sharedSession];
+        [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+            if ((data == nil) || ([httpResponse statusCode] != 200)) {
+                //error occured
+                NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
+                TradeItErrorResult *errorResult = [TradeItErrorResult tradeErrorWithSystemMessage:@"error sending request to ems server"];
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    completionBlock(errorResult, nil);
+                });
 
-        if ((responseJsonData == nil) || ([response statusCode] != 200)) {
-            //error occured
-            NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
-            TradeItErrorResult *errorResult = [TradeItErrorResult tradeErrorWithSystemMessage:@"error sending request to ems server"];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                completionBlock(errorResult, nil);
-            });
-
-            return;
-        }
-        
-        NSMutableString *jsonResponse = [[NSMutableString alloc] initWithData:responseJsonData encoding:NSUTF8StringEncoding];
-
-        /*
-        NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
-        NSLog(jsonResponse);
-        */
-
-        //first convert to a generic result to check the type
-        TradeItResult *tradeItResult = [TradeItJsonConverter buildResult:[TradeItResult alloc]
-                                                               jsonString:jsonResponse];
-        // TODO: Remove?
-        if ([tradeItResult.status isEqual:@"ERROR"]) {
-            TradeItErrorResult * errorResult;
-            
-            if (![tradeItResult isKindOfClass:[TradeItErrorResult class]]) {
-                errorResult = (TradeItErrorResult *)[TradeItJsonConverter buildResult:[TradeItErrorResult alloc]
-                                                                           jsonString:jsonResponse];
-            } else {
-                errorResult = (TradeItErrorResult *) tradeItResult; //this type of error caused by something wrong parsing the response
+                return;
             }
-            
-            tradeItResult = errorResult;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(),^(void){completionBlock(tradeItResult, jsonResponse);});
+
+            NSMutableString *jsonResponse = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+//             NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
+//             NSLog(jsonResponse);
+
+            //first convert to a generic result to check the type
+            TradeItResult *tradeItResult = [TradeItJsonConverter buildResult:[TradeItResult alloc]
+                                                                  jsonString:jsonResponse];
+
+            if ([tradeItResult.status isEqual:@"ERROR"]) {
+                TradeItErrorResult * errorResult;
+
+                if (![tradeItResult isKindOfClass:[TradeItErrorResult class]]) {
+                    errorResult = (TradeItErrorResult *)[TradeItJsonConverter buildResult:[TradeItErrorResult alloc]
+                                                                               jsonString:jsonResponse];
+                } else {
+                    errorResult = (TradeItErrorResult *) tradeItResult; //this type of error caused by something wrong parsing the response
+                }
+                tradeItResult = errorResult;
+            }
+            dispatch_async(dispatch_get_main_queue(),^(void){completionBlock(tradeItResult, jsonResponse);});
+        }] resume];
     });
 }
 

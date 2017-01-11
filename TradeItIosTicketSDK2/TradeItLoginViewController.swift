@@ -116,8 +116,6 @@ class TradeItLoginViewController: KeyboardViewController {
         self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
         self.activityIndicator.stopAnimating()
         self.enableLinkButton()
-
-//      TradeItSDK.linkedBrokerManager.unlinkBroker(linkedBroker) // TODO: Maybe this should move down to the failure case?
     }
 
     private func updateLinkButton() {

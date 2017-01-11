@@ -288,7 +288,11 @@ import PromiseKit
                             onSuccess(linkedBroker)
                         },
                         onSecurityQuestion: onSecurityQuestion,
-                        onFailure: onFailure
+                        onFailure: { error in
+                            // Consider a success because linking succeeded. Just not able to authenticate after.
+                            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                            onSuccess(linkedBroker)
+                        }
                     )
                 } else {
                     let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
@@ -353,7 +357,11 @@ import PromiseKit
                     onSuccess(linkedBroker)
                 },
                 onSecurityQuestion: onSecurityQuestion,
-                onFailure: onFailure // Question: How do we handle this? Should we remove it from the keychain?
+                onFailure: { error in
+                    // Consider a success because linking succeeded. Just not able to authenticate after.
+                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                    onSuccess(linkedBroker)
+                }
             )
         } else {
             onFailure(TradeItErrorResult(

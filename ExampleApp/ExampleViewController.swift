@@ -30,47 +30,47 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self)
                         }
                     ),
-                    Action(
-                        label: "launchPortfolioForLinkedBrokerAccount",
-                        action: {
-                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
-                                return print("=====> You must link a broker with an account first")
-                            }
-
-                            TradeItSDK.launcher.launchPortfolio(
-                                fromViewController: self,
-                                forLinkedBrokerAccount: linkedBrokerAccount
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "launchPortfolioForAccountNumber",
-                        action: {
-                            // brkAcct1 is the account number of the Dummy login
-                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
-                        }
-                    ),
+//                    Action(
+//                        label: "launchPortfolioForLinkedBrokerAccount",
+//                        action: {
+//                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+//                                return print("=====> You must link a broker with an account first")
+//                            }
+//
+//                            TradeItSDK.launcher.launchPortfolio(
+//                                fromViewController: self,
+//                                forLinkedBrokerAccount: linkedBrokerAccount
+//                            )
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchPortfolioForAccountNumber",
+//                        action: {
+//                            // brkAcct1 is the account number of the Dummy login
+//                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
+//                        }
+//                    ),
                     Action(
                         label: "launchTrading",
                         action: {
                             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
                         }
                     ),
-                    Action(
-                        label: "launchTradingWithSymbol",
-                        action: {
-                            let order = TradeItOrder()
-                            // Any order fields that are set will pre-populate the ticket.
-                            order.symbol = "CMG"
-                            order.quantity = 10
-                            order.action = .sell
-                            order.type = .stopLimit
-                            order.limitPrice = 20
-                            order.stopPrice = 30
-                            order.expiration = .goodUntilCanceled
-                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
-                        }
-                    ),
+//                    Action(
+//                        label: "launchTradingWithSymbol",
+//                        action: {
+//                            let order = TradeItOrder()
+//                            // Any order fields that are set will pre-populate the ticket.
+//                            order.symbol = "CMG"
+//                            order.quantity = 10
+//                            order.action = .sell
+//                            order.type = .stopLimit
+//                            order.limitPrice = 20
+//                            order.stopPrice = 30
+//                            order.expiration = .goodUntilCanceled
+//                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+//                        }
+//                    ),
                     Action(
                         label: "launchAccountManagement",
                         action: {
@@ -82,94 +82,98 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: launchOAuthFlow
                     ),
                     Action(
-                        label: "launchOAuthRelinkFlow",
-                        action: launchOAuthRelinkFlow
+                        label: "launchTradeKingOAuthFlow",
+                        action: launchTradeKingOAuthFlow
                     ),
-                    Action(
-                        label: "launchBrokerLinking",
-                        action: {
-                            TradeItSDK.launcher.launchBrokerLinking(
-                                fromViewController: self,
-                                onLinked: { linkedBroker in
-                                    print("=====> Newly linked broker: \(linkedBroker)")
-                                },
-                                onFlowAborted: {
-                                    print("=====> User aborted linking")
-                                }
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "launchBrokerCenter",
-                        action: {
-                            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
-                        }
-                    ),
-                    Action(
-                        label: "launchAccountSelection",
-                        action: {
-                            TradeItSDK.launcher.launchAccountSelection(
-                                fromViewController: self,
-                                title: "Select account to sync",
-                                onSelected: { selectedLinkedBrokerAccount in
-                                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
-                                }
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "launchAlertQueue",
-                        action: launchAlertQueue
-                    )
+//                    Action(
+//                        label: "launchOAuthRelinkFlow",
+//                        action: launchOAuthRelinkFlow
+//                    ),
+//                    Action(
+//                        label: "launchBrokerLinking",
+//                        action: {
+//                            TradeItSDK.launcher.launchBrokerLinking(
+//                                fromViewController: self,
+//                                onLinked: { linkedBroker in
+//                                    print("=====> Newly linked broker: \(linkedBroker)")
+//                                },
+//                                onFlowAborted: {
+//                                    print("=====> User aborted linking")
+//                                }
+//                            )
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchBrokerCenter",
+//                        action: {
+//                            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchAccountSelection",
+//                        action: {
+//                            TradeItSDK.launcher.launchAccountSelection(
+//                                fromViewController: self,
+//                                title: "Select account to sync",
+//                                onSelected: { selectedLinkedBrokerAccount in
+//                                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
+//                                }
+//                            )
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchAlertQueue",
+//                        action: launchAlertQueue
+//                    )
                 ]
             ),
-            Section(
-                label: "Themes",
-                actions: [
-                    Action(
-                        label: "setLightTheme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.light()
-                        }
-                    ),
-                    Action(
-                        label: "setDarkTheme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.dark()
-                        }
-                    ),
-                    Action(
-                        label: "setCustomTheme",
-                        action: {
-                            let customTheme = TradeItTheme()
-                            customTheme.textColor = UIColor.magenta
-                            customTheme.backgroundColor = UIColor.green
-                            TradeItSDK.theme = customTheme
-                        }
-                    )
-                ]
-            ),
-            Section(
-                label: "Deep Integration",
-                actions: [
-                    Action(
-                        label: "manualAuthenticateAll",
-                        action: manualAuthenticateAll
-                    ),
-                    Action(
-                        label: "manualBalances",
-                        action: manualBalances
-                    ),
-                    Action(
-                        label: "manualPositions",
-                        action: manualPositions
-                    ),
-                    Action(
-                        label: "manualBuildLinkedBroker",
-                        action: manualBuildLinkedBroker
-                    )
-                ]
-            ),
+//            Section(
+//                label: "Themes",
+//                actions: [
+//                    Action(
+//                        label: "setLightTheme",
+//                        action: {
+//                            TradeItSDK.theme = TradeItTheme.light()
+//                        }
+//                    ),
+//                    Action(
+//                        label: "setDarkTheme",
+//                        action: {
+//                            TradeItSDK.theme = TradeItTheme.dark()
+//                        }
+//                    ),
+//                    Action(
+//                        label: "setCustomTheme",
+//                        action: {
+//                            let customTheme = TradeItTheme()
+//                            customTheme.textColor = UIColor.magenta
+//                            customTheme.backgroundColor = UIColor.green
+//                            TradeItSDK.theme = customTheme
+//                        }
+//                    )
+//                ]
+//            ),
+//            Section(
+//                label: "Deep Integration",
+//                actions: [
+//                    Action(
+//                        label: "manualAuthenticateAll",
+//                        action: manualAuthenticateAll
+//                    ),
+//                    Action(
+//                        label: "manualBalances",
+//                        action: manualBalances
+//                    ),
+//                    Action(
+//                        label: "manualPositions",
+//                        action: manualPositions
+//                    ),
+//                    Action(
+//                        label: "manualBuildLinkedBroker",
+//                        action: manualBuildLinkedBroker
+//                    )
+//                ]
+//            ),
             Section(
                 label: "Debugging",
                 actions: [
@@ -177,21 +181,21 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         label: "deleteLinkedBrokers",
                         action: deleteLinkedBrokers
                     ),
-                    Action(
-                        label: "test",
-                        action: test
-                    )
+//                    Action(
+//                        label: "test",
+//                        action: test
+//                    )
                 ]
             ),
-            Section(
-                label: "Yahoo",
-                actions: [
-                    Action(
-                        label: "launchOAuthFlow",
-                        action: launchYahooOAuthFlow
-                    )
-                ]
-            )
+//            Section(
+//                label: "Yahoo",
+//                actions: [
+//                    Action(
+//                        label: "launchOAuthFlow",
+//                        action: launchYahooOAuthFlow
+//                    )
+//                ]
+//            )
         ]
     }
 
@@ -344,6 +348,30 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.alertManager.showError(errorResult,
                                             onViewController: self)
             }
+        )
+    }
+
+    private func launchTradeKingOAuthFlow() {
+        let broker = "tradeking"
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: broker,
+            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
+            onSuccess: { url in
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "OAuthPopupUrl for Linking \(broker)",
+                    withMessage: "URL: \(url)",
+                    withActionTitle: "Make it so!",
+                    onAlertActionTapped: {
+                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                },
+                    showCancelAction: false
+                )
+        },
+            onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+        }
         )
     }
 

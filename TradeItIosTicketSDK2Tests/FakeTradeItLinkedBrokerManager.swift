@@ -10,26 +10,38 @@ class FakeTradeItLinkedBrokerManager: TradeItLinkedBrokerManager {
         super.init(apiKey: "My test api key", environment: TradeItEmsTestEnv)
     }
     
-    override func linkBroker(authInfo: TradeItAuthenticationInfo,
-                                      onSuccess: @escaping (TradeItLinkedBroker) -> Void,
-                                      onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+    override func linkBroker(
+        authInfo: TradeItAuthenticationInfo,
+        onSuccess: @escaping (TradeItLinkedBroker) -> Void,
+        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+
         self.calls.record(#function,
                           args: [
                               "authInfo": authInfo,
                               "onSuccess": onSuccess,
+                              "onSecurityQuestion": onSecurityQuestion,
                               "onFailure": onFailure
                           ])
     }
     
-    override func relinkBroker(_ linkedBroker: TradeItLinkedBroker,
-                               authInfo: TradeItAuthenticationInfo,
-                               onSuccess: @escaping (TradeItLinkedBroker) -> Void,
-                               onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+    override func relinkBroker(
+        _ linkedBroker: TradeItLinkedBroker,
+        authInfo: TradeItAuthenticationInfo,
+        onSuccess: @escaping (TradeItLinkedBroker) -> Void,
+        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+
         self.calls.record(#function,
                           args: [
                             "linkedBroker": linkedBroker,
                             "authInfo": authInfo,
                             "onSuccess": onSuccess,
+                            "onSecurityQuestion": onSecurityQuestion,
                             "onFailure": onFailure
             ])
     }

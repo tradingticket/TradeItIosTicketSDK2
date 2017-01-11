@@ -79,7 +79,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     ),
                     Action(
                         label: "launchOAuthFlow",
-                        action: launchOAuthFlow
+                        action: {
+                            self.launchOAuthFlow()
+                        }
                     ),
                     Action(
                         label: "launchOAuthRelinkFlow",
@@ -188,7 +190,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 actions: [
                     Action(
                         label: "launchOAuthFlow",
-                        action: launchYahooOAuthFlow
+                        action: {
+                            self.launchYahooOAuthFlow()
+                        }
                     )
                 ]
             )
@@ -270,10 +274,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         // Placeholder method for testing random code
     }
 
-    private func launchYahooOAuthFlow() {
-        print("=====> launchYahooOAuthFlow")
-
-        let broker = "dummy"
+    private func launchYahooOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
             deepLinkCallback: "tradeItExampleScheme://completeYahooOAuth",
@@ -330,8 +331,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    private func launchOAuthFlow() {
-        let broker = "dummy"
+    private func launchOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
             deepLinkCallback: "tradeItExampleScheme://completeOAuth",

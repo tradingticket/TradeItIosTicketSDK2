@@ -35,9 +35,14 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
     // MARK: Private
 
     private func initializeLinkedAccount(forOrder order: TradeItOrder) {
-        let enabledAccounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
+        if order.linkedBrokerAccount == nil {
+            let enabledAccounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
 
-        order.linkedBrokerAccount = enabledAccounts.first
+            // If there is only one enabled account, auto-select it
+            if enabledAccounts.count == 1 {
+                order.linkedBrokerAccount = enabledAccounts.first
+            }
+        }
     }
 
     private func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {

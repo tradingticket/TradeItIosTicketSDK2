@@ -193,6 +193,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             self.launchYahooOAuthFlow()
                         }
+                    ),
+                    Action(
+                        label: "Launch Trading",
+                        action: {
+                            let order = TradeItOrder()
+
+                            order.symbol = "YHOO"
+                            order.action = .buy
+                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+                        }
                     )
                 ]
             )

@@ -15,6 +15,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
+        self.accountsTableView.tableFooterView = UIView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +42,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             },
             onFailure:  { error, linkedBroker in
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
-                    // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
+                        // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
                         onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
                 )

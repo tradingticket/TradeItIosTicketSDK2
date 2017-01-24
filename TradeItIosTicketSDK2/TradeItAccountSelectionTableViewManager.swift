@@ -12,6 +12,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         }
         set(newTable) {
             if let newTable = newTable {
+                newTable.tableFooterView = UIView()
                 newTable.dataSource = self
                 newTable.delegate = self
                 addRefreshControl(toTableView: newTable)
@@ -26,6 +27,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
 
     // MARK: UITableViewDelegate
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let linkedBroker = self.linkedBrokers[indexPath.section]
         let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
@@ -33,14 +35,15 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
     
     // MARK: UITableViewDataSource
+
     func numberOfSections(in tableView: UITableView) -> Int {
             return self.linkedBrokers.count
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30.0
+        return 55.0
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let linkedBroker = self.linkedBrokers[section]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_HEADER_ID") as! TradeItAccountSelectionTableViewHeader

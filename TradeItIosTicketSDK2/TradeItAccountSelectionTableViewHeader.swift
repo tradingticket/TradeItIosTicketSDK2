@@ -10,6 +10,6 @@ class TradeItAccountSelectionTableViewHeader: UITableViewCell {
     }
     
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.brokerLabel.text = linkedBroker.linkedLogin.broker
+        self.brokerLabel.text = linkedBroker.brokerName
     }
 }

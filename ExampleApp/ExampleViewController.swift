@@ -80,12 +80,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "launchOAuthFlow",
                         action: {
-                            self.launchOAuthFlow()
+                            self.launchOAuthFlow(forBroker: "dummy")
                         }
                     ),
                     Action(
                         label: "launchOAuthRelinkFlow",
-                        action: launchOAuthRelinkFlow
+                        action: self.launchOAuthRelinkFlow
                     ),
                     Action(
                         label: "launchBrokerLinking",
@@ -121,7 +121,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     ),
                     Action(
                         label: "launchAlertQueue",
-                        action: launchAlertQueue
+                        action: self.launchAlertQueue
                     )
                 ]
             ),
@@ -156,19 +156,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 actions: [
                     Action(
                         label: "manualAuthenticateAll",
-                        action: manualAuthenticateAll
+                        action: self.manualAuthenticateAll
                     ),
                     Action(
                         label: "manualBalances",
-                        action: manualBalances
+                        action: self.manualBalances
                     ),
                     Action(
                         label: "manualPositions",
-                        action: manualPositions
+                        action: self.manualPositions
                     ),
                     Action(
                         label: "manualBuildLinkedBroker",
-                        action: manualBuildLinkedBroker
+                        action: self.manualBuildLinkedBroker
                     )
                 ]
             ),
@@ -177,11 +177,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 actions: [
                     Action(
                         label: "deleteLinkedBrokers",
-                        action: deleteLinkedBrokers
+                        action: self.deleteLinkedBrokers
                     ),
                     Action(
                         label: "test",
-                        action: test
+                        action: self.test
                     )
                 ]
             ),
@@ -190,9 +190,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 actions: [
                     Action(
                         label: "launchOAuthFlow",
-                        action: {
-                            self.launchYahooOAuthFlow()
-                        }
+                        action: self.launchYahooOAuthFlow
                     ),
                     Action(
                         label: "Launch Trading",
@@ -233,13 +231,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
             withActionTitle: "OK",
             onAlertActionTapped: {
-                print("=====> OK!")
-
-                if let oAuthConfirmationScreen = TradeItSDK.yahooLauncher.getOAuthConfirmationScreen(withLinkedBroker: linkedBroker) {
-                    self.navigationController?.pushViewController(oAuthConfirmationScreen, animated: true)
-                } else {
-                    print("=====> Yahoo OAuth flow could not launch confirmation screen!")
-                }
+                TradeItSDK.yahooLauncher.launchOAuthConfirmationScreen(fromViewController: self,
+                                                                       withLinkedBroker: linkedBroker)
             }
         )
     }
@@ -284,27 +277,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         // Placeholder method for testing random code
     }
 
-    private func launchYahooOAuthFlow(forBroker broker: String = "dummy") {
-        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
-            withBroker: broker,
-            deepLinkCallback: "tradeItExampleScheme://completeYahooOAuth",
-            onSuccess: { url in
-                self.alertManager.showAlert(
-                    onViewController: self,
-                    withTitle: "OAuthPopupUrl for Linking \(broker)",
-                    withMessage: "URL: \(url)",
-                    withActionTitle: "Make it so!",
-                    onAlertActionTapped: {
-                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    },
-                    showCancelAction: false
-                )
-            },
-            onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
-            }
-        )
+    private func launchYahooOAuthFlow() {
+        TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self, withCallbackUrl: "tradeItExampleScheme://completeYahooOAuth")
     }
 
     private func manualBuildLinkedBroker() {
@@ -344,7 +318,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func launchOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
-            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
+            oAuthCallbackUrl: "tradeItExampleScheme://completeOAuth",
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,

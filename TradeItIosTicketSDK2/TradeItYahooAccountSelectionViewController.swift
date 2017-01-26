@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItYahooAccountSelectionViewController: UIViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
+class TradeItYahooAccountSelectionViewController: CloseableViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
     @IBOutlet weak var accountsTableView: UITableView!
 
     var alertManager = TradeItAlertManager()

@@ -5,73 +5,71 @@ import MBProgressHUD
 class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
 
-    internal weak var delegate: TradeItYahooSelectBrokerViewControllerDelegate?
+//    internal weak var delegate: TradeItYahooSelectBrokerViewControllerDelegate?
+    var activityView: MBProgressHUD?
     var alertManager = TradeItAlertManager()
     var brokers: [TradeItBroker] = []
-//    var selectedBroker: TradeItBroker?
-//    let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        self.selectedBroker = nil
-//
-//        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        activityView.label.text = "Loading Brokers"
-//
-//        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
-//            onSuccess: { availableBrokers in
-//                self.brokers = availableBrokers
-//                activityView.hide(animated: true)
-//                self.brokerTable.reloadData()
-//        },
-//            onFailure: {
-//                self.alertManager.showAlert(
-//                    onViewController: self,
-//                    withTitle: "Could not fetch brokers",
-//                    withMessage: "Could not fetch the brokers list. Please try again later.",
-//                    withActionTitle: "OK"
-//                )
-//                activityView.hide(animated: true)
-//        }
-//        )
-//    }
-//
-//    //MARK: IBAction
-//
-//    @IBAction func openAccountTapped(_ sender: UIButton) {
-//        let brokerCenterViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.brokerCenterView) as! TTSDKBrokerCenterViewController
-//        self.navigationController?.pushViewController(brokerCenterViewController, animated: true)
-//    }
-//
-//    @IBAction func helpLinkWasTapped(_ sender: AnyObject) {
-//        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/faq")
-//    }
-//
-//    @IBAction func privacyLinkWasTapped(_ sender: AnyObject) {
-//        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy")
-//    }
-//
-//    @IBAction func termsLinkWasTapped(_ sender: AnyObject) {
-//        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms")
-//    }
-//
-//
-//    //MARK: private methods
-//
-//    private func showWebView(pageTitle: String, url: String) {
-//        let webViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.webView) as! TradeItWebViewController
-//        webViewController.pageTitle = pageTitle
-//        webViewController.url = url
-//        self.navigationController?.pushViewController(webViewController, animated: true)
-//    }
-//
+    var oAuthCallbackUrl = ""
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.populateBrokers()
+    }
+
+    // MARK: Private
+
+    private func populateBrokers() {
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Loading Brokers"
+
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { availableBrokers in
+                self.brokers = availableBrokers
+                activityView.hide(animated: true)
+                self.brokerTable.reloadData()
+            },
+            onFailure: {
+                self.alertManager.showAlert(
+                    onViewController: self,
+                    withTitle: "Could not fetch brokers",
+                    withMessage: "Could not fetch the brokers list. Please try again later.",
+                    withActionTitle: "OK"
+                )
+                activityView.hide(animated: true)
+            }
+        )
+    }
+
+    private func launchOAuth(forBroker broker: TradeItBroker) {
+        guard let brokerShortName = broker.brokerShortName else {
+            return
+        }
+
+        self.activityView?.label.text = "Launching broker linking"
+        self.activityView?.show(animated: true)
+
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: brokerShortName,
+            oAuthCallbackUrl: self.oAuthCallbackUrl,
+            onSuccess: { url in
+                self.activityView?.hide(animated: true)
+                UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                self.dismiss(animated: true)
+            },
+            onFailure: { errorResult in
+                self.alertManager.showError(errorResult,
+                                            onViewController: self)
+            }
+        )
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.selectedBroker = self.brokers[indexPath.row]
-//        self.brokerTable.deselectRow(at: indexPath, animated: true)
-//        self.delegate?.brokerWasSelected(self, broker: self.selectedBroker!)
+        let selectedBroker = self.brokers[indexPath.row]
+        self.brokerTable.deselectRow(at: indexPath, animated: true)
+        self.launchOAuth(forBroker: selectedBroker)
     }
 
     // MARK: UITableViewDataSource
@@ -81,32 +79,22 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
-//        let brokerCellIdentifier = "BROKER_CELL_IDENTIFIER"
-//
-//        var cell = tableView.dequeueReusableCell(withIdentifier: brokerCellIdentifier)
-//
-//        if cell == nil {
-//            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: brokerCellIdentifier)
-//        }
-//
-//        if let brokerLongName = self.brokers[indexPath.row].brokerLongName {
-//            cell?.textLabel?.text = brokerLongName
-//        }
-//
-//        TradeItThemeConfigurator.configure(view: cell)
-//
-//        return cell!
+        let broker = self.brokers[indexPath.row]
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
+        cell.textLabel?.text = broker.brokerLongName
+
+        return cell
     }
-//
+
 //    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
 //        super.closeButtonWasTapped(sender)
 //        self.delegate?.cancelWasTapped(fromSelectBrokerViewController: self)
 //    }
 }
 
-protocol TradeItYahooSelectBrokerViewControllerDelegate: class {
-    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItYahooSelectBrokerViewControllerDelegate, broker: TradeItBroker)
-
-    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
-}
+//protocol TradeItYahooSelectBrokerViewControllerDelegate: class {
+//    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItYahooSelectBrokerViewController, broker: TradeItBroker)
+//
+//    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
+//}

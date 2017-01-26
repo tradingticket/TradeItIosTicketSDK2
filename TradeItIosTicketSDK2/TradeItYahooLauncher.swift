@@ -4,17 +4,25 @@
     let tradingUIFlow = TradeItYahooTradingUIFlow()
 
     override internal init() {}
-
-    // TODO: Change get to launch using presentView
-    public func getOAuthConfirmationScreen(withLinkedBroker linkedBroker: TradeItLinkedBroker) -> TradeItYahooBrokerLinkedViewController? {
-        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView) as? TradeItYahooBrokerLinkedViewController
-
-        viewController?.linkedBroker = linkedBroker
-
-        return viewController
+    
+    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: String) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
+        
+        if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
+            brokerSelectionViewController.oAuthCallbackUrl = callbackUrl
+            viewController.present(navController, animated: true)
+        }
     }
 
-    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) -> Void {
+    public func launchOAuthConfirmationScreen(fromViewController viewController: UIViewController,
+                                              withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        if let brokerLinkedViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView) as? TradeItYahooBrokerLinkedViewController {
+            brokerLinkedViewController.linkedBroker = linkedBroker
+            viewController.present(brokerLinkedViewController, animated: true)
+        }
+    }
+
+    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 print("Access granted")

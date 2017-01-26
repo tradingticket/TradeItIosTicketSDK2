@@ -16,9 +16,11 @@
 
     public func launchOAuthConfirmationScreen(fromViewController viewController: UIViewController,
                                               withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        if let brokerLinkedViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView) as? TradeItYahooBrokerLinkedViewController {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView)
+
+        if let brokerLinkedViewController = navController.viewControllers.last as? TradeItYahooBrokerLinkedViewController {
             brokerLinkedViewController.linkedBroker = linkedBroker
-            viewController.present(brokerLinkedViewController, animated: true)
+            viewController.present(navController, animated: true)
         }
     }
 

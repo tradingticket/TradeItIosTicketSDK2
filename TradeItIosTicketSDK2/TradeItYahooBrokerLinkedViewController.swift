@@ -1,6 +1,6 @@
 import UIKit
 
-@objc public class TradeItYahooBrokerLinkedViewController: UIViewController {
+@objc class TradeItYahooBrokerLinkedViewController: CloseableViewController {
     @IBOutlet weak var brokerLabel: UILabel!
     var linkedBroker: TradeItLinkedBroker?
     var delegate: TradeItYahooBrokerLinkedViewControllerDelegate?
@@ -25,6 +25,6 @@ import UIKit
     }
 }
 
-@objc public protocol TradeItYahooBrokerLinkedViewControllerDelegate {
+@objc protocol TradeItYahooBrokerLinkedViewControllerDelegate {
     func viewPortfolioButtonTapped(fromViewController viewController: TradeItYahooBrokerLinkedViewController)
 }

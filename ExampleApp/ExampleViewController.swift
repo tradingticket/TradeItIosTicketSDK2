@@ -275,6 +275,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func test() {
         // Placeholder method for testing random code
+
+        let nums = ["", ".", "00", "01", ".10", ".1", "1.", "1..", "1...", "1..1", ".0", "0.", "0.1", "1.0", "1e5", "1x5", "1e", "e5", "NaN"]
+
+        for num in nums {
+            let numericValue = NSDecimalNumber.init(string: num)
+            print("=====> numericValue: [\(num)] -> [\(numericValue)] \(numericValue == NSDecimalNumber.notANumber)")
+        }
     }
 
     private func launchYahooOAuthFlow() {

@@ -51,27 +51,32 @@ class TradeItOrderPriceTypePresenter {
 class TradeItOrderActionPresenter {
     static let DEFAULT: TradeItOrderAction = .buy
     static let ACTIONS: [TradeItOrderAction] = [.buy, .sell, .buyToCover, .sellShort]
-    
+
+    private static let buyDescription = "Buy"
+    private static let sellDescription = "Sell"
+    private static let buyToCoverDescription = "Buy to Cover"
+    private static let sellShortDescription = "Sell Short"
+
     static func labels() -> [String] {
         return ACTIONS.map(labelFor)
     }
-    
+
     static func labelFor(_ type: TradeItOrderAction) -> String {
         switch(type) {
-        case .buy: return "Buy"
-        case .sell: return "Sell"
-        case .buyToCover: return "Buy to Cover"
-        case .sellShort: return "Sell Short"
+        case .buy: return buyDescription
+        case .sell: return sellDescription
+        case .buyToCover: return buyToCoverDescription
+        case .sellShort: return sellShortDescription
         case .unknown: return "Unknown"
         }
     }
     
     static func enumFor(_ type: String) -> TradeItOrderAction {
         switch(type) {
-        case "Buy": return .buy
-        case "Sell": return .sell
-        case "Buy to Cover": return .buyToCover
-        case "Sell Short": return .sellShort
+        case buyDescription: return .buy
+        case sellDescription: return .sell
+        case buyToCoverDescription: return .buyToCover
+        case sellShortDescription: return .sellShort
         default: return .unknown
         }
     }
@@ -81,22 +86,25 @@ class TradeItOrderExpirationPresenter {
     static let DEFAULT: TradeItOrderExpiration = .goodForDay
     static let ACTIONS: [TradeItOrderExpiration] = [.goodForDay, .goodUntilCanceled]
 
+    private static let goodForDayDescription = "Good for day"
+    private static let goodUntilCanceledDescription = "Good until canceled"
+
     static func labels() -> [String] {
         return ACTIONS.map(labelFor)
     }
     
     static func labelFor(_ type: TradeItOrderExpiration) -> String {
         switch(type) {
-        case .goodForDay: return "Good for day"
-        case .goodUntilCanceled: return "Good until canceled"
+        case .goodForDay: return goodForDayDescription
+        case .goodUntilCanceled: return goodUntilCanceledDescription
         case .unknown : return "Unknown"
         }
     }
     
     static func enumFor(_ type: String) -> TradeItOrderExpiration {
         switch(type) {
-        case "Good for day": return .goodForDay
-        case "Good until canceled": return .goodUntilCanceled
+        case goodForDayDescription: return .goodForDay
+        case goodUntilCanceledDescription: return .goodUntilCanceled
         default: return .unknown
         }
     }

@@ -104,8 +104,19 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         }
     }
 
+    private func setReviewButtonEnablement() {
+        if self.order.isValid() {
+            self.reviewOrderButton.isEnabled = true
+            self.reviewOrderButton.alpha = 1.0
+        } else {
+            self.reviewOrderButton.isEnabled = false
+            self.reviewOrderButton.alpha = 0.5
+        }
+    }
+
     private func reloadTicket() {
         self.setTitle()
+        self.setReviewButtonEnablement()
 
         var ticketRows: [TicketRow] = [
             .orderType,
@@ -152,6 +163,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
                     self.reloadEstimatedCostRow()
+                    self.setReviewButtonEnablement()
                 }
             )
         case .limitPrice:
@@ -161,6 +173,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reloadEstimatedCostRow()
+                    self.setReviewButtonEnablement()
                 }
             )
         case .stopPrice:
@@ -170,6 +183,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reloadEstimatedCostRow()
+                    self.setReviewButtonEnablement()
                 }
             )
         case .estimatedCost:
@@ -193,13 +207,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     enum TicketRow {
         //    case account // Account
-        case orderType // Order Type
-        case quantity // Shares
-        case expiration // Time in force
-        case limitPrice // Limit
-        case stopPrice // Stop
+        case orderType
+        case quantity
+        case expiration
+        case limitPrice
+        case stopPrice
         //    case marketPrice // Market Price
-        case estimatedCost // Estimated Cost/Proceeds
+        case estimatedCost
 
         private enum CellReuseId: String {
             case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"

@@ -14,8 +14,11 @@ class TradeItNumericInputCell: UITableViewCell {
                    onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void) {
         self.onValueUpdated = onValueUpdated
         self.textField.placeholder = placeholderText
+
         if let initialValue = initialValue {
             self.textField.text = "\(initialValue)"
+        } else {
+            self.textField.text = nil
         }
     }
 

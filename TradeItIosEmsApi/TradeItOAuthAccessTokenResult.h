@@ -2,4 +2,6 @@
 
 @interface TradeItOAuthAccessTokenResult: TradeItAuthLinkResult
 
+@property (nullable) NSString *broker;
+
 @end

@@ -104,8 +104,15 @@ import PromiseKit
                         onFailure(error)
                     }
                 } else {
+                    guard let broker = oAuthAccessTokenResult.broker else {
+                        let error = TradeItErrorResult(title: "Failed to complete OAuth",
+                                                       message: "Service did not return a broker")
+                        onFailure(error)
+                        return
+                    }
+
                     let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
-                                                                    withBroker: oAuthAccessTokenResult.broker)
+                                                                    withBroker: broker)
                     if let linkedLogin = linkedLogin {
                         let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                         self.linkedBrokers.append(linkedBroker)

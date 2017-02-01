@@ -5,7 +5,6 @@ import PromiseKit
     public weak var oAuthDelegate: TradeItOAuthDelegate?
     var connector: TradeItConnector
     var sessionProvider: TradeItSessionProvider
-    private var currentOAuthBroker: String?
 
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
@@ -32,8 +31,6 @@ import PromiseKit
                                                       interAppAddressCallback: deepLinkCallback) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
-                self.currentOAuthBroker = broker
-
                 guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthURL,
                     !oAuthUrl.isEmpty
                 else {
@@ -60,7 +57,6 @@ import PromiseKit
                                                            interAppAddressCallback: deepLinkCallback) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
-                self.currentOAuthBroker = broker
                 onSuccess(oAuthLoginPopupUrlForTokenUpdateResult.oAuthURL ?? "")
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
@@ -73,15 +69,6 @@ import PromiseKit
     public func completeOAuth(withOAuthVerifier oAuthVerifier: String,
                               onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
                               onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
-        guard self.currentOAuthBroker != nil else {
-            onFailure(TradeItErrorResult(
-                title: "OAuth Error",
-                message: "Cannot complete OAuth, no broker selected"
-            ))
-
-            return
-        }
-
         self.connector.getOAuthAccessToken(withOAuthVerifier: oAuthVerifier) { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
@@ -117,8 +104,15 @@ import PromiseKit
                         onFailure(error)
                     }
                 } else {
+                    guard let broker = oAuthAccessTokenResult.broker else {
+                        let error = TradeItErrorResult(title: "Failed to complete OAuth",
+                                                       message: "Service did not return a broker")
+                        onFailure(error)
+                        return
+                    }
+
                     let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
-                                                                    withBroker: self.currentOAuthBroker)
+                                                                    withBroker: broker)
                     if let linkedLogin = linkedLogin {
                         let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                         self.linkedBrokers.append(linkedBroker)
@@ -141,8 +135,6 @@ import PromiseKit
                     message: "Could not complete OAuth"
                 ))
             }
-
-            self.currentOAuthBroker = nil
         }
     }
 

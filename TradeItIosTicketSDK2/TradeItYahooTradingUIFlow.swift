@@ -53,6 +53,7 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
     }
 
     // MARK: TradeItYahooAccountSelectionViewControllerDelegate
+
     internal func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
                                                  didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
@@ -61,6 +62,25 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
             accountSelectionViewController.navigationController?.setViewControllers([tradingTicketViewController], animated: true)
+        }
+    }
+
+    // MARK: TradeItYahooTradingTicketViewControllerDelegate
+
+    internal func orderSuccessfullyPreviewed(
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        placeOrderCallback: @escaping TradeItPlaceOrderHandlers) {
+
+        let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
+
+        if let previewViewController = previewViewController {
+//            previewViewController.delegate = self
+            previewViewController.linkedBrokerAccount = tradingTicketViewController.order.linkedBrokerAccount
+            previewViewController.previewOrderResult = previewOrderResult
+            previewViewController.placeOrderCallback = placeOrderCallback
+
+            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
         }
     }
 }

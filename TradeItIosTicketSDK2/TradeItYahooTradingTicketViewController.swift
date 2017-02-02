@@ -1,9 +1,11 @@
 import UIKit
+import MBProgressHUD
 
 class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: TradeItYahooTradingTicketTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
+    var alertManager = TradeItAlertManager()
     let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var selectionViewController: TradeItSelectionViewController!
     var order = TradeItOrder()
@@ -75,7 +77,41 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     // MARK: IBActions
 
     @IBAction func reviewOrderButtonTapped(_ sender: UIButton) {
-        print("=====> REVIEW ORDER BUTTON TAPPED: \(self.order)") //AKAKTRACE
+        guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
+            else { return }
+
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                activityView.label.text = "Reviewing Order"
+                self.order.preview(
+                    onSuccess: { previewOrderResult, placeOrderCallback in
+                        activityView.hide(animated: true)
+                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
+                                                                  withPreviewOrderResult: previewOrderResult,
+                                                                  placeOrderCallback: placeOrderCallback)
+                    }, onFailure: { error in
+                        activityView.hide(animated: true)
+                        // TODO: use self.alertManager.showRelinkError
+                        self.alertManager.showError(error, onViewController: self)
+                    }
+                )
+            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }, onFailure: { errorResult in
+                activityView.hide(animated: true)
+                // TODO: use self.alertManager.showRelinkError
+                self.alertManager.showError(errorResult, onViewController: self)
+            }
+        )
     }
 
     // MARK: Private
@@ -266,5 +302,9 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 }
 
 @objc protocol TradeItYahooTradingTicketViewControllerDelegate {
-    
+    func orderSuccessfullyPreviewed(
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
 }

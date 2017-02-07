@@ -1,6 +1,6 @@
 @objc public class TradeItLinkedBrokerAccount: NSObject {
-    public var brokerName: String {
-        return self.linkedBroker.brokerName
+    public var brokerName: String? {
+        return self.linkedBroker?.brokerName
     }
 
     public var accountName = ""
@@ -8,7 +8,7 @@
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
-    unowned var linkedBroker: TradeItLinkedBroker
+    weak var linkedBroker: TradeItLinkedBroker?
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
@@ -41,9 +41,9 @@
         self.fxBalance = fxBalance
         self.positions = positions
         self._enabled = isEnabled
-        self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
-        self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
-        self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
+        self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
+        self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
+        self.tradeService = TradeItTradeService(session: linkedBroker.session)
     }
 
     public func getAccountOverview(onSuccess: @escaping (TradeItAccountOverview?) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
@@ -53,10 +53,10 @@
             case let accountOverviewResult as TradeItAccountOverviewResult:
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker.error = nil
+                self.linkedBroker?.error = nil
                 onSuccess(accountOverviewResult.accountOverview)
             case let errorResult as TradeItErrorResult:
-                self.linkedBroker.error = errorResult
+                self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult(title: "Failed to retrieve account balances"))
@@ -83,7 +83,7 @@
                 self.positions = portfolioEquityPositions + portfolioFxPositions
                 onSuccess(self.positions)
             case let errorResult as TradeItErrorResult:
-                self.linkedBroker.error = errorResult
+                self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))

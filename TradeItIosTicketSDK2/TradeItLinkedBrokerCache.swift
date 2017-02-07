@@ -20,8 +20,8 @@ class TradeItLinkedBrokerCache {
         }
     }
 
-    func cache(linkedBroker: TradeItLinkedBroker) {
-        guard let userId = linkedBroker.linkedLogin.userId else { return }
+    func cache(linkedBroker: TradeItLinkedBroker?) {
+        guard let linkedBroker = linkedBroker, let userId = linkedBroker.linkedLogin.userId else { return }
 
         var linkedBrokerCache = userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
 

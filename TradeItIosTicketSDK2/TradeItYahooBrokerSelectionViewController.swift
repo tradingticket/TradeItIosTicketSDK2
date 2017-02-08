@@ -9,10 +9,14 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     var activityView: MBProgressHUD?
     var alertManager = TradeItAlertManager()
     var brokers: [TradeItBroker] = []
-    var oAuthCallbackUrl = ""
+    var oAuthCallbackUrl: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set on TradeItYahooBrokerSelectionViewController")
+
+        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
 
         self.populateBrokers()
     }
@@ -20,13 +24,12 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     // MARK: Private
 
     private func populateBrokers() {
-        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        activityView.label.text = "Loading Brokers"
+        self.activityView?.label.text = "Loading Brokers"
 
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 self.brokers = availableBrokers
-                activityView.hide(animated: true)
+                self.activityView?.hide(animated: true)
                 self.brokerTable.reloadData()
             },
             onFailure: {
@@ -36,7 +39,8 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
                     withMessage: "Could not fetch the brokers list. Please try again later.",
                     withActionTitle: "OK"
                 )
-                activityView.hide(animated: true)
+
+                self.activityView?.hide(animated: true)
             }
         )
     }
@@ -51,7 +55,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: brokerShortName,
-            oAuthCallbackUrl: self.oAuthCallbackUrl,
+            oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
                 UIApplication.shared.openURL(NSURL(string:url) as! URL)

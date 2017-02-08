@@ -1,31 +1,418 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
-        <scene sceneID="hJW-c7-2ys">
+        <!--Choose account-->
+        <scene sceneID="6bX-5d-hEi">
             <objects>
-                <navigationController id="mYn-Ao-x6H" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="M2N-3O-a1H">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_ACCOUNT_SELECTION_VIEW" title="Choose account" automaticallyAdjustsScrollViewInsets="NO" id="XML-Hx-ghX" customClass="TradeItYahooAccountSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Igk-vO-kFe"/>
+                        <viewControllerLayoutGuide type="bottom" id="uNC-fH-eZw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pPX-gb-kWb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wkv-d6-t0z">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_CELL_ID" textLabel="HtM-F5-upV" detailTextLabel="iCi-ht-RsQ" style="IBUITableViewCellStyleSubtitle" id="b7R-gX-mWz">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b7R-gX-mWz" id="Hw0-bb-wmX">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Account Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HtM-F5-upV">
+                                                    <rect key="frame" x="15" y="10" width="113" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Buying Power" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iCi-ht-RsQ">
+                                                    <rect key="frame" x="15" y="30.5" width="77" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="wkv-d6-t0z" firstAttribute="leading" secondItem="pPX-gb-kWb" secondAttribute="leading" id="C2Y-Ef-DFM"/>
+                            <constraint firstItem="wkv-d6-t0z" firstAttribute="top" secondItem="Igk-vO-kFe" secondAttribute="bottom" id="H49-ow-yOi"/>
+                            <constraint firstAttribute="trailing" secondItem="wkv-d6-t0z" secondAttribute="trailing" id="P5W-oe-IoB"/>
+                            <constraint firstItem="uNC-fH-eZw" firstAttribute="top" secondItem="wkv-d6-t0z" secondAttribute="bottom" id="XMF-yA-382"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Choose account" id="DSg-lk-2GQ"/>
                     <connections>
-                        <segue destination="RYJ-Wj-vSz" kind="relationship" relationship="rootViewController" id="TYW-3Y-8ls"/>
+                        <outlet property="accountsTableView" destination="wkv-d6-t0z" id="qIU-2o-2B5"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0PO-Fs-u3k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B9K-Qw-9KJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-441" y="-431"/>
+            <point key="canvasLocation" x="285.60000000000002" y="262.21889055472263"/>
         </scene>
-        <!--Broker Linked-->
+        <!--Trade-->
+        <scene sceneID="bNf-Ke-cbe">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_TRADING_TICKET_VIEW" title="Trade" id="jK8-b4-d6g" userLabel="Trade" customClass="TradeItYahooTradingTicketViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bqV-LO-12F"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hv7-Wc-HXU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8YZ-8g-Tm4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILU-Xz-Odq">
+                                <rect key="frame" x="16" y="602" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="sP4-ow-QGs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <state key="normal" title="Review order">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="NeA-Wg-rlX"/>
+                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="Mb0-jz-TLF"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EVW-mn-7L1" customClass="TradeItYahooTradingTicketTableView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="375" height="567"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_READ_ONLY_CELL_ID" textLabel="fqB-bd-SNI" detailTextLabel="ycN-JO-TnD" style="IBUITableViewCellStyleValue1" id="I0w-D5-vkx">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I0w-D5-vkx" id="i1U-i2-w86">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fqB-bd-SNI">
+                                                    <rect key="frame" x="15" y="15" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ycN-JO-TnD">
+                                                    <rect key="frame" x="316" y="15" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_NUMERIC_INPUT_CELL_ID" id="B8Z-xA-yb8" customClass="TradeItNumericInputCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="78" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="B8Z-xA-yb8" id="0Qn-vm-oAa">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" textAlignment="right" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ga9-EK-Xbe" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                                    <rect key="frame" x="247" y="8" width="120" height="33.5"/>
+                                                    <color key="backgroundColor" red="0.90588235294117647" green="0.95294117647058818" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="1Pp-9n-uWL"/>
+                                                    </constraints>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="textFieldDidChange:" destination="B8Z-xA-yb8" eventType="editingChanged" id="Tmr-yZ-nD2"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Ga9-EK-Xbe" firstAttribute="top" secondItem="0Qn-vm-oAa" secondAttribute="topMargin" id="IWm-US-TSg"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Ga9-EK-Xbe" secondAttribute="bottom" id="ZJ5-v1-ghn"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ga9-EK-Xbe" secondAttribute="trailing" id="aX1-WR-0QW"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="Ga9-EK-Xbe" id="IsP-g2-lkG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRADING_TICKET_SELECTION_CELL_ID" textLabel="ugv-WH-zBh" detailTextLabel="vMO-eE-2VF" style="IBUITableViewCellStyleValue1" id="tYq-1E-fQr" customClass="TradeItSelectionCellTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="128" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tYq-1E-fQr" id="rdS-7x-yiD">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ugv-WH-zBh">
+                                                    <rect key="frame" x="15" y="15" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vMO-eE-2VF">
+                                                    <rect key="frame" x="296" y="15" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="ILU-Xz-Odq" secondAttribute="trailing" id="VYh-Fk-b7F"/>
+                            <constraint firstAttribute="trailing" secondItem="EVW-mn-7L1" secondAttribute="trailing" id="VgL-wS-qmh"/>
+                            <constraint firstItem="ILU-Xz-Odq" firstAttribute="top" secondItem="EVW-mn-7L1" secondAttribute="bottom" constant="15" id="ZEc-tA-4Nx"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="ILU-Xz-Odq" secondAttribute="leading" id="ZMA-0o-ewn"/>
+                            <constraint firstItem="EVW-mn-7L1" firstAttribute="leading" secondItem="8YZ-8g-Tm4" secondAttribute="leading" id="j6x-RY-bgQ"/>
+                            <constraint firstItem="EVW-mn-7L1" firstAttribute="top" secondItem="bqV-LO-12F" secondAttribute="bottom" id="oxH-hJ-cAr"/>
+                            <constraint firstItem="Hv7-Wc-HXU" firstAttribute="top" secondItem="ILU-Xz-Odq" secondAttribute="bottom" constant="15" id="ybV-j8-1o0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="reviewOrderButton" destination="ILU-Xz-Odq" id="8wz-eD-4NS"/>
+                        <outlet property="tableView" destination="EVW-mn-7L1" id="WIy-Xb-LJ6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jfd-Ow-Adm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1014" y="262"/>
+        </scene>
+        <!--Trade It Selection View Controller-->
+        <scene sceneID="L4v-Kv-pmB">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_SELECTION_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="eZG-ro-lMK" customClass="TradeItSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wBo-87-flR"/>
+                        <viewControllerLayoutGuide type="bottom" id="alw-2f-7PZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7C4-G2-enW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="KfS-8r-pSs">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_SELECTION_CELL_ID" textLabel="lii-XN-noF" style="IBUITableViewCellStyleDefault" id="fXR-4e-fMj">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXR-4e-fMj" id="6hp-oR-Bh8">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lii-XN-noF">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="alw-2f-7PZ" firstAttribute="top" secondItem="KfS-8r-pSs" secondAttribute="bottom" id="6eZ-DM-CsI"/>
+                            <constraint firstAttribute="trailing" secondItem="KfS-8r-pSs" secondAttribute="trailing" id="Lf1-6t-qyf"/>
+                            <constraint firstItem="KfS-8r-pSs" firstAttribute="leading" secondItem="7C4-G2-enW" secondAttribute="leading" id="qGA-Sw-Qhk"/>
+                            <constraint firstItem="KfS-8r-pSs" firstAttribute="top" secondItem="wBo-87-flR" secondAttribute="bottom" id="qYU-jA-Nv8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="KfS-8r-pSs" id="HVJ-Dm-7ha"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E3Q-FO-jLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1743" y="262"/>
+        </scene>
+        <!--Trade It Yahoo Trade Preview View Controller-->
+        <scene sceneID="NAA-3V-nji">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_TRADING_PREVIEW_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="KVu-TG-gKA" customClass="TradeItYahooTradePreviewViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vlR-AU-ay5"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zob-SG-YmF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Z9C-Gg-aUS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WmD-Ux-mLR">
+                                <rect key="frame" x="16" y="602" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="BlA-Bz-8hx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <state key="normal" title="Submit Order">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="BdN-yb-b8I"/>
+                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="bhf-E5-SVx"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgm-rB-PS8">
+                                <rect key="frame" x="16" y="35" width="343" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="73G-qD-TFr">
+                                <rect key="frame" x="0.0" y="79" width="375" height="508"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_PREVIEW_CELL_ID" textLabel="kW5-BI-uje" detailTextLabel="ZYL-iw-l3L" style="IBUITableViewCellStyleValue1" id="pnf-js-dAo">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pnf-js-dAo" id="Qq9-q1-cSc">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kW5-BI-uje">
+                                                    <rect key="frame" x="15" y="11" width="34" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZYL-iw-l3L">
+                                                    <rect key="frame" x="316" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dgm-rB-PS8" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="1IO-mf-hD6"/>
+                            <constraint firstItem="dgm-rB-PS8" firstAttribute="top" secondItem="vlR-AU-ay5" secondAttribute="bottom" constant="15" id="7jw-0W-jNf"/>
+                            <constraint firstItem="73G-qD-TFr" firstAttribute="top" secondItem="dgm-rB-PS8" secondAttribute="bottom" constant="15" id="HKB-BZ-YUz"/>
+                            <constraint firstAttribute="trailing" secondItem="73G-qD-TFr" secondAttribute="trailing" id="IPs-sI-ihZ"/>
+                            <constraint firstItem="73G-qD-TFr" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leading" id="TKy-wa-vrS"/>
+                            <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="WmD-Ux-mLR" secondAttribute="bottom" constant="15" id="TWd-Fc-0ly"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WmD-Ux-mLR" secondAttribute="trailing" id="UON-VF-qhb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dgm-rB-PS8" secondAttribute="trailing" id="Y0U-Vy-ij7"/>
+                            <constraint firstItem="WmD-Ux-mLR" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="lqB-QB-QHN"/>
+                            <constraint firstItem="WmD-Ux-mLR" firstAttribute="top" secondItem="73G-qD-TFr" secondAttribute="bottom" constant="15" id="oag-SW-QWz"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="brokerLabel" destination="dgm-rB-PS8" id="Xl1-xj-43q"/>
+                        <outlet property="orderDetailsTable" destination="73G-qD-TFr" id="cV8-bQ-8nV"/>
+                        <outlet property="submitOrderButton" destination="WmD-Ux-mLR" id="Gq2-Pk-fSR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="usZ-PM-SXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2463" y="262"/>
+        </scene>
+        <!--Select your broker-->
+        <scene sceneID="nrh-a7-imO">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_BROKER_SELECTION_VIEW" title="Select your broker" automaticallyAdjustsScrollViewInsets="NO" id="aYb-Eg-UIn" userLabel="Select your broker" customClass="TradeItYahooBrokerSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SLx-c7-j76"/>
+                        <viewControllerLayoutGuide type="bottom" id="wbe-NR-ozO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fzt-oJ-kwI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9n3-dZ-gkb">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID" textLabel="Kvh-1j-WFF" style="IBUITableViewCellStyleDefault" id="dDI-Sa-7IC">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dDI-Sa-7IC" id="eyK-Lv-gWQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kvh-1j-WFF">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="aYb-Eg-UIn" id="FY6-ya-OSc"/>
+                                    <outlet property="delegate" destination="aYb-Eg-UIn" id="U6r-Eh-w4C"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9n3-dZ-gkb" firstAttribute="leading" secondItem="Fzt-oJ-kwI" secondAttribute="leading" id="5KC-LB-vyj"/>
+                            <constraint firstItem="9n3-dZ-gkb" firstAttribute="top" secondItem="SLx-c7-j76" secondAttribute="bottom" id="Dda-cB-VvI"/>
+                            <constraint firstAttribute="trailing" secondItem="9n3-dZ-gkb" secondAttribute="trailing" id="USH-aC-j9X"/>
+                            <constraint firstItem="wbe-NR-ozO" firstAttribute="top" secondItem="9n3-dZ-gkb" secondAttribute="bottom" id="X1G-6i-Rhk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="brokerTable" destination="9n3-dZ-gkb" id="BI8-w1-nh6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TcM-Ai-ZNm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="286" y="-500"/>
+        </scene>
+        <!--Broker linked-->
         <scene sceneID="de4-Vp-dKK">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_YAHOO_BROKER_LINKED_VIEW" id="RYJ-Wj-vSz" customClass="TradeItYahooBrokerLinkedViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_BROKER_LINKED_VIEW" title="Broker linked" id="RYJ-Wj-vSz" customClass="TradeItYahooBrokerLinkedViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hkx-9Y-dEt"/>
                         <viewControllerLayoutGuide type="bottom" id="B1L-en-oln"/>
@@ -35,16 +422,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have linked:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-RI-lfi">
+                                <rect key="frame" x="16" y="70" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3c-rZ-ne5">
+                                <rect key="frame" x="16" y="141" width="343" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQ4-Vs-NfX">
+                                <rect key="frame" x="16" y="602" width="343" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="KrL-Xe-aFD"/>
@@ -63,6 +453,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdx-Mj-pun">
+                                <rect key="frame" x="16" y="215" width="343" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -78,20 +469,20 @@
                             <constraint firstItem="Kdx-Mj-pun" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="c8A-JE-hfZ"/>
                             <constraint firstItem="a3c-rZ-ne5" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="dtv-VU-pwr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a3c-rZ-ne5" secondAttribute="trailing" id="eus-rj-1O0"/>
-                            <constraint firstItem="B1L-en-oln" firstAttribute="top" secondItem="gQ4-Vs-NfX" secondAttribute="bottom" constant="10" id="gKi-Jy-hOM"/>
+                            <constraint firstItem="B1L-en-oln" firstAttribute="top" secondItem="gQ4-Vs-NfX" secondAttribute="bottom" constant="15" id="gKi-Jy-hOM"/>
                             <constraint firstItem="a3c-rZ-ne5" firstAttribute="top" secondItem="OtU-RI-lfi" secondAttribute="bottom" constant="50" id="rbj-2l-ZvV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OtU-RI-lfi" secondAttribute="trailing" id="t2n-HJ-Gh1"/>
                             <constraint firstItem="OtU-RI-lfi" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="zc2-Qo-Pcb"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Broker Linked" id="KH4-0b-yDp"/>
+                    <navigationItem key="navigationItem" title="Broker linked" id="KH4-0b-yDp"/>
                     <connections>
                         <outlet property="brokerLabel" destination="a3c-rZ-ne5" id="8R3-x9-hdT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5w-G1-Ay7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="396" y="-431"/>
+            <point key="canvasLocation" x="1014" y="-501"/>
         </scene>
     </scenes>
 </document>

@@ -1,6 +1,6 @@
 import UIKit
 
-class NumberField: UITextField, UITextFieldDelegate {
+class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
     static let invalidCharacters = CharacterSet.decimalDigits.union(CharacterSet(charactersIn: ",.")).inverted
     static let disabledActions = [
         #selector(copy(_:)),
@@ -20,15 +20,28 @@ class NumberField: UITextField, UITextFieldDelegate {
         self.delegate = self
     }
 
+    // MARK: UITextField
+
     override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if NumberField.disabledActions.contains(action) {
+        if TradeItNumberField.disabledActions.contains(action) {
             return false
         }
 
         return super.canPerformAction(action, withSender: sender)
     }
 
+    // MARK: UITextFieldDelegate
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return string.rangeOfCharacter(from: NumberField.invalidCharacters) == nil
+        let currentText: NSString = textField.text as NSString? ?? ""
+        let resultText = currentText.replacingCharacters(in: range, with: string)
+
+        guard string.rangeOfCharacter(from: TradeItNumberField.invalidCharacters) == nil,
+            resultText.components(separatedBy: CharacterSet(charactersIn: ",.")).count <= 2
+        else {
+            return false
+        }
+
+        return true
     }
 }

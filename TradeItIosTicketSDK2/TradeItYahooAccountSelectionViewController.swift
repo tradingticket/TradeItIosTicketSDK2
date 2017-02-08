@@ -1,34 +1,28 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
-    var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
-
+class TradeItYahooAccountSelectionViewController: CloseableViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
     @IBOutlet weak var accountsTableView: UITableView!
-    @IBOutlet weak var promptLabel: UILabel!
 
-    var selectedLinkedBroker: TradeItLinkedBroker?
-    internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
-    var promptText: String?
-    
+    var accountSelectionTableManager = TradeItYahooAccountSelectionTableViewManager()
+    weak var delegate: TradeItYahooAccountSelectionViewControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
-        self.accountsTableView.tableFooterView = UIView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }
-    
-    // MARK: TradeItAccounSelectionTableViewManagerDelegate
-    
-    func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
+
+    // MARK: TradeItYahooAccounSelectionTableViewManagerDelegate
+
+    func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItYahooAccountSelectionTableViewManager,
                           onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void) {
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         TradeItSDK.linkedBrokerManager.authenticateAll(
@@ -52,17 +46,17 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                     onFinished:  {
                         onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
-                )
+                )   
             }
         )
     }
-    
+
     func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.delegate?.accountSelectionViewController(self, didSelectLinkedBrokerAccount: linkedBrokerAccount)
     }
 }
 
-protocol TradeItAccountSelectionViewControllerDelegate: class {
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
+@objc protocol TradeItYahooAccountSelectionViewControllerDelegate {
+    func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount)
 }

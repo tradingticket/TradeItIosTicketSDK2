@@ -24,11 +24,11 @@ import PromiseKit
     }
 
     public func getOAuthLoginPopupUrl(withBroker broker: String,
-                                      deepLinkCallback: String,
+                                      oAuthCallbackUrl: String,
                                       onSuccess: @escaping (_ oAuthLoginPopupUrl: String) -> Void,
                                       onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.connector.getOAuthLoginPopupUrlForMobile(withBroker: broker,
-                                                      interAppAddressCallback: deepLinkCallback) { tradeItResult in
+                                                      interAppAddressCallback: oAuthCallbackUrl) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
                 guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthURL,

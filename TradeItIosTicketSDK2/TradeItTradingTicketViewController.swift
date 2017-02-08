@@ -106,22 +106,23 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
                 activityView.label.text = "Previewing Order"
-                self.order.preview(onSuccess: { previewOrderResult, placeOrderCallback in
-                    activityView.hide(animated: true)
-                    self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
-                                                              withPreviewOrderResult: previewOrderResult,
-                                                              placeOrderCallback: placeOrderCallback)
-                }, onFailure: { error in
-                    activityView.hide(animated: true)
-                    self.alertManager.showRelinkError(
-                        error,
-                        withLinkedBroker: linkedBroker,
-                        onViewController: self,
-                        onFinished: {} // TODO: Retry?
-                    )
-                })
-            },
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.order.preview(
+                    onSuccess: { previewOrderResult, placeOrderCallback in
+                        activityView.hide(animated: true)
+                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
+                                                                  withPreviewOrderResult: previewOrderResult,
+                                                                  placeOrderCallback: placeOrderCallback)
+                    }, onFailure: { error in
+                        activityView.hide(animated: true)
+                        self.alertManager.showRelinkError(
+                            error,
+                            withLinkedBroker: linkedBroker,
+                            onViewController: self,
+                            onFinished: {} // TODO: Retry?
+                        )
+                    }
+                )
+            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -129,8 +130,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
-            },
-            onFailure: { errorResult in
+            }, onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.alertManager.showRelinkError(errorResult,
                     withLinkedBroker: linkedBroker,
@@ -466,7 +466,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 }
 
 protocol TradeItTradingTicketViewControllerDelegate: class {
-    func orderSuccessfullyPreviewed(onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
-                                           withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
-                                                                  placeOrderCallback: @escaping TradeItPlaceOrderHandlers)
+    func orderSuccessfullyPreviewed(
+        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
+        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
 }

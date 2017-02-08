@@ -1,14 +1,38 @@
 @objc public class TradeItYahooLauncher: NSObject {
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var deviceManager = TradeItDeviceManager()
+    let tradingUIFlow = TradeItYahooTradingUIFlow()
 
     override internal init() {}
+    
+    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: String) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
+        
+        if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
+            brokerSelectionViewController.oAuthCallbackUrl = callbackUrl
+            viewController.present(navController, animated: true)
+        }
+    }
 
-    public func getOAuthConfirmationScreen(withLinkedBroker linkedBroker: TradeItLinkedBroker) -> TradeItYahooBrokerLinkedViewController? {
-        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView) as? TradeItYahooBrokerLinkedViewController
+    public func launchOAuthConfirmationScreen(fromViewController viewController: UIViewController,
+                                              withLinkedBroker linkedBroker: TradeItLinkedBroker) {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView)
 
-        viewController?.linkedBroker = linkedBroker
+        if let brokerLinkedViewController = navController.viewControllers.last as? TradeItYahooBrokerLinkedViewController {
+            brokerLinkedViewController.linkedBroker = linkedBroker
+            viewController.present(navController, animated: true)
+        }
+    }
 
-        return viewController
+    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                print("Access granted")
+                self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+            },
+            onFailure: {
+                print("Access denied")
+            }
+        )
     }
 }

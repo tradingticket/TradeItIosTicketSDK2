@@ -84,6 +84,8 @@ import PromiseKit
 
         if error.requiresAuthentication() {
             self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
+        } else if error.requiresRelink() {
+            onFailure(error)
         } else {
             onSuccess()
         }

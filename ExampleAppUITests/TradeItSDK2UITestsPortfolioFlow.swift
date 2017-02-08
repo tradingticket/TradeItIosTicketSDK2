@@ -124,38 +124,38 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         XCTAssertFalse(app.tables.staticTexts["OPTIONS SU**cct5"].exists)
     }
     
-    func testFxWelcomeFlow() {
-        clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
-        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy FX Broker")
-        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
-        selectAccountOnPortfolioScreen(app, rowNum: 1)
-        //AccountTotalValue
-        XCTAssert(app.staticTexts["$9,163.00"].exists)
-        //Fx Balances
-        XCTAssert(app.tables.staticTexts["Account (F**cct1"].exists)
-        XCTAssert(app.tables.staticTexts["$9,163.00"].exists)
-        XCTAssert(app.tables.staticTexts["$1,900.00 (0%)"].exists)
-        //Fx Summary
-        //        app.tables.staticTexts["Account (F**cct1 Summary"].exists
-        //        app.tables.staticTexts["$5.89"].exists
-        //        app.tables.staticTexts["$2,500"].exists
-        //Fx Positions
-        let holdingsTitle = app.staticTexts["Account (F**cct1 Holdings"]
-        XCTAssert(holdingsTitle.exists)
-        XCTAssert(app.tables.staticTexts["USD/JPY"].exists)
-        XCTAssert(app.tables.staticTexts["490"].exists)
-        XCTAssert(app.tables.staticTexts["$100.06"].exists)
-        XCTAssert(app.tables.staticTexts["$0.00"].exists)
-        //Positions details
-        app.tables.staticTexts["USD/JPY"].tap()
-        waitForElementToAppear(app.tables.staticTexts["Bid"])
-        XCTAssert(app.tables.staticTexts["Ask"].exists)
-        XCTAssert(app.tables.staticTexts["Spread"].exists)
-        XCTAssert(!app.tables.staticTexts["Total Return"].exists)
-        XCTAssert(!app.tables.staticTexts["Day"].exists)
-    }
-    
+//    func testFxWelcomeFlow() {
+//        clearData(app)
+//        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+//        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy FX Broker")
+//        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy FX Broker")
+//        selectAccountOnPortfolioScreen(app, rowNum: 1)
+//        //AccountTotalValue
+//        XCTAssert(app.staticTexts["$9,163.00"].exists)
+//        //Fx Balances
+//        XCTAssert(app.tables.staticTexts["Account (F**cct1"].exists)
+//        XCTAssert(app.tables.staticTexts["$9,163.00"].exists)
+//        XCTAssert(app.tables.staticTexts["$1,900.00 (0%)"].exists)
+//        //Fx Summary
+//        //        app.tables.staticTexts["Account (F**cct1 Summary"].exists
+//        //        app.tables.staticTexts["$5.89"].exists
+//        //        app.tables.staticTexts["$2,500"].exists
+//        //Fx Positions
+//        let holdingsTitle = app.staticTexts["Account (F**cct1 Holdings"]
+//        XCTAssert(holdingsTitle.exists)
+//        XCTAssert(app.tables.staticTexts["USD/JPY"].exists)
+//        XCTAssert(app.tables.staticTexts["490"].exists)
+//        XCTAssert(app.tables.staticTexts["$100.06"].exists)
+//        XCTAssert(app.tables.staticTexts["$0.00"].exists)
+//        //Positions details
+//        app.tables.staticTexts["USD/JPY"].tap()
+//        waitForElementToAppear(app.tables.staticTexts["Bid"])
+//        XCTAssert(app.tables.staticTexts["Ask"].exists)
+//        XCTAssert(app.tables.staticTexts["Spread"].exists)
+//        XCTAssert(!app.tables.staticTexts["Total Return"].exists)
+//        XCTAssert(!app.tables.staticTexts["Day"].exists)
+//    }
+
     //    func testPortfolioUserHasAccountFlow() {
     //        // Launch ticket
     //

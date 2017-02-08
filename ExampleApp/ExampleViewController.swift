@@ -126,6 +126,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
+                label: "Debugging",
+                actions: [
+                    Action(
+                        label: "deleteLinkedBrokers",
+                        action: self.deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "test",
+                        action: self.test
+                    )
+                ]
+            ),
+            Section(
                 label: "Themes",
                 actions: [
                     Action(
@@ -169,19 +182,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "manualBuildLinkedBroker",
                         action: self.manualBuildLinkedBroker
-                    )
-                ]
-            ),
-            Section(
-                label: "Debugging",
-                actions: [
-                    Action(
-                        label: "deleteLinkedBrokers",
-                        action: self.deleteLinkedBrokers
-                    ),
-                    Action(
-                        label: "test",
-                        action: self.test
                     )
                 ]
             ),

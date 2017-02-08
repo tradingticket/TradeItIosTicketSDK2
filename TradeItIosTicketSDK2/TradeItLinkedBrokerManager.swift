@@ -349,11 +349,7 @@ import PromiseKit
                     onSuccess(linkedBroker)
                 },
                 onSecurityQuestion: onSecurityQuestion,
-                onFailure: { error in
-                    // Consider a success because linking succeeded. Just not able to authenticate after.
-                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
-                    onSuccess(linkedBroker)
-                }
+                onFailure: onFailure
             )
         } else {
             onFailure(TradeItErrorResult(

@@ -40,7 +40,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToBeHittable(app.buttons["Preview Order"])
         app.buttons["Preview Order"].tap()
         //Review screen
-        waitForElementToAppear(app.navigationBars["Review"])
+        waitForElementToAppear(app.navigationBars["Preview"])
         testPreviewValues(app, symbol: "GE", limitPrice: "25", stopPrice: "30", quantity: "1")
         waitForElementToBeHittable(app.buttons["Place Order"])
         app.buttons["Place Order"].tap()
@@ -76,8 +76,8 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
         waitForElementToBeHittable(app.buttons["Preview Order"])
         app.buttons["Preview Order"].tap()
-        //Review screen
-        waitForElementToAppear(app.navigationBars["Review"])
+        // Preview screen
+        waitForElementToAppear(app.navigationBars["Preview"])
         testPreviewValues(app, symbol: "GE", limitPrice: "25", stopPrice: "30", quantity: "1")
         waitForElementToBeHittable(app.buttons["Place Order"])
         app.buttons["Place Order"].tap()

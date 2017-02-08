@@ -1,11 +1,18 @@
 @objc public class TradeItSDK: NSObject {
     private static var apiKey: String?
-    private static var environment: TradeitEmsEnvironments?
     private static var configured = false
     public static let launcher = TradeItLauncher()
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static let yahooLauncher = TradeItYahooLauncher()
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
+
+    internal static var _environment: TradeitEmsEnvironments?
+    public static var environment: TradeitEmsEnvironments {
+        get {
+            precondition(_environment != nil, "ERROR: TradeItSDK.environment referenced before calling TradeItSDK.configure()!")
+            return _environment!
+        }
+    }
 
     private static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
@@ -35,7 +42,7 @@
         if !self.configured {
             self.configured = true
             self.apiKey = apiKey
-            self.environment = environment
+            self._environment = environment
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)

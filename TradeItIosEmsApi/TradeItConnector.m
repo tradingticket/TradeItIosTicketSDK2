@@ -22,6 +22,12 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
+
 @interface TradeItConnector()
 
 - (NSUserDefaults *)userDefaults;
@@ -413,7 +419,10 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     */
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
-        NSURLSession *session = [NSURLSession sharedSession];
+        SSLPinningDelegate *pinningDelegate = [[SSLPinningDelegate alloc] init];
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:pinningDelegate delegateQueue:nil];
+
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if ((data == nil) || ([httpResponse statusCode] != 200)) {

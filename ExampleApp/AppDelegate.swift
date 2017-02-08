@@ -8,7 +8,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     override init() {
-        TradeItSDK.configure(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
+        TradeItSDK.configure(apiKey: AppDelegate.API_KEY,
+                             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+                             environment: AppDelegate.ENVIRONMENT)
         super.init()
     }
 

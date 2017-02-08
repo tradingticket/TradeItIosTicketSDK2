@@ -21,10 +21,11 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // TODO: CHANGE THIS TO BE A UIFLOW INSTEAD OF USING SEGUES
         if segue.identifier == toAccountManagementScreen {
-            if let destinationViewController = segue.destination as? TradeItAccountManagementViewController,
+            if let accountManagementViewController = segue.destination as? TradeItAccountManagementViewController,
                 let broker = self.selectedLinkedBroker {
-                destinationViewController.linkedBroker = broker
+                accountManagementViewController.linkedBroker = broker
             }
         }
     }
@@ -40,16 +41,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,
-            onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
-                presentedNavController.dismiss(animated: true, completion: nil)
-                linkedBroker.refreshAccountBalances(
-                    onFinished: {
-                        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
-                })
-            },
-            onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                presentedNavController.dismiss(animated: true, completion: nil)
-            }
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
         )
     }
 }

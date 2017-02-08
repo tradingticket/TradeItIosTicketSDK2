@@ -121,14 +121,14 @@
 - (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
    withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable, NSMutableString * _Nullable))completionBlock;
 
-- (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString * _Nullable)broker
-                         interAppAddressCallback:(NSString * _Nullable)interAppAddressCallback
-                                 completionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
+- (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString * _Nonnull)broker
+                                oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl
+                                 completionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
 
-- (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString * _Nullable)broker
-                                               userId:(NSString * _Nullable)userId
-                              interAppAddressCallback:(NSString * _Nullable)interAppAddressCallback
-                                      completionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
+- (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString * _Nonnull)broker
+                                               userId:(NSString * _Nonnull)userId
+                                     oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl
+                                      completionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
 
 - (void)getOAuthAccessTokenWithOAuthVerifier:(NSString * _Nullable)oAuthVerifier
                              completionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;

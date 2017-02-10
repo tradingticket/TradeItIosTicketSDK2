@@ -2,6 +2,7 @@ import UIKit
 
 @objc class TradeItTradingConfirmationViewController: TradeItViewController {
     @IBOutlet weak var confirmationTextLabel: UILabel!
+    @IBOutlet weak var viewPortfolioButton: UIButton!
     var placeOrderResult: TradeItPlaceOrderResult?
     var viewControllerProvider = TradeItViewControllerProvider()
     var tradingUIFlow = TradeItTradingUIFlow()
@@ -10,9 +11,10 @@ import UIKit
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         guard let placeOrderResult = placeOrderResult else { return }
+
         confirmationTextLabel.text = placeOrderResult.confirmationMessage
+        viewPortfolioButton.isHidden = !TradeItSDK.isPortfolioEnabled
    }
     @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(self)

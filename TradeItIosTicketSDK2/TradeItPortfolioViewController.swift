@@ -49,7 +49,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         self.updatePortfolioScreen()
     }
     
-    // MARK: private methods
+    // MARK: Private
 
     private func refreshBrokers() {
         self.activityView?.label.text = "Authenticating"
@@ -116,7 +116,11 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     }
     
     // MARK: IBActions
-    
+
+    @IBAction func editAccountsButtonTapped(_ sender: UIButton) {
+        TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
+    }
+
     @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
         self.parent?.dismiss(animated: true, completion: nil)
     }

@@ -5,7 +5,22 @@
     let viewControllerProvider = TradeItViewControllerProvider()
     var deviceManager = TradeItDeviceManager()
 
+    private enum TradeItOAuthDestination: String {
+        case trading = "trading"
+        case portfolio = "portfolio"
+    }
+
     override internal init() {}
+
+    public func handleOAuthCallback(onViewController: UIViewController, oAuthCallbackUrl: URL) {
+        print("=====> LAUNCHER.handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
+
+//        if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+//            urlComponents.scheme == "tradeitexamplescheme",
+//            let host = urlComponents.host,
+//            let queryItems = urlComponents.queryItems,
+//            let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
+    }
     
     public func launchPortfolio(fromViewController viewController: UIViewController) {
         // Show Welcome flow for users who have never linked before
@@ -66,9 +81,6 @@
                 fromViewController: viewController,
                 showWelcomeScreen: true,
                 oAuthCallbackUrl: oAuthCallbackUrl
-//                onLinked: { presentedNavController, linkedBroker in
-//                    self.tradingUIFlow.pushTradingFlow(onNavigationController: presentedNavController, asRootViewController: true, withOrder: order)
-//                }
             )
         } else {
             deviceManager.authenticateUserWithTouchId(

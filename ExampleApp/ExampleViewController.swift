@@ -330,7 +330,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func manualLaunchOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
-            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
@@ -338,8 +338,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
-                        UIApplication.shared.openURL(url) // TODO: TEST THIS
-//                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                        UIApplication.shared.openURL(url)
                     },
                     showCancelAction: false
                 )
@@ -368,7 +367,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
             withBroker: linkedBroker.brokerName,
             userId: linkedBroker.linkedLogin.userId ?? "",
-            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
@@ -376,9 +375,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
-                        UIApplication.shared.openURL(url) // TODO: TEST THIS
-//                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    },
+                        UIApplication.shared.openURL(url)                    },
                     showCancelAction: false
                 )
             },

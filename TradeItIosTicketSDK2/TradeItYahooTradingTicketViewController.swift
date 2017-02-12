@@ -46,7 +46,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.type = TradeItOrderPriceTypePresenter.enumFor(selection)
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
@@ -55,7 +55,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.expiration = TradeItOrderExpirationPresenter.enumFor(selection)
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)

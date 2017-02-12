@@ -5,21 +5,47 @@
     let viewControllerProvider = TradeItViewControllerProvider()
     var deviceManager = TradeItDeviceManager()
 
-    private enum TradeItOAuthDestination: String {
+    private enum OAuthCallbackDestinationValues: String {
         case trading = "trading"
         case portfolio = "portfolio"
     }
 
+    private enum OAuthCallbackQueryParamKeys: String {
+        case oAuthVerifier = "oAuthVerifier"
+        case tradeItDestination = "tradeItDestination"
+//        case tradeItOrderSymbol = "tradeItOrderSymbol"
+//        case tradeItOrderAction = "tradeItOrderAction"
+    }
+
     override internal init() {}
 
-    public func handleOAuthCallback(onViewController: UIViewController, oAuthCallbackUrl: URL) {
+    public func handleOAuthCallback(onViewController viewController: UIViewController, oAuthCallbackUrl: URL) {
         print("=====> LAUNCHER.handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
-//        if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
-//            urlComponents.scheme == "tradeitexamplescheme",
-//            let host = urlComponents.host,
-//            let queryItems = urlComponents.queryItems,
-//            let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
+        guard let urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false),
+            let oAuthVerifier = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.oAuthVerifier.rawValue) else {
+            let errorMessage = "Received invalid OAuth callback URL: \(oAuthCallbackUrl.absoluteString)"
+            print("TradeItSDK ERROR: \(errorMessage)")
+            TradeItAlertManager().showAlert(onViewController: viewController,
+                                            withTitle: "OAuth Failed",
+                                            withMessage: errorMessage,
+                                            withActionTitle: "OK")
+            return
+        }
+
+        TradeItSDK.linkedBrokerManager.completeOAuth(
+            withOAuthVerifier: oAuthVerifier,
+            onSuccess: { linkedBroker in
+                print("=====> OAuth successful for \(linkedBroker.brokerName)!")
+                // TODO: AUTHENTICATE BROKER HERE
+
+                // CHECK FOR DESTINATION AND RELAUNCH
+            },
+            onFailure: { errorResult in
+                print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode()), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
+                TradeItAlertManager().showError(errorResult, onViewController: viewController)
+            }
+        )
     }
     
     public func launchPortfolio(fromViewController viewController: UIViewController) {

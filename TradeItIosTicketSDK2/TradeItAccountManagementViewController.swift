@@ -51,13 +51,6 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                         fromViewController: self,
                         showWelcomeScreen: true,
                         oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
-//                        onLinked: { presentedNavController, linkedBroker in
-//                            presentedNavController.dismiss(animated: true, completion: nil)
-//                        }, onFlowAborted: { (presentedNavController) in
-//                            presentedNavController.dismiss(animated: true, completion: nil)
-//                            // For now go back to the broker selection screen which has the option to add a broker
-//                            _ = self.navigationController?.popViewController(animated: true)
-//                        }
                     )
                 }
             },
@@ -86,7 +79,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(error,
+                self.alertManager.showRelinkError(
+                    error,
                     withLinkedBroker: self.linkedBroker,
                     onViewController: self,
                     onFinished : {

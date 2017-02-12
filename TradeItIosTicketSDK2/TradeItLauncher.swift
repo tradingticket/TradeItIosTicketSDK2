@@ -3,7 +3,8 @@
     let tradingUIFlow = TradeItTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
-    var deviceManager = TradeItDeviceManager()
+    let deviceManager = TradeItDeviceManager()
+    let alertManager = TradeItAlertManager()
 
     private enum OAuthCallbackDestinationValues: String {
         case trading = "trading"
@@ -37,31 +38,31 @@
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { linkedBroker in
                 print("=====> OAuth successful for \(linkedBroker.brokerName)!")
-                // TODO: AUTHENTICATE BROKER HERE
 
-                if let destinationString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue),
-                    let destination = OAuthCallbackDestinationValues(rawValue: destinationString) {
+                linkedBroker.authenticateIfNeeded(
+                    onSuccess: {
+                        self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
+                    },
+                    onSecurityQuestion: { (securityQuestion, answerSecurityQuestion, cancelSecurityQuestion) in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: viewController,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelSecurityQuestion
+                        )
 
-                    switch destination {
-                    case .portfolio:
-                        TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
-                    case .trading:
-                        let symbol = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue)
-                        var action = TradeItOrderActionPresenter.DEFAULT
-
-                        if let actionString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue) {
-                            let actionFromQueryString = TradeItOrderActionPresenter.enumFor(actionString)
-                            if actionFromQueryString != .unknown {
-                                action = actionFromQueryString
+                    },
+                    onFailure: { errorResult in
+                        self.alertManager.showRelinkError(
+                            errorResult,
+                            withLinkedBroker: linkedBroker,
+                            onViewController: viewController,
+                            onFinished : {
+                                self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
                             }
-                        }
-
-                        let order = TradeItOrder(symbol: symbol, action: action)
-
-                        TradeItSDK.launcher.launchTrading(fromViewController: viewController,
-                                                          withOrder: order)
+                        )
                     }
-                }
+                )
             },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode()), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
@@ -69,7 +70,35 @@
             }
         )
     }
-    
+
+    private func launchOAuthDestination(onViewController viewController: UIViewController,
+                                        urlComponents: URLComponents) {
+        if let destinationString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue),
+            let destination = OAuthCallbackDestinationValues(rawValue: destinationString) {
+
+            switch destination {
+            case .portfolio:
+                TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
+            case .trading:
+                let symbol = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue)
+                var action = TradeItOrderActionPresenter.DEFAULT
+
+                if let actionString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue) {
+                    let actionFromQueryString = TradeItOrderActionPresenter.enumFor(actionString)
+                    if actionFromQueryString != .unknown {
+                        action = actionFromQueryString
+                    }
+                }
+
+                let order = TradeItOrder(symbol: symbol, action: action)
+
+                TradeItSDK.launcher.launchTrading(fromViewController: viewController,
+                                                  withOrder: order)
+            }
+        }
+
+    }
+
     public func launchPortfolio(fromViewController viewController: UIViewController) {
         // Show Welcome flow for users who have never linked before
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {

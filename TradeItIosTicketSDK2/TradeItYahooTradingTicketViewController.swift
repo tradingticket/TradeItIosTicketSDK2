@@ -41,6 +41,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         let ticketRow = self.ticketRows[indexPath.row]
 
         switch ticketRow {
+        case .account:
+            print("TODO: Launch account selection")
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
@@ -155,16 +157,17 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         self.setReviewButtonEnablement()
 
         var ticketRows: [TicketRow] = [
+            .account,
             .orderType,
             .expiration,
             .quantity,
         ]
 
-        if [.limit, .stopLimit].contains(self.order.type) {
+        if self.order.requiresLimitPrice() {
             ticketRows.append(.limitPrice)
         }
 
-        if [.stopMarket, .stopLimit].contains(self.order.type) {
+        if self.order.requiresStopPrice() {
             ticketRows.append(.stopPrice)
         }
 
@@ -236,13 +239,19 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             cell.detailTextLabel?.text = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
         case .expiration:
             cell.detailTextLabel?.text = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
+        case .account:
+            guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
+            detailCell.configure(
+                selection: self.order.linkedBrokerAccount?.accountName ?? "",
+                detail: "Buying Power"
+            )
         }
 
         return cell
     }
 
     enum TicketRow {
-        //    case account // Account
+        case account
         case orderType
         case quantity
         case expiration
@@ -255,6 +264,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
             case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
             case selection = "TRADING_TICKET_SELECTION_CELL_ID"
+            case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
         }
 
         var cellReuseId: String {
@@ -269,8 +279,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 cellReuseId = .selection
                 //        case .marketPrice:
                 //        // Market Price
-                //        case .account:
-                //        // Account
+            case .account:
+                cellReuseId = .selectionDetail
             }
 
             return cellReuseId.rawValue
@@ -294,8 +304,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 return "Time in force"
                 //        case .marketPrice:
                 //        // Market Price
-                //        case .account:
-                //        // Account
+            case .account:
+                return "Accounts"
             }
         }
     }

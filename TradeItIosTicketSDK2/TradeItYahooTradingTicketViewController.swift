@@ -1,13 +1,14 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
+class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItYahooTradingTicketTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
     var alertManager = TradeItAlertManager()
     let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var selectionViewController: TradeItSelectionViewController!
+    var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     var order = TradeItOrder()
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
@@ -20,8 +21,14 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+        guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
+            assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
+            return
+        }
+        accountSelectionViewController.delegate = self
 
         self.selectionViewController = selectionViewController
+        self.accountSelectionViewController = accountSelectionViewController
 
         self.setOrderDefaults()
         self.reloadTicket()
@@ -42,7 +49,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
         switch ticketRow {
         case .account:
-            print("TODO: Launch account selection")
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
@@ -114,6 +121,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showError(errorResult, onViewController: self)
             }
         )
+    }
+
+    // MARK: TradeItYahooAccountSelectionViewControllerDelegate
+    func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
+                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.order.linkedBrokerAccount = linkedBrokerAccount
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private
@@ -242,8 +256,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
-                selection: self.order.linkedBrokerAccount?.accountName ?? "",
-                detail: "Buying Power"
+                detailPrimaryText: self.order.linkedBrokerAccount?.accountName ?? "",
+                detailSecondaryText: "Buying Power"
             )
         }
 

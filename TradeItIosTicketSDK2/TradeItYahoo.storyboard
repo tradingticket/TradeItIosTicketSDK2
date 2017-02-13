@@ -192,29 +192,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAE-1l-Qld">
-                                                    <rect key="frame" x="304" y="4" width="36" height="28"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                                    <state key="normal" title="Detail"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P1V-sl-Jkq">
                                                     <rect key="frame" x="311.5" y="26" width="28.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZb-u7-Pub">
+                                                    <rect key="frame" x="306" y="8" width="34" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="P1V-sl-Jkq" firstAttribute="trailing" secondItem="dAE-1l-Qld" secondAttribute="trailing" id="N1a-Mm-zRy"/>
-                                                <constraint firstItem="dAE-1l-Qld" firstAttribute="top" secondItem="C1H-wA-Qna" secondAttribute="topMargin" constant="-4" id="e1S-qT-7cZ"/>
+                                                <constraint firstAttribute="topMargin" secondItem="zZb-u7-Pub" secondAttribute="top" id="10b-jH-GD1"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="P1V-sl-Jkq" secondAttribute="trailing" constant="-6" id="49X-lf-2WI"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zZb-u7-Pub" secondAttribute="trailing" constant="-6" id="QUJ-7p-bHN"/>
+                                                <constraint firstItem="P1V-sl-Jkq" firstAttribute="top" secondItem="zZb-u7-Pub" secondAttribute="bottom" constant="-3" id="aLk-ij-Hzn"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="P1V-sl-Jkq" secondAttribute="bottom" constant="2" id="nwS-Jf-Bkg"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="dAE-1l-Qld" secondAttribute="trailing" constant="-6" id="pe1-4M-UC7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="detailButton" destination="dAE-1l-Qld" id="Ey0-uT-32f"/>
-                                            <outlet property="detailLabel" destination="P1V-sl-Jkq" id="O84-za-1rI"/>
+                                            <outlet property="detailPrimaryLabel" destination="zZb-u7-Pub" id="fRx-bH-RVH"/>
+                                            <outlet property="detailSecondaryLabel" destination="P1V-sl-Jkq" id="x3t-DC-xLj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

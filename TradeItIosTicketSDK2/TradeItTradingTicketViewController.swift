@@ -237,7 +237,12 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             )
         }, onFailure: { errorResult in
             activityView.hide(animated: true)
-            self.alertManager.showError(errorResult, onViewController: self)
+            self.alertManager.showRelinkError(
+                errorResult,
+                withLinkedBroker: linkedBrokerAccount.linkedBroker,
+                onViewController: self,
+                onFinished: {}
+            )
         })
     }
 

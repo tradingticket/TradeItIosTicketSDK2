@@ -81,7 +81,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
                           self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService,
                                                           previewOrderResult: previewOrderResult))
             case let errorResult as TradeItErrorResult:
-                linkedBrokerAccount.linkedBroker.error = errorResult
+                linkedBrokerAccount.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
             }

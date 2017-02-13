@@ -207,12 +207,19 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     // MARK: Private - Order changed handlers
 
     private func accountSelected(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        guard let linkedBroker = linkedBrokerAccount.linkedBroker else {
+            return self.alertManager.showError(TradeItErrorResult(
+                title: "Broker unlinked",
+                message: "The broker was unlinked. Please select another account.",
+                code: .systemError
+            ), onViewController: self)
+        }
         self.order.linkedBrokerAccount = linkedBrokerAccount
 
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
-        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+        linkedBroker.authenticateIfNeeded(onSuccess: {
             activityView.hide(animated: true)
             linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.updateSymbolView()
@@ -325,9 +332,11 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     }
 
     private func updateTradingBrokerAccountView() {
-        guard let linkedBrokerAccount = order.linkedBrokerAccount else { return }
+        guard let linkedBrokerAccount = order.linkedBrokerAccount
+            , let linkedBroker = linkedBrokerAccount.linkedBroker
+            else { return }
 
-        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+        linkedBroker.authenticateIfNeeded(onSuccess: {
             linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
                 self.tradingBrokerAccountView.updateBrokerAccount(linkedBrokerAccount)
                 self.updateSharesOwnedLabel()
@@ -349,9 +358,10 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     private func updateSharesOwnedLabel() {
         guard let symbol = order.symbol
             , let linkedBrokerAccount = order.linkedBrokerAccount
+            , let linkedBroker = linkedBrokerAccount.linkedBroker
             else { return }
 
-        linkedBrokerAccount.linkedBroker.authenticateIfNeeded(onSuccess: {
+        linkedBroker.authenticateIfNeeded(onSuccess: {
             linkedBrokerAccount.getPositions(onSuccess: { positions in
                 let positionsMatchingSymbol = positions.filter { portfolioPosition in
                     TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == symbol

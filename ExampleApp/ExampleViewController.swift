@@ -139,6 +139,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
+                label: "Debugging",
+                actions: [
+                    Action(
+                        label: "deleteLinkedBrokers",
+                        action: deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "test",
+                        action: test
+                    )
+                ]
+            ),
+            Section(
                 label: "Themes",
                 actions: [
                     Action(

@@ -68,8 +68,15 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
         }, { error in
             activityView.hide(animated: true)
+            guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
+                return self.alertManager.showError(
+                    error,
+                    onViewController: self
+                )
+            }
+
             self.alertManager.showRelinkError(error,
-                withLinkedBroker: self.linkedBrokerAccount.linkedBroker,
+                withLinkedBroker: linkedBroker,
                 onViewController: self,
                 onFinished: {} // TODO: Retry?
             )

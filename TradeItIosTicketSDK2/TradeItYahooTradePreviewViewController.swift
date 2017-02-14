@@ -1,4 +1,5 @@
 import UIKit
+import MBProgressHUD
 
 class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerLabel: UILabel!
@@ -12,6 +13,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 //    var acknowledgementCellData: [AcknowledgementCellData] = []
     var alertManager = TradeItAlertManager()
 
+    weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +27,57 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
+    }
+
+    // MARK: IBActions
+
+    @IBAction func submitOrder(_ sender: UIButton) {
+        guard let placeOrderCallback = placeOrderCallback else {
+            print("TradeIt SDK ERROR: placeOrderCallback not set!")
+            return
+        }
+
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
+        self.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
+            onSuccess: {
+                activityView.label.text = "Placing Order"
+
+                placeOrderCallback({ result in
+                    activityView.hide(animated: true)
+                    self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
+                }, { error in
+                    activityView.hide(animated: true)
+                    guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
+                        return self.alertManager.showError(
+                            error,
+                            onViewController: self
+                        )
+                    }
+
+                    self.alertManager.showRelinkError(
+                        error,
+                        withLinkedBroker: linkedBroker,
+                        onViewController: self,
+                        onFinished: {}
+                    )
+                })
+            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }, onFailure: { errorResult in
+                activityView.hide(animated: true)
+                // TODO: use self.alertManager.showRelinkError
+                self.alertManager.showError(errorResult, onViewController: self)
+            }
+        )
+//        placeOrderCallback
     }
 
     // MARK: UITableViewDelegate
@@ -119,4 +173,11 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     private func formatCurrency(_ value: NSNumber) -> String {
         return NumberFormatter.formatCurrency(value, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
     }
+}
+
+protocol TradeItYahooTradePreviewViewControllerDelegate: class {
+    func orderSuccessfullyPlaced(
+        onTradePreviewViewController tradePreviewViewController: TradeItYahooTradePreviewViewController,
+        withPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult
+    )
 }

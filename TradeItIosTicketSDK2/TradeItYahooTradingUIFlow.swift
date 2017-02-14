@@ -1,6 +1,7 @@
 import UIKit
 
-class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate {
+class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
+TradeItYahooTradePreviewViewControllerDelegate, TradeItYahooTradingConfirmationViewControllerDelegate {
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var order = TradeItOrder()
@@ -75,12 +76,26 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
         if let previewViewController = previewViewController {
-//            previewViewController.delegate = self
+            previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = tradingTicketViewController.order.linkedBrokerAccount
             previewViewController.previewOrderResult = previewOrderResult
             previewViewController.placeOrderCallback = placeOrderCallback
 
             tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
         }
+    }
+
+    // MARK: TradeItYahooTradingConfirmationViewControllerDelegate
+
+    internal func orderSuccessfullyPlaced(onTradePreviewViewController tradePreviewViewController: TradeItYahooTradePreviewViewController,
+                                          withPlaceOrderResult placeOrderResult: TradeItPlaceOrderResult) {
+        let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingConfirmationView)
+
+        if let tradingConfirmationViewController = nextViewController as? TradeItYahooTradingConfirmationViewController {
+            tradingConfirmationViewController.delegate = self
+            tradingConfirmationViewController.placeOrderResult = placeOrderResult
+        }
+
+        tradePreviewViewController.navigationController?.setViewControllers([nextViewController], animated: true)
     }
 }

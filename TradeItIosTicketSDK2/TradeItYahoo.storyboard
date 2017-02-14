@@ -323,6 +323,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="BdN-yb-b8I"/>
+                                    <action selector="submitOrder:" destination="KVu-TG-gKA" eventType="touchUpInside" id="EyP-z0-DQG"/>
                                     <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="bhf-E5-SVx"/>
                                 </connections>
                             </button>
@@ -362,19 +363,28 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview Order" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwt-80-6t2">
+                                <rect key="frame" x="16" y="79" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dgm-rB-PS8" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="1IO-mf-hD6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cwt-80-6t2" secondAttribute="trailing" id="3i4-BR-7HE"/>
                             <constraint firstItem="dgm-rB-PS8" firstAttribute="top" secondItem="vlR-AU-ay5" secondAttribute="bottom" constant="15" id="7jw-0W-jNf"/>
-                            <constraint firstItem="73G-qD-TFr" firstAttribute="top" secondItem="dgm-rB-PS8" secondAttribute="bottom" constant="15" id="HKB-BZ-YUz"/>
                             <constraint firstAttribute="trailing" secondItem="73G-qD-TFr" secondAttribute="trailing" id="IPs-sI-ihZ"/>
+                            <constraint firstItem="cwt-80-6t2" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="KqH-HB-lw3"/>
                             <constraint firstItem="73G-qD-TFr" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leading" id="TKy-wa-vrS"/>
                             <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="WmD-Ux-mLR" secondAttribute="bottom" constant="15" id="TWd-Fc-0ly"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WmD-Ux-mLR" secondAttribute="trailing" id="UON-VF-qhb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dgm-rB-PS8" secondAttribute="trailing" id="Y0U-Vy-ij7"/>
                             <constraint firstItem="WmD-Ux-mLR" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="lqB-QB-QHN"/>
                             <constraint firstItem="WmD-Ux-mLR" firstAttribute="top" secondItem="73G-qD-TFr" secondAttribute="bottom" constant="15" id="oag-SW-QWz"/>
+                            <constraint firstItem="73G-qD-TFr" firstAttribute="top" secondItem="cwt-80-6t2" secondAttribute="bottom" constant="15" id="qUc-KK-5vr"/>
+                            <constraint firstItem="cwt-80-6t2" firstAttribute="top" secondItem="dgm-rB-PS8" secondAttribute="bottom" constant="15" id="rJN-tV-LrL"/>
                         </constraints>
                     </view>
                     <connections>
@@ -385,7 +395,108 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="usZ-PM-SXg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2463" y="262"/>
+            <point key="canvasLocation" x="2461.5999999999999" y="261.31934032983509"/>
+        </scene>
+        <!--Trade It Yahoo Trading Confirmation View Controller-->
+        <scene sceneID="I5p-JB-WHj">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_TRADING_CONFIRMATION_VIEW" id="hjk-yz-ILP" customClass="TradeItYahooTradingConfirmationViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="beS-m8-VBF"/>
+                        <viewControllerLayoutGuide type="bottom" id="4rQ-nE-Ksl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vgy-X2-YzC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFI-eu-WQO">
+                                <rect key="frame" x="16" y="35" width="343" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✓ Order Submitted" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qcl-Bo-vyX">
+                                <rect key="frame" x="16" y="79" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <color key="textColor" red="0.013585517240000001" green="0.65584096859999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dGA-wC-sXT">
+                                <rect key="frame" x="0.0" y="115" width="375" height="472"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_PREVIEW_CELL_ID" textLabel="g8l-Cj-m8v" detailTextLabel="FcE-4f-zwt" style="IBUITableViewCellStyleValue1" id="QPG-Hp-5bb">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QPG-Hp-5bb" id="ecB-2P-yaE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g8l-Cj-m8v">
+                                                    <rect key="frame" x="15" y="11" width="34" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FcE-4f-zwt">
+                                                    <rect key="frame" x="316" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPe-RR-896">
+                                <rect key="frame" x="16" y="602" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="UmJ-Kw-HEw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <state key="normal" title="View Portfolio">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="Mot-h3-sFA"/>
+                                    <action selector="submitOrder:" destination="KVu-TG-gKA" eventType="touchUpInside" id="vaH-5o-0yQ"/>
+                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="tn5-Ko-MU7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dGA-wC-sXT" firstAttribute="leading" secondItem="Vgy-X2-YzC" secondAttribute="leading" id="4Yj-wM-hzj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VFI-eu-WQO" secondAttribute="trailing" id="6KF-TH-pIV"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Qcl-Bo-vyX" secondAttribute="leading" id="7eu-ce-Uqd"/>
+                            <constraint firstItem="PPe-RR-896" firstAttribute="leading" secondItem="Vgy-X2-YzC" secondAttribute="leadingMargin" id="XCx-VP-74W"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="VFI-eu-WQO" secondAttribute="leading" id="XfM-Cl-BZM"/>
+                            <constraint firstItem="PPe-RR-896" firstAttribute="top" secondItem="dGA-wC-sXT" secondAttribute="bottom" constant="15" id="by4-hS-fNt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qcl-Bo-vyX" secondAttribute="trailing" id="fbh-2v-zAP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PPe-RR-896" secondAttribute="trailing" id="pdT-DM-QeZ"/>
+                            <constraint firstItem="4rQ-nE-Ksl" firstAttribute="top" secondItem="PPe-RR-896" secondAttribute="bottom" constant="15" id="qY5-u1-YR6"/>
+                            <constraint firstItem="Qcl-Bo-vyX" firstAttribute="top" secondItem="VFI-eu-WQO" secondAttribute="bottom" constant="15" id="sqQ-er-Hxu"/>
+                            <constraint firstItem="VFI-eu-WQO" firstAttribute="top" secondItem="beS-m8-VBF" secondAttribute="bottom" constant="15" id="xaQ-DM-Glo"/>
+                            <constraint firstItem="dGA-wC-sXT" firstAttribute="top" secondItem="Qcl-Bo-vyX" secondAttribute="bottom" constant="15" id="z9X-IK-AKm"/>
+                            <constraint firstAttribute="trailing" secondItem="dGA-wC-sXT" secondAttribute="trailing" id="zaw-GV-tLX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="brokerLabel" destination="VFI-eu-WQO" id="CEj-fo-WPT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dsC-HT-wZv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3176.8000000000002" y="260.41979010494754"/>
         </scene>
         <!--Select your broker-->
         <scene sceneID="nrh-a7-imO">

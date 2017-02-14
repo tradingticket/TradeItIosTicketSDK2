@@ -32,6 +32,8 @@
 		52E4AE931E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		52E4AE941E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		75205BB61E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */; };
+		75205BB81E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB71E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift */; };
+		75205BB91E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB71E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift */; };
 		753850821E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
 		753850831E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
 		756967621DC911DF00A7913D /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA501DB7EEB400E5435C /* TradeIt.storyboard */; };
@@ -678,6 +680,7 @@
 		52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+TradeIt.swift"; sourceTree = "<group>"; };
 		6346D92CEA86B9A6400B3E04 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectionDetailCellTableViewCell.swift; sourceTree = "<group>"; };
+		75205BB71E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooTradingConfirmationViewController.swift; sourceTree = "<group>"; };
 		753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItAccountSelectionUIFlow.swift; sourceTree = "<group>"; };
 		756FAEF51DB818CD00D5B112 /* FakeTradeItAccountManagementTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItAccountManagementTableViewManager.swift; sourceTree = "<group>"; };
 		756FAEF61DB818CD00D5B112 /* FakeTradeItAccountSelectionTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItAccountSelectionTableViewManager.swift; sourceTree = "<group>"; };
@@ -1541,6 +1544,7 @@
 				FA58527E1E413B2900078352 /* TradeItSelectionViewController.swift */,
 				FA4CC9411E42BC5A00C268A4 /* TradeItYahooTradePreviewViewController.swift */,
 				75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */,
+				75205BB71E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift */,
 			);
 			name = Yahoo;
 			sourceTree = "<group>";
@@ -2310,6 +2314,7 @@
 				526E31091E302D1600636640 /* TradeItYahooAccountSelectionTableViewManager.swift in Sources */,
 				75BAABB91DB7EF2F00E5435C /* TradeItJsonConverter.m in Sources */,
 				75BAABCD1DB7EF2F00E5435C /* TradeItPreviewTradeOrderDetails.m in Sources */,
+				75205BB81E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift in Sources */,
 				75BAAB791DB7EF2F00E5435C /* TIEMSJSONModelClassProperty.m in Sources */,
 				75BAAACC1DB7EEB400E5435C /* TradeItPortfolioErrorHandlingView.swift in Sources */,
 				75BAAAD01DB7EEB400E5435C /* TradeItPortfolioFxPositionsTableViewCell.swift in Sources */,
@@ -2614,6 +2619,7 @@
 				FA80FFC31DF202EB00C54091 /* TradeItOAuthAccessTokenRequest.m in Sources */,
 				FC6E79F81DCD1F8B005225CC /* TIEMSJSONModel.m in Sources */,
 				FC6E79F91DCD1F8B005225CC /* TradeItAccountManagementViewController.swift in Sources */,
+				75205BB91E53B47B00FB2509 /* TradeItYahooTradingConfirmationViewController.swift in Sources */,
 				FC6E79FA1DCD1F8B005225CC /* TradeItPreviewTradeResult.m in Sources */,
 				FC6E79FB1DCD1F8B005225CC /* TradeItWelcomeViewController.swift in Sources */,
 				FC6E79FC1DCD1F8B005225CC /* TradeItViewController.swift in Sources */,

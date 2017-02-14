@@ -5,7 +5,6 @@ import UIKit
     @IBOutlet weak var viewPortfolioButton: UIButton!
     var placeOrderResult: TradeItPlaceOrderResult?
     var viewControllerProvider = TradeItViewControllerProvider()
-    var tradingUIFlow = TradeItTradingUIFlow()
 
     weak var delegate: TradeItTradingConfirmationViewControllerDelegate?
 
@@ -19,7 +18,7 @@ import UIKit
     @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(self)
     }
-    
+
     @IBAction func portfolioButtonWasTapped(_ sender: AnyObject) {
         if let navigationController = self.navigationController {
             let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)

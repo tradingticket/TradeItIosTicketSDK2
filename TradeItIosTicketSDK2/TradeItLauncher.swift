@@ -1,3 +1,7 @@
+protocol OAuthCompletionListener {
+    func onOAuthCompleted(linkedBroker: TradeItLinkedBroker)
+}
+
 @objc public class TradeItLauncher: NSObject {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
@@ -27,7 +31,7 @@
             let oAuthVerifier = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.oAuthVerifier.rawValue) else {
             let errorMessage = "Received invalid OAuth callback URL: \(oAuthCallbackUrl.absoluteString)"
             print("TradeItSDK ERROR: \(errorMessage)")
-            TradeItAlertManager().showAlert(onViewController: viewController,
+            self.alertManager.showAlert(onViewController: viewController,
                                             withTitle: "OAuth Failed",
                                             withMessage: errorMessage,
                                             withActionTitle: "OK")
@@ -37,10 +41,12 @@
         TradeItSDK.linkedBrokerManager.completeOAuth(
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { linkedBroker in
-                print("=====> OAuth successful for \(linkedBroker.brokerName)!")
-
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
+                        if let oAuthCompletionListener = viewController as? OAuthCompletionListener {
+                            oAuthCompletionListener.onOAuthCompleted(linkedBroker: linkedBroker)
+                        }
+
                         self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
                     },
                     onSecurityQuestion: { (securityQuestion, answerSecurityQuestion, cancelSecurityQuestion) in
@@ -58,6 +64,10 @@
                             withLinkedBroker: linkedBroker,
                             onViewController: viewController,
                             onFinished : {
+                                if let oAuthCompletionListener = viewController as? OAuthCompletionListener {
+                                    oAuthCompletionListener.onOAuthCompleted(linkedBroker: linkedBroker)
+                                }
+
                                 self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
                             }
                         )
@@ -66,7 +76,7 @@
             },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode()), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
-                TradeItAlertManager().showError(errorResult, onViewController: viewController)
+                self.alertManager.showError(errorResult, onViewController: viewController)
             }
         )
     }

@@ -1,6 +1,6 @@
-import UIKit
+ import UIKit
 
-class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
+class TradeItBrokerManagementViewController: TradeItViewController, OAuthCompletionListener, TradeItBrokerManagementViewControllerBrokersTableDelegate {
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
@@ -17,9 +17,11 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // TODO: CHANGE THIS TO BE A UIFLOW INSTEAD OF USING SEGUES
         if segue.identifier == toAccountManagementScreen {
@@ -28,6 +30,12 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
                 accountManagementViewController.linkedBroker = broker
             }
         }
+    }
+
+    // MARK: OAuthCompletionListener
+
+    func onOAuthCompleted(linkedBroker: TradeItLinkedBroker) {
+        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
     }
     
     // MARK: - TradeItBrokerManagementViewControllerBrokersTableDelegate methods

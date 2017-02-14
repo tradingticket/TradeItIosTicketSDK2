@@ -2,7 +2,7 @@ import UIKit
 import PromiseKit
 import MBProgressHUD
 
-class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
+class TradeItPortfolioViewController: TradeItViewController, OAuthCompletionListener, TradeItPortfolioAccountsTableDelegate, TradeItPortfolioErrorHandlingViewDelegate, TradeItPortfolioPositionsTableDelegate {
     var alertManager = TradeItAlertManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
@@ -47,6 +47,12 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
 
     override func viewWillAppear(_ animated: Bool) {
         self.updatePortfolioScreen()
+    }
+
+    // MARK: OAuthCompletionListener
+
+    func onOAuthCompleted(linkedBroker: TradeItLinkedBroker) {
+        self.refreshBrokers()
     }
     
     // MARK: Private

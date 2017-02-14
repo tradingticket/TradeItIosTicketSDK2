@@ -88,8 +88,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func handleExampleOAuth(oAuthCallbackUrl: URL) {
         if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+
             while let presentedViewController = topViewController.presentedViewController {
                 topViewController = presentedViewController
+            }
+
+            if let navController = topViewController as? UINavigationController,
+                let navTopViewController = navController.topViewController {
+                topViewController = navTopViewController
             }
 
             TradeItSDK.launcher.handleOAuthCallback(onViewController: topViewController, oAuthCallbackUrl: oAuthCallbackUrl)

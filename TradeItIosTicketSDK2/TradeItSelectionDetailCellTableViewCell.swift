@@ -9,7 +9,7 @@ class TradeItSelectionDetailCellTableViewCell: UITableViewCell {
         // TODO: color disclosure indicator chevron
     }
 
-    func configure(detailPrimaryText: String, detailSecondaryText: String) {
+    func configure(detailPrimaryText: String?, detailSecondaryText: String?) {
         self.detailPrimaryLabel.text = detailPrimaryText
         self.detailSecondaryLabel.text = detailSecondaryText
     }

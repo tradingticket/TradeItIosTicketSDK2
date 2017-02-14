@@ -31,7 +31,6 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         self.accountSelectionViewController = accountSelectionViewController
 
         self.setOrderDefaults()
-        self.reloadTicket()
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -40,7 +39,6 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-
         self.reloadTicket()
     }
 
@@ -124,13 +122,66 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     }
 
     // MARK: TradeItYahooAccountSelectionViewControllerDelegate
+
     func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
+        self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private
+
+    private func selectedAccountChanged() {
+        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(onSuccess: {
+            if self.order.action == .buy {
+                self.updateAccountOverview()
+            } else {
+                self.updateSharesOwned()
+            }
+        }, onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                onCancelSecurityQuestion: onCancelSecurityQuestion
+            )
+        }, onFailure: { error in
+            self.alertManager.showRelinkError(
+                error,
+                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                onViewController: self,
+                onFinished: self.selectedAccountChanged
+            )
+        })
+    }
+
+    private func updateAccountOverview() {
+        self.order.linkedBrokerAccount?.getAccountOverview(onSuccess: { accountOverview in
+            self.reload(row: .account)
+        }, onFailure: { error in
+            self.alertManager.showRelinkError(
+                error,
+                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                onViewController: self,
+                onFinished: self.selectedAccountChanged
+            )
+        })
+
+    }
+
+    private func updateSharesOwned() {
+        self.order.linkedBrokerAccount?.getPositions(onSuccess: { positions in
+            self.reload(row: .account)
+        }, onFailure: { error in
+            self.alertManager.showRelinkError(
+                error,
+                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                onViewController: self,
+                onFinished: self.selectedAccountChanged
+            )
+        })
+    }
 
     private func setTitle() {
         var title = "Trade"
@@ -169,6 +220,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     private func reloadTicket() {
         self.setTitle()
         self.setReviewButtonEnablement()
+        self.selectedAccountChanged()
 
         var ticketRows: [TicketRow] = [
             .account,
@@ -192,12 +244,12 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         self.tableView.reloadData()
     }
 
-    private func reloadEstimatedCostRow() {
-        guard let indexOfEstimatedCost = self.ticketRows.index(of: .estimatedCost) else {
+    private func reload(row: TicketRow) {
+        guard let indexOfRow = self.ticketRows.index(of: row) else {
             return
         }
 
-        let indexPath = IndexPath.init(row: indexOfEstimatedCost, section: 0)
+        let indexPath = IndexPath.init(row: indexOfRow, section: 0)
         self.tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 
@@ -215,7 +267,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 placeholderText: "Enter shares",
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reloadEstimatedCostRow()
+                    self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -225,7 +277,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 placeholderText: "Enter limit price",
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
-                    self.reloadEstimatedCostRow()
+                    self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -235,7 +287,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 placeholderText: "Enter stop price",
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
-                    self.reloadEstimatedCostRow()
+                    self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -256,12 +308,39 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
-                detailPrimaryText: self.order.linkedBrokerAccount?.accountName ?? "",
-                detailSecondaryText: "Buying Power"
+                detailPrimaryText: self.order.linkedBrokerAccount?.accountName,
+                detailSecondaryText: accountSecondaryText()
             )
         }
 
         return cell
+    }
+
+    private func accountSecondaryText() -> String? {
+        if self.order.action == .buy {
+            return buyingPowerText()
+        } else {
+            return sharesOwnedText()
+        }
+    }
+
+    private func buyingPowerText() -> String? {
+        guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
+        return "Buying Power: " + NumberFormatter.formatCurrency(
+            buyingPower,
+            currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE
+        )
+    }
+
+    private func sharesOwnedText() -> String? {
+        guard let positions = self.order.linkedBrokerAccount?.positions, !positions.isEmpty else { return nil }
+
+        let positionMatchingSymbol = positions.filter { portfolioPosition in
+            TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == self.order.symbol
+        }.first
+
+        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
+        return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
     }
 
     enum TicketRow {

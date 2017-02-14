@@ -203,12 +203,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: self.launchYahooOAuthFlow
                     ),
                     Action(
-                        label: "Launch Trading",
+                        label: "Launch Trading - Buy",
                         action: {
                             let order = TradeItOrder()
 
                             order.symbol = "YHOO"
                             order.action = .buy
+                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+                        }
+                    ),
+                    Action(
+                        label: "Launch Trading - Sell",
+                        action: {
+                            let order = TradeItOrder()
+
+                            order.symbol = "GE"
+                            order.action = .sell
                             TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
                         }
                     )

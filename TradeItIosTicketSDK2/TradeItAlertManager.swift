@@ -20,10 +20,18 @@ import UIKit
     }
 
     public func showRelinkError(_ error: TradeItErrorResult,
-                                withLinkedBroker linkedBroker: TradeItLinkedBroker,
+                                withLinkedBroker linkedBroker: TradeItLinkedBroker?,
                                 onViewController viewController: UIViewController,
                                 oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
                                 onFinished: @escaping () -> Void) {
+        guard let linkedBroker = linkedBroker else {
+            return self.showError(
+                error,
+                onViewController: viewController,
+                onFinished: onFinished
+            )
+        }
+
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
@@ -54,9 +62,10 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         default:
-            self.showError(error,
+            self.showError(
+                error,
                 onViewController: viewController,
-                      onFinished: onFinished
+                onFinished: onFinished
             )
         }
     }

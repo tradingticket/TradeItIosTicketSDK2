@@ -30,7 +30,8 @@ class TradeItPortfolioErrorHandlingViewManager: NSObject {
         }
     }
     
-    func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker) {
+    func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker?) {
+        guard let linkedBrokerInError = linkedBrokerInError else { return }
         self.accountInfoContainerView?.isHidden = true
         self.errorHandlingView?.isHidden = false
         self.errorHandlingView?.populateWithLinkedBrokerError(linkedBrokerInError)

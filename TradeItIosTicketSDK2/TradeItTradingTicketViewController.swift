@@ -219,31 +219,33 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
-        linkedBroker.authenticateIfNeeded(onSuccess: {
-            activityView.hide(animated: true)
-            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
-                self.updateSymbolView()
-                self.updateTradingBrokerAccountView()
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                activityView.hide(animated: true)
+                linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
+                    self.updateSymbolView()
+                    self.updateTradingBrokerAccountView()
+                }, onFailure: { errorResult in
+                    self.alertManager.showError(errorResult, onViewController: self)
+                })
+            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelQuestion
+                )
             }, onFailure: { errorResult in
-                self.alertManager.showError(errorResult, onViewController: self)
-            })
-        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-            activityView.hide(animated: true)
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelQuestion
-            )
-        }, onFailure: { errorResult in
-            activityView.hide(animated: true)
-            self.alertManager.showRelinkError(
-                errorResult,
-                withLinkedBroker: linkedBrokerAccount.linkedBroker,
-                onViewController: self,
-                onFinished: {}
-            )
-        })
+                activityView.hide(animated: true)
+                self.alertManager.showRelinkError(
+                    errorResult,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self,
+                    onFinished: {}
+                )
+            }
+        )
     }
 
     private func orderActionSelected(_ action: UIAlertAction) {

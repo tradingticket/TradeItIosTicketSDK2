@@ -1,6 +1,6 @@
  import UIKit
 
-class TradeItBrokerManagementViewController: TradeItViewController, OAuthCompletionListener, TradeItBrokerManagementViewControllerBrokersTableDelegate {
+class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
@@ -30,12 +30,6 @@ class TradeItBrokerManagementViewController: TradeItViewController, OAuthComplet
                 accountManagementViewController.linkedBroker = broker
             }
         }
-    }
-
-    // MARK: OAuthCompletionListener
-
-    func onOAuthCompleted(linkedBroker: TradeItLinkedBroker) {
-        self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
     }
     
     // MARK: - TradeItBrokerManagementViewControllerBrokersTableDelegate methods

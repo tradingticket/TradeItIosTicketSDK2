@@ -6,107 +6,21 @@ protocol OAuthCompletionListener {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
+    let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
     let deviceManager = TradeItDeviceManager()
     let alertManager = TradeItAlertManager()
-
-    private enum OAuthCallbackDestinationValues: String {
-        case trading = "trading"
-        case portfolio = "portfolio"
-    }
-
-    private enum OAuthCallbackQueryParamKeys: String {
-        case oAuthVerifier = "oAuthVerifier"
-        case tradeItDestination = "tradeItDestination"
-        case tradeItOrderSymbol = "tradeItOrderSymbol"
-        case tradeItOrderAction = "tradeItOrderAction"
-    }
 
     override internal init() {}
 
     public func handleOAuthCallback(onViewController viewController: UIViewController, oAuthCallbackUrl: URL) {
         print("=====> LAUNCHER.handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
-        guard let urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false),
-            let oAuthVerifier = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.oAuthVerifier.rawValue) else {
-            let errorMessage = "Received invalid OAuth callback URL: \(oAuthCallbackUrl.absoluteString)"
-            print("TradeItSDK ERROR: \(errorMessage)")
-            self.alertManager.showAlert(onViewController: viewController,
-                                            withTitle: "OAuth Failed",
-                                            withMessage: errorMessage,
-                                            withActionTitle: "OK")
-            return
-        }
+        let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
-        TradeItSDK.linkedBrokerManager.completeOAuth(
-            withOAuthVerifier: oAuthVerifier,
-            onSuccess: { linkedBroker in
-                linkedBroker.authenticateIfNeeded(
-                    onSuccess: {
-                        if let oAuthCompletionListener = viewController as? OAuthCompletionListener {
-                            oAuthCompletionListener.onOAuthCompleted(linkedBroker: linkedBroker)
-                        }
-
-                        self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
-                    },
-                    onSecurityQuestion: { (securityQuestion, answerSecurityQuestion, cancelSecurityQuestion) in
-                        self.alertManager.promptUserToAnswerSecurityQuestion(
-                            securityQuestion,
-                            onViewController: viewController,
-                            onAnswerSecurityQuestion: answerSecurityQuestion,
-                            onCancelSecurityQuestion: cancelSecurityQuestion
-                        )
-
-                    },
-                    onFailure: { errorResult in
-                        self.alertManager.showRelinkError(
-                            errorResult,
-                            withLinkedBroker: linkedBroker,
-                            onViewController: viewController,
-                            onFinished : {
-                                if let oAuthCompletionListener = viewController as? OAuthCompletionListener {
-                                    oAuthCompletionListener.onOAuthCompleted(linkedBroker: linkedBroker)
-                                }
-
-                                self.launchOAuthDestination(onViewController: viewController, urlComponents: urlComponents)
-                            }
-                        )
-                    }
-                )
-            },
-            onFailure: { errorResult in
-                print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode()), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
-                self.alertManager.showError(errorResult, onViewController: viewController)
-            }
-        )
-    }
-
-    private func launchOAuthDestination(onViewController viewController: UIViewController,
-                                        urlComponents: URLComponents) {
-        if let destinationString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue),
-            let destination = OAuthCallbackDestinationValues(rawValue: destinationString) {
-
-            switch destination {
-            case .portfolio:
-                TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
-            case .trading:
-                let symbol = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue)
-                var action = TradeItOrderActionPresenter.DEFAULT
-
-                if let actionString = urlComponents.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue) {
-                    let actionFromQueryString = TradeItOrderActionPresenter.enumFor(actionString)
-                    if actionFromQueryString != .unknown {
-                        action = actionFromQueryString
-                    }
-                }
-
-                let order = TradeItOrder(symbol: symbol, action: action)
-
-                TradeItSDK.launcher.launchTrading(fromViewController: viewController,
-                                                  withOrder: order)
-            }
-        }
-
+        self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
+            fromViewController: viewController,
+            withOAuthCallbackUrlParser: oAuthCallbackUrlParser)
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
@@ -245,19 +159,6 @@ protocol OAuthCompletionListener {
                 fromViewController: viewController,
                 showWelcomeScreen: true,
                 oAuthCallbackUrl: oAuthCallbackUrl
-//                onLinked: { presentedNavController, linkedBroker in
-//                    self.accountSelectionUIFlow.pushAccountSelectionFlow(
-//                        onNavigationController: presentedNavController,
-//                        title: title,
-//                        onSelected: { presentedNavController, linkedBrokerAccount in
-//                            presentedNavController.dismiss(animated: true, completion: nil)
-//                            onSelected(linkedBrokerAccount)
-//                        },
-//                        onFlowAborted: { presentedNavController in
-//                            presentedNavController.dismiss(animated: true, completion: nil)
-//                        }
-//                    )
-//                }
             )
         } else {
             self.accountSelectionUIFlow.presentAccountSelectionFlow(

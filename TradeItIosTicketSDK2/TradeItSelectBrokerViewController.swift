@@ -77,8 +77,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                UIApplication.shared.openURL(url) // TODO: TEST THIS
-//                UIApplication.shared.openURL(URL(string:url) as! URL)
+                UIApplication.shared.openURL(url)
                 self.dismiss(animated: true)
             },
             onFailure: { errorResult in

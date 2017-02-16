@@ -44,6 +44,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 
                 TradeItSDK.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
+                // TODO: Move 0 accounts check to previous screen and dismiss this screen
+
                 if (TradeItSDK.linkedBrokerManager.linkedBrokers.count) > 0 {
                     _ = self.navigationController?.popViewController(animated: true)
                 } else {

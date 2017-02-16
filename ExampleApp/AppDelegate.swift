@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      open url: URL,
                      sourceApplication: String?,
                      annotation: Any) -> Bool {
+        print("=====> Received OAuth callback URL: \(url.absoluteString)")
 
         let EXAMPLE_HOST = "completeOAuth"
 
@@ -43,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.completeManualOAuth(oAuthVerifier: oAuthVerifier, host: host)
             }
         } else {
-            print("=====> ERROR: Received invalid OAuth callback URL: \(url)")
+            print("=====> ERROR: Received invalid OAuth callback URL: \(url.absoluteString)")
             return false
         }
 

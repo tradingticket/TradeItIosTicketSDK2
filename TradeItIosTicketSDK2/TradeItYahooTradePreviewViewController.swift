@@ -32,10 +32,11 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     // MARK: IBActions
 
     @IBAction func submitOrder(_ sender: UIButton) {
-        guard let placeOrderCallback = placeOrderCallback else {
-            print("TradeIt SDK ERROR: placeOrderCallback not set!")
-            return
-        }
+        guard let placeOrderCallback = placeOrderCallback
+            else {
+                print("TradeIt SDK ERROR: placeOrderCallback not set!")
+                return
+            }
 
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
@@ -44,9 +45,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             onSuccess: {
                 activityView.label.text = "Placing Order"
 
-                placeOrderCallback({ result in
+                placeOrderCallback({ placeOrderResult in
                     activityView.hide(animated: true)
-                    self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
+                    self.delegate?.orderSuccessfullyPlaced(
+                        onTradePreviewViewController: self,
+                        withPlaceOrderResult: placeOrderResult
+                    )
                 }, { error in
                     activityView.hide(animated: true)
                     guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {

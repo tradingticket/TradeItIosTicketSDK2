@@ -492,6 +492,7 @@
                     </view>
                     <connections>
                         <outlet property="brokerLabel" destination="VFI-eu-WQO" id="CEj-fo-WPT"/>
+                        <outlet property="confirmationTable" destination="dGA-wC-sXT" id="bKA-0o-BZH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dsC-HT-wZv" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -93,6 +93,8 @@ TradeItYahooTradePreviewViewControllerDelegate, TradeItYahooTradingConfirmationV
 
         if let tradingConfirmationViewController = nextViewController as? TradeItYahooTradingConfirmationViewController {
             tradingConfirmationViewController.delegate = self
+            tradingConfirmationViewController.linkedBrokerAccount = tradePreviewViewController.linkedBrokerAccount
+            tradingConfirmationViewController.previewOrderResult = tradePreviewViewController.previewOrderResult
             tradingConfirmationViewController.placeOrderResult = placeOrderResult
         }
 

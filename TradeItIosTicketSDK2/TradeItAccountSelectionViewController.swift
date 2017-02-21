@@ -26,6 +26,17 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
     }
     
+    override func configureNavigationItem() {
+        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
+        if enabledBrokers.isEmpty {
+                self.createCloseButton()
+        }
+    }
+    
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+            self.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: TradeItAccounSelectionTableViewManagerDelegate
     
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,

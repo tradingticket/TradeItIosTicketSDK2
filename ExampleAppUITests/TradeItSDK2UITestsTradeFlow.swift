@@ -25,13 +25,15 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         symbolSearch(app, symbol: "GE")
         let activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
+        waitForElementToAppear(app.staticTexts["GE"])
         XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
         waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
         app.tables.element.cells.element(boundBy: 0).tap()
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        XCTAssert(app.buttons["Individual**cct1"].exists)
+        let accountName = "Individual**cct1"
+        waitForElementToAppear(app.buttons[accountName])
         XCTAssert(app.staticTexts["$2,408.12"].exists)
         XCTAssert(app.buttons["GE"].exists)
         testTradeScreenValues(app)
@@ -62,6 +64,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         symbolSearch(app, symbol: "GE")
         let activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
+        waitForElementToAppear(app.staticTexts["GE"])
         XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
         waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
         app.tables.element.cells.element(boundBy: 0).tap()
@@ -69,8 +72,8 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
         waitForElementToAppear(app.buttons[username])
-        XCTAssert(app.staticTexts["$2,408.12"].exists)
         waitForElementToAppear(app.buttons["GE"])
+        XCTAssert(app.staticTexts["$2,408.12"].exists)
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
@@ -86,8 +89,9 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         testConfirmation(app)
         app.buttons["Trade Again"].tap()
         waitForElementToAppear(app.navigationBars["Search"])
-        symbolSearch(app, symbol: "APPL")
+        symbolSearch(app, symbol: "AAPL")
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
+        waitForElementToAppear(app.staticTexts["AAPL"])
         XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
         waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
         app.tables.element.cells.element(boundBy: 0).tap()
@@ -100,16 +104,16 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        let username = "Individual**cct1"
-        waitForElementToAppear(app.staticTexts[username])
+        let accountName = "Individual**cct1"
+        waitForElementToAppear(app.staticTexts[accountName])
         XCTAssert(app.tables.staticTexts["AAPL"].exists)
         app.tables.staticTexts["AAPL"].tap()
         waitForElementToAppear(app.tables.buttons["BUY"])
         waitForElementToAppear(app.tables.buttons["SELL"])
         app.tables.buttons["BUY"].tap()
         waitForElementToAppear(app.navigationBars["Trade"])
+        waitForElementToAppear(app.buttons[accountName])
         XCTAssert(app.buttons["AAPL"].exists)
-        waitForElementToAppear(app.buttons[username])
         XCTAssert(app.buttons["Buy"].exists)
         app.navigationBars["Trade"].buttons["Close"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
@@ -119,8 +123,8 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToAppear(app.tables.buttons["SELL"])
         app.tables.buttons["SELL"].tap()
         waitForElementToAppear(app.navigationBars["Trade"])
+        waitForElementToAppear(app.buttons[accountName])
         XCTAssert(app.buttons["AAPL"].exists)
-        waitForElementToAppear(app.buttons[username])
         XCTAssert(app.buttons["Sell"].exists)
     }
 }

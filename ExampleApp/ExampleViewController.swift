@@ -22,6 +22,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         sections = [
             Section(
+                label: "Debugging",
+                actions: [
+                    Action(
+                        label: "deleteLinkedBrokers",
+                        action: self.deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "test",
+                        action: self.test
+                    )
+                ]
+            ),
+            Section(
                 label: "TradeIt Flows",
                 actions: [
                     Action(
@@ -109,32 +122,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "launchAlertQueue",
                         action: self.launchAlertQueue
-                    )
-                ]
-            ),
-            Section(
-                label: "Debugging",
-                actions: [
-                    Action(
-                        label: "deleteLinkedBrokers",
-                        action: self.deleteLinkedBrokers
-                    ),
-                    Action(
-                        label: "test",
-                        action: self.test
-                    )
-                ]
-            ),
-            Section(
-                label: "Debugging",
-                actions: [
-                    Action(
-                        label: "deleteLinkedBrokers",
-                        action: deleteLinkedBrokers
-                    ),
-                    Action(
-                        label: "test",
-                        action: test
                     )
                 ]
             ),

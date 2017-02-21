@@ -8,7 +8,7 @@
     public static let yahooLauncher = TradeItYahooLauncher()
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
-    private static var _linkedBrokerManager: TradeItLinkedBrokerManager?
+    internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
             precondition(_linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")

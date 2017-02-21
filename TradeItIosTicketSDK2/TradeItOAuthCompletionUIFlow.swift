@@ -37,7 +37,6 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
             if let navController = viewController.navigationController {
                 navController.setViewControllers([portfolioViewController], animated: true)
             }
-            // TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
         case .trading:
             if let navController = viewController.navigationController {
                 self.tradingUIFlow.pushTradingFlow(onNavigationController: navController,

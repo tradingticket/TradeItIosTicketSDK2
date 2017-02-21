@@ -464,7 +464,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func deleteLinkedBrokers() -> Void {
-        print("=====> Keychain Linked Login count before clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
+        let originalBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
+        print("=====> Keychain Linked Login count before clearing: \(originalBrokerCount)")
 
         let appDomain = Bundle.main.bundleIdentifier;
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
@@ -480,6 +481,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
-        print("=====> Keychain Linked Login count after clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
+        let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Deletion complete.",
+            withMessage: "Deleted \(originalBrokerCount) linked brokers. \(updatedBrokerCount) brokers remaining.",
+            withActionTitle: "OK")
+
+        print("=====> Keychain Linked Login count after clearing: \(updatedBrokerCount)")
     }
 }

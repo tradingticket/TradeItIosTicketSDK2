@@ -8,7 +8,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     override init() {
-        TradeItSDK.configure(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT)
+        TradeItSDK.configure(apiKey: AppDelegate.API_KEY,
+                             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+                             environment: AppDelegate.ENVIRONMENT)
         super.init()
     }
 
@@ -25,47 +27,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      open url: URL,
                      sourceApplication: String?,
                      annotation: Any) -> Bool {
-        let HOST = "completeOAuth"
-        let YAHOO_HOST = "completeYahooOAuth"
+        print("=====> Received OAuth callback URL: \(url.absoluteString)")
+
+        let EXAMPLE_HOST = "completeOAuth"
 
         // Check for the intended url.scheme, url.host, and url.path before proceeding
         if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
             urlComponents.scheme == "tradeitexamplescheme",
             let host = urlComponents.host,
-            [HOST, YAHOO_HOST].contains(host),
             let queryItems = urlComponents.queryItems,
             let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
-            TradeItSDK.linkedBrokerManager.completeOAuth(
-                withOAuthVerifier: oAuthVerifier,
-                onSuccess: { linkedBroker in
-                    print("=====> OAuth successful for \(linkedBroker.brokerName)!")
 
-                    if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
-                        while let presentedViewController = topViewController.presentedViewController {
-                            topViewController = presentedViewController
-                        }
-
-                        if let navController = topViewController as? UINavigationController,
-                            let exampleViewController = navController.topViewController as? ExampleViewController {
-                            switch host {
-                            case HOST:
-                                exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
-                            case YAHOO_HOST:
-                                exampleViewController.yahooOAuthFlowCompleted(withLinkedBroker: linkedBroker)
-                            default:
-                                print("=====> ERROR: Received invalid deep link URL: \(url)")
-                            }
-                        }
-                    }
-                }, onFailure: { errorResult in
-                    print("=====> ERROR: OAuth failed! \(errorResult.errorCode()): \(errorResult.shortMessage): \(errorResult.longMessages?.first)")
-                }
-            )
+            if host == EXAMPLE_HOST {
+                self.handleExampleOAuth(oAuthCallbackUrl: url)
+            } else {
+                self.completeManualOAuth(oAuthVerifier: oAuthVerifier, host: host)
+            }
         } else {
-            print("=====> ERROR: Received invalid deep link URL: \(url)")
+            print("=====> ERROR: Received invalid OAuth callback URL: \(url.absoluteString)")
             return false
         }
 
         return true
+    }
+
+    // MARK: Private
+
+    private func completeManualOAuth(oAuthVerifier: String, host: String) {
+        let MANUAL_HOST = "manualCompleteOAuth"
+        let YAHOO_HOST = "completeYahooOAuth"
+
+        // TODO: Move this into exampleViewController.oAuthFlowCompleted
+        TradeItSDK.linkedBrokerManager.completeOAuth(
+            withOAuthVerifier: oAuthVerifier,
+            onSuccess: { linkedBroker in
+                print("=====> OAuth successful for \(linkedBroker.brokerName)!")
+
+                if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+                    while let presentedViewController = topViewController.presentedViewController {
+                        topViewController = presentedViewController
+                    }
+
+                    if let navController = topViewController as? UINavigationController,
+                        let exampleViewController = navController.topViewController as? ExampleViewController {
+                        switch host {
+                        case MANUAL_HOST:
+                            exampleViewController.oAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                        case YAHOO_HOST:
+                            exampleViewController.yahooOAuthFlowCompleted(withLinkedBroker: linkedBroker)
+                        default:
+                            print("=====> ERROR: Received unknown OAuth callback URL host: \(host)")
+                        }
+                    }
+                }
+            },
+            onFailure: { errorResult in
+                print("=====> ERROR: OAuth failed! \(errorResult.errorCode()): \(errorResult.shortMessage): \(errorResult.longMessages?.first)")
+            }
+        )
+    }
+
+    private func handleExampleOAuth(oAuthCallbackUrl: URL) {
+        if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+
+            while let presentedViewController = topViewController.presentedViewController {
+                topViewController = presentedViewController
+            }
+
+            if let navController = topViewController as? UINavigationController,
+                let navTopViewController = navController.topViewController {
+                topViewController = navTopViewController
+            }
+
+            TradeItSDK.launcher.handleOAuthCallback(onViewController: topViewController, oAuthCallbackUrl: oAuthCallbackUrl)
+        }
     }
 }

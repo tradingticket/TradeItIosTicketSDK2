@@ -24,21 +24,19 @@ import PromiseKit
     }
 
     public func getOAuthLoginPopupUrl(withBroker broker: String,
-                                      oAuthCallbackUrl: String,
-                                      onSuccess: @escaping (_ oAuthLoginPopupUrl: String) -> Void,
+                                      oAuthCallbackUrl: URL,
+                                      onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
                                       onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.connector.getOAuthLoginPopupUrlForMobile(withBroker: broker,
-                                                      interAppAddressCallback: oAuthCallbackUrl) { tradeItResult in
+                                                      oAuthCallbackUrl: oAuthCallbackUrl) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
-                guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthURL,
-                    !oAuthUrl.isEmpty
-                else {
+                guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthUrl() else {
                     onFailure(TradeItErrorResult(title: "Received empty OAuth login popup URL"))
                     return
                 }
 
-                onSuccess(oAuthLoginPopupUrlForMobileResult.oAuthURL ?? "")
+                onSuccess(oAuthUrl)
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             default:
@@ -49,15 +47,20 @@ import PromiseKit
 
     public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String,
                                                     userId: String,
-                                                    deepLinkCallback: String,
-                                                    onSuccess: @escaping (_ oAuthLoginPopupUrl: String) -> Void,
+                                                    oAuthCallbackUrl: URL,
+                                                    onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
                                                     onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.connector.getOAuthLoginPopupURLForTokenUpdate(withBroker: broker,
                                                            userId: userId,
-                                                           interAppAddressCallback: deepLinkCallback) { tradeItResult in
+                                                           oAuthCallbackUrl: oAuthCallbackUrl) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
-                onSuccess(oAuthLoginPopupUrlForTokenUpdateResult.oAuthURL ?? "")
+                guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl() else {
+                    onFailure(TradeItErrorResult(title: "Received empty OAuth token update popup URL"))
+                    return
+                }
+
+                onSuccess(oAuthUrl)
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             default:

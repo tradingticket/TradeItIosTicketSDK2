@@ -77,13 +77,13 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString *)broker
-                         interAppAddressCallback:(NSString *)interAppAddressCallback
+                                oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
                                  completionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItOAuthLoginPopupUrlForMobileRequest *oAuthLoginPopupUrlForMobileRequest
         = [[TradeItOAuthLoginPopupUrlForMobileRequest alloc] initWithApiKey:self.apiKey
                                                                      broker:broker
-                                                    interAppAddressCallback:interAppAddressCallback];
+                                                    interAppAddressCallback:[oAuthCallbackUrl absoluteString]];
 
     NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthLoginPopupUrlForMobileRequest
                                                                         emsAction:@"user/getOAuthLoginPopupUrlForMobile"
@@ -107,14 +107,14 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 - (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString *)broker
                                                userId:(NSString *)userId
-                              interAppAddressCallback:(NSString *)interAppAddressCallback
+                                     oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
                                       completionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItOAuthLoginPopupUrlForTokenUpdateRequest *oAuthLoginPopupUrlForTokenUpdateRequest
         = [[TradeItOAuthLoginPopupUrlForTokenUpdateRequest alloc] initWithApiKey:self.apiKey
                                                                           broker:broker
                                                                           userId:userId
-                                                         interAppAddressCallback:interAppAddressCallback];
+                                                         interAppAddressCallback:[oAuthCallbackUrl absoluteString]];
 
     NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthLoginPopupUrlForTokenUpdateRequest
                                                                         emsAction:@"user/getOAuthLoginPopupURLForTokenUpdate"

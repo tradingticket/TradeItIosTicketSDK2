@@ -1,29 +1,28 @@
 import UIKit
+import MBProgressHUD
 
 class TradeItLinkBrokerUIFlow: NSObject,
-                               TradeItWelcomeViewControllerDelegate,
-                               TradeItSelectBrokerViewControllerDelegate,
-                               TradeItLoginViewControllerDelegate {
+                               TradeItWelcomeViewControllerDelegate {
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var onLinkedCallback: ((UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
 
+    var oAuthCallbackUrl: URL?
+
     func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
-                                                  showWelcomeScreen: Bool,
-                                                  onLinked: @escaping (_ presentedNavController: UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void,
-                                                  onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
-        self.onLinkedCallback = onLinked
-        self.onFlowAbortedCallback = onFlowAborted
+                               showWelcomeScreen: Bool,
+                               oAuthCallbackUrl: URL) {
+        self.oAuthCallbackUrl = oAuthCallbackUrl
 
         let initialStoryboardId: TradeItStoryboardID = showWelcomeScreen ? .welcomeView : .selectBrokerView
 
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: initialStoryboardId)
 
-        if let rootViewController = navController.viewControllers[0] as? TradeItWelcomeViewController {
-            rootViewController.delegate = self
-        } else if let rootViewController = navController.viewControllers[0] as? TradeItSelectBrokerViewController {
-            rootViewController.delegate = self
+        if let welcomeViewController = navController.viewControllers[0] as? TradeItWelcomeViewController {
+            welcomeViewController.delegate = self
+        } else if let selectBrokerViewController = navController.viewControllers[0] as? TradeItSelectBrokerViewController {
+            selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
         }
         
         viewController.present(navController, animated: true, completion: nil)
@@ -31,21 +30,28 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
                                                  linkedBroker: TradeItLinkedBroker,
-                                                 onLinked: @escaping (_ presentedNavController: UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void,
-                                                 onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
-        self.onLinkedCallback = onLinked
-        self.onFlowAbortedCallback = onFlowAborted
-        
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.loginView)
-        
-        if let rootViewController = navController.viewControllers[0] as? TradeItLoginViewController {
-            rootViewController.delegate = self
-            rootViewController.selectedBroker = TradeItBroker(shortName: linkedBroker.linkedLogin.broker,
-                                                              longName: linkedBroker.linkedLogin.broker) // TODO: Don't have longName here, not sure what to do...
-            rootViewController.linkedBrokerToRelink = linkedBroker
+                                                 oAuthCallbackUrl: URL) {
+        guard let userId = linkedBroker.linkedLogin.userId else {
+            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
+            return
         }
-        
-        viewController.present(navController, animated: true, completion: nil)
+
+        let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
+        activityView.label.text = "Launching broker relinking"
+        activityView.show(animated: true)
+
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
+            withBroker: linkedBroker.brokerName,
+            userId: userId,
+            oAuthCallbackUrl: oAuthCallbackUrl,
+            onSuccess: { url in
+                activityView.hide(animated: true)
+                UIApplication.shared.openURL(url)
+            },
+            onFailure: { errorResult in
+                TradeItAlertManager().showError(errorResult, onViewController: viewController)
+            }
+        )
     }
     
     // MARK: TradeItWelcomeViewControllerDelegate
@@ -53,32 +59,9 @@ class TradeItLinkBrokerUIFlow: NSObject,
     func getStartedButtonWasTapped(_ fromWelcomeViewController: TradeItWelcomeViewController) {
         let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.selectBrokerView) as! TradeItSelectBrokerViewController
 
-        selectBrokerViewController.delegate = self
-        fromWelcomeViewController.navigationController!.pushViewController(selectBrokerViewController, animated: true)
-//        fromWelcomeViewController.navigationController!.setViewControllers([selectBrokerViewController], animated: true)
-    }
+        selectBrokerViewController.oAuthCallbackUrl = self.oAuthCallbackUrl
 
-    func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController) {
-        self.onFlowAbortedCallback?(welcomeViewController.navigationController!)
-    }
-
-    // MARK: TradeItSelectBrokerViewControllerDelegate
-
-    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItSelectBrokerViewController, broker: TradeItBroker) {
-        let loginViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.loginView) as! TradeItLoginViewController
-        loginViewController.delegate = self
-        loginViewController.selectedBroker = broker
-        fromSelectBrokerViewController.navigationController!.pushViewController(loginViewController, animated: true)
-    }
-
-    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController) {
-        self.onFlowAbortedCallback?(selectBrokerViewController.navigationController!)
-    }
-
-    // MARK: TradeItLoginViewControllerDelegate
-
-    func brokerLinked(fromTradeItLoginViewController: TradeItLoginViewController,
-                      withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.onLinkedCallback?(fromTradeItLoginViewController.navigationController!, linkedBroker)
+//        fromWelcomeViewController.navigationController!.pushViewController(selectBrokerViewController, animated: true)
+        fromWelcomeViewController.navigationController!.setViewControllers([selectBrokerViewController], animated: true)
     }
 }

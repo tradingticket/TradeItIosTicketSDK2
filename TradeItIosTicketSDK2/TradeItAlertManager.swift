@@ -22,16 +22,13 @@ import UIKit
     public func showRelinkError(_ error: TradeItErrorResult,
                                 withLinkedBroker linkedBroker: TradeItLinkedBroker,
                                 onViewController viewController: UIViewController,
+                                oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
                                 onFinished: @escaping () -> Void) {
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
                 linkedBroker: linkedBroker,
-                onLinked: { presentedNavController, linkedBroker in
-                    presentedNavController.dismiss(animated: true, completion: nil)
-                    linkedBroker.refreshAccountBalances(onFinished: onFinished)
-                },
-                onFlowAborted: { _ in onFinished() }
+                oAuthCallbackUrl: oAuthCallbackUrl
             )
         }
 

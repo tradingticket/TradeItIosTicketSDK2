@@ -32,9 +32,17 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         super.init()
     }
 
-    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
+                symbol: String? = nil,
+                action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT) {
+        super.init()
+
         self.linkedBrokerAccount = linkedBrokerAccount
         self.symbol = symbol
+
+        if action != .unknown {
+            self.action = action
+        }
     }
 
     public func requiresLimitPrice() -> Bool {

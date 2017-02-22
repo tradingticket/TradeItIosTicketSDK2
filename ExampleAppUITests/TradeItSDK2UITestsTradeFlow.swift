@@ -16,26 +16,28 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         super.tearDown()
     }
 
-    func testTradingWithWelcomeSingleAcc() {
+    func testTradeFlow() {
+        
+        //***********************************//
+        //* testTradingWithWelcomeSingleAcc *//
+        //***********************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchTrading")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         //symbol Search screen
         symbolSearch(app, symbol: "GE")
-        let activityIndicator = app.activityIndicators.element
+        var activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        waitForElementToAppear(app.staticTexts["GE"])
-        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
-        app.tables.element.cells.element(boundBy: 0).tap()
+        waitForElementToAppear(app.tables.staticTexts["GE"])
+        app.tables.staticTexts["GE"].tap()
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
         let accountName = "Individual**cct1"
         waitForElementToAppear(app.buttons[accountName])
+        waitForElementToAppear(app.buttons["GE"])
         XCTAssert(app.staticTexts["$2,408.12"].exists)
-        XCTAssert(app.buttons["GE"].exists)
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
@@ -49,25 +51,24 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         //Confirmation screen
         waitForElementToAppear(app.navigationBars["Confirmation"])
         testConfirmation(app)
-    }
-    
-    func testTradingFromPortfolioFlow(){
-        clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
-        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
-        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+        app.buttons["Close"].tap()
+        
+        //***********************************//
+        //* testTradingFromPortfolioFlow ****//
+        //***********************************//
+        let launchPortfolioText = app.tables.staticTexts["launchPortfolio"]
+        waitForElementToBeHittable(launchPortfolioText)
+        launchPortfolioText.tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
         let username = "Individual**cct1"
         XCTAssert(app.staticTexts[username].exists)
         XCTAssert(app.buttons["Trade"].exists)
         app.buttons["Trade"].tap()
         symbolSearch(app, symbol: "GE")
-        let activityIndicator = app.activityIndicators.element
+        activityIndicator = app.activityIndicators.element
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        waitForElementToAppear(app.staticTexts["GE"])
-        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
-        app.tables.element.cells.element(boundBy: 0).tap()
+        waitForElementToAppear(app.tables.staticTexts["GE"])
+        app.tables.staticTexts["GE"].tap()
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Trade"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
@@ -91,22 +92,20 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         waitForElementToAppear(app.navigationBars["Search"])
         symbolSearch(app, symbol: "AAPL")
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        waitForElementToAppear(app.staticTexts["AAPL"])
-        XCTAssertTrue(app.tables.element.cells.element(boundBy: 0).exists)
-        waitForElementToBeHittable(app.tables.element.cells.element(boundBy: 0))
-        app.tables.element.cells.element(boundBy: 0).tap()
+        waitForElementToAppear(app.tables.staticTexts["AAPL"])
+        app.tables.staticTexts["AAPL"].tap()
         waitForElementToAppear(app.navigationBars["Trade"])
-    }
-    
-    func testTradingFromPortfolioPositionFlow(){
-        clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
-        selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
-        submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+        app.buttons["Close"].tap()
+        app.buttons["Close"].tap()
+
+        //****************************************//
+        //* testTradingFromPortfolioPositionFlow *//
+        //****************************************//
+        waitForElementToBeHittable(launchPortfolioText)
+        launchPortfolioText.tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        let accountName = "Individual**cct1"
         waitForElementToAppear(app.staticTexts[accountName])
-        XCTAssert(app.tables.staticTexts["AAPL"].exists)
+        waitForElementToAppear(app.tables.staticTexts["AAPL"])
         app.tables.staticTexts["AAPL"].tap()
         waitForElementToAppear(app.tables.buttons["BUY"])
         waitForElementToAppear(app.tables.buttons["SELL"])

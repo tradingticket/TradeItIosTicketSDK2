@@ -19,16 +19,22 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     //******************//
     //* Portfolio Flow *//
     //******************//
-    func testPortfolioWithWelcomeSingleAcc() {
+    func testPortfolioFlow() {
+        
+        //*************************************//
+        //* testPortfolioWithWelcomeSingleAcc *//
+        //*************************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
         selectAccountOnPortfolioScreen(app, rowNum: 1)
         testPortfolioValues(app, brokerName: "Dummy")
-    }
-    
-    func testPortfolioWithoutWelcome(){
+        app.buttons["Close"].tap()
+        
+        //*******************************//
+        //* testPortfolioWithoutWelcome *//
+        //*******************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
@@ -38,23 +44,22 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         app.tables.staticTexts["launchPortfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
         waitForElementToAppear(app.tables.staticTexts["Individual**cct1"])
-    }
-    
-    func testPortfolioWithWelcomeMultiAcc(){
+        app.buttons["Close"].tap()
+        
+        //************************************//
+        //* testPortfolioWithWelcomeMultiAcc *//
+        //************************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
-        
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
         selectAccountOnPortfolioScreen(app, rowNum: 1)
-        
         //log into dummy acc
         app.buttons["Edit Accounts"].tap()
         app.buttons["Add Account"].tap()
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
-        
         //back to portfolio view
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         testPortfolioValues(app, brokerName: "dummyMultipleAcct1")
@@ -66,17 +71,19 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         testPortfolioValues(app, brokerName: "MargicAcct")
         selectAccountOnPortfolioScreen(app, rowNum: 5)
         testPortfolioValues(app, brokerName: "OptionAcct")
-    }
-    
-    func testUnlinkingAcc(){
+        app.buttons["Close"].tap()
+        
+        //********************//
+        //* testUnlinkingAcc *//
+        //********************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
-
+        
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
         selectAccountOnPortfolioScreen(app, rowNum: 1)
-
+        
         //unlink and test if portfolio view if reflect the change
         app.buttons["Edit Accounts"].tap()
         waitForElementToAppear(app.navigationBars["Accounts"])

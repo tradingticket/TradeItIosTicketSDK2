@@ -16,7 +16,10 @@ class TradeItSDKUITestsAuthFlow: XCTestCase {
         super.tearDown()
     }
     
-    func testSecurityQuestionFlow() {
+    func testAuthFlow() {
+        //****************************//
+        //* testSecurityQuestionFlow *//
+        //****************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
@@ -37,9 +40,11 @@ class TradeItSDKUITestsAuthFlow: XCTestCase {
         securityQuestionAlert.textFields[""].typeText("tradingticket")
         securityQuestionAlert.buttons["Submit"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-    }
+        app.buttons["Close"].tap()
     
-    func testDummyOptionFlow(){
+        //****************************//
+        //* testDummyOptionFlow ******//
+        //****************************//
         clearData(app)
         handleWelcomeScreen(app, launchOption: "launchPortfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")

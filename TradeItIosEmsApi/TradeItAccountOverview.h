@@ -34,4 +34,7 @@
 // The base currency used in the account
 @property (nullable, copy) NSString<Optional> *accountBaseCurrency;
 
+// The marginCash balance on the account
+@property (nullable,copy) NSNumber<Optional> *marginCash;
+
 @end

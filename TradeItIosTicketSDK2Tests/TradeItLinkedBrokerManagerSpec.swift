@@ -530,8 +530,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                     }
 
                     it("calls onFinishedAuthenticating") {
-                        // TODO: This test is very flakey. Need to figure out how to fix it. Running it by itself it is fine.
-                        expect(onFinishedAuthenticatingWasCalled).to(equal(1))
+                        expect(onFinishedAuthenticatingWasCalled).toEventually(equal(1))
                     }
                 }
             }
@@ -624,7 +623,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 }
 
                 it("calls onFinishedRefreshingBalancesWasCalled") {
-                    expect(onFinishedRefreshingBalancesWasCalled).to(equal(1))
+                    expect(onFinishedRefreshingBalancesWasCalled).toEventually(equal(1))
                 }
             }
         }

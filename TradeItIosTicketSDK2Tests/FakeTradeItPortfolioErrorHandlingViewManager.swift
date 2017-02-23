@@ -5,7 +5,7 @@ class FakeTradeItPortfolioErrorHandlingViewManager: TradeItPortfolioErrorHandlin
 
     let calls = SpyRecorder()
     
-    override func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker) {
+    override func showErrorHandlingView(withLinkedBrokerInError linkedBrokerInError: TradeItLinkedBroker?) {
         self.calls.record(#function, args: [
                 "linkedBrokerInError": linkedBrokerInError
             ])

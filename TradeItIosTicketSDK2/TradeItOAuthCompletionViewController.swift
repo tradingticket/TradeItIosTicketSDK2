@@ -107,7 +107,6 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     // MARK: IBActions
 
     @IBAction func continueButtonTapped(_ sender: UIButton) {
-        print("=====> CONTINUE TAPPED!!!!!!")
         delegate?.continueButtonTapped(fromOAuthCompletionViewViewController: self, linkedBroker: self.linkedBroker)
     }
 }

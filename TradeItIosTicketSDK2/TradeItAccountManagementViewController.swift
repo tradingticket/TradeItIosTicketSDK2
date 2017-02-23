@@ -41,19 +41,21 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             withMessage: "Are you sure you want to unlink your account and remove all the associated data?",
             withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in
-                
                 TradeItSDK.linkedBrokerManager.unlinkBroker(self.linkedBroker)
 
-                // TODO: Move 0 accounts check to previous screen and dismiss this screen
-
-                if (TradeItSDK.linkedBrokerManager.linkedBrokers.count) > 0 {
-                    _ = self.navigationController?.popViewController(animated: true)
-                } else {
-                    self.linkBrokerUIFlow.presentLinkBrokerFlow(
-                        fromViewController: self,
-                        showWelcomeScreen: true,
-                        oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
-                    )
+                // If the last linked broker was just unlinked then we need to use the TradeItBrokerManagementViewController
+                // that preceeds this view controller in the nav stack to launch the broker linking flow so that we can pop
+                // this view controller off the nav stack without the TradeItLinkBrokerUIFlow being garbage collected
+                if let navController = self.navigationController,
+                    let parentBrokerManagementView = navController.viewControllers[safe: navController.viewControllers.count - 2] as? TradeItBrokerManagementViewController {
+                    if TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0 {
+                        parentBrokerManagementView.linkBrokerUIFlow.presentLinkBrokerFlow(
+                            fromViewController: navController,
+                            showWelcomeScreen: true,
+                            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+                        )
+                    }
+                    navController.popViewController(animated: true)
                 }
             },
             showCancelAction: true

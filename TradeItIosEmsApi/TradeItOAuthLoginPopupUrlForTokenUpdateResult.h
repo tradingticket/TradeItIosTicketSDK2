@@ -4,4 +4,6 @@
 
 @property (nullable) NSString *oAuthURL;
 
+- (NSURL * _Nullable)oAuthUrl;
+
 @end

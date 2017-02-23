@@ -27,8 +27,6 @@ class TradeItNumericInputCell: UITableViewCell {
     @IBAction func textFieldDidChange(_ sender: TradeItNumberField) {
         let numericValue = NSDecimalNumber.init(string: sender.text)
 
-        print("=====> textFieldValueDidChange: \(numericValue)") //AKAKTRACE
-
         if numericValue == NSDecimalNumber.notANumber {
             self.onValueUpdated?(nil)
         } else {

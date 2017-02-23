@@ -10,6 +10,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
+    var activityView: MBProgressHUD?
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
@@ -26,6 +27,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.holdingsActivityIndicator.hidesWhenStopped = true
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
@@ -38,38 +40,45 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
 
         self.portfolioErrorHandlingViewManager.accountInfoContainerView = self.accountInfoContainerView
 
-        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        activityView.label.text = "Authenticating"
+        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
 
-        TradeItSDK.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                activityView.hide(animated: true)
-                self.alertManager.promptUserToAnswerSecurityQuestion(securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: { answer in
-                        activityView.show(animated: true)
-                        answerSecurityQuestion(answer)
-                    },
-                    onCancelSecurityQuestion: cancelSecurityQuestion)
-            },
-            onFinished: {
-                activityView.label.text = "Refreshing Accounts"
-
-                TradeItSDK.linkedBrokerManager.refreshAccountBalances(
-                    onFinished: {
-                        self.updatePortfolioScreen()
-                        activityView.hide(animated: true)
-                    }
-                )
-            }
-        )
+        self.refreshBrokers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.updatePortfolioScreen()
     }
-    
-    // MARK: private methods
+
+    // MARK: Private
+
+    private func refreshBrokers() {
+        self.activityView?.label.text = "Authenticating"
+
+        TradeItSDK.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.activityView?.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: { answer in
+                        self.activityView?.show(animated: true)
+                        answerSecurityQuestion(answer)
+                    },
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFinished: {
+                self.activityView?.label.text = "Refreshing Accounts"
+
+                TradeItSDK.linkedBrokerManager.refreshAccountBalances(
+                    onFinished: {
+                        self.updatePortfolioScreen()
+                        self.activityView?.hide(animated: true)
+                    }
+                )
+            }
+        )
+    }
 
     private func updatePortfolioScreen() {
         let accounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
@@ -107,7 +116,11 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     }
     
     // MARK: IBActions
-    
+
+    @IBAction func editAccountsButtonTapped(_ sender: UIButton) {
+        TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
+    }
+
     @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
         self.parent?.dismiss(animated: true, completion: nil)
     }
@@ -153,39 +166,24 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: linkedBroker,
-            onLinked: { (presentedNavController: UINavigationController, linkedBroker: TradeItLinkedBroker) -> Void in
-                presentedNavController.dismiss(animated: true, completion: nil)
-                let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-                activityView.label.text = "Refreshing Accounts"
-
-                linkedBroker.refreshAccountBalances(
-                    onFinished: {
-                        activityView.hide(animated: true)
-                        self.updatePortfolioScreen()
-                })
-            },
-            onFlowAborted: { (presentedNavController: UINavigationController) -> Void in
-                //Nothing to do
-            }
-        )
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl)
     }
     
     func reloadAccountWasTapped(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        activityView.label.text = "Authenticating"
+        self.activityView?.label.text = "Authenticating"
 
         linkedBroker.authenticate(
             onSuccess: {
-                activityView.label.text = "Refreshing Accounts"
+                self.activityView?.label.text = "Refreshing Accounts"
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
-                        activityView.hide(animated: true)
+                        self.activityView?.hide(animated: true)
                         self.updatePortfolioScreen()
                     }
                 )
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                activityView.hide(animated: true)
+                self.activityView?.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -194,7 +192,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
                 )
             },
             onFailure: { error in
-                activityView.hide(animated: true)
+                self.activityView?.hide(animated: true)
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
             }
         )

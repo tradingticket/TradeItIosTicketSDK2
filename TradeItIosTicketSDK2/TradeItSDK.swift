@@ -2,12 +2,25 @@
     private static var apiKey: String?
     private static var environment: TradeitEmsEnvironments?
     private static var configured = false
+    
     public static let launcher = TradeItLauncher()
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static var isPortfolioEnabled = true
     public static let yahooLauncher = TradeItYahooLauncher()
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
+    private static var _oAuthCallbackUrl: URL?
+    public static var oAuthCallbackUrl: URL {
+        get {
+            precondition(_oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
+            return _oAuthCallbackUrl!
+        }
+        
+        set(new) {
+            self._oAuthCallbackUrl = new
+        }
+    }
+    
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
@@ -30,6 +43,13 @@
             precondition(_brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
             return _brokerCenterService!
         }
+    }
+    
+    public static func configure(apiKey: String,
+                                 oAuthCallbackUrl: URL,
+                                 environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
+        self.oAuthCallbackUrl = oAuthCallbackUrl
+        self.configure(apiKey: apiKey, environment: environment)
     }
 
     public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {

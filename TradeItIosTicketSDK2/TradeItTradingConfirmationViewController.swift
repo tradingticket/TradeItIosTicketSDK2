@@ -22,8 +22,8 @@ import UIKit
     
     @IBAction func portfolioButtonWasTapped(_ sender: AnyObject) {
         if let navigationController = self.navigationController {
-            let initialViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
-            navigationController.setViewControllers([initialViewController], animated: true)
+            let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
+            navigationController.setViewControllers([portfolioViewController], animated: true)
         }
     }
 }

@@ -4,6 +4,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser?
     let tradingUIFlow = TradeItTradingUIFlow()
+    let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
 
     func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
                                     withOAuthCallbackUrlParser oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser) {
@@ -42,6 +43,20 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                 self.tradingUIFlow.pushTradingFlow(onNavigationController: navController,
                                                    asRootViewController: true,
                                                    withOrder: self.oAuthCallbackUrlParser?.order ?? TradeItOrder())
+            }
+        case .accountSelection:
+            if let navController = viewController.navigationController {
+                self.accountSelectionUIFlow.pushAccountSelectionFlow(
+                    onNavigationController: navController,
+                    title: TradeItLauncher.accountSelectionTitle,
+                    onSelected: { presentedNavController, linkedBrokerAccount in
+                        presentedNavController.dismiss(animated: true, completion: nil)
+                        TradeItLauncher.accountSelectionCallback?(linkedBrokerAccount)
+                    },
+                    onFlowAborted: { presentedNavController in
+                        presentedNavController.dismiss(animated: true, completion: nil)
+                    }
+                )
             }
         default:
             viewController.dismiss(animated: false)

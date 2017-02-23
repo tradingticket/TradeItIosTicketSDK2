@@ -1,6 +1,7 @@
 enum OAuthCallbackDestinationValues: String {
     case trading = "trading"
     case portfolio = "portfolio"
+    case accountSelection = "accountSelection"
 }
 
 enum OAuthCallbackQueryParamKeys: String {
@@ -18,8 +19,6 @@ class TradeItOAuthCallbackUrlParser {
 
     init(oAuthCallbackUrl: URL) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
-
-        // TODO: PARSE CALLBACK URL
 
         let urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false)
 

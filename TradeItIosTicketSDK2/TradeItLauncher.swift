@@ -11,10 +11,13 @@ protocol OAuthCompletionListener {
     let deviceManager = TradeItDeviceManager()
     let alertManager = TradeItAlertManager()
 
+    static var accountSelectionCallback: ((TradeItLinkedBrokerAccount) -> Void)? // Ew, gross. No other way to do this.
+    static var accountSelectionTitle: String? // Ew, gross. No other way to do this.
+
     override internal init() {}
 
     public func handleOAuthCallback(onViewController viewController: UIViewController, oAuthCallbackUrl: URL) {
-        print("=====> LAUNCHER.handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
+        print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
         let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
@@ -24,7 +27,7 @@ protocol OAuthCompletionListener {
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
-        // Show Welcome flow for users who have never linked before
+        // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
@@ -81,7 +84,7 @@ protocol OAuthCompletionListener {
 
     public func launchTrading(fromViewController viewController: UIViewController,
                               withOrder order: TradeItOrder = TradeItOrder()) {
-        // Show Welcome flow for users who have never linked before
+        // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
@@ -136,7 +139,6 @@ protocol OAuthCompletionListener {
     public func launchBrokerLinking(fromViewController viewController: UIViewController) {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
-        // TODO: Once callback is NSURL, add destination to query params AND LAUNCH LINK SUCCESS SCREEN
 
         self.linkBrokerUIFlow.presentLinkBrokerFlow(fromViewController: viewController,
                                                     showWelcomeScreen: showWelcomeScreen,
@@ -152,8 +154,19 @@ protocol OAuthCompletionListener {
                                        title: String? = nil,
                                        onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
-            let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
-            // TODO: Once callback is NSURL, add destination to query params
+            var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
+
+            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
+                                                 resolvingAgainstBaseURL: false) {
+                urlComponents.addOrUpdateQueryStringValue(
+                    forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
+                    value: OAuthCallbackDestinationValues.accountSelection.rawValue)
+
+                oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
+            }
+
+            TradeItLauncher.accountSelectionCallback = onSelected
+            TradeItLauncher.accountSelectionTitle = title
 
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,

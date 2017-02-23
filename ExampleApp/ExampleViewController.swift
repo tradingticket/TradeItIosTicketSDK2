@@ -96,7 +96,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 fromViewController: self,
                                 title: "Select account to sync",
                                 onSelected: { selectedLinkedBrokerAccount in
-                                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
+                                    self.alertManager.showAlert(
+                                        onViewController: self,
+                                        withTitle: "Selected Account!",
+                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
+                                        withActionTitle: "OK"
+                                    )
                                 }
                             )
                         }

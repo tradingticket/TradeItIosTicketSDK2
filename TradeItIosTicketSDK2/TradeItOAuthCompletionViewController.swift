@@ -60,6 +60,10 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             }
         )
     }
+    
+    override func closeButtonTitle() -> String {
+        return "Cancel"
+    }
 
     // MARK: Private
 

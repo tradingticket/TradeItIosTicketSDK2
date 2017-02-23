@@ -328,6 +328,8 @@ import PromiseKit
 
     private func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = sessionProvider.provide(connector: self.connector)
+        //provides a default token, so if the user doesn't authenticate before an other call, it will pass an expired token in order to get the session expired error
+        tradeItSession?.token = "trade-it-fetch-fresh-token"
         return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 

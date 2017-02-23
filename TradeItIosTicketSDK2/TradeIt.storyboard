@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -2718,24 +2718,17 @@
                                                         <constraint firstAttribute="height" constant="20" id="kcI-QG-93K"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ro-lW-dY2">
-                                                    <rect key="frame" x="8" y="16" width="359" height="18"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                                                    <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="Add Account">
-                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="addAccountWasTapped:" destination="3LS-g1-9qu" eventType="touchUpInside" id="3sT-gN-scw"/>
-                                                    </connections>
-                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3b8-ge-HtT" userLabel="Add Account">
+                                                    <rect key="frame" x="18" y="14.5" width="99" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="3b8-ge-HtT" firstAttribute="leading" secondItem="5hF-Ho-RcW" secondAttribute="leadingMargin" constant="10" id="80F-CA-cWD"/>
                                                 <constraint firstItem="ILU-cG-2we" firstAttribute="centerY" secondItem="5hF-Ho-RcW" secondAttribute="centerY" id="97s-Lk-F7r"/>
-                                                <constraint firstItem="3ro-lW-dY2" firstAttribute="centerY" secondItem="5hF-Ho-RcW" secondAttribute="centerY" id="O2o-Gc-ClG"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="3ro-lW-dY2" secondAttribute="trailing" id="RB1-zf-S48"/>
-                                                <constraint firstItem="3ro-lW-dY2" firstAttribute="leading" secondItem="5hF-Ho-RcW" secondAttribute="leadingMargin" id="sRc-Wh-ri8"/>
+                                                <constraint firstItem="3b8-ge-HtT" firstAttribute="centerY" secondItem="5hF-Ho-RcW" secondAttribute="centerY" id="VrR-zg-Chn"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="ILU-cG-2we" secondAttribute="trailing" constant="10" id="x6P-83-8Wb"/>
                                             </constraints>
                                         </tableViewCellContentView>

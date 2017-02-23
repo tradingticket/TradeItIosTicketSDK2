@@ -28,6 +28,8 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row < self.linkedBrokers.count {
             self.delegate?.linkedBrokerWasSelected(self.linkedBrokers[indexPath.row])
+        } else {
+            self.delegate?.addAccountWasTapped()
         }
     }
     
@@ -55,4 +57,5 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 
 protocol TradeItBrokerManagementViewControllerBrokersTableDelegate: class {
     func linkedBrokerWasSelected(_ selectedLinkedBroker: TradeItLinkedBroker)
+    func addAccountWasTapped()
 }

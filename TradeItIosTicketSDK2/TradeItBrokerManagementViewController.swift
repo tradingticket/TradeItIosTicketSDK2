@@ -38,8 +38,8 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
         self.selectedLinkedBroker = selectedLinkedBroker
         self.performSegue(withIdentifier: toAccountManagementScreen, sender: self)
     }
-
-    @IBAction func addAccountWasTapped(_ sender: AnyObject) {
+    
+    func addAccountWasTapped() {
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,

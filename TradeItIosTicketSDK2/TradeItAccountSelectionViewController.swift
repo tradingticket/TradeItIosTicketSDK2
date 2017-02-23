@@ -7,7 +7,7 @@ class TradeItAccountSelectionViewController: CloseableViewController, TradeItAcc
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var editAccountsButton: UIButton!
 
-    var selectedLinkedBroker: TradeItLinkedBroker?
+    var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
     internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
     var promptText: String?
@@ -24,7 +24,7 @@ class TradeItAccountSelectionViewController: CloseableViewController, TradeItAcc
         
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
         if enabledBrokers.isEmpty {
             editAccountsButton.setTitle("Link Account", for: .normal)
             self.promptLabel.text = "NO ACCOUNTS LINKED"

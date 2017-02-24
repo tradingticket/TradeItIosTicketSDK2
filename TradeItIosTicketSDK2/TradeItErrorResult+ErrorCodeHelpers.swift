@@ -9,6 +9,16 @@ public enum TradeItErrorCode: Int {
 }
 
 extension TradeItErrorResult {
+    public var errorCode: TradeItErrorCode? {
+        get {
+            if let code = self.code?.intValue {
+                return TradeItErrorCode(rawValue: code)
+            } else {
+                return nil
+            }
+        }
+    }
+
     convenience init(title: String,
                      message: String = "Unknown response sent from the server.",
                      code: TradeItErrorCode = .systemError) {
@@ -17,14 +27,6 @@ extension TradeItErrorResult {
         self.longMessages = [message]
         self.systemMessage = message
         self.code = NSDecimalNumber(value: code.rawValue)
-    }
-
-    public func errorCode() -> TradeItErrorCode? {
-        if let code = self.code?.intValue {
-            return TradeItErrorCode(rawValue: code)
-        } else {
-            return nil
-        }
     }
 
     public func requiresRelink() -> Bool {

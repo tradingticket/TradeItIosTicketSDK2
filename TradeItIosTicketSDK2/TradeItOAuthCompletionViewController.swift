@@ -28,6 +28,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
+
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
                         self.setSuccessState(forBroker: linkedBroker.brokerName)
@@ -53,7 +54,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                 )
             },
             onFailure: { errorResult in
-                print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode()), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
+                print("TradeItSDK ERROR: OAuth failed with code: \(errorResult.errorCode), message: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
                 self.alertManager.showError(errorResult, onViewController: self)
 
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")

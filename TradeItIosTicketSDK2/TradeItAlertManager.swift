@@ -40,7 +40,7 @@ import UIKit
             )
         }
 
-        switch error.errorCode() {
+        switch error.errorCode {
         case .brokerAuthenticationError?:
             self.showAlert(
                 onViewController: viewController,

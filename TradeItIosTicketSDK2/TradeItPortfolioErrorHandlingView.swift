@@ -28,7 +28,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     private func updateButtonText() {
         var text = "Reload Account"
 
-        if let errorCode = self.linkedBrokerInError?.error?.errorCode() {
+        if let errorCode = self.linkedBrokerInError?.error?.errorCode {
             switch errorCode {
             case TradeItErrorCode.brokerAuthenticationError: text = "Update Login"
             case TradeItErrorCode.oauthError: text = "Relink Account"
@@ -43,7 +43,7 @@ class TradeItPortfolioErrorHandlingView: UIControl {
     @IBAction func actionButtonWasTapped(WithSender sender: UIButton) {
         guard let linkedBroker = self.linkedBrokerInError
             else { return }
-        if let errorCode = linkedBroker.error?.errorCode() {
+        if let errorCode = linkedBroker.error?.errorCode {
             switch errorCode {
             case .brokerAuthenticationError, .oauthError:
                 self.delegate?.relinkAccountWasTapped(withLinkedBroker: linkedBroker)

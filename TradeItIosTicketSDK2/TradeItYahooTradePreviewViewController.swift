@@ -8,6 +8,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
+    var placeOrderResult: TradeItPlaceOrderResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData = [PreviewCellData]()
 //    var acknowledgementCellData: [AcknowledgementCellData] = []
@@ -18,7 +19,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        precondition(self.linkedBrokerAccount != nil, "ERROR: TradeItYahooTradingPreviewViewController loaded without setting linkedBrokerAccount.")
+        precondition(self.linkedBrokerAccount != nil, "TradeItSDK ERROR: TradeItYahooTradingPreviewViewController loaded without setting linkedBrokerAccount.")
 
         self.title = "Preview order"
         self.brokerLabel.text = self.linkedBrokerAccount.brokerName
@@ -32,11 +33,10 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     // MARK: IBActions
 
     @IBAction func submitOrder(_ sender: UIButton) {
-        guard let placeOrderCallback = placeOrderCallback
-            else {
-                print("TradeIt SDK ERROR: placeOrderCallback not set!")
-                return
-            }
+        guard let placeOrderCallback = self.placeOrderCallback else {
+            print("TradeItSDK ERROR: placeOrderCallback not set on TradeItYahooTradePreviewViewController")
+            return
+        }
 
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
@@ -45,29 +45,40 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             onSuccess: {
                 activityView.label.text = "Placing Order"
 
-                placeOrderCallback({ placeOrderResult in
-                    activityView.hide(animated: true)
-                    self.delegate?.orderSuccessfullyPlaced(
-                        onTradePreviewViewController: self,
-                        withPlaceOrderResult: placeOrderResult
-                    )
-                }, { error in
-                    activityView.hide(animated: true)
-                    guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
-                        return self.alertManager.showError(
+                placeOrderCallback(
+                    { placeOrderResult in
+                        activityView.hide(animated: true)
+                        // TODO: MOVE YahooTradingConfirmationViewController STUFF HERE
+                        // self.title = "Order Confirmation"
+                        // TODO: Set "Preview Order" label to "✓ Order Submitted" and be green
+                        // self.previewCellData = self.generatePreviewCellData()
+                        // self.orderDetailsTable.reloadData()
+                        // Change big button to be a new delegate method... 
+
+//                        self.delegate?.orderSuccessfullyPlaced(
+//                            onTradePreviewViewController: self,
+//                            withPlaceOrderResult: placeOrderResult
+//                        )
+                    },
+                    { error in
+                        activityView.hide(animated: true)
+                        guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
+                            return self.alertManager.showError(
+                                error,
+                                onViewController: self
+                            )
+                        }
+
+                        self.alertManager.showRelinkError(
                             error,
-                            onViewController: self
+                            withLinkedBroker: linkedBroker,
+                            onViewController: self,
+                            onFinished: {}
                         )
                     }
-
-                    self.alertManager.showRelinkError(
-                        error,
-                        withLinkedBroker: linkedBroker,
-                        onViewController: self,
-                        onFinished: {}
-                    )
-                })
-            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                )
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -75,7 +86,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
-            }, onFailure: { errorResult in
+            },
+            onFailure: { errorResult in
                 activityView.hide(animated: true)
                 // TODO: use self.alertManager.showRelinkError
                 self.alertManager.showError(errorResult, onViewController: self)
@@ -142,6 +154,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 //        cells += acknowledgementCellData as [PreviewCellData]
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails)
+
+        if let orderNumber = self.placeOrderResult?.orderNumber {
+            let orderNumberValueCellData = ValueCellData(label: "ORDER #", value: orderNumber)
+            // TODO: ADD THIS TO cells
+        }
+
         cells += [
             ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
@@ -149,7 +167,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             ValueCellData(label: "ACTION", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
             ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
+        ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {
             cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings)))

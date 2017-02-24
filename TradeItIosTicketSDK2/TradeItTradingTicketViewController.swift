@@ -62,8 +62,8 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
             order.stopPrice = NSDecimalNumber(string: textField.text)
         } else if textField.placeholder == "Quantity" {
             order.quantity = NSDecimalNumber(string: textField.text)
-            updateEstimatedChangedLabel()
         }
+        updateEstimatedChangedLabel()
         updatePreviewOrderButtonStatus()
     }
 

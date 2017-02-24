@@ -14,12 +14,10 @@ import PromiseKit
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
+        super.init()
+
         // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
-        self.error = TradeItErrorResult(
-                title: "Linked Broker initialized from keychain",
-                message: "This linked broker needs to authenticate.",
-                code: .sessionError
-        )
+        self.setUnauthenticated()
     }
 
     public func authenticate(onSuccess: @escaping () -> Void,
@@ -120,6 +118,14 @@ import PromiseKit
         }
 
         return matchingAccounts.first
+    }
+
+    public func setUnauthenticated() {
+        self.error = TradeItErrorResult(
+            title: "Linked Broker initialized from keychain",
+            message: "This linked broker needs to authenticate.",
+            code: .sessionError
+        )
     }
 
     // MARK: Private

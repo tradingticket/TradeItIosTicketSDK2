@@ -93,7 +93,7 @@ import PromiseKit
                     let linkedLogin = self.connector.updateKeychain(withLink: oAuthAccessTokenResult,
                                                                     withBroker: linkedBroker.linkedLogin.broker)
                     if let linkedLogin = linkedLogin {
-                        linkedBroker.error = nil
+                        linkedBroker.setUnauthenticated()
                         linkedBroker.linkedLogin = linkedLogin
 
                         self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,

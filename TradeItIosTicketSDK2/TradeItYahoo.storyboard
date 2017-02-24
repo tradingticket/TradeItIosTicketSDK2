@@ -185,6 +185,40 @@
                                         </tableViewCellContentView>
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRADING_TICKET_SELECTION_DETAIL_CELL_ID" id="GWX-DA-Bf8" customClass="TradeItSelectionDetailCellTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="178" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GWX-DA-Bf8" id="C1H-wA-Qna">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P1V-sl-Jkq">
+                                                    <rect key="frame" x="311.5" y="26" width="28.5" height="13.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZb-u7-Pub">
+                                                    <rect key="frame" x="306" y="8" width="34" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="topMargin" secondItem="zZb-u7-Pub" secondAttribute="top" id="10b-jH-GD1"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="P1V-sl-Jkq" secondAttribute="trailing" constant="-6" id="49X-lf-2WI"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zZb-u7-Pub" secondAttribute="trailing" constant="-6" id="QUJ-7p-bHN"/>
+                                                <constraint firstItem="P1V-sl-Jkq" firstAttribute="top" secondItem="zZb-u7-Pub" secondAttribute="bottom" constant="-3" id="aLk-ij-Hzn"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="P1V-sl-Jkq" secondAttribute="bottom" constant="2" id="nwS-Jf-Bkg"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="detailPrimaryLabel" destination="zZb-u7-Pub" id="fRx-bH-RVH"/>
+                                            <outlet property="detailSecondaryLabel" destination="P1V-sl-Jkq" id="x3t-DC-xLj"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>

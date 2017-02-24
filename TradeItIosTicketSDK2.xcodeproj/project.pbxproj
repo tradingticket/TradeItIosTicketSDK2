@@ -31,6 +31,7 @@
 		52E4AE921E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		52E4AE931E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		52E4AE941E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
+		75205BB61E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */; };
 		753850821E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
 		753850831E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
 		756967621DC911DF00A7913D /* TradeIt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75BAAA501DB7EEB400E5435C /* TradeIt.storyboard */; };
@@ -676,6 +677,7 @@
 		52E4AE8D1E3F5215006F073A /* TradeItYahooTradingTicketTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooTradingTicketTableView.swift; sourceTree = "<group>"; };
 		52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+TradeIt.swift"; sourceTree = "<group>"; };
 		6346D92CEA86B9A6400B3E04 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectionDetailCellTableViewCell.swift; sourceTree = "<group>"; };
 		753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItAccountSelectionUIFlow.swift; sourceTree = "<group>"; };
 		756FAEF51DB818CD00D5B112 /* FakeTradeItAccountManagementTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItAccountManagementTableViewManager.swift; sourceTree = "<group>"; };
 		756FAEF61DB818CD00D5B112 /* FakeTradeItAccountSelectionTableViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeTradeItAccountSelectionTableViewManager.swift; sourceTree = "<group>"; };
@@ -1538,6 +1540,7 @@
 				FA58527A1E41346D00078352 /* TradeItSelectionCellTableViewCell.swift */,
 				FA58527E1E413B2900078352 /* TradeItSelectionViewController.swift */,
 				FA4CC9411E42BC5A00C268A4 /* TradeItYahooTradePreviewViewController.swift */,
+				75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */,
 			);
 			name = Yahoo;
 			sourceTree = "<group>";
@@ -2390,6 +2393,7 @@
 				75BAAB9C1DB7EF2F00E5435C /* TradeItAuthLinkResult.m in Sources */,
 				75BAAAAD1DB7EEB400E5435C /* TradeItAccountSummaryView.swift in Sources */,
 				75BAABAA1DB7EF2F00E5435C /* TradeItBrokerListResult.m in Sources */,
+				75205BB61E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */,
 				75BAAABF1DB7EEB400E5435C /* TradeItMarketService.swift in Sources */,
 				75BAABBB1DB7EF2F00E5435C /* TradeItKeychain.m in Sources */,
 				75BAABC11DB7EF2F00E5435C /* TradeItPlaceTradeOrderInfo.m in Sources */,

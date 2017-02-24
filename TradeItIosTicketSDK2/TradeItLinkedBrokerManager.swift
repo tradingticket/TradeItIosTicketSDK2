@@ -91,7 +91,7 @@ import PromiseKit
                 if let linkedBroker = self.getLinkedBroker(forUserId: userId) {
                     // userId already exists, this is a relink
                     let linkedLogin = self.connector.updateKeychain(withLink: oAuthAccessTokenResult,
-                                                                    withBroker: linkedBroker.linkedLogin.broker)
+                                                                    withBroker: linkedBroker.brokerName)
                     if let linkedLogin = linkedLogin {
                         linkedBroker.setUnauthenticated()
                         linkedBroker.linkedLogin = linkedLogin
@@ -272,7 +272,7 @@ import PromiseKit
                 }
 
                 let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult,
-                                                                withBroker: linkedBroker.linkedLogin.broker)
+                                                                withBroker: linkedBroker.brokerName)
 
                 if let linkedLogin = linkedLogin {
                     linkedBroker.error = nil

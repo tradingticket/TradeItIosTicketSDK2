@@ -8,7 +8,7 @@ import PromiseKit
     var linkedLogin: TradeItLinkedLogin
 
     public var brokerName: String {
-        return self.linkedLogin.broker ?? ""
+        return self.linkedLogin.broker ?? "Missing Broker Name"
     }
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
@@ -16,7 +16,6 @@ import PromiseKit
         self.linkedLogin = linkedLogin
         super.init()
 
-        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
         self.setUnauthenticated()
     }
 

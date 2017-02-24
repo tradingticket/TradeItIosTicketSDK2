@@ -45,7 +45,7 @@ import UIKit
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Update Login",
-                withMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
+                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) account. Please update your login information.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
@@ -54,7 +54,7 @@ import UIKit
         case .oauthError?:
             self.showAlert(
                 onViewController: viewController,
-                withTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
+                withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,

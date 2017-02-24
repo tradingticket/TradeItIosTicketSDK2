@@ -20,7 +20,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
 
     override func viewWillAppear(_ animated: Bool) {
         if let linkedBroker = self.linkedBroker {
-            self.navigationItem.title = linkedBroker.linkedLogin.broker
+            self.navigationItem.title = linkedBroker.brokerName
             self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
         }
     }

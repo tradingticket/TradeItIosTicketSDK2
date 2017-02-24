@@ -81,7 +81,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
     }
 
     private func updatePortfolioScreen() {
-        let accounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
+        let accounts = TradeItSDK.linkedBrokerManager.getAllAuthenticatedAndEnabledAccounts()
         let linkedBrokersInError = TradeItSDK.linkedBrokerManager.getAllLinkedBrokersInError()
         self.accountsTableViewManager.updateAccounts(withAccounts: accounts, withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
         self.updateTotalValueLabel(withAccounts: accounts)

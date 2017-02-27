@@ -10,7 +10,6 @@
 		0EDB9328C6148D2FCB8D37EC /* Pods_TradeItIosTicketSDK2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6346D92CEA86B9A6400B3E04 /* Pods_TradeItIosTicketSDK2.framework */; };
 		521D2B4A1E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B491E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift */; };
 		521D2B4B1E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B491E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift */; };
-		521D2B4C1E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B491E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift */; };
 		521D2B4E1E551CDF00F7204B /* TradeItOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */; };
 		521D2B4F1E551CDF00F7204B /* TradeItOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */; };
 		521D2B501E551CDF00F7204B /* TradeItOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */; };
@@ -30,7 +29,6 @@
 		52E4AE901E3F5215006F073A /* TradeItYahooTradingTicketTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE8D1E3F5215006F073A /* TradeItYahooTradingTicketTableView.swift */; };
 		52E4AE921E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		52E4AE931E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
-		52E4AE941E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		75205BB61E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */; };
 		753850821E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
 		753850831E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */; };
@@ -349,6 +347,7 @@
 		B57ABA301DBEA9C1009B82A3 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */; };
 		B57ABA321DBEAA39009B82A3 /* TradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */; };
 		B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
+		B5BB979A1E64E38700EF15B6 /* UIButton+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB97991E64E38700EF15B6 /* UIButton+TradeIt.swift */; };
 		B5FDB6811DDE40F700CA558D /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
 		B5FDB6821DDE40F700CA558D /* truste.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB6801DDE40F700CA558D /* truste.png */; };
 		D33505F61DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33505F11DC24EDE00BC5BC5 /* TradeItSDK2AlertQueue.swift */; };
@@ -973,6 +972,7 @@
 		B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItDeviceManager.swift; sourceTree = "<group>"; };
 		B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItWebViewController.swift; sourceTree = "<group>"; };
+		B5BB97991E64E38700EF15B6 /* UIButton+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TradeIt.swift"; sourceTree = "<group>"; };
 		B5FDB67F1DDE40F700CA558D /* norton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = norton.png; sourceTree = "<group>"; };
 		B5FDB6801DDE40F700CA558D /* truste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = truste.png; sourceTree = "<group>"; };
 		C7957FA237F8D3ABE3186EE3 /* Pods_TradeItIosTicketSDK2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1180,6 +1180,7 @@
 		756FAF881DB81D5500D5B112 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B5BB97991E64E38700EF15B6 /* UIButton+TradeIt.swift */,
 				75BAAA431DB7EEB400E5435C /* Array+TradeIt.swift */,
 				75BAAA4D1DB7EEB400E5435C /* NSCoder+TradeIt.swift */,
 				75BAAA611DB7EEB400E5435C /* TradeItErrorResult+ErrorCodeHelpers.swift */,
@@ -2321,6 +2322,7 @@
 				FA5852771E401B8300078352 /* TradeItPaddedTextField.swift in Sources */,
 				75BAABCB1DB7EF2F00E5435C /* TradeItPositionService.m in Sources */,
 				75BAAAA21DB7EEB400E5435C /* NSCoder+TradeIt.swift in Sources */,
+				B5BB979A1E64E38700EF15B6 /* UIButton+TradeIt.swift in Sources */,
 				FA3B5EA91E1DB97900C08F6D /* TradeItYahooLauncher.swift in Sources */,
 				FA80FFD81DF2394900C54091 /* TradeItOAuthLoginPopupUrlForTokenUpdateRequest.m in Sources */,
 				75BAAAB41DB7EEB400E5435C /* TradeItBundleProvider.swift in Sources */,

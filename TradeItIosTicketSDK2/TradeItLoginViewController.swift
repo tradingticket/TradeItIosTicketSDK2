@@ -15,7 +15,7 @@ class TradeItLoginViewController: KeyboardViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userNameInput.becomeFirstResponder()
-        self.disableLinkButton()
+        self.linkButton.disable()
         self.activityIndicator.hidesWhenStopped = true
         TradeItThemeConfigurator.configure(view: self.view)
 
@@ -50,7 +50,7 @@ class TradeItLoginViewController: KeyboardViewController {
 
         self.activityIndicator.startAnimating()
 
-        self.disableLinkButton()
+        self.linkButton.disable()
         
         let tradeItAuthenticationInfo = TradeItAuthenticationInfo(
             id: self.userNameInput.text,
@@ -65,7 +65,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 onSuccess: self.brokerLinked,
                 onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                     self.activityIndicator.stopAnimating()
-                    self.enableLinkButton()
+                    self.linkButton.enable()
                     self.alertManager.promptUserToAnswerSecurityQuestion(
                         securityQuestion,
                         onViewController: self,
@@ -75,7 +75,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 },
                 onFailure: { error in
                     self.activityIndicator.stopAnimating()
-                    self.enableLinkButton()
+                    self.linkButton.enable()
                     self.alertManager.showError(error, onViewController: self)
                 }
             )
@@ -85,7 +85,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 onSuccess: self.brokerLinked,
                 onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                     self.activityIndicator.stopAnimating()
-                    self.enableLinkButton()
+                    self.linkButton.enable()
                     self.alertManager.promptUserToAnswerSecurityQuestion(
                         securityQuestion,
                         onViewController: self,
@@ -95,7 +95,7 @@ class TradeItLoginViewController: KeyboardViewController {
                 },
                 onFailure: { error in
                     self.activityIndicator.stopAnimating()
-                    self.enableLinkButton()
+                    self.linkButton.enable()
                     self.alertManager.showError(error, onViewController: self)
                 }
             )
@@ -115,25 +115,15 @@ class TradeItLoginViewController: KeyboardViewController {
     private func brokerLinked(_ linkedBroker: TradeItLinkedBroker) {
         self.delegate?.brokerLinked(fromTradeItLoginViewController: self, withLinkedBroker: linkedBroker)
         self.activityIndicator.stopAnimating()
-        self.enableLinkButton()
+        self.linkButton.enable()
     }
 
     private func updateLinkButton() {
         if (self.userNameInput.text != "" && self.passwordInput.text != "" && !self.linkButton.isEnabled) {
-            self.enableLinkButton()
+            self.linkButton.enable()
         } else if ( (self.userNameInput.text == "" || self.passwordInput.text == "") && self.linkButton.isEnabled) {
-            self.disableLinkButton()
+            self.linkButton.disable()
         }
-    }
-    
-    private func disableLinkButton() {
-        self.linkButton.isEnabled = false
-        self.linkButton.alpha = 0.5
-    }
-    
-    private func enableLinkButton() {
-        self.linkButton.isEnabled = true
-        self.linkButton.alpha = 1.0
     }
 }
 

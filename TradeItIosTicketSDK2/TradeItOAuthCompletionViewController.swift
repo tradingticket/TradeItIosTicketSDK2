@@ -69,7 +69,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     // MARK: Private
 
     private func setInitialState() {
-        self.disableContinueButton()
+        self.continueButton.disable()
 
         self.activityIndicator.startAnimating()
         self.activityIndicator.hidesWhenStopped = true
@@ -80,7 +80,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 
     private func setSuccessState(forBroker broker: String) {
-        self.enableContinueButton()
+        self.continueButton.enable()
 
         self.activityIndicator.stopAnimating()
 
@@ -90,23 +90,13 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 
     private func setFailureState(withMessage message: String) {
-        self.enableContinueButton()
+        self.continueButton.enable()
         self.activityIndicator.stopAnimating()
 
         self.statusLabel.text = "Something went wrong..."
 //        self.brokerLabel.size
         self.brokerLabel.text = "❗"
         self.explanationLabel.text = message
-    }
-
-    private func enableContinueButton() {
-        self.continueButton.isEnabled = true
-        self.continueButton.alpha = 1.0
-    }
-
-    private func disableContinueButton() {
-        self.continueButton.isEnabled = false
-        self.continueButton.alpha = 0.5
     }
 
     // MARK: IBActions

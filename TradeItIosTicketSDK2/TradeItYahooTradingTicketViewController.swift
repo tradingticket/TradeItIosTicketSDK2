@@ -209,11 +209,9 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     private func setReviewButtonEnablement() {
         if self.order.isValid() {
-            self.reviewOrderButton.isEnabled = true
-            self.reviewOrderButton.alpha = 1.0
+            self.reviewOrderButton.enable()
         } else {
-            self.reviewOrderButton.isEnabled = false
-            self.reviewOrderButton.alpha = 0.5
+            self.reviewOrderButton.disable()
         }
     }
 

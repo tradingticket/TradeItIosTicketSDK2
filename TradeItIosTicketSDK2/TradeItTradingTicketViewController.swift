@@ -308,11 +308,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     private func updatePreviewOrderButtonStatus() {
         if order.isValid() {
-            previewOrderButton.isEnabled = true
-            previewOrderButton.alpha = 1.0
+            self.previewOrderButton.enable()
         } else {
-            previewOrderButton.isEnabled = false
-            previewOrderButton.alpha = 0.5
+            previewOrderButton.disable()
         }
     }
 

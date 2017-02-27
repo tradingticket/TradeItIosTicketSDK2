@@ -133,11 +133,9 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     private func updatePlaceOrderButtonStatus() {
         if allAcknowledgementsAccepted() {
-            placeOrderButton.isEnabled = true
-            placeOrderButton.alpha = 1.0
+            self.placeOrderButton.enable()
         } else {
-            placeOrderButton.isEnabled = false
-            placeOrderButton.alpha = 0.5
+            self.placeOrderButton.disable()
         }
     }
 

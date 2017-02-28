@@ -17,6 +17,16 @@ class TradeItOAuthCallbackUrlParser {
     var destination: OAuthCallbackDestinationValues?
     var order: TradeItOrder?
 
+    var oAuthCallbackUrlWithoutOauthVerifier: URL? {
+        var urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false)
+        urlComponents?.addOrUpdateQueryStringValue(
+            forKey: OAuthCallbackQueryParamKeys.oAuthVerifier.rawValue,
+            value: nil
+        )
+
+        return urlComponents?.url
+    }
+
     init(oAuthCallbackUrl: URL) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
@@ -31,9 +41,11 @@ class TradeItOAuthCallbackUrlParser {
         if self.destination == .trading {
             let symbol = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue)
             var action = TradeItOrderActionPresenter.DEFAULT
+
             if let actionString = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderAction.rawValue) {
                 action = TradeItOrderActionPresenter.enumFor(actionString)
             }
+
             self.order = TradeItOrder(symbol: symbol, action: action)
         }
     }

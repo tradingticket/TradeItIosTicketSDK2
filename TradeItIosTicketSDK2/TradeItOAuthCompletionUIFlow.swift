@@ -5,6 +5,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser?
     let tradingUIFlow = TradeItTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
+    let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
                                     withOAuthCallbackUrlParser oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser) {
@@ -12,9 +13,9 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .oAuthCompletionView)
 
-        if let oAuthCallbackViewController = navController.topViewController as? TradeItOAuthCompletionViewController {
-            oAuthCallbackViewController.delegate = self
-            oAuthCallbackViewController.oAuthCallbackUrlParser = oAuthCallbackUrlParser
+        if let oAuthCompletionViewController = navController.topViewController as? TradeItOAuthCompletionViewController {
+            oAuthCompletionViewController.delegate = self
+            oAuthCompletionViewController.oAuthCallbackUrlParser = oAuthCallbackUrlParser
         }
 
         viewController.present(navController, animated: true, completion: nil)
@@ -22,7 +23,21 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate
 
-    func continueButtonTapped(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController, linkedBroker: TradeItLinkedBroker?) {
+    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController) {
+        guard let navController = viewController.navigationController else {
+            return
+        }
+
+        let oAuthCallbackUrl = self.oAuthCallbackUrlParser?.oAuthCallbackUrlWithoutOauthVerifier ?? TradeItSDK.oAuthCallbackUrl
+
+        self.linkBrokerUIFlow.pushLinkBrokerFlow(onNavigationController: navController,
+                                                 asRootViewController: true,
+                                                 showWelcomeScreen: false,
+                                                 oAuthCallbackUrl: oAuthCallbackUrl)
+    }
+
+    func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+                    linkedBroker: TradeItLinkedBroker?) {
 
         guard linkedBroker != nil,
             let destination = self.oAuthCallbackUrlParser?.destination

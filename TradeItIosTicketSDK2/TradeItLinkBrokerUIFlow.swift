@@ -10,21 +10,31 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     var oAuthCallbackUrl: URL?
 
+    func pushLinkBrokerFlow(onNavigationController navController: UINavigationController,
+                            asRootViewController: Bool,
+                            showWelcomeScreen: Bool,
+                            oAuthCallbackUrl: URL) {
+        self.oAuthCallbackUrl = oAuthCallbackUrl
+
+        let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
+
+        if (asRootViewController) {
+            navController.setViewControllers([initialViewController], animated: true)
+        } else {
+            navController.pushViewController(initialViewController, animated: true)
+        }
+    }
+
     func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
                                showWelcomeScreen: Bool,
                                oAuthCallbackUrl: URL) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
-        let initialStoryboardId: TradeItStoryboardID = showWelcomeScreen ? .welcomeView : .selectBrokerView
+        let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
 
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: initialStoryboardId)
+        let navController = UINavigationController()
+        navController.setViewControllers([initialViewController], animated: true)
 
-        if let welcomeViewController = navController.viewControllers[0] as? TradeItWelcomeViewController {
-            welcomeViewController.delegate = self
-        } else if let selectBrokerViewController = navController.viewControllers[0] as? TradeItSelectBrokerViewController {
-            selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
-        }
-        
         viewController.present(navController, animated: true, completion: nil)
     }
 
@@ -52,6 +62,22 @@ class TradeItLinkBrokerUIFlow: NSObject,
                 TradeItAlertManager().showError(errorResult, onViewController: viewController)
             }
         )
+    }
+
+    // MARK: Private
+
+    private func getInitialViewController(showWelcomeScreen: Bool) -> UIViewController {
+        let initialStoryboardId: TradeItStoryboardID = showWelcomeScreen ? .welcomeView : .selectBrokerView
+
+        let initialViewController = self.viewControllerProvider.provideViewController(forStoryboardId: initialStoryboardId)
+
+        if let welcomeViewController = initialViewController as? TradeItWelcomeViewController {
+            welcomeViewController.delegate = self
+        } else if let selectBrokerViewController = initialViewController as? TradeItSelectBrokerViewController {
+            selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
+        }
+        
+        return initialViewController
     }
     
     // MARK: TradeItWelcomeViewControllerDelegate

@@ -21,7 +21,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)

@@ -1,15 +1,16 @@
 import UIKit
 
 class TradeItAccountSelectionTableViewHeader: UITableViewCell {
-    @IBOutlet weak var brokerLabel: UILabel!
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configureTableHeader(header: self)
         self.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
-        self.brokerLabel.textColor = TradeItSDK.theme.tableHeaderTextColor
+        self.textLabel?.textColor = TradeItSDK.theme.tableHeaderTextColor
+        //self.accessoryView?.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        //self.accessoryView?.backgroundColor = TradeItSDK.theme.interactiveSecondaryColor
     }
     
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.brokerLabel.text = linkedBroker.brokerName
+        self.textLabel?.text = linkedBroker.brokerName
     }
 }

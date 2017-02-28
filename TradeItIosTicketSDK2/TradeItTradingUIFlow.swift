@@ -23,10 +23,9 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
                             withOrder order: TradeItOrder = TradeItOrder()) {
         self.order = order
 
-        let navController = UINavigationController()
-
         let initialViewController = getInitialViewController(forOrder: order)
 
+        let navController = UINavigationController()
         navController.setViewControllers([initialViewController], animated: true)
 
         viewController.present(navController, animated: true, completion: nil)

@@ -2,15 +2,17 @@ import UIKit
 
 class TradeItOAuthCompletionViewController: TradeItViewController {
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var brokerLabel: UILabel!
-    @IBOutlet weak var explanationLabel: UILabel!
-    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var detailsLabel: UILabel!
+    @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker?
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser?
     var delegate: TradeItOAuthCompletionViewControllerDelegate?
+
+    private let actionButtonTitleTextContinue = "Continue"
+    private let actionButtonTitleTextTryAgain = "Try again"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,51 +63,56 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             }
         )
     }
-    
-    override func closeButtonTitle() -> String {
-        return "Cancel"
-    }
 
     // MARK: Private
 
     private func setInitialState() {
-        self.continueButton.disable()
+        self.view.backgroundColor = UIColor.tradeItlightGreyBackgroundColor
+
+        self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
+        self.actionButton.disable()
 
         self.activityIndicator.startAnimating()
         self.activityIndicator.hidesWhenStopped = true
 
-        self.statusLabel.text = "Completing linking your broker..."
-        self.brokerLabel.text = ""
-        self.explanationLabel.text = ""
+        self.statusLabel.text = "Linking..."
+        self.statusLabel.textColor = UIColor.tradeItCoolBlueColor()
+        self.detailsLabel.text = ""
     }
 
     private func setSuccessState(forBroker broker: String) {
-        self.continueButton.enable()
+        self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
+        self.actionButton.enable()
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "You have successfully linked:"
-        self.brokerLabel.text = broker.uppercased()
-        self.explanationLabel.text = "You can now trade with your account or view your portfolio to see up to date performance."
+        self.statusLabel.text = "Success"
+        self.detailsLabel.text = "You have successfully linked \(broker). You can now trade with your account or view your portfolio to see up to date performance."
     }
 
     private func setFailureState(withMessage message: String) {
-        self.continueButton.enable()
+        self.actionButton.setTitle(actionButtonTitleTextTryAgain, for: .normal)
+        self.actionButton.enable()
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Something went wrong..."
-//        self.brokerLabel.size
-        self.brokerLabel.text = "❗"
-        self.explanationLabel.text = message
+        self.statusLabel.text = "Oops"
+        self.detailsLabel.text = message
     }
 
     // MARK: IBActions
 
-    @IBAction func continueButtonTapped(_ sender: UIButton) {
-        delegate?.continueButtonTapped(fromOAuthCompletionViewViewController: self, linkedBroker: self.linkedBroker)
+    @IBAction func actionButtonTapped(_ sender: UIButton) {
+        if self.actionButton.title(for: .normal) == actionButtonTitleTextContinue {
+            delegate?.onContinue(fromOAuthCompletionViewViewController: self, linkedBroker: self.linkedBroker)
+        } else if self.actionButton.title(for: .normal) == actionButtonTitleTextTryAgain {
+            delegate?.onTryAgain(fromOAuthCompletionViewViewController: self)
+        }
     }
 }
 
 @objc protocol TradeItOAuthCompletionViewControllerDelegate {
-    func continueButtonTapped(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController, linkedBroker: TradeItLinkedBroker?)
+    func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+                    linkedBroker: TradeItLinkedBroker?)
+
+    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController)
 }

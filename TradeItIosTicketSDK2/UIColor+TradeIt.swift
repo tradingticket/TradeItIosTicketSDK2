@@ -1,20 +1,16 @@
 import UIKit
 
 extension UIColor {
+    static var tradeItlightGreyBackgroundColor: UIColor {
+        return UIColor(red: 235.0 / 255.0, green: 235.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
+    }
+
     class func tradeItCoolBlueColor() -> UIColor {
         return UIColor(red: 81.0 / 255.0, green: 136.0 / 255.0, blue: 184.0 / 255.0, alpha: 1.0)
     }
 
-    class func tradeItGreyishBrownColor() -> UIColor {
-        return UIColor(white: 74.0 / 255.0, alpha: 1.0)
-    }
-
-    class func tradeItWaterBlueColor() -> UIColor {
-        return UIColor(red: 27.0 / 255.0, green: 142.0 / 255.0, blue: 206.0 / 255.0, alpha: 1.0)
-    }
-
-    class func tradeItClearBlueColor() -> UIColor {
-        return UIColor(red: 33.0 / 255.0, green: 145.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    class func tradeItBlueColor() -> UIColor {
+        return UIColor(red: 65.0 / 255.0, green: 116.0 / 255.0, blue: 169.0 / 255.0, alpha: 1.0)
     }
 
     class func tradeItDeepRoseColor() -> UIColor {

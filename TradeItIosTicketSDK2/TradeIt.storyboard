@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -188,7 +188,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fri-XE-ZRO">
                                 <rect key="frame" x="63" y="377" width="250" height="40"/>
-                                <color key="backgroundColor" red="0.25573506951332092" green="0.45411807298660278" blue="0.66381359100341797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.25490196078431371" green="0.45411807298660278" blue="0.66381359100341797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
                                     <constraint firstAttribute="width" constant="250" id="idM-Jz-Yv7"/>
@@ -2720,7 +2720,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3b8-ge-HtT" userLabel="Add Account">
-                                                    <rect key="frame" x="18" y="14.5" width="99" height="21"/>
+                                                    <rect key="frame" x="18" y="15" width="99" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2932,72 +2932,74 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have linked:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hs3-Aa-Icl">
-                                <rect key="frame" x="16" y="70" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUI-8x-4rl">
-                                <rect key="frame" x="16" y="141" width="343" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-WM-6Tc">
-                                <rect key="frame" x="16" y="602" width="343" height="50"/>
-                                <color key="backgroundColor" red="0.25573506950000002" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Onu-3s-jZO">
+                                <rect key="frame" x="26" y="45" width="323" height="300"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-WM-6Tc">
+                                        <rect key="frame" x="45" y="195" width="233" height="50"/>
+                                        <color key="backgroundColor" red="0.25490196079999999" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="573-Km-nyP"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="Action">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="actionButtonTapped:" destination="skT-vy-edq" eventType="touchUpInside" id="7q4-a3-gn7"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hs3-Aa-Icl">
+                                        <rect key="frame" x="0.0" y="45" width="323" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
+                                        <color key="textColor" red="0.25490196078431371" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVk-PB-m4r" userLabel="Details Label">
+                                        <rect key="frame" x="45" y="94" width="233" height="67"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="lwx-MP-KaO">
+                                        <rect key="frame" x="143" y="119" width="37" height="37"/>
+                                        <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="573-Km-nyP"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hs3-Aa-Icl" secondAttribute="trailing" id="179-f0-OOZ"/>
+                                    <constraint firstItem="Hs3-Aa-Icl" firstAttribute="top" secondItem="Onu-3s-jZO" secondAttribute="top" constant="45" id="5SE-Y5-OGa"/>
+                                    <constraint firstItem="lwx-MP-KaO" firstAttribute="centerX" secondItem="Onu-3s-jZO" secondAttribute="centerX" id="BtK-54-hS1"/>
+                                    <constraint firstAttribute="trailing" secondItem="QVk-PB-m4r" secondAttribute="trailing" constant="45" id="F8v-eR-NnB"/>
+                                    <constraint firstAttribute="trailing" secondItem="GBn-WM-6Tc" secondAttribute="trailing" constant="45" id="Rpu-Vg-We8"/>
+                                    <constraint firstItem="GBn-WM-6Tc" firstAttribute="leading" secondItem="Onu-3s-jZO" secondAttribute="leading" constant="45" id="WCz-6k-wph"/>
+                                    <constraint firstAttribute="bottom" secondItem="GBn-WM-6Tc" secondAttribute="bottom" constant="55" id="Xyy-N0-hUR"/>
+                                    <constraint firstAttribute="height" constant="300" id="bgo-Yb-B8f"/>
+                                    <constraint firstItem="Hs3-Aa-Icl" firstAttribute="leading" secondItem="Onu-3s-jZO" secondAttribute="leading" id="fcb-Nc-pwx"/>
+                                    <constraint firstItem="QVk-PB-m4r" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="20" id="q1K-Ub-03c"/>
+                                    <constraint firstItem="lwx-MP-KaO" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="45" id="yLA-qW-uby"/>
+                                    <constraint firstItem="QVk-PB-m4r" firstAttribute="leading" secondItem="Onu-3s-jZO" secondAttribute="leading" constant="45" id="yds-e3-8qO"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <state key="normal" title="Continue">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="4"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="continueButtonTapped:" destination="skT-vy-edq" eventType="touchUpInside" id="zZ9-7r-Mz8"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVk-PB-m4r">
-                                <rect key="frame" x="16" y="215" width="343" height="61"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="lwx-MP-KaO">
-                                <rect key="frame" x="169" y="141" width="37" height="37"/>
-                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="tUI-8x-4rl" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="50" id="2lt-c1-IdC"/>
-                            <constraint firstItem="cdg-3S-hJI" firstAttribute="top" secondItem="GBn-WM-6Tc" secondAttribute="bottom" constant="15" id="5cm-Ff-WWb"/>
-                            <constraint firstItem="lwx-MP-KaO" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="50" id="An6-zb-PV2"/>
-                            <constraint firstItem="Hs3-Aa-Icl" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="F2e-gk-FgS"/>
-                            <constraint firstItem="tUI-8x-4rl" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="FlB-Ge-u6x"/>
-                            <constraint firstItem="GBn-WM-6Tc" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="J3p-ng-oAG"/>
-                            <constraint firstItem="lwx-MP-KaO" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="OLR-mE-nfY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GBn-WM-6Tc" secondAttribute="trailing" id="Q4e-He-g9q"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Hs3-Aa-Icl" secondAttribute="trailing" id="Qn7-LO-jry"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="QVk-PB-m4r" secondAttribute="trailing" id="j9E-qi-2LF"/>
-                            <constraint firstItem="Hs3-Aa-Icl" firstAttribute="top" secondItem="5Ij-CX-sLM" secondAttribute="bottom" constant="50" id="kQF-sP-lsc"/>
-                            <constraint firstItem="QVk-PB-m4r" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="oEE-pU-DAs"/>
-                            <constraint firstItem="QVk-PB-m4r" firstAttribute="top" secondItem="tUI-8x-4rl" secondAttribute="bottom" constant="50" id="tWk-2X-odo"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="tUI-8x-4rl" secondAttribute="trailing" id="zG8-7J-5sX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Onu-3s-jZO" secondAttribute="trailing" constant="10" id="QNz-H1-Chz"/>
+                            <constraint firstItem="Onu-3s-jZO" firstAttribute="top" secondItem="5Ij-CX-sLM" secondAttribute="bottom" constant="25" id="hhq-8v-Peh"/>
+                            <constraint firstItem="Onu-3s-jZO" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" constant="10" id="nB1-hE-8k4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Broker linked" id="LsB-mb-k4V"/>
                     <connections>
+                        <outlet property="actionButton" destination="GBn-WM-6Tc" id="h2W-R1-gSF"/>
                         <outlet property="activityIndicator" destination="lwx-MP-KaO" id="XUK-MU-t27"/>
-                        <outlet property="brokerLabel" destination="tUI-8x-4rl" id="GSD-Jd-nl4"/>
-                        <outlet property="continueButton" destination="GBn-WM-6Tc" id="8Rj-hE-hEw"/>
-                        <outlet property="explanationLabel" destination="QVk-PB-m4r" id="PgA-DE-fXa"/>
+                        <outlet property="detailsLabel" destination="QVk-PB-m4r" id="R5L-ny-eoD"/>
                         <outlet property="statusLabel" destination="Hs3-Aa-Icl" id="Be5-pf-Lkl"/>
                     </connections>
                 </viewController>
@@ -3015,7 +3017,4 @@
         <image name="success_icon.png" width="101" height="101"/>
         <image name="truste.png" width="405" height="102"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="1iK-NS-IHY"/>
-    </inferredMetricsTieBreakers>
 </document>

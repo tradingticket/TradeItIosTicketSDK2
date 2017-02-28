@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
+class TradeItAccountSelectionViewController: CloseableViewController, TradeItAccountSelectionTableViewManagerDelegate {
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!

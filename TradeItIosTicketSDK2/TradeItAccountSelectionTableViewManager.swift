@@ -35,20 +35,14 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     }
     
     // MARK: UITableViewDataSource
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-            return self.linkedBrokers.count
+        return self.linkedBrokers.count
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 55.0
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let linkedBroker = self.linkedBrokers[section]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_HEADER_ID") as! TradeItAccountSelectionTableViewHeader
-        cell.populate(withLinkedBroker: linkedBroker)
-        return cell
+        return linkedBroker.brokerName
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

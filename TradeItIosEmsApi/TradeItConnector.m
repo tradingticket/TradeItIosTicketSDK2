@@ -89,20 +89,17 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                                                                         emsAction:@"user/getOAuthLoginPopupUrlForMobile"
                                                                       environment:self.environment];
 
-    [self sendEMSRequest:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthLoginPopupUrlForMobileResult *successResult
-                      = (TradeItOAuthLoginPopupUrlForMobileResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForMobileResult alloc]
-                                                                                           jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+     [self sendEMSRequest:request
+      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthLoginPopupUrlForMobileResult *successResult
+                  = (TradeItOAuthLoginPopupUrlForMobileResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForMobileResult alloc]
+                                                                                       jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
-     }];
+          completionBlock(tradeItResult);
+      }];
 }
 
 - (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString *)broker
@@ -122,17 +119,14 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendEMSRequest:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthLoginPopupUrlForTokenUpdateResult *successResult
-                      = (TradeItOAuthLoginPopupUrlForTokenUpdateResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForTokenUpdateResult alloc]
-                                                                                                jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthLoginPopupUrlForTokenUpdateResult *successResult
+                  = (TradeItOAuthLoginPopupUrlForTokenUpdateResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForTokenUpdateResult alloc]
+                                                                                            jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
+          completionBlock(tradeItResult);
      }];
 }
 
@@ -148,20 +142,17 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                                                                         emsAction:@"user/getOAuthAccessToken"
                                                                       environment:self.environment];
 
-    [self sendEMSRequest:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthAccessTokenResult *successResult
-                      = (TradeItOAuthAccessTokenResult *)[TradeItJsonConverter buildResult:[TradeItOAuthAccessTokenResult alloc]
-                                                                                jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+     [self sendEMSRequest:request
+      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthAccessTokenResult *successResult
+                  = (TradeItOAuthAccessTokenResult *)[TradeItJsonConverter buildResult:[TradeItOAuthAccessTokenResult alloc]
+                                                                            jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
-     }];
+          completionBlock(tradeItResult);
+      }];
 }
 
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {

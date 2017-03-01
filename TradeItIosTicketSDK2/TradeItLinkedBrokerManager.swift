@@ -234,6 +234,10 @@ import PromiseKit
     public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAccounts().filter { $0.isEnabled }
     }
+    
+    public func getAllAuthenticatedAndEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+        return self.getAllAuthenticatedLinkedBrokers().flatMap { $0.accounts }.filter { $0.isEnabled }
+    }
 
     public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}

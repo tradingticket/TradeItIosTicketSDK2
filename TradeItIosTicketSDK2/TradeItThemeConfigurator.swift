@@ -3,6 +3,7 @@
         "STOCK_SYMBOL",
         "CHEVRON_UP",
         "CHEVRON_DOWN",
+        "CHEVRON_RIGHT",
         "NATIVE_ARROW",
         "SELECTED_INDICATOR"
     ]

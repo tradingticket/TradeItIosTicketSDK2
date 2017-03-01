@@ -379,6 +379,7 @@
 		FA596DE51E1EF426007D48F2 /* TradeItYahoo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA596DE21E1EF26C007D48F2 /* TradeItYahoo.storyboard */; };
 		FA596DEA1E1EF5AA007D48F2 /* TradeItYahooBrokerLinkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA596DE91E1EF5AA007D48F2 /* TradeItYahooBrokerLinkedViewController.swift */; };
 		FA596DEB1E1EF5AA007D48F2 /* TradeItYahooBrokerLinkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA596DE91E1EF5AA007D48F2 /* TradeItYahooBrokerLinkedViewController.swift */; };
+		FA803FC01E66AD2900B213E8 /* chevron_right.png in Resources */ = {isa = PBXBuildFile; fileRef = FA803FBF1E66AD2900B213E8 /* chevron_right.png */; };
 		FA80FFB81DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FA80FFB61DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA80FFB91DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA80FFB71DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.m */; };
 		FA80FFBC1DECDE6400C54091 /* TradeItOAuthLoginPopupUrlForMobileResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FA80FFBA1DECDE6400C54091 /* TradeItOAuthLoginPopupUrlForMobileResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -992,6 +993,7 @@
 		FA58527E1E413B2900078352 /* TradeItSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectionViewController.swift; sourceTree = "<group>"; };
 		FA596DE21E1EF26C007D48F2 /* TradeItYahoo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TradeItYahoo.storyboard; sourceTree = "<group>"; };
 		FA596DE91E1EF5AA007D48F2 /* TradeItYahooBrokerLinkedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooBrokerLinkedViewController.swift; sourceTree = "<group>"; };
+		FA803FBF1E66AD2900B213E8 /* chevron_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chevron_right.png; sourceTree = "<group>"; };
 		FA80FFB61DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItOAuthLoginPopupUrlForMobileRequest.h; sourceTree = "<group>"; };
 		FA80FFB71DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItOAuthLoginPopupUrlForMobileRequest.m; sourceTree = "<group>"; };
 		FA80FFBA1DECDE6400C54091 /* TradeItOAuthLoginPopupUrlForMobileResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItOAuthLoginPopupUrlForMobileResult.h; sourceTree = "<group>"; };
@@ -1240,6 +1242,7 @@
 		756FAF8C1DB81EC500D5B112 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FA803FBF1E66AD2900B213E8 /* chevron_right.png */,
 				B5FDB67F1DDE40F700CA558D /* norton.png */,
 				B5FDB6801DDE40F700CA558D /* truste.png */,
 				75B857B41DD3AB7C003AB7AB /* Logos */,
@@ -2051,6 +2054,7 @@
 				75B857C11DD3AB91003AB7AB /* ib_logo.png in Resources */,
 				75B857C01DD3AB91003AB7AB /* fidelity_logo.png in Resources */,
 				75B857C61DD3AB91003AB7AB /* tradeking_logo.png in Resources */,
+				FA803FC01E66AD2900B213E8 /* chevron_right.png in Resources */,
 				75F4261A1E22D7250054E15F /* tradeit_logo.png in Resources */,
 				75BAAA9D1DB7EEB400E5435C /* indicator.png in Resources */,
 			);

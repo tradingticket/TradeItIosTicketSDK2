@@ -6,7 +6,7 @@ extension UIColor {
     }
 
     static var tradeItlightGreyTextColor: UIColor {
-        return UIColor(red: 170.0 / 255.0, green: 170.0 / 255.0, blue: 170.0 / 255.0, alpha: 1.0)
+        return UIColor(red: 160.0 / 255.0, green: 160.0 / 255.0, blue: 160.0 / 255.0, alpha: 1.0)
     }
 
     class func tradeItCoolBlueColor() -> UIColor {

@@ -76,7 +76,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.activityIndicator.hidesWhenStopped = true
 
         self.statusLabel.text = "Linking..."
-        self.statusLabel.textColor = UIColor.tradeItCoolBlueColor()
+        self.statusLabel.textColor = UIColor.tradeItCoolBlueColor
         self.detailsLabel.text = ""
     }
 

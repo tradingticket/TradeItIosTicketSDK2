@@ -91,13 +91,13 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             let position = self.positions[(index as NSIndexPath).row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .buy)
         }
-        buyAction.backgroundColor = UIColor.tradeItBuyGreenColor()
+        buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
         let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { action, index in
             let position = self.positions[(index as NSIndexPath).row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .sell)
         }
-        sellAction.backgroundColor = UIColor.tradeItSellRedColor()
+        sellAction.backgroundColor = UIColor.tradeItSellRedColor
         
         
         return [sellAction, buyAction]

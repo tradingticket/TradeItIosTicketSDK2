@@ -9,31 +9,27 @@ extension UIColor {
         return UIColor(red: 160.0 / 255.0, green: 160.0 / 255.0, blue: 160.0 / 255.0, alpha: 1.0)
     }
 
-    class func tradeItCoolBlueColor() -> UIColor {
+    static var tradeItCoolBlueColor: UIColor {
         return UIColor(red: 81.0 / 255.0, green: 136.0 / 255.0, blue: 184.0 / 255.0, alpha: 1.0)
-    }
-
-    class func tradeItBlueColor() -> UIColor {
-        return UIColor(red: 65.0 / 255.0, green: 116.0 / 255.0, blue: 169.0 / 255.0, alpha: 1.0)
     }
 
     static var tradeItDarkBlueColor: UIColor {
         return UIColor(red: 0.0 / 255.0, green: 52.0 / 255.0, blue: 82.0 / 255.0, alpha: 1.0)
     }
 
-    class func tradeItDeepRoseColor() -> UIColor {
+    static var tradeItDeepRoseColor: UIColor {
         return UIColor(red: 206.0 / 255.0, green: 84.0 / 255.0, blue: 99.0 / 255.0, alpha: 1.0)
     }
 
-    class func tradeItMoneyGreenColor() -> UIColor {
+    static var tradeItMoneyGreenColor: UIColor {
         return UIColor(red: 127.0 / 255.0, green: 182.0 / 255.0, blue: 67.0 / 255.0, alpha: 1.0)
     }
     
-    class func tradeItBuyGreenColor() -> UIColor {
+    static var tradeItBuyGreenColor: UIColor {
         return UIColor(red: 111.0 / 255.0, green: 179.0 / 255.0, blue: 63.0 / 255.0, alpha: 1.0)
     }
     
-    class func tradeItSellRedColor() -> UIColor {
+    static var tradeItSellRedColor: UIColor {
         return UIColor(red: 205.0 / 255.0, green: 28.0 / 255.0, blue: 41.0 / 255.0, alpha: 0.81)
     }
 }

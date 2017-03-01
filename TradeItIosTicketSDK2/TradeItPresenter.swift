@@ -18,9 +18,9 @@ class TradeItPresenter {
     
     static func stockChangeColor(_ value: Double) -> UIColor {
         if value > 0.0 {
-            return UIColor.tradeItMoneyGreenColor()
+            return UIColor.tradeItMoneyGreenColor
         } else if value < 0 {
-            return UIColor.tradeItDeepRoseColor()
+            return UIColor.tradeItDeepRoseColor
         } else {
             return UIColor.lightText
         }

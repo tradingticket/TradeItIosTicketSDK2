@@ -66,7 +66,8 @@
             tableView.backgroundColor = TradeItSDK.theme.backgroundColor
         case let activityIndicator as UIActivityIndicatorView:
             activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
-        case is UITableViewCell:
+        case let cell as UITableViewCell:
+            cell.prepareDisclosureIndicator()
             break
         default:
             break
@@ -93,6 +94,8 @@
         } else if self.BUTTON_TEXT_TO_HIGHLIGHT.contains(button.title(for: .normal) ?? "") {
             button.setTitleColor(TradeItSDK.theme.warningSecondaryColor, for: .normal)
             button.backgroundColor = TradeItSDK.theme.warningPrimaryColor
+        } else if button.currentTitle == nil && button.superview is UITableViewCell {
+            button.tintColor = TradeItSDK.theme.interactivePrimaryColor
         } else {
             button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .normal)
             button.backgroundColor = TradeItSDK.theme.interactivePrimaryColor

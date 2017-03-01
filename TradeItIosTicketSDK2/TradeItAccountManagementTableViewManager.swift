@@ -31,7 +31,11 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
+    
     // MARK: UITableViewDataSource
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "ACCOUNTS"
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return linkedBrokerAccounts.count

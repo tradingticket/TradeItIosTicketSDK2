@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
+class TradeItAccountSelectionViewController: CloseableViewController, TradeItAccountSelectionTableViewManagerDelegate {
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!
@@ -21,7 +21,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
@@ -33,7 +33,14 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     
     override func configureNavigationItem() {
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        if enabledBrokers.isEmpty {
+
+        var isRootScreen = true
+
+        if let navStackCount = self.navigationController?.viewControllers.count {
+            isRootScreen = (navStackCount == 1)
+        }
+
+        if enabledBrokers.isEmpty || isRootScreen {
             self.createCloseButton()
         }
     }

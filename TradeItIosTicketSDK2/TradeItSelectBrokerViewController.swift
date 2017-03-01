@@ -114,8 +114,9 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         let broker = self.brokers[indexPath.row]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: brokerCellIdentifier) ?? UITableViewCell(style: .default, reuseIdentifier: brokerCellIdentifier)
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17.0)
         cell.textLabel?.text = broker.brokerLongName
-
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         TradeItThemeConfigurator.configure(view: cell)
 
         return cell

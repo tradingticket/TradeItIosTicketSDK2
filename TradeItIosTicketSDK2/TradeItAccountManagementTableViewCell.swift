@@ -1,25 +1,25 @@
 import UIKit
 
 class TradeItAccountManagementTableViewCell: UITableViewCell {
-    @IBOutlet weak var accountNameLabel: UILabel!
-    @IBOutlet weak var buyingPowerLabel: UILabel!
-    @IBOutlet weak var accountEnabledSwitch: UISwitch!
+    
     var selectedBrokerAccount: TradeItLinkedBrokerAccount!
+    let accountSwitch = UISwitch()
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configure(view: self)
+        self.accessoryView = self.accountSwitch
+        self.accountSwitch.addTarget(self, action: #selector(accountEnabledSwitchWasTapped(sender:)), for: UIControlEvents.valueChanged)
     }
 
     func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
         self.selectedBrokerAccount = linkedBrokerAccount
-        self.accountEnabledSwitch.isOn = self.selectedBrokerAccount.isEnabled
-        self.accountNameLabel.text = linkedBrokerAccount.getFormattedAccountName()
-        self.buyingPowerLabel.text = presenter.getFormattedBuyingPower()
+        self.accountSwitch.isOn = self.selectedBrokerAccount.isEnabled
+        self.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
+        self.detailTextLabel?.text = "BUYING POWER " + presenter.getFormattedBuyingPower()
     }
     
-    //MARK: IBAction
-    @IBAction func accountEnabledSwitchWasTapped(_ sender: AnyObject) {
-        self.selectedBrokerAccount.isEnabled =  accountEnabledSwitch.isOn
+    func accountEnabledSwitchWasTapped(sender: UISwitch!) {
+            self.selectedBrokerAccount.isEnabled =  self.accountSwitch.isOn
     }
 }

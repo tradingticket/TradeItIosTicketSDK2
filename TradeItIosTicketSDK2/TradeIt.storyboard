@@ -193,7 +193,7 @@
                                     <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
                                     <constraint firstAttribute="width" constant="250" id="idM-Jz-Yv7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Get Started Now">
                                     <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -326,7 +326,7 @@
                                     <constraint firstAttribute="width" constant="200" id="NsT-hk-Yhk"/>
                                     <constraint firstAttribute="height" constant="40" id="zCc-YT-nrk"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Preview Order">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -683,7 +683,7 @@
                                     <constraint firstAttribute="height" constant="40" id="WAX-2f-3cT"/>
                                     <constraint firstAttribute="width" constant="250" id="e2w-Yk-AGK"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Open a new account">
                                     <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -787,7 +787,7 @@
                                     <constraint firstAttribute="height" constant="40" id="7vl-e6-c4z"/>
                                     <constraint firstAttribute="width" constant="250" id="uub-Ks-VcE"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Link Account">
                                     <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -2280,7 +2280,7 @@
                                     <constraint firstAttribute="width" constant="200" id="jre-Gy-BQH"/>
                                     <constraint firstAttribute="height" constant="40" id="z8i-2a-dXr"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Edit Accounts">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2463,7 +2463,7 @@
                                     <constraint firstAttribute="width" constant="200" id="V9h-DF-lgD"/>
                                     <constraint firstAttribute="height" constant="40" id="vY0-q0-Hv0"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Place Order">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2513,25 +2513,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="success_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ug6-ZR-aFE">
-                                <rect key="frame" x="16" y="40" width="343" height="128"/>
+                                <rect key="frame" x="16" y="95" width="343" height="65"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="bYf-YM-7IQ"/>
+                                    <constraint firstAttribute="height" constant="65" id="NfG-TS-5hl"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirmation Text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8df-lV-kgX">
-                                <rect key="frame" x="16" y="184" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Sent" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8df-lV-kgX">
+                                <rect key="frame" x="16" y="184" width="343" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-hO-aBt" userLabel="Trade Again">
-                                <rect key="frame" x="88" y="275" width="200" height="40"/>
+                                <rect key="frame" x="87" y="397" width="200" height="40"/>
                                 <color key="backgroundColor" red="0.31764706970000001" green="0.53333336109999996" blue="0.72156864399999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="INk-y7-BUd"/>
                                     <constraint firstAttribute="height" constant="40" id="c4s-E2-Mlt"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Trade Again">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2546,9 +2546,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiz-kG-4ho" userLabel="View Portfolio">
-                                <rect key="frame" x="88" y="335" width="200" height="40"/>
+                                <rect key="frame" x="87" y="457" width="200" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="View Portfolio">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2562,31 +2562,61 @@
                                     <action selector="portfolioButtonWasTapped:" destination="AUL-pz-v3k" eventType="touchUpInside" id="HqI-e7-tsA"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your order to buy 1 share of AAPL at $137.22 has been successfully transmitted to your broker" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOi-0I-Iyh">
+                                <rect key="frame" x="26" y="241.5" width="323" height="57.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/23/45 at 67:89 PM EDT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXe-hs-Myj">
+                                <rect key="frame" x="26" y="323" width="323" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order #123456789000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uvq-24-htU">
+                                <rect key="frame" x="26" y="345" width="323" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="centerX" secondItem="GcE-nB-46a" secondAttribute="centerX" id="0U2-aT-UUU"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="height" secondItem="dPH-hO-aBt" secondAttribute="height" id="7zS-ta-Ore"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="centerX" secondItem="GcE-nB-46a" secondAttribute="centerX" id="9xh-KN-KKC"/>
+                            <constraint firstItem="aOi-0I-Iyh" firstAttribute="top" secondItem="8df-lV-kgX" secondAttribute="bottom" constant="24" id="Bf5-zO-1fI"/>
+                            <constraint firstItem="sXe-hs-Myj" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" constant="10" id="FeL-S6-0c8"/>
+                            <constraint firstItem="Uvq-24-htU" firstAttribute="top" secondItem="sXe-hs-Myj" secondAttribute="bottom" constant="5" id="GEm-4p-Djj"/>
                             <constraint firstItem="8df-lV-kgX" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="GV7-zI-cdf"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="top" secondItem="dPH-hO-aBt" secondAttribute="bottom" constant="20" id="JzW-9e-56S"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ug6-ZR-aFE" secondAttribute="trailing" id="MJ9-n8-yHP"/>
+                            <constraint firstItem="aOi-0I-Iyh" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" constant="10" id="PI3-eb-nhA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8df-lV-kgX" secondAttribute="trailing" id="QKI-rB-CdZ"/>
-                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="top" secondItem="qXR-zx-InJ" secondAttribute="bottom" constant="20" id="TV5-lZ-7BX"/>
-                            <constraint firstItem="8df-lV-kgX" firstAttribute="top" secondItem="Ug6-ZR-aFE" secondAttribute="bottom" constant="16" id="VHY-dh-Y6I"/>
+                            <constraint firstItem="Ug6-ZR-aFE" firstAttribute="top" secondItem="qXR-zx-InJ" secondAttribute="bottom" constant="75" id="TV5-lZ-7BX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aOi-0I-Iyh" secondAttribute="trailing" constant="10" id="Um8-Tm-420"/>
+                            <constraint firstItem="8df-lV-kgX" firstAttribute="top" secondItem="Ug6-ZR-aFE" secondAttribute="bottom" constant="24" id="VHY-dh-Y6I"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="width" secondItem="Tiz-kG-4ho" secondAttribute="width" id="VYd-EX-43w"/>
-                            <constraint firstItem="dPH-hO-aBt" firstAttribute="top" secondItem="8df-lV-kgX" secondAttribute="bottom" constant="70" id="ZEE-A1-1SA"/>
+                            <constraint firstItem="sXe-hs-Myj" firstAttribute="top" secondItem="aOi-0I-Iyh" secondAttribute="bottom" constant="24" id="fed-Md-wiQ"/>
+                            <constraint firstItem="Uvq-24-htU" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" constant="10" id="gvk-cu-aUA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sXe-hs-Myj" secondAttribute="trailing" constant="10" id="nyp-C4-j7g"/>
                             <constraint firstItem="Ug6-ZR-aFE" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="oOY-O6-23d"/>
+                            <constraint firstItem="dPH-hO-aBt" firstAttribute="top" secondItem="Uvq-24-htU" secondAttribute="bottom" constant="35" id="oeD-Xm-kG6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Uvq-24-htU" secondAttribute="trailing" constant="10" id="sOa-nl-CKu"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="confirmationTextLabel" destination="8df-lV-kgX" id="9VO-ad-iWo"/>
+                        <outlet property="confirmationTextLabel" destination="aOi-0I-Iyh" id="wAM-jr-nS2"/>
+                        <outlet property="orderNumberLabel" destination="Uvq-24-htU" id="RWL-mN-tIZ"/>
+                        <outlet property="timeStampLabel" destination="sXe-hs-Myj" id="Qf6-1y-7GQ"/>
+                        <outlet property="tradeAgainButton" destination="dPH-hO-aBt" id="Mxu-zZ-7uE"/>
                         <outlet property="viewPortfolioButton" destination="Tiz-kG-4ho" id="8Ep-7S-lZC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTB-II-sfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3977" y="-1194"/>
+            <point key="canvasLocation" x="3976.8000000000002" y="-1194.1529235382309"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="huh-Y5-9RO">
@@ -2723,7 +2753,7 @@
                                     <constraint firstAttribute="width" constant="200" id="Gxk-ce-5q0"/>
                                     <constraint firstAttribute="height" constant="40" id="Hy2-lu-lJ8"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Relink Account">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2750,7 +2780,7 @@
                                     <constraint firstAttribute="height" constant="40" id="5z1-tt-eZF"/>
                                     <constraint firstAttribute="width" constant="200" id="z2q-DV-4dy"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="Unlink Account">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2808,12 +2838,12 @@
                                 <rect key="frame" x="26" y="45" width="323" height="300"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-WM-6Tc">
-                                        <rect key="frame" x="45" y="195" width="233" height="50"/>
+                                        <rect key="frame" x="45" y="205" width="233" height="40"/>
                                         <color key="backgroundColor" red="0.25490196079999999" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="573-Km-nyP"/>
+                                            <constraint firstAttribute="height" constant="40" id="573-Km-nyP"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="Action">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

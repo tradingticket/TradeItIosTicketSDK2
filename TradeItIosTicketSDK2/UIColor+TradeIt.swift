@@ -5,12 +5,20 @@ extension UIColor {
         return UIColor(red: 235.0 / 255.0, green: 235.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
     }
 
+    static var tradeItlightGreyTextColor: UIColor {
+        return UIColor(red: 170.0 / 255.0, green: 170.0 / 255.0, blue: 170.0 / 255.0, alpha: 1.0)
+    }
+
     class func tradeItCoolBlueColor() -> UIColor {
         return UIColor(red: 81.0 / 255.0, green: 136.0 / 255.0, blue: 184.0 / 255.0, alpha: 1.0)
     }
 
     class func tradeItBlueColor() -> UIColor {
         return UIColor(red: 65.0 / 255.0, green: 116.0 / 255.0, blue: 169.0 / 255.0, alpha: 1.0)
+    }
+
+    static var tradeItDarkBlueColor: UIColor {
+        return UIColor(red: 0.0 / 255.0, green: 52.0 / 255.0, blue: 82.0 / 255.0, alpha: 1.0)
     }
 
     class func tradeItDeepRoseColor() -> UIColor {

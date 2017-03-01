@@ -4,6 +4,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var order = TradeItOrder()
+    var previewOrderResult: TradeItPreviewOrderResult?
 
     func pushTradingFlow(onNavigationController navController: UINavigationController,
                                                 asRootViewController: Bool,
@@ -117,6 +118,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
         onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers) {
+        self.previewOrderResult = previewOrderResult
 
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingPreviewView)
 
@@ -138,6 +140,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
         if let tradingConfirmationViewController = nextViewController as? TradeItTradingConfirmationViewController {
             tradingConfirmationViewController.delegate = self
+            tradingConfirmationViewController.previewOrderResult = self.previewOrderResult
             tradingConfirmationViewController.placeOrderResult = placeOrderResult
         }
 

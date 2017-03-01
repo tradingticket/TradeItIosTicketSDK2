@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UYm-NF-N8D">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UYm-NF-N8D">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -27,22 +27,32 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-8l-bnZ">
-                                <rect key="frame" x="0.0" y="96" width="375" height="571"/>
+                                <rect key="frame" x="0.0" y="97" width="375" height="570"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="6SI-6X-Au3"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="glH-Hw-GEs"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svp-Cn-GqL">
+                                <rect key="frame" x="0.0" y="96" width="375" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="0.5" id="Mcc-x3-RqS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="1dd-8l-bnZ" firstAttribute="top" secondItem="svp-Cn-GqL" secondAttribute="bottom" id="D3b-2q-FSe"/>
+                            <constraint firstItem="svp-Cn-GqL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Dsu-50-vhM"/>
                             <constraint firstAttribute="trailing" secondItem="1dd-8l-bnZ" secondAttribute="trailing" id="Gxf-kc-dEL"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1dd-8l-bnZ" secondAttribute="bottom" id="JL6-O3-TGk"/>
                             <constraint firstItem="C3c-i6-JWj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="U3X-Zf-2r1"/>
                             <constraint firstItem="C3c-i6-JWj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eXh-2D-VGp"/>
                             <constraint firstItem="1dd-8l-bnZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gvd-Mc-imo"/>
-                            <constraint firstItem="1dd-8l-bnZ" firstAttribute="top" secondItem="C3c-i6-JWj" secondAttribute="bottom" id="jMi-Yl-Fho"/>
+                            <constraint firstAttribute="trailing" secondItem="svp-Cn-GqL" secondAttribute="trailing" id="rQy-a6-ir1"/>
+                            <constraint firstItem="svp-Cn-GqL" firstAttribute="top" secondItem="C3c-i6-JWj" secondAttribute="bottom" id="vbT-gI-oVj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lhq-CK-t1k"/>
@@ -52,7 +62,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="46" y="-290"/>
+            <point key="canvasLocation" x="45.600000000000001" y="-290.10494752623691"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qaU-Ap-zmv">

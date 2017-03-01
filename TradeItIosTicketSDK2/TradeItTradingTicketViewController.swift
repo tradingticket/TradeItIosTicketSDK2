@@ -28,9 +28,16 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         guard let linkedBrokerAccount = self.order.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTradingTicketViewController loaded without setting linkedBrokerAccount on order.")
         }
+
         self.buttonBackgrounds.forEach { buttonBackground in
+            // TODO: Why isn't this done in the theme configurator in TradeItViewController?
             buttonBackground.backgroundColor = TradeItSDK.theme.inputFrameColor
         }
+
+        // TODO: Ew, this shouldn't be done here
+        self.tradingBrokerAccountView.resourceAvailabilityDescriptionLabel.textColor = UIColor.tradeItlightGreyTextColor
+        self.symbolView.updatedAtLabel.textColor = UIColor.tradeItlightGreyTextColor
+
         prepopulateOrderForm()
         accountSelected(linkedBrokerAccount: linkedBrokerAccount)
     }

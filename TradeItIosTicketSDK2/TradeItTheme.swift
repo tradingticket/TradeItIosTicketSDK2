@@ -16,7 +16,8 @@ import UIKit
     public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor()
     public var warningSecondaryColor: UIColor = UIColor.white
 
-    public var inputFrameColor: UIColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
+//    public var inputFrameColor: UIColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
+    public var inputFrameColor: UIColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
 
     override public init() {
         super.init()

@@ -258,40 +258,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLH-k3-9Pu" customClass="TradeItSymbolView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="16" y="25" width="183" height="70"/>
+                                <rect key="frame" x="16" y="25" width="187.5" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
-                                        <rect key="frame" x="0.0" y="0.0" width="63" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flL-XV-yxe">
+                                        <rect key="frame" x="0.0" y="0.0" width="91" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                         <state key="normal" title="SYMBOL"/>
                                         <connections>
                                             <action selector="symbolButtonWasTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="5Ll-Fd-O5Q"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rsc-4I-BwP">
-                                        <rect key="frame" x="0.0" y="30" width="41" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <rect key="frame" x="0.0" y="32" width="44" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Updated at 00:00AM EST" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cpk-9K-A9r">
-                                        <rect key="frame" x="0.0" y="54" width="124" height="12"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="145" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00 (0.00%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cq4-tz-zSQ">
-                                        <rect key="frame" x="45" y="30" width="140" height="18"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="Qm7-Wd-jqc"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <rect key="frame" x="54" y="32" width="95" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="OT1-dI-4NU">
-                                        <rect key="frame" x="8" y="29" width="20" height="20"/>
+                                        <rect key="frame" x="8" y="32" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="IkG-f0-oLS"/>
                                             <constraint firstAttribute="height" constant="20" id="hJJ-7M-ei0"/>
@@ -303,8 +300,9 @@
                                     <constraint firstItem="OT1-dI-4NU" firstAttribute="centerY" secondItem="Rsc-4I-BwP" secondAttribute="centerY" id="BU3-zD-7j5"/>
                                     <constraint firstItem="Rsc-4I-BwP" firstAttribute="top" secondItem="flL-XV-yxe" secondAttribute="bottom" id="Kfz-Sc-TLa"/>
                                     <constraint firstAttribute="height" constant="70" id="M0w-je-XrB"/>
-                                    <constraint firstItem="Cpk-9K-A9r" firstAttribute="top" secondItem="Rsc-4I-BwP" secondAttribute="bottom" constant="6" id="PjX-Jy-Y1f"/>
-                                    <constraint firstItem="Cq4-tz-zSQ" firstAttribute="leading" secondItem="Rsc-4I-BwP" secondAttribute="trailing" constant="4" id="Xp7-BJ-92t"/>
+                                    <constraint firstItem="Cpk-9K-A9r" firstAttribute="top" secondItem="Rsc-4I-BwP" secondAttribute="bottom" constant="4" id="PjX-Jy-Y1f"/>
+                                    <constraint firstAttribute="bottom" secondItem="Cpk-9K-A9r" secondAttribute="bottom" id="UgB-0n-tMv"/>
+                                    <constraint firstItem="Cq4-tz-zSQ" firstAttribute="leading" secondItem="Rsc-4I-BwP" secondAttribute="trailing" constant="10" id="Xp7-BJ-92t"/>
                                     <constraint firstItem="flL-XV-yxe" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="top" id="dVK-Xc-2fp"/>
                                     <constraint firstItem="flL-XV-yxe" firstAttribute="leading" secondItem="OLH-k3-9Pu" secondAttribute="leading" id="eq5-7U-swp"/>
                                     <constraint firstItem="Cpk-9K-A9r" firstAttribute="leading" secondItem="Rsc-4I-BwP" secondAttribute="leading" id="ffq-CI-JIa"/>
@@ -341,22 +339,22 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H9Q-H0-22a">
-                                <rect key="frame" x="16" y="95" width="343" height="158"/>
+                                <rect key="frame" x="16" y="105" width="343" height="175"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-34-hZk">
-                                        <rect key="frame" x="0.0" y="8" width="343" height="40"/>
+                                        <rect key="frame" x="0.0" y="8" width="343" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IM5-R5-Xb0" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                                <rect key="frame" x="203" y="0.0" width="140" height="40"/>
+                                                <rect key="frame" x="189" y="0.0" width="154" height="44"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3p-PF-dSK">
-                                                <rect key="frame" x="0.0" y="0.0" width="195" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="181" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="LY4-bJ-rlR">
-                                                        <rect key="frame" x="171" y="10" width="16" height="20"/>
+                                                        <rect key="frame" x="157" y="12" width="16" height="20"/>
                                                         <accessibility key="accessibilityConfiguration" identifier="CHEVRON_DOWN">
                                                             <bool key="isElement" value="YES"/>
                                                         </accessibility>
@@ -366,8 +364,9 @@
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="615-Jh-l12">
-                                                        <rect key="frame" x="8" y="5" width="179" height="30"/>
+                                                        <rect key="frame" x="8" y="6" width="165" height="32"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                         <state key="normal" title="Order Action"/>
                                                         <connections>
                                                             <action selector="orderActionTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="igg-4O-5aX"/>
@@ -398,25 +397,25 @@
                                             <constraint firstItem="IM5-R5-Xb0" firstAttribute="top" secondItem="V3p-PF-dSK" secondAttribute="top" id="Svi-Fc-ZPz"/>
                                             <constraint firstItem="IM5-R5-Xb0" firstAttribute="width" secondItem="V3p-PF-dSK" secondAttribute="height" multiplier="7:2" id="YMX-rB-UBS"/>
                                             <constraint firstItem="V3p-PF-dSK" firstAttribute="top" secondItem="Ly3-34-hZk" secondAttribute="top" id="et1-hJ-heD"/>
-                                            <constraint firstAttribute="height" constant="40" id="gVk-Nk-c64"/>
+                                            <constraint firstAttribute="height" constant="44" id="gVk-Nk-c64"/>
                                             <constraint firstAttribute="bottom" secondItem="V3p-PF-dSK" secondAttribute="bottom" id="tYR-dp-5Po"/>
                                             <constraint firstItem="IM5-R5-Xb0" firstAttribute="height" secondItem="V3p-PF-dSK" secondAttribute="height" id="uws-Hf-XPA"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kkz-NB-FDZ">
-                                        <rect key="frame" x="0.0" y="56" width="343" height="40"/>
+                                        <rect key="frame" x="0.0" y="68" width="343" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Limit Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wrt-4B-FIn" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                                <rect key="frame" x="203" y="0.0" width="140" height="40"/>
+                                                <rect key="frame" x="189" y="0.0" width="154" height="44"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0BU-Fx-Jzx">
-                                                <rect key="frame" x="0.0" y="0.0" width="195" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="181" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="hsu-xG-3A2">
-                                                        <rect key="frame" x="171" y="10" width="16" height="20"/>
+                                                        <rect key="frame" x="157" y="12" width="16" height="20"/>
                                                         <accessibility key="accessibilityConfiguration" identifier="CHEVRON_DOWN">
                                                             <bool key="isElement" value="YES"/>
                                                         </accessibility>
@@ -426,8 +425,9 @@
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmL-u6-9mn">
-                                                        <rect key="frame" x="8" y="5" width="179" height="30"/>
+                                                        <rect key="frame" x="8" y="6" width="165" height="32"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                         <state key="normal" title="Order Type"/>
                                                         <connections>
                                                             <action selector="orderTypeTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="K9U-TN-OFj"/>
@@ -458,25 +458,25 @@
                                             <constraint firstAttribute="trailing" secondItem="Wrt-4B-FIn" secondAttribute="trailing" id="PpF-os-psE"/>
                                             <constraint firstItem="0BU-Fx-Jzx" firstAttribute="top" secondItem="Kkz-NB-FDZ" secondAttribute="top" id="Pyq-5R-Ul2"/>
                                             <constraint firstItem="Wrt-4B-FIn" firstAttribute="height" secondItem="0BU-Fx-Jzx" secondAttribute="height" id="TsW-KC-qx6"/>
-                                            <constraint firstAttribute="height" constant="40" id="ghA-ez-Efc"/>
+                                            <constraint firstAttribute="height" constant="44" id="ghA-ez-Efc"/>
                                             <constraint firstItem="Wrt-4B-FIn" firstAttribute="leading" secondItem="0BU-Fx-Jzx" secondAttribute="trailing" constant="8" symbolic="YES" id="w61-bl-MuZ"/>
                                             <constraint firstItem="Wrt-4B-FIn" firstAttribute="top" secondItem="0BU-Fx-Jzx" secondAttribute="top" id="wC7-rQ-yfm"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLp-nc-h4c">
-                                        <rect key="frame" x="0.0" y="104" width="343" height="40"/>
+                                        <rect key="frame" x="0.0" y="128" width="343" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b4J-xl-4jZ" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                                <rect key="frame" x="203" y="0.0" width="140" height="40"/>
+                                                <rect key="frame" x="189" y="0.0" width="154" height="44"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bbs-h0-sHu">
-                                                <rect key="frame" x="0.0" y="0.0" width="195" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="181" height="44"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="BkR-i9-VYY">
-                                                        <rect key="frame" x="171" y="10" width="16" height="20"/>
+                                                        <rect key="frame" x="157" y="12" width="16" height="20"/>
                                                         <accessibility key="accessibilityConfiguration" identifier="CHEVRON_DOWN"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="QYX-io-gME"/>
@@ -484,8 +484,9 @@
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vN0-Bw-xh8">
-                                                        <rect key="frame" x="8" y="5" width="179" height="30"/>
+                                                        <rect key="frame" x="8" y="6" width="165" height="32"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                         <state key="normal" title="Order Expiration"/>
                                                         <connections>
                                                             <action selector="orderExpirationTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="TIV-zF-ZHD"/>
@@ -517,7 +518,7 @@
                                             <constraint firstAttribute="bottom" secondItem="Bbs-h0-sHu" secondAttribute="bottom" id="XFX-K5-4Wv"/>
                                             <constraint firstItem="Bbs-h0-sHu" firstAttribute="leading" secondItem="zLp-nc-h4c" secondAttribute="leading" id="tne-yT-Oc2"/>
                                             <constraint firstAttribute="trailing" secondItem="b4J-xl-4jZ" secondAttribute="trailing" id="ul2-y2-t1X"/>
-                                            <constraint firstAttribute="height" constant="40" id="vHI-6S-2IJ"/>
+                                            <constraint firstAttribute="height" constant="44" id="vHI-6S-2IJ"/>
                                             <constraint firstItem="b4J-xl-4jZ" firstAttribute="top" secondItem="Bbs-h0-sHu" secondAttribute="top" id="yVW-ye-QB8"/>
                                         </constraints>
                                     </view>
@@ -525,42 +526,43 @@
                                 <constraints>
                                     <constraint firstItem="Ly3-34-hZk" firstAttribute="top" secondItem="H9Q-H0-22a" secondAttribute="top" constant="8" id="3G6-hC-lDc"/>
                                     <constraint firstItem="Ly3-34-hZk" firstAttribute="leading" secondItem="H9Q-H0-22a" secondAttribute="leading" id="7sI-pv-S47"/>
-                                    <constraint firstAttribute="height" constant="158" id="Fq6-E7-5SM"/>
+                                    <constraint firstAttribute="height" constant="175" id="Fq6-E7-5SM"/>
                                     <constraint firstAttribute="trailing" secondItem="zLp-nc-h4c" secondAttribute="trailing" id="HNa-it-4Hg"/>
                                     <constraint firstAttribute="trailing" secondItem="Kkz-NB-FDZ" secondAttribute="trailing" id="Keb-DL-E9q"/>
-                                    <constraint firstItem="Kkz-NB-FDZ" firstAttribute="top" secondItem="Ly3-34-hZk" secondAttribute="bottom" constant="8" id="Sbl-n3-QR9"/>
+                                    <constraint firstItem="Kkz-NB-FDZ" firstAttribute="top" secondItem="Ly3-34-hZk" secondAttribute="bottom" constant="16" id="Sbl-n3-QR9"/>
                                     <constraint firstItem="zLp-nc-h4c" firstAttribute="leading" secondItem="H9Q-H0-22a" secondAttribute="leading" id="bvr-h4-6mw"/>
                                     <constraint firstAttribute="trailing" secondItem="Ly3-34-hZk" secondAttribute="trailing" id="fjG-pB-O3f"/>
                                     <constraint firstItem="Kkz-NB-FDZ" firstAttribute="leading" secondItem="H9Q-H0-22a" secondAttribute="leading" id="gBm-0q-K62"/>
-                                    <constraint firstItem="zLp-nc-h4c" firstAttribute="top" secondItem="Kkz-NB-FDZ" secondAttribute="bottom" constant="8" id="xoh-TV-9SG"/>
+                                    <constraint firstItem="zLp-nc-h4c" firstAttribute="top" secondItem="Kkz-NB-FDZ" secondAttribute="bottom" constant="16" id="xoh-TV-9SG"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Est. Cost" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpw-3P-BXS">
-                                <rect key="frame" x="16" y="578" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="16" y="582" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i0k-hH-0K3" customClass="TradeItTradingBrokerAccountView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="207" y="25" width="152" height="70"/>
+                                <rect key="frame" x="203.5" y="25" width="155.5" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GH-T9-wjw">
-                                        <rect key="frame" x="95" y="0.0" width="57" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GH-T9-wjw">
+                                        <rect key="frame" x="91.5" y="0.0" width="64" height="32"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Account"/>
                                         <connections>
                                             <action selector="accountButtonTapped:" destination="XGp-rk-8Ew" eventType="touchUpInside" id="eaP-xA-Ow7"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buying Power" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmF-Fi-03F">
-                                        <rect key="frame" x="86" y="54" width="66" height="12"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <rect key="frame" x="78.5" y="55.5" width="77" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1r-Sh-QM0">
-                                        <rect key="frame" x="111" y="30" width="41" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <rect key="frame" x="111.5" y="32" width="44" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -568,10 +570,11 @@
                                 <constraints>
                                     <constraint firstItem="8GH-T9-wjw" firstAttribute="top" secondItem="i0k-hH-0K3" secondAttribute="top" id="6xm-L6-ba7"/>
                                     <constraint firstAttribute="trailing" secondItem="fmF-Fi-03F" secondAttribute="trailing" id="7TU-nu-SP0"/>
+                                    <constraint firstAttribute="bottom" secondItem="fmF-Fi-03F" secondAttribute="bottom" id="DP9-mY-lJO"/>
                                     <constraint firstAttribute="trailing" secondItem="v1r-Sh-QM0" secondAttribute="trailing" id="M0Y-ld-drM"/>
                                     <constraint firstItem="v1r-Sh-QM0" firstAttribute="top" secondItem="8GH-T9-wjw" secondAttribute="bottom" id="NR0-na-I20"/>
                                     <constraint firstAttribute="trailing" secondItem="8GH-T9-wjw" secondAttribute="trailing" id="Tv0-Oj-TdI"/>
-                                    <constraint firstItem="fmF-Fi-03F" firstAttribute="top" secondItem="v1r-Sh-QM0" secondAttribute="bottom" constant="6" id="Tx1-tT-Vki"/>
+                                    <constraint firstItem="fmF-Fi-03F" firstAttribute="top" secondItem="v1r-Sh-QM0" secondAttribute="bottom" constant="4" id="Tx1-tT-Vki"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="accountButton" destination="8GH-T9-wjw" id="Qxl-dh-EK1"/>
@@ -583,9 +586,9 @@
                         <constraints>
                             <constraint firstItem="OT1-dI-4NU" firstAttribute="leading" secondItem="91J-9F-L1i" secondAttribute="leadingMargin" constant="8" id="53M-EZ-bGy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rpw-3P-BXS" secondAttribute="trailing" id="7ta-Tz-tbN"/>
-                            <constraint firstItem="i0k-hH-0K3" firstAttribute="leading" secondItem="OLH-k3-9Pu" secondAttribute="trailing" constant="8" id="8qM-NO-REs"/>
+                            <constraint firstItem="i0k-hH-0K3" firstAttribute="leading" secondItem="OLH-k3-9Pu" secondAttribute="trailing" id="8qM-NO-REs"/>
                             <constraint firstAttribute="leadingMargin" secondItem="H9Q-H0-22a" secondAttribute="leading" id="Ffa-Nu-fWh"/>
-                            <constraint firstItem="H9Q-H0-22a" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="bottom" id="H88-Vb-0O1"/>
+                            <constraint firstItem="H9Q-H0-22a" firstAttribute="top" secondItem="OLH-k3-9Pu" secondAttribute="bottom" constant="10" id="H88-Vb-0O1"/>
                             <constraint firstItem="OLH-k3-9Pu" firstAttribute="width" secondItem="i0k-hH-0K3" secondAttribute="width" multiplier="1.2" id="Ke1-hO-uRf"/>
                             <constraint firstItem="i0k-hH-0K3" firstAttribute="height" secondItem="OLH-k3-9Pu" secondAttribute="height" id="Mef-3s-w5W"/>
                             <constraint firstItem="BWr-jg-CMz" firstAttribute="centerX" secondItem="91J-9F-L1i" secondAttribute="centerX" id="Mkd-Kd-zbG"/>
@@ -618,7 +621,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lj0-xK-6tD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2513" y="-1194"/>
+            <point key="canvasLocation" x="2512.8000000000002" y="-1194.1529235382309"/>
         </scene>
         <!--Trade It Web View Controller-->
         <scene sceneID="Q2p-Af-rp9">

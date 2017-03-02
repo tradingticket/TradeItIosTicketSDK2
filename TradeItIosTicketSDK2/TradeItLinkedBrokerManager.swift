@@ -146,9 +146,9 @@ import PromiseKit
                                                                  _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
                                             onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
                                             onFinished: @escaping () -> Void) {
-        let promises = self.getAllLinkedBrokersInError().map { linkedBroker in
+        let promises = self.linkedBrokers.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
-                linkedBroker.authenticate(
+                linkedBroker.authenticateIfNeeded(
                     onSuccess: fulfill,
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { tradeItErrorResult in
@@ -162,10 +162,10 @@ import PromiseKit
         _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
+    public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
         let promises = self.linkedBrokers.map { linkedBroker in
             return Promise<Void> { fulfill, reject in
-                linkedBroker.refreshAccountBalances(onFinished: fulfill)
+                linkedBroker.refreshAccountBalances(force: force, onFinished: fulfill)
             }
         }
 

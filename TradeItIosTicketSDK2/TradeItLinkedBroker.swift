@@ -69,7 +69,8 @@ import PromiseKit
 
     public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
-        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
@@ -88,8 +89,10 @@ import PromiseKit
         }
     }
 
-    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
-        let promises = accounts.map { account in
+    public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
+        let promises = accounts.filter { account in
+            return force || (account.balance == nil && account.fxBalance == nil)
+        }.map { account in
             return Promise<Void> { fulfill, reject in
                 account.getAccountOverview(onSuccess: { _ in
                     fulfill()

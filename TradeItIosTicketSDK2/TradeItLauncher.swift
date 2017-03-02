@@ -1,3 +1,5 @@
+import UIKit
+
 protocol OAuthCompletionListener {
     func onOAuthCompleted(linkedBroker: TradeItLinkedBroker)
 }
@@ -146,8 +148,11 @@ protocol OAuthCompletionListener {
     }
 
     public func launchBrokerCenter(fromViewController viewController: UIViewController) {
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerCenterView)
-        viewController.present(navController, animated: true, completion: nil)
+        let webViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.webView) as! TradeItWebViewController
+        webViewController.pageTitle = "Broker Center"
+        webViewController.url = TradeItSDK.brokerCenterService.getUrl()
+
+        viewController.navigationController?.pushViewController(webViewController, animated: true)
     }
 
     public func launchAccountSelection(fromViewController viewController: UIViewController,

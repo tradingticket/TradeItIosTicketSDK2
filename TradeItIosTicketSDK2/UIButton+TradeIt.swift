@@ -1,3 +1,5 @@
+import UIKit
+
 extension UIButton {
     public func enable() {
         self.isEnabled = true

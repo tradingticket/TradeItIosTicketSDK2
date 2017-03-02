@@ -1,3 +1,5 @@
+import UIKit
+
 @objc class TradeItThemeConfigurator: NSObject {
     static let ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT = [
         "STOCK_SYMBOL",

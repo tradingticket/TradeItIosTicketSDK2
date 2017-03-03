@@ -24,23 +24,13 @@ import UIKit
 
         self.viewPortfolioButton.isHidden = !TradeItSDK.isPortfolioEnabled
 
-        self.confirmationTextLabel.text = "NOTHING TO SEE HERE, FOLKS..."
+        self.setConfirmationMessage()
 
-        if let orderDetails = self.previewOrderResult?.orderDetails {
-            let actionText = orderDetails.orderAction
-            // TODO: SHOULD BE USING placeOrderResult.orderInfo.quantity INSTEAD OF orderDetails.orderQuantity
-            let quantityText = NumberFormatter.formatQuantity(orderDetails.orderQuantity)
-            let symbolText = orderDetails.orderSymbol
-            let priceText = orderDetails.orderPrice
-
-            let confirmationMessage = "Your order to \(actionText) \(quantityText) shares of \(symbolText) at \(priceText) has been successfully transmitted to your broker"
-
-            self.confirmationTextLabel.text = confirmationMessage
-        }
-
-        self.timeStampLabel.text = self.placeOrderResult?.timestamp ?? "N/A"
+        self.timeStampLabel.text = self.placeOrderResult?.timestamp ?? ""
         self.orderNumberLabel.text = "Order #\(self.placeOrderResult?.orderNumber ?? "")"
    }
+
+    // MARK: IBActions
     @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(self)
     }
@@ -50,6 +40,25 @@ import UIKit
             let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioView)
             navigationController.setViewControllers([portfolioViewController], animated: true)
         }
+    }
+
+    // MARK: Private
+    private func setConfirmationMessage() {
+        let orderDetails = self.previewOrderResult?.orderDetails
+        let orderInfo = self.placeOrderResult?.orderInfo
+
+        let actionText = orderInfo?.action ?? "[MISSING ACTION]"
+        let symbolText = orderInfo?.symbol ?? "[MISSING SYMBOL]"
+        let priceText = orderDetails?.orderPrice ?? "[MISSING PRICE]"
+        var quantityText = "[MISSING QUANTITY]"
+
+        if let quantity = orderInfo?.quantity {
+            quantityText = NumberFormatter.formatQuantity(quantity)
+        }
+
+        let confirmationMessage = "Your order to \(actionText) \(quantityText) shares of \(symbolText) at \(priceText) has been successfully transmitted to your broker"
+
+        self.confirmationTextLabel.text = confirmationMessage
     }
 }
 

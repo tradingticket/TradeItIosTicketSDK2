@@ -188,7 +188,9 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         let accountSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.accountSelectionView) as! TradeItAccountSelectionViewController
 
         accountSelectionViewController.delegate = self
-
+        if let linkedBrokerAccount = self.order.linkedBrokerAccount {
+            accountSelectionViewController.selectedLinkedBrokerAccount = linkedBrokerAccount
+        }
         self.navigationController?.pushViewController(accountSelectionViewController, animated: true)
     }
 

@@ -85,32 +85,32 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails)
         cells += [
-            ValueCellData(label: "ACCOUNT", value: linkedBrokerAccount.getFormattedAccountName()),
-            ValueCellData(label: "SYMBOL", value: orderDetails.orderSymbol),
-            ValueCellData(label: "QUANTITY", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "ACTION", value: orderDetailsPresenter.getOrderActionLabel()),
-            ValueCellData(label: "PRICE", value: orderDetails.orderPrice),
-            ValueCellData(label: "EXPIRATION", value: orderDetailsPresenter.getOrderExpirationLabel())
+            ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName()),
+            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
+            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
+            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
+            ValueCellData(label: "Price", value: orderDetails.orderPrice),
+            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
             ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {
-            cells.append(ValueCellData(label: "SHARES OWNED", value: NumberFormatter.formatQuantity(longHoldings)))
+            cells.append(ValueCellData(label: "Shares owned", value: NumberFormatter.formatQuantity(longHoldings)))
         }
 
         if let shortHoldings = orderDetails.shortHoldings {
-            cells.append(ValueCellData(label: "SHARES HELD SHORT", value: NumberFormatter.formatQuantity(shortHoldings)))
+            cells.append(ValueCellData(label: "Shares held short", value: NumberFormatter.formatQuantity(shortHoldings)))
         }
 
         if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "BUYING POWER", value: self.formatCurrency(buyingPower)))
+            cells.append(ValueCellData(label: "Buying power", value: self.formatCurrency(buyingPower)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: "BROKER FEE", value: self.formatCurrency(estimatedOrderCommission)))
+            cells.append(ValueCellData(label: "Broker fee", value: self.formatCurrency(estimatedOrderCommission)))
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            cells.append(ValueCellData(label: "ESTIMATED COST", value: self.formatCurrency(estimatedTotalValue)))
+            cells.append(ValueCellData(label: "Estimated cost", value: self.formatCurrency(estimatedTotalValue)))
         }
         
         return cells

@@ -1,16 +1,16 @@
 PODS:
   - MBProgressHUD (1.0.0)
   - Nimble (5.1.1)
-  - PromiseKit (4.0.4):
-    - PromiseKit/Foundation (= 4.0.4)
-    - PromiseKit/QuartzCore (= 4.0.4)
-    - PromiseKit/UIKit (= 4.0.4)
-  - PromiseKit/CorePromise (4.0.4)
-  - PromiseKit/Foundation (4.0.4):
+  - PromiseKit (4.1.7):
+    - PromiseKit/Foundation (= 4.1.7)
+    - PromiseKit/QuartzCore (= 4.1.7)
+    - PromiseKit/UIKit (= 4.1.7)
+  - PromiseKit/CorePromise (4.1.7)
+  - PromiseKit/Foundation (4.1.7):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.0.4):
+  - PromiseKit/QuartzCore (4.1.7):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.0.4):
+  - PromiseKit/UIKit (4.1.7):
     - PromiseKit/CorePromise
   - Quick (0.10.0)
 
@@ -23,7 +23,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
-  PromiseKit: 8e8ee39d33ff199d92a1a883b5396f6285be6c91
+  PromiseKit: 779f2e41faf62d854e7593026ddbcb0bb5c5002d
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
 PODFILE CHECKSUM: f01bf717506fd6dba886f03d53fc48c43e50cefc

@@ -33,7 +33,9 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
-                        self.setSuccessState(forBroker: linkedBroker.brokerName)
+                        linkedBroker.refreshAccountBalances(onFinished: {
+                            self.setSuccessState(forBroker: linkedBroker.brokerName)
+                        })
                     },
                     onSecurityQuestion: { (securityQuestion, answerSecurityQuestion, cancelSecurityQuestion) in
                         self.alertManager.promptUserToAnswerSecurityQuestion(

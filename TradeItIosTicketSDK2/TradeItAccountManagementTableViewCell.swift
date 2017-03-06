@@ -16,7 +16,14 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
         self.selectedBrokerAccount = linkedBrokerAccount
         self.accountSwitch.isOn = self.selectedBrokerAccount.isEnabled
         self.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
-        self.detailTextLabel?.text = "BUYING POWER " + presenter.getFormattedBuyingPower()
+
+        self.detailTextLabel?.text = ""
+
+        let buyingPower = presenter.getFormattedBuyingPower()
+
+        if buyingPower != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
+            self.detailTextLabel?.text = "Buying power: " + buyingPower
+        }
     }
     
     func accountEnabledSwitchWasTapped(sender: UISwitch!) {

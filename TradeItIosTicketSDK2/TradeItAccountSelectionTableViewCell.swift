@@ -9,6 +9,12 @@ class TradeItAccountSelectionTableViewCell: UITableViewCell {
     func populate(withLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
         self.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
-        self.detailTextLabel?.text = presenter.getFormattedBuyingPower()
+
+        self.detailTextLabel?.text = ""
+        let buyingPower = presenter.getFormattedBuyingPower()
+
+        if buyingPower != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
+            self.detailTextLabel?.text = "Buying power: " + buyingPower
+        }
     }
 }

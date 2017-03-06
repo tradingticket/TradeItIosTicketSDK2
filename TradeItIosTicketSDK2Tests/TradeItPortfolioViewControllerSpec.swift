@@ -33,7 +33,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 
                 TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
-                controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_PORTFOLIO_VIEW") as! TradeItPortfolioViewController
+                controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_VIEW") as! TradeItPortfolioAccountsViewController
 
 //                controller.ezLoadingActivityManager = ezLoadingActivityManager // TODO: Replace with MBProgressHUD
                 controller.accountsTableViewManager = accountsTableViewManager

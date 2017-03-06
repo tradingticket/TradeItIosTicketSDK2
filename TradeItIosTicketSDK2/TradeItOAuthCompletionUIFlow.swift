@@ -48,7 +48,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
         switch destination {
         case .portfolio:
-            let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioView)
+            let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioAccountsView)
 
             if let navController = viewController.navigationController {
                 navController.setViewControllers([portfolioViewController], animated: true)

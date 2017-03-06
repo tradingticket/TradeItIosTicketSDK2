@@ -37,11 +37,9 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             let selectedAccountIndex = self.accounts.index(where: {$0.accountNumber == selectedAccount.accountNumber && $0.brokerName == selectedAccount.brokerName}) ?? 0
             let selectedIndexPath = IndexPath(row: selectedAccountIndex, section: 0)
             self.accountsTable?.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .top)
-            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
         } else if self.linkedBrokersInError.count > 0 {
             let selectedIndexPath = IndexPath(row: 0, section: 0)
             self.accountsTable?.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .top)
-            self.delegate?.linkedBrokerInErrorWasSelected(selectedBrokerInError: self.linkedBrokersInError[0])
         }
     }
 
@@ -51,9 +49,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         if indexPath.row < self.accounts.count {
             let selectedAccount = self.accounts[indexPath.row]
             self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
-        } else {
-            let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
-            self.delegate?.linkedBrokerInErrorWasSelected(selectedBrokerInError: linkedBrokerInError)
         }
     }
 
@@ -94,5 +89,4 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
 protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
-    func linkedBrokerInErrorWasSelected(selectedBrokerInError: TradeItLinkedBroker)
 }

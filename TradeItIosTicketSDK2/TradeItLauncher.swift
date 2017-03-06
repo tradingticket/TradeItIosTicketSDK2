@@ -57,9 +57,9 @@ protocol OAuthCompletionListener {
                                 forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
-                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioView)
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioAccountsView)
 
-                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
+                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioAccountsViewController else { return }
 
                 portfolioViewController.initialAccount = linkedBrokerAccount
 

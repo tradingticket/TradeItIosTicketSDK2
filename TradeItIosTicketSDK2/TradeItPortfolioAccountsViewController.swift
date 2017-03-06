@@ -5,8 +5,6 @@ import MBProgressHUD
 class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate {
     var alertManager = TradeItAlertManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
-    var tradingUIFlow = TradeItTradingUIFlow()
     var activityView: MBProgressHUD?
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
@@ -14,6 +12,7 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     @IBOutlet weak var totalValueLabel: UILabel!
     
     var selectedAccount: TradeItLinkedBrokerAccount!
+    // TODO: Remove?
     var initialAccount: TradeItLinkedBrokerAccount?
     
     override func viewDidLoad() {
@@ -87,11 +86,8 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
-        let portfolioController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioView)
+        let portfolioController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioView) as! TradeItPortfolioViewController
+        portfolioController.linkedBrokerAccount = selectedAccount
         self.navigationController?.pushViewController(portfolioController, animated: true)
-    }
-    
-    func linkedBrokerInErrorWasSelected(selectedBrokerInError: TradeItLinkedBroker) {
-        // TODO: ???
     }
 }

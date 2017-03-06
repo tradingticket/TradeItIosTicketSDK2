@@ -73,8 +73,6 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                     }
                 )
             }
-        default:
-            viewController.dismiss(animated: false)
         }
     }
 }

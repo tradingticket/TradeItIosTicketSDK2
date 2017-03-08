@@ -61,7 +61,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
             let order = TradeItOrder()
             order.linkedBrokerAccount = account
             if let portfolioPosition = portfolioPosition {
-                order.symbol = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol()
+                order.symbol = TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol()
             }
             order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
             return order

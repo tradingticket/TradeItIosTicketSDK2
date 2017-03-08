@@ -136,10 +136,7 @@ class TradeItPortfolioPositionsTableViewManager: NSObject, UITableViewDelegate, 
             equityCell.showPositionDetails(selected)
             cell = equityCell
         } else if position.fxPosition != nil {
-            let fxCell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_FX_POSITIONS_CELL_ID") as! TradeItPortfolioFxPositionsTableViewCell
-            fxCell.populate(withPosition: position)
-            fxCell.showPositionDetails(selected)
-            cell = fxCell
+            return UITableViewCell()
         }
 
         TradeItThemeConfigurator.configure(view: cell)

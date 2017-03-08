@@ -14,7 +14,7 @@ class TradeItPortfolioAccountsTableViewCell: UITableViewCell {
     }
 
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
-        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(account)
+        let presenter = TradeItPortfolioBalanceEquityPresenter(account)
         self.accountNameLabel.text = account.getFormattedAccountName()
         self.brokerNameLabel.text = account.brokerName
         self.buyingPowerLabel.text = presenter.getFormattedBuyingPower()

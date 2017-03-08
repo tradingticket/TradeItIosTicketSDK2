@@ -52,17 +52,3 @@ extension TradeItPortfolioPositionPresenter {
         return formatCurrency(low) + " - " + formatCurrency(high)
     }
 }
-
-class TradeItPortfolioPositionPresenterFactory {
-    static func forTradeItPortfolioPosition(_ tradeItPortfolioPosition: TradeItPortfolioPosition) -> TradeItPortfolioPositionPresenter {
-        if tradeItPortfolioPosition.position != nil {
-            return TradeItPortfolioEquityPositionPresenter(tradeItPortfolioPosition)
-        } else if tradeItPortfolioPosition.fxPosition != nil {
-            return TradeItPortfolioFxPositionPresenter(tradeItPortfolioPosition)
-        } else {
-            return TradeItPortfolioDefaultPositionPresenter(tradeItPortfolioPosition)
-        }
-    }
-}
-
-class TradeItPortfolioDefaultPositionPresenter: TradeItPortfolioEquityPositionPresenter {}

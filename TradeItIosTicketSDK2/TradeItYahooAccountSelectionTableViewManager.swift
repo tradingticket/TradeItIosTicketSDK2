@@ -62,7 +62,7 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") ?? UITableViewCell()
 
-        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
+        let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
         cell.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
 
         cell.detailTextLabel?.text = ""

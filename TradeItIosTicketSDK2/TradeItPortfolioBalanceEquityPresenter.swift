@@ -1,4 +1,4 @@
-class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
+class TradeItPortfolioBalanceEquityPresenter {
     private var balance: TradeItAccountOverview?
 
     init(_ tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) {
@@ -30,7 +30,7 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
 
     func getFormattedAvailableCash() -> String {
         guard let availableCash = self.balance?.availableCash
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         return NumberFormatter.formatCurrency(availableCash, currencyCode: balance?.accountBaseCurrency)
     }

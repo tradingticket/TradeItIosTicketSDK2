@@ -31,25 +31,13 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         self.linkedBrokers = linkedBrokers
         self.linkedBrokersInError = linkedBrokersInError
         self.accountsTable?.reloadData()
-
-//        if accounts.count > 0 {
-//            let selectedAccount = selectedAccount ?? self.accounts[0]
-//            let selectedAccountIndex = self.accounts.index(where: {$0.accountNumber == selectedAccount.accountNumber && $0.brokerName == selectedAccount.brokerName}) ?? 0
-//            let selectedIndexPath = IndexPath(row: selectedAccountIndex, section: 0)
-//            self.accountsTable?.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .top)
-//        } else if self.linkedBrokersInError.count > 0 {
-//            let selectedIndexPath = IndexPath(row: 0, section: 0)
-//            self.accountsTable?.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .top)
-//        }
     }
 
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.row < self.accounts.count {
-//            let selectedAccount = self.accounts[indexPath.row]
-//            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: selectedAccount)
-//        }
+        let account = self.accountFor(indexPath: indexPath)
+        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: account)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -89,28 +77,21 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
             cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
-//            cell.textLabel?.text = "DUMMY"
-//            cell.detailTextLabel?.text = "TEST"
-
             return cell
-
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT") as! TradeItPortfolioAccountTableViewCell
+            let account = self.accountFor(indexPath: indexPath)
+            cell.populate(withAccount: account)
+            return cell
         }
-        return UITableViewCell()
-//        var cell: UITableViewCell!
-//        
-//        if indexPath.row < self.accounts.count {
-//            let accountCell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ACCOUNTS_CELL_ID) as! TradeItPortfolioAccountsTableViewCell
-//            let account = accounts[indexPath.row]
-//            accountCell.populate(withAccount: account)
-//            cell = accountCell
-//        } else {
-//            let errorCell = tableView.dequeueReusableCell(withIdentifier: PORTFOLIO_ERROR_CELL_ID) as! TradeItPortfolioErrorTableViewCell
-//            let linkedBrokerInError = self.linkedBrokersInError[indexPath.row - self.accounts.count]
-//            errorCell.populate(withLinkedBroker: linkedBrokerInError)
-//            cell = errorCell
-//        }
-//
-//        return cell
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 
     private func totalValue() -> Float {
@@ -133,6 +114,10 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         return linkedBrokers.flatMap { linkedBroker in
             return linkedBroker.getEnabledAccounts()
         }.count
+    }
+
+    private func accountFor(indexPath: IndexPath) -> TradeItLinkedBrokerAccount {
+        return self.linkedBrokers[indexPath.section - 1].accounts[indexPath.row]
     }
 }
 

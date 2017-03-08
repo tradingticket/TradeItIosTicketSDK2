@@ -16,13 +16,12 @@ class TradeItPresenter {
         }
     }
     
-    static func stockChangeColor(_ value: Double) -> UIColor {
-        if value > 0.0 {
-            return UIColor.tradeItMoneyGreenColor
-        } else if value < 0 {
+    static func stockChangeColor(_ value: Double?) -> UIColor {
+        guard let value = value else { return UIColor.lightText }
+        if value < 0.0 {
             return UIColor.tradeItDeepRoseColor
         } else {
-            return UIColor.lightText
+            return UIColor.tradeItMoneyGreenColor
         }
     }
 }

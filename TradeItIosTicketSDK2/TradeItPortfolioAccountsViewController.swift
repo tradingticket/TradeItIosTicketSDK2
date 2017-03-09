@@ -12,9 +12,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     @IBOutlet weak var totalValueLabel: UILabel!
     
     var selectedAccount: TradeItLinkedBrokerAccount!
-    // TODO: Remove?
-    var initialAccount: TradeItLinkedBrokerAccount?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,23 +58,10 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     }
 
     private func updatePortfolioScreen() {
-        // TODO: Change accounts
-//        let linkedBrokersInError = TradeItSDK.linkedBrokerManager.getAllLinkedBrokersInError()
-        self.accountsTableViewManager.updateAccounts(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers(), withSelectedAccount: self.initialAccount)
+        self.accountsTableViewManager.updateAccounts(
+            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
+        )
     }
-    
-//    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {
-//        var totalAccountsValue: Float = 0
-//        for account in accounts {
-//            if let balance = account.balance, let totalValue = balance.totalValue {
-//                totalAccountsValue += totalValue.floatValue
-//            } else if let fxBalance = account.fxBalance, let totalValueUSD = fxBalance.totalValueUSD {
-//                totalAccountsValue += totalValueUSD.floatValue
-//            }
-//        }
-//        // TODO: CurrencyCode here should not be nil. Currency could be set per position or per account, so an aggregate makes no sense unless we convert it all to a single currency.
-//        self.totalValueLabel.text = NumberFormatter.formatCurrency(NSNumber(value: totalAccountsValue), currencyCode: nil)
-//    }
     
     @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
         self.parent?.dismiss(animated: true, completion: nil)

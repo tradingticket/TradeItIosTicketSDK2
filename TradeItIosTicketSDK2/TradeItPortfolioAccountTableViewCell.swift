@@ -1,3 +1,5 @@
+import UIKit
+
 class TradeItPortfolioAccountTableViewCell: UITableViewCell {
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!

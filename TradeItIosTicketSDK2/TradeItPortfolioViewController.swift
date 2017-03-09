@@ -2,11 +2,9 @@ import UIKit
 import PromiseKit
 import MBProgressHUD
 
-// TODO: This is put in to a semi functioning state. Need to figure out what to do for an account in error.
-class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPositionsTableDelegate {//, TradeItPortfolioErrorHandlingViewDelegate {
+class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPositionsTableDelegate {
     var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
     var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
-    //  var portfolioErrorHandlingViewManager = TradeItPortfolioErrorHandlingViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
     var activityView: MBProgressHUD?
@@ -16,8 +14,6 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
     @IBOutlet weak var positionsTable: UITableView!
     @IBOutlet weak var holdingsLabel: UILabel!
     @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
-
-    //    @IBOutlet weak var errorHandlingView: TradeItPortfolioErrorHandlingView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,20 +34,9 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
                 self.holdingsActivityIndicator.stopAnimating()
             }, onFailure: { errorResult in
                 self.holdingsActivityIndicator.stopAnimating()
-//                tableViewManager.setFailedState(true)
-                //self.portfolioErrorHandlingViewManager.showErrorHandlingView(withLinkedBrokerInError: selectedAccount.linkedBroker)
+                // TODO: Figure out error handling
             }
         )
-
-        // TODO: Need to figure out error handling?
-        //        self.portfolioErrorHandlingViewManager.errorHandlingView = self.errorHandlingView
-        //        self.portfolioErrorHandlingViewManager.errorHandlingView?.delegate = self
-
-        //        self.portfolioErrorHandlingViewManager.accountInfoContainerView = self.accountInfoContainerView
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        //self.updatePortfolioScreen()
     }
 
     // MARK: Private
@@ -90,14 +75,5 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
         let order = self.provideOrder(forPortFolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
-    }
-
-    // MARK: TradeItPortfolioErrorHandlingViewDelegate methods
-
-    func relinkAccountWasTapped(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
-            inViewController: self,
-            linkedBroker: linkedBroker,
-            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl)
     }
 }

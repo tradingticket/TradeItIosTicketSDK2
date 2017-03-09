@@ -24,8 +24,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
     
-    func updateAccounts(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker],
-                        withSelectedAccount selectedAccount: TradeItLinkedBrokerAccount?) {
+    func updateAccounts(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
         self.linkedBrokerSectionPresenters = linkedBrokers.map({ linkedBroker in
             return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker)
         })
@@ -93,7 +92,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
                 }
             }
         }
-        // TODO: CurrencyCode here should not be nil. Currency could be set per position or per account, so an aggregate makes no sense unless we convert it all to a single currency.
         return totalAccountsValue
     }
 

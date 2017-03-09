@@ -25,7 +25,8 @@ protocol OAuthCompletionListener {
 
         self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
             fromViewController: viewController,
-            withOAuthCallbackUrlParser: oAuthCallbackUrlParser)
+            withOAuthCallbackUrlParser: oAuthCallbackUrlParser
+        )
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
@@ -48,8 +49,14 @@ protocol OAuthCompletionListener {
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         } else {
-            let account = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first
-            self.launchPortfolio(fromViewController: viewController, forLinkedBrokerAccount: account)
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .portfolioAccountsView)
+                    viewController.present(navController, animated: true, completion: nil)
+                }, onFailure: {
+                    print("TouchId access denied")
+                }
+            )
         }
     }
 
@@ -57,11 +64,11 @@ protocol OAuthCompletionListener {
                                 forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
-                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.portfolioAccountsView)
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .portfolioView)
 
-                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioAccountsViewController else { return }
+                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
 
-                portfolioViewController.initialAccount = linkedBrokerAccount
+                portfolioViewController.linkedBrokerAccount = linkedBrokerAccount
 
                 viewController.present(navController, animated: true, completion: nil)
             }, onFailure: {

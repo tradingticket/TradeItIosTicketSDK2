@@ -23,8 +23,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     //MARK: IBAction
 
     @IBAction func openAccountTapped(_ sender: UIButton) {
-        let brokerCenterViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.brokerCenterView) as! TTSDKBrokerCenterViewController
-        self.navigationController?.pushViewController(brokerCenterViewController, animated: true)
+        self.showWebView(pageTitle: "Broker Center", url: TradeItSDK.brokerCenterService.getUrl())
     }
     
     @IBAction func helpLinkWasTapped(_ sender: AnyObject) {

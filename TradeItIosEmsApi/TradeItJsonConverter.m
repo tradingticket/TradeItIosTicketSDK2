@@ -13,37 +13,38 @@
 
 + (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env
                                version:(TradeItEmsApiVersion)version {
-    NSString *baseUrl = @"https://ems.tradingticket.com/api/";
-    NSString *versionPath = @"v2/";
-
-    switch (env) {
-        case TradeItEmsProductionEnv:
-            baseUrl = @"https://ems.tradingticket.com/api/";
-            break;
-        case TradeItEmsTestEnv:
-            baseUrl = @"https://ems.qa.tradingticket.com/api/";
-            break;
-        case TradeItEmsLocalEnv:
-            baseUrl = @"http://localhost:8080/api/";
-            break;
-        default:
-            NSLog(@"Invalid environment %d - directing to production by default", env);
-    }
-
-    switch (version) {
-        case TradeItEmsApiVersion_1:
-            versionPath = @"v1/";
-            break;
-        case TradeItEmsApiVersion_2:
-            versionPath = @"v2/";
-            break;
-        default:
-            NSLog(@"Invalid version %d - directing to v2 by default", version);
-    }
+    NSString *baseUrl = [TradeItJsonConverter getEmsHostForEnvironment:env];
+    NSString *versionPath = [TradeItJsonConverter getApiPrefixForVersion:version];
 
     baseUrl = [baseUrl stringByAppendingString:versionPath];
 
     return [NSURL URLWithString:baseUrl];
+}
+
++ (NSString *)getApiPrefixForVersion:(TradeItEmsApiVersion)version {
+    switch (version) {
+        case TradeItEmsApiVersion_1:
+            return @"api/v1/";
+        case TradeItEmsApiVersion_2:
+            return @"api/v2/";
+        default:
+            NSLog(@"Invalid version %d - directing to v2 by default", version);
+            return @"api/v2/";
+    }
+}
+
++ (NSString *)getEmsHostForEnvironment:(TradeitEmsEnvironments)env {
+    switch (env) {
+        case TradeItEmsProductionEnv:
+            return @"https://ems.tradingticket.com/";
+        case TradeItEmsTestEnv:
+            return @"https://ems.qa.tradingticket.com/";
+        case TradeItEmsLocalEnv:
+            return @"http://localhost:8080/";
+        default:
+            NSLog(@"Invalid environment %d - directing to production by default", env);
+            return @"https://ems.tradingticket.com/";
+    }
 }
 
 + (NSMutableURLRequest *)buildJsonRequestForModel:(TIEMSJSONModel *)requestObject

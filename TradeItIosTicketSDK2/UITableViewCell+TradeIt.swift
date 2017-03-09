@@ -1,3 +1,5 @@
+import UIKit
+
 extension UITableViewCell {
     func prepareDisclosureIndicator() {
         for case let button as UIButton in subviews {

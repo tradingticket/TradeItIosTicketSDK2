@@ -25,7 +25,7 @@ class TradeItQuotePresenter: NSObject {
         var pctChangeValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         
         if let change = self.tradeItQuote?.change {
-            changeValue = TradeItPresenter.indicator(change.doubleValue) + " " + NumberFormatter.formatCurrency(change, currencyCode: "")
+            changeValue = NumberFormatter.formatCurrency(change, currencyCode: "")
         }
         
         if let pctChange = self.tradeItQuote?.pctChange {

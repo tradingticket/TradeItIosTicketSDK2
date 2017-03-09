@@ -2,10 +2,10 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var returnLabel: UILabel!
-    @IBOutlet weak var warningLabel: UILabel!
+    @IBOutlet weak var view: UIView!
 
     override func awakeFromNib() {
-        // TODO: Test themes
+        // TODO: Handle themes
         //TradeItThemeConfigurator.configure(view: self)
     }
 
@@ -15,14 +15,14 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
         self.totalValueLabel.text = presenter.getFormattedTotalValue()
         self.returnLabel.text = presenter.getFormattedDayReturnWithPercentage()
         self.returnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn?.doubleValue)
-
+        self.setFailedState(account: account)
     }
 
     private func setFailedState(account: TradeItLinkedBrokerAccount) {
         if account.linkedBroker?.error == nil {
-            self.alpha = 1.0
+            self.view.alpha = 1.0
         } else {
-            self.alpha = 0.5
+            self.view.alpha = 0.25
         }
     }
 }

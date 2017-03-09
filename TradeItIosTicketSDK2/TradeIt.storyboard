@@ -1603,6 +1603,7 @@
                                             <outlet property="accountNameLabel" destination="3K6-Uz-7Jy" id="Bes-Je-iDM"/>
                                             <outlet property="returnLabel" destination="Hxo-Cp-xWg" id="bsY-Tk-puV"/>
                                             <outlet property="totalValueLabel" destination="j1O-yZ-SwH" id="mew-Tc-Gcd"/>
+                                            <outlet property="view" destination="McC-9C-AQe" id="N3t-G8-u97"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR" rowHeight="69" id="Twm-kM-3a0" customClass="TradeItPortfolioLinkedBrokerErrorTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">

@@ -38,6 +38,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
                 self.holdingsActivityIndicator.stopAnimating()
             }, onFailure: { errorResult in
                 self.holdingsActivityIndicator.stopAnimating()
+//                tableViewManager.setFailedState(true)
                 //self.portfolioErrorHandlingViewManager.showErrorHandlingView(withLinkedBrokerInError: selectedAccount.linkedBroker)
             }
         )

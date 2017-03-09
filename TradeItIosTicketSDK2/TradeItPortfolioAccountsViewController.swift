@@ -61,9 +61,8 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
 
     private func updatePortfolioScreen() {
         // TODO: Change accounts
-        let accounts = TradeItSDK.linkedBrokerManager.getAllAuthenticatedAndEnabledAccounts()
-        let linkedBrokersInError = TradeItSDK.linkedBrokerManager.getAllLinkedBrokersInError()
-        self.accountsTableViewManager.updateAccounts(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers(), withLinkedBrokersInError: linkedBrokersInError, withSelectedAccount: self.initialAccount)
+//        let linkedBrokersInError = TradeItSDK.linkedBrokerManager.getAllLinkedBrokersInError()
+        self.accountsTableViewManager.updateAccounts(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers(), withSelectedAccount: self.initialAccount)
     }
     
 //    private func updateTotalValueLabel(withAccounts accounts: [TradeItLinkedBrokerAccount]) {

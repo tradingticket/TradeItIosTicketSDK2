@@ -1,5 +1,6 @@
 import UIKit
 
+// TODO: Is this still used?
 class TradeItPortfolioErrorHandlingView: UIControl {
     @IBOutlet weak var shortMessageLabel: UILabel!
     @IBOutlet weak var longMessageLabel: UILabel!

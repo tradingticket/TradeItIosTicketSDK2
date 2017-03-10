@@ -4,6 +4,7 @@ class TradeItTradingBrokerAccountView: UIView {
     @IBOutlet weak var accountButton: UIButton!
     @IBOutlet weak var resourceAvailabilityLabel: UILabel!
     @IBOutlet weak var resourceAvailabilityDescriptionLabel: UILabel!
+//    @IBOutlet weak var activityIndicator: UIView!
 
     enum PresentationMode {
         case buyingPower
@@ -19,6 +20,21 @@ class TradeItTradingBrokerAccountView: UIView {
     var sharesOwned: NSNumber = 0
     var buyingPower = ""
     var holdingType : String?
+
+//    func updateQuoteActivity(_ state: ActivityIndicatorState) {
+//        switch state {
+//        case .loading:
+//            activityIndicator.isHidden = false
+//
+//            quoteLastPriceLabel.isHidden = true
+//            quoteChangeLabel.isHidden = true
+//        case .loaded:
+//            activityIndicator.isHidden = true
+//
+//            quoteLastPriceLabel.isHidden = false
+//            quoteChangeLabel.isHidden = false
+//        }
+//    }
 
     func updatePresentationMode(_ presentationMode: PresentationMode) {
         self.presentationMode = presentationMode

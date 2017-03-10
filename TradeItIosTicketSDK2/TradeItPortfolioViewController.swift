@@ -2,18 +2,14 @@ import UIKit
 import PromiseKit
 import MBProgressHUD
 
-class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPositionsTableDelegate {
-    var accountSummaryViewManager = TradeItPortfolioAccountSummaryViewManager()
-    var positionsTableViewManager = TradeItPortfolioPositionsTableViewManager()
+class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
+    var tableViewManager = TradeItPortfolioAccountDetailsTableViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
     var activityView: MBProgressHUD?
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
 
-    @IBOutlet weak var holdingsActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var positionsTable: UITableView!
-    @IBOutlet weak var holdingsLabel: UILabel!
-    @IBOutlet weak var accountSummaryView: TradeItAccountSummaryView!
+    @IBOutlet weak var table: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,19 +17,14 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
         }
 
-        self.holdingsActivityIndicator.hidesWhenStopped = true
-        self.accountSummaryViewManager.accountSummaryView = self.accountSummaryView
-        self.accountSummaryViewManager.populateSummarySection(selectedAccount: linkedBrokerAccount)
-        self.positionsTableViewManager.delegate = self
-        self.positionsTableViewManager.positionsTable = self.positionsTable
+        self.tableViewManager.delegate = self
+        self.tableViewManager.table = self.table
+        self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
 
         linkedBrokerAccount.getPositions(
             onSuccess: { positions in
-                self.holdingsLabel.text = linkedBrokerAccount.getFormattedAccountName() + " Holdings"
-                self.positionsTableViewManager.updatePositions(withPositions: positions)
-                self.holdingsActivityIndicator.stopAnimating()
+                self.tableViewManager.updatePositions(withPositions: positions)
             }, onFailure: { errorResult in
-                self.holdingsActivityIndicator.stopAnimating()
                 // TODO: Figure out error handling
             }
         )
@@ -44,13 +35,13 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
     private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,
                                                    orderAction: TradeItOrderAction?) -> TradeItOrder {
-            let order = TradeItOrder()
-            order.linkedBrokerAccount = account
-            if let portfolioPosition = portfolioPosition {
-                order.symbol = TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol()
-            }
-            order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
-            return order
+        let order = TradeItOrder()
+        order.linkedBrokerAccount = account
+        if let portfolioPosition = portfolioPosition {
+            order.symbol = TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol()
+        }
+        order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
+        return order
     }
 
     // MARK: IBActions
@@ -70,7 +61,7 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioPos
     //        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     //    }
 
-    // MARK: TradeItPortfolioPositionsTableDelegate
+    // MARK: TradeItPortfolioAccountDetailsTableDelegate
 
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
         let order = self.provideOrder(forPortFolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)

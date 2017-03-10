@@ -11,9 +11,6 @@ class NumberFormatter: NSObject {
         if variance {
             currencyFormatter.positivePrefix = "+" + currencyFormatter.currencySymbol
             currencyFormatter.negativePrefix = "-" + currencyFormatter.currencySymbol
-            // TODO: See if we can get this working
-//            currencyFormatter.textAttributesForPositiveValues = [NSForegroundColorAttributeName: UIColor.tradeItBuyGreenColor]
-//            currencyFormatter.textAttributesForNegativeValues = [NSForegroundColorAttributeName: UIColor.tradeItDeepRoseColor]
         } else {
             currencyFormatter.positivePrefix = nil
             currencyFormatter.negativePrefix = nil

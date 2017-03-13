@@ -1,6 +1,12 @@
 import UIKit
 
 class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
+    private enum SECTIONS: Int {
+        case accountDetails = 0
+        case positions
+        case count
+    }
+
     private var account: TradeItLinkedBrokerAccount?
     private var positions: [TradeItPortfolioPosition] = []
     private var selectedPositionIndex = -1
@@ -15,8 +21,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
-                newTable.rowHeight = UITableViewAutomaticDimension
-                newTable.estimatedRowHeight = 150
                 _table = newTable
             }
         }
@@ -26,8 +30,8 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func updateAccount(withAccount account: TradeItLinkedBrokerAccount) {
         self.account = account
-        let indexPath = IndexPath(row: 0, section: 0)
-        self.reloadTableViewAtIndexPath([indexPath])
+        //let indexPath = IndexPath(row: 0, section: 0)
+        //self.reloadTableViewAtIndexPath([indexPath])
     }
 
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {
@@ -43,7 +47,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             self.selectedPositionIndex = -1
             self.reloadTableViewAtIndexPath([indexPath])
         } else if self.selectedPositionIndex != -1 {
-            let prevPath = IndexPath(row: self.selectedPositionIndex, section: 0);
+            let prevPath = IndexPath(row: self.selectedPositionIndex, section: SECTIONS.positions.rawValue)
             self.selectedPositionIndex = indexPath.row
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([prevPath, indexPath])
@@ -65,13 +69,12 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     // MARK: UITableViewDataSource
 
-
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return SECTIONS.count.rawValue
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if section == SECTIONS.accountDetails.rawValue {
             return 1
         } else {
             return self.positions.count
@@ -79,35 +82,25 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
+        if section == SECTIONS.accountDetails.rawValue {
             return nil
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
+            //TradeItThemeConfigurator.configureTableHeader(header: cell)
+            return cell?.contentView
         }
-
-        var cell: UITableViewCell?
-
-        // TODO: Look at handling FX
-        if self.positions.count > 0 {
-            if self.positions[0].position != nil {
-                cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
-            } else if self.positions[0].fxPosition != nil {
-                cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_FX_POSITIONS_HEADER_ID")
-            }
-        }
-        
-        TradeItThemeConfigurator.configureTableHeader(header: cell)
-        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
+        if section == SECTIONS.accountDetails.rawValue {
             return 0.0
+        } else {
+            return 36.0
         }
-
-        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == SECTIONS.accountDetails.rawValue {
             if let account = self.account {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
                 cell.populate(withAccount: account)
@@ -127,14 +120,14 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { action, index in
-            let position = self.positions[(index as NSIndexPath).row]
+        let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { (action, indexPath: IndexPath) in
+            let position = self.positions[indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .buy)
         }
         buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
-        let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { action, index in
-            let position = self.positions[(index as NSIndexPath).row]
+        let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { (action, indexPath: IndexPath) in
+            let position = self.positions[indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .sell)
         }
         sellAction.backgroundColor = UIColor.tradeItSellRedColor
@@ -145,15 +138,21 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section != 0, let nonFxPosition = self.positions[safe: indexPath.row]?.position , nonFxPosition.instrumentType() == .EQUITY_OR_ETF && self.selectedPositionIndex != indexPath.row {
-            return true
-        } else {
-            return false
-        }
+        return indexPath.section == SECTIONS.positions.rawValue &&
+            self.positions[safe: indexPath.row]?.position?.instrumentType() == .EQUITY_OR_ETF &&
+            self.selectedPositionIndex != indexPath.row
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         // nothing to do but need to be defined to display the actions
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
@@ -178,8 +177,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         } else if position.fxPosition != nil {
             return UITableViewCell()
         }
-
-        TradeItThemeConfigurator.configure(view: cell)
 
         if let cell = cell {
             cell.setNeedsUpdateConstraints()

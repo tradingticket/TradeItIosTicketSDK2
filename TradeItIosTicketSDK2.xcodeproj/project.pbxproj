@@ -294,6 +294,7 @@
 		75BAACDA1DB800B600E5435C /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAACC61DB8004900E5435C /* UITestHelper.swift */; };
 		75D191781DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
 		75D191791DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
+		75D94D1F1E788C0D00EAE775 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */; };
 		75E6604F1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E6604E1DDB6B8E0040CF9A /* FakeTradeItDeviceManager.swift */; };
 		75EDCEA41DDE597C000739C9 /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
 		75EDCEA51DDF559C000739C9 /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
@@ -2416,6 +2417,7 @@
 				FC6E79A41DCD1F8B005225CC /* TradeItJsonConverter.m in Sources */,
 				526E310A1E302D1600636640 /* TradeItYahooAccountSelectionTableViewManager.swift in Sources */,
 				FC6E79A51DCD1F8B005225CC /* TradeItPreviewTradeOrderDetails.m in Sources */,
+				75D94D1F1E788C0D00EAE775 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */,
 				FC6E79A61DCD1F8B005225CC /* TIEMSJSONModelClassProperty.m in Sources */,
 				FC6E79A71DCD1F8B005225CC /* TradeItPortfolioErrorHandlingView.swift in Sources */,
 				FC6E79A81DCD1F8B005225CC /* TradeItPortfolioFxPositionsTableViewCell.swift in Sources */,

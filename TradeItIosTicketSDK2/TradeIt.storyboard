@@ -906,10 +906,10 @@
             </objects>
             <point key="canvasLocation" x="2513" y="-2641"/>
         </scene>
-        <!--Trade It Portfolio View Controller-->
+        <!--Portfolio-->
         <scene sceneID="NcV-Ai-op4">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="RrX-jG-hg3" customClass="TradeItPortfolioViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" title="Portfolio" automaticallyAdjustsScrollViewInsets="NO" id="RrX-jG-hg3" customClass="TradeItPortfolioViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XhO-vw-bt8"/>
                         <viewControllerLayoutGuide type="bottom" id="eEc-jN-13m"/>
@@ -1351,6 +1351,7 @@
                             <constraint firstItem="7tC-j5-kXj" firstAttribute="top" secondItem="XhO-vw-bt8" secondAttribute="bottom" id="MPA-pC-nht"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Portfolio" id="rWj-iu-2Rw"/>
                     <connections>
                         <outlet property="table" destination="7tC-j5-kXj" id="meG-B4-ciH"/>
                     </connections>

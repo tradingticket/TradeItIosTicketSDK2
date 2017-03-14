@@ -1,11 +1,11 @@
 import UIKit
-import PromiseKit
 import MBProgressHUD
 
 class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager = TradeItPortfolioAccountDetailsTableViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
+    var alertManager = TradeItAlertManager()
     var activityView: MBProgressHUD?
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
 
@@ -17,17 +17,49 @@ class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAcc
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
         }
 
+        self.navigationItem.title = linkedBrokerAccount.linkedBroker?.brokerName
+
         self.tableViewManager.delegate = self
         self.tableViewManager.table = self.table
-        self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
 
-        linkedBrokerAccount.getPositions(
-            onSuccess: { positions in
-                self.tableViewManager.updatePositions(withPositions: positions)
+        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.activityView?.label.text = "Authenticating"
+
+        linkedBrokerAccount.linkedBroker?.authenticateIfNeeded(onSuccess: {
+            self.activityView?.label.text = "Fetching data"
+
+            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
+                self.activityView?.hide(animated: true)
+                self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
             }, onFailure: { errorResult in
+                self.activityView?.hide(animated: true)
                 // TODO: Figure out error handling
-            }
-        )
+                print(errorResult)
+            })
+
+            linkedBrokerAccount.getPositions(
+                onSuccess: { positions in
+                    self.activityView?.hide(animated: true)
+                    self.tableViewManager.updatePositions(withPositions: positions)
+                }, onFailure: { errorResult in
+                    self.activityView?.hide(animated: true)
+                    // TODO: Figure out error handling
+                    print(errorResult)
+                }
+            )
+        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+            self.activityView?.hide(animated: true)
+            self.alertManager.promptUserToAnswerSecurityQuestion(
+                securityQuestion,
+                onViewController: self,
+                onAnswerSecurityQuestion: answerSecurityQuestion,
+                onCancelSecurityQuestion: cancelSecurityQuestion
+            )
+        }, onFailure: { errorResult in
+            self.activityView?.hide(animated: true)
+            // TODO: Figure out error handling
+            print(errorResult)
+        })
     }
 
     // MARK: Private

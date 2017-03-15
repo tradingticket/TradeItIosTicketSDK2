@@ -31,9 +31,8 @@ import PromiseKit
                     self.error = nil
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
-                    self.accounts = self.mapToLinkedBrokerAccounts(accounts)
 
-                    self.accountsLastUpdated = Date()
+                    self.updateLinkedBrokerAccounts(fromBrokerAccounts: accounts)
 
                     TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
 
@@ -89,20 +88,31 @@ import PromiseKit
         }
     }
 
-    public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
+    public func refreshAccountBalances(force: Bool = true,
+                                       cacheResult: Bool = true,
+                                       onFinished: @escaping () -> Void) {
         let promises = accounts.filter { account in
             return force || (account.balance == nil && account.fxBalance == nil)
         }.map { account in
             return Promise<Void> { fulfill, reject in
-                account.getAccountOverview(onSuccess: { _ in
-                    fulfill()
-                }, onFailure: { errorResult in
-                    fulfill()
-                })
+                account.getAccountOverview(
+                    cacheResult: false, // Cache at the end so we don't cache the entire linked broker multiple times
+                    onSuccess: { _ in
+                        fulfill()
+                    },
+                    onFailure: { errorResult in
+                        fulfill()
+                    }
+                )
             }
         }
 
-        _ = when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).always {
+            if cacheResult {
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
+            }
+            onFinished()
+        }
     }
 
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
@@ -132,11 +142,11 @@ import PromiseKit
 
     // MARK: Private
 
-    private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
-        return accounts.map { account in
+    private func updateLinkedBrokerAccounts(fromBrokerAccounts accounts: [TradeItBrokerAccount]) {
+        let newLinkedBrokerAccounts = accounts.map { account -> TradeItLinkedBrokerAccount in
             let accountEnabled = findAccount(byAccountNumber: account.accountNumber)?.isEnabled ?? true
 
-            return TradeItLinkedBrokerAccount(
+            let linkedBrokerAccount = TradeItLinkedBrokerAccount(
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
@@ -145,6 +155,19 @@ import PromiseKit
                 positions: [],
                 isEnabled: accountEnabled
             )
+
+            if let matchingExistingAccount = (self.accounts.filter { account in
+                return account.accountNumber == linkedBrokerAccount.accountNumber
+            }).first {
+                linkedBrokerAccount.balance = matchingExistingAccount.balance
+                linkedBrokerAccount.fxBalance = matchingExistingAccount.fxBalance
+                linkedBrokerAccount.balanceLastUpdated = matchingExistingAccount.balanceLastUpdated
+            }
+
+            return linkedBrokerAccount
         }
+
+        self.accounts = newLinkedBrokerAccounts
+        self.accountsLastUpdated = Date()
     }
 }

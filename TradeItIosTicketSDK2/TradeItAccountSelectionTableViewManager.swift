@@ -35,18 +35,18 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
     }
-    
+
     // MARK: UITableViewDataSource
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.linkedBrokers.count
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let linkedBroker = self.linkedBrokers[section]
         return linkedBroker.brokerName
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var numberOfLinkedAccounts = 0
 
@@ -57,22 +57,26 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 
         return numberOfLinkedAccounts
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let linkedBroker = self.linkedBrokers[indexPath.section]
         let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") as! TradeItAccountSelectionTableViewCell
+
         cell.populate(withLinkedBrokerAccount: linkedBrokerAccount)
-        if selectedLinkedBrokerAccount?.accountNumber == linkedBrokerAccount.accountNumber && selectedLinkedBrokerAccount?.brokerName == linkedBrokerAccount.brokerName {
+
+        if selectedLinkedBrokerAccount?.accountNumber == linkedBrokerAccount.accountNumber
+            && selectedLinkedBrokerAccount?.brokerName == linkedBrokerAccount.brokerName {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
         }
+
         return cell
     }
-    
+
     // MARK: Private
-    
+
     func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
@@ -82,16 +86,20 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
-    
+
     func refreshControlActivated() {
-        self.delegate?.refreshRequested(fromAccountSelectionTableViewManager: self,
-                                        onRefreshComplete: { linkedBrokers in
-                                            if let linkedBrokers = linkedBrokers  {
-                                                self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers, withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
-                                            }
-                                            
-                                            self.refreshControl?.endRefreshing()
-                                        })
+        self.delegate?.refreshRequested(
+            fromAccountSelectionTableViewManager: self,
+            onRefreshComplete: { linkedBrokers in
+                if let linkedBrokers = linkedBrokers  {
+                    self.updateLinkedBrokers(
+                        withLinkedBrokers: linkedBrokers,
+                        withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
+                }
+
+                self.refreshControl?.endRefreshing()
+            }
+        )
     }
 }
 
@@ -100,5 +108,3 @@ protocol TradeItAccountSelectionTableViewManagerDelegate: class {
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItAccountSelectionTableViewManager,
                           onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void)
 }
-
-

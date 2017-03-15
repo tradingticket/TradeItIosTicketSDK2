@@ -17,10 +17,10 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
         self.totalValueLabel.text = presenter.getFormattedTotalValue()
         self.returnLabel.text = presenter.getFormattedDayReturnWithPercentage()
         self.returnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn?.doubleValue)
-        self.setFailedState(account: account)
+        self.setStyleForAccountState(account: account)
     }
 
-    private func setFailedState(account: TradeItLinkedBrokerAccount) {
+    private func setStyleForAccountState(account: TradeItLinkedBrokerAccount) {
         if account.linkedBroker?.error == nil {
             self.view.alpha = 1.0
         } else {

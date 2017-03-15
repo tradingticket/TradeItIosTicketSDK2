@@ -217,11 +217,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         TradeItSDK.linkedBrokerManager.oAuthDelegate = self
-        printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
     }
 
     func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
         self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Great Success!",
@@ -231,7 +231,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
         self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Great Success!",
@@ -314,7 +314,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
 
                 print("=====> MANUALLY BUILT LINK!")
-                self.printLinkedBrokers()
+                TradeItSDK.linkedBrokerManager.printLinkedBrokers()
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -386,18 +386,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                             onViewController: self)
             }
         )
-    }
-
-    private func printLinkedBrokers() {
-        print("\n\n=====> LINKED BROKERS:")
-
-        for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
-            let linkedLogin = linkedBroker.linkedLogin
-            let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
-            print("=====> \(linkedLogin.broker ?? "MISSING BROKER")(\(linkedBroker.accounts.count) accounts)\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
-        }
-
-        print("=====> ===============\n\n")
     }
 
     private func manualAuthenticateAll() {

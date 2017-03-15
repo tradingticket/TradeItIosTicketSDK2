@@ -367,6 +367,28 @@ import PromiseKit
             ))
         }
     }
+
+    // MARK: Debugging
+
+    internal func printLinkedBrokers() {
+        print("\n\n=====> LINKED BROKERS:")
+
+        self.linkedBrokers.forEach { linkedBroker in
+            let linkedLogin = linkedBroker.linkedLogin
+            let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
+
+            print("=====> \(linkedBroker.brokerName)(\(linkedBroker.accounts.count) accounts)\n    accountsUpdated: \(linkedBroker.accountsLastUpdated)\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
+
+            print("        === ACCOUNTS ===")
+
+            linkedBroker.accounts.forEach { account in
+                print("        [\(account.accountNumber)][\(account.accountName)]")
+                print("            balancesUpdated: \(account.balanceLastUpdated), buyingPower: \(account.balance?.buyingPower)")
+            }
+        }
+
+        print("=====> ===============\n\n")
+    }
 }
 
 @objc public protocol TradeItOAuthDelegate {

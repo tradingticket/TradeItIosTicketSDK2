@@ -30,8 +30,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func updateAccount(withAccount account: TradeItLinkedBrokerAccount) {
         self.account = account
-        //let indexPath = IndexPath(row: 0, section: 0)
-        //self.reloadTableViewAtIndexPath([indexPath])
     }
 
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {

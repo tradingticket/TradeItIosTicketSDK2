@@ -68,16 +68,17 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return self.tradeItPortfolioPosition.quote
     }
     
-    func getFormattedDayChange() -> String {
-        guard let quote = getQuote()
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+    func getFormattedDayReturn() -> String {
+        guard let quote = getQuote() else {
+            return TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        }
         let quotePresenter = TradeItQuotePresenter(quote)
         return quotePresenter.getChangeLabel()
     }
     
     func getFormattedDayChangeColor() -> UIColor {
         guard let change = self.getQuote()?.change
-            else { return UIColor.lightText }
+            else { return TradeItSDK.theme.textColor }
         return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
     

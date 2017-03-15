@@ -45,7 +45,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
 
-        self.dayReturnLabel.text = presenter.getFormattedDayChange()
+        self.dayReturnLabel.text = presenter.getFormattedDayReturn()
         self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
 
         self.totalReturnLabel.text = presenter.getFormattedTotalReturn()

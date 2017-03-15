@@ -64,7 +64,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         self.table?.beginUpdates()
         self.table?.reloadRows(at: indexPaths, with: .automatic)
         self.table?.endUpdates()
-        self.table?.selectRow(at: indexPaths.last, animated: true, scrollPosition: .top)
     }
 
     // MARK: UITableViewDataSource

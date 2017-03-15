@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItWebViewController: UIViewController, UIWebViewDelegate {
+class TradeItWebViewController: CloseableViewController, UIWebViewDelegate {
     @IBOutlet weak var webView: UIWebView!
     var url = ""
     var pageTitle = ""

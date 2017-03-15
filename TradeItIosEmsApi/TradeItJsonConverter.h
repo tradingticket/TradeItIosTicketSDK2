@@ -12,4 +12,6 @@
                     jsonString:(NSString *)jsonString;
 
 + (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
++ (NSString *)getEmsHostForEnvironment:(TradeitEmsEnvironments)env;
+
 @end

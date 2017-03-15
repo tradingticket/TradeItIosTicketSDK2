@@ -1,3 +1,5 @@
+import UIKit
+
 @objc public class TradeItYahooLauncher: NSObject {
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var deviceManager = TradeItDeviceManager()

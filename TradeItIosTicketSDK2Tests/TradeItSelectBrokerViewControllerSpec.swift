@@ -10,12 +10,10 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var connector: FakeTradeItConnector!
 //        var ezLoadingActivityManager: FakeEZLoadingActivityManager! // TODO: Replace with MBProgressHUD
-        var delegate: FakeTradeItSelectBrokerViewControllerDelegate!
         
         describe("initialization") {
             beforeEach {
                 connector = FakeTradeItConnector()
-                delegate = FakeTradeItSelectBrokerViewControllerDelegate()
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 linkedBrokerManager.connector = connector
                 linkedBrokerManager.sessionProvider = FakeTradeItSessionProvider()
@@ -30,7 +28,6 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                 // TODO: Replace with MBProgressHUD
 //                ezLoadingActivityManager = FakeEZLoadingActivityManager()
 //                controller.ezLoadingActivityManager = ezLoadingActivityManager
-                controller.delegate = delegate
                 nav = UINavigationController(rootViewController: controller)
 
                 expect(controller.view).toNot(beNil())
@@ -106,15 +103,15 @@ class TradeItSelectBrokerViewControllerSpec: QuickSpec {
                         controller.tableView(controller.brokerTable, didSelectRowAt: IndexPath(row: 1, section: 0))
                     }
 
-                    it("calling brokerWasSelected on the delegate") {
-                        let calls = delegate.calls.forMethod("brokerWasSelected(_:broker:)")
-                        let arg1 = calls[0].args["fromSelectBrokerViewController"] as! TradeItSelectBrokerViewController
-                        let arg2 = calls[0].args["broker"] as! TradeItBroker
-                        
-                        expect(calls.count).to(equal(1))
-                        expect(arg1).to(equal(controller))
-                        expect(arg2).to(equal(controller.selectedBroker))
-                    }
+//                    it("calling brokerWasSelected on the delegate") {
+//                        let calls = delegate.calls.forMethod("brokerWasSelected(_:broker:)")
+//                        let arg1 = calls[0].args["fromSelectBrokerViewController"] as! TradeItSelectBrokerViewController
+//                        let arg2 = calls[0].args["broker"] as! TradeItBroker
+//                        
+//                        expect(calls.count).to(equal(1))
+//                        expect(arg1).to(equal(controller))
+//                        expect(arg2).to(equal(controller.selectedBroker))
+//                    }
                 }
             }
         }

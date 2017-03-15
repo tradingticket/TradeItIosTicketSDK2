@@ -10,7 +10,7 @@ protocol OAuthCompletionListener {
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
-    let deviceManager = TradeItDeviceManager()
+    var deviceManager = TradeItDeviceManager()
     let alertManager = TradeItAlertManager()
 
     static var accountSelectionCallback: ((TradeItLinkedBrokerAccount) -> Void)? // Ew, gross. No other way to do this.

@@ -21,10 +21,12 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
             return
         }
+
         accountSelectionViewController.delegate = self
 
         self.selectionViewController = selectionViewController
@@ -306,7 +308,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
-                detailPrimaryText: self.order.linkedBrokerAccount?.accountName,
+                detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText()
             )
         }

@@ -26,10 +26,10 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
     }
 
-    override func refreshAccountBalances(onFinished: @escaping () -> Void) {
-        self.calls.record(#function,
-                          args: [
-                            "onFinished": onFinished
-            ])
-    }
+//    override func refreshAccountBalances(onFinished: @escaping () -> Void) {
+//        self.calls.record(#function,
+//                          args: [
+//                            "onFinished": onFinished
+//            ])
+//    }
 }

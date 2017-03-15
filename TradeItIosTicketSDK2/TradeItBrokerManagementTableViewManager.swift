@@ -26,6 +26,11 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !self.linkedBrokers.isEmpty else {
+            self.delegate?.addAccountWasTapped()
+            return
+        }
+
         switch indexPath.section {
         case brokersTableSectionIndex:
             self.delegate?.linkedBrokerWasSelected(self.linkedBrokers[indexPath.row])
@@ -42,10 +47,14 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
     private let addAccountTableSectionIndex = 1
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return self.linkedBrokers.isEmpty ? 1 : 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard !self.linkedBrokers.isEmpty else {
+            return 1
+        }
+
         switch section {
         case brokersTableSectionIndex:
             return self.linkedBrokers.count
@@ -57,17 +66,25 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case brokersTableSectionIndex:
-            let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
-            let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as! TradeItBrokerManagementTableViewCell
-            cell.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
-            return cell
-        case addAccountTableSectionIndex:
+        let createAddAccountCell: () -> UITableViewCell = {
             let brokerManagerCellIdentifier = "BROKER_MANAGER_ADD_ACCOUNT_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier)
             TradeItThemeConfigurator.configure(view: cell)
-            return cell!
+            return cell ?? UITableViewCell()
+        }
+
+        guard !self.linkedBrokers.isEmpty else {
+            return createAddAccountCell()
+        }
+
+        switch indexPath.section {
+        case brokersTableSectionIndex:
+            let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
+            let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as? TradeItBrokerManagementTableViewCell
+            cell?.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
+            return cell ?? UITableViewCell()
+        case addAccountTableSectionIndex:
+            return createAddAccountCell()
         default:
             return UITableViewCell()
         }

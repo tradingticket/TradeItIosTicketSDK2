@@ -1,7 +1,7 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItPortfolioViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
+class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager = TradeItPortfolioAccountDetailsTableViewManager()
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()

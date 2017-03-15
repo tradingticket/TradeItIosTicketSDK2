@@ -64,11 +64,11 @@ protocol OAuthCompletionListener {
                                 forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
-                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .portfolioView)
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .portfolioAccountDetailsView)
 
-                guard let portfolioViewController = navController.viewControllers.last as? TradeItPortfolioViewController else { return }
+                guard let portfolioAccountDetailsViewController = navController.viewControllers.last as? TradeItPortfolioAccountDetailsViewController else { return }
 
-                portfolioViewController.linkedBrokerAccount = linkedBrokerAccount
+                portfolioAccountDetailsViewController.linkedBrokerAccount = linkedBrokerAccount
 
                 viewController.present(navController, animated: true, completion: nil)
             }, onFailure: {

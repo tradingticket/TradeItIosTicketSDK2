@@ -70,8 +70,8 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
-        let portfolioController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioView) as! TradeItPortfolioViewController
-        portfolioController.linkedBrokerAccount = selectedAccount
-        self.navigationController?.pushViewController(portfolioController, animated: true)
+        let portfolioAccountDetailsController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioAccountDetailsView) as! TradeItPortfolioAccountDetailsViewController
+        portfolioAccountDetailsController.linkedBrokerAccount = selectedAccount
+        self.navigationController?.pushViewController(portfolioAccountDetailsController, animated: true)
     }
 }

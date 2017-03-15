@@ -909,7 +909,7 @@
         <!--Portfolio-->
         <scene sceneID="NcV-Ai-op4">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_VIEW" title="Portfolio" automaticallyAdjustsScrollViewInsets="NO" id="RrX-jG-hg3" customClass="TradeItPortfolioViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_VIEW" title="Portfolio" automaticallyAdjustsScrollViewInsets="NO" id="RrX-jG-hg3" customClass="TradeItPortfolioAccountDetailsViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XhO-vw-bt8"/>
                         <viewControllerLayoutGuide type="bottom" id="eEc-jN-13m"/>

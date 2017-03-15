@@ -1075,13 +1075,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avg. Cost" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-xy-KDI">
-                                                    <rect key="frame" x="166.5" y="17.5" width="60.5" height="16"/>
+                                                    <rect key="frame" x="151.5" y="17.5" width="60.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjt-1n-Blf">
-                                                    <rect key="frame" x="262" y="17.5" width="63" height="16"/>
+                                                    <rect key="frame" x="249" y="17.5" width="63" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -1097,8 +1097,8 @@
                                             <constraints>
                                                 <constraint firstItem="cAp-EE-tcm" firstAttribute="centerY" secondItem="O9o-di-wTY" secondAttribute="centerY" id="1p2-9J-Igw"/>
                                                 <constraint firstItem="cAp-EE-tcm" firstAttribute="leading" secondItem="O9o-di-wTY" secondAttribute="leadingMargin" constant="10" id="NFK-6K-L1N"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Oam-xy-KDI" secondAttribute="trailing" constant="140" id="bk4-wL-Pt9"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Xjt-1n-Blf" secondAttribute="trailing" constant="42" id="cfN-6g-ez1"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Oam-xy-KDI" secondAttribute="trailing" constant="155" id="bk4-wL-Pt9"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Xjt-1n-Blf" secondAttribute="trailing" constant="55" id="cfN-6g-ez1"/>
                                                 <constraint firstItem="Xjt-1n-Blf" firstAttribute="centerY" secondItem="Oam-xy-KDI" secondAttribute="centerY" id="fFf-GV-UC7"/>
                                                 <constraint firstItem="Oam-xy-KDI" firstAttribute="centerY" secondItem="cAp-EE-tcm" secondAttribute="centerY" id="usI-Fq-RMZ"/>
                                             </constraints>

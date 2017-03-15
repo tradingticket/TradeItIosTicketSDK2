@@ -199,7 +199,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                             activityView.hide(animated: true)
 
                             // TODO: FIX THIS PRESENTER TO TAKE ACCOUNT OVERVIEW
-                            let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
+                            let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
                             self.tradingBrokerAccountView.updateBuyingPower(presenter.getFormattedBuyingPower())
                         },
                         onFailure: { errorResult in
@@ -224,8 +224,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                             }
                         )
                     }
-                default:
-                    activityView.hide(animated: true)
                 }
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
@@ -254,7 +252,7 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     private func updateBrokerAccountViewPosition(forSymbol symbol: String?, fromPositions positions: [TradeItPortfolioPosition]) {
 
         let positionsMatchingSymbol = positions.filter { position in
-            TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position).getFormattedSymbol() == symbol
+            TradeItPortfolioEquityPositionPresenter(position).getFormattedSymbol() == symbol
         }
 
         self.tradingBrokerAccountView.updatePosition(positionsMatchingSymbol.first)

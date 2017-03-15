@@ -37,7 +37,7 @@ class TradeItTradingBrokerAccountView: UIView {
 
     func updatePosition(_ position: TradeItPortfolioPosition?) {
         if let position = position {
-            let presenter = TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(position)
+            let presenter = TradeItPortfolioEquityPositionPresenter(position)
 
             self.sharesOwned = presenter.getQuantity() ?? 0
             self.holdingType = presenter.getHoldingType()

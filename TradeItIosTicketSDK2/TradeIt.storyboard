@@ -1104,11 +1104,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="220" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="274" width="375" height="220"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PORTFOLIO_EQUITY_POSITIONS_CELL_ID" rowHeight="230" id="fFn-NS-Mba" customClass="TradeItPortfolioEquityPositionsTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="274" width="375" height="230"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="fFn-NS-Mba" id="CV5-G3-nqA">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="219"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="229"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="7zC-4B-2dQ" userLabel="Position Summary View">
@@ -1320,10 +1320,10 @@
                                                 <constraint firstAttribute="trailing" secondItem="9cx-9D-ndX" secondAttribute="trailing" id="2Qx-7r-QV8"/>
                                                 <constraint firstItem="7zC-4B-2dQ" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" id="A6q-g4-0ec"/>
                                                 <constraint firstItem="9cx-9D-ndX" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leading" id="SVe-SL-bjx"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="9cx-9D-ndX" secondAttribute="bottom" priority="999" constant="-21" id="lcy-PU-ShE"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="7zC-4B-2dQ" secondAttribute="trailing" id="lkC-1h-Kn0"/>
                                                 <constraint firstItem="9cx-9D-ndX" firstAttribute="top" secondItem="7zC-4B-2dQ" secondAttribute="bottom" constant="5" id="tfk-An-HmI"/>
                                                 <constraint firstItem="7zC-4B-2dQ" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" id="utx-Dh-eoM"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="9cx-9D-ndX" secondAttribute="bottom" constant="-11.5" id="yla-Uz-wHe"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

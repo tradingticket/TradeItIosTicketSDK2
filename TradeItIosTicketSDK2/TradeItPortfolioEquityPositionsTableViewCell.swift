@@ -7,10 +7,11 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var avgCostLabelValue: UILabel!
     
     @IBOutlet weak var chevron: UIImageView!
-    @IBOutlet weak var bidAskLabelValue: UILabel!
-    @IBOutlet weak var dayLabelValue: UILabel!
-    @IBOutlet weak var totalLabelValue: UILabel!
-    @IBOutlet weak var totalReturnLabelValue: UILabel!
+
+    @IBOutlet weak var dayReturnLabel: UILabel!
+    @IBOutlet weak var totalReturnLabel: UILabel!
+    @IBOutlet weak var totalValueLabel: UILabel!
+    @IBOutlet weak var bidAskLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var positionDetailsView: UIView!
@@ -43,12 +44,16 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.avgCostLabelValue.text = presenter.getAvgCost()
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
-        self.bidAskLabelValue.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"
-        self.dayLabelValue.text = presenter.getFormattedDayChange()
-        self.dayLabelValue.textColor = presenter.getFormattedDayChangeColor()
-        self.totalLabelValue.text = presenter.getFormattedTotalValue()
-        self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
-        self.totalReturnLabelValue.textColor = presenter.getFormattedTotalReturnColor()
+
+        self.dayReturnLabel.text = presenter.getFormattedDayChange()
+        self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+
+        self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
+        self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
+
+        self.totalValueLabel.text = presenter.getFormattedTotalValue()
+
+        self.bidAskLabel.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"
 
         self.updateTradeButtonVisibility()
     }

@@ -1,11 +1,9 @@
 import UIKit
 import PromiseKit
-import MBProgressHUD
 
 class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPortfolioAccountsTableDelegate {
     var alertManager = TradeItAlertManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
-    var activityView: MBProgressHUD?
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     @IBOutlet weak var accountsTable: UITableView!
@@ -18,51 +16,34 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
-        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        self.refreshBrokers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.updatePortfolioScreen()
+        self.accountsTableViewManager.refreshControlActivated()
     }
 
-    // MARK: Private
+    // MARK: TradeItPortfolioAccountsTableDelegate
 
-    private func refreshBrokers() {
-        self.activityView?.label.text = "Authenticating"
-
+    func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void) {
         TradeItSDK.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.activityView?.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
-                    onAnswerSecurityQuestion: { answer in
-                        self.activityView?.show(animated: true)
-                        answerSecurityQuestion(answer)
-                    },
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
             },
             onFinished: {
-                self.activityView?.label.text = "Refreshing Accounts"
-
                 TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
-                        self.updatePortfolioScreen()
-                        self.activityView?.hide(animated: true)
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }
                 )
             }
         )
     }
 
-    private func updatePortfolioScreen() {
-        self.accountsTableViewManager.updateAccounts(
-            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        )
-    }
-    
     @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
         self.parent?.dismiss(animated: true, completion: nil)
     }

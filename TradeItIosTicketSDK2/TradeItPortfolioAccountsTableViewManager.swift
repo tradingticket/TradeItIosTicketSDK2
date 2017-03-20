@@ -3,6 +3,7 @@ import UIKit
 class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
+    private var refreshControl: UIRefreshControl?
     
     var accountsTable: UITableView? {
         get {
@@ -13,6 +14,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
         }
@@ -20,10 +22,10 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
     
-    func updateAccounts(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
-        self.linkedBrokerSectionPresenters = linkedBrokers.map({ linkedBroker in
+    func update(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
+        self.linkedBrokerSectionPresenters = linkedBrokers.map { linkedBroker in
             return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker)
-        })
+        }
         self.accountsTable?.reloadData()
     }
 
@@ -81,6 +83,30 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+
+    // MARK: Private
+
+    func addRefreshControl(toTableView tableView: UITableView) {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.addTarget(
+            self,
+            action: #selector(refreshControlActivated),
+            for: UIControlEvents.valueChanged
+        )
+        tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
+
+    func refreshControlActivated() {
+        self.refreshControl?.beginRefreshing()
+        self.delegate?.refreshRequested(
+            onRefreshComplete: { linkedBrokers in
+                self.update(withLinkedBrokers: linkedBrokers)
+                self.refreshControl?.endRefreshing()
+            }
+        )
     }
 
     private func totalValue() -> Float {
@@ -154,4 +180,5 @@ fileprivate class LinkedBrokerSectionPresenter {
 
 protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
+    func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
 }

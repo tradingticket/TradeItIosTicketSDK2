@@ -6,7 +6,6 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
     var alertManager = TradeItAlertManager()
-    var activityView: MBProgressHUD?
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
 
     @IBOutlet weak var table: UITableView!
@@ -21,34 +20,38 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
         self.tableViewManager.delegate = self
         self.tableViewManager.table = self.table
+    }
 
-        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-        self.activityView?.label.text = "Authenticating"
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableViewManager.initiateRefresh()
+    }
+
+    func refreshRequested(onRefreshComplete: @escaping () -> Void) {
+        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
+            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+        }
 
         linkedBrokerAccount.linkedBroker?.authenticateIfNeeded(onSuccess: {
-            self.activityView?.label.text = "Fetching data"
-
             linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
-                self.activityView?.hide(animated: true)
                 self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
+                onRefreshComplete()
             }, onFailure: { errorResult in
-                self.activityView?.hide(animated: true)
                 // TODO: Figure out error handling
                 print(errorResult)
+                onRefreshComplete()
             })
 
             linkedBrokerAccount.getPositions(
                 onSuccess: { positions in
-                    self.activityView?.hide(animated: true)
                     self.tableViewManager.updatePositions(withPositions: positions)
+                    onRefreshComplete()
                 }, onFailure: { errorResult in
-                    self.activityView?.hide(animated: true)
                     // TODO: Figure out error handling
                     print(errorResult)
+                    onRefreshComplete()
                 }
             )
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-            self.activityView?.hide(animated: true)
             self.alertManager.promptUserToAnswerSecurityQuestion(
                 securityQuestion,
                 onViewController: self,
@@ -56,9 +59,9 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
                 onCancelSecurityQuestion: cancelSecurityQuestion
             )
         }, onFailure: { errorResult in
-            self.activityView?.hide(animated: true)
             // TODO: Figure out error handling
             print(errorResult)
+            onRefreshComplete()
         })
     }
 

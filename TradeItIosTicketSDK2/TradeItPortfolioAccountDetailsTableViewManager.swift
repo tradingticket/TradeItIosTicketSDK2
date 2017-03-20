@@ -10,6 +10,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     private var account: TradeItLinkedBrokerAccount?
     private var positions: [TradeItPortfolioPosition] = []
     private var selectedPositionIndex = -1
+    private var refreshControl: UIRefreshControl?
 
     private var _table: UITableView?
     var table: UITableView? {
@@ -21,6 +22,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
         }
@@ -37,7 +39,16 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         self.positions = positions
         self.table?.reloadData()
     }
-    
+
+    func initiateRefresh() {
+        self.refreshControl?.beginRefreshing()
+        self.delegate?.refreshRequested(
+            onRefreshComplete: {
+                self.refreshControl?.endRefreshing()
+            }
+        )
+    }
+
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // if the user click on the already expanded row, deselect it
@@ -184,8 +195,21 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             return UITableViewCell()
         }
     }
+
+    func addRefreshControl(toTableView tableView: UITableView) {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.addTarget(
+            self,
+            action: #selector(initiateRefresh),
+            for: UIControlEvents.valueChanged
+        )
+        tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
 }
 
 protocol TradeItPortfolioAccountDetailsTableDelegate: class {
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
+    func refreshRequested(onRefreshComplete: @escaping () -> Void)
 }

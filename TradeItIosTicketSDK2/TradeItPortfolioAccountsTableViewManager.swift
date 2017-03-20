@@ -29,6 +29,16 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         self.accountsTable?.reloadData()
     }
 
+    func initiateRefresh() {
+        self.refreshControl?.beginRefreshing()
+        self.delegate?.refreshRequested(
+            onRefreshComplete: { linkedBrokers in
+                self.update(withLinkedBrokers: linkedBrokers)
+                self.refreshControl?.endRefreshing()
+            }
+        )
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -92,21 +102,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(
             self,
-            action: #selector(refreshControlActivated),
+            action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
-    }
-
-    func refreshControlActivated() {
-        self.refreshControl?.beginRefreshing()
-        self.delegate?.refreshRequested(
-            onRefreshComplete: { linkedBrokers in
-                self.update(withLinkedBrokers: linkedBrokers)
-                self.refreshControl?.endRefreshing()
-            }
-        )
     }
 
     private func totalValue() -> Float {

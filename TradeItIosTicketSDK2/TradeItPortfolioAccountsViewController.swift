@@ -19,7 +19,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.accountsTableViewManager.refreshControlActivated()
+        self.accountsTableViewManager.initiateRefresh()
     }
 
     // MARK: TradeItPortfolioAccountsTableDelegate

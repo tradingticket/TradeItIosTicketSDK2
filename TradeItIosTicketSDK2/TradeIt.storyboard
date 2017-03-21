@@ -1447,22 +1447,24 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="$113,532.12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1O-yZ-SwH">
-                                                    <rect key="frame" x="214" y="11" width="120" height="26"/>
+                                                    <rect key="frame" x="144" y="11" width="190" height="26"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$2,312.92 (1.2%)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxo-Cp-xWg">
-                                                    <rect key="frame" x="214" y="37" width="120" height="56"/>
+                                                    <rect key="frame" x="144" y="37" width="190" height="56"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="j1O-yZ-SwH" firstAttribute="leading" secondItem="3K6-Uz-7Jy" secondAttribute="trailing" constant="10" id="0bs-VI-GKY"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Hxo-Cp-xWg" secondAttribute="bottom" id="C3f-BX-A60"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Hxo-Cp-xWg" secondAttribute="trailing" id="VLa-l0-Bpa"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="j1O-yZ-SwH" secondAttribute="trailing" id="Zwa-Rv-Qd8"/>
+                                                <constraint firstItem="Hxo-Cp-xWg" firstAttribute="leading" secondItem="j1O-yZ-SwH" secondAttribute="leading" id="cNg-k1-b1F"/>
                                                 <constraint firstItem="3K6-Uz-7Jy" firstAttribute="leading" secondItem="McC-9C-AQe" secondAttribute="leadingMargin" constant="10" id="hKR-Gd-sqc"/>
                                                 <constraint firstItem="3K6-Uz-7Jy" firstAttribute="top" secondItem="McC-9C-AQe" secondAttribute="topMargin" constant="5" id="hsx-GG-C8E"/>
                                                 <constraint firstItem="Hxo-Cp-xWg" firstAttribute="top" secondItem="j1O-yZ-SwH" secondAttribute="bottom" id="jmq-XH-OgD"/>

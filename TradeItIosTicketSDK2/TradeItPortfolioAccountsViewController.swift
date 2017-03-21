@@ -2,14 +2,13 @@ import UIKit
 import PromiseKit
 
 class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPortfolioAccountsTableDelegate {
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var alertManager = TradeItAlertManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     @IBOutlet weak var accountsTable: UITableView!
     @IBOutlet weak var totalValueLabel: UILabel!
-    
-    var selectedAccount: TradeItLinkedBrokerAccount!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +43,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
         )
     }
 
+    // TODO: shouldn't this be provided by CloseableViewController?
     @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
         self.parent?.dismiss(animated: true, completion: nil)
     }
@@ -54,5 +54,32 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
         let portfolioAccountDetailsController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioAccountDetailsView) as! TradeItPortfolioAccountDetailsViewController
         portfolioAccountDetailsController.linkedBrokerAccount = selectedAccount
         self.navigationController?.pushViewController(portfolioAccountDetailsController, animated: true)
+    }
+
+    func initiateRelink(linkedBroker: TradeItLinkedBroker) {
+        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+            inViewController: self,
+            linkedBroker: linkedBroker,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+    func initiateAuthenticate(linkedBroker: TradeItLinkedBroker) {
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                self.accountsTableViewManager.initiateRefresh()
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure: { error in
+                self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+            }
+        )
     }
 }

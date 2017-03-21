@@ -3,7 +3,6 @@ import MBProgressHUD
 
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager = TradeItPortfolioAccountDetailsTableViewManager()
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var tradingUIFlow = TradeItTradingUIFlow()
     var alertManager = TradeItAlertManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?

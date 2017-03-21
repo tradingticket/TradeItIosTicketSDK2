@@ -4,6 +4,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     private var _table: UITableView?
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
     private var refreshControl: UIRefreshControl?
+    private let NON_LINKED_BROKER_SECTIONS_COUNT = 1
     
     var accountsTable: UITableView? {
         get {
@@ -42,8 +43,34 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let account = self.linkedBrokerSectionPresenters[safe: indexPath.section - 1]?.accountFor(row: indexPath.row) else { return }
-        self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: account)
+        let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
+        guard let linkedBrokerPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return }
+
+        if linkedBrokerPresenter.hasError() && indexPath.row == 0 {
+            guard let error = linkedBrokerPresenter.linkedBroker.error else { return }
+
+            if error.requiresRelink() {
+                self.delegate?.initiateRelink(linkedBroker: linkedBrokerPresenter.linkedBroker)
+            } else if error.requiresAuthentication() {
+                self.delegate?.initiateAuthenticate(linkedBroker: linkedBrokerPresenter.linkedBroker)
+            } else {
+                self.initiateRefresh()
+            }
+        } else {
+            guard let account = linkedBrokerPresenter.accountFor(row: indexPath.row) else { return }
+            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount: account)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
+        guard let linkedBrokerPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return nil }
+
+        if linkedBrokerPresenter.hasError() && indexPath.row != 0 {
+            return nil
+        } else {
+            return indexPath
+        }
     }
 
     // MARK: UITableViewDataSource
@@ -82,7 +109,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
             return cell
         } else {
-            guard let sectionPresenter = self.linkedBrokerSectionPresenters[safe: indexPath.section - 1] else { return UITableViewCell() }
+            let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
+            guard let sectionPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return UITableViewCell() }
             return sectionPresenter.cellFor(tableView: tableView, andRow: indexPath.row)
         }
     }
@@ -97,7 +125,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     // MARK: Private
 
-    func addRefreshControl(toTableView tableView: UITableView) {
+    private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(
@@ -160,13 +188,7 @@ fileprivate class LinkedBrokerSectionPresenter {
     }
 
     func hasError() -> Bool {
-        guard let error = linkedBroker.error else { return false }
-        return !error.requiresAuthentication()
-    }
-
-    func hasRelinkError() -> Bool {
-        guard let error = linkedBroker.error else { return false }
-        return error.requiresRelink()
+        return linkedBroker.error != nil
     }
 
     func errorOffset() -> Int {
@@ -180,5 +202,7 @@ fileprivate class LinkedBrokerSectionPresenter {
 
 protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
+    func initiateRelink(linkedBroker: TradeItLinkedBroker)
+    func initiateAuthenticate(linkedBroker: TradeItLinkedBroker)
     func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
 }

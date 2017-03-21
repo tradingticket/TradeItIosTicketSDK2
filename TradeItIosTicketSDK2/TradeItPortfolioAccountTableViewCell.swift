@@ -22,8 +22,10 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
 
     private func setStyleForAccountState(account: TradeItLinkedBrokerAccount) {
         if account.linkedBroker?.error == nil {
+            self.accessoryType = .disclosureIndicator
             self.view.alpha = 1.0
         } else {
+            self.accessoryType = .none
             self.view.alpha = 0.25
         }
     }

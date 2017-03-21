@@ -1755,35 +1755,6 @@
             </objects>
             <point key="canvasLocation" x="1049" y="-1194"/>
         </scene>
-        <!--Broker Center-->
-        <scene sceneID="a4n-A8-HV0">
-            <objects>
-                <tableViewController storyboardIdentifier="TRADE_IT_BROKER_CENTER_VIEW" id="hvU-dj-Dis" customClass="TTSDKBrokerCenterViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="pjQ-I2-6CK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_CENTER_CELL" id="Zsn-lc-8dt">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zsn-lc-8dt" id="Ts4-pj-CCC">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="hvU-dj-Dis" id="REF-QJ-0mb"/>
-                            <outlet property="delegate" destination="hvU-dj-Dis" id="B6o-PB-Mky"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Broker Center" id="Kz5-bF-Fyh"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nsg-3f-frr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1049" y="197"/>
-        </scene>
         <!--Preview-->
         <scene sceneID="Uej-tc-O6r">
             <objects>

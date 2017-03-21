@@ -8,7 +8,6 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     @IBOutlet weak var accountsTable: UITableView!
-    @IBOutlet weak var totalValueLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,5 +80,10 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
                 self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
             }
         )
+    }
+
+    func manageAccounts() {
+        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: .brokerManagementView)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

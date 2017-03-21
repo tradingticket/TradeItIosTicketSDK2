@@ -84,18 +84,22 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER")!
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") as? TradeItPortfolioHeaderCell ?? TradeItPortfolioHeaderCell()
         if section == 0 {
-            header.textLabel?.text = "Total Value"
+            header.titleLabel.text = "Total Value"
+            header.actionButton.isHidden = false
+            header.actionButton.setTitle("Manage", for: .normal)
+            header.actionButton.addTarget(self, action: #selector(manageAccounts), for: .touchUpInside)
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            header.titleLabel.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            header.actionButton.isHidden = true
         }
         return header
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
-            return 2
+            return 1
         } else {
             guard let linkedBrokerSectionPresenter = self.linkedBrokerSectionPresenters[safe: section - 1] else { return 0 }
             return linkedBrokerSectionPresenter.numberOfRows()
@@ -104,17 +108,10 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
-                cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
-                cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
-                return cell
-            } else {
-                let cell = UITableViewCell()
-                cell.textLabel?.text = "Manage Accounts"
-                cell.accessoryType = .disclosureIndicator
-                return cell
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
+            cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
+            cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
+            return cell
         } else {
             let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
             guard let sectionPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return UITableViewCell() }
@@ -131,6 +128,10 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     // MARK: Private
+
+    func manageAccounts() {
+        self.delegate?.manageAccounts()
+    }
 
     private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
@@ -212,4 +213,5 @@ protocol TradeItPortfolioAccountsTableDelegate: class {
     func relink(linkedBroker: TradeItLinkedBroker)
     func authenticate(linkedBroker: TradeItLinkedBroker)
     func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
+    func manageAccounts()
 }

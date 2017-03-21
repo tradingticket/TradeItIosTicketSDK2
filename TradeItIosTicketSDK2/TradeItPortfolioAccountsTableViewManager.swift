@@ -174,7 +174,7 @@ fileprivate class LinkedBrokerSectionPresenter {
     }
 
     func numberOfRows() -> Int {
-        return self.linkedBroker.accounts.count + errorOffset()
+        return self.linkedBroker.getEnabledAccounts().count + errorOffset()
     }
 
     func cellFor(tableView: UITableView, andRow row: Int) -> UITableViewCell {
@@ -192,7 +192,7 @@ fileprivate class LinkedBrokerSectionPresenter {
     }
 
     func accountFor(row: Int) -> TradeItLinkedBrokerAccount? {
-        return self.linkedBroker.accounts[safe: row - errorOffset()]
+        return self.linkedBroker.getEnabledAccounts()[safe: row - errorOffset()]
     }
 
     func hasError() -> Bool {

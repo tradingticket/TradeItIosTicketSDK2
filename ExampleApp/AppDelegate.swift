@@ -57,7 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let MANUAL_HOST = "manualCompleteOAuth"
         let YAHOO_HOST = "completeYahooOAuth"
 
-        // TODO: Move this into exampleViewController.oAuthFlowCompleted
         TradeItSDK.linkedBrokerManager.completeOAuth(
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { linkedBroker in

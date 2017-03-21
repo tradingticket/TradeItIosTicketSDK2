@@ -58,8 +58,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                UIApplication.shared.openURL(url) // TODO: TEST THIS
-//                UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                UIApplication.shared.openURL(url)
                 self.dismiss(animated: true)
             },
             onFailure: { errorResult in

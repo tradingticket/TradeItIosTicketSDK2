@@ -1112,7 +1112,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="7zC-4B-2dQ" userLabel="Position Summary View">
-                                                    <rect key="frame" x="15" y="11" width="345" height="41.5"/>
+                                                    <rect key="frame" x="15" y="11" width="345" height="42"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" preservesSuperviewLayoutMargins="YES" text="SYMB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
                                                             <rect key="frame" x="0.0" y="4" width="51" height="21.5"/>
@@ -1156,18 +1156,18 @@
                                                         <constraint firstItem="UUg-Fr-NXz" firstAttribute="leading" secondItem="7zC-4B-2dQ" secondAttribute="leading" id="CiL-4M-QVb"/>
                                                         <constraint firstItem="Qz9-f6-gXb" firstAttribute="top" secondItem="UUg-Fr-NXz" secondAttribute="bottom" id="D1j-bm-SDv"/>
                                                         <constraint firstItem="lAR-ee-oMb" firstAttribute="centerY" secondItem="UUg-Fr-NXz" secondAttribute="centerY" id="GqJ-UC-VP0"/>
-                                                        <constraint firstAttribute="height" constant="41.5" id="MY2-GE-Zb8"/>
                                                         <constraint firstItem="Qz9-f6-gXb" firstAttribute="leading" secondItem="UUg-Fr-NXz" secondAttribute="leading" id="QlR-ee-LE5"/>
                                                         <constraint firstAttribute="trailing" secondItem="P8T-6D-oUm" secondAttribute="trailing" constant="42" id="UNo-JB-uqo"/>
                                                         <constraint firstItem="XJJ-3P-SG7" firstAttribute="centerY" secondItem="UUg-Fr-NXz" secondAttribute="centerY" id="a0D-ES-OED"/>
                                                         <constraint firstItem="lAR-ee-oMb" firstAttribute="leading" secondItem="UUg-Fr-NXz" secondAttribute="trailing" constant="5" id="eqr-zp-GtU"/>
+                                                        <constraint firstAttribute="height" constant="42" id="gZH-FF-K3z"/>
                                                         <constraint firstItem="UUg-Fr-NXz" firstAttribute="top" secondItem="7zC-4B-2dQ" secondAttribute="top" constant="4" id="jAd-ej-HsA"/>
                                                         <constraint firstItem="P8T-6D-oUm" firstAttribute="centerY" secondItem="UUg-Fr-NXz" secondAttribute="centerY" id="jCl-vY-DWH"/>
                                                         <constraint firstAttribute="trailing" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="140" id="uLC-TR-gMW"/>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="751" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9cx-9D-ndX" userLabel="Position Details View">
-                                                    <rect key="frame" x="0.0" y="57.5" width="375" height="172.5"/>
+                                                    <rect key="frame" x="0.0" y="58" width="375" height="172"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day Return" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoU-8J-Zeb">
                                                             <rect key="frame" x="20" y="8" width="72" height="17"/>
@@ -1176,7 +1176,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$123.45" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ygk-L0-Jm2">
-                                                            <rect key="frame" x="288.5" y="6.5" width="66.5" height="20.5"/>
+                                                            <rect key="frame" x="288" y="6" width="67" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1195,7 +1195,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$123,456.78" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yiN-WA-dxf">
-                                                            <rect key="frame" x="253" y="34.5" width="102" height="20.5"/>
+                                                            <rect key="frame" x="253" y="34" width="102" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1214,7 +1214,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$200.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAs-CY-G5H">
-                                                            <rect key="frame" x="286" y="63" width="69" height="20.5"/>
+                                                            <rect key="frame" x="286" y="62" width="69" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1233,7 +1233,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$300.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7g3-cj-mxh">
-                                                            <rect key="frame" x="285.5" y="90.5" width="69.5" height="20.5"/>
+                                                            <rect key="frame" x="285" y="90" width="70" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>

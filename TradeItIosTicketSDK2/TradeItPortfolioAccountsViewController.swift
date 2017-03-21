@@ -56,7 +56,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
         self.navigationController?.pushViewController(portfolioAccountDetailsController, animated: true)
     }
 
-    func initiateRelink(linkedBroker: TradeItLinkedBroker) {
+    func relink(linkedBroker: TradeItLinkedBroker) {
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: linkedBroker,
@@ -64,7 +64,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
         )
     }
 
-    func initiateAuthenticate(linkedBroker: TradeItLinkedBroker) {
+    func authenticate(linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
                 self.accountsTableViewManager.initiateRefresh()

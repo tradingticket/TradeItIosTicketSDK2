@@ -38,9 +38,9 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         guard let section = SECTIONS.init(rawValue: indexPath.section) else { return }
         if section == .manage {
             if indexPath.row == 0 {
-                self.delegate?.relinkAccount()
+                self.delegate?.relink()
             } else if indexPath.row == 1 {
-                self.delegate?.unlinkAccount()
+                self.delegate?.unlink()
             }
         }
     }
@@ -111,10 +111,10 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_MANAGEMENT_ACTION_CELL_ID")!
         switch row {
         case 0:
-            cell.textLabel?.text = "Relink Account"
+            cell.textLabel?.text = "Relink"
             cell.textLabel?.textColor = TradeItSDK.theme.textColor
         case 1:
-            cell.textLabel?.text = "Unlink Account"
+            cell.textLabel?.text = "Unlink"
             cell.textLabel?.textColor = TradeItSDK.theme.warningTextColor
         default:
             return UITableViewCell()
@@ -129,7 +129,7 @@ protocol TradeItAccountManagementTableViewManagerDelegate: class {
         onRefreshComplete: @escaping (_ withAccounts: [TradeItLinkedBrokerAccount]?) -> Void
     )
 
-    func relinkAccount()
+    func relink()
 
-    func unlinkAccount()
+    func unlink()
 }

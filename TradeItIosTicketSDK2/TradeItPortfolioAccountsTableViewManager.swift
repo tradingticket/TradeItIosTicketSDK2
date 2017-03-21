@@ -50,9 +50,9 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             guard let error = linkedBrokerPresenter.linkedBroker.error else { return }
 
             if error.requiresRelink() {
-                self.delegate?.initiateRelink(linkedBroker: linkedBrokerPresenter.linkedBroker)
+                self.delegate?.relink(linkedBroker: linkedBrokerPresenter.linkedBroker)
             } else if error.requiresAuthentication() {
-                self.delegate?.initiateAuthenticate(linkedBroker: linkedBrokerPresenter.linkedBroker)
+                self.delegate?.authenticate(linkedBroker: linkedBrokerPresenter.linkedBroker)
             } else {
                 self.initiateRefresh()
             }
@@ -85,7 +85,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER")!
-        if (section == 0) {
+        if section == 0 {
             header.textLabel?.text = "Total Value"
         } else {
             header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
@@ -95,7 +95,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (section == 0) {
-            return 1
+            return 2
         } else {
             guard let linkedBrokerSectionPresenter = self.linkedBrokerSectionPresenters[safe: section - 1] else { return 0 }
             return linkedBrokerSectionPresenter.numberOfRows()
@@ -103,11 +103,18 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.section == 0) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
-            cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
-            cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
-            return cell
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
+                cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
+                cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
+                return cell
+            } else {
+                let cell = UITableViewCell()
+                cell.textLabel?.text = "Manage Accounts"
+                cell.accessoryType = .disclosureIndicator
+                return cell
+            }
         } else {
             let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
             guard let sectionPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return UITableViewCell() }
@@ -171,7 +178,7 @@ fileprivate class LinkedBrokerSectionPresenter {
 
     func cellFor(tableView: UITableView, andRow row: Int) -> UITableViewCell {
         if row == 0 && hasError() {
-            guard let error = linkedBroker.error else { return UITableViewCell() } // TODO: Wut?
+            guard let error = linkedBroker.error else { return UITableViewCell() }
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") as! TradeItPortfolioLinkedBrokerErrorTableViewCell
             cell.populate(withError: error)
             return cell
@@ -202,7 +209,7 @@ fileprivate class LinkedBrokerSectionPresenter {
 
 protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
-    func initiateRelink(linkedBroker: TradeItLinkedBroker)
-    func initiateAuthenticate(linkedBroker: TradeItLinkedBroker)
+    func relink(linkedBroker: TradeItLinkedBroker)
+    func authenticate(linkedBroker: TradeItLinkedBroker)
     func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
 }

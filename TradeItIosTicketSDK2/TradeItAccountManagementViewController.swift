@@ -58,14 +58,14 @@ class TradeItAccountManagementViewController: CloseableViewController, TradeItAc
         )
     }
 
-    func relinkAccount() {
+    func relink() {
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
             oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl)
     }
 
-    func unlinkAccount() {
+    func unlink() {
         self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Unlink \(self.linkedBroker.brokerName)",
@@ -88,7 +88,7 @@ class TradeItAccountManagementViewController: CloseableViewController, TradeItAc
                     }
                     navController.popViewController(animated: true)
                 }
-        },
+            },
             showCancelAction: true
         )
     }

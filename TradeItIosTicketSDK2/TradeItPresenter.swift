@@ -6,7 +6,7 @@ class TradeItPresenter {
 
     
     static func stockChangeColor(_ value: Double?) -> UIColor {
-        guard let value = value else { return UIColor.lightText }
+        guard let value = value else { return TradeItSDK.theme.textColor }
         if value < 0.0 {
             return UIColor.tradeItDeepRoseColor
         } else {

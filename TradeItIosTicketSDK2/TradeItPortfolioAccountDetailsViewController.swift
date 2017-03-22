@@ -2,7 +2,7 @@ import UIKit
 import MBProgressHUD
 
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
-    var tableViewManager = TradeItPortfolioAccountDetailsTableViewManager()
+    var tableViewManager: TradeItPortfolioAccountDetailsTableViewManager!
     var tradingUIFlow = TradeItTradingUIFlow()
     var alertManager = TradeItAlertManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
@@ -15,6 +15,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
         }
 
+        self.tableViewManager = TradeItPortfolioAccountDetailsTableViewManager(account: linkedBrokerAccount)
         self.navigationItem.title = linkedBrokerAccount.linkedBroker?.brokerName
 
         self.tableViewManager.delegate = self

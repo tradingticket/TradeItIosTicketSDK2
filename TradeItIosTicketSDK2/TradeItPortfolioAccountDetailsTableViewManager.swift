@@ -7,7 +7,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         case count
     }
 
-    private var account: TradeItLinkedBrokerAccount?
+    private var account: TradeItLinkedBrokerAccount
     private var positions: [TradeItPortfolioPosition] = []
     private var selectedPositionIndex = -1
     private var refreshControl: UIRefreshControl?
@@ -29,6 +29,10 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     weak var delegate: TradeItPortfolioAccountDetailsTableDelegate?
+
+    init(account: TradeItLinkedBrokerAccount) {
+        self.account = account
+    }
 
     func updateAccount(withAccount account: TradeItLinkedBrokerAccount) {
         self.account = account
@@ -109,13 +113,9 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTIONS.accountDetails.rawValue {
-            if let account = self.account {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
-                cell.populate(withAccount: account)
-                return cell
-            } else {
-                return UITableViewCell()
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
+            cell.populate(withAccount: account)
+            return cell
         } else {
             let position = self.positions[indexPath.row]
             let cell = self.providePositionCell(

@@ -67,6 +67,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             })
         } else {
             self.selectedPositionIndex = indexPath.row
+            self.reloadTableViewAtIndexPath([indexPath])
             self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([indexPath])
             })

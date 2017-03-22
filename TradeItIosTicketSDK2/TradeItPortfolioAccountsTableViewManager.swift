@@ -84,15 +84,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") as? TradeItPortfolioHeaderCell ?? TradeItPortfolioHeaderCell()
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") ?? UITableViewCell()
         if section == 0 {
-            header.titleLabel.text = "Total Value"
-            header.actionButton.isHidden = false
-            header.actionButton.setTitle("Manage", for: .normal)
-            header.actionButton.addTarget(self, action: #selector(manageAccounts), for: .touchUpInside)
+            header.textLabel?.text = "Total Value"
         } else {
-            header.titleLabel.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
-            header.actionButton.isHidden = true
+            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
         }
         return header
     }
@@ -128,10 +124,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     // MARK: Private
-
-    func manageAccounts() {
-        self.delegate?.manageAccounts()
-    }
 
     private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
@@ -213,5 +205,4 @@ protocol TradeItPortfolioAccountsTableDelegate: class {
     func relink(linkedBroker: TradeItLinkedBroker)
     func authenticate(linkedBroker: TradeItLinkedBroker)
     func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
-    func manageAccounts()
 }

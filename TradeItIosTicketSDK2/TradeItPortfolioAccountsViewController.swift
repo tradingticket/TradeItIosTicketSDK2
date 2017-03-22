@@ -18,6 +18,11 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
         self.accountsTableViewManager.initiateRefresh()
     }
 
+    @IBAction func manageAccountsTapped(_ sender: Any) {
+        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: .brokerManagementView)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+
     // MARK: TradeItPortfolioAccountsTableDelegate
 
     func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void) {
@@ -73,10 +78,5 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
                 self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
             }
         )
-    }
-
-    func manageAccounts() {
-        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: .brokerManagementView)
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -20,6 +20,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let logo = UIImage(named: "tradeit_logo.png")
+        let logoView = UIImageView(image: logo)
+        self.navigationItem.titleView = logoView
+
         sections = [
             Section(
                 label: "TradeIt Flows",

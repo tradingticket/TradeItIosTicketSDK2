@@ -20,10 +20,13 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
         self.tableViewManager.delegate = self
         self.tableViewManager.table = self.table
+
+        self.tableViewManager.initiateRefresh()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableViewManager.initiateRefresh()
+    @IBAction func tradeTapped(_ sender: Any) {
+        let order = provideOrder(forPortFolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
@@ -78,23 +81,6 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
         return order
     }
-
-    // MARK: IBActions
-
-    // TODO: Replace with Accounts button up top
-    //    @IBAction func editAccountsButtonTapped(_ sender: UIButton) {
-    //        TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
-    //    }
-
-    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
-        self.parent?.dismiss(animated: true, completion: nil)
-    }
-
-    // TODO: Move to detail view
-    //    @IBAction func tradeButtonWasTapped(_ sender: AnyObject) {
-    //        let order = provideOrder(forPortFolioPosition: nil, account: self.selectedAccount, orderAction: nil)
-    //        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
-    //    }
 
     // MARK: TradeItPortfolioAccountDetailsTableDelegate
 

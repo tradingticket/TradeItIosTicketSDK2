@@ -1354,7 +1354,13 @@
                             <constraint firstItem="7tC-j5-kXj" firstAttribute="top" secondItem="XhO-vw-bt8" secondAttribute="bottom" id="MPA-pC-nht"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Portfolio" id="rWj-iu-2Rw"/>
+                    <navigationItem key="navigationItem" title="Portfolio" id="rWj-iu-2Rw">
+                        <barButtonItem key="rightBarButtonItem" title="Trade" id="VZV-uX-p9L">
+                            <connections>
+                                <action selector="tradeTapped:" destination="RrX-jG-hg3" id="Rcv-ca-l3x"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="table" destination="7tC-j5-kXj" id="meG-B4-ciH"/>
                     </connections>
@@ -1512,7 +1518,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T"/>
+                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T">
+                        <barButtonItem key="rightBarButtonItem" title="Manage" id="Tg7-hK-gyj">
+                            <connections>
+                                <action selector="manageAccountsTapped:" destination="bUI-w2-wjN" id="L0f-cR-IAz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="accountsTable" destination="jjm-KA-5qy" id="pzf-Oa-MdF"/>

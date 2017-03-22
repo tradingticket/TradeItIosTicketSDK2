@@ -1525,13 +1525,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T">
-                        <barButtonItem key="rightBarButtonItem" title="Close" id="1Vv-1x-1ft">
-                            <connections>
-                                <action selector="closeButtonTapped:" destination="bUI-w2-wjN" id="oon-IC-fUx"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Portfolio" id="J1S-gF-V0T"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="accountsTable" destination="jjm-KA-5qy" id="pzf-Oa-MdF"/>

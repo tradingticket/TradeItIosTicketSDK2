@@ -14,9 +14,7 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
         self.accountsTableViewManager.initiateRefresh()
     }
 
@@ -40,11 +38,6 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
                 )
             }
         )
-    }
-
-    // TODO: shouldn't this be provided by CloseableViewController?
-    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
-        self.parent?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - TradeItPortfolioAccountsTableDelegate methods

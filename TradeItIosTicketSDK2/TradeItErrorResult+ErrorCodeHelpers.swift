@@ -8,7 +8,7 @@ public enum TradeItErrorCode: Int {
     case oauthError = 700
 }
 
-extension TradeItErrorResult {
+extension TradeItErrorResult: Error {
     public var errorCode: TradeItErrorCode? {
         if let code = self.code?.intValue {
             return TradeItErrorCode(rawValue: code)

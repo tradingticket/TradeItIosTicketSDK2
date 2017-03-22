@@ -1,5 +1,6 @@
 import UIKit
 import MBProgressHUD
+import PromiseKit
 
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager: TradeItPortfolioAccountDetailsTableViewManager!
@@ -30,42 +31,59 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     }
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
-        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
+        guard let linkedBrokerAccount = self.linkedBrokerAccount, let linkedBroker = linkedBrokerAccount.linkedBroker else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
         }
 
-        linkedBrokerAccount.linkedBroker?.authenticateIfNeeded(onSuccess: {
-            linkedBrokerAccount.getAccountOverview(onSuccess: { _ in
-                self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
-                onRefreshComplete()
-            }, onFailure: { errorResult in
-                // TODO: Figure out error handling
-                print(errorResult)
-                onRefreshComplete()
-            })
+        let authenticatePromise = Promise { fulfill, reject in
+            linkedBroker.authenticateIfNeeded(
+                onSuccess: fulfill,
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelSecurityQuestion
+                    )
+                },
+                onFailure: reject
+            )
+        }
 
+        let accountOverviewPromise = Promise<Void> { fulfill, reject in
+            linkedBrokerAccount.getAccountOverview(
+                cacheResult: true,
+                onSuccess: { _ in
+                    self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
+                    fulfill()
+                },
+                onFailure: { error in
+                    self.tableViewManager.updateAccount(withAccount: nil)
+                    reject(error)
+                }
+            )
+        }
+
+        let positionsPromise = Promise<Void> { fulfill, reject in
             linkedBrokerAccount.getPositions(
                 onSuccess: { positions in
                     self.tableViewManager.updatePositions(withPositions: positions)
-                    onRefreshComplete()
-                }, onFailure: { errorResult in
-                    // TODO: Figure out error handling
-                    print(errorResult)
-                    onRefreshComplete()
+                    fulfill()
+                },
+                onFailure: { error in
+                    self.tableViewManager.updateAccount(withAccount: nil)
+                    reject(error)
                 }
             )
-        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelSecurityQuestion
-            )
-        }, onFailure: { errorResult in
-            // TODO: Figure out error handling
-            print(errorResult)
+        }
+
+        firstly {
+            authenticatePromise
+        }.then { _ in
+            return when(fulfilled: accountOverviewPromise, positionsPromise)
+        }.always {
             onRefreshComplete()
-        })
+        }
     }
 
     // MARK: Private

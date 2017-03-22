@@ -1,4 +1,4 @@
-class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
+class TradeItPortfolioBalanceEquityPresenter {
     private var balance: TradeItAccountOverview?
 
     init(_ tradeItLinkedBrokerAccount: TradeItLinkedBrokerAccount) {
@@ -14,11 +14,11 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
         return NumberFormatter.formatCurrency(totalValue, currencyCode: balance?.accountBaseCurrency)
     }
 
-    func getFormattedDayReturn() -> String {
+    func getFormattedDayReturnWithPercentage() -> String {
         var dayReturnString = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
-            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, currencyCode: balance?.accountBaseCurrency)
+            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, variance: true, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let dayPercentReturn = self.balance?.dayPercentReturn {
@@ -30,16 +30,16 @@ class TradeItPortfolioBalanceEquityPresenter: TradeItPortfolioBalancePresenter {
 
     func getFormattedAvailableCash() -> String {
         guard let availableCash = self.balance?.availableCash
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         return NumberFormatter.formatCurrency(availableCash, currencyCode: balance?.accountBaseCurrency)
     }
 
-    func getFormattedTotalReturnValue() -> String {
+    func getFormattedTotalReturnValueWithPercentage() -> String {
         var totalReturnString = TradeItPresenter.MISSING_DATA_PLACEHOLDER
 
         if let totalAbsoluteReturn = self.balance?.totalAbsoluteReturn {
-            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn, currencyCode: balance?.accountBaseCurrency)
+            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn, variance: true, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let totalPercentReturn = self.balance?.totalPercentReturn {

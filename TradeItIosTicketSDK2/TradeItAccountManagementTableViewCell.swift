@@ -12,7 +12,7 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
     }
 
     func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
-        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
+        let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
         self.selectedBrokerAccount = linkedBrokerAccount
         self.accountSwitch.isOn = self.selectedBrokerAccount.isEnabled
         self.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()

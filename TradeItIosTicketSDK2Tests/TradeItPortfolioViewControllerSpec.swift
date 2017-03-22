@@ -8,22 +8,18 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
         var window: UIWindow!
         var nav: UINavigationController!
-//        var ezLoadingActivityManager: FakeEZLoadingActivityManager! // TODO: Replace with MBProgressHUD
         var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
         var accountSummaryViewManager: FakeTradeItPortfolioAccountSummaryViewManager!
         var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
-        var portfolioErrorHandlingViewManager: FakeTradeItPortfolioErrorHandlingViewManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
         var tradingUIFlow: FakeTradeItTradingUIFlow!
 
         describe("initialization") {
             beforeEach {
-//                ezLoadingActivityManager = FakeEZLoadingActivityManager() // TODO: Replace with MBProgressHUD
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
                 accountsTableViewManager = FakeTradeItPortfolioAccountsTableViewManager()
                 positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
                 accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
-                portfolioErrorHandlingViewManager = FakeTradeItPortfolioErrorHandlingViewManager()
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow()
                 tradingUIFlow = FakeTradeItTradingUIFlow()
 
@@ -33,13 +29,12 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 
                 TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
-                controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_PORTFOLIO_VIEW") as! TradeItPortfolioViewController
+                controller = storyboard.instantiateViewController(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_VIEW") as! TradeItPortfolioAccountsViewController
 
 //                controller.ezLoadingActivityManager = ezLoadingActivityManager // TODO: Replace with MBProgressHUD
                 controller.accountsTableViewManager = accountsTableViewManager
                 controller.positionsTableViewManager = positionsTableViewManager
                 controller.accountSummaryViewManager = accountSummaryViewManager
-                controller.portfolioErrorHandlingViewManager = portfolioErrorHandlingViewManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
                 controller.tradingUIFlow = tradingUIFlow
                 
@@ -56,12 +51,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
 
             it("sets up the positionsTableViewManager") {
                 expect(positionsTableViewManager.positionsTable).to(be(controller.positionsTable))
-            }
-
-            it("shows a spinner") {
-                // TODO: Replace with MBProgressHUD
-//                expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
-//                expect(ezLoadingActivityManager.spinnerText).to(equal("Authenticating"))
             }
 
             xit("authenticates all the linkedBrokers") {
@@ -97,12 +86,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     expect(linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)").count).to(equal(1))
                 }
 
-                it("changes the spinner text") {
-                    // TODO: Replace with MBProgressHUD
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue())
-//                    expect(ezLoadingActivityManager.spinnerText).to(equal("Refreshing Accounts"))
-                }
-
                 describe("when account balances have been refreshed") {
                     beforeEach {
                         account1.balance = TradeItAccountOverview()
@@ -112,10 +95,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         let onFinished = linkedBrokerManager.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                         flushAsyncEvents()
-                    }
-
-                    it("hides the spinner") {
-//                        expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
                     }
 
                     it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
@@ -156,10 +135,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     controller.linkedBrokerAccountWasSelected(selectedAccount: account1)
                 }
 
-//                it("shows a spinner") {
-//                    expect(controller.holdingsActivityIndicator.isAnimating()).to(beTrue())
-//                }
-
                 it("populates the account summary") {
                     let calls = accountSummaryViewManager.calls.forMethod("populateSummarySection(selectedAccount:)")
                     expect(calls.count).to(equal(1))
@@ -175,10 +150,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         let onSuccess = account1.calls.forMethod("getPositions(onSuccess:onFailure:)")[0].args["onSuccess"] as! ([TradeItPortfolioPosition]) -> Void
                         onSuccess([portfolioPosition])
                     }
-
-//                    it("hides the spinner") {
-//                        expect(controller.holdingsActivityIndicator.isAnimating()).to(beFalse())
-//                    }
 
                     it("populates the positions table from the selectedAccount") {
                         let updatePositionsCalls = positionsTableViewManager.calls.forMethod("updatePositions(withPositions:)")
@@ -202,13 +173,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     
                     controller.linkedBrokerInErrorWasSelected(selectedBrokerInError: linkedBroker)
                 }
-
-                it("show the error handling view with the linkedBroker in error") {
-                    let calls = portfolioErrorHandlingViewManager.calls.forMethod("showErrorHandlingView(withLinkedBrokerInError:)")
-                    expect(calls.count).to(equal(1))
-                    let argLinkedBroker = calls[0].args["linkedBrokerInError"] as! TradeItLinkedBroker
-                    expect(argLinkedBroker).to(equal(linkedBroker))
-                }
             }
 
             describe("when relinkAccount was tapped for a broker in error") {
@@ -222,10 +186,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     linkedBrokerToRelink.error = error
                     linkedBrokerManager.linkedBrokers.append(linkedBrokerToRelink)
                     controller.relinkAccountWasTapped(withLinkedBroker: linkedBrokerToRelink)
-                }
-
-                it("shows the spinner") {
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue()) // TODO: Replace with MBProgressHUD
                 }
 
                 it("calls the launchRelinkBrokerFlow on the linkBrokerUIFlow with the linkedBroker in error") {
@@ -263,10 +223,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                             onFinished()
                         }
 
-                        it("hides the spinner") {
-//                            expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
-                        }
-
                         it("populates the accounts table with the linked accounts from the linkedBrokerManager") {
                             let updateAccountsCalls = accountsTableViewManager.calls.forMethod("updateAccounts(withAccounts:withLinkedBrokersInError:)")
                             expect(updateAccountsCalls.count).to(equal(2))
@@ -289,10 +245,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     error.longMessages = ["My long message 1", "My long message 2"]
                     linkedBrokerToReload.error = error
                     controller.reloadAccountWasTapped(withLinkedBroker: linkedBrokerToReload)
-                }
-
-                it("shows the spinner") {
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beTrue()) // TODO: Replace with MBProgressHUD
                 }
 
                 context("when authentication succeeds") {
@@ -323,10 +275,6 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                         linkedBrokerManager.hackLinkedBrokersInErrorToReturn = [linkedBrokerToReload]
                         let onFailure = linkedBrokerToReload.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onFailure"] as! ((TradeItErrorResult) -> Void)
                         onFailure(errorResult)
-                    }
-
-                    it("hides the spinner") {
-//                        expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
                     }
 
                     xit("set the error to the linked broker") {
@@ -385,12 +333,10 @@ class TradeItPortfolioViewControllerSpecConfiguration: QuickConfiguration {
     override class func configure(_ configuration: Configuration) {
         sharedExamples("refreshAccountBalances"){ (sharedExampleContext: @escaping SharedExampleContext) in
             var linkedBroker: FakeTradeItLinkedBroker!
-//            var ezLoadingActivityManager: FakeEZLoadingActivityManager! // TODO: Replace with MBProgressHUD
             var accountsTableViewManager: FakeTradeItPortfolioAccountsTableViewManager!
 
             beforeEach {
                 linkedBroker = sharedExampleContext()["linkedBroker"] as! FakeTradeItLinkedBroker
-//                ezLoadingActivityManager = sharedExampleContext()["ezLoadingActivityManager"] as! FakeEZLoadingActivityManager // TODO: Replace with MBProgressHUD
                 accountsTableViewManager = sharedExampleContext()["accountsTableViewManager"] as! FakeTradeItPortfolioAccountsTableViewManager
             }
 
@@ -402,10 +348,6 @@ class TradeItPortfolioViewControllerSpecConfiguration: QuickConfiguration {
                 beforeEach {
                     let onFinished = linkedBroker.calls.forMethod("refreshAccountBalances(onFinished:)")[0].args["onFinished"] as! () -> Void
                     onFinished()
-                }
-
-                it("hides the spinner") {
-//                    expect(ezLoadingActivityManager.spinnerIsShowing).to(beFalse()) // TODO: Replace with MBProgressHUD
                 }
 
                 it("populates the accounts table with the linked accounts from the linkedBrokerManager") {

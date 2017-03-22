@@ -336,7 +336,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         guard let positions = self.order.linkedBrokerAccount?.positions, !positions.isEmpty else { return nil }
 
         let positionMatchingSymbol = positions.filter { portfolioPosition in
-            TradeItPortfolioPositionPresenterFactory.forTradeItPortfolioPosition(portfolioPosition).getFormattedSymbol() == self.order.symbol
+            TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
         }.first
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0

@@ -163,7 +163,7 @@ import PromiseKit
     }
 
     public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
-        let promises = self.linkedBrokers.map { linkedBroker in
+        let promises = self.getAllAuthenticatedLinkedBrokers().map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(force: force, onFinished: fulfill)
             }

@@ -7,23 +7,21 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var avgCostLabelValue: UILabel!
     
     @IBOutlet weak var chevron: UIImageView!
-    @IBOutlet weak var bidLabelValue: UILabel!
-    @IBOutlet weak var askLabelValue: UILabel!
-    @IBOutlet weak var dayLabelValue: UILabel!
-    @IBOutlet weak var totalLabelValue: UILabel!
-    @IBOutlet weak var totalReturnLabelValue: UILabel!
+
+    @IBOutlet weak var dayReturnLabel: UILabel!
+    @IBOutlet weak var totalReturnLabel: UILabel!
+    @IBOutlet weak var totalValueLabel: UILabel!
+    @IBOutlet weak var bidAskLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var positionDetailsView: UIView!
-
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
 
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
     private var selectedPosition: TradeItPortfolioPosition?
-    private var positionDetailsHeight = CGFloat(0.0)
-    private var buttonHeight =  CGFloat(0.0)
+    private var initialPositionDetailsHeight = CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
     private let chevronUpImage = UIImage(named: "chevron_up",
@@ -35,9 +33,8 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
                                            compatibleWith: nil)
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
-        self.positionDetailsHeight = self.positionDetailsHeightConstraint.constant
-        self.buttonHeight = self.buttonBuyHeight.constant
+        //TradeItThemeConfigurator.configure(view: self)
+        self.initialPositionDetailsHeight = self.positionDetailsHeightConstraint.constant
     }
 
     func populate(withPosition position: TradeItPortfolioPosition) {
@@ -47,35 +44,34 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.avgCostLabelValue.text = presenter.getAvgCost()
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
-        self.bidLabelValue.text = presenter.getFormattedBid()
-        self.askLabelValue.text = presenter.getFormattedAsk()
-        self.dayLabelValue.text = presenter.getFormattedDayChange()
-        self.dayLabelValue.textColor = presenter.getFormattedDayChangeColor()
-        self.totalLabelValue.text = presenter.getFormattedTotalValue()
-        self.totalReturnLabelValue.text = presenter.getFormattedTotalReturn()
-        self.totalReturnLabelValue.textColor = presenter.getFormattedTotalReturnColor()
+
+        self.dayReturnLabel.text = presenter.getFormattedDayReturn()
+        self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+
+        self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
+        self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
+
+        self.totalValueLabel.text = presenter.getFormattedTotalValue()
+
+        self.bidAskLabel.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"
 
         self.updateTradeButtonVisibility()
     }
 
     func showPositionDetails(_ show: Bool) {
         if show {
-            var buttonHeight = CGFloat(0.0)
-
-            if self.selectedPosition?.position?.instrumentType() != TradeItInstrumentType.EQUITY_OR_ETF {
-                buttonHeight = self.buttonHeight
-            }
-
             self.positionDetailsView.isHidden = false
-            self.positionDetailsHeightConstraint.constant = self.positionDetailsHeight - buttonHeight
+            self.positionDetailsHeightConstraint.constant = initialPositionDetailsHeight
             self.chevron.image = chevronUpImage
         } else {
             self.positionDetailsView.isHidden = true
             self.positionDetailsHeightConstraint.constant = 0
             self.chevron.image = chevronDownImage
         }
+        self.setNeedsUpdateConstraints()
+        self.updateConstraintsIfNeeded()
     }
-    
+
     // MARK: private
     
     private func updateTradeButtonVisibility() {

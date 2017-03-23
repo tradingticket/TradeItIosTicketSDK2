@@ -227,11 +227,6 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="Ee2-qb-lJ3">
                             <color key="tintColor" red="0.25573506951332092" green="0.45411807298660278" blue="0.66381359100341797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="P2P-8U-COh">
-                            <connections>
-                                <action selector="cancelWasTapped:" destination="NRU-dQ-4Et" id="8Cu-w8-1bb"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outletCollection property="bullets" destination="w1u-jX-Oma" collectionClass="NSMutableArray" id="43W-Vs-U8S"/>

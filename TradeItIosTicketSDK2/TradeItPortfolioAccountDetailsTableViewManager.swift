@@ -13,6 +13,12 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     private var selectedPositionIndex = -1
     private var refreshControl: UIRefreshControl?
 
+    private let warningImage = UIImage(
+        named: "warning",
+        in: Bundle(for: TradeItPortfolioAccountDetailsTableViewManager.self),
+        compatibleWith: nil
+    )
+
     private var _table: UITableView?
     var table: UITableView? {
         get {
@@ -189,6 +195,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
             cell.textLabel?.text = "Positions"
             cell.detailTextLabel?.text = "Positions failed to load. Swipe down to retry."
+            cell.accessoryView = UIImageView(image: warningImage)
             return cell
         }
     }
@@ -202,6 +209,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
             cell.textLabel?.text = "Overview"
             cell.detailTextLabel?.text = "Overview failed to load. Swipe down to retry."
+            cell.accessoryView = UIImageView(image: warningImage)
             return cell
         }
     }

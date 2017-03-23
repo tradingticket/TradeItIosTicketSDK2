@@ -1365,39 +1365,29 @@
                                             <outlet property="view" destination="McC-9C-AQe" id="N3t-G8-u97"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR" rowHeight="69" id="Twm-kM-3a0" customClass="TradeItPortfolioLinkedBrokerErrorTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="270" width="375" height="69"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR" textLabel="nFS-9x-nKh" detailTextLabel="IEX-M2-x6B" style="IBUITableViewCellStyleSubtitle" id="Twm-kM-3a0">
+                                        <rect key="frame" x="0.0" y="270" width="375" height="47"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Twm-kM-3a0" id="aCk-So-QUV">
-                                            <rect key="frame" x="0.0" y="0.0" width="328" height="68"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Error Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4EW-5A-wD4">
-                                                    <rect key="frame" x="18" y="8" width="78" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nFS-9x-nKh">
+                                                    <rect key="frame" x="15" y="5" width="38" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynx-nn-d5j">
-                                                    <rect key="frame" x="18" y="29" width="302" height="31"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IEX-M2-x6B">
+                                                    <rect key="frame" x="15" y="26" width="44" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="ynx-nn-d5j" firstAttribute="leading" secondItem="4EW-5A-wD4" secondAttribute="leading" id="DoL-Fq-6pw"/>
-                                                <constraint firstAttribute="topMargin" secondItem="4EW-5A-wD4" secondAttribute="top" id="Ru6-XG-0TV"/>
-                                                <constraint firstItem="ynx-nn-d5j" firstAttribute="top" secondItem="4EW-5A-wD4" secondAttribute="bottom" id="d2F-hE-wYz"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="ynx-nn-d5j" secondAttribute="bottom" id="ewL-lj-TVq"/>
-                                                <constraint firstItem="4EW-5A-wD4" firstAttribute="leading" secondItem="aCk-So-QUV" secondAttribute="leadingMargin" constant="10" id="ngL-7W-Qst"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="ynx-nn-d5j" secondAttribute="trailing" id="qmX-gH-KJ3"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="descriptionLabel" destination="ynx-nn-d5j" id="Ul5-of-jZv"/>
-                                            <outlet property="titleLabel" destination="4EW-5A-wD4" id="xQ9-cv-e8q"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

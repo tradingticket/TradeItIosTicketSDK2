@@ -81,6 +81,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             authenticatePromise
         }.then { _ in
             return when(fulfilled: accountOverviewPromise, positionsPromise)
+        }.catch { error in
+            print(error)
         }.always {
             onRefreshComplete()
         }

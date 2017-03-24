@@ -198,9 +198,13 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
                         onSuccess: { accountOverview in
                             activityView.hide(animated: true)
 
-                            // TODO: FIX THIS PRESENTER TO TAKE ACCOUNT OVERVIEW
                             let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
-                            self.tradingBrokerAccountView.updateBuyingPower(presenter.getFormattedBuyingPower())
+
+                            if let buyingPower = presenter.getFormattedBuyingPower() {
+                                self.tradingBrokerAccountView.updateBuyingPower(buyingPower)
+                            } else {
+                                self.tradingBrokerAccountView.updateBuyingPower(TradeItPresenter.MISSING_DATA_PLACEHOLDER)
+                            }
                         },
                         onFailure: { errorResult in
                             activityView.hide(animated: true)

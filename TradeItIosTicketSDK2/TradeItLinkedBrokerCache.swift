@@ -30,7 +30,6 @@ class TradeItLinkedBrokerCache {
 
         var linkedBrokerCache = userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
 
-        // TODO: NEED TO RETAIN CACHED ACCOUNT BALANCES IF NO (OR OLDER) TIMESTAMP...
         let serializedLinkedBroker = serialize(linkedBroker: linkedBroker)
 
         linkedBrokerCache[userId] = serializedLinkedBroker

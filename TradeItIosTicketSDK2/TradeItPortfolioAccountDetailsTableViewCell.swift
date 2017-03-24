@@ -15,6 +15,7 @@ class TradeItPortfolioAccountDetailsTableViewCell: UITableViewCell {
 
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         self.accountNameLabel.text = account.getFormattedAccountName()
+
         if let totalValue = account.balance?.totalValue {
             self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue, currencyCode: nil)
         } else {
@@ -24,7 +25,7 @@ class TradeItPortfolioAccountDetailsTableViewCell: UITableViewCell {
         let presenter = TradeItPortfolioBalanceEquityPresenter(account)
         self.dayReturnLabel.text = presenter.getFormattedDayReturnWithPercentage()
         self.dayReturnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn?.doubleValue)
-        self.totalReturnLabel.text = presenter.getFormattedTotalReturnValueWithPercentage()
+        self.totalReturnLabel.text = presenter.getFormattedTotalReturnValueWithPercentage() ?? ""
         self.totalReturnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.totalAbsoluteReturn?.doubleValue)
         self.availableCashLabel.text = presenter.getFormattedAvailableCash()
         self.buyingPowerLabel.text = presenter.getFormattedBuyingPower()

@@ -19,10 +19,8 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
 
         self.detailTextLabel?.text = ""
 
-        let buyingPower = presenter.getFormattedBuyingPower()
-
-        if buyingPower != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
-            self.detailTextLabel?.text = "Buying power: " + buyingPower
+        if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
+            self.detailTextLabel?.text = "BUYING POWER: " + buyingPower
         }
     }
     

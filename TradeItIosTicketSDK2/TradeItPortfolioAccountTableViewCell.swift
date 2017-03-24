@@ -14,7 +14,7 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalanceEquityPresenter(account)
         self.accountNameLabel.text = account.getFormattedAccountName()
-        self.totalValueLabel.text = presenter.getFormattedTotalValue()
+        self.totalValueLabel.text = presenter.getFormattedTotalValue() ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
         self.returnLabel.text = presenter.getFormattedDayReturnWithPercentage()
         self.returnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn?.doubleValue)
         self.setStyleForAccountState(account: account)

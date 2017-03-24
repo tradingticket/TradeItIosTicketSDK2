@@ -66,10 +66,9 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
         cell.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
 
         cell.detailTextLabel?.text = ""
-        let buyingPower = presenter.getFormattedBuyingPower()
 
-        if buyingPower != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
-            cell.detailTextLabel?.text = "Buying power: " + buyingPower
+        if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
+            cell.detailTextLabel?.text = "BUYING POWER: " + buyingPower
         }
 
         return cell

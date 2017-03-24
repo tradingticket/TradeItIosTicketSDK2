@@ -8,7 +8,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     private var account: TradeItLinkedBrokerAccount?
-    private var positions: [TradeItPortfolioPosition]?
+    private var positions: [TradeItPortfolioPosition]? = []
 
     private var selectedPositionIndex = -1
     private var refreshControl: UIRefreshControl?

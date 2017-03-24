@@ -160,9 +160,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
 fileprivate class LinkedBrokerSectionPresenter {
     let linkedBroker: TradeItLinkedBroker
+    let error: TradeItErrorResult?
 
     init(linkedBroker: TradeItLinkedBroker) {
         self.linkedBroker = linkedBroker
+        self.error = linkedBroker.error
     }
 
     func numberOfRows() -> Int {
@@ -185,7 +187,7 @@ fileprivate class LinkedBrokerSectionPresenter {
     }
 
     func hasError() -> Bool {
-        return linkedBroker.error != nil
+        return error != nil
     }
 
     func errorOffset() -> Int {
@@ -197,7 +199,7 @@ fileprivate class LinkedBrokerSectionPresenter {
     }
 
     private func errorCell(forTableView tableView: UITableView) -> UITableViewCell {
-        guard let error = linkedBroker.error else { return UITableViewCell() }
+        guard let error = error else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         if error.requiresRelink() == true {
             cell.textLabel?.text = "Relink Broker"

@@ -20,14 +20,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tradeit_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="C3c-i6-JWj">
-                                <rect key="frame" x="-234" y="64" width="843" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="wge-eU-SIN"/>
-                                </constraints>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-8l-bnZ">
-                                <rect key="frame" x="0.0" y="97" width="375" height="570"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="6SI-6X-Au3"/>
@@ -35,7 +29,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svp-Cn-GqL">
-                                <rect key="frame" x="0.0" y="96" width="375" height="1"/>
+                                <rect key="frame" x="0.0" y="63" width="375" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.5" id="Mcc-x3-RqS"/>
@@ -45,14 +39,12 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="1dd-8l-bnZ" firstAttribute="top" secondItem="svp-Cn-GqL" secondAttribute="bottom" id="D3b-2q-FSe"/>
+                            <constraint firstItem="1dd-8l-bnZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="DLM-nM-IKs"/>
                             <constraint firstItem="svp-Cn-GqL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Dsu-50-vhM"/>
                             <constraint firstAttribute="trailing" secondItem="1dd-8l-bnZ" secondAttribute="trailing" id="Gxf-kc-dEL"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1dd-8l-bnZ" secondAttribute="bottom" id="JL6-O3-TGk"/>
-                            <constraint firstItem="C3c-i6-JWj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="U3X-Zf-2r1"/>
-                            <constraint firstItem="C3c-i6-JWj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eXh-2D-VGp"/>
                             <constraint firstItem="1dd-8l-bnZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gvd-Mc-imo"/>
                             <constraint firstAttribute="trailing" secondItem="svp-Cn-GqL" secondAttribute="trailing" id="rQy-a6-ir1"/>
-                            <constraint firstItem="svp-Cn-GqL" firstAttribute="top" secondItem="C3c-i6-JWj" secondAttribute="bottom" id="vbT-gI-oVj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Lhq-CK-t1k"/>
@@ -81,7 +73,4 @@
             <point key="canvasLocation" x="-678" y="-290"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="tradeit_logo.png" width="843" height="284"/>
-    </resources>
 </document>

@@ -14,10 +14,13 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
+
+        self.accountsTableViewManager.initiateRefresh()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.accountsTableViewManager.initiateRefresh()
+    @IBAction func manageAccountsTapped(_ sender: Any) {
+        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: .brokerManagementView)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 
     // MARK: TradeItPortfolioAccountsTableDelegate
@@ -40,11 +43,6 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
                 )
             }
         )
-    }
-
-    // TODO: shouldn't this be provided by CloseableViewController?
-    @IBAction func closeButtonTapped(_ sender: UIBarButtonItem) {
-        self.parent?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - TradeItPortfolioAccountsTableDelegate methods
@@ -80,10 +78,5 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
                 self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
             }
         )
-    }
-
-    func manageAccounts() {
-        let viewController = self.viewControllerProvider.provideViewController(forStoryboardId: .brokerManagementView)
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

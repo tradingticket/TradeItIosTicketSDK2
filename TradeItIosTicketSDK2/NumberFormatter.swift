@@ -3,12 +3,12 @@ class NumberFormatter: NSObject {
     private static let quantityFormatter = Foundation.NumberFormatter()
     private static let percentageFormatter = Foundation.NumberFormatter()
     
-    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, variance: Bool = false, currencyCode: String?) -> String {
+    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, displayVariance: Bool = false, currencyCode: String?) -> String {
         let currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = currencyCode
         currencyFormatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)
-        if variance {
+        if displayVariance {
             currencyFormatter.positivePrefix = "+" + currencyFormatter.currencySymbol
             currencyFormatter.negativePrefix = "-" + currencyFormatter.currencySymbol
         } else {

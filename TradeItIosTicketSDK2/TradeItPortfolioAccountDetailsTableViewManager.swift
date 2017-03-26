@@ -8,9 +8,16 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     private var account: TradeItLinkedBrokerAccount?
-    private var positions: [TradeItPortfolioPosition] = []
+    private var positions: [TradeItPortfolioPosition]? = []
+
     private var selectedPositionIndex = -1
     private var refreshControl: UIRefreshControl?
+
+    private let warningImage = UIImage(
+        named: "warning",
+        in: Bundle(for: TradeItPortfolioAccountDetailsTableViewManager.self),
+        compatibleWith: nil
+    )
 
     private var _table: UITableView?
     var table: UITableView? {
@@ -30,11 +37,15 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     weak var delegate: TradeItPortfolioAccountDetailsTableDelegate?
 
-    func updateAccount(withAccount account: TradeItLinkedBrokerAccount) {
+    init(account: TradeItLinkedBrokerAccount) {
         self.account = account
     }
 
-    func updatePositions(withPositions positions: [TradeItPortfolioPosition]) {
+    func updateAccount(withAccount account: TradeItLinkedBrokerAccount?) {
+        self.account = account
+    }
+
+    func updatePositions(withPositions positions: [TradeItPortfolioPosition]?) {
         self.selectedPositionIndex = -1
         self.positions = positions
         self.table?.reloadData()
@@ -50,6 +61,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     // MARK: UITableViewDelegate
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // if the user click on the already expanded row, deselect it
         if self.selectedPositionIndex == indexPath.row {
@@ -58,12 +70,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         } else if self.selectedPositionIndex != -1 {
             let prevPath = IndexPath(row: self.selectedPositionIndex, section: SECTIONS.positions.rawValue)
             self.selectedPositionIndex = indexPath.row
-            self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
+            self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([prevPath, indexPath])
             })
         } else {
             self.selectedPositionIndex = indexPath.row
-            self.positions[self.selectedPositionIndex].refreshQuote(onFinished: {
+            self.reloadTableViewAtIndexPath([indexPath])
+            self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
                 self.reloadTableViewAtIndexPath([indexPath])
             })
         }
@@ -85,7 +98,8 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         if section == SECTIONS.accountDetails.rawValue {
             return 1
         } else {
-            return self.positions.count
+            guard let positions = self.positions else { return 1 }
+            return positions.count
         }
     }
     
@@ -109,16 +123,10 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTIONS.accountDetails.rawValue {
-            if let account = self.account {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
-                cell.populate(withAccount: account)
-                return cell
-            } else {
-                return UITableViewCell()
-            }
+            return accountDetailsCell(forTableView: tableView)
         } else {
-            let position = self.positions[indexPath.row]
-            let cell = self.providePositionCell(
+            let position = self.positions?[indexPath.row]
+            let cell = self.positionCell(
                 forTableView: tableView,
                 forPortfolioPosition: position,
                 selected: self.selectedPositionIndex == indexPath.row
@@ -129,13 +137,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { (action, indexPath: IndexPath) in
-            let position = self.positions[indexPath.row]
+            let position = self.positions?[indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .buy)
         }
         buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
         let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { (action, indexPath: IndexPath) in
-            let position = self.positions[indexPath.row]
+            let position = self.positions?[indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .sell)
         }
         sellAction.backgroundColor = UIColor.tradeItSellRedColor
@@ -147,7 +155,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return indexPath.section == SECTIONS.positions.rawValue &&
-            self.positions[safe: indexPath.row]?.position?.instrumentType() == .EQUITY_OR_ETF &&
+            self.positions?[safe: indexPath.row]?.position?.instrumentType() == .EQUITY_OR_ETF &&
             self.selectedPositionIndex != indexPath.row
     }
     
@@ -171,28 +179,38 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     // MARK: Private
 
-    func providePositionCell(forTableView tableView: UITableView,
-                     forPortfolioPosition position: TradeItPortfolioPosition,
-                     selected: Bool = false) -> UITableViewCell {
-        var cell: UITableViewCell?
-
-        if position.position != nil {
-            let equityCell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
-            equityCell.delegate = self
-            equityCell.populate(withPosition: position)
-            equityCell.showPositionDetails(selected)
-            cell = equityCell
-        } else if position.fxPosition != nil {
-            return UITableViewCell()
-        }
-
-        if let cell = cell {
+    func positionCell(
+        forTableView tableView: UITableView,
+        forPortfolioPosition position: TradeItPortfolioPosition?,
+        selected: Bool = false) -> UITableViewCell {
+        if let position = position {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
+            cell.delegate = self
+            cell.populate(withPosition: position)
+            cell.showPositionDetails(selected)
             cell.setNeedsUpdateConstraints()
             cell.updateConstraintsIfNeeded()
             return cell
         } else {
-            assertionFailure("Failed to create portfolio position table view cell")
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+            cell.textLabel?.text = "Positions"
+            cell.detailTextLabel?.text = "Positions failed to load. Swipe down to retry."
+            cell.accessoryView = UIImageView(image: warningImage)
+            return cell
+        }
+    }
+
+    private func accountDetailsCell(forTableView tableView: UITableView) -> UITableViewCell {
+        if let account = self.account {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
+            cell.populate(withAccount: account)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+            cell.textLabel?.text = "Overview"
+            cell.detailTextLabel?.text = "Overview failed to load. Swipe down to retry."
+            cell.accessoryView = UIImageView(image: warningImage)
+            return cell
         }
     }
 

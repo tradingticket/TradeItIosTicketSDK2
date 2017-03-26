@@ -18,9 +18,10 @@ class CloseableViewController: UIViewController {
     }
 
     func createCloseButton() {
-        let closeButtonItem = UIBarButtonItem(title: closeButtonTitle(), style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeButtonWasTapped(_:)))
-
-        self.navigationItem.rightBarButtonItem = closeButtonItem
+        if self.navigationItem.leftBarButtonItem == nil {
+            let closeButtonItem = UIBarButtonItem(title: closeButtonTitle(), style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeButtonWasTapped(_:)))
+            self.navigationItem.leftBarButtonItem = closeButtonItem
+        }
     }
     
     func closeButtonTitle() -> String {

@@ -18,7 +18,7 @@ class TradeItPortfolioBalanceEquityPresenter {
         var dayReturnString = ""
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
-            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, variance: true, currencyCode: balance?.accountBaseCurrency)
+            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, displayVariance: true, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let dayPercentReturn = self.balance?.dayPercentReturn {
@@ -40,7 +40,7 @@ class TradeItPortfolioBalanceEquityPresenter {
         var totalReturnString = ""
 
         if let totalAbsoluteReturn = self.balance?.totalAbsoluteReturn {
-            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn, variance: true, currencyCode: balance?.accountBaseCurrency)
+            totalReturnString = NumberFormatter.formatCurrency(totalAbsoluteReturn, displayVariance: true, currencyCode: balance?.accountBaseCurrency)
         }
 
         if let totalPercentReturn = self.balance?.totalPercentReturn {

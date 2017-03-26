@@ -44,7 +44,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        registerKeyboardNotifications()
         registerTextFieldNotifications()
     
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker, linkedBroker.isStillLinked() else {
@@ -406,14 +405,40 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
     // MARK: Private - Text view configurators
 
     private func registerTextFieldNotifications() {
-        let orderTypeInputs = [orderQuantityInput, orderTypeInput1, orderTypeInput2]
+        let toolbar = UIToolbar()
 
-        orderTypeInputs.forEach { input in
-            input?.addTarget(
+        toolbar.barStyle = UIBarStyle.default
+        toolbar.isTranslucent = true
+        toolbar.tintColor = UIColor.black
+        toolbar.sizeToFit()
+
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
+
+        toolbar.setItems([spacer, doneButton], animated: false)
+        toolbar.isUserInteractionEnabled = true
+
+        orderTypeInputs().forEach { input in
+            input.addTarget(
                 self,
                 action: #selector(self.textFieldDidChange(_:)),
                 for: UIControlEvents.editingChanged
             )
+            input.inputAccessoryView = toolbar
+        }
+    }
+
+    private func orderTypeInputs() -> [UITextField] {
+        return [orderQuantityInput, orderTypeInput1, orderTypeInput2]
+    }
+
+    func dismissKeyboard() {
+        orderTypeInputs().forEach { input in
+            input.resignFirstResponder()
         }
     }
 
@@ -438,38 +463,6 @@ class TradeItTradingTicketViewController: TradeItViewController, TradeItSymbolSe
         } else {
             estimatedChangeLabel.text = nil
         }
-    }
-
-    // MARK: Private - Keyboard event handlers
-
-    private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillShow(_:)),
-            name: NSNotification.Name.UIKeyboardWillShow,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.keyboardWillHide(_:)),
-            name: NSNotification.Name.UIKeyboardWillHide,
-            object: nil
-        )
-    }
-
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        let info = (notification as NSNotification).userInfo!
-        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-
-        UIView.animate(withDuration: 0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = keyboardFrame.size.height + TradeItTradingTicketViewController.BOTTOM_CONSTRAINT_CONSTANT
-        })
-    }
-
-    @objc private func keyboardWillHide(_: Notification) {
-        UIView.animate(withDuration: 0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = TradeItTradingTicketViewController.BOTTOM_CONSTRAINT_CONSTANT
-        })
     }
 
     // MARK: Private - Action sheet helper

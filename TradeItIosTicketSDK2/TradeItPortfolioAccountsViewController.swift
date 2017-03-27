@@ -14,8 +14,12 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
+    }
 
-        self.accountsTableViewManager.initiateRefresh()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        self.accountsTableViewManager.initiateRefresh(animated: false)
     }
 
     @IBAction func manageAccountsTapped(_ sender: Any) {

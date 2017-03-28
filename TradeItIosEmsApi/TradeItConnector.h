@@ -46,7 +46,7 @@
 /**
  *  Return an array with all the brokers that support stockOrEtfTrading and are enabled for a given apiKey
  *
- *  @return Array of TradeItBroker objects, where each object has a "longName" and "shortName". The longName should be displauyed to the user and the short name should be used wbe sending a request to the ems server
+ *  @param completionBlock Completion callback that accepts an array of TradeItBroker objects, where each object has a "longName" and "shortName". The longName should be displayed to the user and the short name should be used when sending a request to the ems server.
  */
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock;
 
@@ -55,7 +55,8 @@
  * **** This token should be treated and stored like a password.  *****
  *  It's recommended to use the saveLinkToKeychain method to hold onto the token, and use either touchId or a short password like a 4 digit pen before retrieving the token for the user
  *
- *  @return TradeItResult returned into the completion block will indicate success/failure of the credentials
+ *  @param authenticationInfo A populated TradeItAuthenticationInfo with the username and password
+ *  @param completionBlock Completion callback that accepts a TradeItResult with the successful or failed response for authentication.
  */
 - (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo * _Nullable)authenticationInfo
                       andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
@@ -63,7 +64,7 @@
 /**
  *  If the oAuth token becomes stale, we can issue a new token by the previous linked login. This will replace the occurrence, if any, in the keychain/userprofile.  If it was never previously saved, it will be created.
  *
- *  @return TradeItResult returned in completion block if successful will include a new userId and userToken
+ *  @param completionBlock Completion callback that accepts a TradeItResult with the successful or failed response for authentication.
  */
 - (void)updateUserToken:(TradeItLinkedLogin * _Nullable)linkedLogin
                authInfo:(TradeItAuthenticationInfo * _Nullable)authInfo

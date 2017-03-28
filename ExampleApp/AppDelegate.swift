@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             },
             onFailure: { errorResult in
-                print("=====> ERROR: OAuth failed! \(errorResult.errorCode): \(errorResult.shortMessage): \(errorResult.longMessages?.first)")
+                print("=====> ERROR: OAuth failed! \(String(describing: errorResult.errorCode)): \(String(describing: errorResult.shortMessage)): \(String(describing: errorResult.longMessages?.first))")
             }
         )
     }

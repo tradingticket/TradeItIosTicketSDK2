@@ -328,7 +328,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     onCancelSecurityQuestion: cancelQuestion)
             },
             onFailure: { errorResult in
-                print("=====> Failed to manually link: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
+                print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
             }
         )
     }

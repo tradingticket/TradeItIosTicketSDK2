@@ -98,7 +98,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             TradeItSDK.launcher.launchAccountSelection(
                                 fromViewController: self,
-                                title: "Select account to sync",
+                                title: "Customizable instruction text",
                                 onSelected: { selectedLinkedBrokerAccount in
                                     self.alertManager.showAlert(
                                         onViewController: self,

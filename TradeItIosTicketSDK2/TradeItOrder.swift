@@ -74,7 +74,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     public func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
-                           onFailure: @escaping (TradeItErrorResult) -> Void
+                        onFailure: @escaping (TradeItErrorResult) -> Void
         ) -> Void {
         guard let linkedBrokerAccount = linkedBrokerAccount else {
             return onFailure(TradeItErrorResult(title: "Linked Broker Account", message: "A linked broker account must be set before you preview an order.")) }

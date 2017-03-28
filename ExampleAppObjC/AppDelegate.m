@@ -1,12 +1,5 @@
-//
-//  AppDelegate.m
-//  ExampleAppObjC
-//
-//  Created by James Robert Somers on 28/3/17.
-//  Copyright © 2017 TradeIt. All rights reserved.
-//
-
 #import "AppDelegate.h"
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
 
 @interface AppDelegate ()
 
@@ -45,6 +38,13 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    UIViewController *viewController = [self.window.rootViewController presentedViewController];
+
+    [TradeItSDK.launcher handleOAuthCallbackOnViewController:viewController oAuthCallbackUrl:url];
+    return YES;
 }
 
 

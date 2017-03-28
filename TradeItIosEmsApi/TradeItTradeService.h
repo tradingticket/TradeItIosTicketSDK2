@@ -28,7 +28,7 @@
  *  This method requires a TradeItPreviewTradeRequest
  *  We'll do some basic checking of the trade request before sending it
  *
- *  @return successful response is a TradeItPreviewTradeResult with review details that should be presented to the user
+ *  @param completionBlock Completion callback where a successful response is a TradeItPreviewTradeResult with review details that should be presented to the user.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *  Error details can include information about how to change the order so it executes correctly, this can be things like
  *  some brokers only accept limit orders for OTC symbols, it's important to show the errors back to the user
@@ -39,7 +39,7 @@
 /**
  *  This method requires a TradeItPlaceTradeRequest
  *
- *  @return successful response is a TradeItPlaceTradeResult with placement details that should be presented to the user, such as the broker orderId
+ *  @param completionBlock Completion callback where a successful response is a TradeItPlaceTradeResult with placement details that should be presented to the user, such as the broker orderId.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *
  */

@@ -25,7 +25,7 @@
 /**
  *  This method requires a TradeItGetPositionsRequest
  *
- *  @return successful response is a TradeItGetPositionsResults
+ *  @param completionBlock Completion callback where a successful response is a TradeItGetPositionsResults.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *
  */

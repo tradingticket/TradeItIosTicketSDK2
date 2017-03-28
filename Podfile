@@ -26,3 +26,7 @@ end
 target 'ExampleApp' do
   app_pods
 end
+
+target 'ExampleAppObjC' do
+  app_pods
+end

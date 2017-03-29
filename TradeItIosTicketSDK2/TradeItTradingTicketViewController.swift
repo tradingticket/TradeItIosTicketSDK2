@@ -1,7 +1,7 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate {
+class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
@@ -10,6 +10,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var selectionViewController: TradeItSelectionViewController!
     var accountSelectionViewController: TradeItAccountSelectionViewController!
+    var symbolSearchViewController: TradeItSymbolSearchViewController!
     var order = TradeItOrder()
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -22,16 +23,22 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
-
         self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .accountSelectionView) as? TradeItAccountSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItAccountSelectionViewController from storyboard")
             return
         }
-
         accountSelectionViewController.delegate = self
         self.accountSelectionViewController = accountSelectionViewController
+
+        guard let symbolSearchViewController = self.viewProvider.provideViewController(forStoryboardId: .symbolSearchView) as? TradeItSymbolSearchViewController else {
+            assertionFailure("ERROR: Could not instantiate TradeItSymbolSearchViewController from storyboard")
+            return
+
+        }
+        symbolSearchViewController.delegate = self
+        self.symbolSearchViewController = symbolSearchViewController
 
         self.setOrderDefaults()
 
@@ -49,6 +56,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let ticketRow = self.ticketRows[indexPath.row]
 
         switch ticketRow {
+        case .symbol:
+            self.navigationController?.pushViewController(self.symbolSearchViewController, animated: true)
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
@@ -133,13 +142,21 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         )
     }
 
-    // MARK: TradeItYahooAccountSelectionViewControllerDelegate
+    // MARK: TradeItAccountSelectionViewControllerDelegate
 
     func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)
+    }
+
+    // MARK: TradeItSymbolSearchViewControllerDelegate
+
+    func symbolSearchViewController(_ symbolSearchViewController: TradeItSymbolSearchViewController,
+                                  didSelectSymbol selectedSymbol: String) {
+        self.order.symbol = selectedSymbol
+        _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private
@@ -234,11 +251,12 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         var ticketRows: [TicketRow] = [
             .account,
+            .symbol,
             .orderAction,
             .orderType,
             .expiration,
             .quantity,
-            ]
+        ]
 
         if self.order.requiresLimitPrice() {
             ticketRows.append(.limitPrice)
@@ -272,6 +290,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         cell.selectionStyle = .none
 
         switch ticketRow {
+        case .symbol:
+            cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
             cell.detailTextLabel?.text = TradeItOrderActionPresenter.labelFor(self.order.action)
         case .quantity:
@@ -364,6 +384,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case expiration
         case limitPrice
         case stopPrice
+        case symbol
         //    case marketPrice // Market Price
         case estimatedCost
 
@@ -378,6 +399,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             var cellReuseId: CellReuseId
 
             switch self {
+            case .symbol:
+                cellReuseId = .selection
             case .orderAction:
                 cellReuseId = .selection
             case .estimatedCost:
@@ -397,6 +420,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         func getTitle(forOrder order: TradeItOrder) -> String {
             switch self {
+            case .symbol:
+                return "Symbol"
             case .orderAction:
                 return "Action"
             case .estimatedCost:

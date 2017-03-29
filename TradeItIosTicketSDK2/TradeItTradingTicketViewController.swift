@@ -1,7 +1,7 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate {
+class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
@@ -9,7 +9,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     let viewProvider = TradeItViewControllerProvider()
     let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var selectionViewController: TradeItSelectionViewController!
-//    var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
+    var accountSelectionViewController: TradeItAccountSelectionViewController!
     var order = TradeItOrder()
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -23,15 +23,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             return
         }
 
-//        guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
-//            assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
-//            return
-//        }
-
-//        accountSelectionViewController.delegate = self
-
         self.selectionViewController = selectionViewController
-//        self.accountSelectionViewController = accountSelectionViewController
+
+        guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .accountSelectionView) as? TradeItAccountSelectionViewController else {
+            assertionFailure("ERROR: Could not instantiate TradeItAccountSelectionViewController from storyboard")
+            return
+        }
+
+        accountSelectionViewController.delegate = self
+        self.accountSelectionViewController = accountSelectionViewController
 
         self.setOrderDefaults()
 
@@ -49,9 +49,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let ticketRow = self.ticketRows[indexPath.row]
 
         switch ticketRow {
-//        case .account:
-            // TODO: FIX
-//            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        case .account:
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
@@ -127,7 +126,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: TradeItYahooAccountSelectionViewControllerDelegate
 
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
+    func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
                                         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.selectedAccountChanged()

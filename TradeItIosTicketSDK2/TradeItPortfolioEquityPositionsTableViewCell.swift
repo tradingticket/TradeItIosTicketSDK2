@@ -37,7 +37,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.initialPositionDetailsHeight = self.positionDetailsHeightConstraint.constant
     }
 
-    func populate(withPosition position: TradeItPortfolioPosition) {
+    internal func populate(withPosition position: TradeItPortfolioPosition) {
         self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
@@ -58,7 +58,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.updateTradeButtonVisibility()
     }
 
-    func showPositionDetails(_ show: Bool) {
+    internal func showPositionDetails(_ show: Bool) {
         if show {
             self.positionDetailsView.isHidden = false
             self.positionDetailsHeightConstraint.constant = initialPositionDetailsHeight
@@ -72,18 +72,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.updateConstraintsIfNeeded()
     }
 
-    // MARK: private
-    
-    private func updateTradeButtonVisibility() {
-        if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
-            self.buyButton.isHidden = false
-            self.sellButton.isHidden = false
-        } else {
-            self.buyButton.isHidden = true
-            self.sellButton.isHidden = true
-        }
-    }
-    
     // MARK: IBAction
     
     @IBAction func buyButtonWasTapped(_ sender: AnyObject) {
@@ -92,6 +80,19 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     
     @IBAction func sellButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .sell)
+    }
+
+
+    // MARK: private
+
+    private func updateTradeButtonVisibility() {
+        if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
+            self.buyButton.isHidden = false
+            self.sellButton.isHidden = false
+        } else {
+            self.buyButton.isHidden = true
+            self.sellButton.isHidden = true
+        }
     }
 }
 

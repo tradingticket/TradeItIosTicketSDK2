@@ -25,7 +25,7 @@ protocol OAuthCompletionListener {
 
         self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
             fromViewController: viewController,
-            withOAuthCallbackUrlParser: oAuthCallbackUrlParser
+            oAuthCallbackUrlParser: oAuthCallbackUrlParser
         )
     }
 

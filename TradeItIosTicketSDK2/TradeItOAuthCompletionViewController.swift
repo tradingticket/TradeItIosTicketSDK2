@@ -8,7 +8,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker?
-    var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser?
+    var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser!
     var delegate: TradeItOAuthCompletionViewControllerDelegate?
 
     private let actionButtonTitleTextContinue = "Continue"
@@ -46,12 +46,15 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                         )
                     },
                     onFailure: { errorResult in
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showError(
                             errorResult,
-                            withLinkedBroker: linkedBroker,
                             onViewController: self,
                             onFinished : {
-                                self.setSuccessState(forBroker: linkedBroker.brokerName)
+                                if errorResult.requiresRelink() {
+                                    self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
+                                } else {
+                                    self.setSuccessState(forBroker: linkedBroker.brokerName)
+                                }
                             }
                         )
                     }
@@ -105,16 +108,27 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
         if self.actionButton.title(for: .normal) == actionButtonTitleTextContinue {
-            delegate?.onContinue(fromOAuthCompletionViewViewController: self, linkedBroker: self.linkedBroker)
+            delegate?.onContinue(
+                fromOAuthCompletionViewViewController: self,
+                oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
+                linkedBroker: self.linkedBroker
+            )
         } else if self.actionButton.title(for: .normal) == actionButtonTitleTextTryAgain {
-            delegate?.onTryAgain(fromOAuthCompletionViewViewController: self)
+            delegate?.onTryAgain(
+                fromOAuthCompletionViewViewController: self,
+                oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
+                linkedBroker: self.linkedBroker
+            )
         }
     }
 }
 
-@objc protocol TradeItOAuthCompletionViewControllerDelegate {
+protocol TradeItOAuthCompletionViewControllerDelegate {
     func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?)
 
-    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController)
+    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+                    linkedBroker: TradeItLinkedBroker?)
 }

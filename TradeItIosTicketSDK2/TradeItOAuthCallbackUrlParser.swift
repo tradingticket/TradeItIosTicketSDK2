@@ -9,6 +9,7 @@ enum OAuthCallbackQueryParamKeys: String {
     case tradeItDestination = "tradeItDestination"
     case tradeItOrderSymbol = "tradeItOrderSymbol"
     case tradeItOrderAction = "tradeItOrderAction"
+    case relinkUserId = "tradeItRelinkUserId"
 }
 
 class TradeItOAuthCallbackUrlParser {
@@ -16,6 +17,7 @@ class TradeItOAuthCallbackUrlParser {
     var oAuthVerifier: String?
     var destination: OAuthCallbackDestinationValues?
     var order: TradeItOrder?
+    var relinkUserId: String?
 
     var oAuthCallbackUrlWithoutOauthVerifier: URL? {
         var urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false)
@@ -33,6 +35,8 @@ class TradeItOAuthCallbackUrlParser {
         let urlComponents = URLComponents(url: oAuthCallbackUrl, resolvingAgainstBaseURL: false)
 
         self.oAuthVerifier = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.oAuthVerifier.rawValue)
+
+        self.relinkUserId = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.relinkUserId.rawValue)
 
         if let destinationString = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue) {
             self.destination = OAuthCallbackDestinationValues(rawValue: destinationString)

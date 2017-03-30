@@ -39,19 +39,15 @@ class TradeItLinkBrokerUIFlow: NSObject,
     }
 
     func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
-                                                 linkedBroker: TradeItLinkedBroker,
-                                                 oAuthCallbackUrl: URL) {
-        guard let userId = linkedBroker.linkedLogin.userId else {
-            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
-            return
-        }
-
+                                 brokerName: String? = nil,
+                                 userId: String,
+                                 oAuthCallbackUrl: URL) {
         let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
         activityView.label.text = "Launching broker relinking"
         activityView.show(animated: true)
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: linkedBroker.brokerName,
+            withBroker: brokerName,
             userId: userId,
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: { url in
@@ -62,6 +58,20 @@ class TradeItLinkBrokerUIFlow: NSObject,
                 TradeItAlertManager().showError(errorResult, onViewController: viewController)
             }
         )
+    }
+
+    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
+                                 linkedBroker: TradeItLinkedBroker,
+                                 oAuthCallbackUrl: URL) {
+        guard let userId = linkedBroker.linkedLogin.userId else {
+            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
+            return
+        }
+
+        self.presentRelinkBrokerFlow(inViewController: viewController,
+                                     brokerName: linkedBroker.brokerName,
+                                     userId: userId,
+                                     oAuthCallbackUrl: oAuthCallbackUrl)
     }
 
     // MARK: Private

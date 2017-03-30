@@ -30,7 +30,6 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
-
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
                         linkedBroker.refreshAccountBalances(onFinished: {
@@ -49,6 +48,9 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                         )
                     },
                     onFailure: { errorResult in
+                        if errorResult.isAccountNotAvailableError() { // case IB linked account not available yet, don't show alert error
+                            self.setPendingState(forBroker: linkedBroker.brokerName)
+                       } else {
                         self.alertManager.showError(
                             errorResult,
                             onViewController: self,
@@ -60,13 +62,14 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                                 }
                             }
                         )
+                        }
                     }
                 )
             },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(String(describing: errorResult.errorCode)), message: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
                 self.alertManager.showError(errorResult, onViewController: self)
-
+                
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
             }
         )
@@ -93,6 +96,16 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
         self.statusLabel.text = "Success"
         self.detailsLabel.text = "You have successfully linked \(broker). You can now trade with your account or view your portfolio to see up to date performance."
+    }
+    
+    private func setPendingState(forBroker broker: String) {
+        self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
+        self.actionButton.enable()
+        
+        self.activityIndicator.stopAnimating()
+        
+        self.statusLabel.text = "Activation in Progress"
+        self.detailsLabel.text = "Your \(broker) account is being activated. Check back soon (up to two business days)."
     }
 
     private func setFailureState(withMessage message: String) {

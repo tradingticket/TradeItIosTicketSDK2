@@ -45,14 +45,39 @@ import PromiseKit
         }
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String,
+    public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String? = nil,
                                                     userId: String,
                                                     oAuthCallbackUrl: URL,
                                                     onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
                                                     onFailure: @escaping (TradeItErrorResult) -> Void) {
-        self.connector.getOAuthLoginPopupURLForTokenUpdate(withBroker: broker,
+        guard let brokerName = broker ?? self.getLinkedBroker(forUserId: userId)?.brokerName else {
+            print("TradeItSDK ERROR: Could not determine broker name for getOAuthLoginPopupForTokenUpdateUrl()!")
+            onFailure(
+                TradeItErrorResult(
+                    title: "Could not relink",
+                    message: "Could not determine broker name for OAuth URL for relinking",
+                    code: .systemError
+                )
+            )
+            return
+        }
+
+        var relinkOAuthCallbackUrl = oAuthCallbackUrl
+
+        if var urlComponents = URLComponents(url: oAuthCallbackUrl,
+                                             resolvingAgainstBaseURL: false) {
+            urlComponents.addOrUpdateQueryStringValue(
+                forKey: OAuthCallbackQueryParamKeys.relinkUserId.rawValue,
+                value: userId
+            )
+
+            relinkOAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
+        }
+
+
+        self.connector.getOAuthLoginPopupURLForTokenUpdate(withBroker: brokerName,
                                                            userId: userId,
-                                                           oAuthCallbackUrl: oAuthCallbackUrl) { tradeItResult in
+                                                           oAuthCallbackUrl: relinkOAuthCallbackUrl) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
                 guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl() else {

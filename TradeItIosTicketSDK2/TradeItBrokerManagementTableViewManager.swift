@@ -33,7 +33,12 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 
         switch indexPath.section {
         case brokersTableSectionIndex:
-            self.delegate?.linkedBrokerWasSelected(self.linkedBrokers[indexPath.row])
+            guard let linkedBrokerSelected = self.linkedBrokers[safe: indexPath.row] else { return }
+            if linkedBrokerSelected.isAccountLinkDelayedError() {
+                self.delegate?.authenticate(linkedBroker: linkedBrokerSelected)
+            } else {
+                self.delegate?.linkedBrokerWasSelected(linkedBrokerSelected)
+            }
         case addAccountTableSectionIndex:
             self.delegate?.addAccountWasTapped()
         default:
@@ -79,10 +84,16 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 
         switch indexPath.section {
         case brokersTableSectionIndex:
-            let brokerManagerCellIdentifier = "BROKER_MANAGER_CELL_ID"
-            let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier) as? TradeItBrokerManagementTableViewCell
-            cell?.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
-            return cell ?? UITableViewCell()
+            guard let linkedBroker = self.linkedBrokers[safe: indexPath.row] else { return UITableViewCell()}
+            if linkedBroker.isAccountLinkDelayedError() {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "BROKER_MANAGER_ERROR_CELL_ID") as? TradeItLinkedBrokerErrorTableViewCell
+                cell?.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
+                return cell ?? UITableViewCell()
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "BROKER_MANAGER_CELL_ID") as? TradeItBrokerManagementTableViewCell
+                cell?.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
+                return cell ?? UITableViewCell()
+            }
         case addAccountTableSectionIndex:
             return createAddAccountCell()
         default:
@@ -92,6 +103,7 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
 }
 
 protocol TradeItBrokerManagementViewControllerBrokersTableDelegate: class {
+    func authenticate(linkedBroker: TradeItLinkedBroker)
     func linkedBrokerWasSelected(_ selectedLinkedBroker: TradeItLinkedBroker)
     func addAccountWasTapped()
 }

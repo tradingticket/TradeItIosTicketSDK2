@@ -149,7 +149,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         }
 
         func isAccountLinkDelayedError() -> Bool {
-            return linkedBroker.isAccountLinkDelayedError()
+            return linkedBroker.isAccountLinkDelayedError
         }
     }
 

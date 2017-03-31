@@ -3,7 +3,16 @@ import PromiseKit
 @objc public class TradeItLinkedBroker: NSObject {
     public var accountsLastUpdated: Date?
     public var accounts: [TradeItLinkedBrokerAccount] = []
-    public var error: TradeItErrorResult?
+    private var _error: TradeItErrorResult?
+    var error: TradeItErrorResult? {
+        set(newError) {
+            self._error = newError
+            self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+        }
+        get { return self._error }
+    }
+    public var isAccountLinkDelayedError: Bool = false
+    
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
 
@@ -15,7 +24,7 @@ import PromiseKit
         self.session = session
         self.linkedLogin = linkedLogin
         super.init()
-
+        
         self.setUnauthenticated()
     }
 
@@ -53,6 +62,9 @@ import PromiseKit
                     )
                 case let error as TradeItErrorResult:
                     self.error = error
+                    if self.isAccountLinkDelayedError { // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app 
+                        TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
+                    }
                     onFailure(error)
                 default:
                     handler(TradeItErrorResult(
@@ -138,13 +150,6 @@ import PromiseKit
             message: "This linked broker needs to authenticate.",
             code: .sessionError
         )
-    }
-    
-    public func isAccountLinkDelayedError() -> Bool {
-        guard let error = self.error else {
-            return false
-        }
-        return error.isAccountLinkDelayedError()
     }
 
     // MARK: Private

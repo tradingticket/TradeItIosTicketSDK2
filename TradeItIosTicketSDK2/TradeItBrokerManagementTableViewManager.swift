@@ -34,7 +34,7 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
         switch indexPath.section {
         case brokersTableSectionIndex:
             guard let linkedBrokerSelected = self.linkedBrokers[safe: indexPath.row] else { return }
-            if linkedBrokerSelected.isAccountLinkDelayedError() {
+            if linkedBrokerSelected.isAccountLinkDelayedError {
                 self.delegate?.authenticate(linkedBroker: linkedBrokerSelected)
             } else {
                 self.delegate?.linkedBrokerWasSelected(linkedBrokerSelected)
@@ -85,7 +85,7 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
         switch indexPath.section {
         case brokersTableSectionIndex:
             guard let linkedBroker = self.linkedBrokers[safe: indexPath.row] else { return UITableViewCell()}
-            if linkedBroker.isAccountLinkDelayedError() {
+            if linkedBroker.isAccountLinkDelayedError {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "BROKER_MANAGER_ERROR_CELL_ID") as? TradeItLinkedBrokerErrorTableViewCell
                 cell?.populate(withLinkedBroker: self.linkedBrokers[indexPath.row])
                 return cell ?? UITableViewCell()

@@ -42,7 +42,7 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
             onFinished: {
                 TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished: {
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
                     }
                 )
             }
@@ -79,7 +79,7 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
                 )
             },
             onFailure: { error in
-                self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
             }
         )
     }

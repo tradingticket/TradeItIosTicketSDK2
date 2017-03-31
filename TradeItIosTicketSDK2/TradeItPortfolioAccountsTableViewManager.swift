@@ -202,10 +202,13 @@ fileprivate class LinkedBrokerSectionPresenter {
     private func errorCell(forTableView tableView: UITableView) -> UITableViewCell {
         guard let error = error else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        if error.requiresRelink() == true {
+        if error.isAccountLinkDelayedError() {
+            cell.textLabel?.text = "Activation in Progress"
+            cell.detailTextLabel?.text = "Account is being activated. Tap to retry."
+        } else if error.requiresRelink() {
             cell.textLabel?.text = "Relink Broker"
             cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerName) failed. Tap to relink."
-        } else if error.requiresAuthentication() == true {
+        } else if error.requiresAuthentication() {
             cell.textLabel?.text = "Authentication Failed"
             cell.detailTextLabel?.text = "Failed to create a session. Tap to retry."
         } else {

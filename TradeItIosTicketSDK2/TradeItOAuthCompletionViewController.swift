@@ -48,20 +48,20 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                         )
                     },
                     onFailure: { errorResult in
-                        if errorResult.isAccountNotAvailableError() { // case IB linked account not available yet, don't show alert error
+                        if errorResult.isAccountLinkDelayedError() { // case IB linked account not available yet, don't show alert error
                             self.setPendingState(forBroker: linkedBroker.brokerName)
                        } else {
-                        self.alertManager.showError(
-                            errorResult,
-                            onViewController: self,
-                            onFinished : {
-                                if errorResult.requiresRelink() {
-                                    self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
-                                } else {
-                                    self.setSuccessState(forBroker: linkedBroker.brokerName)
+                            self.alertManager.showError(
+                                errorResult,
+                                onViewController: self,
+                                onFinished : {
+                                    if errorResult.requiresRelink() {
+                                        self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
+                                    } else {
+                                        self.setSuccessState(forBroker: linkedBroker.brokerName)
+                                    }
                                 }
-                            }
-                        )
+                            )
                         }
                     }
                 )

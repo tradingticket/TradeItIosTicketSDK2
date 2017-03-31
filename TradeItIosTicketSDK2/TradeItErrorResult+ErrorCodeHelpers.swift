@@ -44,7 +44,7 @@ extension TradeItErrorResult: Error {
         return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError, TradeItErrorCode.accountNotAvailable].contains(errorCode)
     }
     
-    public func isAccountNotAvailableError() -> Bool {
+    public func isAccountLinkDelayedError() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }

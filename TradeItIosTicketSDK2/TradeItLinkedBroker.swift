@@ -139,6 +139,13 @@ import PromiseKit
             code: .sessionError
         )
     }
+    
+    public func isAccountLinkDelayedError() -> Bool {
+        guard let error = self.error else {
+            return false
+        }
+        return error.isAccountLinkDelayedError()
+    }
 
     // MARK: Private
 

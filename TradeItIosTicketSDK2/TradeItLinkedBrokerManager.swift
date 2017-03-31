@@ -138,7 +138,6 @@ import PromiseKit
 
                         self.oAuthDelegate?.didLink?(userId: userId,
                                                      userToken: userToken)
-
                         onSuccess(linkedBroker)
                     } else {
                         onFailure(TradeItErrorResult(
@@ -226,6 +225,10 @@ import PromiseKit
 
     public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
+    }
+    
+    public func getAllEnabledAndActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {
+        return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0 || $0.isAccountLinkDelayedError()}
     }
 
     public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {

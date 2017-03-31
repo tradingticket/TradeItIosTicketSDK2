@@ -2,6 +2,7 @@ import UIKit
 
 class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
+    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var promptLabel: UILabel!
@@ -23,16 +24,16 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         super.viewWillAppear(animated)
         
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
-        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
-        if enabledBrokers.isEmpty {
+        let linkedBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers()
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: linkedBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
+        if linkedBrokers.isEmpty {
             editAccountsButton.setTitle("Link Account", for: .normal)
             self.promptLabel.text = "NO ACCOUNTS LINKED"
         }
     }
     
     override func configureNavigationItem() {
-        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
+        let authenticatedEnabledBrokers = TradeItSDK.linkedBrokerManager.getAllAuthenticatedAndEnabledAccounts()
 
         var isRootScreen = true
 
@@ -40,7 +41,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             isRootScreen = (navStackCount == 1)
         }
 
-        if enabledBrokers.isEmpty || isRootScreen {
+        if authenticatedEnabledBrokers.isEmpty || isRootScreen {
             self.createCloseButton()
         }
     }
@@ -66,17 +67,46 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             onFailure:  { error, linkedBroker in
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
                         // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
                     }
                 )
             },
             onFinished: {
                 TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
                     }
                 )
             }
+        )
+    }
+    
+    func authenticate(linkedBroker: TradeItLinkedBroker) {
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                linkedBroker.refreshAccountBalances(onFinished: { 
+                    self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers(), withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
+                })
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure:  { error in
+                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
+            }
+        )
+    }
+    
+    func relink(linkedBroker: TradeItLinkedBroker) {
+        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+            inViewController: self,
+            linkedBroker: linkedBroker,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
         )
     }
     

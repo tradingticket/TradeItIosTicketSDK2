@@ -40,25 +40,12 @@ import UIKit
             )
         }
 
-        // TODO: ONLY ONE ALERT FOR BOTH????
-//        if error.requiresRelink() {
-//            self.showAlert(
-//                onViewController: viewController,
-//                withTitle: "Update Login",
-//                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) account. Please update your login information.",
-//                withActionTitle: "Update",
-//                onAlertActionTapped: onAlertActionRelinkAccount,
-//                showCancelAction: true,
-//                onCancelActionTapped: onFinished
-//            )
-//        }
-
         switch error.errorCode {
         case .brokerAuthenticationError?:
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Update Login",
-                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) account. Please update your login information.",
+                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) login credentials. Please relink.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,

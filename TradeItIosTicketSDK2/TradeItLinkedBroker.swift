@@ -47,7 +47,7 @@ import PromiseKit
                             handler(TradeItErrorResult(
                                 title: "Authentication failed",
                                 message: "The security question was canceled.",
-                                code: .brokerAuthenticationError
+                                code: .sessionError
                             ))
                         }
                     )
@@ -57,7 +57,7 @@ import PromiseKit
                 default:
                     handler(TradeItErrorResult(
                         title: "Authentication failed",
-                        code: .brokerAuthenticationError
+                        code: .sessionError
                     ))
                 }
             }

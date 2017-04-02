@@ -1,7 +1,7 @@
 public enum TradeItErrorCode: Int {
     case systemError = 100
     case brokerExecutionError = 200
-    case brokerAuthenticationError = 300
+    case brokerLinkError = 300
     case brokerAccountError = 400
     case paramsError = 500
     case sessionError = 600
@@ -32,7 +32,7 @@ extension TradeItErrorResult: Error {
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
-        return [TradeItErrorCode.brokerAuthenticationError, TradeItErrorCode.oauthError].contains(errorCode)
+        return [TradeItErrorCode.brokerLinkError, TradeItErrorCode.oauthError].contains(errorCode)
     }
 
     public func requiresAuthentication() -> Bool {

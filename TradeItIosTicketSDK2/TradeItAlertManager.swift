@@ -41,7 +41,7 @@ import UIKit
         }
 
         switch error.errorCode {
-        case .brokerAuthenticationError?:
+        case .brokerLinkError?:
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Update Login",

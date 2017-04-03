@@ -334,6 +334,7 @@ import PromiseKit
     public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
         self.connector.unlinkLogin(linkedBroker.linkedLogin)
         if let index = self.linkedBrokers.index(of: linkedBroker) {
+            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
             self.oAuthDelegate?.didUnlink?(linkedBroker: linkedBroker)
         }

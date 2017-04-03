@@ -17,7 +17,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }
 
         self.tableViewManager = TradeItPortfolioAccountDetailsTableViewManager(account: linkedBrokerAccount)
-        self.navigationItem.title = linkedBrokerAccount.linkedBroker?.brokerName
+        self.navigationItem.title = linkedBrokerAccount.linkedBroker?.brokerName.uppercased()
 
         self.tableViewManager.delegate = self
         self.tableViewManager.table = self.table

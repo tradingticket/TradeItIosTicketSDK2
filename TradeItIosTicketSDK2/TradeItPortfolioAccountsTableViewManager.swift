@@ -90,7 +90,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         if section == 0 {
             header.textLabel?.text = "Total Value"
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName.uppercased()
         }
         return header
     }

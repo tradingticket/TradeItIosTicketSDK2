@@ -24,7 +24,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         super.viewWillAppear(animated)
         
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
-        let linkedBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers()
+        let linkedBrokers = TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: linkedBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
         if linkedBrokers.isEmpty {
             editAccountsButton.setTitle("Link Account", for: .normal)
@@ -67,14 +67,14 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             onFailure:  { error, linkedBroker in
                 self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
                         // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
                     }
                 )
             },
             onFinished: {
                 TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
                     }
                 )
             }
@@ -85,7 +85,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
                 linkedBroker.refreshAccountBalances(onFinished: { 
-                    self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledAndActivationInProgressLinkedBrokers(), withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
+                    self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers(), withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
                 })
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in

@@ -471,6 +471,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         for linkedLogin in linkedLogins {
             connector.unlinkLogin(linkedLogin)
+            if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
+                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            }
         }
 
         TradeItSDK.linkedBrokerManager.linkedBrokers = []

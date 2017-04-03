@@ -17,9 +17,9 @@ class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPo
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
 
-        self.accountsTableViewManager.initiateRefresh(animated: false)
+        self.accountsTableViewManager.initiateRefresh()
     }
 
     @IBAction func manageAccountsTapped(_ sender: Any) {

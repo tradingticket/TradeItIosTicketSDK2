@@ -30,10 +30,8 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         self.accountsTable?.reloadData()
     }
 
-    func initiateRefresh(animated: Bool = true) {
-        if animated {
-            self.refreshControl?.beginRefreshing()
-        }
+    func initiateRefresh() {
+        self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: { linkedBrokers in
                 self.update(withLinkedBrokers: linkedBrokers)

@@ -21,10 +21,12 @@
 #import "TradeItOAuthAccessTokenResult.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
+#import "TradeItOAuthDeleteLinkRequest.h"
 
 @interface TradeItConnector()
 
 - (NSUserDefaults *)userDefaults;
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin;
 
 @end
 
@@ -387,10 +389,27 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     }
 
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+
+    [self oAuthDeleteLink:login];
 }
 
 - (NSString *)userTokenFromKeychainId:(NSString *)keychainId {
     return [TradeItKeychain getStringForKey:keychainId];
+}
+
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin {
+    NSString *userToken = [self userTokenFromKeychainId:linkedLogin.keychainId];
+
+    TradeItOAuthDeleteLinkRequest *oAuthDeleteLinkRequest = [[TradeItOAuthDeleteLinkRequest alloc] init];
+    oAuthDeleteLinkRequest.apiKey = self.apiKey;
+    oAuthDeleteLinkRequest.userId = linkedLogin.userId;
+    oAuthDeleteLinkRequest.userToken = userToken;
+
+    NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthDeleteLinkRequest
+                                                                        emsAction:@"user/oAuthDelete"
+                                                                      environment:self.environment];
+
+    [self sendEMSRequest:request withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {}];
 }
 
 -(void) sendEMSRequest:(NSMutableURLRequest *)request

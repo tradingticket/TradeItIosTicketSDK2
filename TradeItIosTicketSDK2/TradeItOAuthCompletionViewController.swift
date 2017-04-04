@@ -10,6 +10,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     var linkedBroker: TradeItLinkedBroker?
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser!
     var delegate: TradeItOAuthCompletionViewControllerDelegate?
+    var onSuccessfulLink: ((_ linkedBroker: TradeItLinkedBroker) -> Void)?
 
     private let actionButtonTitleTextContinue = "Continue"
     private let actionButtonTitleTextTryAgain = "Try again"
@@ -111,7 +112,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             delegate?.onContinue(
                 fromOAuthCompletionViewViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
-                linkedBroker: self.linkedBroker
+                linkedBroker: self.linkedBroker,
+                onSuccessfulLink: self.onSuccessfulLink
             )
         } else if self.actionButton.title(for: .normal) == actionButtonTitleTextTryAgain {
             delegate?.onTryAgain(
@@ -124,11 +126,16 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 }
 
 protocol TradeItOAuthCompletionViewControllerDelegate {
-    func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?)
+    func onContinue(
+        fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?,
+        onSuccessfulLink: ((_ linkedBroker: TradeItLinkedBroker) -> Void)?
+    )
 
-    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?)
+    func onTryAgain(
+        fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?
+    )
 }

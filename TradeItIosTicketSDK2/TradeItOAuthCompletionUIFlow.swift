@@ -1,18 +1,20 @@
 import UIKit
 
 class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControllerDelegate {
-    let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    let tradingUIFlow = TradeItTradingUIFlow()
-    let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
-    let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
+    private let tradingUIFlow = TradeItTradingUIFlow()
+    private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
+    private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
-                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser) {
+                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+                                    onSuccessfulLink: ((_ linkedBroker: TradeItLinkedBroker) -> Void)?) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .oAuthCompletionView)
 
         if let oAuthCompletionViewController = navController.topViewController as? TradeItOAuthCompletionViewController {
             oAuthCompletionViewController.delegate = self
             oAuthCompletionViewController.oAuthCallbackUrlParser = oAuthCallbackUrlParser
+            oAuthCompletionViewController.onSuccessfulLink = onSuccessfulLink
         }
 
         viewController.present(navController, animated: true, completion: nil)
@@ -47,14 +49,14 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
     func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?) {
+                    linkedBroker: TradeItLinkedBroker?,
+                    onSuccessfulLink: ((_ linkedBroker: TradeItLinkedBroker) -> Void)?) {
 
-        guard linkedBroker != nil,
-            let destination = oAuthCallbackUrlParser.destination
-        else {
-            viewController.dismiss(animated: false)
-            return
-        }
+        guard let linkedBroker = linkedBroker else { return viewController.dismiss(animated: false) }
+
+        onSuccessfulLink?(linkedBroker)
+
+        guard let destination = oAuthCallbackUrlParser.destination else { return viewController.dismiss(animated: false) }
 
         switch destination {
         case .portfolio:

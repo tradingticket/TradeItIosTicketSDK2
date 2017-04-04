@@ -2,8 +2,8 @@
 
 @interface TradeItAuthLinkResult : TradeItResult
 
-@property (nullable) NSString *userId;
-@property (nullable) NSString *userToken;
+@property (nonatomic, copy) NSString * _Nonnull userId;
+@property (nonatomic, copy) NSString * _Nonnull userToken;
 
 - (NSString * _Nonnull)description;
 

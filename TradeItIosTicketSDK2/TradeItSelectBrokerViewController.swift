@@ -1,5 +1,6 @@
 import UIKit
 import MBProgressHUD
+import SafariServices
 
 class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -76,8 +77,8 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                UIApplication.shared.openURL(url)
-                self.dismiss(animated: true)
+                let safariViewController = SFSafariViewController(url: url)
+                self.navigationController?.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
                 self.alertManager.showError(errorResult,

@@ -26,10 +26,17 @@ protocol OAuthCompletionListener {
 
         let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
-        self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
-            fromViewController: viewController,
-            oAuthCallbackUrlParser: oAuthCallbackUrlParser
-        )
+        guard let originalViewController = safariViewController.presentingViewController?.presentingViewController else {
+            preconditionFailure("View hierarchy in unknown state.")
+        }
+
+        originalViewController.dismiss(animated: true, completion: {
+            self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
+                fromViewController: originalViewController,
+                oAuthCallbackUrlParser: oAuthCallbackUrlParser,
+                onSuccessfulLink: onSuccessfulLink
+            )
+        })
     }
 
     public func launchPortfolio(fromViewController viewController: UIViewController) {
@@ -45,7 +52,7 @@ protocol OAuthCompletionListener {
 
                 oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
             }
-            
+
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,

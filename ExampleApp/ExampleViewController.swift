@@ -302,30 +302,33 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func manualBuildLinkedBroker() {
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
-        TradeItSDK.linkedBrokerManager.linkBroker(
+        TradeItSDK.linkedBrokerManager.injectBroker(
             userId: "e041482902073625472a",
             userToken: "R4U3fyK4vjFAMCa9hRwm1qbfgaN669WGkwksirBgKulUcW5WJhqLEGPOhXJ6MsiV6hH3BTIDrkRQXlLCqBj1tEIIODef%2FiJJbMcJ49pKW%2FLlKTcCW2Ygzz%2BrFDIKlq38H8yMa6R%2B%2F0NHuYC6THvD4A%3D%3D",
             broker: "dummy",
             onSuccess: { linkedBroker in
-                linkedBroker.accounts = [
-                    TradeItLinkedBrokerAccount(
-                        linkedBroker: linkedBroker,
-                        accountName: "Manual Account Name",
-                        accountNumber: "Manual Account Number",
-                        balance: nil,
-                        fxBalance: nil,
-                        positions: [])
-                ]
+                linkedBroker.authenticateIfNeeded(onSuccess: {
+                    linkedBroker.accounts = [
+                        TradeItLinkedBrokerAccount(
+                            linkedBroker: linkedBroker,
+                            accountName: "Manual Account Name",
+                            accountNumber: "Manual Account Number",
+                            balance: nil,
+                            fxBalance: nil,
+                            positions: [])
+                    ]
 
-                print("=====> MANUALLY BUILT LINK!")
-                TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-            },
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelQuestion)
+                    print("=====> MANUALLY BUILT LINK!")
+                    TradeItSDK.linkedBrokerManager.printLinkedBrokers()
+                }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelQuestion)
+                }, onFailure: { errorResult in
+                    print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+                })
             },
             onFailure: { errorResult in
                 print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")

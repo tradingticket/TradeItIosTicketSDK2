@@ -102,16 +102,8 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let oAuthAccessTokenResult as TradeItOAuthAccessTokenResult:
-                guard let userId = oAuthAccessTokenResult.userId,
-                    let userToken = oAuthAccessTokenResult.userToken
-                else {
-                    onFailure(TradeItErrorResult(
-                        title: "OAuth Error",
-                        message: "Failed to link broker, did not receive OAuth token")
-                    )
-
-                    return
-                }
+                let userId = oAuthAccessTokenResult.userId
+                let userToken = oAuthAccessTokenResult.userToken
 
                 if let linkedBroker = self.getLinkedBroker(forUserId: userId) {
                     // userId already exists, this is a relink
@@ -121,8 +113,7 @@ import PromiseKit
                         linkedBroker.setUnauthenticated()
                         linkedBroker.linkedLogin = linkedLogin
 
-                        self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                     userId: userId,
+                        self.oAuthDelegate?.didLink?(userId: userId,
                                                      userToken: userToken)
                         onSuccess(linkedBroker)
                     } else {
@@ -145,8 +136,7 @@ import PromiseKit
                         let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                         self.linkedBrokers.append(linkedBroker)
 
-                        self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker,
-                                                     userId: userId,
+                        self.oAuthDelegate?.didLink?(userId: userId,
                                                      userToken: userToken)
 
                         onSuccess(linkedBroker)
@@ -291,15 +281,6 @@ import PromiseKit
                 linkedBroker.error = errorResult
                 onFailure(errorResult)
             case let updateLinkResult as TradeItUpdateLinkResult:
-                guard let userId = updateLinkResult.userId,
-                    let userToken = updateLinkResult.userToken
-                else {
-                    return onFailure(TradeItErrorResult(
-                        title: "Linking Error",
-                        message: "Failed to relink broker, did not receive token")
-                    )
-                }
-
                 let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult,
                                                                 withBroker: linkedBroker.brokerName)
 
@@ -308,13 +289,13 @@ import PromiseKit
                     linkedBroker.linkedLogin = linkedLogin
                     linkedBroker.authenticate(
                         onSuccess: {
-                            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                            self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
                             onSuccess(linkedBroker)
                         },
                         onSecurityQuestion: onSecurityQuestion,
                         onFailure: { error in
                             // Consider a success because linking succeeded. Just not able to authenticate after.
-                            self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                            self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
                             onSuccess(linkedBroker)
                         }
                     )
@@ -333,10 +314,10 @@ import PromiseKit
 
     public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
         self.connector.unlinkLogin(linkedBroker.linkedLogin)
-        if let index = self.linkedBrokers.index(of: linkedBroker) {
+        if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
-            self.oAuthDelegate?.didUnlink?(linkedBroker: linkedBroker)
+            self.oAuthDelegate?.didUnlink?(userId: userId)
         }
     }
 
@@ -380,7 +361,7 @@ import PromiseKit
             linkedBroker.authenticateIfNeeded(
                 onSuccess: {
                     self.linkedBrokers.append(linkedBroker)
-                    self.oAuthDelegate?.didLink?(linkedBroker: linkedBroker, userId: userId, userToken: userToken)
+                    self.oAuthDelegate?.didLink?(userId: userId, userToken: userToken)
                     onSuccess(linkedBroker)
                 },
                 onSecurityQuestion: onSecurityQuestion,
@@ -418,6 +399,6 @@ import PromiseKit
 }
 
 @objc public protocol TradeItOAuthDelegate {
-    @objc optional func didLink(linkedBroker: TradeItLinkedBroker, userId: String, userToken: String)
-    @objc optional func didUnlink(linkedBroker: TradeItLinkedBroker)
+    @objc optional func didLink(userId: String, userToken: String)
+    @objc optional func didUnlink(userId: String)
 }

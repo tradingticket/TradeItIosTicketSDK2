@@ -18,14 +18,19 @@ protocol OAuthCompletionListener {
 
     override internal init() {}
 
-    public func handleOAuthCallback(onViewController viewController: UIViewController, oAuthCallbackUrl: URL) {
+    public func handleOAuthCallback(
+        onViewController viewController: UIViewController,
+        oAuthCallbackUrl: URL,
+        onSuccessfulLink: ((TradeItLinkedBroker) -> Void)? = nil
+    ) {
         print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
         let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
         self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
             fromViewController: viewController,
-            oAuthCallbackUrlParser: oAuthCallbackUrlParser
+            oAuthCallbackUrlParser: oAuthCallbackUrlParser,
+            onSuccessfulLink: onSuccessfulLink
         )
     }
 

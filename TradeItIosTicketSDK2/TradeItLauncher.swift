@@ -19,22 +19,29 @@ protocol OAuthCompletionListener {
     override internal init() {}
 
     public func handleOAuthCallback(
-        onViewController viewController: UIViewController,
+        onViewController safariViewController: UIViewController,
         oAuthCallbackUrl: URL
     ) {
         print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
         let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
-        guard let originalViewController = safariViewController.presentingViewController?.presentingViewController else {
+        var parentViewController = safariViewController.presentingViewController
+
+        // If this is a new link and not a relink then there is a SelectBrokerVC that also needs to be dismissed.
+        if parentViewController?.childViewControllers.first is TradeItSelectBrokerViewController {
+            parentViewController = parentViewController?.presentingViewController
+        }
+
+        guard let originalViewController = parentViewController else {
             preconditionFailure("View hierarchy in unknown state.")
         }
+
 
         originalViewController.dismiss(animated: true, completion: {
             self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
                 fromViewController: originalViewController,
-                oAuthCallbackUrlParser: oAuthCallbackUrlParser,
-                onSuccessfulLink: onSuccessfulLink
+                oAuthCallbackUrlParser: oAuthCallbackUrlParser
             )
         })
     }

@@ -78,7 +78,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
                 let safariViewController = SFSafariViewController(url: url)
-                self.navigationController?.present(safariViewController, animated: true, completion: nil)
+                self.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
                 self.alertManager.showError(errorResult,

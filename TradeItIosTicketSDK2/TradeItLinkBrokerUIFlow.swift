@@ -1,5 +1,6 @@
 import UIKit
 import MBProgressHUD
+import SafariServices
 
 class TradeItLinkBrokerUIFlow: NSObject,
                                TradeItWelcomeViewControllerDelegate {
@@ -52,7 +53,8 @@ class TradeItLinkBrokerUIFlow: NSObject,
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: { url in
                 activityView.hide(animated: true)
-                UIApplication.shared.openURL(url)
+                let safariViewController = SFSafariViewController(url: url)
+                viewController.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
                 TradeItAlertManager().showError(errorResult, onViewController: viewController)

@@ -83,12 +83,8 @@
 // EMS API Util classes
 #import "TradeItTypeDefs.h"
 
-// TIEMSJSON
-#import "NSArray+TIEMSJSONModel.h"
-#import "TIEMSJSONAPI.h"
-#import "TIEMSJSONHTTPClient.h"
-#import "TIEMSJSONModel+networking.h"
-#import "TIEMSJSONModelClassProperty.h"
+// JSON Model
 #import "TIEMSJSONModelLib.h"
+#import "TIEMSJSONModelClassProperty.h"
 
 #endif

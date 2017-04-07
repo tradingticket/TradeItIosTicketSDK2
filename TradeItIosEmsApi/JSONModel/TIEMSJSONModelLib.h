@@ -24,12 +24,4 @@
 #import "TIEMSJSONModelError.h"
 #import "TIEMSJSONModelClassProperty.h"
 #import "TIEMSJSONModel.h"
-
-//network classes
-#import "TIEMSJSONHTTPClient.h"
-#import "TIEMSJSONModel+networking.h"
-#import "TIEMSJSONAPI.h"
-
-//models array
-#import "NSArray+TIEMSJSONModel.h"
 #import "TIEMSJSONModelArray.h"

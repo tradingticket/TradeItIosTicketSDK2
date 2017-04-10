@@ -3,16 +3,19 @@ import MBProgressHUD
 
 class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var reviewOrderButton: UIButton!
+    @IBOutlet weak var previewOrderButton: UIButton!
 
-    var alertManager = TradeItAlertManager()
-    let viewProvider = TradeItViewControllerProvider()
-    let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    var selectionViewController: TradeItSelectionViewController!
-    var accountSelectionViewController: TradeItAccountSelectionViewController!
-    var symbolSearchViewController: TradeItSymbolSearchViewController!
-    var order = TradeItOrder()
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
+
+    private var alertManager = TradeItAlertManager()
+    private let viewProvider = TradeItViewControllerProvider()
+    private let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private var selectionViewController: TradeItSelectionViewController!
+    private var accountSelectionViewController: TradeItAccountSelectionViewController!
+    private var symbolSearchViewController: TradeItSymbolSearchViewController!
+    internal var order = TradeItOrder()
+    private let marketDataService = TradeItSDK.marketDataService
+
 
     private var ticketRows = [TicketRow]()
 
@@ -244,10 +247,29 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
     }
 
+    private func updateMarketData() {
+        if self.order.type == .market, let symbol = self.order.symbol {
+            self.marketDataService.getQuote(
+                symbol: symbol,
+                onSuccess: { quote in
+                    let presenter = TradeItQuotePresenter(quote)
+                    self.order.quoteLastPrice = presenter.getLastPriceValue()
+                    self.reload(row: .estimatedCost)
+                },
+                onFailure: { error in
+                    self.order.quoteLastPrice = nil
+                }
+            )
+        } else {
+            self.order.quoteLastPrice = nil
+        }
+    }
+
     private func reloadTicket() {
         self.setTitle()
         self.setReviewButtonEnablement()
         self.selectedAccountChanged()
+        self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
             .account,

@@ -107,7 +107,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: IBActions
 
-    @IBAction func reviewOrderButtonTapped(_ sender: UIButton) {
+    @IBAction func previewOrderButtonTapped(_ sender: UIButton) {
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
             else { return }
 
@@ -116,7 +116,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Reviewing Order"
+                activityView.label.text = "Previewing Order"
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
@@ -239,11 +239,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
     }
 
-    private func setReviewButtonEnablement() {
+    private func setPreviewButtonEnablement() {
         if self.order.isValid() {
-            self.reviewOrderButton.enable()
+            self.previewOrderButton.enable()
         } else {
-            self.reviewOrderButton.disable()
+            self.previewOrderButton.disable()
         }
     }
 
@@ -267,7 +267,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private func reloadTicket() {
         self.setTitle()
-        self.setReviewButtonEnablement()
+        self.setPreviewButtonEnablement()
         self.selectedAccountChanged()
         self.updateMarketData()
 
@@ -323,7 +323,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
-                    self.setReviewButtonEnablement()
+                    self.setPreviewButtonEnablement()
             }
             )
         case .limitPrice:
@@ -333,7 +333,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
-                    self.setReviewButtonEnablement()
+                    self.setPreviewButtonEnablement()
             }
             )
         case .stopPrice:
@@ -343,7 +343,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
-                    self.setReviewButtonEnablement()
+                    self.setPreviewButtonEnablement()
             }
             )
         case .estimatedCost:

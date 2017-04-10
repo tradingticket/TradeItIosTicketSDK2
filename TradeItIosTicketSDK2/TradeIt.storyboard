@@ -1777,7 +1777,7 @@
                                     <constraint firstAttribute="height" constant="50" id="BFg-GK-0nQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <state key="normal" title="Review order">
+                                <state key="normal" title="Preview order">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -1786,7 +1786,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="reviewOrderButtonTapped:" destination="gnJ-6E-rKZ" eventType="touchUpInside" id="HjN-l7-5s7"/>
+                                    <action selector="previewOrderButtonTapped:" destination="gnJ-6E-rKZ" eventType="touchUpInside" id="U6q-un-lGW"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rus-7i-baC">
@@ -1922,7 +1922,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="reviewOrderButton" destination="Mfv-4e-fwa" id="NJl-Gp-YfU"/>
+                        <outlet property="previewOrderButton" destination="Mfv-4e-fwa" id="SkG-bW-WTW"/>
                         <outlet property="tableView" destination="rus-7i-baC" id="fkL-zz-yjK"/>
                     </connections>
                 </viewController>

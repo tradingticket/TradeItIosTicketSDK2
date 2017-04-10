@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1248,13 +1248,14 @@
                             <constraint firstItem="7tC-j5-kXj" firstAttribute="top" secondItem="XhO-vw-bt8" secondAttribute="bottom" id="MPA-pC-nht"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Portfolio" id="rWj-iu-2Rw">
-                        <barButtonItem key="rightBarButtonItem" title="Trade" id="VZV-uX-p9L">
+                    <navigationItem key="navigationItem" title="Portfolio" id="VmJ-el-i3D">
+                        <barButtonItem key="rightBarButtonItem" title="Trade" id="o23-hs-X7Y">
                             <connections>
-                                <action selector="tradeTapped:" destination="RrX-jG-hg3" id="Rcv-ca-l3x"/>
+                                <action selector="tradeTapped:" destination="RrX-jG-hg3" id="R14-5C-BU4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="table" destination="7tC-j5-kXj" id="meG-B4-ciH"/>
                     </connections>
@@ -1266,7 +1267,7 @@
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_ACCOUNTS_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioAccountsViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_PORTFOLIO_ACCOUNTS_VIEW" title="Portfolios" automaticallyAdjustsScrollViewInsets="NO" id="bUI-w2-wjN" userLabel="Portfolio" customClass="TradeItPortfolioAccountsViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wCc-Fh-MXb"/>
                         <viewControllerLayoutGuide type="bottom" id="HnD-M4-Q13"/>

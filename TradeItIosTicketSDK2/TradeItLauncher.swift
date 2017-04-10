@@ -73,6 +73,7 @@ protocol OAuthCompletionListener {
 
                 guard let portfolioAccountDetailsViewController = navController.viewControllers.last as? TradeItPortfolioAccountDetailsViewController else { return }
 
+                portfolioAccountDetailsViewController.automaticallyAdjustsScrollViewInsets = true
                 portfolioAccountDetailsViewController.linkedBrokerAccount = linkedBrokerAccount
 
                 viewController.present(navController, animated: true, completion: nil)

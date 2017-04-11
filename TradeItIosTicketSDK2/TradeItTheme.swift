@@ -16,8 +16,6 @@ import UIKit
     public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor
     public var warningSecondaryColor: UIColor = UIColor.white
 
-    public var inputFrameColor: UIColor = UIColor(red: 0.92, green: 0.92, blue: 0.92, alpha: 1.0)
-
     override public init() {
         super.init()
     }
@@ -28,6 +26,7 @@ import UIKit
 
     static public func dark() -> TradeItTheme {
         let theme = TradeItTheme()
+
         theme.textColor = UIColor.white
         theme.warningTextColor = UIColor.tradeItDeepRoseColor
 
@@ -42,8 +41,6 @@ import UIKit
 
         theme.warningPrimaryColor = UIColor.tradeItDeepRoseColor
         theme.warningSecondaryColor = UIColor.white
-
-        theme.inputFrameColor = UIColor(red: 0.56, green: 0.56, blue: 0.56, alpha: 1.0)
 
         return theme
     }

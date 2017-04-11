@@ -371,6 +371,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             )
         }
 
+        TradeItThemeConfigurator.configure(view: cell)
         return cell
     }
 

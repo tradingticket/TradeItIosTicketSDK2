@@ -60,7 +60,8 @@ import UIKit
         case let input as UISwitch: styleSwitch(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel:
-            if isViewToHighlight(label) {
+            let isInteractiveElement = label.accessibilityTraits & UIAccessibilityTraitButton != 0
+            if isInteractiveElement || isViewToHighlight(label) {
                 label.textColor = TradeItSDK.theme.interactivePrimaryColor
             } else {
                 label.textColor = TradeItSDK.theme.textColor
@@ -106,15 +107,15 @@ import UIKit
     }
 
     private static func styleTextField(_ input: UITextField) {
-        input.backgroundColor = UIColor.clear
-        input.layer.borderColor = TradeItSDK.theme.inputFrameColor.cgColor
+        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5)
+        input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
         input.layer.borderWidth = 1
         input.layer.cornerRadius = 4
         input.layer.masksToBounds = true
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",
-            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.inputFrameColor]
+            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.textColor.withAlphaComponent(0.8)]
         )
     }
 

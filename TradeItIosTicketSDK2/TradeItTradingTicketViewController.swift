@@ -11,7 +11,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private var alertManager = TradeItAlertManager()
     private let viewProvider = TradeItViewControllerProvider()
-    private let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
@@ -23,7 +22,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let selectionViewController = self.yahooViewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItSelectionViewController else {
+        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .tradingSelectionView) as? TradeItSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
@@ -39,7 +38,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         guard let symbolSearchViewController = self.viewProvider.provideViewController(forStoryboardId: .symbolSearchView) as? TradeItSymbolSearchViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItSymbolSearchViewController from storyboard")
             return
-
         }
         symbolSearchViewController.delegate = self
         self.symbolSearchViewController = symbolSearchViewController

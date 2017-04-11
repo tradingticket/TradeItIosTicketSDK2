@@ -136,21 +136,24 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         label: "setLightTheme",
                         action: {
                             TradeItSDK.theme = TradeItTheme.light()
+                            self.handleThemeChange()
                         }
                     ),
                     Action(
                         label: "setDarkTheme",
                         action: {
                             TradeItSDK.theme = TradeItTheme.dark()
+                            self.handleThemeChange()
                         }
                     ),
                     Action(
                         label: "setCustomTheme",
                         action: {
                             let customTheme = TradeItTheme()
-                            customTheme.textColor = UIColor.magenta
-                            customTheme.backgroundColor = UIColor.green
+                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
+                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
                             TradeItSDK.theme = customTheme
+                            self.handleThemeChange()
                         }
                     )
                 ]
@@ -216,6 +219,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             )
         ]
+
+        TradeItThemeConfigurator.configure(view: self.view)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -278,6 +283,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         cell?.textLabel?.text = sections[indexPath.section].actions[indexPath.row].label
+
+        TradeItThemeConfigurator.configure(view: cell)
         
         return cell!
     }
@@ -489,5 +496,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             withActionTitle: "OK")
 
         print("=====> Keychain Linked Login count after clearing: \(updatedBrokerCount)")
+    }
+
+    private func handleThemeChange() {
+        TradeItThemeConfigurator.configure(view: self.view)
+        self.table.reloadData()
     }
 }

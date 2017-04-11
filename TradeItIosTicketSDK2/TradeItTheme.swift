@@ -6,7 +6,7 @@ import UIKit
 
     public var backgroundColor: UIColor = UIColor.white
 
-    public var tableHeaderBackgroundColor: UIColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
+    public var tableHeaderBackgroundColor: UIColor = UIColor.groupTableViewBackground
     public var tableHeaderTextColor: UIColor = UIColor.darkText
 
     public var interactivePrimaryColor: UIColor = UIColor.tradeItCoolBlueColor

@@ -90,6 +90,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         } else {
             header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName.uppercased()
         }
+        TradeItThemeConfigurator.configureTableHeader(header: header)
         return header
     }
 
@@ -133,6 +134,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
+        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }

@@ -50,12 +50,18 @@ import UIKit
                 label.textColor = TradeItSDK.theme.textColor
             }
         case let tableView as UITableView:
-            tableView.backgroundColor = TradeItSDK.theme.backgroundColor
+            if tableView.style == .grouped {
+                tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+            } else {
+                tableView.backgroundColor = TradeItSDK.theme.backgroundColor
+            }
         case let activityIndicator as UIActivityIndicatorView:
             activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
         case let cell as UITableViewCell:
             cell.prepareDisclosureIndicator()
             break
+        case let refreshControl as UIRefreshControl:
+            refreshControl.tintColor = TradeItSDK.theme.interactivePrimaryColor
         default:
             break
         }

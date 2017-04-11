@@ -1,15 +1,6 @@
 import UIKit
 
 @objc class TradeItThemeConfigurator: NSObject {
-    static let ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT = [
-        "STOCK_SYMBOL",
-        "CHEVRON_UP",
-        "CHEVRON_DOWN",
-        "CHEVRON_RIGHT",
-        "NATIVE_ARROW",
-        "SELECTED_INDICATOR"
-    ]
-
     static let ELEMENTS_TO_SKIP = [
         "POSITION_DETAILS_VIEW"
     ]
@@ -18,17 +9,9 @@ import UIKit
         "Unlink Account"
     ]
 
-    static let ALTERNATIVE_VIEWS = [
-        "PORTFOLIO_VIEW"
-    ]
-
     static func configure(view: UIView?) {
         guard let view = view else { return }
-        if self.ALTERNATIVE_VIEWS.contains(view.accessibilityIdentifier ?? "") {
-            view.backgroundColor = TradeItSDK.theme.alternativeBackgroundColor
-        } else {
-            view.backgroundColor = TradeItSDK.theme.backgroundColor
-        }
+        view.backgroundColor = TradeItSDK.theme.backgroundColor
         configureTheme(view: view)
         view.setNeedsLayout()
         view.layoutIfNeeded()
@@ -61,7 +44,7 @@ import UIKit
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel:
             let isInteractiveElement = label.accessibilityTraits & UIAccessibilityTraitButton != 0
-            if isInteractiveElement || isViewToHighlight(label) {
+            if isInteractiveElement {
                 label.textColor = TradeItSDK.theme.interactivePrimaryColor
             } else {
                 label.textColor = TradeItSDK.theme.textColor
@@ -85,11 +68,9 @@ import UIKit
     }
 
     private static func styleImage(_ imageView: UIImageView) {
-        if isViewToHighlight(imageView) {
-            let image = imageView.image?.withRenderingMode(.alwaysTemplate)
-            imageView.image = image
-            imageView.tintColor = TradeItSDK.theme.interactivePrimaryColor
-        }
+        let image = imageView.image?.withRenderingMode(.alwaysTemplate)
+        imageView.image = image
+        imageView.tintColor = TradeItSDK.theme.interactivePrimaryColor
     }
 
     private static func styleButton(_ button: UIButton) {
@@ -122,9 +103,5 @@ import UIKit
     private static func styleSwitch(_ input: UISwitch) {
         input.tintColor = TradeItSDK.theme.interactivePrimaryColor
         input.onTintColor = TradeItSDK.theme.interactivePrimaryColor
-    }
-
-    private static func isViewToHighlight(_ view: UIView) -> Bool {
-        return self.ACCESSIBILITY_IDENTIFIERS_TO_HIGHLIGHT.contains(view.accessibilityIdentifier ?? "")
     }
 }

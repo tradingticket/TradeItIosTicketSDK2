@@ -108,6 +108,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
             cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
+            TradeItThemeConfigurator.configure(view: cell)
             return cell
         } else {
             let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT

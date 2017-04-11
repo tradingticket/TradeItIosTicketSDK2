@@ -7,8 +7,7 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
     @IBOutlet weak var view: UIView!
 
     override func awakeFromNib() {
-        // TODO: Handle themes
-        //TradeItThemeConfigurator.configure(view: self)
+        TradeItThemeConfigurator.configure(view: self)
     }
 
     func populate(withAccount account: TradeItLinkedBrokerAccount) {

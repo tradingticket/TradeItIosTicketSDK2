@@ -9,6 +9,8 @@ import UIKit
         "Unlink Account"
     ]
 
+    static private let UI_TABLE_VIEW_CELL_SELECTION_VIEW = UIView()
+
     static func configure(view: UIView?) {
         guard let view = view else { return }
         view.backgroundColor = TradeItSDK.theme.backgroundColor
@@ -51,14 +53,17 @@ import UIKit
             }
         case let tableView as UITableView:
             if tableView.style == .grouped {
+                tableView.superview?.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
                 tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
             } else {
+                tableView.superview?.backgroundColor = TradeItSDK.theme.backgroundColor
                 tableView.backgroundColor = TradeItSDK.theme.backgroundColor
             }
         case let activityIndicator as UIActivityIndicatorView:
             activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
         case let cell as UITableViewCell:
-            cell.prepareDisclosureIndicator()
+            UI_TABLE_VIEW_CELL_SELECTION_VIEW.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.2)
+            cell.selectedBackgroundView = UI_TABLE_VIEW_CELL_SELECTION_VIEW
             break
         case let refreshControl as UIRefreshControl:
             refreshControl.tintColor = TradeItSDK.theme.interactivePrimaryColor

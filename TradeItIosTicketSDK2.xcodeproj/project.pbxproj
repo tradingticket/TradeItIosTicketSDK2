@@ -304,8 +304,6 @@
 		B57ABA301DBEA9C1009B82A3 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */; };
 		B57ABA321DBEAA39009B82A3 /* TradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */; };
 		B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
-		B5BB979D1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB979C1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift */; };
-		B5BB979E1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB979C1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift */; };
 		B5FDB6811DDE40F700CA558D /* norton.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB67F1DDE40F700CA558D /* norton.png */; };
 		B5FDB6821DDE40F700CA558D /* truste.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FDB6801DDE40F700CA558D /* truste.png */; };
 		CBA8E0CD6C673C37283F6277 /* Pods_ExampleAppObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15D050ED253E2B66D47A6809 /* Pods_ExampleAppObjC.framework */; };
@@ -887,7 +885,6 @@
 		B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItDeviceManager.swift; sourceTree = "<group>"; };
 		B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItWebViewController.swift; sourceTree = "<group>"; };
-		B5BB979C1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+TradeIt.swift"; sourceTree = "<group>"; };
 		B5FDB67F1DDE40F700CA558D /* norton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = norton.png; sourceTree = "<group>"; };
 		B5FDB6801DDE40F700CA558D /* truste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = truste.png; sourceTree = "<group>"; };
 		BA2C2105E6203F11E285CA10 /* Pods-ExampleAppObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleAppObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExampleAppObjC/Pods-ExampleAppObjC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1114,7 +1111,6 @@
 				75BAAA951DB7EEB400E5435C /* UIColor+TradeIt.swift */,
 				B55CFDC31DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift */,
 				52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */,
-				B5BB979C1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift */,
 				FA5D35621E64CB4B0018CD2F /* UIButton+TradeIt.swift */,
 			);
 			name = Extensions;
@@ -2349,7 +2345,6 @@
 				75BAABED1DB7EF2F00E5435C /* TradeItSymbolLookupResult.m in Sources */,
 				75BAAAA71DB7EEB400E5435C /* TradeItAccountManagementTableViewManager.swift in Sources */,
 				526E30F91E28B60C00636640 /* TradeItYahooTradingUIFlow.swift in Sources */,
-				B5BB979D1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift in Sources */,
 				75BAAAD71DB7EEB400E5435C /* TradeItPreviewOrderAcknowledgementTableViewCell.swift in Sources */,
 				75BAABE11DB7EF2F00E5435C /* TradeItResult.m in Sources */,
 				75400ADE1E92C0A60041EEED /* TradeItOAuthDeleteLinkRequest.m in Sources */,
@@ -2449,7 +2444,6 @@
 				FC6E79AF1DCD1F8B005225CC /* TradeItBundleProvider.swift in Sources */,
 				FA80FFD91DF2394900C54091 /* TradeItOAuthLoginPopupUrlForTokenUpdateRequest.m in Sources */,
 				FC6E79B01DCD1F8B005225CC /* TradeItViewControllerProvider.swift in Sources */,
-				B5BB979E1E65B29800EF15B6 /* UITableViewCell+TradeIt.swift in Sources */,
 				FC6E79B11DCD1F8B005225CC /* TIEMSJSONModelError.m in Sources */,
 				FC6E79B21DCD1F8B005225CC /* NumberFormatter.swift in Sources */,
 				FC6E79B31DCD1F8B005225CC /* TradeItAuthenticationInfo.m in Sources */,

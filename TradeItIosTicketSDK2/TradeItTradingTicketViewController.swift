@@ -7,17 +7,18 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
+    internal var order = TradeItOrder()
+
     private var alertManager = TradeItAlertManager()
     private let viewProvider = TradeItViewControllerProvider()
     private let yahooViewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
-    internal var order = TradeItOrder()
     private let marketDataService = TradeItSDK.marketDataService
 
-
     private var ticketRows = [TicketRow]()
+    private var quotePresenter: TradeItQuotePresenter?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -248,12 +249,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func updateMarketData() {
-        if self.order.type == .market, let symbol = self.order.symbol {
+        if let symbol = self.order.symbol {
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    let presenter = TradeItQuotePresenter(quote)
-                    self.order.quoteLastPrice = presenter.getLastPriceValue()
+                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
+                    self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
                 },
                 onFailure: { error in
@@ -288,6 +290,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             ticketRows.append(.stopPrice)
         }
 
+        ticketRows.append(.marketPrice)
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -346,6 +349,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.setPreviewButtonEnablement()
             }
             )
+        case .marketPrice:
+            cell.detailTextLabel?.text = self.quotePresenter?.getLastPriceLabel()
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -407,7 +412,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case limitPrice
         case stopPrice
         case symbol
-        //    case marketPrice // Market Price
+        case marketPrice
         case estimatedCost
 
         private enum CellReuseId: String {
@@ -431,8 +436,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 cellReuseId = .numericInput
             case .orderType, .expiration:
                 cellReuseId = .selection
-                //        case .marketPrice:
-            //        // Market Price
+            case .marketPrice:
+                cellReuseId = .readOnly
             case .account:
                 cellReuseId = .selectionDetail
             }
@@ -460,8 +465,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 return "Order Type"
             case .expiration:
                 return "Time in force"
-                //        case .marketPrice:
-            //        // Market Price
+            case .marketPrice:
+                return "Market Price"
             case .account:
                 return "Accounts"
             }

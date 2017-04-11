@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -594,7 +593,7 @@
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="7zC-4B-2dQ" userLabel="Position Summary View">
                                                     <rect key="frame" x="15" y="11" width="345" height="42"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" preservesSuperviewLayoutMargins="YES" text="SYMB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="748" preservesSuperviewLayoutMargins="YES" text="SYMB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="UUg-Fr-NXz">
                                                             <rect key="frame" x="0.0" y="4" width="51" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -606,8 +605,8 @@
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="N/A" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-6D-oUm">
-                                                            <rect key="frame" x="273" y="4" width="30" height="21.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="N/A" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" translatesAutoresizingMaskIntoConstraints="NO" id="P8T-6D-oUm">
+                                                            <rect key="frame" x="210" y="4" width="93" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -632,6 +631,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="XJJ-3P-SG7" secondAttribute="trailing" id="3gB-B7-MPQ"/>
+                                                        <constraint firstItem="P8T-6D-oUm" firstAttribute="leading" secondItem="lAR-ee-oMb" secondAttribute="trailing" constant="5" id="3gb-tW-VRT"/>
                                                         <constraint firstAttribute="bottom" secondItem="Qz9-f6-gXb" secondAttribute="bottom" constant="2" id="AIc-zM-yT0"/>
                                                         <constraint firstItem="UUg-Fr-NXz" firstAttribute="leading" secondItem="7zC-4B-2dQ" secondAttribute="leading" id="CiL-4M-QVb"/>
                                                         <constraint firstItem="Qz9-f6-gXb" firstAttribute="top" secondItem="UUg-Fr-NXz" secondAttribute="bottom" id="D1j-bm-SDv"/>

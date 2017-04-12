@@ -242,6 +242,9 @@ import PromiseKit
             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
             self.oAuthDelegate?.didUnlink?(userId: userId)
+            NotificationCenter.default.post(name: TradeItSDK.didUnlinkNotificationName, object: nil, userInfo: [
+                "linkedBroker": linkedBroker
+            ])
         }
     }
 

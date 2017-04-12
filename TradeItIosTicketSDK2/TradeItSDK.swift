@@ -7,6 +7,8 @@
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static var isPortfolioEnabled = true
     public static let yahooLauncher = TradeItYahooLauncher()
+    public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
+    public static let didUnlinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
     private static var _oAuthCallbackUrl: URL?

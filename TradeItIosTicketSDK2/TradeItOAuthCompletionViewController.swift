@@ -37,8 +37,11 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                         linkedBroker.refreshAccountBalances(onFinished: {
                             self.setSuccessState(forBroker: linkedBroker.brokerName)
                         })
+                        NotificationCenter.default.post(name: TradeItSDK.didLinkNotificationName, object: nil, userInfo: [
+                            "linkedBroker": linkedBroker
+                        ])
                     },
-                    onSecurityQuestion: { (securityQuestion, answerSecurityQuestion, cancelSecurityQuestion) in
+                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                         self.alertManager.promptUserToAnswerSecurityQuestion(
                             securityQuestion,
                             onViewController: self,

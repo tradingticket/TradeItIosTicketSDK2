@@ -20,8 +20,7 @@ protocol OAuthCompletionListener {
 
     public func handleOAuthCallback(
         onViewController viewController: UIViewController,
-        oAuthCallbackUrl: URL,
-        onSuccessfulLink: ((TradeItLinkedBroker) -> Void)? = nil
+        oAuthCallbackUrl: URL
     ) {
         print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
@@ -29,8 +28,7 @@ protocol OAuthCompletionListener {
 
         self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
             fromViewController: viewController,
-            oAuthCallbackUrlParser: oAuthCallbackUrlParser,
-            onSuccessfulLink: onSuccessfulLink
+            oAuthCallbackUrlParser: oAuthCallbackUrlParser
         )
     }
 

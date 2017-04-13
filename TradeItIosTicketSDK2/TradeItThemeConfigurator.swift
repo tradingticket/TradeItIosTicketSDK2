@@ -76,6 +76,12 @@ import UIKit
             button.backgroundColor = TradeItSDK.theme.warningPrimaryColor
         } else if button.currentTitle == nil && button.superview is UITableViewCell {
             button.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        } else if button.accessibilityIdentifier == "BUY_BUTTON" {
+            button.backgroundColor = UIColor.tradeItBuyGreenColor
+            button.setTitleColor(UIColor.white, for: .normal)
+        } else if button.accessibilityIdentifier == "SELL_BUTTON" {
+            button.backgroundColor = UIColor.tradeItSellRedColor
+            button.setTitleColor(UIColor.white, for: .normal)
         } else {
             button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .normal)
             button.backgroundColor = TradeItSDK.theme.interactivePrimaryColor

@@ -723,6 +723,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xkk-gg-Xtn" userLabel="Buy">
                                                             <rect key="frame" x="70" y="119" width="100" height="30"/>
                                                             <color key="backgroundColor" red="0.43413115858405865" green="0.70186484257380166" blue="0.24602658598883864" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="BUY_BUTTON"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="qRg-7a-XMt"/>
                                                             </constraints>
@@ -742,6 +743,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUC-cS-a8l" userLabel="Sell">
                                                             <rect key="frame" x="205" y="119" width="100" height="30"/>
                                                             <color key="backgroundColor" red="0.80336724641282053" green="0.11102958219365483" blue="0.15898970624418954" alpha="0.80926724137931039" colorSpace="calibratedRGB"/>
+                                                            <accessibility key="accessibilityConfiguration" identifier="SELL_BUTTON"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="30" id="Keo-la-QkJ"/>
                                                             </constraints>

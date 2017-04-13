@@ -59,7 +59,7 @@ import UIKit
     }
 
     private static func styleImage(_ imageView: UIImageView) {
-        if imageView.superview is UIButton {
+        if imageView.superview is UIButton || imageView.accessibilityIdentifier == "LOGO" {
             // Do nothing
         } else {
             let image = imageView.image?.withRenderingMode(.alwaysTemplate)

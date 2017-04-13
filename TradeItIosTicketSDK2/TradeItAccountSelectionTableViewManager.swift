@@ -42,9 +42,16 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         return self.linkedBrokers.count
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let linkedBroker = self.linkedBrokers[section]
-        return linkedBroker.brokerName
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
+        let cell = UITableViewCell()
+        let linkedBroker = self.linkedBrokers[sectionIndex]
+        cell.textLabel?.text = linkedBroker.brokerName.uppercased()
+        TradeItThemeConfigurator.configureTableHeader(header: cell)
+        return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,6 +90,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
                                  for: UIControlEvents.valueChanged)
+        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }

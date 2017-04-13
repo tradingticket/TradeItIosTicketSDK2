@@ -17,11 +17,6 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.timeStampLabel.textColor = UIColor.tradeItlightGreyTextColor
-        self.orderNumberLabel.textColor = UIColor.tradeItlightGreyTextColor
-        self.tradeAgainButton.backgroundColor = UIColor.tradeItCoolBlueColor
-        self.viewPortfolioButton.backgroundColor = UIColor.tradeItDarkBlueColor
-
         self.viewPortfolioButton.isHidden = !TradeItSDK.isPortfolioEnabled
 
         self.setConfirmationMessage()

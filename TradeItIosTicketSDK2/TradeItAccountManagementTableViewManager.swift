@@ -94,6 +94,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
                                  for: UIControlEvents.valueChanged)
+        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }

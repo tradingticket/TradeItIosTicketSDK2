@@ -265,8 +265,15 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return sections.count
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].label
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = sections[sectionIndex].label
+        TradeItThemeConfigurator.configureTableHeader(header: cell)
+        return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -225,6 +225,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
+        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }

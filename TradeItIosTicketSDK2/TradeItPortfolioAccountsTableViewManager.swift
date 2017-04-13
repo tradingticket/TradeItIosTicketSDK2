@@ -3,7 +3,7 @@ import UIKit
 class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
-    private var refreshControl: UIRefreshControl?
+    private var refreshControl = UIRefreshControl()
     private let NON_LINKED_BROKER_SECTIONS_COUNT = 1
 
     var accountsTable: UITableView? {
@@ -31,11 +31,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func initiateRefresh() {
-        self.refreshControl?.beginRefreshing()
+        self.refreshControl.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: { linkedBrokers in
                 self.update(withLinkedBrokers: linkedBrokers)
-                self.refreshControl?.endRefreshing()
+                self.refreshControl.endRefreshing()
             }
         )
     }
@@ -128,16 +128,14 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: Private
 
     private func addRefreshControl(toTableView tableView: UITableView) {
-        let refreshControl = UIRefreshControl()
+        TradeItThemeConfigurator.configure(view: refreshControl)
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
-        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
-        self.refreshControl = refreshControl
     }
 
     private func totalValue() -> Float {

@@ -1,7 +1,7 @@
 import UIKit
 
 
-class TradeItAccountManagementViewController: CloseableViewController, TradeItAccountManagementTableViewManagerDelegate {
+class TradeItAccountManagementViewController: TradeItViewController, TradeItAccountManagementTableViewManagerDelegate {
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker!
     var accountManagementTableManager = TradeItAccountManagementTableViewManager()

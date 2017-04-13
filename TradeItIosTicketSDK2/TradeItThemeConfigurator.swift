@@ -59,9 +59,13 @@ import UIKit
     }
 
     private static func styleImage(_ imageView: UIImageView) {
-        let image = imageView.image?.withRenderingMode(.alwaysTemplate)
-        imageView.image = image
-        imageView.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        if imageView.superview is UIButton {
+            // Do nothing
+        } else {
+            let image = imageView.image?.withRenderingMode(.alwaysTemplate)
+            imageView.image = image
+            imageView.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        }
     }
 
     private static func styleButton(_ button: UIButton) {

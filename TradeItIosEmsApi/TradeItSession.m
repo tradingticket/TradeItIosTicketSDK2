@@ -6,6 +6,7 @@
 //  Copyright © 2016 TradeIt. All rights reserved.
 //
 
+#import <AdSupport/ASIdentifierManager.h>
 #import "TradeItSession.h"
 #import "TradeItAuthenticationRequest.h"
 #import "TradeItJsonConverter.h"
@@ -28,9 +29,11 @@
 
 - (void)authenticate:(TradeItLinkedLogin *)linkedLogin withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSString *userToken = [self.connector userTokenFromKeychainId:linkedLogin.keychainId];
+    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     TradeItAuthenticationRequest *authRequest = [[TradeItAuthenticationRequest alloc] initWithUserToken:userToken
                                                                                                  userId:linkedLogin.userId
-                                                                                              andApiKey:self.connector.apiKey];
+                                                                                              andApiKey:self.connector.apiKey
+                                                                                       andAdvertisingId:advertisingId];
 
     NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:authRequest
                                                                         emsAction:@"user/authenticate"

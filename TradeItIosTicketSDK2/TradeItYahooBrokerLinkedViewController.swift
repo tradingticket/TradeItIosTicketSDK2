@@ -11,7 +11,7 @@ import UIKit
         if let linkedBroker = self.linkedBroker {
             self.brokerLabel.text = linkedBroker.brokerName
         } else {
-            print("=====> ERROR: Account Linked confirmation screen loaded without setting linkedBroker")
+            print("TradeItSDK ERROR: Account Linked confirmation screen loaded without setting linkedBroker!")
             self.brokerLabel.text = "NO BROKER"
         }
     }
@@ -19,7 +19,6 @@ import UIKit
     // MARK: IBActions
 
     @IBAction func viewPortfolioButtonTapped(_ sender: UIButton) {
-        print("=====> VIEW PORTFOLIO TAPPED!!!!!!")
         delegate?.viewPortfolioButtonTapped(fromViewController: self)
 
     }

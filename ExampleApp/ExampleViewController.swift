@@ -20,6 +20,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let logo = UIImage(named: "tradeit_logo.png")
+        let logoView = UIImageView(image: logo)
+        self.navigationItem.titleView = logoView
+        self.registerLinkObservers()
+
         sections = [
             Section(
                 label: "TradeIt Flows",
@@ -78,27 +83,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "launchOAuthFlow",
-                        action: {
-                            self.launchOAuthFlow(forBroker: "dummy")
-                        }
-                    ),
-                    Action(
-                        label: "launchOAuthRelinkFlow",
-                        action: self.launchOAuthRelinkFlow
-                    ),
-                    Action(
                         label: "launchBrokerLinking",
                         action: {
-                            TradeItSDK.launcher.launchBrokerLinking(
-                                fromViewController: self,
-                                onLinked: { linkedBroker in
-                                    print("=====> Newly linked broker: \(linkedBroker)")
-                                },
-                                onFlowAborted: {
-                                    print("=====> User aborted linking")
-                                }
-                            )
+                            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
                         }
                     ),
                     Action(
@@ -112,9 +99,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             TradeItSDK.launcher.launchAccountSelection(
                                 fromViewController: self,
-                                title: "Select account to sync",
+                                title: "Customizable instruction text",
                                 onSelected: { selectedLinkedBrokerAccount in
-                                    print("Selected linked broker account: \(selectedLinkedBrokerAccount)")
+                                    self.alertManager.showAlert(
+                                        onViewController: self,
+                                        withTitle: "Selected Account!",
+                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
+                                        withActionTitle: "OK"
+                                    )
                                 }
                             )
                         }
@@ -122,6 +114,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "launchAlertQueue",
                         action: self.launchAlertQueue
+                    )
+                ]
+            ),
+            Section(
+                label: "Debugging",
+                actions: [
+                    Action(
+                        label: "deleteLinkedBrokers",
+                        action: self.deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "test",
+                        action: self.test
                     )
                 ]
             ),
@@ -155,6 +160,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 label: "Deep Integration",
                 actions: [
                     Action(
+                        label: "manualLaunchOAuthFlow",
+                        action: {
+                            self.manualLaunchOAuthFlow(forBroker: "dummy")
+                        }
+                    ),
+                    Action(
+                        label: "manualLaunchOAuthRelinkFlow",
+                        action: self.manualLaunchOAuthRelinkFlow
+                    ),
+                    Action(
                         label: "manualAuthenticateAll",
                         action: self.manualAuthenticateAll
                     ),
@@ -173,19 +188,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Debugging",
-                actions: [
-                    Action(
-                        label: "deleteLinkedBrokers",
-                        action: self.deleteLinkedBrokers
-                    ),
-                    Action(
-                        label: "test",
-                        action: self.test
-                    )
-                ]
-            ),
-            Section(
                 label: "Yahoo",
                 actions: [
                     Action(
@@ -193,12 +195,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: self.launchYahooOAuthFlow
                     ),
                     Action(
-                        label: "Launch Trading",
+                        label: "Launch Trading - Buy",
                         action: {
                             let order = TradeItOrder()
 
                             order.symbol = "YHOO"
                             order.action = .buy
+                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+                        }
+                    ),
+                    Action(
+                        label: "Launch Trading - Sell",
+                        action: {
+                            let order = TradeItOrder()
+
+                            order.symbol = "GE"
+                            order.action = .sell
                             TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
                         }
                     )
@@ -210,11 +222,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         TradeItSDK.linkedBrokerManager.oAuthDelegate = self
-        printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
     }
 
     func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
         self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Great Success!",
@@ -224,7 +236,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.printLinkedBrokers()
+        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
         self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Great Success!",
@@ -274,7 +286,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: Private
 
     private func test() {
-        // Placeholder method for testing random code
+        // Placeholder method for testing random throwaway code
 
         let nums = ["", ".", "00", "01", ".10", ".1", "1.", "1..", "1...", "1..1", ".0", "0.", "0.1", "1.0", "1e5", "1x5", "1e", "e5", "NaN"]
 
@@ -285,47 +297,50 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchYahooOAuthFlow() {
-        TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self, withCallbackUrl: "tradeItExampleScheme://completeYahooOAuth")
+        TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self, withCallbackUrl: URL(string: "tradeItExampleScheme://completeYahooOAuth")!)
     }
 
     private func manualBuildLinkedBroker() {
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
-        TradeItSDK.linkedBrokerManager.linkBroker(
+        TradeItSDK.linkedBrokerManager.injectBroker(
             userId: "e041482902073625472a",
             userToken: "R4U3fyK4vjFAMCa9hRwm1qbfgaN669WGkwksirBgKulUcW5WJhqLEGPOhXJ6MsiV6hH3BTIDrkRQXlLCqBj1tEIIODef%2FiJJbMcJ49pKW%2FLlKTcCW2Ygzz%2BrFDIKlq38H8yMa6R%2B%2F0NHuYC6THvD4A%3D%3D",
             broker: "dummy",
             onSuccess: { linkedBroker in
-                linkedBroker.accounts = [
-                    TradeItLinkedBrokerAccount(
-                        linkedBroker: linkedBroker,
-                        accountName: "Manual Account Name",
-                        accountNumber: "Manual Account Number",
-                        balance: nil,
-                        fxBalance: nil,
-                        positions: [])
-                ]
+                linkedBroker.authenticateIfNeeded(onSuccess: {
+                    linkedBroker.accounts = [
+                        TradeItLinkedBrokerAccount(
+                            linkedBroker: linkedBroker,
+                            accountName: "Manual Account Name",
+                            accountNumber: "Manual Account Number",
+                            balance: nil,
+                            fxBalance: nil,
+                            positions: [])
+                    ]
 
-                print("=====> MANUALLY BUILT LINK!")
-                self.printLinkedBrokers()
-            },
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelQuestion)
+                    print("=====> MANUALLY BUILT LINK!")
+                    TradeItSDK.linkedBrokerManager.printLinkedBrokers()
+                }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelQuestion)
+                }, onFailure: { errorResult in
+                    print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+                })
             },
             onFailure: { errorResult in
-                print("=====> Failed to manually link: \(errorResult.shortMessage) - \(errorResult.longMessages?.first)")
+                print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
             }
         )
     }
 
-    private func launchOAuthFlow(forBroker broker: String = "dummy") {
+    private func manualLaunchOAuthFlow(forBroker broker: String = "dummy") {
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: broker,
-            oAuthCallbackUrl: "tradeItExampleScheme://completeOAuth",
+            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
@@ -333,7 +348,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
-                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                        UIApplication.shared.openURL(url)
                     },
                     showCancelAction: false
                 )
@@ -345,7 +360,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    private func launchOAuthRelinkFlow() {
+    private func manualLaunchOAuthRelinkFlow() {
         guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
             print("=====> No linked brokers to relink!")
 
@@ -362,7 +377,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
             withBroker: linkedBroker.brokerName,
             userId: linkedBroker.linkedLogin.userId ?? "",
-            deepLinkCallback: "tradeItExampleScheme://completeOAuth",
+            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(
                     onViewController: self,
@@ -370,8 +385,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
-                        UIApplication.shared.openURL(NSURL(string:url) as! URL)
-                    },
+                        UIApplication.shared.openURL(url)                    },
                     showCancelAction: false
                 )
             },
@@ -380,18 +394,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                             onViewController: self)
             }
         )
-    }
-
-    private func printLinkedBrokers() {
-        print("\n\n=====> LINKED BROKERS:")
-
-        for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
-            let linkedLogin = linkedBroker.linkedLogin
-            let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
-            print("=====> \(linkedLogin.broker ?? "MISSING BROKER")(\(linkedBroker.accounts.count) accounts)\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
-        }
-
-        print("=====> ===============\n\n")
     }
 
     private func manualAuthenticateAll() {
@@ -460,9 +462,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func deleteLinkedBrokers() -> Void {
-        print("=====> Keychain Linked Login count before clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
+        let originalBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
+        print("=====> Keychain Linked Login count before clearing: \(originalBrokerCount)")
 
-        let appDomain = Bundle.main.bundleIdentifier;
+        let appDomain = Bundle.main.bundleIdentifier
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY)
@@ -472,10 +475,46 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         for linkedLogin in linkedLogins {
             connector.unlinkLogin(linkedLogin)
+            if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
+                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            }
         }
 
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
-        print("=====> Keychain Linked Login count after clearing: \(TradeItSDK.linkedBrokerManager.linkedBrokers.count)")
+        let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
+        self.alertManager.showAlert(
+            onViewController: self,
+            withTitle: "Deletion complete.",
+            withMessage: "Deleted \(originalBrokerCount) linked brokers. \(updatedBrokerCount) brokers remaining.",
+            withActionTitle: "OK")
+
+        print("=====> Keychain Linked Login count after clearing: \(updatedBrokerCount)")
+    }
+
+    private func registerLinkObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didLink), name: TradeItSDK.didLinkNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didUnlink), name: TradeItSDK.didUnlinkNotificationName, object: nil)
+    }
+
+    func didLink(notification: Notification) {
+        print("TradeItSDK: didLink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    func didUnlink(notification: Notification) {
+        print("TradeItSDK: didUnlink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didLinkNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didUnlinkNotificationName, object: nil)
     }
 }

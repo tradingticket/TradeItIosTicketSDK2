@@ -1,8 +1,8 @@
 import UIKit
 
 class CloseableViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureNavigationItem()
     }
 
@@ -18,9 +18,14 @@ class CloseableViewController: UIViewController {
     }
 
     func createCloseButton() {
-        let closeButtonItem = UIBarButtonItem(title: "Close", style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeButtonWasTapped(_:)))
-
-        self.navigationItem.rightBarButtonItem = closeButtonItem
+        if self.navigationItem.leftBarButtonItem == nil {
+            let closeButtonItem = UIBarButtonItem(title: closeButtonTitle(), style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeButtonWasTapped(_:)))
+            self.navigationItem.leftBarButtonItem = closeButtonItem
+        }
+    }
+    
+    func closeButtonTitle() -> String {
+        return "Close"
     }
 
     func closeButtonWasTapped(_ sender: UIBarButtonItem) {

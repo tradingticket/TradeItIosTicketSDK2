@@ -1,14 +1,15 @@
 @objc public class TradeItLinkedBrokerAccount: NSObject {
-    public var brokerName: String {
-        return self.linkedBroker.brokerName
+    public var brokerName: String? {
+        return self.linkedBroker?.brokerName
     }
 
     public var accountName = ""
     public var accountNumber = ""
+    public var balanceLastUpdated: Date?
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
-    unowned var linkedBroker: TradeItLinkedBroker
+    weak var linkedBroker: TradeItLinkedBroker?
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
@@ -30,6 +31,7 @@
     init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
+         balanceLastUpdated: Date? = nil,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
          positions: [TradeItPortfolioPosition],
@@ -37,26 +39,35 @@
         self.linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
+        self.balanceLastUpdated = balanceLastUpdated
         self.balance = balance
         self.fxBalance = fxBalance
         self.positions = positions
         self._enabled = isEnabled
-        self.tradeItBalanceService = TradeItBalanceService(session: self.linkedBroker.session)
-        self.tradeItPositionService = TradeItPositionService(session: self.linkedBroker.session)
-        self.tradeService = TradeItTradeService(session: self.linkedBroker.session)
+        self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
+        self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
+        self.tradeService = TradeItTradeService(session: linkedBroker.session)
     }
 
-    public func getAccountOverview(onSuccess: @escaping (TradeItAccountOverview?) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getAccountOverview(cacheResult: Bool = true,
+                                   onSuccess: @escaping (TradeItAccountOverview?) -> Void,
+                                   onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
         self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
             switch tradeItResult {
             case let accountOverviewResult as TradeItAccountOverviewResult:
+                self.balanceLastUpdated = Date()
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker.error = nil
+                self.linkedBroker?.error = nil
+
+                if cacheResult {
+                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
+                }
+
                 onSuccess(accountOverviewResult.accountOverview)
             case let errorResult as TradeItErrorResult:
-                self.linkedBroker.error = errorResult
+                self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult(title: "Failed to retrieve account balances"))
@@ -83,7 +94,7 @@
                 self.positions = portfolioEquityPositions + portfolioFxPositions
                 onSuccess(self.positions)
             case let errorResult as TradeItErrorResult:
-                self.linkedBroker.error = errorResult
+                self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
                 onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))

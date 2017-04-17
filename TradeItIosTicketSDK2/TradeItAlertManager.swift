@@ -20,27 +20,32 @@ import UIKit
     }
 
     public func showRelinkError(_ error: TradeItErrorResult,
-                                withLinkedBroker linkedBroker: TradeItLinkedBroker,
+                                withLinkedBroker linkedBroker: TradeItLinkedBroker?,
                                 onViewController viewController: UIViewController,
+                                oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
                                 onFinished: @escaping () -> Void) {
+        guard let linkedBroker = linkedBroker else {
+            return self.showError(
+                error,
+                onViewController: viewController,
+                onFinished: onFinished
+            )
+        }
+
         let onAlertActionRelinkAccount: () -> Void = {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: viewController,
                 linkedBroker: linkedBroker,
-                onLinked: { presentedNavController, linkedBroker in
-                    presentedNavController.dismiss(animated: true, completion: nil)
-                    linkedBroker.refreshAccountBalances(onFinished: onFinished)
-                },
-                onFlowAborted: { _ in onFinished() }
+                oAuthCallbackUrl: oAuthCallbackUrl
             )
         }
 
-        switch error.errorCode() {
-        case .brokerAuthenticationError?:
+        switch error.errorCode {
+        case .brokerLinkError?:
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Update Login",
-                withMessage: "There seems to be a problem connecting with your \(linkedBroker.linkedLogin.broker) account. Please update your login information.",
+                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) login credentials. Please relink.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
@@ -49,7 +54,7 @@ import UIKit
         case .oauthError?:
             self.showAlert(
                 onViewController: viewController,
-                withTitle: "Relink \(linkedBroker.linkedLogin.broker) Accounts",
+                withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
@@ -57,9 +62,10 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         default:
-            self.showError(error,
+            self.showError(
+                error,
                 onViewController: viewController,
-                      onFinished: onFinished
+                onFinished: onFinished
             )
         }
     }

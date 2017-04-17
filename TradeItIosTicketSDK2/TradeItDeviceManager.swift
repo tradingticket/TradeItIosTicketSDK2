@@ -23,7 +23,7 @@ class TradeItDeviceManager {
         }
         
         guard context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &error) else {
-            print("deviceOwnerAuthentication is not available on this device: \(error)")
+            print("deviceOwnerAuthentication is not available on this device: \(error.debugDescription)")
             onSuccessOnMainThread()
             return
         }

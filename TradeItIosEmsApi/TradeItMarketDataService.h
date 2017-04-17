@@ -26,7 +26,7 @@
 /**
  *  This method requires a TradeItQuoteRequest
  *
- *  @return successful response is a TradeItQuoteResult
+ *  @param completionBlock Completion callback where a successful response is a TradeItQuoteResult.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *
  */
@@ -35,7 +35,7 @@
 /**
  *  This method requires a TradeItSymbolLookupRequest
  *
- *  @return successful response is a TradeItSymbolLookupResult
+ *  @param completionBlock Completion callback where a successful response is a TradeItSymbolLookupResult.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *
  */

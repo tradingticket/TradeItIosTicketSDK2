@@ -15,9 +15,9 @@ class TradeItTradingBrokerAccountView: UIView {
         case loaded
     }
 
-    var brokerAccount: TradeItLinkedBrokerAccount?
     var presentationMode = PresentationMode.buyingPower
     var sharesOwned: NSNumber = 0
+    var buyingPower = ""
     var holdingType : String?
 
     func updatePresentationMode(_ presentationMode: PresentationMode) {
@@ -26,30 +26,42 @@ class TradeItTradingBrokerAccountView: UIView {
     }
 
     func updateBrokerAccount(_ brokerAccount: TradeItLinkedBrokerAccount) {
-        self.brokerAccount = brokerAccount
         self.accountButton.setTitle(brokerAccount.getFormattedAccountName(), for: UIControlState())
         updateResourceAvailabilityLabels()
     }
 
-    func updateSharesOwned(_ presenter: TradeItPortfolioPositionPresenter) {
-        self.sharesOwned = presenter.getQuantity() ?? 0
-        self.holdingType = presenter.getHoldingType()
+    func updateBuyingPower(_ buyingPower: String) {
+        self.buyingPower = buyingPower
+        updateResourceAvailabilityLabels()
+    }
+
+    func updatePosition(_ position: TradeItPortfolioPosition?) {
+        if let position = position {
+            let presenter = TradeItPortfolioEquityPositionPresenter(position)
+
+            self.sharesOwned = presenter.getQuantity() ?? 0
+            self.holdingType = presenter.getHoldingType()
+        } else {
+            self.sharesOwned = 0
+            self.holdingType = nil
+        }
+
         updateResourceAvailabilityLabels()
     }
 
     private func updateResourceAvailabilityLabels() {
         switch presentationMode {
         case .buyingPower:
-            guard let brokerAccount = brokerAccount else { return }
-            let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(brokerAccount)
-            self.resourceAvailabilityLabel.text = presenter.getFormattedBuyingPower()
+            self.resourceAvailabilityLabel.text = self.buyingPower
             self.resourceAvailabilityDescriptionLabel.text = "Buying Power"
         case .sharesOwned:
             self.resourceAvailabilityLabel.text = NumberFormatter.formatQuantity(sharesOwned)
+
             if let holdingType = self.holdingType {
                 self.resourceAvailabilityDescriptionLabel.text = holdingType.caseInsensitiveCompare("LONG") == .orderedSame ? "Shares Owned" : "Shares Shorted"
-            }
-            else {
+            } else if sharesOwned == 0 {
+                self.resourceAvailabilityDescriptionLabel.text = "Shares Owned"
+            } else {
                 self.resourceAvailabilityDescriptionLabel.text = TradeItPresenter.MISSING_DATA_PLACEHOLDER
             }
         }

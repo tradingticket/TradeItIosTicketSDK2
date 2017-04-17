@@ -1,12 +1,13 @@
 import UIKit
 
-class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccountSelectionTableViewManagerDelegate {
+class TradeItAccountSelectionViewController: CloseableViewController, TradeItAccountSelectionTableViewManagerDelegate {
     var accountSelectionTableManager = TradeItAccountSelectionTableViewManager()
 
     @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var promptLabel: UILabel!
+    @IBOutlet weak var editAccountsButton: UIButton!
 
-    var selectedLinkedBroker: TradeItLinkedBroker?
+    var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
     internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
     var alertManager = TradeItAlertManager()
     var promptText: String?
@@ -20,10 +21,32 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
         let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
+        if enabledBrokers.isEmpty {
+            editAccountsButton.setTitle("Link Account", for: .normal)
+            self.promptLabel.text = "NO ACCOUNTS LINKED"
+        }
+    }
+    
+    override func configureNavigationItem() {
+        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
+
+        var isRootScreen = true
+
+        if let navStackCount = self.navigationController?.viewControllers.count {
+            isRootScreen = (navStackCount == 1)
+        }
+
+        if enabledBrokers.isEmpty || isRootScreen {
+            self.createCloseButton()
+        }
+    }
+    
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+            self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: TradeItAccounSelectionTableViewManagerDelegate

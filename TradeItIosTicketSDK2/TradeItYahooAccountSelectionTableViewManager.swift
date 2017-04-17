@@ -62,10 +62,14 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") ?? UITableViewCell()
 
-        let presenter = TradeItPortfolioBalancePresenterFactory.forTradeItLinkedBrokerAccount(linkedBrokerAccount)
+        let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
         cell.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
-        let buyingPower = presenter.getFormattedBuyingPower()
-        cell.detailTextLabel?.text = "Buying power: \(buyingPower)"
+
+        cell.detailTextLabel?.text = ""
+
+        if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
+            cell.detailTextLabel?.text = "BUYING POWER: " + buyingPower
+        }
 
         return cell
     }

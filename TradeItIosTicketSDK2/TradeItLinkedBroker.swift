@@ -8,18 +8,15 @@ import PromiseKit
     var linkedLogin: TradeItLinkedLogin
 
     public var brokerName: String {
-        return self.linkedLogin.broker ?? ""
+        return self.linkedLogin.broker ?? "Missing Broker Name"
     }
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
-        // Mark the linked broker as errored so that it will be authenticated next time authenticateAll is called
-        self.error = TradeItErrorResult(
-                title: "Linked Broker initialized from keychain",
-                message: "This linked broker needs to authenticate.",
-                code: .sessionError
-        )
+        super.init()
+
+        self.setUnauthenticated()
     }
 
     public func authenticate(onSuccess: @escaping () -> Void,
@@ -34,9 +31,8 @@ import PromiseKit
                     self.error = nil
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
-                    self.accounts = self.mapToLinkedBrokerAccounts(accounts)
 
-                    self.accountsLastUpdated = Date()
+                    self.updateLinkedBrokerAccounts(fromBrokerAccounts: accounts)
 
                     TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
 
@@ -51,7 +47,7 @@ import PromiseKit
                             handler(TradeItErrorResult(
                                 title: "Authentication failed",
                                 message: "The security question was canceled.",
-                                code: .brokerAuthenticationError
+                                code: .sessionError
                             ))
                         }
                     )
@@ -61,7 +57,7 @@ import PromiseKit
                 default:
                     handler(TradeItErrorResult(
                         title: "Authentication failed",
-                        code: .brokerAuthenticationError
+                        code: .sessionError
                     ))
                 }
             }
@@ -72,7 +68,8 @@ import PromiseKit
 
     public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
-        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
@@ -84,23 +81,38 @@ import PromiseKit
 
         if error.requiresAuthentication() {
             self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
+        } else if error.requiresRelink() {
+            onFailure(error)
         } else {
             onSuccess()
         }
     }
 
-    public func refreshAccountBalances(onFinished: @escaping () -> Void) {
-        let promises = accounts.map { account in
+    public func refreshAccountBalances(force: Bool = true,
+                                       cacheResult: Bool = true,
+                                       onFinished: @escaping () -> Void) {
+        let promises = accounts.filter { account in
+            return force || (account.balance == nil && account.fxBalance == nil)
+        }.map { account in
             return Promise<Void> { fulfill, reject in
-                account.getAccountOverview(onSuccess: { _ in
-                    fulfill()
-                }, onFailure: { errorResult in
-                    fulfill()
-                })
+                account.getAccountOverview(
+                    cacheResult: false, // Cache at the end so we don't cache the entire linked broker multiple times
+                    onSuccess: { _ in
+                        fulfill()
+                    },
+                    onFailure: { errorResult in
+                        fulfill()
+                    }
+                )
             }
         }
 
-        _ = when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).always {
+            if cacheResult {
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
+            }
+            onFinished()
+        }
     }
 
     public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
@@ -120,13 +132,21 @@ import PromiseKit
         return matchingAccounts.first
     }
 
+    public func setUnauthenticated() {
+        self.error = TradeItErrorResult(
+            title: "Linked Broker initialized from keychain",
+            message: "This linked broker needs to authenticate.",
+            code: .sessionError
+        )
+    }
+
     // MARK: Private
 
-    private func mapToLinkedBrokerAccounts(_ accounts: [TradeItBrokerAccount]) -> [TradeItLinkedBrokerAccount] {
-        return accounts.map { account in
+    private func updateLinkedBrokerAccounts(fromBrokerAccounts accounts: [TradeItBrokerAccount]) {
+        let newLinkedBrokerAccounts = accounts.map { account -> TradeItLinkedBrokerAccount in
             let accountEnabled = findAccount(byAccountNumber: account.accountNumber)?.isEnabled ?? true
 
-            return TradeItLinkedBrokerAccount(
+            let linkedBrokerAccount = TradeItLinkedBrokerAccount(
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
@@ -135,6 +155,19 @@ import PromiseKit
                 positions: [],
                 isEnabled: accountEnabled
             )
+
+            if let matchingExistingAccount = (self.accounts.filter { account in
+                return account.accountNumber == linkedBrokerAccount.accountNumber
+            }).first {
+                linkedBrokerAccount.balance = matchingExistingAccount.balance
+                linkedBrokerAccount.fxBalance = matchingExistingAccount.fxBalance
+                linkedBrokerAccount.balanceLastUpdated = matchingExistingAccount.balanceLastUpdated
+            }
+
+            return linkedBrokerAccount
         }
+
+        self.accounts = newLinkedBrokerAccounts
+        self.accountsLastUpdated = Date()
     }
 }

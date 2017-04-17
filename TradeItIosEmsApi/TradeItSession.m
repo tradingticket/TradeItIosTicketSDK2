@@ -60,15 +60,16 @@
 
 - (TradeItResult *)parseAuthResponse:(TradeItResult *)authenticationResult
                         jsonResponse:(NSMutableString *)jsonResponse {
-    self.token = [authenticationResult token];
     NSString *status = authenticationResult.status;
 
     TradeItResult *resultToReturn;
 
     if ([status isEqual:@"SUCCESS"]) {
+        self.token = [authenticationResult token];
         resultToReturn = [TradeItJsonConverter buildResult:[TradeItAuthenticationResult alloc] jsonString:jsonResponse];
 
     } else if ([status isEqualToString:@"INFORMATION_NEEDED"]) {
+        self.token = [authenticationResult token];
         resultToReturn = [TradeItJsonConverter buildResult:[TradeItSecurityQuestionResult alloc] jsonString:jsonResponse];
         
     } else if ([status isEqualToString:@"ERROR"]) {

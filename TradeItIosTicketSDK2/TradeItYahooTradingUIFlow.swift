@@ -1,25 +1,26 @@
 import UIKit
 
-class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate {
+class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
+TradeItYahooTradePreviewViewControllerDelegate {
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var order = TradeItOrder()
-    
+
     func presentTradingFlow(fromViewController viewController: UIViewController,
                             withOrder order: TradeItOrder = TradeItOrder()) {
         self.order = order
-        
+
         let navController = UINavigationController()
-        
+
         let initialViewController = getInitialViewController(forOrder: order)
-        
+
         navController.setViewControllers([initialViewController], animated: true)
-        
+
         viewController.present(navController, animated: true, completion: nil)
     }
-    
+
     // MARK: Private
-    
+
     private func initializeLinkedAccount(forOrder order: TradeItOrder) {
         if order.linkedBrokerAccount == nil {
             let enabledAccounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
@@ -31,7 +32,7 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
 
     private func getInitialViewController(forOrder order: TradeItOrder) -> UIViewController {
         var initialStoryboardId: TradeItStoryboardID!
-        
+
         self.initializeLinkedAccount(forOrder: order)
 
         if (order.linkedBrokerAccount == nil) {
@@ -39,16 +40,16 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
         } else {
             initialStoryboardId = TradeItStoryboardID.yahooTradingTicketView
         }
-        
+
         let initialViewController = self.viewControllerProvider.provideViewController(forStoryboardId: initialStoryboardId)
-        
+
         if let accountSelectionViewController = initialViewController as? TradeItYahooAccountSelectionViewController {
             accountSelectionViewController.delegate = self
         } else if let tradingTicketViewController = initialViewController as? TradeItYahooTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
         }
-        
+
         return initialViewController
     }
 
@@ -75,12 +76,20 @@ class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControll
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
         if let previewViewController = previewViewController {
-//            previewViewController.delegate = self
+            previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = tradingTicketViewController.order.linkedBrokerAccount
             previewViewController.previewOrderResult = previewOrderResult
             previewViewController.placeOrderCallback = placeOrderCallback
 
             tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
         }
+    }
+
+    // MARK: TradeItYahooTradingConfirmationViewControllerDelegate
+
+    internal func viewPortfolioTapped(
+        onTradePreviewViewController tradePreviewViewController: TradeItYahooTradePreviewViewController,
+        linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        print("=====> viewPortfolioTapped")
     }
 }

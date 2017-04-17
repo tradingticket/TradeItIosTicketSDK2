@@ -9,12 +9,12 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     var activityView: MBProgressHUD?
     var alertManager = TradeItAlertManager()
     var brokers: [TradeItBroker] = []
-    var oAuthCallbackUrl: String?
+    var oAuthCallbackUrl: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set on TradeItYahooBrokerSelectionViewController")
+        precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: TradeItYahooBrokerSelectionViewController loaded without setting oAuthCallbackUrl!")
 
         self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
 
@@ -58,7 +58,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                UIApplication.shared.openURL(NSURL(string:url) as! URL)
+                UIApplication.shared.openURL(url)
                 self.dismiss(animated: true)
             },
             onFailure: { errorResult in

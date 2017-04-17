@@ -1,3 +1,5 @@
+import UIKit
+
 @objc public class TradeItYahooLauncher: NSObject {
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var deviceManager = TradeItDeviceManager()
@@ -5,7 +7,7 @@
 
     override internal init() {}
     
-    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: String) {
+    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: URL) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
         
         if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {

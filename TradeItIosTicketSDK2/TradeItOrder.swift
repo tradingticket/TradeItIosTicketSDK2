@@ -26,15 +26,23 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     public var stopPrice: NSDecimalNumber?
     public var quoteLastPrice: NSDecimalNumber?
 
-    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(self.action.rawValue)], type [\(self.type.rawValue)], expiration [\(self.expiration.rawValue)], quantity [\(self.quantity)], limitPrice [\(self.limitPrice)], stopPrice [\(self.stopPrice)], quote [\(self.quoteLastPrice)]" }
+    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(self.action.rawValue)], type [\(self.type.rawValue)], expiration [\(self.expiration.rawValue)], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
 
     public override init() {
         super.init()
     }
 
-    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
+                symbol: String? = nil,
+                action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT) {
+        super.init()
+
         self.linkedBrokerAccount = linkedBrokerAccount
         self.symbol = symbol
+
+        if action != .unknown {
+            self.action = action
+        }
     }
 
     public func requiresLimitPrice() -> Bool {
@@ -66,7 +74,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     public func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
-                           onFailure: @escaping (TradeItErrorResult) -> Void
+                        onFailure: @escaping (TradeItErrorResult) -> Void
         ) -> Void {
         guard let linkedBrokerAccount = linkedBrokerAccount else {
             return onFailure(TradeItErrorResult(title: "Linked Broker Account", message: "A linked broker account must be set before you preview an order.")) }
@@ -81,7 +89,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
                           self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService,
                                                           previewOrderResult: previewOrderResult))
             case let errorResult as TradeItErrorResult:
-                linkedBrokerAccount.linkedBroker.error = errorResult
+                linkedBrokerAccount.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
             }

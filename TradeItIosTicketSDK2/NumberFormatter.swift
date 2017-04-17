@@ -1,29 +1,40 @@
 class NumberFormatter: NSObject {
-    private static let formatter = Foundation.NumberFormatter()
+    private static let currencyFormatter = Foundation.NumberFormatter()
+    private static let quantityFormatter = Foundation.NumberFormatter()
+    private static let percentageFormatter = Foundation.NumberFormatter()
     
-    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, currencyCode: String?) -> String {
+    static func formatCurrency(_ number: NSNumber, maximumFractionDigits: Int = 2, displayVariance: Bool = false, currencyCode: String?) -> String {
         let currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
-        formatter.numberStyle = .currency
-        formatter.currencyCode = currencyCode
-        formatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = maximumFractionDigits
-        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.currencyCode = currencyCode
+        currencyFormatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)
+        if displayVariance {
+            currencyFormatter.positivePrefix = "+" + currencyFormatter.currencySymbol
+            currencyFormatter.negativePrefix = "-" + currencyFormatter.currencySymbol
+        } else {
+            currencyFormatter.positivePrefix = nil
+            currencyFormatter.negativePrefix = nil
+        }
+        currencyFormatter.minimumFractionDigits = 2
+        currencyFormatter.maximumFractionDigits = maximumFractionDigits
+        return currencyFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
     static func formatQuantity(_ number: NSNumber) -> String {
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 2
-        return formatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        quantityFormatter.numberStyle = .decimal
+        quantityFormatter.minimumFractionDigits = 0
+        quantityFormatter.maximumFractionDigits = 2
+        return quantityFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
     static func formatPercentage(_ number: NSNumber) -> String {
-        formatter.numberStyle = .percent
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 2
+        percentageFormatter.numberStyle = .percent
+        percentageFormatter.positivePrefix = "+"
+        percentageFormatter.negativePrefix = "-"
+        percentageFormatter.minimumFractionDigits = 0
+        percentageFormatter.maximumFractionDigits = 2
         let percentage = number.floatValue / 100
-        return formatter.string(from: NSNumber(value: percentage)) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        return percentageFormatter.string(from: NSNumber(value: percentage)) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
     private static func overrideCurrencySymbol(forCurrencyCode currencyCode: String) -> String? {

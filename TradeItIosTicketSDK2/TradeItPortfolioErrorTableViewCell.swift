@@ -9,7 +9,7 @@ class TradeItPortfolioErrorTableViewCell: UITableViewCell {
     }
 
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        self.brokerNameLabel.text = linkedBroker.linkedLogin.broker
+        self.brokerNameLabel.text = linkedBroker.brokerName
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

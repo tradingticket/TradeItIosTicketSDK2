@@ -25,7 +25,7 @@
 /**
  *  This method requires a TradeItAccountOverviewRequest
  *
- *  @return successful response is a TradeItAccountOverviewResult
+ *  @param completionBlock Completion callback where a successful response is a TradeItAccountOverviewResult.
  *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  *
  */

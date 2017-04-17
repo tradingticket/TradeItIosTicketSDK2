@@ -72,7 +72,7 @@ extension XCTestCase {
     
     func testConfirmation(_ app: XCUIApplication){
         XCTAssert(app.images["success_icon.png"].exists)
-        XCTAssert(app.staticTexts["Confirmed"].exists)
+        XCTAssert(app.staticTexts["Confirmation"].exists)
         XCTAssert(app.buttons["Trade Again"].exists)
         XCTAssert(app.buttons["View Portfolio"].exists)
     }

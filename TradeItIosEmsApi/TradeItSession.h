@@ -30,12 +30,6 @@
 
 /**
  *  This will establish a session give the user's token and will set the userToken on the session.
- *
- *  @param userToken obtained from an linkBrokerWithAuthenticationInfo
- *
- *  @return on success will return a list of TradeItBrokerAccount objects
- *  - It's also possible to recieve a TradeItSecurityQuestionResult in which you'll need to issue an answerSecurityQuestion request before you'll recieve the session token
- *  - TradeItErrorResult also possible please see https://www.trade.it/api#ErrorHandling for descriptions of error codes
  */
 - (void)authenticate:(TradeItLinkedLogin * _Nullable)linkedLogin withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
 
@@ -44,7 +38,7 @@
  *
  *  @param answer security question answer
  *
- *  @return TradeItResult. Can either be TradeItStockOrEtfTradeReviewResult, TradeItSecurityQuestionResult or TradeItErrorResult. Caller needs to cast the result to the appropriate sub-class depending on the result status value. Note that TradeItSecurityQuestionResult will be returned again if the answer is incorrect.
+ *  @param completionBlock Can either be TradeItStockOrEtfTradeReviewResult, TradeItSecurityQuestionResult or TradeItErrorResult. Caller needs to cast the result to the appropriate sub-class depending on the result status value. Note that TradeItSecurityQuestionResult will be returned again if the answer is incorrect.
  */
 - (void)answerSecurityQuestion:(NSString * _Nullable)answer withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
 
@@ -56,7 +50,7 @@
 /**
  *  Use this method to answer the broker secuirty question after the ems server sent a TradeItSecurityQuestionResult
  *
- *  @return TradeItResult. Success indicates session still alive, TradeItErrorResult most commonly indicates the session has already expired, all error messages still apply though https://www.trade.it/api#ErrorHandling
+ *  @param completionBlock Success indicates session still alive, TradeItErrorResult most commonly indicates the session has already expired, all error messages still apply though https://www.trade.it/api#ErrorHandling
  */
 - (void)keepSessionAliveWithCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
 

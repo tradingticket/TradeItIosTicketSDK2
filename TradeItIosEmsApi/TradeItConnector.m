@@ -21,6 +21,7 @@
 #import "TradeItOAuthAccessTokenResult.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
+#import "TradeItOAuthDeleteLinkRequest.h"
 
 #ifdef CARTHAGE
 #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
@@ -31,6 +32,7 @@
 @interface TradeItConnector()
 
 - (NSUserDefaults *)userDefaults;
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin;
 
 @end
 
@@ -83,44 +85,41 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString *)broker
-                         interAppAddressCallback:(NSString *)interAppAddressCallback
+                                oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
                                  completionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItOAuthLoginPopupUrlForMobileRequest *oAuthLoginPopupUrlForMobileRequest
         = [[TradeItOAuthLoginPopupUrlForMobileRequest alloc] initWithApiKey:self.apiKey
                                                                      broker:broker
-                                                    interAppAddressCallback:interAppAddressCallback];
+                                                    interAppAddressCallback:[oAuthCallbackUrl absoluteString]];
 
     NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthLoginPopupUrlForMobileRequest
                                                                         emsAction:@"user/getOAuthLoginPopupUrlForMobile"
                                                                       environment:self.environment];
 
-    [self sendEMSRequest:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthLoginPopupUrlForMobileResult *successResult
-                      = (TradeItOAuthLoginPopupUrlForMobileResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForMobileResult alloc]
-                                                                                           jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+     [self sendEMSRequest:request
+      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthLoginPopupUrlForMobileResult *successResult
+                  = (TradeItOAuthLoginPopupUrlForMobileResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForMobileResult alloc]
+                                                                                       jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
-     }];
+          completionBlock(tradeItResult);
+      }];
 }
 
 - (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString *)broker
                                                userId:(NSString *)userId
-                              interAppAddressCallback:(NSString *)interAppAddressCallback
+                                     oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
                                       completionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItOAuthLoginPopupUrlForTokenUpdateRequest *oAuthLoginPopupUrlForTokenUpdateRequest
         = [[TradeItOAuthLoginPopupUrlForTokenUpdateRequest alloc] initWithApiKey:self.apiKey
                                                                           broker:broker
                                                                           userId:userId
-                                                         interAppAddressCallback:interAppAddressCallback];
+                                                         interAppAddressCallback:[oAuthCallbackUrl absoluteString]];
 
     NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthLoginPopupUrlForTokenUpdateRequest
                                                                         emsAction:@"user/getOAuthLoginPopupURLForTokenUpdate"
@@ -128,17 +127,14 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendEMSRequest:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthLoginPopupUrlForTokenUpdateResult *successResult
-                      = (TradeItOAuthLoginPopupUrlForTokenUpdateResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForTokenUpdateResult alloc]
-                                                                                                jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthLoginPopupUrlForTokenUpdateResult *successResult
+                  = (TradeItOAuthLoginPopupUrlForTokenUpdateResult *)[TradeItJsonConverter buildResult:[TradeItOAuthLoginPopupUrlForTokenUpdateResult alloc]
+                                                                                            jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
+          completionBlock(tradeItResult);
      }];
 }
 
@@ -154,20 +150,17 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                                                                         emsAction:@"user/getOAuthAccessToken"
                                                                       environment:self.environment];
 
-    [self sendEMSRequest:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         [self sendEMSRequest:request
-          withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-              if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-                  TradeItOAuthAccessTokenResult *successResult
-                      = (TradeItOAuthAccessTokenResult *)[TradeItJsonConverter buildResult:[TradeItOAuthAccessTokenResult alloc]
-                                                                                jsonString:jsonResponse];
-                  tradeItResult = successResult;
-              }
+     [self sendEMSRequest:request
+      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
+          if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+              TradeItOAuthAccessTokenResult *successResult
+                  = (TradeItOAuthAccessTokenResult *)[TradeItJsonConverter buildResult:[TradeItOAuthAccessTokenResult alloc]
+                                                                            jsonString:jsonResponse];
+              tradeItResult = successResult;
+          }
 
-              completionBlock(tradeItResult);
-          }];
-     }];
+          completionBlock(tradeItResult);
+      }];
 }
 
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {
@@ -402,10 +395,27 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     }
 
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+
+    [self oAuthDeleteLink:login];
 }
 
 - (NSString *)userTokenFromKeychainId:(NSString *)keychainId {
     return [TradeItKeychain getStringForKey:keychainId];
+}
+
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin {
+    NSString *userToken = [self userTokenFromKeychainId:linkedLogin.keychainId];
+
+    TradeItOAuthDeleteLinkRequest *oAuthDeleteLinkRequest = [[TradeItOAuthDeleteLinkRequest alloc] init];
+    oAuthDeleteLinkRequest.apiKey = self.apiKey;
+    oAuthDeleteLinkRequest.userId = linkedLogin.userId;
+    oAuthDeleteLinkRequest.userToken = userToken;
+
+    NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:oAuthDeleteLinkRequest
+                                                                        emsAction:@"user/oAuthDelete"
+                                                                      environment:self.environment];
+
+    [self sendEMSRequest:request withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {}];
 }
 
 -(void) sendEMSRequest:(NSMutableURLRequest *)request

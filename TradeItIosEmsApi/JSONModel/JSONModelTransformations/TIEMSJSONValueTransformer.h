@@ -172,16 +172,6 @@ extern BOOL TIEMSisNull(id value);
  */
 -(NSString*)NSStringFromNSDecimalNumber:(NSDecimalNumber*)number;
 
-
-#pragma mark - string <-> url
-/** @name Transforming URLs */
-/**
- * Transforms a string object to an NSURL object
- * @param string the string to convert
- * @return the resulting url object
- */
--(NSURL*)NSURLFromNSString:(NSString*)string;
-
 /**
  * Transforms an NSURL object to a string
  * @param url the url object to convert

@@ -47,7 +47,7 @@
 
 // Use the PublisherService to retrieve ad sources
 #import "TradeItAdsRequest.h"
-#import "TradeitAdsResult.h"
+#import "TradeItAdsResult.h"
 
 // Use the TradeService to preview and place trades
 #import "TradeItTradeService.h"
@@ -83,12 +83,8 @@
 // EMS API Util classes
 #import "TradeItTypeDefs.h"
 
-// TIEMSJSON
-#import "NSArray+TIEMSJSONModel.h"
-#import "TIEMSJSONAPI.h"
-#import "TIEMSJSONHTTPClient.h"
-#import "TIEMSJSONModel+networking.h"
-#import "TIEMSJSONModelClassProperty.h"
+// JSON Model
 #import "TIEMSJSONModelLib.h"
+#import "TIEMSJSONModelClassProperty.h"
 
 #endif

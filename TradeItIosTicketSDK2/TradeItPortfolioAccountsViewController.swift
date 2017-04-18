@@ -28,28 +28,6 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     }
 
     // MARK: TradeItPortfolioAccountsTableDelegate
-
-    func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void) {
-        TradeItSDK.linkedBrokerManager.authenticateAll(
-            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelSecurityQuestion
-                )
-            },
-            onFinished: {
-                TradeItSDK.linkedBrokerManager.refreshAccountBalances(
-                    onFinished: {
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
-                    }
-                )
-            }
-        )
-    }
-
-    // MARK: - TradeItPortfolioAccountsTableDelegate methods
     
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount) {
         let portfolioAccountDetailsController = self.viewControllerProvider.provideViewController(forStoryboardId: .portfolioAccountDetailsView) as! TradeItPortfolioAccountDetailsViewController
@@ -67,9 +45,7 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
 
     func authenticate(linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticateIfNeeded(
-            onSuccess: {
-                self.accountsTableViewManager.initiateRefresh()
-            },
+            onSuccess: updateTable,
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -79,8 +55,30 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
                 )
             },
             onFailure: { error in
-                self.accountsTableViewManager.update(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                self.updateTable()
             }
         )
+    }
+
+    func authenticateAll() {
+        TradeItSDK.linkedBrokerManager.authenticateAll(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFinished: updateTable
+        )
+    }
+
+    // MARK: Private
+
+    private func updateTable() {
+        TradeItSDK.linkedBrokerManager.refreshAccountBalances(onFinished: {
+            self.accountsTableViewManager.set(linkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
+        })
     }
 }

@@ -6,6 +6,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()
     var selectedLinkedBroker: TradeItLinkedBroker!
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    var alertManager = TradeItAlertManager()
 
     @IBOutlet weak var brokersTableView: UITableView!
 
@@ -33,6 +34,26 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
     }
     
     // MARK: - TradeItBrokerManagementViewControllerBrokersTableDelegate methods
+    
+    func authenticate(linkedBroker: TradeItLinkedBroker) {
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                self.brokerManagementTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.linkedBrokers)
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure:  { error in
+                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
+            }
+        )
+    }
+
     
     func linkedBrokerWasSelected(_ selectedLinkedBroker: TradeItLinkedBroker) {
         self.selectedLinkedBroker = selectedLinkedBroker

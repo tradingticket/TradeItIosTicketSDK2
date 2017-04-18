@@ -1204,6 +1204,31 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ACCOUNT_SELECTION_ERROR_CELL_ID" textLabel="VSe-Yn-tZU" detailTextLabel="G7j-Tb-Pbe" rowHeight="50" style="IBUITableViewCellStyleSubtitle" id="6yw-Hw-hKG" customClass="TradeItLinkedBrokerErrorTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6yw-Hw-hKG" id="XJu-WJ-T8M">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VSe-Yn-tZU">
+                                                    <rect key="frame" x="15" y="8" width="35.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G7j-Tb-Pbe">
+                                                    <rect key="frame" x="15" y="28.5" width="33" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oiZ-A4-6dB">
@@ -1562,8 +1587,32 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_ADD_ACCOUNT_CELL_ID" textLabel="bup-fq-gvy" style="IBUITableViewCellStyleDefault" id="4ZS-6N-1K9">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_ERROR_CELL_ID" textLabel="tW4-UI-tYg" detailTextLabel="5qx-ky-3aA" rowHeight="50" style="IBUITableViewCellStyleSubtitle" id="xwk-2M-XyS" customClass="TradeItLinkedBrokerErrorTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xwk-2M-XyS" id="Tn0-Yp-zZw">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tW4-UI-tYg">
+                                                    <rect key="frame" x="15" y="8" width="35.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5qx-ky-3aA">
+                                                    <rect key="frame" x="15" y="28.5" width="33" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BROKER_MANAGER_ADD_ACCOUNT_CELL_ID" textLabel="bup-fq-gvy" style="IBUITableViewCellStyleDefault" id="4ZS-6N-1K9">
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4ZS-6N-1K9" id="5hF-Ho-RcW">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -1731,6 +1780,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="QVk-PB-m4r" secondAttribute="trailing" constant="55" id="Dcw-Tn-02f"/>
+                            <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="lwx-MP-KaO" secondAttribute="bottom" constant="52" id="HN2-We-fgO"/>
                             <constraint firstItem="QVk-PB-m4r" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="22" id="P9x-KF-9Fd"/>
                             <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="QVk-PB-m4r" secondAttribute="bottom" constant="30" id="QmZ-cw-bbL"/>
                             <constraint firstItem="lwx-MP-KaO" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="U29-yg-7d8"/>

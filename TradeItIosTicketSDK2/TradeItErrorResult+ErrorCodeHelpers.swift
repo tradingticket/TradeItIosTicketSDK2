@@ -6,6 +6,7 @@ public enum TradeItErrorCode: Int {
     case paramsError = 500
     case sessionError = 600
     case oauthError = 700
+    case accountNotAvailable = 800
 }
 
 extension TradeItErrorResult: Error {
@@ -40,6 +41,13 @@ extension TradeItErrorResult: Error {
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
-        return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError].contains(errorCode)
+        return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError, TradeItErrorCode.accountNotAvailable].contains(errorCode)
+    }
+    
+    public func isAccountLinkDelayedError() -> Bool {
+        guard let integerCode = self.code?.intValue
+            , let errorCode = TradeItErrorCode(rawValue: integerCode)
+            else { return false }
+        return TradeItErrorCode.accountNotAvailable == errorCode
     }
 }

@@ -22,22 +22,19 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
-    
-    func update(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
+
+    func initiateRefresh() {
+        self.refreshControl.beginRefreshing()
+        self.delegate?.authenticateAll()
+    }
+
+    func set(linkedBrokers: [TradeItLinkedBroker]) {
         self.linkedBrokerSectionPresenters = linkedBrokers.map { linkedBroker in
             return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker)
         }
         self.accountsTable?.reloadData()
-    }
+        self.refreshControl.endRefreshing()
 
-    func initiateRefresh() {
-        self.refreshControl.beginRefreshing()
-        self.delegate?.refreshRequested(
-            onRefreshComplete: { linkedBrokers in
-                self.update(withLinkedBrokers: linkedBrokers)
-                self.refreshControl.endRefreshing()
-            }
-        )
     }
 
     // MARK: UITableViewDelegate
@@ -51,10 +48,12 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
 
             if error.requiresRelink() {
                 self.delegate?.relink(linkedBroker: linkedBrokerPresenter.linkedBroker)
-            } else if error.requiresAuthentication() {
+            } else if error.requiresAuthentication() || error.isAccountLinkDelayedError() {
+                self.refreshControl.beginRefreshing()
                 self.delegate?.authenticate(linkedBroker: linkedBrokerPresenter.linkedBroker)
             } else {
-                self.initiateRefresh()
+                self.refreshControl.beginRefreshing()
+                self.delegate?.authenticateAll()
             }
         } else {
             guard let account = linkedBrokerPresenter.accountFor(row: indexPath.row) else { return }
@@ -202,10 +201,13 @@ fileprivate class LinkedBrokerSectionPresenter {
     private func errorCell(forTableView tableView: UITableView) -> UITableViewCell {
         guard let error = error else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        if error.requiresRelink() == true {
+        if error.isAccountLinkDelayedError() {
+            cell.textLabel?.text = "Activation in Progress"
+            cell.detailTextLabel?.text = "Account is being activated. Check back soon."
+        } else if error.requiresRelink() {
             cell.textLabel?.text = "Relink Broker"
             cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerName) failed. Tap to relink."
-        } else if error.requiresAuthentication() == true {
+        } else if error.requiresAuthentication() {
             cell.textLabel?.text = "Authentication Failed"
             cell.detailTextLabel?.text = "Failed to create a session. Tap to retry."
         } else {
@@ -227,5 +229,5 @@ protocol TradeItPortfolioAccountsTableDelegate: class {
     func linkedBrokerAccountWasSelected(selectedAccount: TradeItLinkedBrokerAccount)
     func relink(linkedBroker: TradeItLinkedBroker)
     func authenticate(linkedBroker: TradeItLinkedBroker)
-    func refreshRequested(onRefreshComplete: @escaping ([TradeItLinkedBroker]) -> Void)
+    func authenticateAll()
 }

@@ -11,6 +11,7 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
     private let ACCOUNT_NUMBER_KEY = "ACCOUNT_NUMBER"
     private let ACCOUNT_ENABLED_KEY = "ACCOUNT_ENABLED"
+    private let ACCOUNTS_LINK_DELAY_ERROR_KEY = "ACCOUNTS_LINK_DELAY_ERROR"
     private let BALANCE_LAST_UPDATED_KEY = "BALANCE_LAST_UPDATED"
     private let BALANCE_BUYING_POWER_KEY = "BALANCE_BUYING_POWER"
     private let FX_BALANCE_BUYING_POWER_KEY = "FX_BALANCE_BUYING_POWER"
@@ -51,6 +52,10 @@ class TradeItLinkedBrokerCache {
         }
 
         linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? Date
+        linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] as? Bool ?? false
+        if linkedBroker.isAccountLinkDelayedError {
+            linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
+        }
     }
 
     func remove(linkedBroker: TradeItLinkedBroker) {
@@ -86,7 +91,9 @@ class TradeItLinkedBrokerCache {
         if let accountsLastUpdated = linkedBroker.accountsLastUpdated {
             serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] = accountsLastUpdated
         }
-
+        
+        serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] = linkedBroker.isAccountLinkDelayedError
+      
         return serializedLinkedBroker
     }
 

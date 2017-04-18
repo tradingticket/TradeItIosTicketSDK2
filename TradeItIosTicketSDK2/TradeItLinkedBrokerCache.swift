@@ -54,7 +54,7 @@ class TradeItLinkedBrokerCache {
         linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? Date
         linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] as? Bool ?? false
         if linkedBroker.isAccountLinkDelayedError {
-            linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) is being activated. Check back soon (ip to two business days)", code: TradeItErrorCode.accountNotAvailable)
+            linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
         }
     }
 

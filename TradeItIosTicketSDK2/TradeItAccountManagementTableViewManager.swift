@@ -52,13 +52,15 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         return SECTIONS.count.rawValue
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection sectionIndex: Int) -> String? {
-        guard let section = SECTIONS.init(rawValue: sectionIndex) else { return nil }
-        switch section {
-        case .accounts: return "ACCOUNTS"
-        case .manage: return "MANAGE"
-        default: return nil
-        }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = headerLabelFor(sectionIndex)
+        TradeItThemeConfigurator.configureTableHeader(header: cell)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIndex: Int) -> Int {
@@ -92,6 +94,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
                                  for: UIControlEvents.valueChanged)
+        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
@@ -109,6 +112,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
 
     private func provideActionCell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_MANAGEMENT_ACTION_CELL_ID")!
+        TradeItThemeConfigurator.configure(view: cell)
         switch row {
         case 0:
             cell.textLabel?.text = "Relink"
@@ -120,6 +124,15 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
             return UITableViewCell()
         }
         return cell
+    }
+
+    private func headerLabelFor(_ sectionIndex: Int) -> String? {
+        guard let section = SECTIONS.init(rawValue: sectionIndex) else { return nil }
+        switch section {
+        case .accounts: return "ACCOUNTS"
+        case .manage: return "MANAGE"
+        default: return nil
+        }
     }
 }
 

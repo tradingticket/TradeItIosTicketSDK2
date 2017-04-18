@@ -1,8 +1,8 @@
 import UIKit
 
 class TradeItBrokerManagementTableViewCell: UITableViewCell {
-
     override func awakeFromNib() {
+        super.awakeFromNib()
         TradeItThemeConfigurator.configure(view: self)
     }
 
@@ -15,5 +15,4 @@ class TradeItBrokerManagementTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
 }

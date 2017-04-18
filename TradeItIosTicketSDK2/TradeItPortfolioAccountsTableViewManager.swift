@@ -3,7 +3,7 @@ import UIKit
 class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
-    private var refreshControl: UIRefreshControl?
+    private var refreshControl = UIRefreshControl()
     private let NON_LINKED_BROKER_SECTIONS_COUNT = 1
 
     var accountsTable: UITableView? {
@@ -31,11 +31,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func initiateRefresh() {
-        self.refreshControl?.beginRefreshing()
+        self.refreshControl.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: { linkedBrokers in
                 self.update(withLinkedBrokers: linkedBrokers)
-                self.refreshControl?.endRefreshing()
+                self.refreshControl.endRefreshing()
             }
         )
     }
@@ -90,6 +90,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         } else {
             header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName.uppercased()
         }
+        TradeItThemeConfigurator.configureTableHeader(header: header)
         return header
     }
 
@@ -107,6 +108,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
             cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
+            TradeItThemeConfigurator.configure(view: cell)
             return cell
         } else {
             let linkedBrokerIndex = indexPath.section - NON_LINKED_BROKER_SECTIONS_COUNT
@@ -126,7 +128,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     // MARK: Private
 
     private func addRefreshControl(toTableView tableView: UITableView) {
-        let refreshControl = UIRefreshControl()
+        TradeItThemeConfigurator.configure(view: refreshControl)
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(
             self,
@@ -134,7 +136,6 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             for: UIControlEvents.valueChanged
         )
         tableView.addSubview(refreshControl)
-        self.refreshControl = refreshControl
     }
 
     private func totalValue() -> Float {

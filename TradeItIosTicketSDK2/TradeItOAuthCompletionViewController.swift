@@ -75,8 +75,6 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     // MARK: Private
 
     private func setInitialState() {
-        self.view.backgroundColor = UIColor.tradeItlightGreyBackgroundColor
-
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.disable()
 
@@ -84,7 +82,6 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.activityIndicator.hidesWhenStopped = true
 
         self.statusLabel.text = "Linking..."
-        self.statusLabel.textColor = UIColor.tradeItCoolBlueColor
         self.detailsLabel.text = ""
     }
 

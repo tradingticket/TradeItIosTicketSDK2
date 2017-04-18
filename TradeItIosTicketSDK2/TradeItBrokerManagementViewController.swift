@@ -1,6 +1,6 @@
  import UIKit
 
-class TradeItBrokerManagementViewController: CloseableViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
+class TradeItBrokerManagementViewController: TradeItViewController, TradeItBrokerManagementViewControllerBrokersTableDelegate {
     let toSelectBrokerScreen = "TO_SELECT_BROKER_SCREEN"
     let toAccountManagementScreen = "TO_ACCOUNT_MANAGEMENT_SCREEN"
     var brokerManagementTableManager = TradeItBrokerManagementTableViewManager()

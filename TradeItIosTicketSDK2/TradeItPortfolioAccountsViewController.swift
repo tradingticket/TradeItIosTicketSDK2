@@ -1,7 +1,7 @@
 import UIKit
 import PromiseKit
 
-class TradeItPortfolioAccountsViewController: CloseableViewController, TradeItPortfolioAccountsTableDelegate {
+class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPortfolioAccountsTableDelegate {
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     var alertManager = TradeItAlertManager()
     var accountsTableViewManager = TradeItPortfolioAccountsTableViewManager()

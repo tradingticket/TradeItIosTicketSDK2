@@ -23,6 +23,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let logo = UIImage(named: "tradeit_logo.png")
         let logoView = UIImageView(image: logo)
         self.navigationItem.titleView = logoView
+        self.registerLinkObservers()
 
         sections = [
             Section(
@@ -478,7 +479,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let originalBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
         print("=====> Keychain Linked Login count before clearing: \(originalBrokerCount)")
 
-        let appDomain = Bundle.main.bundleIdentifier;
+        let appDomain = Bundle.main.bundleIdentifier
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY)
@@ -508,5 +509,31 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func handleThemeChange() {
         TradeItThemeConfigurator.configure(view: self.view)
         self.table.reloadData()
+    }
+
+    private func registerLinkObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didLink), name: TradeItSDK.didLinkNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didUnlink), name: TradeItSDK.didUnlinkNotificationName, object: nil)
+    }
+
+    func didLink(notification: Notification) {
+        print("TradeItSDK: didLink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    func didUnlink(notification: Notification) {
+        print("TradeItSDK: didUnlink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didLinkNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didUnlinkNotificationName, object: nil)
     }
 }

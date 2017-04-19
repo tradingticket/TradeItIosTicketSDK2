@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 @protocol TradeItBrokerAccount
 @end
 
-@interface TradeItBrokerAccount :  TIEMSJSONModel<NSCopying>
+@interface TradeItBrokerAccount :  JSONModel<NSCopying>
 
 @property (copy) NSString *accountBaseCurrency;
 

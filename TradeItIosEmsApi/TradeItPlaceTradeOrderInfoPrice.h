@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItPlaceTradeOrderInfoPrice : TIEMSJSONModel<NSCopying>
+@interface TradeItPlaceTradeOrderInfoPrice : JSONModel<NSCopying>
 
 // The type of the order, possible values are market, limit, stopMarket or stopLimit
 @property (nullable, copy) NSString *type;

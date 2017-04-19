@@ -6,9 +6,9 @@
 //  Copyright © 2016 TradeIt. All rights reserved.
 //
 
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItFxAccountOverview : TIEMSJSONModel
+@interface TradeItFxAccountOverview : JSONModel
 
 @property (nullable, copy) NSNumber<Optional> *totalValueBaseCurrency;
 

@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 @protocol TradeItPosition
 @end
 
-@interface TradeItPosition : TIEMSJSONModel<NSCopying>
+@interface TradeItPosition : JSONModel<NSCopying>
 
 // The exchange symbol, or cusip for bonds
 @property (nullable, copy) NSString<Optional> *symbol;

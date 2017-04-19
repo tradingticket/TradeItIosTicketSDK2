@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 @protocol TradeItQuote
 @end
 
-@interface TradeItQuote : TIEMSJSONModel<NSCopying>
+@interface TradeItQuote : JSONModel<NSCopying>
 
 
 // The street symbol you passed in

@@ -6,9 +6,9 @@
 //  Copyright © 2016 TradeIt. All rights reserved.
 //
 
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItAccountOverview : TIEMSJSONModel
+@interface TradeItAccountOverview : JSONModel
 
 // The total account value
 @property (nullable, copy) NSNumber<Optional> *totalValue;

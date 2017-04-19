@@ -3,7 +3,7 @@
 
 @interface TradeItJsonConverter : NSObject
 
-+ (NSMutableURLRequest *)buildJsonRequestForModel:(TIEMSJSONModel *)requestObject
++ (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)action
                                       environment:(TradeitEmsEnvironments)env;
 

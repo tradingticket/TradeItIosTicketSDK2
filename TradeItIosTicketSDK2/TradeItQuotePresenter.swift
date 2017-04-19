@@ -13,6 +13,10 @@ class TradeItQuotePresenter: NSObject {
         return NumberFormatter.formatCurrency(lastPrice, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
     }
     
+    func getTimestampLabel() -> String {
+        return self.tradeItQuote.dateTime ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+    }
+    
     func getLastPriceValue() -> NSDecimalNumber {
         guard let lastPrice = self.tradeItQuote.lastPrice
             else { return 0.0 }

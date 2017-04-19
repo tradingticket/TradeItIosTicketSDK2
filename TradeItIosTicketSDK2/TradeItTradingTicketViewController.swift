@@ -94,6 +94,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let ticketRow = self.ticketRows[indexPath.row]
+
+        switch ticketRow {
+        case .marketPrice: return 60.0
+        default: return 40.0
+        }
+    }
+
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,11 +131,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                         self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
                                                                   withPreviewOrderResult: previewOrderResult,
                                                                   placeOrderCallback: placeOrderCallback)
-                }, onFailure: { error in
-                    activityView.hide(animated: true)
-                    // TODO: use self.alertManager.showRelinkError
-                    self.alertManager.showError(error, onViewController: self)
-                }
+                    }, onFailure: { error in
+                        activityView.hide(animated: true)
+                        // TODO: use self.alertManager.showRelinkError
+                        self.alertManager.showError(error, onViewController: self)
+                    }
                 )
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
             activityView.hide(animated: true)
@@ -311,7 +320,9 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId) ?? UITableViewCell()
         cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
-
+        
+        TradeItThemeConfigurator.configure(view: cell)
+        
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
@@ -348,7 +359,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             }
             )
         case .marketPrice:
-            cell.detailTextLabel?.text = self.quotePresenter?.getLastPriceLabel()
+            guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
+            marketCell.configure(quotePresenter: self.quotePresenter)
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -370,8 +382,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 detailSecondaryText: accountSecondaryText()
             )
         }
-
-        TradeItThemeConfigurator.configure(view: cell)
         return cell
     }
 
@@ -419,6 +429,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
             case selection = "TRADING_TICKET_SELECTION_CELL_ID"
             case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
+            case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
         }
 
         var cellReuseId: String {
@@ -436,7 +447,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             case .orderType, .expiration:
                 cellReuseId = .selection
             case .marketPrice:
-                cellReuseId = .readOnly
+                cellReuseId = .marketData
             case .account:
                 cellReuseId = .selectionDetail
             }

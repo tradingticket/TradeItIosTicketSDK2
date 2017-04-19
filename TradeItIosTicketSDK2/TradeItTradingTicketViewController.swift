@@ -94,6 +94,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let ticketRow = self.ticketRows[indexPath.row]
+
+        switch ticketRow {
+        case .marketPrice: return 60.0
+        default: return 40.0
+        }
+    }
+
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,11 +131,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                         self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
                                                                   withPreviewOrderResult: previewOrderResult,
                                                                   placeOrderCallback: placeOrderCallback)
-                }, onFailure: { error in
-                    activityView.hide(animated: true)
-                    // TODO: use self.alertManager.showRelinkError
-                    self.alertManager.showError(error, onViewController: self)
-                }
+                    }, onFailure: { error in
+                        activityView.hide(animated: true)
+                        // TODO: use self.alertManager.showRelinkError
+                        self.alertManager.showError(error, onViewController: self)
+                    }
                 )
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
             activityView.hide(animated: true)

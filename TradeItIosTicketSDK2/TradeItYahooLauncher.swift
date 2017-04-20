@@ -20,7 +20,7 @@ import UIKit
                                               withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView)
 
-        if let brokerLinkedViewController = navController.viewControllers.last as? TradeItYahooBrokerLinkedViewController {
+        if let brokerLinkedViewController = navController.viewControllers.last as? TradeItYahooOAuthCompletionViewController {
             brokerLinkedViewController.linkedBroker = linkedBroker
             viewController.present(navController, animated: true)
         }

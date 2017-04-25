@@ -14,7 +14,16 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     private let actionButtonTitleTextContinue = "Continue"
     private let actionButtonTitleTextTryAgain = "Try again"
 
-    override func viewDidLoad() {
+    private enum LinkState {
+        case linking
+        case succeeded
+        case pending
+        case failed
+    }
+
+    private var linkState: LinkState = .linking
+
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         precondition(self.oAuthCallbackUrlParser != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set before loading TradeItOAuthCompletionViewController")
@@ -78,6 +87,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     // MARK: Private
 
     private func setInitialState() {
+        self.linkState = .linking
+
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.disable()
 
@@ -89,6 +100,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 
     private func setSuccessState(forBroker broker: String) {
+        self.linkState = .succeeded
+
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.enable()
 
@@ -99,6 +112,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
     
     private func setPendingState(forBroker broker: String) {
+        self.linkState = .pending
+
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.enable()
         
@@ -109,6 +124,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 
     private func setFailureState(withMessage message: String) {
+        self.linkState = .failed
+
         self.actionButton.setTitle(actionButtonTitleTextTryAgain, for: .normal)
         self.actionButton.enable()
         self.activityIndicator.stopAnimating()
@@ -120,18 +137,21 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     // MARK: IBActions
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
-        if self.actionButton.title(for: .normal) == actionButtonTitleTextContinue {
+        switch self.linkState {
+        case .succeeded, .pending:
             delegate?.onContinue(
                 fromOAuthCompletionViewViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
-        } else if self.actionButton.title(for: .normal) == actionButtonTitleTextTryAgain {
+        case .failed:
             delegate?.onTryAgain(
                 fromOAuthCompletionViewViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
+        case .linking:
+            break
         }
     }
 }

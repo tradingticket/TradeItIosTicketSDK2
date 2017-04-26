@@ -1,6 +1,6 @@
-import Foundation
 import UIKit
 import MBProgressHUD
+import SafariServices
 
 class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -58,8 +58,8 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                UIApplication.shared.openURL(url)
-                self.dismiss(animated: true)
+                let safariViewController = SFSafariViewController(url: url)
+                self.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
                 self.alertManager.showError(errorResult,

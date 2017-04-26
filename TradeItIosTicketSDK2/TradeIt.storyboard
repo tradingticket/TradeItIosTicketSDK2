@@ -1732,7 +1732,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBn-WM-6Tc">
-                                <rect key="frame" x="71" y="227" width="233" height="40"/>
+                                <rect key="frame" x="71" y="228" width="233" height="40"/>
                                 <color key="backgroundColor" red="0.25490196079999999" green="0.45411807300000001" blue="0.66381359100000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="573-Km-nyP"/>
@@ -1752,32 +1752,31 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hs3-Aa-Icl">
-                                <rect key="frame" x="16" y="79" width="343" height="29"/>
+                                <rect key="frame" x="16" y="80" width="343" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVk-PB-m4r" userLabel="Details Label">
-                                <rect key="frame" x="71" y="130" width="233" height="67"/>
+                                <rect key="frame" x="71" y="131" width="233" height="67"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="lwx-MP-KaO">
-                                <rect key="frame" x="169" y="138" width="37" height="37"/>
+                                <rect key="frame" x="169" y="146" width="37" height="37"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="QVk-PB-m4r" secondAttribute="trailing" constant="55" id="Dcw-Tn-02f"/>
-                            <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="lwx-MP-KaO" secondAttribute="bottom" constant="52" id="HN2-We-fgO"/>
                             <constraint firstItem="QVk-PB-m4r" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="22" id="P9x-KF-9Fd"/>
                             <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="QVk-PB-m4r" secondAttribute="bottom" constant="30" id="QmZ-cw-bbL"/>
                             <constraint firstItem="lwx-MP-KaO" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="U29-yg-7d8"/>
                             <constraint firstItem="GBn-WM-6Tc" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="Veg-YZ-eFh"/>
-                            <constraint firstItem="Hs3-Aa-Icl" firstAttribute="top" secondItem="5Ij-CX-sLM" secondAttribute="bottom" constant="59" id="XCq-kO-dl2"/>
+                            <constraint firstItem="Hs3-Aa-Icl" firstAttribute="top" secondItem="5Ij-CX-sLM" secondAttribute="bottom" constant="60" id="XCq-kO-dl2"/>
+                            <constraint firstItem="lwx-MP-KaO" firstAttribute="centerY" secondItem="QVk-PB-m4r" secondAttribute="centerY" id="l6I-xw-TD9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Hs3-Aa-Icl" secondAttribute="trailing" id="m2m-d7-ayj"/>
-                            <constraint firstItem="lwx-MP-KaO" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="30" id="mrX-g7-nqt"/>
                             <constraint firstItem="QVk-PB-m4r" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" constant="55" id="nMh-ed-Tzz"/>
                             <constraint firstItem="Hs3-Aa-Icl" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="veh-Hi-Sie"/>
                         </constraints>

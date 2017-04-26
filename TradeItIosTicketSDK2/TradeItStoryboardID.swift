@@ -16,7 +16,7 @@ enum TradeItStoryboardID: String {
     case navView = "TRADE_IT_NAV_VIEW"
     // Yahoo
     case yahooAccountSelectionView = "TRADE_IT_YAHOO_ACCOUNT_SELECTION_VIEW"
-    case yahooBrokerLinkedView = "TRADE_IT_YAHOO_BROKER_LINKED_VIEW"
+    case yahooOAuthCompletionView = "TRADE_IT_YAHOO_OAUTH_COMPLETION_VIEW"
     case yahooBrokerSelectionView = "TRADE_IT_YAHOO_BROKER_SELECTION_VIEW"
     case yahooSelectionView = "TRADE_IT_YAHOO_SELECTION_VIEW"
     case yahooTradingPreviewView = "TRADE_IT_YAHOO_TRADING_PREVIEW_VIEW"

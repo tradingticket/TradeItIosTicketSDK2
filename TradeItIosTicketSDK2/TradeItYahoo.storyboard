@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -455,7 +455,7 @@
         <!--Broker linked-->
         <scene sceneID="de4-Vp-dKK">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_YAHOO_BROKER_LINKED_VIEW" title="Broker linked" id="RYJ-Wj-vSz" customClass="TradeItYahooBrokerLinkedViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_OAUTH_COMPLETION_VIEW" title="Broker linked" id="RYJ-Wj-vSz" customClass="TradeItYahooOAuthCompletionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hkx-9Y-dEt"/>
                         <viewControllerLayoutGuide type="bottom" id="B1L-en-oln"/>
@@ -464,14 +464,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have linked:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-RI-lfi">
-                                <rect key="frame" x="16" y="70" width="343" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-RI-lfi">
+                                <rect key="frame" x="16" y="80" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3c-rZ-ne5">
-                                <rect key="frame" x="16" y="141" width="343" height="24"/>
+                                <rect key="frame" x="16" y="151" width="343" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -492,25 +492,31 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="Otc-HQ-FKP"/>
+                                    <action selector="actionButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="e5v-RD-HEk"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdx-Mj-pun">
-                                <rect key="frame" x="16" y="215" width="343" height="61"/>
+                                <rect key="frame" x="16" y="225" width="343" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="highlightedColor" red="0.94629161558888897" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZI3-FC-XTV">
+                                <rect key="frame" x="169" y="144.5" width="37" height="37"/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gQ4-Vs-NfX" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="5Lr-TA-JEl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Kdx-Mj-pun" secondAttribute="trailing" id="7nA-7l-dFB"/>
                             <constraint firstItem="Kdx-Mj-pun" firstAttribute="top" secondItem="a3c-rZ-ne5" secondAttribute="bottom" constant="50" id="Dby-M9-q50"/>
-                            <constraint firstItem="OtU-RI-lfi" firstAttribute="top" secondItem="Hkx-9Y-dEt" secondAttribute="bottom" constant="50" id="Jti-7U-1Bg"/>
+                            <constraint firstItem="OtU-RI-lfi" firstAttribute="top" secondItem="Hkx-9Y-dEt" secondAttribute="bottom" constant="60" id="Jti-7U-1Bg"/>
+                            <constraint firstItem="ZI3-FC-XTV" firstAttribute="centerX" secondItem="c7B-Ve-8yl" secondAttribute="centerX" id="TVP-ql-5j0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gQ4-Vs-NfX" secondAttribute="trailing" id="WZA-AN-pCE"/>
                             <constraint firstItem="Kdx-Mj-pun" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="c8A-JE-hfZ"/>
                             <constraint firstItem="a3c-rZ-ne5" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="dtv-VU-pwr"/>
+                            <constraint firstItem="ZI3-FC-XTV" firstAttribute="centerY" secondItem="a3c-rZ-ne5" secondAttribute="centerY" id="ebX-Zp-F34"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a3c-rZ-ne5" secondAttribute="trailing" id="eus-rj-1O0"/>
                             <constraint firstItem="B1L-en-oln" firstAttribute="top" secondItem="gQ4-Vs-NfX" secondAttribute="bottom" constant="15" id="gKi-Jy-hOM"/>
                             <constraint firstItem="a3c-rZ-ne5" firstAttribute="top" secondItem="OtU-RI-lfi" secondAttribute="bottom" constant="50" id="rbj-2l-ZvV"/>
@@ -520,7 +526,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Broker linked" id="KH4-0b-yDp"/>
                     <connections>
-                        <outlet property="brokerLabel" destination="a3c-rZ-ne5" id="8R3-x9-hdT"/>
+                        <outlet property="actionButton" destination="gQ4-Vs-NfX" id="AM2-9C-O3F"/>
+                        <outlet property="activityIndicator" destination="ZI3-FC-XTV" id="M7p-N8-DFK"/>
+                        <outlet property="brokerLabel" destination="a3c-rZ-ne5" id="pqy-gI-PRw"/>
+                        <outlet property="detailsLabel" destination="Kdx-Mj-pun" id="Kb8-zL-o2k"/>
+                        <outlet property="statusLabel" destination="OtU-RI-lfi" id="VAk-FN-jPA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5w-G1-Ay7" userLabel="First Responder" sceneMemberID="firstResponder"/>

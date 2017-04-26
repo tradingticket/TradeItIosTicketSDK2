@@ -4,6 +4,7 @@ import UIKit
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     var deviceManager = TradeItDeviceManager()
     let tradingUIFlow = TradeItYahooTradingUIFlow()
+    let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
 
     override internal init() {}
     
@@ -16,14 +17,32 @@ import UIKit
         }
     }
 
-    public func launchOAuthConfirmationScreen(fromViewController viewController: UIViewController,
-                                              withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerLinkedView)
+    public func handleOAuthCallback(
+        onViewController safariViewController: UIViewController,
+        oAuthCallbackUrl: URL
+    ) {
+        print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
-        if let brokerLinkedViewController = navController.viewControllers.last as? TradeItYahooOAuthCompletionViewController {
-            brokerLinkedViewController.linkedBroker = linkedBroker
-            viewController.present(navController, animated: true)
+        let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
+
+        var parentViewController = safariViewController.presentingViewController
+
+        // If this is a new link and not a relink then there is a SelectBrokerVC that also needs to be dismissed.
+        if parentViewController?.childViewControllers.first is TradeItYahooBrokerSelectionViewController {
+            parentViewController = parentViewController?.presentingViewController
         }
+
+        guard let originalViewController = parentViewController else {
+            preconditionFailure("View hierarchy in unknown state.")
+        }
+
+
+        originalViewController.dismiss(animated: true, completion: {
+            self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
+                fromViewController: originalViewController,
+                oAuthCallbackUrlParser: oAuthCallbackUrlParser
+            )
+        })
     }
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {

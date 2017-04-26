@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 
 /**
  *  Base Execution Management System(EMS) server result class. All Results sent by the server extend this class
  */
-@interface TradeItResult : TIEMSJSONModel
+@interface TradeItResult : JSONModel
 
 /**
  *  Contains the status of the result which helps identify the type of result sent back. Possible values are

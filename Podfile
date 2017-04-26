@@ -12,6 +12,7 @@ end
 def app_pods
   pod 'PromiseKit', '~> 4.0'
   pod 'MBProgressHUD', '~> 1.0.0'
+  pod 'JSONModel', '~> 1.7.0'
 end
 
 target 'TradeItIosTicketSDK2Tests' do

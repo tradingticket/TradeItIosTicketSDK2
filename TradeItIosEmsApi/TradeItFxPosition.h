@@ -6,12 +6,12 @@
 //  Copyright © 2016 TradeIt. All rights reserved.
 //
 
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 @protocol TradeItFxPosition
 @end
 
-@interface TradeItFxPosition : TIEMSJSONModel<NSCopying>
+@interface TradeItFxPosition : JSONModel<NSCopying>
 
 // The currency pair XXX/XXX
 @property (nullable, copy) NSString<Optional> *symbol;

@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TIEMSJSONModel.h"
+#import <JSONModel/JSONModel.h>
 #import "TradeItPlaceTradeOrderInfoPrice.h"
 
-@interface TradeItPlaceTradeOrderInfo : TIEMSJSONModel<NSCopying>
+@interface TradeItPlaceTradeOrderInfo : JSONModel<NSCopying>
 
 /**
  *  The symbol passed into the order

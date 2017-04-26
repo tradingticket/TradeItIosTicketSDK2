@@ -47,7 +47,7 @@
     }
 }
 
-+ (NSMutableURLRequest *)buildJsonRequestForModel:(TIEMSJSONModel *)requestObject
++ (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)emsAction
                                       environment:(TradeitEmsEnvironments)env {
     NSData *requestData = [[requestObject toJSONString] dataUsingEncoding:NSUTF8StringEncoding];
@@ -68,7 +68,7 @@
 
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
                     jsonString:(NSString *)jsonString {
-    TIEMSJSONModelError *jsonModelError = nil;
+    JSONModelError *jsonModelError = nil;
     TradeItResult *resultFromJson = [tradeItResult initWithString:jsonString error:&jsonModelError];
 
     if (jsonModelError != nil)

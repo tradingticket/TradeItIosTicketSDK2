@@ -20,7 +20,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate
 
-    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+    func onTryAgain(fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?) {
         guard let navController = viewController.navigationController else {
@@ -45,7 +45,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
         }
     }
 
-    func onContinue(fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+    func onContinue(fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?) {
         guard let destination = oAuthCallbackUrlParser.destination else { return viewController.dismiss(animated: false) }

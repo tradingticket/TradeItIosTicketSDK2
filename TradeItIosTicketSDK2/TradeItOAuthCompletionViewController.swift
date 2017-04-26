@@ -140,13 +140,13 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         switch self.linkState {
         case .succeeded, .pending:
             delegate?.onContinue(
-                fromOAuthCompletionViewViewController: self,
+                fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
         case .failed:
             delegate?.onTryAgain(
-                fromOAuthCompletionViewViewController: self,
+                fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
@@ -158,13 +158,13 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
 protocol TradeItOAuthCompletionViewControllerDelegate {
     func onContinue(
-        fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )
 
     func onTryAgain(
-        fromOAuthCompletionViewViewController viewController: TradeItOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )

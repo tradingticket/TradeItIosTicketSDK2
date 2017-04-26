@@ -143,13 +143,13 @@ import UIKit
         switch self.linkState {
         case .succeeded, .pending:
             delegate?.onContinue(
-                fromOAuthCompletionViewViewController: self,
+                fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
         case .failed:
             delegate?.onTryAgain(
-                fromOAuthCompletionViewViewController: self,
+                fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
@@ -161,13 +161,13 @@ import UIKit
 
 protocol TradeItYahooOAuthCompletionViewControllerDelegate {
     func onContinue(
-        fromOAuthCompletionViewViewController viewController: TradeItYahooOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )
 
     func onTryAgain(
-        fromOAuthCompletionViewViewController viewController: TradeItYahooOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )

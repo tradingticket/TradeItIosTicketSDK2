@@ -20,7 +20,7 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate
 
-    func onTryAgain(fromOAuthCompletionViewViewController viewController: TradeItYahooOAuthCompletionViewController,
+    func onTryAgain(fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?) {
         guard let navController = viewController.navigationController else {
@@ -45,7 +45,7 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
         }
     }
 
-    func onContinue(fromOAuthCompletionViewViewController viewController: TradeItYahooOAuthCompletionViewController,
+    func onContinue(fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?) {
         // TODO: CALL CALLBACK PASSED FROM LAUNCHER

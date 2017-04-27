@@ -5,7 +5,6 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     @IBOutlet weak var accountsTableView: UITableView!
-    @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var editAccountsButton: UIButton!
 
     var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
@@ -22,14 +21,23 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.promptLabel.text = promptText ?? "SELECT AN ACCOUNT FOR TRADING"
+
         let linkedBrokers = TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: linkedBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
+
+        self.title = promptText ?? "Select account for trading"
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 40))
+        titleLabel.text = self.title
+        titleLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 18.0)
+        titleLabel.adjustsFontSizeToFitWidth = true
+
         if linkedBrokers.isEmpty {
             editAccountsButton.setTitle("Link Account", for: .normal)
-            self.promptLabel.text = "NO ACCOUNTS LINKED"
+            titleLabel.text = "NO ACCOUNTS LINKED"
         }
+
+        self.navigationItem.titleView = titleLabel
+
     }
     
     override func configureNavigationItem() {

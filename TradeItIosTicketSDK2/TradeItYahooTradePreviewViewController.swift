@@ -115,7 +115,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     }
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
-        if let placeOrderResult = self.placeOrderResult {
+        if self.placeOrderResult != nil {
             self.delegate?.viewPortfolioTapped(onTradePreviewViewController: self, linkedBrokerAccount: self.linkedBrokerAccount)
         } else {
             self.submitOrder()

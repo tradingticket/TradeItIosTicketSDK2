@@ -274,6 +274,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = UITableViewCell()
         cell.textLabel?.text = sections[sectionIndex].label
         TradeItThemeConfigurator.configureTableHeader(header: cell)
+
         return cell
     }
 

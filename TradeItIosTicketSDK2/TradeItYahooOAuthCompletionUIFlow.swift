@@ -1,13 +1,24 @@
 import UIKit
 
+public typealias OnOAuthCompletionSuccessHandler = ((
+    _ presentedViewController: UIViewController,
+    _ oAuthCallbackUrl: URL,
+    _ linkedBroker: TradeItLinkedBroker?
+) -> Void)
+
 class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionViewControllerDelegate {
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private let tradingUIFlow = TradeItTradingUIFlow()
     private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
+    private var onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler?
+
     func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
-                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser) {
+                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+                                    onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil) {
+        self.onOAuthCompletionSuccessHandler = onOAuthCompletionSuccessHandler
+
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .yahooOAuthCompletionView)
 
         if let oAuthCompletionViewController = navController.topViewController as? TradeItYahooOAuthCompletionViewController {
@@ -48,6 +59,10 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
     func onContinue(fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
                     oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
                     linkedBroker: TradeItLinkedBroker?) {
-        // TODO: CALL CALLBACK PASSED FROM LAUNCHER
+        self.onOAuthCompletionSuccessHandler?(
+            viewController,
+            oAuthCallbackUrlParser.oAuthCallbackUrl,
+            linkedBroker
+        )
     }
 }

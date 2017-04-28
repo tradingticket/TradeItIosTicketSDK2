@@ -19,7 +19,8 @@ import UIKit
 
     public func handleOAuthCallback(
         onViewController safariViewController: UIViewController,
-        oAuthCallbackUrl: URL
+        oAuthCallbackUrl: URL,
+        onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil
     ) {
         print("=====> handleOAuthCallback: \(oAuthCallbackUrl.absoluteString)")
 
@@ -40,7 +41,8 @@ import UIKit
         originalViewController.dismiss(animated: true, completion: {
             self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
                 fromViewController: originalViewController,
-                oAuthCallbackUrlParser: oAuthCallbackUrlParser
+                oAuthCallbackUrlParser: oAuthCallbackUrlParser,
+                onOAuthCompletionSuccessHandler: onOAuthCompletionSuccessHandler
             )
         })
     }

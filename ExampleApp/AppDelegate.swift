@@ -92,9 +92,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             switch host {
             case EXAMPLE_HOST:
-                TradeItSDK.launcher.handleOAuthCallback(onViewController: topViewController, oAuthCallbackUrl: oAuthCallbackUrl)
+                TradeItSDK.launcher.handleOAuthCallback(
+                    onViewController: topViewController,
+                    oAuthCallbackUrl: oAuthCallbackUrl
+                )
             case YAHOO_HOST:
-                TradeItSDK.yahooLauncher.handleOAuthCallback(onViewController: topViewController, oAuthCallbackUrl: oAuthCallbackUrl)
+                TradeItSDK.yahooLauncher.handleOAuthCallback(
+                    onViewController: topViewController,
+                    oAuthCallbackUrl: oAuthCallbackUrl,
+                    onOAuthCompletionSuccessHandler: { presentedViewController, oAuthCallbackUrl, linkedBroker in
+                        print("=====> OAuth completion success for broker: [\(linkedBroker?.brokerName ?? "MISSING LINKED BROKER!!!")], callback URL: [\(oAuthCallbackUrl.absoluteString)]")
+                    }
+                )
             default:
                 print("=====> ERROR: Received unknown OAuth callback URL host: \(host)")
             }

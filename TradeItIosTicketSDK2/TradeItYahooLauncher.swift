@@ -42,13 +42,16 @@ import SafariServices
         // If either the OAuth "popup" or broker selection screens are present, dismiss them before presenting
         // the OAuth completion screen
         if let originalViewController = originalViewController {
-            originalViewController.dismiss(animated: true, completion: {
-                self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
-                    fromViewController: originalViewController,
-                    oAuthCallbackUrlParser: oAuthCallbackUrlParser,
-                    onOAuthCompletionSuccessHandler: onOAuthCompletionSuccessHandler
-                )
-            })
+            originalViewController.dismiss(
+                animated: true,
+                completion: {
+                    self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
+                        fromViewController: originalViewController,
+                        oAuthCallbackUrlParser: oAuthCallbackUrlParser,
+                        onOAuthCompletionSuccessHandler: onOAuthCompletionSuccessHandler
+                    )
+                }
+            )
         } else {
             self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
                 fromViewController: topMostViewController,

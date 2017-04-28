@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             switch host {
             case EXAMPLE_HOST:
                 TradeItSDK.launcher.handleOAuthCallback(
-                    onViewController: topViewController,
+                    onTopmostViewController: topViewController,
                     oAuthCallbackUrl: oAuthCallbackUrl
                 )
             case YAHOO_HOST:

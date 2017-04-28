@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 
 @objc public class TradeItYahooLauncher: NSObject {
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
@@ -18,7 +19,7 @@ import UIKit
     }
 
     public func handleOAuthCallback(
-        onViewController safariViewController: UIViewController,
+        onTopmostViewController topMostViewController: UIViewController,
         oAuthCallbackUrl: URL,
         onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil
     ) {
@@ -26,25 +27,35 @@ import UIKit
 
         let oAuthCallbackUrlParser = TradeItOAuthCallbackUrlParser(oAuthCallbackUrl: oAuthCallbackUrl)
 
-        var parentViewController = safariViewController.presentingViewController
+        var originalViewController: UIViewController?
 
-        // If this is a new link and not a relink then there is a SelectBrokerVC that also needs to be dismissed.
-        if parentViewController?.childViewControllers.first is TradeItYahooBrokerSelectionViewController {
-            parentViewController = parentViewController?.presentingViewController
+        // Check for the OAuth "popup" screen
+        if topMostViewController is SFSafariViewController {
+            originalViewController = topMostViewController.presentingViewController
         }
 
-        guard let originalViewController = parentViewController else {
-            preconditionFailure("View hierarchy in unknown state.")
+        // Check for the broker selection screen
+        if originalViewController?.childViewControllers.first is TradeItYahooBrokerSelectionViewController {
+            originalViewController = originalViewController?.presentingViewController
         }
 
-
-        originalViewController.dismiss(animated: true, completion: {
+        // If either the OAuth "popup" or broker selection screens are present, dismiss them before presenting
+        // the OAuth completion screen
+        if let originalViewController = originalViewController {
+            originalViewController.dismiss(animated: true, completion: {
+                self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
+                    fromViewController: originalViewController,
+                    oAuthCallbackUrlParser: oAuthCallbackUrlParser,
+                    onOAuthCompletionSuccessHandler: onOAuthCompletionSuccessHandler
+                )
+            })
+        } else {
             self.oAuthCompletionUIFlow.presentOAuthCompletionFlow(
-                fromViewController: originalViewController,
+                fromViewController: topMostViewController,
                 oAuthCallbackUrlParser: oAuthCallbackUrlParser,
                 onOAuthCompletionSuccessHandler: onOAuthCompletionSuccessHandler
             )
-        })
+        }
     }
 
     public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {

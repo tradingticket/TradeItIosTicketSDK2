@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 )
             case YAHOO_HOST:
                 TradeItSDK.yahooLauncher.handleOAuthCallback(
-                    onViewController: topViewController,
+                    onTopmostViewController: topViewController,
                     oAuthCallbackUrl: oAuthCallbackUrl,
                     onOAuthCompletionSuccessHandler: { presentedViewController, oAuthCallbackUrl, linkedBroker in
                         print("=====> OAuth completion success for broker: [\(linkedBroker?.brokerName ?? "MISSING LINKED BROKER!!!")], callback URL: [\(oAuthCallbackUrl.absoluteString)]")

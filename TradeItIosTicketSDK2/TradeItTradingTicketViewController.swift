@@ -197,17 +197,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func updateAccountOverview() {
-        self.order.linkedBrokerAccount?.getAccountOverview(onSuccess: { accountOverview in
-            self.reload(row: .account)
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
-
+        self.order.linkedBrokerAccount?.getAccountOverview(
+            onSuccess: { accountOverview in
+                self.reload(row: .account)
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
+            }
+        )
     }
 
     private func updateSharesOwned() {

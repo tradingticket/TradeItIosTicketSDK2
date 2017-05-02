@@ -1,20 +1,21 @@
 import UIKit
 
-class TradeItOAuthCompletionViewController: TradeItViewController {
+@objc class TradeItYahooOAuthCompletionViewController: CloseableViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
+    @IBOutlet weak var brokerLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker?
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser!
-    var delegate: TradeItOAuthCompletionViewControllerDelegate?
+    var delegate: TradeItYahooOAuthCompletionViewControllerDelegate?
 
     private let actionButtonTitleTextContinue = "Continue"
     private let actionButtonTitleTextTryAgain = "Try again"
 
-    private enum LinkState {
+    enum LinkState {
         case linking
         case succeeded
         case pending
@@ -46,8 +47,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                         })
                         NotificationCenter.default.post(name: TradeItSDK.didLinkNotificationName, object: nil, userInfo: [
                             "linkedBroker": linkedBroker
-                        ])
-                    },
+                            ])
+                },
                     onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                         self.alertManager.promptUserToAnswerSecurityQuestion(
                             securityQuestion,
@@ -55,11 +56,11 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                             onAnswerSecurityQuestion: answerSecurityQuestion,
                             onCancelSecurityQuestion: cancelSecurityQuestion
                         )
-                    },
+                },
                     onFailure: { errorResult in
                         if errorResult.isAccountLinkDelayedError() { // case IB linked account not available yet, don't show alert error
                             self.setPendingState(forBroker: linkedBroker.brokerName)
-                       } else {
+                        } else {
                             self.alertManager.showError(
                                 errorResult,
                                 onViewController: self,
@@ -69,18 +70,18 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                                     } else {
                                         self.setSuccessState(forBroker: linkedBroker.brokerName)
                                     }
-                                }
+                            }
                             )
                         }
-                    }
+                }
                 )
-            },
+        },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(String(describing: errorResult.errorCode)), message: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
                 self.alertManager.showError(errorResult, onViewController: self)
-                
+
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
-            }
+        }
         )
     }
 
@@ -96,6 +97,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.activityIndicator.hidesWhenStopped = true
 
         self.statusLabel.text = "Linking..."
+        self.brokerLabel.text = ""
         self.detailsLabel.text = ""
     }
 
@@ -107,25 +109,26 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Success"
-        self.detailsLabel.text = "You have successfully linked \(broker). You can now trade with your account or view your portfolio to see up to date performance."
+        self.statusLabel.text = "You have successfully linked:"
+        self.brokerLabel.text = broker
+        self.detailsLabel.text = "You can now trade from your accounts or view your portfolios to see performance, news, and edit settings."
     }
-    
+
     private func setPendingState(forBroker broker: String) {
         self.linkState = .pending
 
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.enable()
-        
+
         self.activityIndicator.stopAnimating()
-        
-        self.statusLabel.text = "Activation in Progress"
-        self.detailsLabel.text = "Your \(broker) account is being activated. Check back soon (up to two business days)."
+
+        self.statusLabel.text = "Activation in progress:"
+        self.brokerLabel.text = broker
+        self.detailsLabel.text = "Your broker linking is being activated. Check back soon (up to two business days)."
     }
 
     private func setFailureState(withMessage message: String) {
         self.linkState = .failed
-
         self.actionButton.setTitle(actionButtonTitleTextTryAgain, for: .normal)
         self.actionButton.enable()
         self.activityIndicator.stopAnimating()
@@ -156,15 +159,15 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 }
 
-protocol TradeItOAuthCompletionViewControllerDelegate {
+protocol TradeItYahooOAuthCompletionViewControllerDelegate {
     func onContinue(
-        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )
 
     func onTryAgain(
-        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
         oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
         linkedBroker: TradeItLinkedBroker?
     )

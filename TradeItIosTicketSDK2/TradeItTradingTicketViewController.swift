@@ -465,7 +465,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 return "Action"
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let title = "Estimated \(sellActions.contains(order.action) ? "Proceeds" : "Cost")"
+                let title = "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
                 return title
             case .quantity:
                 return "Shares"
@@ -474,13 +474,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             case .stopPrice:
                 return "Stop"
             case .orderType:
-                return "Order Type"
+                return "Order type"
             case .expiration:
                 return "Time in force"
             case .marketPrice:
-                return "Market Price"
+                return "Market price"
             case .account:
-                return "Accounts"
+                return "Account"
             }
         }
     }

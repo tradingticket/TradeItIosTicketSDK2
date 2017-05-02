@@ -240,20 +240,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    func yahooOAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
-        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-        self.alertManager.showAlert(
-            onViewController: self,
-            withTitle: "Great Success!",
-            withMessage: "Yahoo: Linked \(linkedBroker.brokerName) via OAuth",
-            withActionTitle: "OK",
-            onAlertActionTapped: {
-                TradeItSDK.yahooLauncher.launchOAuthConfirmationScreen(fromViewController: self,
-                                                                       withLinkedBroker: linkedBroker)
-            }
-        )
-    }
-
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

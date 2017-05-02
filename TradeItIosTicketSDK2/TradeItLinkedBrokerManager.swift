@@ -24,7 +24,7 @@ import PromiseKit
     }
 
     public func getOAuthLoginPopupUrl(withBroker broker: String,
-                                      oAuthCallbackUrl: URL,
+                                      oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
                                       onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
                                       onFailure: @escaping (TradeItErrorResult) -> Void) {
         self.connector.getOAuthLoginPopupUrlForMobile(withBroker: broker,
@@ -45,11 +45,28 @@ import PromiseKit
         }
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(withBroker broker: String? = nil,
-                                                    userId: String,
-                                                    oAuthCallbackUrl: URL,
-                                                    onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
-                                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getOAuthLoginPopupForTokenUpdateUrl(
+        forLinkedBroker linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.getOAuthLoginPopupForTokenUpdateUrl(
+            withBroker: linkedBroker.brokerName,
+            userId: linkedBroker.linkedLogin.userId ?? "",
+            oAuthCallbackUrl: oAuthCallbackUrl,
+            onSuccess: onSuccess,
+            onFailure: onFailure
+        )
+    }
+
+    public func getOAuthLoginPopupForTokenUpdateUrl(
+        withBroker broker: String? = nil,
+        userId: String,
+        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         guard let brokerName = broker ?? self.getLinkedBroker(forUserId: userId)?.brokerName else {
             print("TradeItSDK ERROR: Could not determine broker name for getOAuthLoginPopupForTokenUpdateUrl()!")
             onFailure(

@@ -441,19 +441,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchAlertQueue() {
-        alertManager.showAlert(
+        self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Alert 1",
             withMessage: "Alert 1",
             withActionTitle: "OK",
             onAlertActionTapped: {}
         )
+
         let securityQuestion = TradeItSecurityQuestionResult()
         securityQuestion.securityQuestion = "Security Question"
-        alertManager.promptUserToAnswerSecurityQuestion(
+
+        self.alertManager.promptUserToAnswerSecurityQuestion(
             securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
         )
-        alertManager.showAlert(
+
+        self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Alert 2",
             withMessage: "Alert 2",

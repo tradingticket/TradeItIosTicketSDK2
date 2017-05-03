@@ -140,6 +140,11 @@ private class TradeItAlertQueue {
         if alreadyPresentingAlert || queue.isEmpty { return }
         let alertContext = queue.removeFirst()
         alreadyPresentingAlert = true
-        alertContext.onViewController.present(alertContext.alertController, animated: true, completion: nil)
+
+        if alertContext.onViewController.isViewLoaded && (alertContext.onViewController.view.window != nil) {
+            alertContext.onViewController.present(alertContext.alertController, animated: true, completion: nil)
+        } else {
+            self.alertFinished()
+        }
     }
 }

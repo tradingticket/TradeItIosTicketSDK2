@@ -135,54 +135,63 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     // MARK: Private
 
     private func selectedAccountChanged() {
-        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(onSuccess: {
-            if self.order.action == .buy {
-                self.updateAccountOverview()
-            } else {
-                self.updateSharesOwned()
+        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
+            onSuccess: {
+                if self.order.action == .buy {
+                    self.updateAccountOverview()
+                } else {
+                    self.updateSharesOwned()
+                }
+            },
+            onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                    onCancelSecurityQuestion: onCancelSecurityQuestion
+                )
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
             }
-        }, onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: onAnswerSecurityQuestion,
-                onCancelSecurityQuestion: onCancelSecurityQuestion
-            )
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
+        )
     }
-
+    
     private func updateAccountOverview() {
-        self.order.linkedBrokerAccount?.getAccountOverview(onSuccess: { accountOverview in
-            self.reload(row: .account)
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
-
+        self.order.linkedBrokerAccount?.getAccountOverview(
+            onSuccess: { accountOverview in
+                self.reload(row: .account)
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
+            }
+        )
     }
 
     private func updateSharesOwned() {
-        self.order.linkedBrokerAccount?.getPositions(onSuccess: { positions in
-            self.reload(row: .account)
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
+        self.order.linkedBrokerAccount?.getPositions(
+            onSuccess: { positions in
+                self.reload(row: .account)
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
+            }
+        )
     }
 
     private func setTitle() {

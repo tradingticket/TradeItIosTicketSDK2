@@ -131,25 +131,33 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                         self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
                                                                   withPreviewOrderResult: previewOrderResult,
                                                                   placeOrderCallback: placeOrderCallback)
-                    }, onFailure: { error in
+                    }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        // TODO: use self.alertManager.showRelinkError
-                        self.alertManager.showError(error, onViewController: self)
+                        self.alertManager.showRelinkError(
+                            error: errorResult,
+                            withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                            onViewController: self
+                        )
                     }
                 )
-        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-            activityView.hide(animated: true)
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelSecurityQuestion
-            )
-        }, onFailure: { errorResult in
-            activityView.hide(animated: true)
-            // TODO: use self.alertManager.showRelinkError
-            self.alertManager.showError(errorResult, onViewController: self)
-        }
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure: { errorResult in
+                activityView.hide(animated: true)
+                self.alertManager.showRelinkError(
+                    error: errorResult,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self
+                )
+            }
         )
     }
 
@@ -173,27 +181,31 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     // MARK: Private
 
     private func selectedAccountChanged() {
-        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(onSuccess: {
-            if self.order.action == .buy {
-                self.updateAccountOverview()
-            } else {
-                self.updateSharesOwned()
+        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
+            onSuccess: {
+                if self.order.action == .buy {
+                    self.updateAccountOverview()
+                } else {
+                    self.updateSharesOwned()
+                }
+            },
+            onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                    onCancelSecurityQuestion: onCancelSecurityQuestion
+                )
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
             }
-        }, onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: onAnswerSecurityQuestion,
-                onCancelSecurityQuestion: onCancelSecurityQuestion
-            )
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
+        )
     }
 
     private func updateAccountOverview() {
@@ -203,7 +215,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { error in
                 self.alertManager.showRelinkError(
-                    error,
+                    error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self,
                     onFinished: self.selectedAccountChanged
@@ -213,16 +225,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func updateSharesOwned() {
-        self.order.linkedBrokerAccount?.getPositions(onSuccess: { positions in
-            self.reload(row: .account)
-        }, onFailure: { error in
-            self.alertManager.showRelinkError(
-                error,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self,
-                onFinished: self.selectedAccountChanged
-            )
-        })
+        self.order.linkedBrokerAccount?.getPositions(
+            onSuccess: { positions in
+                self.reload(row: .account)
+            },
+            onFailure: { error in
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self,
+                    onFinished: self.selectedAccountChanged
+                )
+            }
+        )
     }
 
     private func setTitle() {
@@ -338,7 +353,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            }
+                }
             )
         case .limitPrice:
             (cell as? TradeItNumericInputCell)?.configure(
@@ -348,7 +363,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            }
+                }
             )
         case .stopPrice:
             (cell as? TradeItNumericInputCell)?.configure(
@@ -358,7 +373,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            }
+                }
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }

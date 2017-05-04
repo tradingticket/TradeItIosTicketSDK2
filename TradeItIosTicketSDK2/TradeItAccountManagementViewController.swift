@@ -47,10 +47,10 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             },
             onFailure: { error in
                 self.alertManager.showRelinkError(
-                    error,
+                    error: error,
                     withLinkedBroker: self.linkedBroker,
                     onViewController: self,
-                    onFinished : {
+                    onFinished: {
                         onRefreshComplete(self.linkedBroker.accounts)
                     }
                 )

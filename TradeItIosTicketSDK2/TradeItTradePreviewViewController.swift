@@ -63,24 +63,27 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Placing Order"
 
-        placeOrderCallback({ result in
-            activityView.hide(animated: true)
-            self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
-        }, { error in
-            activityView.hide(animated: true)
-            guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
-                return self.alertManager.showError(
-                    error,
+        placeOrderCallback(
+            { result in
+                activityView.hide(animated: true)
+                self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
+            },
+            { error in
+                activityView.hide(animated: true)
+                guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
+                    return self.alertManager.showError(
+                        error,
+                        onViewController: self
+                    )
+                }
+
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: linkedBroker,
                     onViewController: self
                 )
             }
-
-            self.alertManager.showRelinkError(error,
-                withLinkedBroker: linkedBroker,
-                onViewController: self,
-                onFinished: {} // TODO: Retry?
-            )
-        })
+        )
     }
 
     // MARK: UITableViewDelegate

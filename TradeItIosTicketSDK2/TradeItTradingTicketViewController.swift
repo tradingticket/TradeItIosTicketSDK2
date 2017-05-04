@@ -95,12 +95,20 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        struct StaticVars {
+            static var rowHeights = [String:CGFloat]()
+        }
+
         let ticketRow = self.ticketRows[indexPath.row]
 
-        switch ticketRow {
-        case .marketPrice: return 60.0
-        default: return 40.0
+        guard let height = StaticVars.rowHeights[ticketRow.cellReuseId] else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId)
+            let height = cell?.bounds.size.height ?? tableView.rowHeight
+            StaticVars.rowHeights[ticketRow.cellReuseId] = height
+            return height
         }
+
+        return height
     }
 
     // MARK: UITableViewDataSource

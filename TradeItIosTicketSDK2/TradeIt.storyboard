@@ -1968,13 +1968,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5d-Ps-wON">
-                                                    <rect key="frame" x="20" y="34.5" width="47" height="16"/>
+                                                    <rect key="frame" x="14" y="34.5" width="47" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UwI-8n-2Cv">
-                                                    <rect key="frame" x="20" y="11" width="34" height="21"/>
+                                                    <rect key="frame" x="14" y="11" width="34" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1988,7 +1988,7 @@
                                                 <constraint firstItem="PPa-co-8j0" firstAttribute="centerY" secondItem="UwI-8n-2Cv" secondAttribute="centerY" id="YD0-du-RX9"/>
                                                 <constraint firstItem="00K-Xm-8cZ" firstAttribute="trailing" secondItem="PPa-co-8j0" secondAttribute="trailing" id="YVl-cu-nqB"/>
                                                 <constraint firstItem="UwI-8n-2Cv" firstAttribute="top" secondItem="5pV-sK-XqN" secondAttribute="topMargin" constant="3" id="a5e-1E-r6M"/>
-                                                <constraint firstItem="UwI-8n-2Cv" firstAttribute="leading" secondItem="5pV-sK-XqN" secondAttribute="leadingMargin" constant="12" id="o0z-BS-nqz"/>
+                                                <constraint firstItem="UwI-8n-2Cv" firstAttribute="leading" secondItem="5pV-sK-XqN" secondAttribute="leadingMargin" constant="6" id="o0z-BS-nqz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

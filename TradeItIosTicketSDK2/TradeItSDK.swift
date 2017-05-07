@@ -17,10 +17,6 @@
             precondition(_oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
             return _oAuthCallbackUrl!
         }
-        
-        set(new) {
-            self._oAuthCallbackUrl = new
-        }
     }
     
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
@@ -46,19 +42,17 @@
             return _brokerCenterService!
         }
     }
-    
-    public static func configure(apiKey: String,
-                                 oAuthCallbackUrl: URL,
-                                 environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
-        self.oAuthCallbackUrl = oAuthCallbackUrl
-        self.configure(apiKey: apiKey, environment: environment)
-    }
 
-    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
+    public static func configure(
+        apiKey: String,
+        oAuthCallbackUrl: URL,
+        environment: TradeitEmsEnvironments = TradeItEmsProductionEnv
+    ) {
         if !self.configured {
             self.configured = true
             self.apiKey = apiKey
             self.environment = environment
+            self._oAuthCallbackUrl = oAuthCallbackUrl
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)

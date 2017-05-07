@@ -5,12 +5,16 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     @IBOutlet weak var tableView: TradeItYahooTradingTicketTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
-    var alertManager = TradeItAlertManager()
-    let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    var selectionViewController: TradeItSelectionViewController!
-    var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
-    var order = TradeItOrder()
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
+
+    internal var order = TradeItOrder()
+
+    private var alertManager = TradeItAlertManager()
+    private let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private var selectionViewController: TradeItSelectionViewController!
+    private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
+    private let marketDataService = TradeItSDK.marketDataService
+    private var quotePresenter: TradeItQuotePresenter?
 
     private var ticketRows = [TicketRow]()
 
@@ -21,15 +25,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+        self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
             return
         }
-
         accountSelectionViewController.delegate = self
-
-        self.selectionViewController = selectionViewController
         self.accountSelectionViewController = accountSelectionViewController
 
         self.setOrderDefaults()
@@ -75,6 +77,23 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         }
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        struct StaticVars {
+            static var rowHeights = [String:CGFloat]()
+        }
+
+        let ticketRow = self.ticketRows[indexPath.row]
+
+        guard let height = StaticVars.rowHeights[ticketRow.cellReuseId] else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId)
+            let height = cell?.bounds.size.height ?? tableView.rowHeight
+            StaticVars.rowHeights[ticketRow.cellReuseId] = height
+            return height
+        }
+
+        return height
+    }
+
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -103,10 +122,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                         self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
                                                                   withPreviewOrderResult: previewOrderResult,
                                                                   placeOrderCallback: placeOrderCallback)
-                    }, onFailure: { error in
+                    }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        // TODO: use self.alertManager.showRelinkError
-                        self.alertManager.showError(error, onViewController: self)
+                        self.alertManager.showRelinkError(
+                            error: errorResult,
+                            withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                            onViewController: self
+                        )
                     }
                 )
             }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
@@ -119,8 +141,11 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 )
             }, onFailure: { errorResult in
                 activityView.hide(animated: true)
-                // TODO: use self.alertManager.showRelinkError
-                self.alertManager.showError(errorResult, onViewController: self)
+                self.alertManager.showRelinkError(
+                    error: errorResult,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self
+                )
             }
         )
     }
@@ -230,10 +255,30 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         }
     }
 
+    private func updateMarketData() {
+        if let symbol = self.order.symbol {
+            self.marketDataService.getQuote(
+                symbol: symbol,
+                onSuccess: { quote in
+                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
+                    self.reload(row: .marketPrice)
+                    self.reload(row: .estimatedCost)
+                },
+                onFailure: { error in
+                    self.order.quoteLastPrice = nil
+                }
+            )
+        } else {
+            self.order.quoteLastPrice = nil
+        }
+    }
+
     private func reloadTicket() {
         self.setTitle()
         self.setReviewButtonEnablement()
         self.selectedAccountChanged()
+        self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
             .account,
@@ -250,6 +295,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             ticketRows.append(.stopPrice)
         }
 
+        ticketRows.append(.marketPrice)
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -304,6 +350,9 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                     self.setReviewButtonEnablement()
                 }
             )
+        case .marketPrice:
+            guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
+            marketCell.configure(quotePresenter: self.quotePresenter)
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -363,7 +412,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         case expiration
         case limitPrice
         case stopPrice
-        //    case marketPrice // Market Price
+        case marketPrice
         case estimatedCost
 
         private enum CellReuseId: String {
@@ -371,6 +420,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
             case selection = "TRADING_TICKET_SELECTION_CELL_ID"
             case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
+            case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
         }
 
         var cellReuseId: String {
@@ -383,8 +433,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 cellReuseId = .numericInput
             case .orderType, .expiration:
                 cellReuseId = .selection
-                //        case .marketPrice:
-                //        // Market Price
+            case .marketPrice:
+                cellReuseId = .marketData
             case .account:
                 cellReuseId = .selectionDetail
             }
@@ -408,8 +458,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 return "Order Type"
             case .expiration:
                 return "Time in force"
-                //        case .marketPrice:
-                //        // Market Price
+            case .marketPrice:
+                return "Market price"
             case .account:
                 return "Accounts"
             }

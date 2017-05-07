@@ -15,9 +15,9 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
     private let marketDataService = TradeItSDK.marketDataService
+    private var quotePresenter: TradeItQuotePresenter?
 
     private var ticketRows = [TicketRow]()
-    private var quotePresenter: TradeItQuotePresenter?
 
     override func viewDidLoad() {
         super.viewDidLoad()

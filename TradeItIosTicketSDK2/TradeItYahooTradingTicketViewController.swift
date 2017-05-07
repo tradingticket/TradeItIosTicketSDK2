@@ -44,6 +44,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         self.reloadTicket()
     }
 
+    // MARK: UITableViewDelegate
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ticketRow = self.ticketRows[indexPath.row]
 
@@ -125,8 +127,10 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     // MARK: TradeItYahooAccountSelectionViewControllerDelegate
 
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
-                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    func accountSelectionViewController(
+        _ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
+        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)

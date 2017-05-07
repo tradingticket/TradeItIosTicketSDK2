@@ -54,6 +54,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reloadTicket()
     }
 
+    // MARK: UITableViewDelegate
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let ticketRow = self.ticketRows[indexPath.row]
 
@@ -171,8 +173,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: TradeItAccountSelectionViewControllerDelegate
 
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController,
-                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    func accountSelectionViewController(
+        _ accountSelectionViewController: TradeItAccountSelectionViewController,
+        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)
@@ -180,8 +184,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
-    func symbolSearchViewController(_ symbolSearchViewController: TradeItSymbolSearchViewController,
-                                  didSelectSymbol selectedSymbol: String) {
+    func symbolSearchViewController(
+        _ symbolSearchViewController: TradeItSymbolSearchViewController,
+        didSelectSymbol selectedSymbol: String
+    ) {
         self.order.symbol = selectedSymbol
         _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }

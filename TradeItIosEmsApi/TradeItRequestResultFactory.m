@@ -33,6 +33,7 @@
     }
 }
 
+<<<<<<< HEAD:TradeItIosEmsApi/TradeItRequestResultFactory.m
 + (void)setHost:(NSString *)host
  ForEnvironment:(TradeitEmsEnvironments)env {
     [self getEnvToHostDict][@(env)] = host;
@@ -48,7 +49,7 @@
             envToHostDict = [@{
                  @(TradeItEmsProductionEnv): @"https://ems.tradingticket.com/",
                  @(TradeItEmsTestEnv): @"https://ems.qa.tradingticket.com/",
-                 @(TradeItEmsLocalEnv): @"http://localhost:8080/"
+                 @(TradeItEmsLocalEnv): @"https://localhost:8443/"
             } mutableCopy];
         }
     );

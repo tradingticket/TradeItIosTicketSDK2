@@ -1,36 +1,52 @@
-@objc public class TradeItMarketService: NSObject {
+@objc public protocol MarketDataService {
+
+}
+
+@objc public class TradeItSymbolService: NSObject {
     let marketDataService: TradeItMarketDataService
 
     init(apiKey: String, environment: TradeitEmsEnvironments) {
         let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        marketDataService = TradeItMarketDataService(connector: connector)
+        self.marketDataService = TradeItMarketDataService(connector: connector)
     }
 
     public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
 
-        self.marketDataService.symbolLookup(symbolLookupRequest, withCompletionBlock: { tradeItResult in
-            if let symbolLookupResult = tradeItResult as? TradeItSymbolLookupResult,
-                let results = symbolLookupResult.results as? [TradeItSymbolLookupCompany] {
-                onSuccess(results)
-            } else if let errorResult = tradeItResult as? TradeItErrorResult {
-                onFailure(errorResult)
-            } else {
-                onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching data for symbol lookup failed. Please try again later."))
+        self.marketDataService.symbolLookup(
+            symbolLookupRequest,
+            withCompletionBlock: { tradeItResult in
+                if let symbolLookupResult = tradeItResult as? TradeItSymbolLookupResult,
+                    let results = symbolLookupResult.results as? [TradeItSymbolLookupCompany] {
+                    onSuccess(results)
+                } else if let errorResult = tradeItResult as? TradeItErrorResult {
+                    onFailure(errorResult)
+                } else {
+                    onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching data for symbol lookup failed. Please try again later."))
+                }
             }
-        })
+        )
+    }
+}
+
+@objc public class TradeItMarketService: NSObject, MarketDataService {
+    let marketDataService: TradeItMarketDataService
+
+    init(apiKey: String, environment: TradeitEmsEnvironments) {
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self.marketDataService = TradeItMarketDataService(connector: connector)
     }
 
     func getQuote(symbol: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let quotesRequest = TradeItQuotesRequest(symbol: symbol)
 
-        getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
+        self.getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
     }
 
     func getFxQuote(symbol: String, broker: String, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let quotesRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: broker)
 
-        getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
+        self.getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
     }
 
     private func getQuote(quoteRequest: TradeItQuotesRequest, onSuccess: @escaping (TradeItQuote) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {

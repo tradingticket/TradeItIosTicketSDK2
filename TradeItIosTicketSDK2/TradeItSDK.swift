@@ -35,6 +35,14 @@
         }
     }
 
+    internal static var _symbolService: TradeItSymbolService?
+    public static var symbolService: TradeItSymbolService {
+        get {
+            precondition(_marketDataService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
+            return _symbolService!
+        }
+    }
+
     private static var _brokerCenterService: TradeItBrokerCenterService?
     public static var brokerCenterService: TradeItBrokerCenterService {
         get {
@@ -55,6 +63,7 @@
             self._oAuthCallbackUrl = oAuthCallbackUrl
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
+            self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         } else {
             print("Warning: TradeItSDK.configure() called multiple times. Ignoring.")

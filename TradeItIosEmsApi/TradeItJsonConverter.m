@@ -74,7 +74,7 @@
     if (jsonModelError != nil)
     {
         NSLog(@"Received invalid json from ems server error=%@ response=%@", jsonModelError, jsonString);
-        return [TradeItErrorResult tradeErrorWithSystemMessage:@"error parsing json response"];
+        return [TradeItErrorResult errorWithSystemMessage:@"error parsing json response"];
     }
 
     return resultFromJson;

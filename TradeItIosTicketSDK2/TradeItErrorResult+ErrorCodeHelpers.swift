@@ -11,10 +11,16 @@ public enum TradeItErrorCode: Int {
 
 extension TradeItErrorResult: Error {
     public var errorCode: TradeItErrorCode? {
-        if let code = self.code?.intValue {
-            return TradeItErrorCode(rawValue: code)
-        } else {
-            return nil
+        get {
+            if let code = self.code?.intValue {
+                return TradeItErrorCode(rawValue: code)
+            } else {
+                return nil
+            }
+        }
+
+        set(new) {
+            self.code = new?.rawValue as NSNumber?
         }
     }
 

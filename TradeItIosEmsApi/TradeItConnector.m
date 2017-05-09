@@ -429,7 +429,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
             if ((data == nil) || ([httpResponse statusCode] != 200)) {
                 //error occured
                 NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
-                TradeItErrorResult *errorResult = [TradeItErrorResult tradeErrorWithSystemMessage:@"error sending request to ems server"];
+                TradeItErrorResult *errorResult = [TradeItErrorResult errorWithSystemMessage:@"error sending request to ems server"];
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     completionBlock(errorResult, nil);
                 });

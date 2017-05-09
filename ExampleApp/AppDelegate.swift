@@ -7,6 +7,7 @@ class DummyMarketDataService: MarketDataService {
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
+        // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
         quote.lastPrice = 1337.42
@@ -14,6 +15,10 @@ class DummyMarketDataService: MarketDataService {
         quote.pctChange = -123.456
         quote.dateTime = "12:34:56"
         onSuccess(quote)
+
+        // OR if failed to get market data, create an error
+        let error = TradeItErrorResult.error(withSystemMessage: "Some technical reason for failure")
+        onFailure(error)
     }
 }
 

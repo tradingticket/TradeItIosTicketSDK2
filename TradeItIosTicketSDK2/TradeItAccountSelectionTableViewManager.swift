@@ -80,7 +80,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
         let cell = UITableViewCell()
         let linkedBroker = self.linkedBrokerSectionPresenters[safe: sectionIndex]?.linkedBroker
-        cell.textLabel?.text = linkedBroker?.brokerName.uppercased()
+        cell.textLabel?.text = linkedBroker?.brokerName
         TradeItThemeConfigurator.configureTableHeader(header: cell)
 
         return cell

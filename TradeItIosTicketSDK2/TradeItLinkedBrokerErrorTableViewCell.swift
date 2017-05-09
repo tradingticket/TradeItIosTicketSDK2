@@ -11,7 +11,7 @@ class TradeItLinkedBrokerErrorTableViewCell: UITableViewCell {
             return
         }
         if error.isAccountLinkDelayedError() {
-            self.textLabel?.text = linkedBroker.brokerName.uppercased()
+            self.textLabel?.text = linkedBroker.brokerName
             let shortMessage = error.shortMessage ?? "Activation in Progress"
             self.detailTextLabel?.text = shortMessage + ". Tap to refresh status."
         } else if error.requiresRelink() {

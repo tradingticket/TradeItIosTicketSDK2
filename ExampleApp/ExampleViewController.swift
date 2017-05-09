@@ -27,111 +27,98 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         sections = [
             Section(
-                label: "TradeIt Flows",
+                label: "SDK WIDGETS",
                 actions: [
                     Action(
-                        label: "launchPortfolio",
+                        label: "Portfolio",
                         action: {
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self)
                         }
                     ),
+//                    Action(
+//                        label: "launchPortfolioForLinkedBrokerAccount",
+//                        action: {
+//                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+//                                return print("=====> You must link a broker with an account first")
+//                            }
+//
+//                            TradeItSDK.launcher.launchPortfolio(
+//                                fromViewController: self,
+//                                forLinkedBrokerAccount: linkedBrokerAccount
+//                            )
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchPortfolioForAccountNumber",
+//                        action: {
+//                            // brkAcct1 is the account number of the Dummy login
+//                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
+//                        }
+//                    ),
                     Action(
-                        label: "launchPortfolioForLinkedBrokerAccount",
-                        action: {
-                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
-                                return print("=====> You must link a broker with an account first")
-                            }
-
-                            TradeItSDK.launcher.launchPortfolio(
-                                fromViewController: self,
-                                forLinkedBrokerAccount: linkedBrokerAccount
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "launchPortfolioForAccountNumber",
-                        action: {
-                            // brkAcct1 is the account number of the Dummy login
-                            TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
-                        }
-                    ),
-                    Action(
-                        label: "launchTrading",
+                        label: "Trade",
                         action: {
                             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
                         }
                     ),
+//                    Action(
+//                        label: "launchTradingWithSymbol",
+//                        action: {
+//                            let order = TradeItOrder()
+//                            // Any order fields that are set will pre-populate the ticket.
+//                            order.symbol = "CMG"
+//                            order.quantity = 10
+//                            order.action = .sell
+//                            order.type = .stopLimit
+//                            order.limitPrice = 20
+//                            order.stopPrice = 30
+//                            order.expiration = .goodUntilCanceled
+//                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+//                        }
+//                    ),
                     Action(
-                        label: "launchTradingWithSymbol",
-                        action: {
-                            let order = TradeItOrder()
-                            // Any order fields that are set will pre-populate the ticket.
-                            order.symbol = "CMG"
-                            order.quantity = 10
-                            order.action = .sell
-                            order.type = .stopLimit
-                            order.limitPrice = 20
-                            order.stopPrice = 30
-                            order.expiration = .goodUntilCanceled
-                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
-                        }
-                    ),
-                    Action(
-                        label: "launchAccountManagement",
+                        label: "Account management",
                         action: {
                             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchBrokerLinking",
+                        label: "Link broker",
                         action: {
                             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchBrokerCenter",
+                        label: "Broker center",
                         action: {
                             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
                         }
                     ),
-                    Action(
-                        label: "launchAccountSelection",
-                        action: {
-                            TradeItSDK.launcher.launchAccountSelection(
-                                fromViewController: self,
-                                title: "Customizable instruction text",
-                                onSelected: { selectedLinkedBrokerAccount in
-                                    self.alertManager.showAlert(
-                                        onViewController: self,
-                                        withTitle: "Selected Account!",
-                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
-                                        withActionTitle: "OK"
-                                    )
-                                }
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "launchAlertQueue",
-                        action: self.launchAlertQueue
-                    )
+//                    Action(
+//                        label: "launchAccountSelection",
+//                        action: {
+//                            TradeItSDK.launcher.launchAccountSelection(
+//                                fromViewController: self,
+//                                title: "Customizable instruction text",
+//                                onSelected: { selectedLinkedBrokerAccount in
+//                                    self.alertManager.showAlert(
+//                                        onViewController: self,
+//                                        withTitle: "Selected Account!",
+//                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
+//                                        withActionTitle: "OK"
+//                                    )
+//                                }
+//                            )
+//                        }
+//                    ),
+//                    Action(
+//                        label: "launchAlertQueue",
+//                        action: self.launchAlertQueue
+//                    )
                 ]
             ),
             Section(
-                label: "Debugging",
-                actions: [
-                    Action(
-                        label: "deleteLinkedBrokers",
-                        action: self.deleteLinkedBrokers
-                    ),
-                    Action(
-                        label: "test",
-                        action: self.test
-                    )
-                ]
-            ),
-            Section(
-                label: "Themes",
+                label: "THEMES",
                 actions: [
                     Action(
                         label: "setLightTheme",
@@ -152,7 +139,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             let customTheme = TradeItTheme()
                             customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
-                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
+//                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
                             TradeItSDK.theme = customTheme
                             self.handleThemeChange()
                         }
@@ -160,79 +147,127 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Deep Integration",
+                label: "ADVANCED",
                 actions: [
                     Action(
-                        label: "manualLaunchOAuthFlow",
+                        label: "Deep integration",
                         action: {
-                            self.manualLaunchOAuthFlow(forBroker: "dummy")
                         }
                     ),
                     Action(
-                        label: "manualLaunchOAuthRelinkFlow",
-                        action: self.manualLaunchOAuthRelinkFlow
+                        label: "Debugging",
+                        action: {
+                        }
                     ),
                     Action(
-                        label: "manualAuthenticateAll",
-                        action: self.manualAuthenticateAll
-                    ),
-                    Action(
-                        label: "manualBalances",
-                        action: self.manualBalances
-                    ),
-                    Action(
-                        label: "manualPositions",
-                        action: self.manualPositions
-                    ),
-                    Action(
-                        label: "manualBuildLinkedBroker",
-                        action: self.manualBuildLinkedBroker
+                        label: "Other",
+                        action: {
+                        }
                     )
                 ]
             ),
-            Section(
-                label: "Yahoo",
-                actions: [
-                    Action(
-                        label: "launchOAuthFlow",
-                        action: self.launchYahooOAuthFlow
-                    ),
-                    Action(
-                        label: "Launch Trading - Buy",
-                        action: {
-                            let order = TradeItOrder()
-
-                            order.symbol = "YHOO"
-                            order.action = .buy
-                            TradeItSDK.yahooLauncher.launchTrading(
-                                fromViewController: self,
-                                withOrder: order,
-                                onViewPortfolioTappedHandler: { presentedViewController, linkedBrokerAccount in
-                                    print("=====> GO TO PORTFOLIO \(String(describing: linkedBrokerAccount?.accountNumber))...")
-                                    presentedViewController.dismiss(animated: true)
-                                }
-                            )
-                        }
-                    ),
-                    Action(
-                        label: "Launch Trading - Sell",
-                        action: {
-                            let order = TradeItOrder()
-
-                            order.symbol = "GE"
-                            order.action = .sell
-                            TradeItSDK.yahooLauncher.launchTrading(
-                                fromViewController: self,
-                                withOrder: order,
-                                onViewPortfolioTappedHandler: { presentedViewController, linkedBrokerAccount in
-                                    print("=====> GO TO PORTFOLIO \(String(describing: linkedBrokerAccount?.accountNumber))...")
-                                    presentedViewController.dismiss(animated: true)
-                                }
-                            )
-                        }
-                    )
-                ]
-            )
+//            Section(
+//                label: "Debugging",
+//                actions: [
+//                    Action(
+//                        label: "deleteLinkedBrokers",
+//                        action: self.deleteLinkedBrokers
+//                    ),
+//                    Action(
+//                        label: "test",
+//                        action: self.test
+//                    )
+//                ]
+//            ),
+//            Section(
+//                label: "Themes",
+//                actions: [
+//                    Action(
+//                        label: "setLightTheme",
+//                        action: {
+//                            TradeItSDK.theme = TradeItTheme.light()
+//                            self.handleThemeChange()
+//                        }
+//                    ),
+//                    Action(
+//                        label: "setDarkTheme",
+//                        action: {
+//                            TradeItSDK.theme = TradeItTheme.dark()
+//                            self.handleThemeChange()
+//                        }
+//                    ),
+//                    Action(
+//                        label: "setCustomTheme",
+//                        action: {
+//                            let customTheme = TradeItTheme()
+//                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
+//                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
+//                            TradeItSDK.theme = customTheme
+//                            self.handleThemeChange()
+//                        }
+//                    )
+//                ]
+//            ),
+//            Section(
+//                label: "Deep Integration",
+//                actions: [
+//                    Action(
+//                        label: "manualLaunchOAuthFlow",
+//                        action: {
+//                            self.manualLaunchOAuthFlow(forBroker: "dummy")
+//                        }
+//                    ),
+//                    Action(
+//                        label: "manualLaunchOAuthRelinkFlow",
+//                        action: self.manualLaunchOAuthRelinkFlow
+//                    ),
+//                    Action(
+//                        label: "manualAuthenticateAll",
+//                        action: self.manualAuthenticateAll
+//                    ),
+//                    Action(
+//                        label: "manualBalances",
+//                        action: self.manualBalances
+//                    ),
+//                    Action(
+//                        label: "manualPositions",
+//                        action: self.manualPositions
+//                    ),
+//                    Action(
+//                        label: "manualBuildLinkedBroker",
+//                        action: self.manualBuildLinkedBroker
+//                    )
+//                ]
+//            ),
+//            Section(
+//                label: "Yahoo",
+//                actions: [
+//                    Action(
+//                        label: "launchOAuthFlow",
+//                        action: self.launchYahooOAuthFlow
+//                    ),
+//                    Action(
+//                        label: "Launch Trading - Buy",
+//                        action: {
+//                            let order = TradeItOrder()
+//
+//                            order.symbol = "YHOO"
+//                            order.action = .buy
+//                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+//                        }
+//                    ),
+//                    Action(
+//                        label: "Launch Trading - Sell",
+//                        action: {
+//                            let order = TradeItOrder()
+//
+//                            order.symbol = "GE"
+//                            order.action = .sell
+//                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+//                        }
+//                    )
+//                ]
+//            )
         ]
 
         TradeItThemeConfigurator.configure(view: self.view)
@@ -271,11 +306,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = sections[sectionIndex].label
-        TradeItThemeConfigurator.configureTableHeader(header: cell)
+       let header = UITableViewHeaderFooterView()
+        header.textLabel?.text = sections[sectionIndex].label
+        TradeItThemeConfigurator.configureTableHeader(header: header)
 
-        return cell
+        return header
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

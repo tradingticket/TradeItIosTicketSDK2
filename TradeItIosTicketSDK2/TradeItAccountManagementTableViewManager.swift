@@ -57,10 +57,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = headerLabelFor(sectionIndex)
-        TradeItThemeConfigurator.configureTableHeader(header: cell)
-        return cell
+        return TradeItThemeConfigurator.tableHeader(withText: headerLabelFor(sectionIndex))
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIndex: Int) -> Int {

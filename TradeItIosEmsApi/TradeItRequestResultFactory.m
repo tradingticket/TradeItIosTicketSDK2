@@ -33,7 +33,6 @@
     }
 }
 
-<<<<<<< HEAD:TradeItIosEmsApi/TradeItRequestResultFactory.m
 + (void)setHost:(NSString *)host
  ForEnvironment:(TradeitEmsEnvironments)env {
     [self getEnvToHostDict][@(env)] = host;

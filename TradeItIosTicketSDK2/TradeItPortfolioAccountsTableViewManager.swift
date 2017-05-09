@@ -83,14 +83,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") ?? UITableViewCell()
         if section == 0 {
-            header.textLabel?.text = "Total Value"
+            return TradeItThemeConfigurator.tableHeader(withText: "Total Value")
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            return TradeItThemeConfigurator.tableHeader(withText: self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName)
         }
-        TradeItThemeConfigurator.configureTableHeader(header: header)
-        return header
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

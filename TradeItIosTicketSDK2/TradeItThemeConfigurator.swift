@@ -13,9 +13,24 @@ import UIKit
         view.layoutIfNeeded()
     }
 
+    static func tableHeader(withText text: String?) -> UIView {
+        let header = UITableViewHeaderFooterView()
+        guard let text = text else { return header }
+        header.textLabel?.text = text
+        configureTableHeader(header: header)
+        return header
+    }
+
     static func configureTableHeader(header: UIView?) {
         guard let header = header else { return }
-        header.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+
+        switch header {
+        case let header as UITableViewHeaderFooterView:
+            header.contentView.backgroundColor = TradeItSDK.theme.tableGroupedBackgroundColor
+        default:
+            header.backgroundColor = TradeItSDK.theme.tableGroupedBackgroundColor
+        }
+
         configureTableHeaderTheme(view: header)
     }
 
@@ -48,7 +63,7 @@ import UIKit
             activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
         default:
             if check(view: view, hasTrait: UIAccessibilityTraitSelected) {
-                view.backgroundColor = TradeItSDK.theme.tableBackgroundSecondaryColor
+                view.backgroundColor = TradeItSDK.theme.tableGroupedBackgroundColor
             }
             break
         }
@@ -108,19 +123,18 @@ import UIKit
 
     private static func styleTableView(_ tableView: UITableView) {
         if tableView.style == .grouped {
-            tableView.superview?.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
-            tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+            tableView.superview?.backgroundColor = TradeItSDK.theme.tableGroupedBackgroundColor
+            tableView.backgroundColor = TradeItSDK.theme.tableGroupedBackgroundColor
         } else {
-            tableView.superview?.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
-            tableView.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
+            tableView.superview?.backgroundColor = TradeItSDK.theme.tablePlainBackgroundColor
+            tableView.backgroundColor = TradeItSDK.theme.tablePlainBackgroundColor
         }
-        tableView.separatorColor = TradeItSDK.theme.tableHeaderBackgroundColor
     }
 
     private static func styleTableViewCell(_ cell: UITableViewCell) {
-        let view = UIView()
-        view.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.3)
-        cell.selectedBackgroundView = view
+//        let view = UIView()
+//        view.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.3)
+//        cell.selectedBackgroundView = view
     }
 
     private static func styleLabel(_ label: UILabel) {

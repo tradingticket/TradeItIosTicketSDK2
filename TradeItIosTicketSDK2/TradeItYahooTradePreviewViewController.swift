@@ -88,10 +88,9 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                         }
 
                         self.alertManager.showRelinkError(
-                            error,
+                            error: error,
                             withLinkedBroker: linkedBroker,
-                            onViewController: self,
-                            onFinished: {}
+                            onViewController: self
                         )
                     }
                 )

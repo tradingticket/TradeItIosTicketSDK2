@@ -1,6 +1,22 @@
 import UIKit
 import TradeItIosTicketSDK2
 
+class DummyMarketDataService: MarketDataService {
+    func getQuote(
+        symbol: String,
+        onSuccess: @escaping (TradeItQuote) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        let quote = TradeItQuote()
+        quote.companyName = "LOL"
+        quote.lastPrice = 1337.42
+        quote.change = 42.1337
+        quote.pctChange = -123.456
+        quote.dateTime = "12:34:56"
+        onSuccess(quote)
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "tradeit-test-api-key" //"tradeit-fx-test-api-key"
@@ -8,9 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     override init() {
-        TradeItSDK.configure(apiKey: AppDelegate.API_KEY,
-                             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
-                             environment: AppDelegate.ENVIRONMENT)
+        TradeItSDK.configure(
+            apiKey: AppDelegate.API_KEY,
+            oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+            environment: AppDelegate.ENVIRONMENT
+        )
+
         super.init()
     }
 

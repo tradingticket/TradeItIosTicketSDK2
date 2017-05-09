@@ -73,7 +73,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
         let quotePresenter = TradeItQuotePresenter(quote)
-        return quotePresenter.getChangeLabel()
+        return quotePresenter.getChangeLabelText()
     }
     
     func getFormattedDayChangeColor() -> UIColor {

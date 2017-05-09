@@ -75,7 +75,11 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                 )
             },
             onFailure:  { error, linkedBroker in
-                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self,
+                    onFinished: {
                         // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
                         onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
                     }
@@ -94,9 +98,14 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     func authenticate(linkedBroker: TradeItLinkedBroker) {
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                linkedBroker.refreshAccountBalances(onFinished: { 
-                    self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers(), withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount)
-                })
+                linkedBroker.refreshAccountBalances(
+                    onFinished: {
+                        self.accountSelectionTableManager.updateLinkedBrokers(
+                            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers(),
+                            withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount
+                        )
+                    }
+                )
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -107,7 +116,11 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                 )
             },
             onFailure:  { error in
-                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {})
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self
+                )
             }
         )
     }

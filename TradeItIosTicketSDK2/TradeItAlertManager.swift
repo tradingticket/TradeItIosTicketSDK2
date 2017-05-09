@@ -19,11 +19,11 @@ import UIKit
                     onAlertActionTapped: onFinished)
     }
 
-    public func showRelinkError(_ error: TradeItErrorResult,
+    public func showRelinkError(error: TradeItErrorResult,
                                 withLinkedBroker linkedBroker: TradeItLinkedBroker?,
                                 onViewController viewController: UIViewController,
                                 oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
-                                onFinished: @escaping () -> Void) {
+                                onFinished: @escaping () -> Void = {}) {
         guard let linkedBroker = linkedBroker else {
             return self.showError(
                 error,

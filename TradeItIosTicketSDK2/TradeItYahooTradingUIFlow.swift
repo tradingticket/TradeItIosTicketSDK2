@@ -3,11 +3,15 @@ import UIKit
 class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
 TradeItYahooTradePreviewViewControllerDelegate {
 
-    let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    var order = TradeItOrder()
+    private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private var order = TradeItOrder()
 
-    func presentTradingFlow(fromViewController viewController: UIViewController,
-                            withOrder order: TradeItOrder = TradeItOrder()) {
+    internal override init() {}
+
+    func presentTradingFlow(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItOrder = TradeItOrder()
+    ) {
         self.order = order
 
         let navController = UINavigationController()
@@ -55,8 +59,10 @@ TradeItYahooTradePreviewViewControllerDelegate {
 
     // MARK: TradeItYahooAccountSelectionViewControllerDelegate
 
-    internal func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
-                                                 didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    internal func accountSelectionViewController(
+        _ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
+        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
 
         if let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingTicketView) as? TradeItYahooTradingTicketViewController {
@@ -71,13 +77,13 @@ TradeItYahooTradePreviewViewControllerDelegate {
     internal func orderSuccessfullyPreviewed(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
-        placeOrderCallback: @escaping TradeItPlaceOrderHandlers) {
-
+        placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    ) {
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
         if let previewViewController = previewViewController {
             previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = tradingTicketViewController.order.linkedBrokerAccount
+            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
             previewViewController.previewOrderResult = previewOrderResult
             previewViewController.placeOrderCallback = placeOrderCallback
 

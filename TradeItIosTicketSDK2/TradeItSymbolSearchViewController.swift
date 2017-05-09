@@ -40,7 +40,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.activityIndicator.startAnimating()
 
-        TradeItSDK.marketDataService.symbolLookup(
+        TradeItSDK.symbolService.symbolLookup(
             resultText,
             onSuccess: { results in
                 self.activityIndicator.stopAnimating()
@@ -49,7 +49,8 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
             },
             onFailure: { error in
                 self.activityIndicator.stopAnimating()
-            })
+            }
+        )
 
         return true
     }

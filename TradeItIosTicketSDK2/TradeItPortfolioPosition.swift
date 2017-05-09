@@ -24,13 +24,20 @@
             }, onFailure: { _ in
                 onFinished()
             })
-        } else if let fxPosition = self.fxPosition, let fxSymbol = fxPosition.symbol, let broker = self.linkedBrokerAccount.brokerName {
-            TradeItSDK.marketDataService.getFxQuote(symbol: fxSymbol, broker: broker, onSuccess: { quote in
-                self.quote = quote
-                onFinished()
-            }, onFailure: { _ in
-                onFinished()
-            })
+        } else if let fxPosition = self.fxPosition,
+            let fxSymbol = fxPosition.symbol,
+            let broker = self.linkedBrokerAccount.brokerName {
+            TradeItSDK.marketDataService.getFxQuote?(
+                symbol: fxSymbol,
+                broker: broker,
+                onSuccess: { quote in
+                    self.quote = quote
+                    onFinished()
+                },
+                onFailure: { _ in
+                    onFinished()
+                }
+            )
         } else {
             onFinished()
             return

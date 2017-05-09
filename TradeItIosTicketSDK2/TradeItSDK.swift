@@ -17,10 +17,6 @@
             precondition(_oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
             return _oAuthCallbackUrl!
         }
-        
-        set(new) {
-            self._oAuthCallbackUrl = new
-        }
     }
     
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
@@ -31,11 +27,19 @@
         }
     }
 
-    internal static var _marketDataService: TradeItMarketService?
-    public static var marketDataService: TradeItMarketService {
+    internal static var _marketDataService: MarketDataService?
+    public static var marketDataService: MarketDataService {
         get {
             precondition(_marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before calling TradeItSDK.configure()!")
             return _marketDataService!
+        }
+    }
+
+    internal static var _symbolService: TradeItSymbolService?
+    public static var symbolService: TradeItSymbolService {
+        get {
+            precondition(_marketDataService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
+            return _symbolService!
         }
     }
 
@@ -46,21 +50,21 @@
             return _brokerCenterService!
         }
     }
-    
-    public static func configure(apiKey: String,
-                                 oAuthCallbackUrl: URL,
-                                 environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
-        self.oAuthCallbackUrl = oAuthCallbackUrl
-        self.configure(apiKey: apiKey, environment: environment)
-    }
 
-    public static func configure(apiKey: String, environment: TradeitEmsEnvironments = TradeItEmsProductionEnv) {
+    public static func configure(
+        apiKey: String,
+        oAuthCallbackUrl: URL,
+        environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
+        marketDataService: MarketDataService? = nil
+    ) {
         if !self.configured {
             self.configured = true
             self.apiKey = apiKey
             self.environment = environment
+            self._oAuthCallbackUrl = oAuthCallbackUrl
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-            self._marketDataService = TradeItMarketService(apiKey: apiKey, environment: environment)
+            self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
+            self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         } else {
             print("Warning: TradeItSDK.configure() called multiple times. Ignoring.")

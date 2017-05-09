@@ -35,7 +35,11 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
                 )
             },
             onFailure:  { error, linkedBroker in
-                self.alertManager.showRelinkError(error, withLinkedBroker: linkedBroker, onViewController: self, onFinished: {
+                self.alertManager.showRelinkError(
+                    error: error,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self,
+                    onFinished: {
                         // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
                         onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
                     }

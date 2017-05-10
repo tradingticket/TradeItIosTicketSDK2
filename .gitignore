@@ -24,3 +24,6 @@ DerivedData
 *.xcuserstate
 
 Pods
+Carthage/
+
+.idea/

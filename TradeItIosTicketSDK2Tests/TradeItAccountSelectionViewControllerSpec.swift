@@ -1,6 +1,6 @@
 import Quick
 import Nimble
-import TradeItIosEmsApi
+@testable import TradeItIosTicketSDK2
 
 class TradeItAccountSelectionViewControllerSpec: QuickSpec {
     override func spec() {
@@ -20,15 +20,15 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 let bundle = TradeItBundleProvider.provide()
                 let storyboard: UIStoryboard = UIStoryboard(name: "TradeIt", bundle: bundle)
                 
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
                 
-                controller = storyboard.instantiateViewControllerWithIdentifier(TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
+                controller = storyboard.instantiateViewController(withIdentifier: TradeItStoryboardID.accountSelectionView.rawValue) as! TradeItAccountSelectionViewController
                 
                 controller.accountSelectionTableManager = accountSelectionTableManager
                 controller.delegate = fakeTradeItAccountSelectionViewControllerDelegate
                 let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
-                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
+                let account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                let account2 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #2", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker.accounts = [account1, account2]
                 linkedBrokerManager.linkedBrokers = [linkedBroker]
                 
@@ -57,12 +57,12 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 }
                 
                 it("reauthenticates all the linkedBrokers") {
-                    expect(linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)").count).to(equal(1))
+                    expect(linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFailure:onFinished:)").count).to(equal(1))
                 }
                 
                 context("when authentication call finished") {
                     beforeEach {
-                        let onFinished = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFinished:)")[0].args["onFinished"] as! () -> Void
+                        let onFinished = linkedBrokerManager.calls.forMethod("authenticateAll(onSecurityQuestion:onFailure:onFinished:)")[0].args["onFinished"] as! () -> Void
                         onFinished()
                     }
                     
@@ -92,13 +92,13 @@ class TradeItAccountSelectionViewControllerSpec: QuickSpec {
                 var account1: TradeItLinkedBrokerAccount!
                 beforeEach {
                     let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
-                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, brokerName: "My Special Broker", accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
+                    account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                     controller.linkedBrokerAccountWasSelected(account1)
                 }
                 
                 it("calls linkedBrokerAccountWasSelected on the delegate") {
-                    let calls = fakeTradeItAccountSelectionViewControllerDelegate.calls.forMethod("linkedBrokerAccountWasSelected(_:linkedBrokerAccount:)")
-                    let argLinkedBrokerAccount = calls[0].args["linkedBrokerAccount"] as! TradeItLinkedBrokerAccount
+                    let calls = fakeTradeItAccountSelectionViewControllerDelegate.calls.forMethod("accountSelectionViewController(_:didSelectLinkedBrokerAccount:)")
+                    let argLinkedBrokerAccount = calls[0].args["didSelectLinkedBrokerAccount"] as! TradeItLinkedBrokerAccount
                     expect(calls.count).to(equal(1))
                     expect(argLinkedBrokerAccount).to(equal(account1))
                 }

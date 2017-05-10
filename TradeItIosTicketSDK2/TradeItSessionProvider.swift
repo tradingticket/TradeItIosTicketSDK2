@@ -1,7 +1,5 @@
-import TradeItIosEmsApi
-
 class TradeItSessionProvider {
-    func provide(connector connector: TradeItConnector) -> TradeItSession! {
+    func provide(connector: TradeItConnector) -> TradeItSession! {
         return TradeItSession(connector: connector)
     }
 }

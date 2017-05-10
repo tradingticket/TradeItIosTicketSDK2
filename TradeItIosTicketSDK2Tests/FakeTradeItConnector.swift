@@ -1,25 +1,25 @@
-import TradeItIosEmsApi
+@testable import TradeItIosTicketSDK2
 
 class FakeTradeItConnector: TradeItConnector {
     let calls = SpyRecorder()
     var tradeItLinkedLoginToReturn: TradeItLinkedLogin!
     var tradeItLinkedLoginArrayToReturn: [TradeItLinkedLogin] = []
 
-    override func getAvailableBrokersWithCompletionBlock(completionBlock: (([TradeItBroker]?) -> Void)?) {
+    override func getAvailableBrokers(completionBlock: (([TradeItBroker]?) -> Void)?) {
         self.calls.record(#function, args: [
             "completionBlock": completionBlock
         ])
     }
     
-    override func linkBrokerWithAuthenticationInfo(authInfo: TradeItAuthenticationInfo!,
-                                                   andCompletionBlock: ((TradeItResult!) -> Void)!) {
+    override func linkBroker(with authInfo: TradeItAuthenticationInfo!,
+                             andCompletionBlock: ((TradeItResult?) -> Void)!) {
         self.calls.record(#function, args: [
             "authInfo": authInfo,
             "andCompletionBlock": andCompletionBlock
         ])
     }
     
-    override func saveLinkToKeychain(link: TradeItAuthLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin? {
+    override func saveToKeychain(withLink link: TradeItAuthLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin? {
         self.calls.record(#function, args: [
             "link": link,
             "broker": broker
@@ -28,12 +28,12 @@ class FakeTradeItConnector: TradeItConnector {
         return tradeItLinkedLoginToReturn
     }
     
-    override func getLinkedLogins() -> [AnyObject]? {
+    override func getLinkedLogins() -> [Any]? {
         self.calls.record(#function)
         return tradeItLinkedLoginArrayToReturn as [TradeItLinkedLogin]
     }
     
-    override func updateLinkInKeychain(link: TradeItUpdateLinkResult!, withBroker broker: String!) -> TradeItLinkedLogin! {
+    override func updateKeychain(withLink link: TradeItAuthLinkResult?, withBroker broker: String?) -> TradeItLinkedLogin? {
         self.calls.record(#function, args: [
             "link": link,
             "broker": broker
@@ -41,11 +41,11 @@ class FakeTradeItConnector: TradeItConnector {
         return tradeItLinkedLoginToReturn
     }
     
-    override func updateUserToken(linkedLogin: TradeItLinkedLogin?, withAuthenticationInfo authInfo: TradeItAuthenticationInfo, andCompletionBlock: ((TradeItResult!) -> Void)!) {
-            self.calls.record(#function, args: [
-                "linkedLogin": linkedLogin,
-                "authInfo": authInfo,
-                "andCompletionBlock": andCompletionBlock
+    override func updateUserToken(_ linkedLogin: TradeItLinkedLogin?, authInfo: TradeItAuthenticationInfo?, andCompletionBlock completionBlock: ((TradeItResult?) -> Void)?) {
+        self.calls.record(#function, args: [
+            "linkedLogin": linkedLogin,
+            "authInfo": authInfo,
+            "andCompletionBlock": completionBlock
             ])
     }
 }

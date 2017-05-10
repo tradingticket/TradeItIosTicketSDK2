@@ -1,24 +1,23 @@
 import UIKit
 
-class TradeItWelcomeViewController: UIViewController {
-    var delegate: TradeItWelcomeViewControllerDelegate?
+class TradeItWelcomeViewController: TradeItViewController {
+    internal weak var delegate: TradeItWelcomeViewControllerDelegate?
+    @IBOutlet var bullets: [UIView]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        for bullet in bullets {
+            bullet.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
+        }
     }
 
     // MARK: IBActions
 
-    @IBAction func getStartedButtonWasTapped(sender: UIButton) {
+    @IBAction func getStartedButtonWasTapped(_ sender: UIButton) {
         self.delegate?.getStartedButtonWasTapped(self)
-    }
-
-    @IBAction func cancelWasTapped(sender: UIBarButtonItem) {
-        self.delegate?.cancelWasTapped(fromWelcomeViewController: self)
     }
 }
 
-protocol TradeItWelcomeViewControllerDelegate {
-    func getStartedButtonWasTapped(fromViewController: TradeItWelcomeViewController)
-    func cancelWasTapped(fromWelcomeViewController welcomeViewController: TradeItWelcomeViewController)
+protocol TradeItWelcomeViewControllerDelegate: class {
+    func getStartedButtonWasTapped(_ fromViewController: TradeItWelcomeViewController)
 }

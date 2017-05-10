@@ -1,20 +1,25 @@
 import Quick
 import Nimble
-import TradeItIosEmsApi
+@testable import TradeItIosTicketSDK2
 
 class TradeItLauncherSpec: QuickSpec {
     override func spec() {
-        var tradeItLauncher: TradeItLauncher!
         var linkedBrokerManager: FakeTradeItLinkedBrokerManager!
+        var deviceManager: FakeTradeItDeviceManager!
         var viewController: UIViewController!
         var window: UIWindow!
         
         describe("TradeItLauncher") {
             beforeEach {
                 window = UIWindow()
-                tradeItLauncher = TradeItLauncher(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
                 linkedBrokerManager = FakeTradeItLinkedBrokerManager()
-                TradeItLauncher.linkedBrokerManager = linkedBrokerManager
+                deviceManager = FakeTradeItDeviceManager()
+
+                TradeItSDK.configure(apiKey: "my-special-api-key", environment: TradeItEmsTestEnv)
+                TradeItSDK.launcher.deviceManager = deviceManager
+
+                TradeItSDK._linkedBrokerManager = linkedBrokerManager
+
                 viewController = UIViewController()
 
                 expect(viewController.view).notTo(beNil())
@@ -25,7 +30,7 @@ class TradeItLauncherSpec: QuickSpec {
             describe("launchPortfolio(fromViewController:)") {
                 context("when there are no linked brokers") {
                     it("presents the Trade It Welcome view") {
-                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
+                        TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Welcome"))
@@ -37,7 +42,7 @@ class TradeItLauncherSpec: QuickSpec {
                         let linkedBroker = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                         linkedBrokerManager.linkedBrokers = [linkedBroker]
 
-                        tradeItLauncher.launchPortfolio(fromViewController: viewController)
+                        TradeItSDK.launcher.launchPortfolio(fromViewController: viewController)
 
                         let navViewController = viewController.presentedViewController as! UINavigationController
                         expect(navViewController.navigationBar.topItem!.title).to(equal("Portfolio"))

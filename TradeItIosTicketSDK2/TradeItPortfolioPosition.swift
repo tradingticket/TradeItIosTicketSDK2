@@ -1,51 +1,46 @@
-import TradeItIosEmsApi
-
-class TradeItPortfolioPosition : NSObject {
-    var position: TradeItPosition!
-    var fxPosition: TradeItFxPosition!
-    var quote: TradeItQuote!
-    var tradeItMarketDataService: TradeItMarketDataService!
+@objc public class TradeItPortfolioPosition : NSObject {
+    public var position: TradeItPosition?
+    public var fxPosition: TradeItFxPosition?
+    var quote: TradeItQuote?
     unowned var linkedBrokerAccount: TradeItLinkedBrokerAccount
 
     static let fxMaximumFractionDigits = 5
-    
+
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, position: TradeItPosition) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.position = position
-        self.tradeItMarketDataService = TradeItMarketDataService(session: self.linkedBrokerAccount.linkedBroker.session)
     }
-    
+
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, fxPosition: TradeItFxPosition) {
         self.linkedBrokerAccount = linkedBrokerAccount
         self.fxPosition = fxPosition
-        self.tradeItMarketDataService = TradeItMarketDataService(session: linkedBrokerAccount.linkedBroker.session)
     }
-    
-    func refreshQuote(onFinished onFinished: () -> Void) {
-        var tradeItQuoteRequest: TradeItQuotesRequest!
-        var symbol = ""
-        if let position = self.position {
-            symbol = position.symbol
-            tradeItQuoteRequest = TradeItQuotesRequest(symbol: symbol)
-        }
-        if let fxPosition = self.fxPosition {
-                symbol = fxPosition.symbol
-                tradeItQuoteRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: self.linkedBrokerAccount.brokerName)
-        }
-        var quote = TradeItQuote()
-        self.tradeItMarketDataService.getQuoteData(tradeItQuoteRequest, withCompletionBlock: { (tradeItResult: TradeItResult!) -> Void in
-            if let tradeItQuoteResult = tradeItResult as? TradeItQuotesResult {
-                let results = tradeItQuoteResult.quotes.filter { return $0.symbol == symbol}
-                if results.count > 0 {
-                    quote = results[0] as! TradeItQuote
+
+    func refreshQuote(onFinished: @escaping () -> Void) {
+        if let position = self.position, let equitySymbol = position.symbol {
+            TradeItSDK.marketDataService.getQuote(symbol: equitySymbol, onSuccess: { quote in
+                self.quote = quote
+                onFinished()
+            }, onFailure: { _ in
+                onFinished()
+            })
+        } else if let fxPosition = self.fxPosition,
+            let fxSymbol = fxPosition.symbol,
+            let broker = self.linkedBrokerAccount.brokerName {
+            TradeItSDK.marketDataService.getFxQuote?(
+                symbol: fxSymbol,
+                broker: broker,
+                onSuccess: { quote in
                     self.quote = quote
+                    onFinished()
+                },
+                onFailure: { _ in
+                    onFinished()
                 }
-            }
-            else {
-                //TODO handle error
-                print("error quote")
-            }
+            )
+        } else {
             onFinished()
-        })
+            return
+        }
     }
 }

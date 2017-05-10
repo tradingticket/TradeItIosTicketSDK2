@@ -1,60 +1,122 @@
-class TradeItOrder {
-    var linkedBrokerAccount: TradeItLinkedBrokerAccount?
-    var symbol: String?
-    var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
-    var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT
-    var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    var shares: NSDecimalNumber?
-    var limitPrice: NSDecimalNumber?
-    var stopPrice: NSDecimalNumber?
-    var quoteLastPrice: NSDecimalNumber?
+public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
+public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
+public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+                                              _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
 
-    init() {}
+@objc public class TradeItOrder: NSObject {
+    public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    public var symbol: String?
+    public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT {
+        didSet {
+            if !requiresExpiration() {
+                expiration = TradeItOrderExpirationPresenter.DEFAULT
+            }
+            if !requiresLimitPrice() {
+                limitPrice = nil
+            }
+            if !requiresStopPrice() {
+                stopPrice = nil
+            }
+        }
+    }
+    public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
+    public var quantity: NSDecimalNumber?
+    public var limitPrice: NSDecimalNumber?
+    public var stopPrice: NSDecimalNumber?
+    public var quoteLastPrice: NSDecimalNumber?
 
-    init(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
-        self.linkedBrokerAccount = linkedBrokerAccount
-        self.symbol = symbol
+    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(self.action.rawValue)], type [\(self.type.rawValue)], expiration [\(self.expiration.rawValue)], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
+
+    public override init() {
+        super.init()
     }
 
-    func requiresLimitPrice() -> Bool {
+    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
+                symbol: String? = nil,
+                action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT) {
+        super.init()
+
+        self.linkedBrokerAccount = linkedBrokerAccount
+        self.symbol = symbol
+
+        if action != .unknown {
+            self.action = action
+        }
+    }
+
+    public func requiresLimitPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
-    func requiresStopPrice() -> Bool {
+    public func requiresStopPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
-    func requiresExpiration() -> Bool {
+    public func requiresExpiration() -> Bool {
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
-    func estimatedChange() -> NSDecimalNumber? {
-        guard let quoteLastPrice = quoteLastPrice,
-            let shares = shares
-            where shares != NSDecimalNumber.notANumber()
-            else { return nil }
+    public func estimatedChange() -> NSDecimalNumber? {
+        var optionalPrice: NSDecimalNumber?
+        switch type {
+        case .market: optionalPrice = quoteLastPrice
+        case .limit: optionalPrice = limitPrice
+        case .stopLimit: optionalPrice = limitPrice
+        case .stopMarket: optionalPrice = stopPrice
+        case .unknown: optionalPrice = 0.0
+        }
 
-        return quoteLastPrice.decimalNumberByMultiplyingBy(shares)
+        guard let quantity = quantity , quantity != NSDecimalNumber.notANumber else { return nil }
+        guard let price = optionalPrice , price != NSDecimalNumber.notANumber else { return nil }
+
+        return price.multiplying(by: quantity)
     }
 
-    func isValid() -> Bool {
+    public func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
+                        onFailure: @escaping (TradeItErrorResult) -> Void
+        ) -> Void {
+        guard let linkedBrokerAccount = linkedBrokerAccount else {
+            return onFailure(TradeItErrorResult(title: "Linked Broker Account", message: "A linked broker account must be set before you preview an order.")) }
+        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
+            return onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
+        }
+
+        linkedBrokerAccount.tradeService.previewTrade(previewPresenter.generateRequest(), withCompletionBlock: { result in
+            switch result {
+            case let previewOrderResult as TradeItPreviewOrderResult:
+                onSuccess(previewOrderResult,
+                          self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService,
+                                                          previewOrderResult: previewOrderResult))
+            case let errorResult as TradeItErrorResult:
+                linkedBrokerAccount.linkedBroker?.error = errorResult
+                onFailure(errorResult)
+            default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
+            }
+        })
+    }
+
+    public func isValid() -> Bool {
         return validateQuantity()
             && validateOrderPriceType()
             && symbol != nil
             && linkedBrokerAccount != nil
     }
 
+    // MARK: Private
+
     private func validateQuantity() -> Bool {
-        guard let shares = shares else { return false }
-        return isGreaterThanZero(shares)
+        guard let quantity = quantity else { return false }
+        return isGreaterThanZero(quantity)
     }
 
     private func validateOrderPriceType() -> Bool {
         switch type {
-        case .Market: return true
-        case .Limit: return validateLimit()
-        case .StopMarket: return validateStopMarket()
-        case .StopLimit: return validateStopLimit()
+        case .market: return true
+        case .limit: return validateLimit()
+        case .stopMarket: return validateStopMarket()
+        case .stopLimit: return validateStopLimit()
+        case .unknown: return false
         }
     }
 
@@ -72,7 +134,24 @@ class TradeItOrder {
         return validateLimit() && validateStopMarket()
     }
 
-    private func isGreaterThanZero(value: NSDecimalNumber) -> Bool {
-        return value.compare(NSDecimalNumber(integer: 0)) == .OrderedDescending
+    private func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
+        return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
+    }
+
+    private func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
+        return { onSuccess, onFailure in
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
+
+            tradeService.placeTrade(placeOrderRequest) { result in
+                switch result {
+                case let placeOrderResult as TradeItPlaceOrderResult:
+                    onSuccess(placeOrderResult)
+                case let errorResult as TradeItErrorResult:
+                    onFailure(errorResult)
+                default:
+                    onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
+                }
+            }
+        }
     }
 }

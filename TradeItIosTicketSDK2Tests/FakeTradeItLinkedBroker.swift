@@ -1,4 +1,4 @@
-import TradeItIosEmsApi
+@testable import TradeItIosTicketSDK2
 
 class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
@@ -11,10 +11,12 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
     override init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         super.init(session: session, linkedLogin: linkedLogin)
     }
-    
-    override func authenticate(onSuccess onSuccess: () -> Void,
-                                         onSecurityQuestion: (TradeItSecurityQuestionResult) -> String,
-                                         onFailure: (TradeItErrorResult) -> Void) -> Void {
+
+    override func authenticate(onSuccess: @escaping () -> Void,
+                               onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                               _ submitAnswer: @escaping (String) -> Void,
+                               _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
+                               onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
         self.calls.record(#function,
                           args: [
                             "onSuccess": onSuccess,
@@ -24,10 +26,10 @@ class FakeTradeItLinkedBroker: TradeItLinkedBroker {
 
     }
 
-    override func refreshAccountBalances(onFinished onFinished: () -> Void) {
-        self.calls.record(#function,
-                          args: [
-                            "onFinished": onFinished
-            ])
-    }
+//    override func refreshAccountBalances(onFinished: @escaping () -> Void) {
+//        self.calls.record(#function,
+//                          args: [
+//                            "onFinished": onFinished
+//            ])
+//    }
 }

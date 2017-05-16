@@ -1,20 +1,20 @@
 #import <Foundation/Foundation.h>
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
 
-@implementation TradeItJsonConverter
+@implementation TradeItRequestResultFactory
 
 + (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env {
     TradeItEmsApiVersion version = TradeItEmsApiVersion_2;
 
-    return [TradeItJsonConverter getBaseUrlForEnvironment:env
-                                                  version:version];
+    return [TradeItRequestResultFactory getBaseUrlForEnvironment:env
+                                                         version:version];
 }
 
 + (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env
                             version:(TradeItEmsApiVersion)version {
-    NSString *baseUrl = [TradeItJsonConverter getHostForEnvironment:env];
-    NSString *versionPath = [TradeItJsonConverter getApiPrefixForVersion:version];
+    NSString *baseUrl = [TradeItRequestResultFactory getHostForEnvironment:env];
+    NSString *versionPath = [TradeItRequestResultFactory getApiPrefixForVersion:version];
 
     baseUrl = [baseUrl stringByAppendingString:versionPath];
 
@@ -71,7 +71,7 @@
     NSData *requestData = [[requestObject toJSONString] dataUsingEncoding:NSUTF8StringEncoding];
 
     NSURL *url = [NSURL URLWithString:emsAction
-                        relativeToURL:[TradeItJsonConverter getBaseUrlForEnvironment:env]];
+                        relativeToURL:[TradeItRequestResultFactory getBaseUrlForEnvironment:env]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];

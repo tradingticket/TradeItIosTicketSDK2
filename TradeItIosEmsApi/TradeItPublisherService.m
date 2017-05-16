@@ -7,7 +7,7 @@
 //
 
 #import "TradeItPublisherService.h"
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 
 @implementation TradeItPublisherService
 
@@ -23,15 +23,16 @@
     NSString *endpoint = @"publisherad/getAdPlacements";
     request.apiKey = self.connector.apiKey;
 
-    NSMutableURLRequest *adRequest = [TradeItJsonConverter buildJsonRequestForModel:request
-                                                                          emsAction:endpoint
-                                                                        environment:self.connector.environment];
+    NSMutableURLRequest *adRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                 emsAction:endpoint
+                                                                               environment:self.connector.environment];
 
     [self.connector sendEMSRequest:adRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
 
         if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItJsonConverter buildResult:[TradeItAdsResult alloc] jsonString:jsonResponse];
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItAdsResult alloc]
+                                                           jsonString:jsonResponse];
         }
 
         completionBlock(resultToReturn);
@@ -42,15 +43,17 @@
     NSString *endpoint = @"publisherad/getBrokerCenter";
     request.apiKey = self.connector.apiKey;
 
-    NSMutableURLRequest *adRequest = [TradeItJsonConverter buildJsonRequestForModel:request
-                                                                          emsAction:endpoint
-                                                                        environment:self.connector.environment];
+    NSMutableURLRequest *adRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                 emsAction:endpoint
+                                                                               environment:self.connector.environment];
 
-    [self.connector sendEMSRequest:adRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
+    [self.connector sendEMSRequest:adRequest
+               withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
 
         if ([result.status isEqual:@"SUCCESS"]){
-            resultToReturn = [TradeItJsonConverter buildResult:[TradeItBrokerCenterResult alloc] jsonString:jsonResponse];
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItBrokerCenterResult alloc]
+                                                           jsonString:jsonResponse];
         }
 
         completionBlock(resultToReturn);
@@ -61,15 +64,16 @@
     NSString *endpoint = @"preference/getPublisherSDKData";
     request.apiKey = self.connector.apiKey;
 
-    NSMutableURLRequest *adRequest = [TradeItJsonConverter buildJsonRequestForModel:request
-                                                                          emsAction:endpoint
-                                                                        environment:self.connector.environment];
-
+    NSMutableURLRequest *adRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                 emsAction:endpoint
+                                                                               environment:self.connector.environment];
+    
     [self.connector sendEMSRequest:adRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
         
         if ([result.status isEqual:@"SUCCESS"]){
-            resultToReturn = [TradeItJsonConverter buildResult:[TradeItPublisherDataResult alloc] jsonString:jsonResponse];
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItPublisherDataResult alloc]
+                                                           jsonString:jsonResponse];
         }
 
         completionBlock(resultToReturn);

@@ -9,7 +9,7 @@
 #import <AdSupport/ASIdentifierManager.h>
 #import "TradeItSession.h"
 #import "TradeItAuthenticationRequest.h"
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
 #import "TradeItAuthenticationResult.h"
 #import "TradeItSecurityQuestionResult.h"
@@ -35,10 +35,10 @@
                                                                                               andApiKey:self.connector.apiKey
                                                                                        andAdvertisingId:advertisingId];
 
-    NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:authRequest
-                                                                        emsAction:@"user/authenticate"
-                                                                      environment:self.connector.environment];
-
+    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:authRequest
+                                                                               emsAction:@"user/authenticate"
+                                                                             environment:self.connector.environment];
+    
     [self.connector sendEMSRequest:request
                withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         completionBlock([self parseAuthResponse:result
@@ -50,9 +50,9 @@
            withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     TradeItSecurityQuestionRequest *secRequest = [[TradeItSecurityQuestionRequest alloc] initWithToken:self.token andAnswer:answer];
 
-    NSMutableURLRequest *request = [TradeItJsonConverter buildJsonRequestForModel:secRequest
-                                                                        emsAction:@"user/answerSecurityQuestion"
-                                                                      environment:self.connector.environment];
+    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:secRequest
+                                                                               emsAction:@"user/answerSecurityQuestion"
+                                                                             environment:self.connector.environment];
 
     [self.connector sendEMSRequest:request
                withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
@@ -69,14 +69,14 @@
 
     if ([status isEqual:@"SUCCESS"]) {
         self.token = [authenticationResult token];
-        resultToReturn = [TradeItJsonConverter buildResult:[TradeItAuthenticationResult alloc] jsonString:jsonResponse];
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItAuthenticationResult alloc] jsonString:jsonResponse];
 
     } else if ([status isEqualToString:@"INFORMATION_NEEDED"]) {
         self.token = [authenticationResult token];
-        resultToReturn = [TradeItJsonConverter buildResult:[TradeItSecurityQuestionResult alloc] jsonString:jsonResponse];
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSecurityQuestionResult alloc] jsonString:jsonResponse];
         
     } else if ([status isEqualToString:@"ERROR"]) {
-        resultToReturn = [TradeItJsonConverter buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
     }
 
     return resultToReturn;

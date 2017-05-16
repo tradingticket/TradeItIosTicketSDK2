@@ -1,7 +1,7 @@
 #import "TradeItTypeDefs.h"
 #import "TradeItResult.h"
 
-@interface TradeItJsonConverter : NSObject
+@interface TradeItRequestResultFactory : NSObject
 
 + (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)action

@@ -52,7 +52,7 @@
     }
 
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
-        TradeItJsonConverter.setHost(host, forEnvironment: env)
+        TradeItRequestResultFactory.setHost(host, forEnvironment: env)
     }
 
     public static func configure(

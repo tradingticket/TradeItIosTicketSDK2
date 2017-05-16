@@ -335,7 +335,7 @@ import PromiseKit
                                                                     withBroker: linkedBroker.brokerName)
 
                     if let linkedLogin = linkedLogin {
-                        linkedBroker.error = nil
+                        linkedBroker.clearError()
                         linkedBroker.linkedLogin = linkedLogin
                         linkedBroker.authenticate(
                             onSuccess: {

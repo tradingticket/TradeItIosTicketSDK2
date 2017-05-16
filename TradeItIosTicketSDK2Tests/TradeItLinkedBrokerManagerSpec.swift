@@ -570,14 +570,14 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 let account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                 let account12 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker1, accountName: "My account #12", accountNumber: "234567890", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker1.accounts = [account11, account12]
-                linkedBroker1.error = nil
+                linkedBroker1.clearError()
 
                 let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
                 let tradeItSession2 = FakeTradeItSession()
                 linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
                 let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker2.accounts = [account21]
-                linkedBroker2.error = nil
+                linkedBroker2.clearError()
 
                 let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")
                 let tradeItSession3 = FakeTradeItSession()

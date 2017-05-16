@@ -6,6 +6,12 @@ import PromiseKit
     private var _error: TradeItErrorResult?
     var error: TradeItErrorResult? {
         set(newError) {
+            guard newError?.errorCode != .brokerExecutionError,
+                newError?.errorCode != .paramsError
+            else {
+                return
+            }
+
             self._error = newError
             self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
         }
@@ -28,6 +34,10 @@ import PromiseKit
         self.setUnauthenticated()
     }
 
+    public func clearError() {
+        self.error = nil
+    }
+
     public func authenticate(onSuccess: @escaping () -> Void,
                              onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
                                                             _ submitAnswer: @escaping (String) -> Void,
@@ -37,7 +47,7 @@ import PromiseKit
             { (tradeItResult: TradeItResult) in
                 switch tradeItResult {
                 case let authenticationResult as TradeItAuthenticationResult:
-                    self.error = nil
+                    self.clearError()
 
                     let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
 
@@ -53,11 +63,13 @@ import PromiseKit
                             self.session.answerSecurityQuestion(securityQuestionAnswer, withCompletionBlock: handler)
                         },
                         {
-                            handler(TradeItErrorResult(
-                                title: "Authentication failed",
-                                message: "The security question was canceled.",
-                                code: .sessionError
-                            ))
+                            handler(
+                                TradeItErrorResult(
+                                    title: "Authentication failed",
+                                    message: "The security question was canceled.",
+                                    code: .sessionError
+                                )
+                            )
                         }
                     )
                 case let error as TradeItErrorResult:
@@ -67,10 +79,12 @@ import PromiseKit
                     }
                     onFailure(error)
                 default:
-                    handler(TradeItErrorResult(
-                        title: "Authentication failed",
-                        code: .sessionError
-                    ))
+                    handler(
+                        TradeItErrorResult(
+                            title: "Authentication failed",
+                            code: .sessionError
+                        )
+                    )
                 }
             }
         }

@@ -51,6 +51,10 @@
         }
     }
 
+    public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
+        TradeItRequestResultFactory.setHost(host, forEnvironment: env)
+    }
+
     public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,

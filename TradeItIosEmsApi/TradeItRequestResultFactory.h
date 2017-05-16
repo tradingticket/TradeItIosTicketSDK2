@@ -1,7 +1,7 @@
 #import "TradeItTypeDefs.h"
 #import "TradeItResult.h"
 
-@interface TradeItJsonConverter : NSObject
+@interface TradeItRequestResultFactory : NSObject
 
 + (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)action
@@ -11,7 +11,11 @@
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
                     jsonString:(NSString *)jsonString;
 
-+ (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
-+ (NSString *)getEmsHostForEnvironment:(TradeitEmsEnvironments)env;
++ (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
+
++ (NSString *)getHostForEnvironment:(TradeitEmsEnvironments)env;
+
++ (void)setHost:(NSString *)host
+ ForEnvironment:(TradeitEmsEnvironments)env;
 
 @end

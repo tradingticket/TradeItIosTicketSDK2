@@ -59,7 +59,7 @@
                 self.balanceLastUpdated = Date()
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker?.error = nil
+                self.linkedBroker?.clearError()
 
                 if cacheResult {
                     TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)

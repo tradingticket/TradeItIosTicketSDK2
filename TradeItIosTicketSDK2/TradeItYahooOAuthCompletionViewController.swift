@@ -37,7 +37,7 @@ import UIKit
         self.setInitialState()
 
         TradeItSDK.linkedBrokerManager.completeOAuth(
-            withOAuthVerifier: oAuthVerifier,
+            withOAuthVerifier: self.oAuthCallbackUrlParser.oAuthCallbackUrl.absoluteString, // Y! Finance backend will parse out OAuthVerifier
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(

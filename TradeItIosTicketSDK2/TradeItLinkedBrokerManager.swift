@@ -335,7 +335,7 @@ import PromiseKit
                                                                     withBroker: linkedBroker.brokerName)
 
                     if let linkedLogin = linkedLogin {
-                        linkedBroker.error = nil
+                        linkedBroker.clearError()
                         linkedBroker.linkedLogin = linkedLogin
                         linkedBroker.authenticate(
                             onSuccess: {
@@ -414,7 +414,7 @@ import PromiseKit
             let linkedLogin = linkedBroker.linkedLogin
             let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
 
-            print("=====> \(linkedBroker.brokerName)(\(linkedBroker.accounts.count) accounts)\n    accountsUpdated: \(String(describing: linkedBroker.accountsLastUpdated))\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
+            print("=====> \(linkedBroker.brokerName)(\(linkedBroker.accounts.count) accounts)\n    accountsUpdated: \(String(describing: linkedBroker.accountsLastUpdated))\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")\n    error: \(String(describing: linkedBroker.error?.errorCode)) - \(String(describing: linkedBroker.error?.shortMessage)) - \(String(describing: linkedBroker.error?.longMessages?.first))")
 
             print("        === ACCOUNTS ===")
 

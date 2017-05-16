@@ -8,6 +8,6 @@
     }
 
     public func getUrl() -> String {
-        return TradeItJsonConverter.getEmsHost(forEnvironment: environment) + "brokerCenter?apiKey=\(apiKey)"
+        return TradeItJsonConverter.getHostForEnvironment(environment) + "brokerCenter?apiKey=\(apiKey)"
     }
 }

@@ -77,8 +77,12 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     // MARK: Private
 
     private func updateTable() {
-        TradeItSDK.linkedBrokerManager.refreshAccountBalances(onFinished: {
-            self.accountsTableViewManager.set(linkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
-        })
+        TradeItSDK.linkedBrokerManager.refreshAccountBalances(
+            onFinished: {
+                self.accountsTableViewManager.set(
+                    linkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
+                )
+            }
+        )
     }
 }

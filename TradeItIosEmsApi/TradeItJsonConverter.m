@@ -4,16 +4,16 @@
 
 @implementation TradeItJsonConverter
 
-+ (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env {
++ (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env {
     TradeItEmsApiVersion version = TradeItEmsApiVersion_2;
 
-    return [TradeItJsonConverter getEmsBaseUrlForEnvironment:env
-                                                     version:version];
+    return [TradeItJsonConverter getBaseUrlForEnvironment:env
+                                                  version:version];
 }
 
-+ (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env
-                               version:(TradeItEmsApiVersion)version {
-    NSString *baseUrl = [TradeItJsonConverter getEmsHostForEnvironment:env];
++ (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env
+                            version:(TradeItEmsApiVersion)version {
+    NSString *baseUrl = [TradeItJsonConverter getHostForEnvironment:env];
     NSString *versionPath = [TradeItJsonConverter getApiPrefixForVersion:version];
 
     baseUrl = [baseUrl stringByAppendingString:versionPath];
@@ -33,17 +33,35 @@
     }
 }
 
-+ (NSString *)getEmsHostForEnvironment:(TradeitEmsEnvironments)env {
-    switch (env) {
-        case TradeItEmsProductionEnv:
-            return @"https://ems.tradingticket.com/";
-        case TradeItEmsTestEnv:
-            return @"https://ems.qa.tradingticket.com/";
-        case TradeItEmsLocalEnv:
-            return @"http://localhost:8080/";
-        default:
-            NSLog(@"Invalid environment %d - directing to production by default", env);
-            return @"https://ems.tradingticket.com/";
++ (void)setHost:(NSString *)host
+ ForEnvironment:(TradeitEmsEnvironments)env {
+    [self getEnvToHostDict][@(env)] = host;
+}
+
++ (NSMutableDictionary<NSNumber *, NSString *> *)getEnvToHostDict {
+    static NSMutableDictionary<NSNumber *, NSString *> *envToHostDict = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(
+        &onceToken,
+        ^{
+            envToHostDict = [@{
+                 @(TradeItEmsProductionEnv): @"https://ems.tradingticket.com/",
+                 @(TradeItEmsTestEnv): @"https://ems.qa.tradingticket.com/",
+                 @(TradeItEmsLocalEnv): @"http://localhost:8080/"
+            } mutableCopy];
+        }
+    );
+
+    return envToHostDict;
+}
+
++ (NSString *)getHostForEnvironment:(TradeitEmsEnvironments)env {
+    if ([self getEnvToHostDict][@(env)]) {
+        return [self getEnvToHostDict][@(env)];
+    } else {
+        NSLog(@"Invalid environment [%d] - directing to TradeIt production by default", env);
+        return @"https://ems.tradingticket.com/";
     }
 }
 
@@ -53,7 +71,7 @@
     NSData *requestData = [[requestObject toJSONString] dataUsingEncoding:NSUTF8StringEncoding];
 
     NSURL *url = [NSURL URLWithString:emsAction
-                        relativeToURL:[TradeItJsonConverter getEmsBaseUrlForEnvironment:env]];
+                        relativeToURL:[TradeItJsonConverter getBaseUrlForEnvironment:env]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];

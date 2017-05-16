@@ -11,7 +11,11 @@
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
                     jsonString:(NSString *)jsonString;
 
-+ (NSURL *)getEmsBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
-+ (NSString *)getEmsHostForEnvironment:(TradeitEmsEnvironments)env;
++ (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env;
+
++ (NSString *)getHostForEnvironment:(TradeitEmsEnvironments)env;
+
++ (void)setHost:(NSString *)host
+ ForEnvironment:(TradeitEmsEnvironments)env;
 
 @end

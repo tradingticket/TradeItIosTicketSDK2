@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             environment: AppDelegate.ENVIRONMENT
         )
 
+        // Change API base URL/host like this:
+        // TradeItSDK.set(host: "https://example.com:1234/myAPI/", forEnvironment: AppDelegate.ENVIRONMENT)
+
         super.init()
     }
 

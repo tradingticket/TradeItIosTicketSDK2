@@ -73,27 +73,53 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         return price.multiplying(by: quantity)
     }
 
-    public func preview(onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
-                        onFailure: @escaping (TradeItErrorResult) -> Void
-        ) -> Void {
+    public func preview(
+        onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) -> Void {
         guard let linkedBrokerAccount = linkedBrokerAccount else {
-            return onFailure(TradeItErrorResult(title: "Linked Broker Account", message: "A linked broker account must be set before you preview an order.")) }
-        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
-            return onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
+            return onFailure(
+                TradeItErrorResult(
+                    title: "Linked Broker Account",
+                    message: "A linked broker account must be set before you preview an order."
+                )
+            )
         }
 
-        linkedBrokerAccount.tradeService.previewTrade(previewPresenter.generateRequest(), withCompletionBlock: { result in
-            switch result {
-            case let previewOrderResult as TradeItPreviewOrderResult:
-                onSuccess(previewOrderResult,
-                          self.generatePlaceOrderCallback(tradeService: linkedBrokerAccount.tradeService,
-                                                          previewOrderResult: previewOrderResult))
-            case let errorResult as TradeItErrorResult:
-                linkedBrokerAccount.linkedBroker?.error = errorResult
-                onFailure(errorResult)
-            default: onFailure(TradeItErrorResult(title: "Preview failed", message: "There was a problem previewing your order. Please try again."))
+        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
+            return onFailure(
+                TradeItErrorResult(
+                    title: "Preview failed",
+                    message: "There was a problem previewing your order. Please try again."
+                )
+            )
+        }
+
+        linkedBrokerAccount.tradeService.previewTrade(
+            previewPresenter.generateRequest(),
+            withCompletionBlock: { result in
+                switch result {
+                case let previewOrderResult as TradeItPreviewOrderResult:
+                    onSuccess(
+                        previewOrderResult,
+                        self.generatePlaceOrderCallback(
+                            tradeService: linkedBrokerAccount.tradeService,
+                            previewOrderResult: previewOrderResult
+                        )
+                    )
+                case let errorResult as TradeItErrorResult:
+                    linkedBrokerAccount.linkedBroker?.error = errorResult
+                    onFailure(errorResult)
+                default:
+                    onFailure(
+                        TradeItErrorResult(
+                            title: "Preview failed",
+                            message: "There was a problem previewing your order. Please try again."
+                        )
+                    )
+                }
             }
-        })
+        )
     }
 
     public func isValid() -> Bool {

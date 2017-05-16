@@ -204,7 +204,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
                             order.symbol = "YHOO"
                             order.action = .buy
-                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+                            TradeItSDK.yahooLauncher.launchTrading(
+                                fromViewController: self,
+                                withOrder: order,
+                                onViewPortfolioTappedHandler: { presentedViewController, linkedBrokerAccount in
+                                    print("=====> GO TO PORTFOLIO \(String(describing: linkedBrokerAccount?.accountNumber))...")
+                                    presentedViewController.dismiss(animated: true)
+                                }
+                            )
                         }
                     ),
                     Action(
@@ -214,7 +221,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
                             order.symbol = "GE"
                             order.action = .sell
-                            TradeItSDK.yahooLauncher.launchTrading(fromViewController: self, withOrder: order)
+                            TradeItSDK.yahooLauncher.launchTrading(
+                                fromViewController: self,
+                                withOrder: order,
+                                onViewPortfolioTappedHandler: { presentedViewController, linkedBrokerAccount in
+                                    print("=====> GO TO PORTFOLIO \(String(describing: linkedBrokerAccount?.accountNumber))...")
+                                    presentedViewController.dismiss(animated: true)
+                                }
+                            )
                         }
                     )
                 ]

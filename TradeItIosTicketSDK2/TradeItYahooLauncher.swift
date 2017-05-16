@@ -61,11 +61,19 @@ import SafariServices
         }
     }
 
-    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {
+    public func launchTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItOrder,
+        onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
+    ) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 print("Access granted")
-                self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                self.tradingUIFlow.presentTradingFlow(
+                    fromViewController: viewController,
+                    withOrder: order,
+                    onViewPortfolioTappedHandler: onViewPortfolioTappedHandler
+                )
             },
             onFailure: {
                 print("Access denied")

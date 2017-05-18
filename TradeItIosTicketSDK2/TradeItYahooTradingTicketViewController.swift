@@ -2,7 +2,7 @@ import UIKit
 import MBProgressHUD
 
 class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
-    @IBOutlet weak var tableView: TradeItYahooTradingTicketTableView!
+    @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?

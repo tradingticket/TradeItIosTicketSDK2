@@ -23,6 +23,8 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItOAuthDeleteLinkRequest.h"
 
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+
 @interface TradeItConnector()
 
 - (NSUserDefaults *)userDefaults;
@@ -380,7 +382,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
-    [accounts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSDictionary *account = (NSDictionary *)obj;
         if ([account[@"userId"] isEqualToString: login.userId]) {
             [toRemove addObject:obj];
@@ -425,15 +427,23 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSLog(data);
     */
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void){
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
+        NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
+
         NSURLSession *session = [NSURLSession sharedSession];
-        [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [[session dataTaskWithRequest:request
+                    completionHandler:^(
+                        NSData * _Nullable data,
+                        NSURLResponse * _Nullable response,
+                        NSError * _Nullable error
+        ) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if ((data == nil) || ([httpResponse statusCode] != 200)) {
                 //error occured
                 NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
                 TradeItErrorResult *errorResult = [TradeItErrorResult errorWithSystemMessage:@"error sending request to ems server"];
-                dispatch_async(dispatch_get_main_queue(), ^(void){
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
                     completionBlock(errorResult, nil);
                 });
 

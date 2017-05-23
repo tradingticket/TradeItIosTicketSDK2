@@ -14,7 +14,9 @@ struct Action {
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 
-    var sections: [Section]!
+    internal var sections: [Section]?
+    var defaultSections: [Section]!
+    var advancedSections: [Section]!
     let alertManager: TradeItAlertManager = TradeItAlertManager()
 
     override func viewDidLoad() {
@@ -25,18 +27,103 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         self.navigationItem.titleView = logoView
         self.registerLinkObservers()
 
-        sections = [
+        defaultSections = [
             Section(
-                label: "TradeIt Flows",
+                label: "SDK SCREENS",
                 actions: [
                     Action(
-                        label: "launchPortfolio",
+                        label: "Link a broker",
+                        action: {
+                            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "Portfolio",
                         action: {
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchPortfolioForLinkedBrokerAccount",
+                        label: "Trading",
+                        action: {
+                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
+                        }
+                    ),
+                    Action(
+                        label: "Manage accounts",
+                        action: {
+                            TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "Broker center",
+                        action: {
+                            TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
+                        }
+                    )
+                ]
+            ),
+            Section(
+                label: "THEMES",
+                actions: [
+                    Action(
+                        label: "setLightTheme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.light()
+                            self.handleThemeChange()
+                        }
+                    ),
+                    Action(
+                        label: "setDarkTheme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.dark()
+                            self.handleThemeChange()
+                        }
+                    ),
+                    Action(
+                        label: "setCustomTheme",
+                        action: {
+                            let customTheme = TradeItTheme()
+                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
+                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
+                            TradeItSDK.theme = customTheme
+                            self.handleThemeChange()
+                        }
+                    )
+                ]
+            ),
+            Section(
+                label: "SETTINGS",
+                actions: [
+                    Action(
+                        label: "Unlink all brokers",
+                        action: self.deleteLinkedBrokers
+                    ),
+                    Action(
+                        label: "Advanced options",
+                        action: {
+                            if let exampleViewController = self.storyboard?.instantiateViewController(withIdentifier: "EXAMPLE_VIEW_ID") as? ExampleViewController {
+                                exampleViewController.sections = self.advancedSections
+                                self.navigationController?.pushViewController(exampleViewController, animated: true)
+                            }
+                        }
+                    )
+                ]
+            )
+        ]
+
+        advancedSections = [
+            Section(
+                label: "TradeIt Flows",
+                actions: [
+                    Action(
+                        label: "Portfolio",
+                        action: {
+                            TradeItSDK.launcher.launchPortfolio(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "Portfolio for linked broker account",
                         action: {
                             guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
                                 return print("=====> You must link a broker with an account first")
@@ -49,20 +136,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "launchPortfolioForAccountNumber",
+                        label: "Portfolio for account #",
                         action: {
                             // brkAcct1 is the account number of the Dummy login
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self, forAccountNumber: "brkAcct1")
                         }
                     ),
                     Action(
-                        label: "launchTrading",
+                        label: "Trading",
                         action: {
                             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: TradeItOrder())
                         }
                     ),
                     Action(
-                        label: "launchTradingWithSymbol",
+                        label: "Trading with symbol",
                         action: {
                             let order = TradeItOrder()
                             // Any order fields that are set will pre-populate the ticket.
@@ -77,25 +164,25 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "launchAccountManagement",
+                        label: "Manage Accounts",
                         action: {
                             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchBrokerLinking",
+                        label: "Link a broker",
                         action: {
                             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchBrokerCenter",
+                        label: "Broker Center",
                         action: {
                             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
                         }
                     ),
                     Action(
-                        label: "launchAccountSelection",
+                        label: "Account Selection",
                         action: {
                             TradeItSDK.launcher.launchAccountSelection(
                                 fromViewController: self,
@@ -112,7 +199,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "launchAlertQueue",
+                        label: "Alert Queue",
                         action: self.launchAlertQueue
                     )
                 ]
@@ -121,7 +208,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 label: "Debugging",
                 actions: [
                     Action(
-                        label: "deleteLinkedBrokers",
+                        label: "Unlink all brokers",
                         action: self.deleteLinkedBrokers
                     ),
                     Action(
@@ -160,13 +247,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Deep Integration",
+                label: "Custom Integration",
                 actions: [
                     Action(
                         label: "manualLaunchOAuthFlow",
                         action: {
                             self.manualLaunchOAuthFlow(forBroker: "dummy")
-                        }
+                    }
                     ),
                     Action(
                         label: "manualLaunchOAuthRelinkFlow",
@@ -194,7 +281,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 label: "Yahoo",
                 actions: [
                     Action(
-                        label: "launchOAuthFlow",
+                        label: "OAuth Flow",
                         action: self.launchYahooOAuthFlow
                     ),
                     Action(
@@ -235,6 +322,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             )
         ]
 
+        self.sections ??= self.defaultSections
+
         TradeItThemeConfigurator.configure(view: self.view)
     }
 
@@ -257,13 +346,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     // Mark: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sections[indexPath.section].actions[indexPath.row].action()
+        sections?[indexPath.section].actions[indexPath.row].action()
     }
 
     // MARK: UITableViewDataSource
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return sections?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -272,14 +361,14 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
         let cell = UITableViewCell()
-        cell.textLabel?.text = sections[sectionIndex].label
+        cell.textLabel?.text = sections?[sectionIndex].label
         TradeItThemeConfigurator.configureTableHeader(header: cell)
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].actions.count
+        return sections?[section].actions.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -291,7 +380,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
-        cell?.textLabel?.text = sections[indexPath.section].actions[indexPath.row].label
+        cell?.textLabel?.text = sections?[indexPath.section].actions[indexPath.row].label
 
         TradeItThemeConfigurator.configure(view: cell)
         

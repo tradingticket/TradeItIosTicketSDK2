@@ -128,7 +128,7 @@ class DummyMarketDataService: MarketDataService {
         symbol: String,
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) {
+    ) {
         // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
@@ -154,7 +154,7 @@ class TestCookieService: NSObject, CookieService {
                 .path: "/",
                 .domain: "ems.qa.tradingticket.com"
             ]
-            )!
+        )!
 
         return [cookie]
     }

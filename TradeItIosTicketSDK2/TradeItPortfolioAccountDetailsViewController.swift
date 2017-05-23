@@ -9,6 +9,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
 
     @IBOutlet weak var table: UITableView!
+    @IBOutlet weak var adContainer: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         self.tableViewManager.table = self.table
 
         self.tableViewManager.initiateRefresh()
+
+        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .portfolio, position: .bottom)
     }
 
     @IBAction func tradeTapped(_ sender: Any) {

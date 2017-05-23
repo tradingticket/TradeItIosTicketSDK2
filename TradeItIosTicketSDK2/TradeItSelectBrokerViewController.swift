@@ -4,6 +4,7 @@ import SafariServices
 
 class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
+    @IBOutlet weak var adContainer: UIView!
 
     var activityView: MBProgressHUD?
     var alertManager = TradeItAlertManager()
@@ -19,6 +20,13 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
 
         self.populateBrokers()
+
+        TradeItSDK.adService?.configure(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .link,
+            position: .bottom
+        )
     }
     
     //MARK: IBAction

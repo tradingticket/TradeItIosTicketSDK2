@@ -4,6 +4,7 @@ import MBProgressHUD
 class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var previewOrderButton: UIButton!
+    @IBOutlet weak var adContainer: UIView!
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -47,6 +48,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+
+        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

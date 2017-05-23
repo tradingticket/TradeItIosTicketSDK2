@@ -6,6 +6,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
 
     @IBOutlet weak var accountsTableView: UITableView!
     @IBOutlet weak var editAccountsButton: UIButton!
+    @IBOutlet weak var adContainer: UIView!
 
     var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
     internal weak var delegate: TradeItAccountSelectionViewControllerDelegate?
@@ -17,6 +18,8 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
         self.accountsTableView.tableFooterView = UIView()
+
+        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

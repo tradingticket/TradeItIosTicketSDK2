@@ -49,7 +49,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
 
-        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

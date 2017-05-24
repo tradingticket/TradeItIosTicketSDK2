@@ -48,3 +48,9 @@
         }
     }
 }
+
+@objc public class NullAdService: NSObject, TradeItAdServiceProtocol {
+    public func configure(adContainer: UIView, rootViewController: UIViewController, pageType: TradeItAdPageType, position: TradeItAdPosition) {
+        adContainer.isHidden = true
+    }
+}

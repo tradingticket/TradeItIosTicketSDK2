@@ -17,7 +17,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
         self.brokerManagementTableManager.delegate = self
         self.brokerManagementTableManager.brokersTable = self.brokersTableView
 
-        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
+        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }
     
     override func viewWillAppear(_ animated: Bool) {

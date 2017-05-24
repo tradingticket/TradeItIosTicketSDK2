@@ -14,7 +14,7 @@ class TradeItSelectionViewController: UIViewController, UITableViewDelegate, UIT
         self.tableView.delegate = self
         self.tableView.dataSource = self
 
-        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

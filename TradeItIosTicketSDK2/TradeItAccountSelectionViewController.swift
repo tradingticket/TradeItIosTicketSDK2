@@ -19,7 +19,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
         self.accountsTableView.tableFooterView = UIView()
 
-        TradeItSDK.adService?.configure(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
+        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

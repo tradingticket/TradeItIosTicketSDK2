@@ -21,7 +21,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
 
         self.populateBrokers()
 
-        TradeItSDK.adService?.configure(
+        TradeItSDK.adService.configure(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .link,

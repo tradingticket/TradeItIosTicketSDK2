@@ -489,13 +489,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     withMessage: "URL: \(url)",
                     withActionTitle: "Make it so!",
                     onAlertActionTapped: {
-                        UIApplication.shared.openURL(url)                    },
+                        UIApplication.shared.openURL(url)
+                    },
                     showCancelAction: false
                 )
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
+                self.alertManager.showError(
+                    errorResult,
+                    onViewController: self
+                )
             }
         )
     }
@@ -523,24 +526,34 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("=====> You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("=====> Accounts list is empty. Call authenticate on the broker first.") }
 
-        account.getAccountOverview(onSuccess: { balance in
-            print(balance ?? "Something went wrong!")
-        }, onFailure: { errorResult in
-            print(errorResult)
-        })
+        account.getAccountOverview(
+            onSuccess: { balance in
+                print(balance ?? "Something went wrong!")
+            },
+            onFailure: { errorResult in
+                print(errorResult)
+            }
+        )
     }
 
     private func manualPositions() {
         guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("=====> You must link a broker first.") }
         guard let account = broker.accounts.first else { return print("=====> Accounts list is empty. Call authenticate on the broker first.") }
 
-        account.getPositions(onSuccess: { positions in
-            print(positions.map({ position in
-                return position.position
-            }))
-        }, onFailure: { errorResult in
-            print(errorResult)
-        })
+        account.getPositions(
+            onSuccess: { positions in
+                print(
+                    positions.map(
+                        { position in
+                            return position.position
+                        }
+                    )
+                )
+            },
+            onFailure: { errorResult in
+                print(errorResult)
+            }
+        )
     }
 
     private func launchAlertQueue() {

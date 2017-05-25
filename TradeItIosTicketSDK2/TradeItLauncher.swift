@@ -180,9 +180,11 @@ protocol OAuthCompletionListener {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-        self.linkBrokerUIFlow.presentLinkBrokerFlow(fromViewController: viewController,
-                                                    showWelcomeScreen: showWelcomeScreen,
-                                                    oAuthCallbackUrl: oAuthCallbackUrl)
+        self.linkBrokerUIFlow.presentLinkBrokerFlow(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     public func launchBrokerCenter(fromViewController viewController: UIViewController) {

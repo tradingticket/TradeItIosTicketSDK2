@@ -11,10 +11,12 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     var oAuthCallbackUrl: URL?
 
-    func pushLinkBrokerFlow(onNavigationController navController: UINavigationController,
-                            asRootViewController: Bool,
-                            showWelcomeScreen: Bool,
-                            oAuthCallbackUrl: URL) {
+    func pushLinkBrokerFlow(
+        onNavigationController navController: UINavigationController,
+        asRootViewController: Bool,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
@@ -26,9 +28,11 @@ class TradeItLinkBrokerUIFlow: NSObject,
         }
     }
 
-    func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
-                               showWelcomeScreen: Bool,
-                               oAuthCallbackUrl: URL) {
+    func presentLinkBrokerFlow(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
@@ -39,10 +43,12 @@ class TradeItLinkBrokerUIFlow: NSObject,
         viewController.present(navController, animated: true, completion: nil)
     }
 
-    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
-                                 brokerName: String? = nil,
-                                 userId: String,
-                                 oAuthCallbackUrl: URL) {
+    func presentRelinkBrokerFlow(
+        inViewController viewController: UIViewController,
+        brokerName: String? = nil,
+        userId: String,
+        oAuthCallbackUrl: URL
+    ) {
         let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
         activityView.label.text = "Launching broker relinking"
         activityView.show(animated: true)
@@ -62,9 +68,11 @@ class TradeItLinkBrokerUIFlow: NSObject,
         )
     }
 
-    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
-                                 linkedBroker: TradeItLinkedBroker,
-                                 oAuthCallbackUrl: URL) {
+    func presentRelinkBrokerFlow(
+        inViewController viewController: UIViewController,
+        linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL
+    ) {
         guard let userId = linkedBroker.linkedLogin.userId else {
             print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
             return

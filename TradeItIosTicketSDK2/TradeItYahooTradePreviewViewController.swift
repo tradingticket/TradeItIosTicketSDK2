@@ -182,7 +182,6 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         }
 
         cells += [
-            ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),

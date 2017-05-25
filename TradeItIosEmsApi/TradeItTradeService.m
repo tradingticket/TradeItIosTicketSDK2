@@ -10,6 +10,7 @@
 #import "TradeItRequestResultFactory.h"
 #import "TradeItPreviewTradeResult.h"
 #import "TradeItPlaceTradeResult.h"
+#import "TradeItSecurityQuestionResult.h"
 
 @implementation TradeItTradeService
 
@@ -53,6 +54,9 @@
         
         if ([result.status isEqual:@"SUCCESS"]) {
             resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItPlaceTradeResult alloc]
+                                                           jsonString:jsonResponse];
+        } else if ([result.status isEqual:@"INFORMATION_NEEDED"]) {
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSecurityQuestionResult alloc]
                                                            jsonString:jsonResponse];
         }
         

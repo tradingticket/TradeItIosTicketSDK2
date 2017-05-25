@@ -75,6 +75,14 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
                         activityView.hide(animated: true)
                     },
+                    { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: self,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelSecurityQuestion
+                        )
+                    },
                     { error in
                         activityView.hide(animated: true)
 

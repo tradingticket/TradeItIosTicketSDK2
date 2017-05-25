@@ -16,6 +16,7 @@
 #import "TradeItSecurityQuestionRequest.h"
 #import "TradeItBrokerAccount.h"
 #import "TradeItErrorResult.h"
+#import "TradeItPlaceTradeResult.h"
 
 @implementation TradeItSession
 
@@ -61,6 +62,21 @@
     }];
 }
 
+- (void)answerSecurityQuestionPlaceOrder:(NSString *)answer
+           withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+    TradeItSecurityQuestionRequest *secRequest = [[TradeItSecurityQuestionRequest alloc] initWithToken:self.token andAnswer:answer];
+    
+    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:secRequest
+                                                                               emsAction:@"user/answerSecurityQuestion"
+                                                                             environment:self.connector.environment];
+    
+    [self.connector sendEMSRequest:request
+               withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
+                   completionBlock([self parsePlaceOrderResponse:result
+                                              jsonResponse:jsonResponse]);
+    }];
+}
+
 - (TradeItResult *)parseAuthResponse:(TradeItResult *)authenticationResult
                         jsonResponse:(NSMutableString *)jsonResponse {
     NSString *status = authenticationResult.status;
@@ -81,7 +97,26 @@
 
     return resultToReturn;
 }
+     
+- (TradeItResult *)parsePlaceOrderResponse:(TradeItResult *)placeOrderResult
+                        jsonResponse:(NSMutableString *)jsonResponse {
+    NSString *status = placeOrderResult.status;
 
+    TradeItResult *resultToReturn;
+
+    if ([status isEqual:@"SUCCESS"]) {
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItPlaceTradeResult alloc] jsonString:jsonResponse];
+        
+    } else if ([status isEqual:@"INFORMATION_NEEDED"]) {
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSecurityQuestionResult alloc] jsonString:jsonResponse];
+        
+    } else if ([status isEqualToString:@"ERROR"]) {
+        resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
+    }
+
+    return resultToReturn;
+}
+     
 - (void)keepSessionAliveWithCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSLog(@"Implement me!!");
 }

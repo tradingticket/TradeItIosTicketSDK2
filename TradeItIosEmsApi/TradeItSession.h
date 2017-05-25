@@ -42,6 +42,8 @@
  */
 - (void)answerSecurityQuestion:(NSString * _Nullable)answer withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
 
+- (void)answerSecurityQuestionPlaceOrder:(NSString * _Nullable)answer withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
+
 /**
  *  Will close out the users current session and remove it from the TradeItSession instance.
  */

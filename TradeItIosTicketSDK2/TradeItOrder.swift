@@ -1,6 +1,10 @@
 public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
 public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+                                              _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                                               _ submitAnswer: @escaping (String) -> Void,
+                                                                               _ onCancelSecurityQuestion: @escaping () -> Void
+                                                                              ) -> Void,
                                               _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
 
 @objc public class TradeItOrder: NSObject {
@@ -165,19 +169,42 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     private func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
-        return { onSuccess, onFailure in
+        
+        return { onSuccess, onSecurityQuestion, onFailure in
+        
             let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
-
-            tradeService.placeTrade(placeOrderRequest) { result in
-                switch result {
-                case let placeOrderResult as TradeItPlaceOrderResult:
-                    onSuccess(placeOrderResult)
-                case let errorResult as TradeItErrorResult:
-                    onFailure(errorResult)
-                default:
-                    onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
+            
+            let placeResponseHandler = YCombinator { handler in
+                { (result: TradeItResult?) in
+                    switch result {
+                    case let placeOrderResult as TradeItPlaceOrderResult:
+                        onSuccess(placeOrderResult)
+                    case let securityQuestion as TradeItSecurityQuestionResult:
+                        onSecurityQuestion(
+                            securityQuestion,
+                            { securityQuestionAnswer in
+                                self.linkedBrokerAccount?.linkedBroker?.session.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
+                            },
+                            {
+                                handler(
+                                    TradeItErrorResult(
+                                        title: "Authentication failed",
+                                        message: "The security question was canceled.",
+                                        code: .sessionError
+                                    )
+                                )
+                            }
+                    )
+                    case let errorResult as TradeItErrorResult:
+                        onFailure(errorResult)
+                    default:
+                        onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
+                    }
                 }
             }
+            
+            tradeService.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
         }
     }
+
 }

@@ -184,8 +184,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -200,8 +199,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -216,8 +214,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )

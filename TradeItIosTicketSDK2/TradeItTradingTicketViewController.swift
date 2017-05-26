@@ -215,8 +215,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -231,8 +230,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -247,8 +245,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )

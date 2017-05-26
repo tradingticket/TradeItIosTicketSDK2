@@ -16,7 +16,7 @@ class TradeItPortfolioAccountDetailsTableViewCell: UITableViewCell {
         self.accountNameLabel.text = account.getFormattedAccountName()
 
         if let totalValue = account.balance?.totalValue {
-            self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue, currencyCode: nil)
+            self.totalValueLabel.text = NumberFormatter.formatCurrency(totalValue, currencyCode: account.accountBaseCurrency)
         } else {
             self.totalValueLabel.text = nil
         }

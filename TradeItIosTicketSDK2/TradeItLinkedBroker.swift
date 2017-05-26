@@ -176,6 +176,7 @@ import PromiseKit
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
+                accountBaseCurrency: account.accountBaseCurrency,
                 balance: nil,
                 fxBalance: nil,
                 positions: [],

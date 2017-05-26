@@ -6,6 +6,7 @@ import UIKit
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var orderNumberLabel: UILabel!
     @IBOutlet weak var tradeAgainButton: UIButton!
+    @IBOutlet weak var adContainer: UIView!
 
     var previewOrderResult: TradeItPreviewOrderResult?
     var placeOrderResult: TradeItPlaceOrderResult?
@@ -23,6 +24,8 @@ import UIKit
 
         self.timeStampLabel.text = self.placeOrderResult?.timestamp ?? ""
         self.orderNumberLabel.text = "Order #\(self.placeOrderResult?.orderNumber ?? "")"
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .confirmation, position: .bottom)
    }
 
     // MARK: IBActions

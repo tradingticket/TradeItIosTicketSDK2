@@ -8,6 +8,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
     @IBOutlet weak var accountsTableView: UITableView!
+    @IBOutlet weak var adContainer: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +17,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
 
         self.accountManagementTableManager.delegate = self
         self.accountManagementTableManager.accountsTableView = self.accountsTableView
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

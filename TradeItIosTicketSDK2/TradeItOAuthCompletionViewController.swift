@@ -5,6 +5,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     @IBOutlet weak var detailsLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var adContainer: UIView!
 
     var alertManager = TradeItAlertManager()
     var linkedBroker: TradeItLinkedBroker?
@@ -82,6 +83,8 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
             }
         )
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
     }
 
     // MARK: Private

@@ -92,6 +92,8 @@
 		75A3336B1E8AE0EC00716F4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75A333691E8AE0EC00716F4C /* Main.storyboard */; };
 		75A3336D1E8AE0EC00716F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A3336C1E8AE0EC00716F4C /* Assets.xcassets */; };
 		75A333701E8AE0EC00716F4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75A3336E1E8AE0EC00716F4C /* LaunchScreen.storyboard */; };
+		75B093A91ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
+		75B093AA1ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
 		75B857B31DD222ED003AB7AB /* TradeItBrokerCenterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */; };
 		75B857D81DD527B1003AB7AB /* TradeItBrokerCenterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */; };
 		75BAAA981DB7EEB400E5435C /* Array+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA431DB7EEB400E5435C /* Array+TradeIt.swift */; };
@@ -661,6 +663,7 @@
 		75A3336F1E8AE0EC00716F4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75A333711E8AE0EC00716F4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75A333771E8AF83F00716F4C /* ExampleAppObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExampleAppObjC.entitlements; sourceTree = "<group>"; };
+		75B093A81ED4AB6B00A72514 /* AdService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdService.swift; sourceTree = "<group>"; };
 		75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerCenterService.swift; sourceTree = "<group>"; };
 		75BAA98B1DB7EA7A00E5435C /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75BAAA431DB7EEB400E5435C /* Array+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+TradeIt.swift"; sourceTree = "<group>"; };
@@ -1283,6 +1286,7 @@
 				75EDCEB11DDF8687000739C9 /* TradeItTheme.swift */,
 				75F426161E1EEBE00054E15F /* TradeItThemeConfigurator.swift */,
 				521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */,
+				75B093A81ED4AB6B00A72514 /* AdService.swift */,
 			);
 			path = TradeItIosTicketSDK2;
 			sourceTree = "<group>";
@@ -2234,6 +2238,7 @@
 				75BAABF41DB7EF2F00E5435C /* TradeItUpdateLinkResult.m in Sources */,
 				753850821E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */,
 				75BAABBD1DB7EF2F00E5435C /* TradeItLinkedLogin.m in Sources */,
+				75B093A91ED4AB6B00A72514 /* AdService.swift in Sources */,
 				75BAAB8A1DB7EF2F00E5435C /* TradeItAccountOverview.m in Sources */,
 				75BAABEB1DB7EF2F00E5435C /* TradeItSymbolLookupRequest.m in Sources */,
 				75BAAAB61DB7EEB400E5435C /* TradeItErrorResult+ErrorCodeHelpers.swift in Sources */,
@@ -2420,6 +2425,7 @@
 				753850831E13212400F7A066 /* TradeItAccountSelectionUIFlow.swift in Sources */,
 				FC6E79DB1DCD1F8B005225CC /* TradeItAccountOverview.m in Sources */,
 				FC6E79DC1DCD1F8B005225CC /* TradeItSymbolLookupRequest.m in Sources */,
+				75B093AA1ED4AB6B00A72514 /* AdService.swift in Sources */,
 				FC6E79DD1DCD1F8B005225CC /* TradeItErrorResult+ErrorCodeHelpers.swift in Sources */,
 				FC6E79DE1DCD1F8B005225CC /* TradeItLinkedBrokerCache.swift in Sources */,
 				FC6E79DF1DCD1F8B005225CC /* TradeItAdsResult.m in Sources */,

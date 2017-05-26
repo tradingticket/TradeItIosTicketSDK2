@@ -2,6 +2,7 @@ import UIKit
 
 class TradeItSelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var adContainer: UIView!
 
     var initialSelection: String?
     var selections = [String]()
@@ -12,6 +13,8 @@ class TradeItSelectionViewController: UIViewController, UITableViewDelegate, UIT
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -44,8 +44,8 @@ import UIKit
         case .brokerLinkError?:
             self.showAlert(
                 onViewController: viewController,
-                withTitle: "Update Login",
-                withMessage: "There seems to be a problem connecting with your \(linkedBroker.brokerName) login credentials. Please relink.",
+                withTitle: "Relink \(linkedBroker.brokerName)",
+                withMessage: "Please relink your \(linkedBroker.brokerName) account. Your credentials may have changed with your broker.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
@@ -55,7 +55,7 @@ import UIKit
             self.showAlert(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.brokerName)",
-                withMessage: "For your security, we automatically unlink any accounts that have not been used in the past 30 days. Please relink your accounts.",
+                withMessage: "Please relink your \(linkedBroker.brokerName) account. For your security we automatically unlink accounts if they are inactive for 30 days.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,

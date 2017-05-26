@@ -84,7 +84,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
             }
         )
 
-        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
     }
 
     // MARK: Private

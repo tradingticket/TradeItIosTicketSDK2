@@ -25,7 +25,7 @@ import UIKit
         self.timeStampLabel.text = self.placeOrderResult?.timestamp ?? ""
         self.orderNumberLabel.text = "Order #\(self.placeOrderResult?.orderNumber ?? "")"
 
-        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .confirmation, position: .bottom)
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .confirmation, position: .bottom)
    }
 
     // MARK: IBActions

@@ -1,5 +1,5 @@
-@objc public protocol TradeItAdServiceDelegate {
-    func configure(
+@objc public protocol AdService {
+    func populate(
         adContainer: UIView,
         rootViewController: UIViewController,
         pageType: TradeItAdPageType,
@@ -49,8 +49,8 @@
     }
 }
 
-@objc public class NullAdService: NSObject, TradeItAdServiceDelegate {
-    public func configure(adContainer: UIView, rootViewController: UIViewController, pageType: TradeItAdPageType, position: TradeItAdPosition) {
+@objc public class NullAdService: NSObject, AdService {
+    public func populate(adContainer: UIView, rootViewController: UIViewController, pageType: TradeItAdPageType, position: TradeItAdPosition) {
         adContainer.isHidden = true
     }
 }

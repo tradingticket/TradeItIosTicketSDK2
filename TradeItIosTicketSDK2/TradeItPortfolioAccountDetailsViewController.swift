@@ -25,7 +25,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
         self.tableViewManager.initiateRefresh()
 
-        TradeItSDK.adService.configure(adContainer: adContainer, rootViewController: self, pageType: .portfolio, position: .bottom)
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .portfolio, position: .bottom)
     }
 
     @IBAction func tradeTapped(_ sender: Any) {

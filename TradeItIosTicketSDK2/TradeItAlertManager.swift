@@ -70,6 +70,20 @@ import UIKit
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         }
+        
+        let onAlertRetryAuthentication: () -> Void = { () in
+            linkedBroker.authenticate(onSuccess: { 
+                onFinished()
+            },onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                    self.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: viewController,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: onFinished)
+            }, onFailure: { (TradeItErrorResult) in
+                onFinished()
+            })
+        }
 
         switch error.errorCode {
         case .brokerLinkError?:
@@ -89,6 +103,19 @@ import UIKit
                 withMessage: "Please relink your \(linkedBroker.brokerName) account. For your security we automatically unlink accounts if they are inactive for 30 days.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
+                showCancelAction: true,
+                onCancelActionTapped: onFinished
+            )
+        case .sessionError?:
+            let title = error.shortMessage ?? ""
+            let messages = (error.longMessages as? [String]) ?? []
+            let message = messages.joined(separator: ". ")
+            self.showAlert(
+                onViewController: viewController,
+                withTitle: title,
+                withMessage: message,
+                withActionTitle: "Retry",
+                onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,
                 onCancelActionTapped: onFinished
             )

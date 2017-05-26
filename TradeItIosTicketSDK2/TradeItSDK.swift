@@ -5,7 +5,7 @@
 
     public static let launcher = TradeItLauncher()
     public static var cookieService: CookieService = TradeItCookieService()
-    public static var adService: TradeItAdServiceProtocol = NullAdService()
+    public static var adService: TradeItAdServiceDelegate = NullAdService()
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static var isPortfolioEnabled = true
     public static let yahooLauncher = TradeItYahooLauncher()

@@ -314,6 +314,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         var ticketRows: [TicketRow] = [
             .account,
             .symbol,
+            .marketPrice,
             .orderAction,
             .orderType,
             .expiration,
@@ -328,7 +329,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             ticketRows.append(.stopPrice)
         }
 
-        ticketRows.append(.marketPrice)
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows

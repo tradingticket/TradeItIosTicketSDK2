@@ -9,7 +9,7 @@ import UIKit
                           onFinished: @escaping () -> Void = {}) {
         let title = error.shortMessage ?? ""
         let messages = (error.longMessages as? [String]) ?? []
-        let message = messages.joined(separator: ". ")
+        let message = messages.joined(separator: ".\n\n")
         let actionTitle = "OK"
 
         self.showAlert(onViewController: viewController,

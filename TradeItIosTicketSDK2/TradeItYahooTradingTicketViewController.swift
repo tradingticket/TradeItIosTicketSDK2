@@ -125,7 +125,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                                                                   placeOrderCallback: placeOrderCallback)
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showAlertWithAction(
                             error: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
@@ -142,7 +142,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 )
             }, onFailure: { errorResult in
                 activityView.hide(animated: true)
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -182,7 +182,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -197,7 +197,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -212,7 +212,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self

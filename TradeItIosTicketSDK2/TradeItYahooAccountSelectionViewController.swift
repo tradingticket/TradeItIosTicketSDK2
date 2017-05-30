@@ -35,7 +35,7 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
                 )
             },
             onFailure:  { error, linkedBroker in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,

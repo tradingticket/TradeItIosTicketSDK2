@@ -146,7 +146,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                                                                   placeOrderCallback: placeOrderCallback)
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showAlertWithAction(
                             error: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
@@ -165,7 +165,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { errorResult in
                 activityView.hide(animated: true)
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -215,7 +215,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -230,7 +230,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -245,7 +245,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self

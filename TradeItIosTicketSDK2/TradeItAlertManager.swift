@@ -24,7 +24,7 @@ import UIKit
         let message = messages.joined(separator: ".\n\n")
         let actionTitle = "OK"
 
-        self.showAlert(
+        self.showAlertWithMessageOnly(
             onViewController: viewController,
             withTitle: title,
             withMessage: message,
@@ -48,7 +48,7 @@ import UIKit
     }
 
 
-    public func showRelinkError(
+    public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
@@ -87,7 +87,7 @@ import UIKit
 
         switch error.errorCode {
         case .brokerLinkError?:
-            self.showAlert(
+            self.showAlertWithMessageOnly(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "Please relink your \(linkedBroker.brokerName) account. Your credentials may have changed with your broker.",
@@ -97,7 +97,7 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         case .oauthError?:
-            self.showAlert(
+            self.showAlertWithMessageOnly(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "Please relink your \(linkedBroker.brokerName) account. For your security we automatically unlink accounts if they are inactive for 30 days.",
@@ -110,7 +110,7 @@ import UIKit
             let title = error.shortMessage ?? ""
             let messages = (error.longMessages as? [String]) ?? []
             let message = messages.joined(separator: ". ")
-            self.showAlert(
+            self.showAlertWithMessageOnly(
                 onViewController: viewController,
                 withTitle: title,
                 withMessage: message,
@@ -151,7 +151,7 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlert(
+    public func showAlertWithMessageOnly(
         onViewController viewController: UIViewController,
         withTitle title: String,
         withMessage message: String,

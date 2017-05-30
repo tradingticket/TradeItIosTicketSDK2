@@ -80,7 +80,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
                     )
                 }
 
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self

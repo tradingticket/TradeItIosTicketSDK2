@@ -6,8 +6,10 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
     private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
-    func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
-                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser) {
+    func presentOAuthCompletionFlow(
+        fromViewController viewController: UIViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser
+    ) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .oAuthCompletionView)
 
         if let oAuthCompletionViewController = navController.topViewController as? TradeItOAuthCompletionViewController {
@@ -20,9 +22,11 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate
 
-    func onTryAgain(fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?) {
+    func onTryAgain(
+        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?
+    ) {
         guard let navController = viewController.navigationController else {
             return
         }
@@ -30,24 +34,32 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
         let oAuthCallbackUrl = oAuthCallbackUrlParser.oAuthCallbackUrlWithoutOauthVerifier ?? TradeItSDK.oAuthCallbackUrl
 
         if let relinkUserId = oAuthCallbackUrlParser.relinkUserId {
-            self.linkBrokerUIFlow.presentRelinkBrokerFlow(inViewController: navController,
-                                                          userId: relinkUserId,
-                                                          oAuthCallbackUrl: oAuthCallbackUrl)
+            self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+                inViewController: navController,
+                userId: relinkUserId,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
         } else if let linkedBroker = linkedBroker {
-            self.linkBrokerUIFlow.presentRelinkBrokerFlow(inViewController: navController,
-                                                          linkedBroker: linkedBroker,
-                                                          oAuthCallbackUrl: oAuthCallbackUrl)
+            self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+                inViewController: navController,
+                linkedBroker: linkedBroker,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
         } else {
-            self.linkBrokerUIFlow.pushLinkBrokerFlow(onNavigationController: navController,
-                                                     asRootViewController: true,
-                                                     showWelcomeScreen: false,
-                                                     oAuthCallbackUrl: oAuthCallbackUrl)
+            self.linkBrokerUIFlow.pushLinkBrokerFlow(
+                onNavigationController: navController,
+                asRootViewController: true,
+                showWelcomeScreen: false,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
         }
     }
 
-    func onContinue(fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?) {
+    func onContinue(
+        fromOAuthCompletionViewController viewController: TradeItOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?
+    ) {
         guard let destination = oAuthCallbackUrlParser.destination else { return viewController.dismiss(animated: false) }
 
         switch destination {
@@ -59,9 +71,11 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
             }
         case .trading:
             if let navController = viewController.navigationController {
-                self.tradingUIFlow.pushTradingFlow(onNavigationController: navController,
-                                                   asRootViewController: true,
-                                                   withOrder: oAuthCallbackUrlParser.order ?? TradeItOrder())
+                self.tradingUIFlow.pushTradingFlow(
+                    onNavigationController: navController,
+                    asRootViewController: true,
+                    withOrder: oAuthCallbackUrlParser.order ?? TradeItOrder()
+                )
             }
         case .accountSelection:
             if let navController = viewController.navigationController {

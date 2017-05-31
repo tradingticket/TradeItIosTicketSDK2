@@ -78,10 +78,12 @@ class TradeItLinkBrokerUIFlow: NSObject,
             return
         }
 
-        self.presentRelinkBrokerFlow(inViewController: viewController,
-                                     brokerName: linkedBroker.brokerName,
-                                     userId: userId,
-                                     oAuthCallbackUrl: oAuthCallbackUrl)
+        self.presentRelinkBrokerFlow(
+            inViewController: viewController,
+            brokerName: linkedBroker.brokerName,
+            userId: userId,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     // MARK: Private

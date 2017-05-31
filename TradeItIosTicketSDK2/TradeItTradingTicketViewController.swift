@@ -428,7 +428,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
         return "Buying Power: " + NumberFormatter.formatCurrency(
             buyingPower,
-            currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE
+            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
     }
 

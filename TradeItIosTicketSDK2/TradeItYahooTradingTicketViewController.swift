@@ -356,7 +356,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency)
             }
 
             cell.detailTextLabel?.text = estimateChangeText
@@ -387,7 +387,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
         return "Buying Power: " + NumberFormatter.formatCurrency(
             buyingPower,
-            currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE
+            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
     }
 

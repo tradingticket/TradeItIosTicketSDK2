@@ -6,7 +6,6 @@ class TradeItLinkBrokerUIFlow: NSObject,
                                TradeItWelcomeViewControllerDelegate {
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    var onLinkedCallback: ((UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
 
     var oAuthCallbackUrl: URL?

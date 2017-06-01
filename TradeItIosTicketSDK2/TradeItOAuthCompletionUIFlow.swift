@@ -80,9 +80,6 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                     onSelected: { presentedNavController, linkedBrokerAccount in
                         presentedNavController.dismiss(animated: true, completion: nil)
                         TradeItLauncher.accountSelectionCallback?(linkedBrokerAccount)
-                    },
-                    onFlowAborted: { presentedNavController in
-                        presentedNavController.dismiss(animated: true, completion: nil)
                     }
                 )
             }

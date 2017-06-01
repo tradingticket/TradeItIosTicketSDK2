@@ -198,17 +198,22 @@ protocol OAuthCompletionListener {
 
     }
 
-    public func launchAccountSelection(fromViewController viewController: UIViewController,
-                                       title: String? = nil,
-                                       onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
+    public func launchAccountSelection(
+        fromViewController viewController: UIViewController,
+        title: String? = nil,
+        onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void
+    ) {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
-                    value: OAuthCallbackDestinationValues.accountSelection.rawValue)
+                    value: OAuthCallbackDestinationValues.accountSelection.rawValue
+                )
 
                 oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
             }
@@ -228,9 +233,6 @@ protocol OAuthCompletionListener {
                 onSelected: { presentedNavController, linkedBrokerAccount in
                     presentedNavController.dismiss(animated: true, completion: nil)
                     onSelected(linkedBrokerAccount)
-                },
-                onFlowAborted: { presentedNavController in
-                    presentedNavController.dismiss(animated: true, completion: nil)
                 }
             )
         }

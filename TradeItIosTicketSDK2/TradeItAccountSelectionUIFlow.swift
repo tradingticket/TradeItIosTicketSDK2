@@ -41,6 +41,8 @@ class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewContro
         }
     }
 
+    // MARK: TradeItAccountSelectionViewControllerDelegate
+
     func accountSelectionViewController(
         _ accountSelectionViewController: TradeItAccountSelectionViewController,
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount

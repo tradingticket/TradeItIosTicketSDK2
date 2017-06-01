@@ -159,12 +159,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 fromViewController: self,
                                 title: "Customizable instruction text",
                                 onSelected: { selectedLinkedBrokerAccount in
-                                    self.alertManager.showAlert(
-                                        onViewController: self,
-                                        withTitle: "Selected Account!",
-                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
-                                        withActionTitle: "OK"
-                                    )
+                                    print("=====> Selected linked broker account: \(selectedLinkedBrokerAccount)")
                                 }
                             )
                         }

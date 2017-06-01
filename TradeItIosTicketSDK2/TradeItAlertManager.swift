@@ -2,7 +2,13 @@ import UIKit
 
 @objc public class TradeItAlertManager: NSObject {
     private var alertQueue = TradeItAlertQueue.sharedInstance
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    var linkBrokerUIFlow: LinkBrokerUIFlow
+
+    init(linkBrokerUIFlow: LinkBrokerUIFlow?=nil) {
+        self.linkBrokerUIFlow = linkBrokerUIFlow ?? TradeItLinkBrokerUIFlow()
+
+        super.init()
+    }
 
     public func showError(_ error: TradeItErrorResult,
                           onViewController viewController: UIViewController,

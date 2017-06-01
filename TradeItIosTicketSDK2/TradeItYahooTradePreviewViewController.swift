@@ -13,7 +13,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData = [PreviewCellData]()
     //    var acknowledgementCellData: [AcknowledgementCellData] = []
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"

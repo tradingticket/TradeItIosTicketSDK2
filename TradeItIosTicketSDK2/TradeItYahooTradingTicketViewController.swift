@@ -9,7 +9,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     internal var order = TradeItOrder()
 
-    private var alertManager = TradeItAlertManager()
+    private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     private let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!

@@ -7,7 +7,7 @@ import UIKit
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var linkedBroker: TradeItLinkedBroker?
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser!
     var delegate: TradeItYahooOAuthCompletionViewControllerDelegate?

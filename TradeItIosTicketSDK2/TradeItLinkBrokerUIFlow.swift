@@ -2,9 +2,30 @@ import UIKit
 import MBProgressHUD
 import SafariServices
 
-class TradeItLinkBrokerUIFlow: NSObject,
-                               TradeItWelcomeViewControllerDelegate {
+@objc public protocol LinkBrokerUIFlow {
+    func pushLinkBrokerFlow(
+        onNavigationController navController: UINavigationController,
+        asRootViewController: Bool,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    )
 
+    func presentLinkBrokerFlow(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    )
+
+    func presentRelinkBrokerFlow(
+        inViewController viewController: UIViewController,
+        linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL
+    )
+
+    // @optional func setOnLinkedCallback()
+}
+
+class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, LinkBrokerUIFlow {
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
 

@@ -421,11 +421,13 @@ import PromiseKit
         )
     }
 
-    // MARK: Private
+    // MARK: Internal
 
-    private func getLinkedBroker(forUserId userId: String) -> TradeItLinkedBroker? {
+    internal func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
+
+    // MARK: Private
 
     private func loadLinkedBrokersFromKeychain() {
         let linkedLoginsFromKeychain = self.connector.getLinkedLogins() as! [TradeItLinkedLogin]

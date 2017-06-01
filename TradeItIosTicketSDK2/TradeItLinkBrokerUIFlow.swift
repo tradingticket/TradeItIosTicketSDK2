@@ -45,16 +45,20 @@ class TradeItLinkBrokerUIFlow: NSObject,
 
     func presentRelinkBrokerFlow(
         inViewController viewController: UIViewController,
-        brokerName: String? = nil,
-        userId: String,
+        linkedBroker: TradeItLinkedBroker,
         oAuthCallbackUrl: URL
     ) {
+        guard let userId = linkedBroker.linkedLogin.userId else {
+            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
+            return
+        }
+
         let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
         activityView.label.text = "Launching broker relinking"
         activityView.show(animated: true)
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: brokerName,
+            withBroker: linkedBroker.brokerName,
             userId: userId,
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: { url in
@@ -65,24 +69,6 @@ class TradeItLinkBrokerUIFlow: NSObject,
             onFailure: { errorResult in
                 TradeItAlertManager().showError(errorResult, onViewController: viewController)
             }
-        )
-    }
-
-    func presentRelinkBrokerFlow(
-        inViewController viewController: UIViewController,
-        linkedBroker: TradeItLinkedBroker,
-        oAuthCallbackUrl: URL
-    ) {
-        guard let userId = linkedBroker.linkedLogin.userId else {
-            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
-            return
-        }
-
-        self.presentRelinkBrokerFlow(
-            inViewController: viewController,
-            brokerName: linkedBroker.brokerName,
-            userId: userId,
-            oAuthCallbackUrl: oAuthCallbackUrl
         )
     }
 

@@ -33,13 +33,8 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
 
         let oAuthCallbackUrl = oAuthCallbackUrlParser.oAuthCallbackUrlWithoutOauthVerifier ?? TradeItSDK.oAuthCallbackUrl
 
-        if let relinkUserId = oAuthCallbackUrlParser.relinkUserId {
-            self.linkBrokerUIFlow.presentRelinkBrokerFlow(
-                inViewController: navController,
-                userId: relinkUserId,
-                oAuthCallbackUrl: oAuthCallbackUrl
-            )
-        } else if let linkedBroker = linkedBroker {
+        if let linkedBroker = linkedBroker ??
+            TradeItSDK.linkedBrokerManager.getLinkedBroker(forUserId: oAuthCallbackUrlParser.relinkUserId) {
             self.linkBrokerUIFlow.presentRelinkBrokerFlow(
                 inViewController: navController,
                 linkedBroker: linkedBroker,

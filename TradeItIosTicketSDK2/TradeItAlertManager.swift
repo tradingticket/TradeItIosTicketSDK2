@@ -2,11 +2,15 @@ import UIKit
 
 @objc public class TradeItAlertManager: NSObject {
     private var alertQueue = TradeItAlertQueue.sharedInstance
-    var linkBrokerUIFlow: LinkBrokerUIFlow
+    var linkBrokerUIFlow: LinkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
-    init(linkBrokerUIFlow: LinkBrokerUIFlow?=nil) {
-        self.linkBrokerUIFlow = linkBrokerUIFlow ?? TradeItLinkBrokerUIFlow()
+    init(linkBrokerUIFlow: LinkBrokerUIFlow) {
+        self.linkBrokerUIFlow = linkBrokerUIFlow
 
+        super.init()
+    }
+
+    override init() {
         super.init()
     }
 

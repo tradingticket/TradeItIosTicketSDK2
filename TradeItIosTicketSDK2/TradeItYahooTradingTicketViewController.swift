@@ -257,7 +257,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
                     self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)

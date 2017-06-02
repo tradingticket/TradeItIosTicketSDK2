@@ -2,15 +2,16 @@ import UIKit
 
 class TradeItQuotePresenter: NSObject {
     let tradeItQuote: TradeItQuote
-    
-    init(_ tradeItQuote: TradeItQuote) {
+    let currencyCode: String
+    init(_ tradeItQuote: TradeItQuote, _ currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE) {
         self.tradeItQuote = tradeItQuote
+        self.currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
     }
     
     func getLastPriceLabelText() -> String {
         guard let lastPrice = self.tradeItQuote.lastPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return NumberFormatter.formatCurrency(lastPrice, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+        return NumberFormatter.formatCurrency(lastPrice, currencyCode: currencyCode)
     }
     
     func getTimestampLabelText() -> String {
@@ -28,7 +29,7 @@ class TradeItQuotePresenter: NSObject {
         var pctChangeValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         
         if let change = self.tradeItQuote.change {
-            changeValue = NumberFormatter.formatCurrency(change, currencyCode: "")
+            changeValue = NumberFormatter.formatCurrency(change, currencyCode: self.currencyCode)
         }
         
         if let pctChange = self.tradeItQuote.pctChange {

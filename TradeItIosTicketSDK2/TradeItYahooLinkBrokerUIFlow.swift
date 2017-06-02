@@ -4,9 +4,18 @@ import SafariServices
 
 @objc class TradeItYahooLinkBrokerUIFlow: NSObject, LinkBrokerUIFlow {
     let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
-
+    private var _alertManager: TradeItAlertManager?
+    private var alertManager: TradeItAlertManager {
+        get { // Need this to avoid infinite constructor loop
+            self._alertManager ??= TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
+            return self._alertManager!
+        }
+    }
     var oAuthCallbackUrl: URL?
+
+    override internal init() {
+        super.init()
+    }
 
     func pushLinkBrokerFlow(
         onNavigationController navController: UINavigationController,

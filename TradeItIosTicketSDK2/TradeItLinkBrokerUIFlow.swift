@@ -28,8 +28,19 @@ import SafariServices
 class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, LinkBrokerUIFlow {
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
+    private var _alertManager: TradeItAlertManager?
+    private var alertManager: TradeItAlertManager {
+        get { // Need this to avoid infinite constructor loop
+            self._alertManager ??= TradeItAlertManager()
+            return self._alertManager!
+        }
+    }
 
     var oAuthCallbackUrl: URL?
+
+    override internal init() {
+        super.init()
+    }
 
     func pushLinkBrokerFlow(
         onNavigationController navController: UINavigationController,
@@ -87,7 +98,7 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
                 viewController.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
-                TradeItAlertManager().showError(errorResult, onViewController: viewController)
+                self.alertManager.showError(errorResult, onViewController: viewController)
             }
         )
     }

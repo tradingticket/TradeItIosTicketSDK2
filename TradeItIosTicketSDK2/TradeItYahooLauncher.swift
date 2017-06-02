@@ -9,11 +9,12 @@ import SafariServices
 
     override internal init() {}
     
-    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: URL) {
+    public func launchOAuth(fromViewController viewController: UIViewController) {
+        let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
         
         if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
-            brokerSelectionViewController.oAuthCallbackUrl = callbackUrl
+            brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
             viewController.present(navController, animated: true)
         }
     }

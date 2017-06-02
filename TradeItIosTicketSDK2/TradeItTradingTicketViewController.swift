@@ -291,7 +291,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
                     self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
@@ -398,7 +398,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
             }
 
             cell.detailTextLabel?.text = estimateChangeText

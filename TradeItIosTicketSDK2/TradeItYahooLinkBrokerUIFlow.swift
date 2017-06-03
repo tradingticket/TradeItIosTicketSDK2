@@ -60,18 +60,12 @@ import SafariServices
         linkedBroker: TradeItLinkedBroker,
         oAuthCallbackUrl: URL
     ) {
-        guard let userId = linkedBroker.linkedLogin.userId else {
-            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
-            return
-        }
-
         let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
         activityView.label.text = "Launching broker relinking"
         activityView.show(animated: true)
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: linkedBroker.brokerName,
-            userId: userId,
+            forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: { url in
                 activityView.hide(animated: true)

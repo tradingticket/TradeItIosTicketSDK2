@@ -464,8 +464,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: linkedBroker.brokerName,
-            userId: linkedBroker.linkedLogin.userId ?? "",
+            forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(

@@ -8,9 +8,18 @@ import SafariServices
     let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
 
     override internal init() {}
-    
+
     public func launchOAuth(fromViewController viewController: UIViewController) {
-        let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
+        self.launchOAuth(
+            fromViewController: viewController,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+    public func launchOAuth(
+        fromViewController viewController: UIViewController,
+        oAuthCallbackUrl: URL
+    ) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
         
         if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {

@@ -37,7 +37,22 @@ import UIKit
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
-        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onFinished: @escaping () -> Void = {}
+    ) {
+        self.showRelinkError(
+            error: error,
+            withLinkedBroker: linkedBroker,
+            onViewController: viewController,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+
+    public func showRelinkError(
+        error: TradeItErrorResult,
+        withLinkedBroker linkedBroker: TradeItLinkedBroker?,
+        onViewController viewController: UIViewController,
+        oAuthCallbackUrl: URL,
         onFinished: @escaping () -> Void = {}
     ) {
         guard let linkedBroker = linkedBroker else {

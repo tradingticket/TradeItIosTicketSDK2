@@ -60,7 +60,9 @@ class TradeItAlertProvider {
                 alertController.addAction(optionAction)
             }
         } else {
-            alertController.addTextField(configurationHandler: nil)
+            alertController.addTextField(configurationHandler: { (textField: UITextField) in
+                textField.isSecureTextEntry = true
+            })
             let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { action in
                 let textField = alertController.textFields![0] as UITextField
                 onAnswerSecurityQuestion(textField.text!)

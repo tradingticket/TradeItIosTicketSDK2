@@ -29,7 +29,7 @@ class TradeItQuotePresenter: NSObject {
         var pctChangeValue = TradeItPresenter.MISSING_DATA_PLACEHOLDER
         
         if let change = self.tradeItQuote.change {
-            changeValue = NumberFormatter.formatCurrency(change, currencyCode: self.currencyCode)
+            changeValue = NumberFormatter.formatCurrency(change, maximumFractionDigits: 3, currencyCode: self.currencyCode)
         }
         
         if let pctChange = self.tradeItQuote.pctChange {

@@ -1,3 +1,5 @@
+import UIKit
+
 @objc public protocol AdService {
     func populate(
         adContainer: UIView,

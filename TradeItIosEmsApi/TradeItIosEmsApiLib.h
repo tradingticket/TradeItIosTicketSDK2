@@ -45,10 +45,6 @@
 #import "TradeItQuotesResult.h"
 #import "TradeItQuote.h"
 
-// Use the PublisherService to retrieve ad sources
-#import "TradeItAdsRequest.h"
-#import "TradeItAdsResult.h"
-
 // Use the TradeService to preview and place trades
 #import "TradeItTradeService.h"
 #import "TradeItPreviewTradeRequest.h"
@@ -77,8 +73,6 @@
 
 // Use the PublisherService to get publisher specific configurations/data
 #import "TradeItPublisherService.h"
-#import "TradeItAdsRequest.h"
-#import "TradeItAdsResult.h"
 
 // EMS API Util classes
 #import "TradeItTypeDefs.h"

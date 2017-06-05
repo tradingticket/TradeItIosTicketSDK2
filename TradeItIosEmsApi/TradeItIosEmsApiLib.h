@@ -71,8 +71,7 @@
 #import "TradeItPosition.h"
 #import "TradeItFxPosition.h"
 
-// Use the PublisherService to get publisher specific configurations/data
-#import "TradeItPublisherService.h"
+#import "TradeItBrokerListResult.h"
 
 // EMS API Util classes
 #import "TradeItTypeDefs.h"

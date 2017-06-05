@@ -103,6 +103,9 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
     }
 
     private func setSuccessState(forBroker broker: String) {
+        // TODO : this has been hard coded for CIMB, but to generalize, we need server code to return brokerLongName when linking
+        let brokerName = (broker == "Cimb" ? "your CIMB Securities trading account" : broker)
+    
         self.linkState = .succeeded
 
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
@@ -111,7 +114,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.activityIndicator.stopAnimating()
 
         self.statusLabel.text = "Success"
-        self.detailsLabel.text = "You have successfully linked \(broker). You can now trade with your account or view your portfolio to see up to date performance."
+        self.detailsLabel.text = "You have successfully linked \(brokerName). You can now trade with your account or view your portfolio to see up to date performance."
     }
     
     private func setPendingState(forBroker broker: String) {

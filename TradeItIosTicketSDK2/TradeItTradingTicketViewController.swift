@@ -426,7 +426,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        return "Buying Power: " + NumberFormatter.formatCurrency(
+        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel ?? "Buying Power"
+        return buyingPowerLabel + ": " + NumberFormatter.formatCurrency(
             buyingPower,
             currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )

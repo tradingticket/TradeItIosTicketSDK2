@@ -206,7 +206,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         }
 
         if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "Buying power", value: self.formatCurrency(buyingPower)))
+            let buyingPowerLabel = self.linkedBrokerAccount?.balance?.buyingPowerLabel ?? "Buying Power"
+            cells.append(ValueCellData(label: buyingPowerLabel, value: self.formatCurrency(buyingPower)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {

@@ -72,8 +72,10 @@ class TradeItPortfolioBalanceEquityPresenter {
         if let timestamp = getFormattedTimestamp() {
             label += " as of \(timestamp)"
         }
+        
+        let buyingPowerLabel = self.balance?.buyingPowerLabel?.uppercased() ?? "BUYING POWER"
 
-        return label
+        return (buyingPowerLabel + ": " + label)
     }
 
     func getFormattedTotalValueWithPercentage() -> String? {

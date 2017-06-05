@@ -68,7 +68,7 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
         cell.detailTextLabel?.text = ""
 
         if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
-            cell.detailTextLabel?.text = "BUYING POWER: " + buyingPower
+            cell.detailTextLabel?.text = buyingPower
         }
 
         return cell

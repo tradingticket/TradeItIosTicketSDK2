@@ -197,7 +197,8 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         cells.append(ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName()))
 
         if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "Buying Power", value: formatCurrency(buyingPower)))
+            let buyingPowerLabel = self.linkedBrokerAccount?.balance?.buyingPowerLabel ?? "Buying Power"
+            cells.append(ValueCellData(label: buyingPowerLabel, value: formatCurrency(buyingPower)))
         }
 
         return cells

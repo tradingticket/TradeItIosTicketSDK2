@@ -13,7 +13,7 @@ class TradeItAccountSelectionTableViewCell: UITableViewCell {
         self.detailTextLabel?.text = ""
 
         if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
-            self.detailTextLabel?.text = "BUYING POWER: " + buyingPower
+            self.detailTextLabel?.text = buyingPower
         }
     }
 }

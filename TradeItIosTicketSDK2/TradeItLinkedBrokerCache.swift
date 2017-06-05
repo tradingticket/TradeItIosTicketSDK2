@@ -15,6 +15,7 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNTS_LINK_DELAY_ERROR_KEY = "ACCOUNTS_LINK_DELAY_ERROR"
     private let BALANCE_LAST_UPDATED_KEY = "BALANCE_LAST_UPDATED"
     private let BALANCE_BUYING_POWER_KEY = "BALANCE_BUYING_POWER"
+    private let BALANCE_BUYING_POWER_LABEL_KEY = "BALANCE_BUYING_POWER_LABEL"
     private let FX_BALANCE_BUYING_POWER_KEY = "FX_BALANCE_BUYING_POWER"
 
     private let ACCOUNT_ENABLED_VALUE = "ENABLED"
@@ -117,7 +118,8 @@ class TradeItLinkedBrokerCache {
             if let buyingPower = serializedAccount[BALANCE_BUYING_POWER_KEY] as? NSNumber {
                 let balance = TradeItAccountOverview()
                 balance.buyingPower = buyingPower
-
+                let buyingPowerLabel = serializedAccount[BALANCE_BUYING_POWER_LABEL_KEY] as? String ?? "Buying Power"
+                balance.buyingPowerLabel = buyingPowerLabel
                 account.balance = balance
             }
 
@@ -147,8 +149,11 @@ class TradeItLinkedBrokerCache {
                 if let balanceLastUpdated = account.balanceLastUpdated {
                     serializedAccount[BALANCE_LAST_UPDATED_KEY] = balanceLastUpdated
                 }
-
+                
                 serializedAccount[BALANCE_BUYING_POWER_KEY] = buyingPower
+                
+                let buyingPowerLabel = balance.buyingPowerLabel ?? "Buying Power"
+                serializedAccount[BALANCE_BUYING_POWER_LABEL_KEY] = buyingPowerLabel
             }
 
             if let fxBalance = account.fxBalance,

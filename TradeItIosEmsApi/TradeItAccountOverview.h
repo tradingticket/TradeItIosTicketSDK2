@@ -37,4 +37,7 @@
 // The marginCash balance on the account
 @property (nullable,copy) NSNumber<Optional> *marginCash;
 
+// The buying power label
+@property (nullable, copy) NSString<Optional> *buyingPowerLabel;
+
 @end

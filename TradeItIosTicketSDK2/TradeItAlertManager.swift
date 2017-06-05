@@ -2,28 +2,59 @@ import UIKit
 
 @objc public class TradeItAlertManager: NSObject {
     private var alertQueue = TradeItAlertQueue.sharedInstance
-    var linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    var linkBrokerUIFlow: LinkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
-    public func showError(_ error: TradeItErrorResult,
-                          onViewController viewController: UIViewController,
-                          onFinished: @escaping () -> Void = {}) {
+    init(linkBrokerUIFlow: LinkBrokerUIFlow) {
+        self.linkBrokerUIFlow = linkBrokerUIFlow
+
+        super.init()
+    }
+
+    override init() {
+        super.init()
+    }
+
+    public func showError(
+        _ error: TradeItErrorResult,
+        onViewController viewController: UIViewController,
+        onFinished: @escaping () -> Void = {}
+    ) {
         let title = error.shortMessage ?? ""
         let messages = (error.longMessages as? [String]) ?? []
         let message = messages.joined(separator: ".\n\n")
         let actionTitle = "OK"
 
-        self.showAlert(onViewController: viewController,
-                              withTitle: title,
-                            withMessage: message,
-                        withActionTitle: actionTitle,
-                    onAlertActionTapped: onFinished)
+        self.showAlert(
+            onViewController: viewController,
+            withTitle: title,
+            withMessage: message,
+            withActionTitle: actionTitle,
+            onAlertActionTapped: onFinished
+        )
     }
 
-    public func showRelinkError(error: TradeItErrorResult,
-                                withLinkedBroker linkedBroker: TradeItLinkedBroker?,
-                                onViewController viewController: UIViewController,
-                                oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
-                                onFinished: @escaping () -> Void = {}) {
+    public func showRelinkError(
+        error: TradeItErrorResult,
+        withLinkedBroker linkedBroker: TradeItLinkedBroker?,
+        onViewController viewController: UIViewController,
+        onFinished: @escaping () -> Void = {}
+    ) {
+        self.showRelinkError(
+            error: error,
+            withLinkedBroker: linkedBroker,
+            onViewController: viewController,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+
+    public func showRelinkError(
+        error: TradeItErrorResult,
+        withLinkedBroker linkedBroker: TradeItLinkedBroker?,
+        onViewController viewController: UIViewController,
+        oAuthCallbackUrl: URL,
+        onFinished: @escaping () -> Void = {}
+    ) {
         guard let linkedBroker = linkedBroker else {
             return self.showError(
                 error,
@@ -70,10 +101,12 @@ import UIKit
         }
     }
 
-    public func promptUserToAnswerSecurityQuestion(_ securityQuestion: TradeItSecurityQuestionResult,
-                                                   onViewController viewController: UIViewController,
-                                                   onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
-                                                   onCancelSecurityQuestion: @escaping () -> Void) {
+    public func promptUserToAnswerSecurityQuestion(
+        _ securityQuestion: TradeItSecurityQuestionResult,
+        onViewController viewController: UIViewController,
+        onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
+        onCancelSecurityQuestion: @escaping () -> Void
+    ) {
         let alert = TradeItAlertProvider.provideSecurityQuestionAlertWith(
             alertTitle: "Security Question",
             alertMessage: securityQuestion.securityQuestion ?? "No security question provided.",
@@ -91,13 +124,15 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlert(onViewController viewController: UIViewController,
-                          withTitle title: String,
-                          withMessage message: String,
-                          withActionTitle actionTitle: String,
-                          onAlertActionTapped: @escaping () -> Void = {},
-                          showCancelAction: Bool = false,
-                          onCancelActionTapped: (() -> Void)? = nil) {
+    public func showAlert(
+        onViewController viewController: UIViewController,
+        withTitle title: String,
+        withMessage message: String,
+        withActionTitle actionTitle: String,
+        onAlertActionTapped: @escaping () -> Void = {},
+        showCancelAction: Bool = false,
+        onCancelActionTapped: (() -> Void)? = nil
+    ) {
         let alert = TradeItAlertProvider.provideAlert(
             alertTitle: title,
             alertMessage: message,

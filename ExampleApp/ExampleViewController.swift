@@ -6,10 +6,29 @@ struct Section {
     let actions: [Action]
 }
 
-struct Action {
-    let label: String
-    let action: () -> Void
+class Action {
+    public var label: String
+    public var action: () -> Void
+
+    init(label: String, action: @escaping () -> Void) {
+        self.label = label
+        self.action = action
+    }
 }
+
+class YahooAction: Action {
+    override init(label: String, action: @escaping () -> Void) {
+        super.init(
+            label: label,
+            action: {
+                TradeItSDK.oAuthCallbackUrl = URL(string: "tradeItExampleScheme://completeYahooOAuth")!
+                action()
+            }
+        )
+    }
+}
+
+
 
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
@@ -159,12 +178,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 fromViewController: self,
                                 title: "Customizable instruction text",
                                 onSelected: { selectedLinkedBrokerAccount in
-                                    self.alertManager.showAlert(
-                                        onViewController: self,
-                                        withTitle: "Selected Account!",
-                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
-                                        withActionTitle: "OK"
-                                    )
+                                    print("=====> Selected linked broker account: \(selectedLinkedBrokerAccount)")
                                 }
                             )
                         }
@@ -251,11 +265,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             Section(
                 label: "Yahoo",
                 actions: [
-                    Action(
+                    YahooAction(
                         label: "OAuth Flow",
-                        action: self.launchYahooOAuthFlow
+                        action: {
+                            TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self)
+                        }
                     ),
-                    Action(
+                    YahooAction(
                         label: "Launch Trading - Buy",
                         action: {
                             let order = TradeItOrder()
@@ -272,7 +288,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             )
                         }
                     ),
-                    Action(
+                    YahooAction(
                         label: "Launch Trading - Sell",
                         action: {
                             let order = TradeItOrder()
@@ -300,6 +316,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        TradeItSDK.oAuthCallbackUrl = URL(string: "tradeItExampleScheme://completeOAuth")!
         TradeItSDK.linkedBrokerManager.oAuthDelegate = self
         TradeItSDK.linkedBrokerManager.printLinkedBrokers()
     }
@@ -369,10 +386,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             let numericValue = NSDecimalNumber.init(string: num)
             print("=====> numericValue: [\(num)] -> [\(numericValue)] \(numericValue == NSDecimalNumber.notANumber)")
         }
-    }
-
-    private func launchYahooOAuthFlow() {
-        TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self, withCallbackUrl: URL(string: "tradeItExampleScheme://completeYahooOAuth")!)
     }
 
     private func manualBuildLinkedBroker() {
@@ -451,8 +464,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: linkedBroker.brokerName,
-            userId: linkedBroker.linkedLogin.userId ?? "",
+            forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
                 self.alertManager.showAlert(

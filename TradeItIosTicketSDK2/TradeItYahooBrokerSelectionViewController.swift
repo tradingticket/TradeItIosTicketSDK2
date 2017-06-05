@@ -7,7 +7,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
 //    internal weak var delegate: TradeItYahooSelectBrokerViewControllerDelegate?
     var activityView: MBProgressHUD?
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var brokers: [TradeItBroker] = []
     var oAuthCallbackUrl: URL?
 

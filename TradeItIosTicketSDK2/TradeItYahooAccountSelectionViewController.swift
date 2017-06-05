@@ -3,7 +3,7 @@ import UIKit
 class TradeItYahooAccountSelectionViewController: CloseableViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
     @IBOutlet weak var accountsTableView: UITableView!
 
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var accountSelectionTableManager = TradeItYahooAccountSelectionTableViewManager()
     weak var delegate: TradeItYahooAccountSelectionViewControllerDelegate?
 

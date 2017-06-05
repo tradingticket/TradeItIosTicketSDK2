@@ -17,7 +17,10 @@
     public static var oAuthCallbackUrl: URL {
         get {
             precondition(_oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
-            return _oAuthCallbackUrl!
+            return self._oAuthCallbackUrl!
+        }
+        set(new) {
+            self._oAuthCallbackUrl = new
         }
     }
 

@@ -124,12 +124,12 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             let order = TradeItOrder()
                             // Any order fields that are set will pre-populate the ticket.
-                            order.symbol = "CMG"
-                            order.quantity = 10
+                            order.symbol = "S10"
+                            order.quantity = 100
                             order.action = .sell
-                            order.type = .stopLimit
-                            order.limitPrice = 20
-                            order.stopPrice = 30
+                            order.type = .market
+//                            order.limitPrice = 20
+//                            order.stopPrice = 30
                             order.expiration = .goodUntilCanceled
                             TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
                         }

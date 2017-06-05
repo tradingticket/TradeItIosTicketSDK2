@@ -72,7 +72,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         guard let quote = getQuote() else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
-        let quotePresenter = TradeItQuotePresenter(quote)
+        let quotePresenter = TradeItQuotePresenter(quote, getCurrencyCode())
         return quotePresenter.getChangeLabelText()
     }
     

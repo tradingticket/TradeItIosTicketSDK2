@@ -83,6 +83,35 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
+                label: "THEMES",
+                actions: [
+                    Action(
+                        label: "Light theme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.light()
+                            self.handleThemeChange()
+                        }
+                    ),
+                    Action(
+                        label: "Dark theme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.dark()
+                            self.handleThemeChange()
+                        }
+                    ),
+                    Action(
+                        label: "Custom theme",
+                        action: {
+                            let customTheme = TradeItTheme()
+                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
+                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
+                            TradeItSDK.theme = customTheme
+                            self.handleThemeChange()
+                        }
+                    )
+                ]
+            ),
+            Section(
                 label: "SETTINGS",
                 actions: [
                     Action(
@@ -203,24 +232,24 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Themes",
+                label: "THEMES",
                 actions: [
                     Action(
-                        label: "setLightTheme",
+                        label: "Light theme",
                         action: {
                             TradeItSDK.theme = TradeItTheme.light()
                             self.handleThemeChange()
                         }
                     ),
                     Action(
-                        label: "setDarkTheme",
+                        label: "Dark theme",
                         action: {
                             TradeItSDK.theme = TradeItTheme.dark()
                             self.handleThemeChange()
                         }
                     ),
                     Action(
-                        label: "setCustomTheme",
+                        label: "Custom theme",
                         action: {
                             let customTheme = TradeItTheme()
                             customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)

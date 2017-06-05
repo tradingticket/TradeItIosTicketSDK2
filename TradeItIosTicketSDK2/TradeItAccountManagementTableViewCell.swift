@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItAccountManagementTableViewCell: UITableViewCell {
-    
     var selectedBrokerAccount: TradeItLinkedBrokerAccount!
     let accountSwitch = UISwitch()
 

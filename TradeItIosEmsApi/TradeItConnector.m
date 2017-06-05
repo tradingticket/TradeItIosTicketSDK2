@@ -23,7 +23,11 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItOAuthDeleteLinkRequest.h"
 
-#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#ifdef CARTHAGE
+    #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+    #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
 
 @interface TradeItConnector()
 

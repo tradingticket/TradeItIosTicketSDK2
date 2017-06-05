@@ -1,3 +1,5 @@
+import UIKit
+
 @objc public protocol AdService {
     func populate(
         adContainer: UIView,
@@ -42,7 +44,7 @@
     public static func labelFor(_ position: TradeItAdPosition) -> String {
         switch(position) {
         case .top: return "top"
-        case .bottom: return "bottom"
+        case .bottom: return "bot"
         case .content1: return "content1"
         case .content2: return "content2"
         }

@@ -11,7 +11,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
     private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     private let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    private var selectionViewController: TradeItSelectionViewController!
+    private var selectionViewController: TradeItYahooSelectionViewController!
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var quotePresenter: TradeItQuotePresenter?
@@ -21,10 +21,11 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItSelectionViewController else {
+        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItYahooSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+
         self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {

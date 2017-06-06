@@ -292,10 +292,10 @@
             </objects>
             <point key="canvasLocation" x="1014" y="262"/>
         </scene>
-        <!--Trade It Selection View Controller-->
+        <!--Trade It Yahoo Selection View Controller-->
         <scene sceneID="L4v-Kv-pmB">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_YAHOO_SELECTION_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="eZG-ro-lMK" customClass="TradeItSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_SELECTION_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="eZG-ro-lMK" customClass="TradeItYahooSelectionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wBo-87-flR"/>
                         <viewControllerLayoutGuide type="bottom" id="alw-2f-7PZ"/>
@@ -337,7 +337,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="KfS-8r-pSs" id="HVJ-Dm-7ha"/>
+                        <outlet property="tableView" destination="KfS-8r-pSs" id="uBu-Qg-rnT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E3Q-FO-jLr" userLabel="First Responder" sceneMemberID="firstResponder"/>

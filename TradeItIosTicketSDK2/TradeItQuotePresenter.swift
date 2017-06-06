@@ -11,7 +11,7 @@ class TradeItQuotePresenter: NSObject {
     func getLastPriceLabelText() -> String {
         guard let lastPrice = self.tradeItQuote.lastPrice
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return NumberFormatter.formatCurrency(lastPrice, currencyCode: currencyCode)
+        return NumberFormatter.formatCurrency(lastPrice, maximumFractionDigits: 3, currencyCode: self.currencyCode)
     }
     
     func getTimestampLabelText() -> String {

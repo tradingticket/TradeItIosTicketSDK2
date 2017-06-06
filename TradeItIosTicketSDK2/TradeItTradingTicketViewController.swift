@@ -69,7 +69,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
             self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
-            self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
+            self.selectionViewController.selections = TradeItOrderActionPresenter.labels(broker: self.order.linkedBrokerAccount?.brokerName)
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.action = TradeItOrderActionPresenter.enumFor(selection)
                 _ = self.navigationController?.popViewController(animated: true)
@@ -78,7 +78,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
-            self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
+            self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels(broker: self.order.linkedBrokerAccount?.brokerName)
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.type = TradeItOrderPriceTypePresenter.enumFor(selection)
                 _ = self.navigationController?.popViewController(animated: true)
@@ -86,8 +86,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .expiration:
-            self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
-            self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
+            self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order)
+            self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels(self.order)
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.expiration = TradeItOrderExpirationPresenter.enumFor(selection)
                 _ = self.navigationController?.popViewController(animated: true)
@@ -405,7 +405,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .orderType:
             cell.detailTextLabel?.text = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
         case .expiration:
-            cell.detailTextLabel?.text = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
+            cell.detailTextLabel?.text = TradeItOrderExpirationPresenter.labelFor(self.order)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(

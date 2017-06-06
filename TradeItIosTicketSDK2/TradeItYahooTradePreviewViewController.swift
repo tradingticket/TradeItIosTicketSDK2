@@ -194,7 +194,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
-            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
+            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel(self.linkedBrokerAccount.brokerName))
             ] as [PreviewCellData]
 
         if let longHoldings = orderDetails.longHoldings {

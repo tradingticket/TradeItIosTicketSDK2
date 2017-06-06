@@ -6,8 +6,8 @@ class TradeItOrderDetailsPresenter {
         self.orderDetails = orderDetails
     }    
     
-    func getOrderExpirationLabel() -> String {
-        return TradeItOrderExpirationPresenter.labelFor(self.orderDetails.expirationType())
+    func getOrderExpirationLabel(_ broker: String?) -> String {
+        return TradeItOrderExpirationPresenter.labelFor(orderExpiration: self.orderDetails.expirationType(), broker: broker)
     }
     
     func getOrderActionLabel() -> String {
@@ -23,8 +23,12 @@ class TradeItOrderPriceTypePresenter {
     static let STOP_TYPES: [TradeItOrderPriceType]       = [.stopLimit, .stopMarket]
     static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.limit, .stopMarket, .stopLimit]
     
-    static func labels() -> [String] {
-        return TYPES.map(labelFor)
+    static func labels(broker: String?) -> [String] {
+        guard let broker = broker else {
+            return TYPES.map(labelFor)
+        }
+        // This is specific to Cimb, but should be generalized to return only broker supported types: https://www.pivotaltracker.com/story/show/146699267
+        return (broker == "Cimb") ? [.limit].map(labelFor) : TYPES.map(labelFor)
     }
     
     static func labelFor(_ type: TradeItOrderPriceType) -> String {
@@ -57,8 +61,12 @@ class TradeItOrderActionPresenter {
     private static let buyToCoverDescription = "Buy to Cover"
     private static let sellShortDescription = "Sell Short"
 
-    static func labels() -> [String] {
-        return ACTIONS.map(labelFor)
+    static func labels(broker: String?) -> [String] {
+        guard let broker = broker else {
+            return ACTIONS.map(labelFor)
+        }
+        // This is specific to Cimb, but should be generalized to return only broker supported action types: https://www.pivotaltracker.com/story/show/146699267
+        return (broker == "Cimb") ? [.buy, .sell].map(labelFor) : ACTIONS.map(labelFor)
     }
 
     static func labelFor(_ type: TradeItOrderAction) -> String {
@@ -88,15 +96,36 @@ class TradeItOrderExpirationPresenter {
 
     private static let goodForDayDescription = "Good for day"
     private static let goodUntilCanceledDescription = "Good until canceled"
-
-    static func labels() -> [String] {
-        return ACTIONS.map(labelFor)
+    private static let goodForDayDescriptionCimb = "Day"
+    private static let goodUntilCanceledDescriptionCimb = "Good Till Maximum"
+    
+    
+    static func labels(_ order: TradeItOrder) -> [String] {
+        let defaultActions = ACTIONS.map { (orderExpiration: TradeItOrderExpiration) -> String in
+            labelFor(orderExpiration: orderExpiration, broker: nil)
+        }
+        
+        guard let broker = order.linkedBrokerAccount?.brokerName else {
+            return defaultActions
+        }
+        // This is specific to Cimb, but should be generalized to return only broker supported types: https://www.pivotaltracker.com/story/show/146699267
+        return (broker == "Cimb") ? [goodForDayDescriptionCimb, goodUntilCanceledDescriptionCimb] : defaultActions
     }
     
-    static func labelFor(_ type: TradeItOrderExpiration) -> String {
-        switch(type) {
-        case .goodForDay: return goodForDayDescription
-        case .goodUntilCanceled: return goodUntilCanceledDescription
+    static func labelFor(_ order: TradeItOrder) -> String {
+        return labelFor(orderExpiration: order.expiration, broker: order.linkedBrokerAccount?.brokerName)
+    }
+    
+    static func labelFor(orderExpiration: TradeItOrderExpiration, broker: String?) -> String {
+        var goodForDay = goodForDayDescription
+        var goodUntilCanceled = goodUntilCanceledDescription
+        if broker == "Cimb" {
+            goodForDay = goodForDayDescriptionCimb
+            goodUntilCanceled = goodUntilCanceledDescriptionCimb
+        }
+        switch(orderExpiration) {
+        case .goodForDay: return goodForDay
+        case .goodUntilCanceled: return goodUntilCanceled
         case .unknown : return "Unknown"
         }
     }
@@ -104,7 +133,9 @@ class TradeItOrderExpirationPresenter {
     static func enumFor(_ type: String) -> TradeItOrderExpiration {
         switch(type) {
         case goodForDayDescription: return .goodForDay
+        case goodForDayDescriptionCimb: return .goodForDay
         case goodUntilCanceledDescription: return .goodUntilCanceled
+        case goodUntilCanceledDescriptionCimb: return .goodUntilCanceled
         default: return .unknown
         }
     }

@@ -14,9 +14,11 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
 
     private var onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler?
 
-    func presentOAuthCompletionFlow(fromViewController viewController: UIViewController,
-                                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                                    onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil) {
+    func presentOAuthCompletionFlow(
+        fromViewController viewController: UIViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil
+    ) {
         self.onOAuthCompletionSuccessHandler = onOAuthCompletionSuccessHandler
 
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .yahooOAuthCompletionView)
@@ -31,34 +33,39 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate
 
-    func onTryAgain(fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?) {
+    func onTryAgain(
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?
+    ) {
         guard let navController = viewController.navigationController else {
             return
         }
 
         let oAuthCallbackUrl = oAuthCallbackUrlParser.oAuthCallbackUrlWithoutOauthVerifier ?? TradeItSDK.oAuthCallbackUrl
 
-        if let relinkUserId = oAuthCallbackUrlParser.relinkUserId {
-            self.linkBrokerUIFlow.presentRelinkBrokerFlow(inViewController: navController,
-                                                          userId: relinkUserId,
-                                                          oAuthCallbackUrl: oAuthCallbackUrl)
-        } else if let linkedBroker = linkedBroker {
-            self.linkBrokerUIFlow.presentRelinkBrokerFlow(inViewController: navController,
-                                                          linkedBroker: linkedBroker,
-                                                          oAuthCallbackUrl: oAuthCallbackUrl)
+        if let linkedBroker = linkedBroker ??
+            TradeItSDK.linkedBrokerManager.getLinkedBroker(forUserId: oAuthCallbackUrlParser.relinkUserId) {
+            self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+                inViewController: navController,
+                linkedBroker: linkedBroker,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
         } else {
-            self.linkBrokerUIFlow.pushLinkBrokerFlow(onNavigationController: navController,
-                                                     asRootViewController: true,
-                                                     showWelcomeScreen: false,
-                                                     oAuthCallbackUrl: oAuthCallbackUrl)
+            self.linkBrokerUIFlow.pushLinkBrokerFlow(
+                onNavigationController: navController,
+                asRootViewController: true,
+                showWelcomeScreen: false,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
         }
     }
 
-    func onContinue(fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
-                    oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
-                    linkedBroker: TradeItLinkedBroker?) {
+    func onContinue(
+        fromOAuthCompletionViewController viewController: TradeItYahooOAuthCompletionViewController,
+        oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser,
+        linkedBroker: TradeItLinkedBroker?
+    ) {
         self.onOAuthCompletionSuccessHandler?(
             viewController,
             oAuthCallbackUrlParser.oAuthCallbackUrl,

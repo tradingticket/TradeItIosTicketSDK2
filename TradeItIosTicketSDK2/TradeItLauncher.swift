@@ -64,8 +64,10 @@ protocol OAuthCompletionListener {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
                     value: OAuthCallbackDestinationValues.portfolio.rawValue)
@@ -90,8 +92,10 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchPortfolio(fromViewController viewController: UIViewController,
-                                forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?) {
+    public func launchPortfolio(
+        fromViewController viewController: UIViewController,
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    ) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .portfolioAccountDetailsView)
@@ -108,7 +112,10 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchPortfolio(fromViewController viewController: UIViewController, forAccountNumber accountNumber: String) {
+    public func launchPortfolio(
+        fromViewController viewController: UIViewController,
+        forAccountNumber accountNumber: String
+    ) {
         let accounts = TradeItSDK.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter { $0.accountNumber == accountNumber }
 
         if accounts.isEmpty {
@@ -122,8 +129,10 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchTrading(fromViewController viewController: UIViewController,
-                              withOrder order: TradeItOrder = TradeItOrder()) {
+    public func launchTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItOrder = TradeItOrder()
+    ) {
         // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
@@ -170,7 +179,8 @@ protocol OAuthCompletionListener {
                 let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
 
                 viewController.present(navController, animated: true, completion: nil)
-            }, onFailure: {
+            },
+            onFailure: {
                 print("TouchId access denied")
             }
         )
@@ -180,9 +190,11 @@ protocol OAuthCompletionListener {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-        self.linkBrokerUIFlow.presentLinkBrokerFlow(fromViewController: viewController,
-                                                    showWelcomeScreen: showWelcomeScreen,
-                                                    oAuthCallbackUrl: oAuthCallbackUrl)
+        self.linkBrokerUIFlow.presentLinkBrokerFlow(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     public func launchBrokerCenter(fromViewController viewController: UIViewController) {
@@ -196,17 +208,22 @@ protocol OAuthCompletionListener {
 
     }
 
-    public func launchAccountSelection(fromViewController viewController: UIViewController,
-                                       title: String? = nil,
-                                       onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void) {
+    public func launchAccountSelection(
+        fromViewController viewController: UIViewController,
+        title: String? = nil,
+        onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void
+    ) {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
-                    value: OAuthCallbackDestinationValues.accountSelection.rawValue)
+                    value: OAuthCallbackDestinationValues.accountSelection.rawValue
+                )
 
                 oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
             }
@@ -226,9 +243,6 @@ protocol OAuthCompletionListener {
                 onSelected: { presentedNavController, linkedBrokerAccount in
                     presentedNavController.dismiss(animated: true, completion: nil)
                     onSelected(linkedBrokerAccount)
-                },
-                onFlowAborted: { presentedNavController in
-                    presentedNavController.dismiss(animated: true, completion: nil)
                 }
             )
         }

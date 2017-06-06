@@ -8,12 +8,22 @@ import SafariServices
     let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
 
     override internal init() {}
-    
-    public func launchOAuth(fromViewController viewController: UIViewController, withCallbackUrl callbackUrl: URL) {
+
+    public func launchOAuth(fromViewController viewController: UIViewController) {
+        self.launchOAuth(
+            fromViewController: viewController,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+    public func launchOAuth(
+        fromViewController viewController: UIViewController,
+        oAuthCallbackUrl: URL
+    ) {
         let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
         
         if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
-            brokerSelectionViewController.oAuthCallbackUrl = callbackUrl
+            brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
             viewController.present(navController, animated: true)
         }
     }
@@ -61,11 +71,19 @@ import SafariServices
         }
     }
 
-    public func launchTrading(fromViewController viewController: UIViewController, withOrder order: TradeItOrder) {
+    public func launchTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItOrder,
+        onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
+    ) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 print("Access granted")
-                self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                self.tradingUIFlow.presentTradingFlow(
+                    fromViewController: viewController,
+                    withOrder: order,
+                    onViewPortfolioTappedHandler: onViewPortfolioTappedHandler
+                )
             },
             onFailure: {
                 print("Access denied")

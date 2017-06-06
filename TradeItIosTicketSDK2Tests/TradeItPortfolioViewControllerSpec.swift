@@ -201,7 +201,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     beforeEach {
                         let calls = linkBrokerUIFlow.calls.forMethod("presentRelinkBrokerFlow(inViewController:linkedBroker:onLinked:onFlowAborted:)")
                         let onLinked = calls[0].args["onLinked"] as! (_ presentedNavController: UINavigationController) -> Void
-                        linkedBrokerToRelink.error = nil
+                        linkedBrokerToRelink.clearError()
                         relinkAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBrokerToRelink, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                         linkedBrokerToRelink.accounts = [relinkAccount]
                         linkedBrokerManager.hackAccountsToReturn = [relinkAccount]
@@ -251,16 +251,13 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     beforeEach {
                         let relinkAccount = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBrokerToReload, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
                         linkedBrokerToReload.accounts = [relinkAccount]
-                        linkedBrokerToReload.error = nil
+                        linkedBrokerToReload.clearError()
                         linkedBrokerManager.hackAccountsToReturn = [relinkAccount]
 
                         let onSuccess = linkedBrokerToReload.calls.forMethod("authenticate(onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! (() -> Void)
 
                         onSuccess()
                     }
-
-                    // TODO: Replace with MBProgressHUD
-//                    itBehavesLike("refreshAccountBalances") {["linkedBroker": linkedBrokerToReload, "ezLoadingActivityManager": ezLoadingActivityManager, "accountsTableViewManager": accountsTableViewManager]}
                 }
 
                 context("when authentication fails") {

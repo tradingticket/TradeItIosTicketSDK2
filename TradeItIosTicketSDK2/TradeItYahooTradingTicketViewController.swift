@@ -2,16 +2,16 @@ import UIKit
 import MBProgressHUD
 
 class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
-    @IBOutlet weak var tableView: TradeItYahooTradingTicketTableView!
+    @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
 
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
     internal var order = TradeItOrder()
 
-    private var alertManager = TradeItAlertManager()
+    private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     private let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    private var selectionViewController: TradeItSelectionViewController!
+    private var selectionViewController: TradeItYahooSelectionViewController!
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var quotePresenter: TradeItQuotePresenter?
@@ -21,10 +21,11 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItSelectionViewController else {
+        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItYahooSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+
         self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
@@ -184,8 +185,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -200,8 +200,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -216,8 +215,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -260,7 +258,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
                     self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
@@ -359,7 +357,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency)
             }
 
             cell.detailTextLabel?.text = estimateChangeText
@@ -390,7 +388,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
         return "Buying Power: " + NumberFormatter.formatCurrency(
             buyingPower,
-            currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE
+            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
     }
 

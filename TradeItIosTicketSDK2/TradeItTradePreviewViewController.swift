@@ -33,6 +33,7 @@ internal class ValueCellData: PreviewCellData {
 class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
+    @IBOutlet weak var adContainer: UIView!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
@@ -52,6 +53,8 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
         updatePlaceOrderButtonStatus()
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     @IBAction func placeOrderTapped(_ sender: UIButton) {
@@ -209,7 +212,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(value, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+        return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
     }
 }
 

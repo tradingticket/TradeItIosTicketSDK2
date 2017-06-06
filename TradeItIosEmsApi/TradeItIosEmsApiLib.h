@@ -13,7 +13,7 @@
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 #import "TradeItKeychain.h"
 
 // Start with the connector, you'll set your API key and the environment
@@ -45,10 +45,6 @@
 #import "TradeItQuotesResult.h"
 #import "TradeItQuote.h"
 
-// Use the PublisherService to retrieve ad sources
-#import "TradeItAdsRequest.h"
-#import "TradeItAdsResult.h"
-
 // Use the TradeService to preview and place trades
 #import "TradeItTradeService.h"
 #import "TradeItPreviewTradeRequest.h"
@@ -75,10 +71,7 @@
 #import "TradeItPosition.h"
 #import "TradeItFxPosition.h"
 
-// Use the PublisherService to get publisher specific configurations/data
-#import "TradeItPublisherService.h"
-#import "TradeItAdsRequest.h"
-#import "TradeItAdsResult.h"
+#import "TradeItBrokerListResult.h"
 
 // EMS API Util classes
 #import "TradeItTypeDefs.h"

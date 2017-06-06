@@ -7,7 +7,7 @@
 //
 
 #import "TradeItPositionService.h"
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 #import "TradeItGetPositionsResult.h"
 
 @implementation TradeItPositionService
@@ -23,15 +23,15 @@
 - (void) getAccountPositions:(TradeItGetPositionsRequest *) request withCompletionBlock:(void (^)(TradeItResult *)) completionBlock {
     request.token = self.session.token;
     
-    NSMutableURLRequest *positionRequest = [TradeItJsonConverter buildJsonRequestForModel:request
-                                                                                emsAction:@"position/getPositions"
-                                                                              environment:self.session.connector.environment];
-
-    [self.session.connector sendEMSRequest:positionRequest withCompletionBlock:^(TradeItResult * result, NSMutableString * jsonResponse) {
+    NSMutableURLRequest *positionRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                       emsAction:@"position/getPositions"
+                                                                                     environment:self.session.connector.environment];
+    
+    [self.session.connector sendEMSRequest:positionRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
         
         if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItJsonConverter buildResult:[TradeItGetPositionsResult alloc] jsonString:jsonResponse];
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItGetPositionsResult alloc] jsonString:jsonResponse];
         }
         
         completionBlock(resultToReturn);

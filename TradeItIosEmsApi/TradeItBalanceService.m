@@ -7,7 +7,7 @@
 //
 
 #import "TradeItBalanceService.h"
-#import "TradeItJsonConverter.h"
+#import "TradeItRequestResultFactory.h"
 #import "TradeItAccountOverviewResult.h"
 
 @implementation TradeItBalanceService
@@ -25,18 +25,18 @@
 - (void)getAccountOverview:(TradeItAccountOverviewRequest *)request
        withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     request.token = self.session.token;
-    
-    NSMutableURLRequest *balanceRequest = [TradeItJsonConverter buildJsonRequestForModel:request
-                                                                               emsAction:@"balance/getAccountOverview"
-                                                                             environment:self.session.connector.environment];
+
+    NSMutableURLRequest *balanceRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                      emsAction:@"balance/getAccountOverview"
+                                                                                    environment:self.session.connector.environment];
     
     [self.session.connector sendEMSRequest:balanceRequest
                        withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         TradeItResult *resultToReturn = result;
         
         if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItJsonConverter buildResult:[TradeItAccountOverviewResult alloc]
-                                                    jsonString:jsonResponse];
+            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItAccountOverviewResult alloc]
+                                                           jsonString:jsonResponse];
         }
         
         completionBlock(resultToReturn);

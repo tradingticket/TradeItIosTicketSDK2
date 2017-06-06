@@ -3,14 +3,13 @@ import UIKit
 class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate {
     let viewControllerProvider = TradeItViewControllerProvider()
     var onSelectedCallback: ((_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void)?
-    var onFlowAbortedCallback: ((_ presentedNavController: UINavigationController) -> Void)?
 
-    func presentAccountSelectionFlow(fromViewController viewController: UIViewController,
-                                     title: String? = nil,
-                                     onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void,
-                                     onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
+    func presentAccountSelectionFlow(
+        fromViewController viewController: UIViewController,
+        title: String? = nil,
+        onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void
+    ) {
         self.onSelectedCallback = onSelected
-        self.onFlowAbortedCallback = onFlowAborted
 
         let navController = viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .accountSelectionView)
 
@@ -22,13 +21,13 @@ class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewContro
         viewController.present(navController, animated: true)
     }
 
-    func pushAccountSelectionFlow(onNavigationController navController: UINavigationController,
-                                  title: String? = nil,
-                                  asRootViewController: Bool = false,
-                                  onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void,
-                                  onFlowAborted: @escaping (_ presentedNavController: UINavigationController) -> Void) {
+    func pushAccountSelectionFlow(
+        onNavigationController navController: UINavigationController,
+        title: String? = nil,
+        asRootViewController: Bool = false,
+        onSelected: @escaping (_ presentedNavController: UINavigationController, _ linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Void
+    ) {
         self.onSelectedCallback = onSelected
-        self.onFlowAbortedCallback = onFlowAborted
 
         if let accountSelectionViewController = viewControllerProvider.provideViewController(forStoryboardId: .accountSelectionView) as? TradeItAccountSelectionViewController {
             accountSelectionViewController.delegate = self
@@ -42,7 +41,12 @@ class TradeItAccountSelectionUIFlow: NSObject, TradeItAccountSelectionViewContro
         }
     }
 
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItAccountSelectionViewController, didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    // MARK: TradeItAccountSelectionViewControllerDelegate
+
+    func accountSelectionViewController(
+        _ accountSelectionViewController: TradeItAccountSelectionViewController,
+        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
         self.onSelectedCallback?(accountSelectionViewController.navigationController!, linkedBrokerAccount)
     }
 }

@@ -7,7 +7,7 @@ import UIKit
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var linkedBroker: TradeItLinkedBroker?
     var oAuthCallbackUrlParser: TradeItOAuthCallbackUrlParser!
     var delegate: TradeItYahooOAuthCompletionViewControllerDelegate?
@@ -29,7 +29,7 @@ import UIKit
 
         precondition(self.oAuthCallbackUrlParser != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set before loading TradeItOAuthCompletionViewController")
 
-        guard let oAuthVerifier = self.oAuthCallbackUrlParser?.oAuthVerifier else {
+        guard (self.oAuthCallbackUrlParser?.oAuthVerifier) != nil else {
             self.setFailureState(withMessage: "Could not complete broker linking. No OAuth verifier present in callback. Please try again.")
             return
         }
@@ -37,7 +37,7 @@ import UIKit
         self.setInitialState()
 
         TradeItSDK.linkedBrokerManager.completeOAuth(
-            withOAuthVerifier: oAuthVerifier,
+            withOAuthVerifier: self.oAuthCallbackUrlParser.oAuthCallbackUrl.absoluteString, // Y! Finance backend will parse out OAuthVerifier
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(

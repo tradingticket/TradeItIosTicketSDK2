@@ -13,7 +13,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData = [PreviewCellData]()
     //    var acknowledgementCellData: [AcknowledgementCellData] = []
-    var alertManager = TradeItAlertManager()
+    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
@@ -182,7 +182,6 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         }
 
         cells += [
-            ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
@@ -214,7 +213,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(value, currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+        return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
     }
 }
 

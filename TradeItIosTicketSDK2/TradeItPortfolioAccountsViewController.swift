@@ -8,12 +8,14 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     @IBOutlet weak var accountsTable: UITableView!
+    @IBOutlet weak var adContainer: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .portfolio, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -77,8 +79,12 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
     // MARK: Private
 
     private func updateTable() {
-        TradeItSDK.linkedBrokerManager.refreshAccountBalances(onFinished: {
-            self.accountsTableViewManager.set(linkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
-        })
+        TradeItSDK.linkedBrokerManager.refreshAccountBalances(
+            onFinished: {
+                self.accountsTableViewManager.set(
+                    linkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
+                )
+            }
+        )
     }
 }

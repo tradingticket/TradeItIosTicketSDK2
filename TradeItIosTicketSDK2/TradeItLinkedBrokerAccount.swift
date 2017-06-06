@@ -5,6 +5,7 @@
 
     public var accountName = ""
     public var accountNumber = ""
+    public var accountBaseCurrency = ""
     public var balanceLastUpdated: Date?
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
@@ -31,6 +32,7 @@
     init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
+         accountBaseCurrency: String,
          balanceLastUpdated: Date? = nil,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
@@ -39,6 +41,7 @@
         self.linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
+        self.accountBaseCurrency = accountBaseCurrency
         self.balanceLastUpdated = balanceLastUpdated
         self.balance = balance
         self.fxBalance = fxBalance
@@ -59,7 +62,7 @@
                 self.balanceLastUpdated = Date()
                 self.balance = accountOverviewResult.accountOverview
                 self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker?.error = nil
+                self.linkedBroker?.clearError()
 
                 if cacheResult {
                     TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)

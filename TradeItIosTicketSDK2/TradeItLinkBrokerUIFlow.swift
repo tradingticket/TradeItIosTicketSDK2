@@ -2,19 +2,52 @@ import UIKit
 import MBProgressHUD
 import SafariServices
 
-class TradeItLinkBrokerUIFlow: NSObject,
-                               TradeItWelcomeViewControllerDelegate {
+@objc public protocol LinkBrokerUIFlow {
+    func pushLinkBrokerFlow(
+        onNavigationController navController: UINavigationController,
+        asRootViewController: Bool,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    )
 
+    func presentLinkBrokerFlow(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    )
+
+    func presentRelinkBrokerFlow(
+        inViewController viewController: UIViewController,
+        linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL
+    )
+
+    // @optional func setOnLinkedCallback()
+}
+
+class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, LinkBrokerUIFlow {
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    var onLinkedCallback: ((UINavigationController, _ linkedBroker: TradeItLinkedBroker) -> Void)?
     var onFlowAbortedCallback: ((UINavigationController) -> Void)?
+    private var _alertManager: TradeItAlertManager?
+    private var alertManager: TradeItAlertManager {
+        get { // Need this to avoid infinite constructor loop
+            self._alertManager ??= TradeItAlertManager()
+            return self._alertManager!
+        }
+    }
 
     var oAuthCallbackUrl: URL?
 
-    func pushLinkBrokerFlow(onNavigationController navController: UINavigationController,
-                            asRootViewController: Bool,
-                            showWelcomeScreen: Bool,
-                            oAuthCallbackUrl: URL) {
+    override internal init() {
+        super.init()
+    }
+
+    func pushLinkBrokerFlow(
+        onNavigationController navController: UINavigationController,
+        asRootViewController: Bool,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
@@ -26,9 +59,11 @@ class TradeItLinkBrokerUIFlow: NSObject,
         }
     }
 
-    func presentLinkBrokerFlow(fromViewController viewController: UIViewController,
-                               showWelcomeScreen: Bool,
-                               oAuthCallbackUrl: URL) {
+    func presentLinkBrokerFlow(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool,
+        oAuthCallbackUrl: URL
+    ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
@@ -39,17 +74,17 @@ class TradeItLinkBrokerUIFlow: NSObject,
         viewController.present(navController, animated: true, completion: nil)
     }
 
-    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
-                                 brokerName: String? = nil,
-                                 userId: String,
-                                 oAuthCallbackUrl: URL) {
+    func presentRelinkBrokerFlow(
+        inViewController viewController: UIViewController,
+        linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL
+    ) {
         let activityView = MBProgressHUD.showAdded(to: viewController.view, animated: true)
         activityView.label.text = "Launching broker relinking"
         activityView.show(animated: true)
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupForTokenUpdateUrl(
-            withBroker: brokerName,
-            userId: userId,
+            forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: { url in
                 activityView.hide(animated: true)
@@ -57,23 +92,9 @@ class TradeItLinkBrokerUIFlow: NSObject,
                 viewController.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
-                TradeItAlertManager().showError(errorResult, onViewController: viewController)
+                self.alertManager.showError(errorResult, onViewController: viewController)
             }
         )
-    }
-
-    func presentRelinkBrokerFlow(inViewController viewController: UIViewController,
-                                 linkedBroker: TradeItLinkedBroker,
-                                 oAuthCallbackUrl: URL) {
-        guard let userId = linkedBroker.linkedLogin.userId else {
-            print("TradeItSDK ERROR: userId not set for linked broker in presentRelinkBrokerFlow()!")
-            return
-        }
-
-        self.presentRelinkBrokerFlow(inViewController: viewController,
-                                     brokerName: linkedBroker.brokerName,
-                                     userId: userId,
-                                     oAuthCallbackUrl: oAuthCallbackUrl)
     }
 
     // MARK: Private

@@ -1,18 +1,27 @@
 import UIKit
 
+public typealias OnViewPortfolioTappedHandler = ((
+    _ presentedViewController: UIViewController,
+    _ linkedBrokerAccount: TradeItLinkedBrokerAccount?
+) -> Void)
+
 class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
 TradeItYahooTradePreviewViewControllerDelegate {
 
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private var order = TradeItOrder()
+    private var onViewPortfolioTappedHandler: OnViewPortfolioTappedHandler?
 
     internal override init() {}
 
     func presentTradingFlow(
         fromViewController viewController: UIViewController,
-        withOrder order: TradeItOrder = TradeItOrder()
+        withOrder order: TradeItOrder = TradeItOrder(),
+        onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
     ) {
         self.order = order
+
+        self.onViewPortfolioTappedHandler = onViewPortfolioTappedHandler
 
         let navController = UINavigationController()
 
@@ -95,7 +104,11 @@ TradeItYahooTradePreviewViewControllerDelegate {
 
     internal func viewPortfolioTapped(
         onTradePreviewViewController tradePreviewViewController: TradeItYahooTradePreviewViewController,
-        linkedBrokerAccount: TradeItLinkedBrokerAccount) {
-        print("=====> viewPortfolioTapped")
+        linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
+        self.onViewPortfolioTappedHandler?(
+            tradePreviewViewController,
+            linkedBrokerAccount
+        )
     }
 }

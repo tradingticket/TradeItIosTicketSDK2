@@ -23,16 +23,37 @@ import PromiseKit
         self.loadLinkedBrokersFromKeychain()
     }
 
-    public func getOAuthLoginPopupUrl(withBroker broker: String,
-                                      oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
-                                      onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
-                                      onFailure: @escaping (TradeItErrorResult) -> Void) {
-        self.connector.getOAuthLoginPopupUrlForMobile(withBroker: broker,
-                                                      oAuthCallbackUrl: oAuthCallbackUrl) { tradeItResult in
+    public func getOAuthLoginPopupUrl(
+        withBroker broker: String,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.getOAuthLoginPopupUrl(
+            withBroker: broker,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl,
+            onSuccess: onSuccess,
+            onFailure: onFailure
+        )
+    }
+
+    public func getOAuthLoginPopupUrl(
+        withBroker broker: String,
+        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.connector.getOAuthLoginPopupUrlForMobile(
+            withBroker: broker,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        ) { tradeItResult in
             switch tradeItResult {
             case let oAuthLoginPopupUrlForMobileResult as TradeItOAuthLoginPopupUrlForMobileResult:
                 guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthUrl() else {
-                    onFailure(TradeItErrorResult(title: "Received empty OAuth login popup URL"))
+                    onFailure(
+                        TradeItErrorResult(
+                            title: "Received empty OAuth login popup URL"
+                        )
+                    )
                     return
                 }
 
@@ -47,7 +68,20 @@ import PromiseKit
 
     public func getOAuthLoginPopupForTokenUpdateUrl(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
-        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.getOAuthLoginPopupForTokenUpdateUrl(
+            forLinkedBroker: linkedBroker,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl,
+            onSuccess: onSuccess,
+            onFailure: onFailure
+        )
+    }
+
+    public func getOAuthLoginPopupForTokenUpdateUrl(
+        forLinkedBroker linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
@@ -60,60 +94,11 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(
-        withBroker broker: String? = nil,
-        userId: String,
-        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
-        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+    public func completeOAuth(
+        withOAuthVerifier oAuthVerifier: String,
+        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-    ) {
-        guard let brokerName = broker ?? self.getLinkedBroker(forUserId: userId)?.brokerName else {
-            print("TradeItSDK ERROR: Could not determine broker name for getOAuthLoginPopupForTokenUpdateUrl()!")
-            onFailure(
-                TradeItErrorResult(
-                    title: "Could not relink",
-                    message: "Could not determine broker name for OAuth URL for relinking",
-                    code: .systemError
-                )
-            )
-            return
-        }
-
-        var relinkOAuthCallbackUrl = oAuthCallbackUrl
-
-        if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                             resolvingAgainstBaseURL: false) {
-            urlComponents.addOrUpdateQueryStringValue(
-                forKey: OAuthCallbackQueryParamKeys.relinkUserId.rawValue,
-                value: userId
-            )
-
-            relinkOAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
-        }
-
-
-        self.connector.getOAuthLoginPopupURLForTokenUpdate(withBroker: brokerName,
-                                                           userId: userId,
-                                                           oAuthCallbackUrl: relinkOAuthCallbackUrl) { tradeItResult in
-            switch tradeItResult {
-            case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
-                guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl() else {
-                    onFailure(TradeItErrorResult(title: "Received empty OAuth token update popup URL"))
-                    return
-                }
-
-                onSuccess(oAuthUrl)
-            case let errorResult as TradeItErrorResult:
-                onFailure(errorResult)
-            default:
-                onFailure(TradeItErrorResult(title: "Failed to retrieve OAuth login popup URL for token update"))
-            }
-        }
-    }
-
-    public func completeOAuth(withOAuthVerifier oAuthVerifier: String,
-                              onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-                              onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+    ) -> Void {
         self.connector.getOAuthAccessToken(withOAuthVerifier: oAuthVerifier) { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
@@ -124,43 +109,61 @@ import PromiseKit
 
                 if let linkedBroker = self.getLinkedBroker(forUserId: userId) {
                     // userId already exists, this is a relink
-                    let linkedLogin = self.connector.updateKeychain(withLink: oAuthAccessTokenResult,
-                                                                    withBroker: linkedBroker.brokerName)
+                    let linkedLogin = self.connector.updateKeychain(
+                        withLink: oAuthAccessTokenResult,
+                        withBroker: linkedBroker.brokerName
+                    )
+
                     if let linkedLogin = linkedLogin {
                         linkedBroker.setUnauthenticated()
                         linkedBroker.linkedLogin = linkedLogin
 
-                        self.oAuthDelegate?.didLink?(userId: userId,
-                                                     userToken: userToken)
+                        self.oAuthDelegate?.didLink?(
+                            userId: userId,
+                            userToken: userToken)
                         onSuccess(linkedBroker)
                     } else {
-                        let error = TradeItErrorResult(title: "Keychain error",
-                                                       message: "Failed to update linked login in the keychain")
+                        let error = TradeItErrorResult(
+                            title: "Keychain error",
+                            message: "Failed to update linked login in the keychain"
+                        )
+
                         linkedBroker.error = error
                         onFailure(error)
                     }
                 } else {
                     guard let broker = oAuthAccessTokenResult.broker else {
-                        let error = TradeItErrorResult(title: "Failed to complete OAuth",
-                                                       message: "Service did not return a broker")
+                        let error = TradeItErrorResult(
+                            title: "Failed to complete OAuth",
+                            message: "Service did not return a broker"
+                        )
+
                         onFailure(error)
                         return
                     }
 
-                    let linkedLogin = self.connector.saveToKeychain(withLink: oAuthAccessTokenResult,
-                                                                    withBroker: broker)
+                    let linkedLogin = self.connector.saveToKeychain(
+                        withLink: oAuthAccessTokenResult,
+                        withBroker: broker
+                    )
+
                     if let linkedLogin = linkedLogin {
                         let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
                         self.linkedBrokers.append(linkedBroker)
 
-                        self.oAuthDelegate?.didLink?(userId: userId,
-                                                     userToken: userToken)
+                        self.oAuthDelegate?.didLink?(
+                            userId: userId,
+                            userToken: userToken
+                        )
+
                         onSuccess(linkedBroker)
                     } else {
-                        onFailure(TradeItErrorResult(
-                            title: "Keychain error",
-                            message: "Failed to save the linked login to the device keychain"
-                        ))
+                        onFailure(
+                            TradeItErrorResult(
+                                title: "Keychain error",
+                                message: "Failed to save the linked login to the device keychain"
+                            )
+                        )
                     }
                 }
             default:
@@ -172,11 +175,15 @@ import PromiseKit
         }
     }
 
-    public func authenticateAll(onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-                                                                 _ submitAnswer: @escaping (String) -> Void,
-                                                                 _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
-                                            onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
-                                            onFinished: @escaping () -> Void) {
+    public func authenticateAll(
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void,
+        onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+        onFinished: @escaping () -> Void
+    ) {
         let promises = self.getAllDisplayableLinkedBrokers().map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.authenticateIfNeeded(
@@ -214,11 +221,13 @@ import PromiseKit
         }
     }
 
-    public func injectBroker(userId: String,
-                             userToken: String,
-                             broker: String,
-                             onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-                             onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func injectBroker(
+        userId: String,
+        userToken: String,
+        broker: String,
+        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         self.saveLinkedBrokerToKeychain(
             userId: userId,
             userToken: userToken,
@@ -266,22 +275,28 @@ import PromiseKit
             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
             self.oAuthDelegate?.didUnlink?(userId: userId)
-            NotificationCenter.default.post(name: TradeItSDK.didUnlinkNotificationName, object: nil, userInfo: [
-                "linkedBroker": linkedBroker
-            ])
+            NotificationCenter.default.post(
+                name: TradeItSDK.didUnlinkNotificationName,
+                object: nil,
+                userInfo: [
+                    "linkedBroker": linkedBroker
+                ]
+            )
         }
     }
 
     // MARK: Internal
 
     @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
-    internal func linkBroker(authInfo: TradeItAuthenticationInfo,
-                             onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-                             onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-        _ submitAnswer: @escaping (String) -> Void,
-        _ onCancelSecurityQuestion: @escaping () -> Void
+    internal func linkBroker(
+        authInfo: TradeItAuthenticationInfo,
+        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
-                             onFailure: @escaping (TradeItErrorResult) -> Void) {
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         self.connector.linkBroker(with: authInfo) { authResult in
             switch authResult {
             case let errorResult as TradeItErrorResult:
@@ -303,7 +318,7 @@ import PromiseKit
                             onSecurityQuestion: onSecurityQuestion,
                             onFailure: onFailure
                         )
-                },
+                    },
                     onFailure: onFailure
                 )
             default:
@@ -315,13 +330,15 @@ import PromiseKit
 
     @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
     internal func relinkBroker(
-        _ linkedBroker: TradeItLinkedBroker, authInfo: TradeItAuthenticationInfo,
+        _ linkedBroker: TradeItLinkedBroker,
+        authInfo: TradeItAuthenticationInfo,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) -> Void {
         self.connector.updateUserToken(
             linkedBroker.linkedLogin,
             authInfo: authInfo,
@@ -331,26 +348,32 @@ import PromiseKit
                     linkedBroker.error = errorResult
                     onFailure(errorResult)
                 case let updateLinkResult as TradeItUpdateLinkResult:
-                    let linkedLogin = self.connector.updateKeychain(withLink: updateLinkResult,
-                                                                    withBroker: linkedBroker.brokerName)
+                    let linkedLogin = self.connector.updateKeychain(
+                        withLink: updateLinkResult,
+                        withBroker: linkedBroker.brokerName
+                    )
 
                     if let linkedLogin = linkedLogin {
-                        linkedBroker.error = nil
+                        linkedBroker.clearError()
                         linkedBroker.linkedLogin = linkedLogin
                         linkedBroker.authenticate(
                             onSuccess: {
                                 self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
                                 onSuccess(linkedBroker)
-                        },
+                            },
                             onSecurityQuestion: onSecurityQuestion,
                             onFailure: { error in
                                 // Consider a success because linking succeeded. Just not able to authenticate after.
                                 self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
                                 onSuccess(linkedBroker)
-                        }
+                            }
                         )
                     } else {
-                        let error = TradeItErrorResult(title: "Keychain error", message: "Failed to update linked login in the keychain")
+                        let error = TradeItErrorResult(
+                            title: "Keychain error",
+                            message: "Failed to update linked login in the keychain"
+                        )
+
                         linkedBroker.error = error
                         onFailure(error)
                     }
@@ -363,10 +386,73 @@ import PromiseKit
         )
     }
 
+    internal func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
+        return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
+    }
+
     // MARK: Private
 
-    private func getLinkedBroker(forUserId userId: String) -> TradeItLinkedBroker? {
-        return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
+    private func getOAuthLoginPopupForTokenUpdateUrl(
+        withBroker broker: String? = nil,
+        userId: String,
+        oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
+        onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+        ) {
+        guard let brokerName = broker ?? self.getLinkedBroker(forUserId: userId)?.brokerName else {
+            print("TradeItSDK ERROR: Could not determine broker name for getOAuthLoginPopupForTokenUpdateUrl()!")
+            onFailure(
+                TradeItErrorResult(
+                    title: "Could not relink",
+                    message: "Could not determine broker name for OAuth URL for relinking",
+                    code: .systemError
+                )
+            )
+            return
+        }
+
+        var relinkOAuthCallbackUrl = oAuthCallbackUrl
+
+        if var urlComponents = URLComponents(
+            url: oAuthCallbackUrl,
+            resolvingAgainstBaseURL: false
+            ) {
+            urlComponents.addOrUpdateQueryStringValue(
+                forKey: OAuthCallbackQueryParamKeys.relinkUserId.rawValue,
+                value: userId
+            )
+
+            relinkOAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
+        }
+
+
+        self.connector.getOAuthLoginPopupURLForTokenUpdate(
+            withBroker: brokerName,
+            userId: userId,
+            oAuthCallbackUrl: relinkOAuthCallbackUrl
+        ) { tradeItResult in
+            switch tradeItResult {
+            case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
+                guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl() else {
+                    onFailure(
+                        TradeItErrorResult(
+                            title: "Received empty OAuth token update popup URL"
+                        )
+                    )
+                    return
+                }
+
+                onSuccess(oAuthUrl)
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            default:
+                onFailure(
+                    TradeItErrorResult(
+                        title: "Failed to retrieve OAuth login popup URL for token update"
+                    )
+                )
+            }
+        }
     }
 
     private func loadLinkedBrokersFromKeychain() {
@@ -386,11 +472,13 @@ import PromiseKit
         return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
     }
 
-    private func saveLinkedBrokerToKeychain(userId: String?,
-                                            userToken: String?,
-                                            broker: String,
-                                            onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-                                            onFailure: @escaping (TradeItErrorResult) -> Void) {
+    private func saveLinkedBrokerToKeychain(
+        userId: String?,
+        userToken: String?,
+        broker: String,
+        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let linkedLogin = self.connector.saveToKeychain(withUserId: userId, andUserToken: userToken, andBroker: broker, andLabel: broker)
 
         if let linkedLogin = linkedLogin {
@@ -414,7 +502,7 @@ import PromiseKit
             let linkedLogin = linkedBroker.linkedLogin
             let userToken = TradeItSDK.linkedBrokerManager.connector.userToken(fromKeychainId: linkedLogin.keychainId)
 
-            print("=====> \(linkedBroker.brokerName)(\(linkedBroker.accounts.count) accounts)\n    accountsUpdated: \(String(describing: linkedBroker.accountsLastUpdated))\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")")
+            print("=====> \(linkedBroker.brokerName)(\(linkedBroker.accounts.count) accounts)\n    accountsUpdated: \(String(describing: linkedBroker.accountsLastUpdated))\n    userId: \(linkedLogin.userId ?? "MISSING USER ID")\n    keychainId: \(linkedLogin.keychainId ?? "MISSING KEYCHAIN ID")\n    userToken: \(userToken ?? "MISSING USER TOKEN")\n    error: \(String(describing: linkedBroker.error?.errorCode)) - \(String(describing: linkedBroker.error?.shortMessage)) - \(String(describing: linkedBroker.error?.longMessages?.first))")
 
             print("        === ACCOUNTS ===")
 

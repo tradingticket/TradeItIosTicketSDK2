@@ -1,7 +1,7 @@
 import UIKit
 
 class TradeItViewControllerProvider {
-    var storyboardName: String = "TradeIt"
+    private var storyboardName: String = "TradeIt"
 
     init() {}
 

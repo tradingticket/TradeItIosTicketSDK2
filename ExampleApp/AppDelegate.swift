@@ -1,26 +1,6 @@
 import UIKit
 import TradeItIosTicketSDK2
 
-class DummyMarketDataService: MarketDataService {
-    func getQuote(
-        symbol: String,
-        onSuccess: @escaping (TradeItQuote) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    ) {
-        // Get market data and populate TradeItQuote
-        let quote = TradeItQuote()
-        quote.companyName = "LOL"
-        quote.lastPrice = 1337.42
-        quote.change = 42.1337
-        quote.pctChange = -123.456
-        quote.dateTime = "12:34:56"
-        onSuccess(quote)
-
-        // OR if failed to get market data, create an error
-        let error = TradeItErrorResult.error(withSystemMessage: "Some technical reason for failure")
-        onFailure(error)
-    }
-}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,11 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             environment: AppDelegate.ENVIRONMENT
         )
 
+        // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
+        // TradeItSDK.set(host: "https://example.com:1234/myAPI/", forEnvironment: AppDelegate.ENVIRONMENT)
+
         super.init()
     }
 
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+    ) -> Bool {
         if ProcessInfo.processInfo.arguments.contains("isUITesting") {
             UIView.setAnimationsEnabled(false)
         }
@@ -47,10 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(_ application: UIApplication,
-                     open url: URL,
-                     sourceApplication: String?,
-                     annotation: Any) -> Bool {
+    func application(
+        _ application: UIApplication,
+        open url: URL,
+        sourceApplication: String?,
+        annotation: Any
+    ) -> Bool {
         print("=====> Received OAuth callback URL: \(url.absoluteString)")
 
         let MANUAL_HOST = "manualCompleteOAuth"
@@ -132,5 +119,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("=====> ERROR: Received unknown OAuth callback URL host: \(host)")
             }
         }
+    }
+}
+
+// Only implement this protocol if you need to inject your own market data
+class DummyMarketDataService: MarketDataService {
+    func getQuote(
+        symbol: String,
+        onSuccess: @escaping (TradeItQuote) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        // Get market data and populate TradeItQuote
+        let quote = TradeItQuote()
+        quote.companyName = "LOL"
+        quote.lastPrice = 1337.42
+        quote.change = 42.1337
+        quote.pctChange = -123.456
+        quote.dateTime = "12:34:56"
+        onSuccess(quote)
+
+        // OR if failed to get market data, create an error
+        let error = TradeItErrorResult.error(withSystemMessage: "Some technical reason for failure")
+        onFailure(error)
+    }
+}
+
+// Only implement this protocol if you need to inject your own cookies
+class TestCookieService: NSObject, CookieService {
+    public func getCookies() -> [HTTPCookie] {
+        let cookie = HTTPCookie(
+            properties: [
+                .name: "TestCookie",
+                .value: "Test value @#$%^$&*",
+                .path: "/",
+                .domain: "ems.qa.tradingticket.com"
+            ]
+        )!
+
+        return [cookie]
     }
 }

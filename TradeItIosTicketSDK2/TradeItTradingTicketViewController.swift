@@ -2,8 +2,9 @@ import UIKit
 import MBProgressHUD
 
 class TradeItTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var previewOrderButton: UIButton!
+    @IBOutlet weak var adContainer: UIView!
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -47,6 +48,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+
+        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -215,8 +218,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -231,8 +233,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -247,8 +248,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.alertManager.showRelinkError(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self,
-                    onFinished: self.selectedAccountChanged
+                    onViewController: self
                 )
             }
         )
@@ -291,7 +291,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote)
+                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
                     self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
@@ -314,6 +314,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         var ticketRows: [TicketRow] = [
             .account,
             .symbol,
+            .marketPrice,
             .orderAction,
             .orderType,
             .expiration,
@@ -328,7 +329,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             ticketRows.append(.stopPrice)
         }
 
-        ticketRows.append(.marketPrice)
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -398,7 +398,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE)
+                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
             }
 
             cell.detailTextLabel?.text = estimateChangeText
@@ -428,7 +428,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
         return "Buying Power: " + NumberFormatter.formatCurrency(
             buyingPower,
-            currencyCode: TradeItPresenter.DEFAULT_CURRENCY_CODE
+            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
     }
 

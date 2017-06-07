@@ -3,7 +3,6 @@ import UIKit
 @objc class TradeItYahooOAuthCompletionViewController: CloseableViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
-    @IBOutlet weak var brokerLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -42,13 +41,20 @@ import UIKit
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
-                        linkedBroker.refreshAccountBalances(onFinished: {
-                            self.setSuccessState(forBroker: linkedBroker.brokerName)
-                        })
-                        NotificationCenter.default.post(name: TradeItSDK.didLinkNotificationName, object: nil, userInfo: [
-                            "linkedBroker": linkedBroker
-                            ])
-                },
+                        linkedBroker.refreshAccountBalances(
+                            onFinished: {
+                                self.setSuccessState(forBroker: linkedBroker.brokerName)
+                            }
+                        )
+
+                        NotificationCenter.default.post(
+                            name: TradeItSDK.didLinkNotificationName,
+                            object: nil,
+                            userInfo: [
+                                "linkedBroker": linkedBroker
+                            ]
+                        )
+                    },
                     onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                         self.alertManager.promptUserToAnswerSecurityQuestion(
                             securityQuestion,
@@ -56,7 +62,7 @@ import UIKit
                             onAnswerSecurityQuestion: answerSecurityQuestion,
                             onCancelSecurityQuestion: cancelSecurityQuestion
                         )
-                },
+                    },
                     onFailure: { errorResult in
                         if errorResult.isAccountLinkDelayedError() { // case IB linked account not available yet, don't show alert error
                             self.setPendingState(forBroker: linkedBroker.brokerName)
@@ -70,18 +76,18 @@ import UIKit
                                     } else {
                                         self.setSuccessState(forBroker: linkedBroker.brokerName)
                                     }
-                            }
+                                }
                             )
                         }
-                }
+                    }
                 )
-        },
+            },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(String(describing: errorResult.errorCode)), message: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
                 self.alertManager.showError(errorResult, onViewController: self)
 
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
-        }
+            }
         )
     }
 
@@ -97,7 +103,6 @@ import UIKit
         self.activityIndicator.hidesWhenStopped = true
 
         self.statusLabel.text = "Linking..."
-        self.brokerLabel.text = ""
         self.detailsLabel.text = ""
     }
 
@@ -109,9 +114,8 @@ import UIKit
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "You have successfully linked:"
-        self.brokerLabel.text = broker
-        self.detailsLabel.text = "You can now trade from your accounts or view your portfolios to see performance, news, and edit settings."
+        self.statusLabel.text = "Success!"
+        self.detailsLabel.text = "You have linked \(broker). You can now trade from your accounts or view your portfolios to see performance, news, and edit settings."
     }
 
     private func setPendingState(forBroker broker: String) {
@@ -122,9 +126,8 @@ import UIKit
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Activation in progress:"
-        self.brokerLabel.text = broker
-        self.detailsLabel.text = "Your broker linking is being activated. Check back soon (up to two business days)."
+        self.statusLabel.text = "Activation in progress."
+        self.detailsLabel.text = "Your \(broker) link is being activated. Check back soon (up to two business days)."
     }
 
     private func setFailureState(withMessage message: String) {
@@ -133,7 +136,7 @@ import UIKit
         self.actionButton.enable()
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Oops"
+        self.statusLabel.text = "Oops."
         self.detailsLabel.text = message
     }
 

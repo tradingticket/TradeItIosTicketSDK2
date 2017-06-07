@@ -110,7 +110,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Success"
+        self.statusLabel.text = "Success!"
         self.detailsLabel.text = "You have successfully linked \(broker). You can now trade with your account or view your portfolio to see up to date performance."
     }
     
@@ -123,7 +123,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.activityIndicator.stopAnimating()
         
         self.statusLabel.text = "Activation in Progress"
-        self.detailsLabel.text = "Your \(broker) account is being activated. Check back soon (up to two business days)."
+        self.detailsLabel.text = "Your \(broker) link is being activated. Check back soon (up to two business days)."
     }
 
     private func setFailureState(withMessage message: String) {
@@ -133,7 +133,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
         self.actionButton.enable()
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Oops"
+        self.statusLabel.text = "Oops."
         self.detailsLabel.text = message
     }
 

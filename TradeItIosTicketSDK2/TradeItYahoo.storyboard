@@ -514,18 +514,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-RI-lfi">
-                                <rect key="frame" x="16" y="80" width="343" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3c-rZ-ne5">
-                                <rect key="frame" x="16" y="151" width="343" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQ4-Vs-NfX">
                                 <rect key="frame" x="16" y="602" width="343" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -546,41 +534,43 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdx-Mj-pun">
-                                <rect key="frame" x="16" y="225" width="343" height="61"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="16" y="309" width="343" height="50.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="highlightedColor" red="0.94629161558888897" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZI3-FC-XTV">
-                                <rect key="frame" x="169" y="144.5" width="37" height="37"/>
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYG-bO-NAL">
+                                <rect key="frame" x="16" y="255.5" width="343" height="33.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gQ4-Vs-NfX" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="5Lr-TA-JEl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MYG-bO-NAL" secondAttribute="trailing" id="6P3-Hk-IKV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Kdx-Mj-pun" secondAttribute="trailing" id="7nA-7l-dFB"/>
-                            <constraint firstItem="Kdx-Mj-pun" firstAttribute="top" secondItem="a3c-rZ-ne5" secondAttribute="bottom" constant="50" id="Dby-M9-q50"/>
-                            <constraint firstItem="OtU-RI-lfi" firstAttribute="top" secondItem="Hkx-9Y-dEt" secondAttribute="bottom" constant="60" id="Jti-7U-1Bg"/>
                             <constraint firstItem="ZI3-FC-XTV" firstAttribute="centerX" secondItem="c7B-Ve-8yl" secondAttribute="centerX" id="TVP-ql-5j0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gQ4-Vs-NfX" secondAttribute="trailing" id="WZA-AN-pCE"/>
+                            <constraint firstItem="ZI3-FC-XTV" firstAttribute="centerY" secondItem="Kdx-Mj-pun" secondAttribute="centerY" id="bkd-4H-gcf"/>
                             <constraint firstItem="Kdx-Mj-pun" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="c8A-JE-hfZ"/>
-                            <constraint firstItem="a3c-rZ-ne5" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="dtv-VU-pwr"/>
-                            <constraint firstItem="ZI3-FC-XTV" firstAttribute="centerY" secondItem="a3c-rZ-ne5" secondAttribute="centerY" id="ebX-Zp-F34"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="a3c-rZ-ne5" secondAttribute="trailing" id="eus-rj-1O0"/>
                             <constraint firstItem="B1L-en-oln" firstAttribute="top" secondItem="gQ4-Vs-NfX" secondAttribute="bottom" constant="15" id="gKi-Jy-hOM"/>
-                            <constraint firstItem="a3c-rZ-ne5" firstAttribute="top" secondItem="OtU-RI-lfi" secondAttribute="bottom" constant="50" id="rbj-2l-ZvV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="OtU-RI-lfi" secondAttribute="trailing" id="t2n-HJ-Gh1"/>
-                            <constraint firstItem="OtU-RI-lfi" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="zc2-Qo-Pcb"/>
+                            <constraint firstItem="MYG-bO-NAL" firstAttribute="leading" secondItem="c7B-Ve-8yl" secondAttribute="leadingMargin" id="my4-7R-8LY"/>
+                            <constraint firstItem="Kdx-Mj-pun" firstAttribute="centerY" secondItem="c7B-Ve-8yl" secondAttribute="centerY" id="q2g-6F-0hL"/>
+                            <constraint firstItem="Kdx-Mj-pun" firstAttribute="top" secondItem="MYG-bO-NAL" secondAttribute="bottom" constant="20" id="yd2-Uu-YYW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Broker linked" id="KH4-0b-yDp"/>
                     <connections>
                         <outlet property="actionButton" destination="gQ4-Vs-NfX" id="AM2-9C-O3F"/>
                         <outlet property="activityIndicator" destination="ZI3-FC-XTV" id="M7p-N8-DFK"/>
-                        <outlet property="brokerLabel" destination="a3c-rZ-ne5" id="pqy-gI-PRw"/>
-                        <outlet property="detailsLabel" destination="Kdx-Mj-pun" id="Kb8-zL-o2k"/>
-                        <outlet property="statusLabel" destination="OtU-RI-lfi" id="VAk-FN-jPA"/>
+                        <outlet property="detailsLabel" destination="Kdx-Mj-pun" id="FmP-vd-i3M"/>
+                        <outlet property="statusLabel" destination="MYG-bO-NAL" id="dw9-WL-Cd7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5w-G1-Ay7" userLabel="First Responder" sceneMemberID="firstResponder"/>

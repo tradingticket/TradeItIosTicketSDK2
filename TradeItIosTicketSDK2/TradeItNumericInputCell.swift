@@ -7,6 +7,16 @@ class TradeItNumericInputCell: UITableViewCell {
 
     override func awakeFromNib() {
         self.textField.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        let numberToolbar: UIToolbar = UIToolbar()
+        numberToolbar.barStyle = UIBarStyle.default
+        numberToolbar.items=[
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: "done")
+        ]
+        
+        numberToolbar.sizeToFit()
+        
+        textField.inputAccessoryView = numberToolbar
     }
 
     func configure(initialValue: NSDecimalNumber?,
@@ -32,5 +42,9 @@ class TradeItNumericInputCell: UITableViewCell {
         } else {
             self.onValueUpdated?(numericValue)
         }
+    }
+    
+    func done () {
+        textField.resignFirstResponder()
     }
 }

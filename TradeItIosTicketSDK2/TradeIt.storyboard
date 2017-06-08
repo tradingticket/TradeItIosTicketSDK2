@@ -2148,6 +2148,7 @@
                     </view>
                     <connections>
                         <outlet property="adContainer" destination="J5u-Gm-Zrf" id="gDg-Aa-vi2"/>
+                        <outlet property="bottomSpaceConstraint" destination="DMW-jX-hA0" id="oT1-eM-wL8"/>
                         <outlet property="previewOrderButton" destination="Mfv-4e-fwa" id="SkG-bW-WTW"/>
                         <outlet property="tableView" destination="rus-7i-baC" id="CAl-jl-ouR"/>
                     </connections>

@@ -1,18 +1,18 @@
 import UIKit
 
 class KeyboardViewController: TradeItViewController {
-    var submitButtonBottomSpaceConstraintConstant:CGFloat = 0.0
+    var bottomSpaceConstraintConstant:CGFloat = 0.0
     
-    @IBOutlet weak var submitButtonBottomSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomSpaceConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
-        guard (submitButtonBottomSpaceConstraint != nil) else {
-            assertionFailure("TradeItSdk ERROR: Class inherits from KeyboardViewController without hooking up submitButtonBottomSpaceConstraint IBOoutlet!")
+        guard (bottomSpaceConstraint != nil) else {
+            assertionFailure("TradeItSdk ERROR: Class inherits from KeyboardViewController without hooking up bottomSpaceConstraint IBOoutlet!")
             return
         }
         
         super.viewDidLoad()
-        self.submitButtonBottomSpaceConstraintConstant = self.submitButtonBottomSpaceConstraint.constant
+        self.bottomSpaceConstraintConstant = self.bottomSpaceConstraint.constant
         NotificationCenter.default.addObserver(self,
                                                          selector: #selector(self.keyboardNotification(_:)),
                                                          name: NSNotification.Name.UIKeyboardWillChangeFrame,
@@ -32,9 +32,9 @@ class KeyboardViewController: TradeItViewController {
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
             
             if endFrame.origin.y >= UIScreen.main.bounds.size.height {
-                self.submitButtonBottomSpaceConstraint?.constant = submitButtonBottomSpaceConstraintConstant
+                self.bottomSpaceConstraint?.constant = bottomSpaceConstraintConstant
             } else {
-                self.submitButtonBottomSpaceConstraint?.constant = endFrame.size.height + submitButtonBottomSpaceConstraintConstant
+                self.bottomSpaceConstraint?.constant = endFrame.size.height + bottomSpaceConstraintConstant
             }
             
             UIView.animate(withDuration: duration,

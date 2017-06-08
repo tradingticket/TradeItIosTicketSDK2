@@ -178,11 +178,11 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "Expiration", value: orderDetailsPresenter.getOrderExpirationLabel(linkedBrokerAccount.brokerName))
         ] as [PreviewCellData]
 
-        if let longHoldings = orderDetails.longHoldings {
+        if let longHoldings = orderDetails.longHoldings, longHoldings.decimalValue > 0 {
             cells.append(ValueCellData(label: "Shares Owned", value: NumberFormatter.formatQuantity(longHoldings)))
         }
 
-        if let shortHoldings = orderDetails.shortHoldings {
+        if let shortHoldings = orderDetails.shortHoldings, shortHoldings.decimalValue > 0 {
             cells.append(ValueCellData(label: "Shares Held Short", value: NumberFormatter.formatQuantity(shortHoldings)))
         }
 

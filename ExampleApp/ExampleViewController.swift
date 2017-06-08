@@ -126,7 +126,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             // Any order fields that are set will pre-populate the ticket.
                             order.symbol = "S10"
                             order.quantity = 100
-                            order.action = .sell
+                            order.action = .buy
                             order.type = .market
 //                            order.limitPrice = 20
 //                            order.stopPrice = 30

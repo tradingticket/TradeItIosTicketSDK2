@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
         // TradeItSDK.set(host: "https://example.com:1234/myAPI/", forEnvironment: AppDelegate.ENVIRONMENT)
-
+        TradeItSDK.isPortfolioEnabled = false
         super.init()
     }
 
@@ -132,7 +132,7 @@ class DummyMarketDataService: MarketDataService {
         // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = 1337.42
+        quote.lastPrice = 1337.421
         quote.change = 42.1337
         quote.pctChange = -123.456
         quote.dateTime = "12:34:56"

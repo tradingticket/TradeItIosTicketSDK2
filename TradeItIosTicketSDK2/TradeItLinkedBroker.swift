@@ -23,7 +23,11 @@ import PromiseKit
     var linkedLogin: TradeItLinkedLogin
 
     public var brokerName: String {
-        return self.linkedLogin.broker ?? "Missing Broker Name"
+        guard var brokerName = self.linkedLogin.broker else {
+            return "Missing Broker Name"
+        }
+        brokerName = (brokerName == "Cimb" ? "CIMB Securities" : brokerName)
+        return brokerName
     }
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {

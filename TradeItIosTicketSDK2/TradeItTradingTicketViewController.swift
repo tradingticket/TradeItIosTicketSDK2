@@ -277,7 +277,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.order.expiration = .goodForDay
         }
         
-        if self.order.linkedBrokerAccount?.brokerName == "Cimb" {
+        if self.order.linkedBrokerAccount?.linkedBroker?.brokerName == "Cimb" {
             self.order.type = TradeItOrderPriceType.limit
         }
     }

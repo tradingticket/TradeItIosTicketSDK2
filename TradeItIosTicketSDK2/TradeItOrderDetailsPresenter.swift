@@ -28,7 +28,7 @@ class TradeItOrderPriceTypePresenter {
             return TYPES.map(labelFor)
         }
         // This is specific to Cimb, but should be generalized to return only broker supported types: https://www.pivotaltracker.com/story/show/146699267
-        return (broker == "Cimb") ? [.limit].map(labelFor) : TYPES.map(labelFor)
+        return (broker == "CIMB Securities") ? [.limit].map(labelFor) : TYPES.map(labelFor)
     }
     
     static func labelFor(_ type: TradeItOrderPriceType) -> String {
@@ -66,7 +66,7 @@ class TradeItOrderActionPresenter {
             return ACTIONS.map(labelFor)
         }
         // This is specific to Cimb, but should be generalized to return only broker supported action types: https://www.pivotaltracker.com/story/show/146699267
-        return (broker == "Cimb") ? [.buy, .sell].map(labelFor) : ACTIONS.map(labelFor)
+        return (broker == "CIMB Securities") ? [.buy, .sell].map(labelFor) : ACTIONS.map(labelFor)
     }
 
     static func labelFor(_ type: TradeItOrderAction) -> String {
@@ -109,7 +109,7 @@ class TradeItOrderExpirationPresenter {
             return defaultActions
         }
         // This is specific to Cimb, but should be generalized to return only broker supported types: https://www.pivotaltracker.com/story/show/146699267
-        return (broker == "Cimb") ? [goodForDayDescriptionCimb, goodUntilCanceledDescriptionCimb] : defaultActions
+        return (broker == "CIMB Securities") ? [goodForDayDescriptionCimb, goodUntilCanceledDescriptionCimb] : defaultActions
     }
     
     static func labelFor(_ order: TradeItOrder) -> String {
@@ -119,7 +119,7 @@ class TradeItOrderExpirationPresenter {
     static func labelFor(orderExpiration: TradeItOrderExpiration, broker: String?) -> String {
         var goodForDay = goodForDayDescription
         var goodUntilCanceled = goodUntilCanceledDescription
-        if broker == "Cimb" {
+        if broker == "CIMB Securities" {
             goodForDay = goodForDayDescriptionCimb
             goodUntilCanceled = goodUntilCanceledDescriptionCimb
         }

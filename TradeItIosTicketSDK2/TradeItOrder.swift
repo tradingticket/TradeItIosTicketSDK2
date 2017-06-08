@@ -47,7 +47,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         if action != .unknown {
             self.action = action
         }
-        if self.linkedBrokerAccount?.brokerName == "Cimb" {
+        if self.linkedBrokerAccount?.brokerName == "CIMB Securities" {
             self.type = TradeItOrderPriceType.limit
         }
     }

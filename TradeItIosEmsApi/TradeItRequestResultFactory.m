@@ -48,7 +48,7 @@
             envToHostDict = [@{
                  @(TradeItEmsProductionEnv): @"https://ems.tradingticket.com/",
                  @(TradeItEmsTestEnv): @"https://ems.qa.tradingticket.com/",
-                 @(TradeItEmsLocalEnv): @"http://localhost:8080/"
+                 @(TradeItEmsLocalEnv): @"https://localhost:8443/"
             } mutableCopy];
         }
     );

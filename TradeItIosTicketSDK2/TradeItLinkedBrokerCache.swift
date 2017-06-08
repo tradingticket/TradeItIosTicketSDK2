@@ -120,6 +120,7 @@ class TradeItLinkedBrokerCache {
                 balance.buyingPower = buyingPower
                 let buyingPowerLabel = serializedAccount[BALANCE_BUYING_POWER_LABEL_KEY] as? String ?? "Buying Power"
                 balance.buyingPowerLabel = buyingPowerLabel
+                balance.accountBaseCurrency = account.accountBaseCurrency
                 account.balance = balance
             }
 

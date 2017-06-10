@@ -33,13 +33,13 @@ import UIKit
         )
     }
 
-    public func showRelinkError(
+    public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
     ) {
-        self.showRelinkError(
+        self.showAlertWithAction(
             error: error,
             withLinkedBroker: linkedBroker,
             onViewController: viewController,
@@ -72,17 +72,22 @@ import UIKit
         }
         
         let onAlertRetryAuthentication: () -> Void = { () in
-            linkedBroker.authenticate(onSuccess: { 
-                onFinished()
-            },onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+            linkedBroker.authenticate(
+                onSuccess: {
+                    onFinished()
+                },
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
                     self.promptUserToAnswerSecurityQuestion(
                         securityQuestion,
                         onViewController: viewController,
                         onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: onFinished)
-            }, onFailure: { (TradeItErrorResult) in
-                onFinished()
-            })
+                        onCancelSecurityQuestion: onFinished
+                    )
+                },
+                onFailure: { (TradeItErrorResult) in
+                    onFinished()
+                }
+            )
         }
 
         switch error.errorCode {

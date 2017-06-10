@@ -112,13 +112,10 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         case .sessionError?:
-            let title = error.shortMessage ?? ""
-            let messages = (error.longMessages as? [String]) ?? []
-            let message = messages.joined(separator: ". ")
             self.showAlertWithMessageOnly(
                 onViewController: viewController,
-                withTitle: title,
-                withMessage: message,
+                withTitle: "Session Expired",
+                withMessage: "Your account needs to be refreshed to complete this action.",
                 withActionTitle: "Retry",
                 onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,

@@ -52,7 +52,7 @@ class TradeItBrokerManagementViewController: TradeItViewController, TradeItBroke
                 )
             },
             onFailure:  { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self

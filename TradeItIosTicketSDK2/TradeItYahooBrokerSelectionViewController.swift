@@ -33,7 +33,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
                 self.brokerTable.reloadData()
             },
             onFailure: {
-                self.alertManager.showAlert(
+                self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
                     withMessage: "Could not fetch the brokers list. Please try again later.",

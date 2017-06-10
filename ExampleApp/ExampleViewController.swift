@@ -208,6 +208,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 title: "Customizable instruction text",
                                 onSelected: { selectedLinkedBrokerAccount in
                                     print("=====> Selected linked broker account: \(selectedLinkedBrokerAccount)")
+
+                                    self.alertManager.showAlertWithMessageOnly(
+                                        onViewController: self,
+                                        withTitle: "Selected Account!",
+                                        withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
+                                        withActionTitle: "OK"
+                                    )
                                 }
                             )
                         }
@@ -352,7 +359,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-        self.alertManager.showAlert(
+        self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Great Success!",
             withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
@@ -460,7 +467,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             withBroker: broker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
-                self.alertManager.showAlert(
+                self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "OAuthPopupUrl for Linking \(broker)",
                     withMessage: "URL: \(url)",
@@ -482,7 +489,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
             print("=====> No linked brokers to relink!")
 
-            self.alertManager.showAlert(
+            self.alertManager.showAlertWithMessageOnly(
                 onViewController: self,
                 withTitle: "ERROR",
                 withMessage: "No linked brokers to relink!",
@@ -496,7 +503,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
-                self.alertManager.showAlert(
+                self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "OAuthPopupUrl for Relinking \(linkedBroker.brokerName)",
                     withMessage: "URL: \(url)",
@@ -526,7 +533,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     onCancelSecurityQuestion: cancelQuestion)
             },
             onFinished: {
-                self.alertManager.showAlert(
+                self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "authenticateAll finished",
                     withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
@@ -570,7 +577,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchAlertQueue() {
-        self.alertManager.showAlert(
+        self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Alert 1",
             withMessage: "Alert 1",
@@ -585,7 +592,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             securityQuestion, onViewController: self, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
         )
 
-        self.alertManager.showAlert(
+        self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Alert 2",
             withMessage: "Alert 2",
@@ -616,7 +623,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
         let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
-        self.alertManager.showAlert(
+        self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Deletion complete.",
             withMessage: "Deleted \(originalBrokerCount) linked brokers. \(updatedBrokerCount) brokers remaining.",

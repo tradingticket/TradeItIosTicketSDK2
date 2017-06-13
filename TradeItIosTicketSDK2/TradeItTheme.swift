@@ -46,4 +46,12 @@ import UIKit
 
         return theme
     }
+
+    static public func bb() -> TradeItTheme {
+        let theme = TradeItTheme()
+
+        theme.interactivePrimaryColor = UIColor(red: 0.156862745, green: 0.0, blue: 0.843137255, alpha: 1.0)
+
+        return theme
+    }
 }

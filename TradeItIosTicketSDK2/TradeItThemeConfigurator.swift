@@ -19,6 +19,11 @@ import UIKit
         configureTableHeaderTheme(view: header)
     }
 
+    static func configureBarButtonItem(button: UIBarButtonItem?) {
+        guard let button = button else { return }
+        button.tintColor = TradeItSDK.theme.interactivePrimaryColor
+    }
+
     private static func configureTableHeaderTheme(view: UIView) {
         switch view {
         case let label as UILabel:
@@ -89,7 +94,7 @@ import UIKit
     }
 
     private static func styleTextField(_ input: UITextField) {
-        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5)
+        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.3)
         input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
         input.layer.borderWidth = 1
         input.layer.cornerRadius = 4
@@ -99,11 +104,13 @@ import UIKit
             string: input.placeholder ?? "",
             attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.textColor.withAlphaComponent(0.8)]
         )
+        input.setNeedsLayout()
+        input.layoutIfNeeded()
     }
 
     private static func styleSwitch(_ input: UISwitch) {
         input.tintColor = TradeItSDK.theme.interactivePrimaryColor
-        input.onTintColor = TradeItSDK.theme.interactivePrimaryColor
+        input.onTintColor = TradeItSDK.theme.interactiveSecondaryColor
     }
 
     private static func styleTableView(_ tableView: UITableView) {

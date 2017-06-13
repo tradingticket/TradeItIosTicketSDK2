@@ -54,8 +54,8 @@
 
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static var isPortfolioEnabled = true
-    public static var cookieService: CookieService = TradeItCookieService()
-    public static var adService: AdService = NullAdService()
+    public static var cookieService: CookieService = DefaultCookieService()
+    public static var adService: AdService = DefaultAdService()
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {
@@ -111,11 +111,11 @@
     ) {
         if !self.configured {
             self.configured = true
+
+            self.cookieService = cookieService ?? DefaultCookieService()
+
             self._apiKey = apiKey
             self._environment = environment
-            if let cookieService = cookieService {
-                self.cookieService = cookieService
-            }
             self._oAuthCallbackUrl = oAuthCallbackUrl
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
@@ -131,7 +131,7 @@
     func getCookies() -> [HTTPCookie]
 }
 
-@objc public class TradeItCookieService: NSObject, CookieService {
+@objc public class DefaultCookieService: NSObject, CookieService {
     public func getCookies() -> [HTTPCookie] {
         return []
     }

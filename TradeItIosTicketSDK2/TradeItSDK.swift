@@ -56,6 +56,7 @@
     public static var isPortfolioEnabled = true
     public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()
+    public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {
@@ -98,7 +99,8 @@
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
-            cookieService: nil
+            cookieService: nil,
+            brokerLogoService: nil
         )
     }
 
@@ -107,12 +109,14 @@
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         marketDataService: MarketDataService? = nil,
-        cookieService: CookieService? = nil
+        cookieService: CookieService? = nil,
+        brokerLogoService: BrokerLogoService? = nil
     ) {
         if !self.configured {
             self.configured = true
 
             self.cookieService = cookieService ?? DefaultCookieService()
+            self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
 
             self._apiKey = apiKey
             self._environment = environment
@@ -134,5 +138,15 @@
 @objc public class DefaultCookieService: NSObject, CookieService {
     public func getCookies() -> [HTTPCookie] {
         return []
+    }
+}
+
+@objc public protocol BrokerLogoService {
+    func getLogo(forBroker broker: String) -> UIImage?
+}
+
+@objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
+    public func getLogo(forBroker broker: String) -> UIImage? {
+        return nil
     }
 }

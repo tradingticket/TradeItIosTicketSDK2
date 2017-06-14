@@ -10,7 +10,7 @@ import UIKit
         super.init()
     }
 
-    override init() {
+    public override init() {
         super.init()
     }
 

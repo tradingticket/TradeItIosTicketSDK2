@@ -7,7 +7,7 @@ class KeyboardViewController: TradeItViewController {
 
     override func viewDidLoad() {
         guard (submitButtonBottomSpaceConstraint != nil) else {
-            assertionFailure("TradeItSdk ERROR: Class inherits from KeyboardViewController without hooking up submitButtonBottomSpaceConstraint IBOoutlet!")
+            assertionFailure("TradeIt SDK ERROR: Class inherits from KeyboardViewController without hooking up submitButtonBottomSpaceConstraint IBOoutlet!")
             return
         }
         

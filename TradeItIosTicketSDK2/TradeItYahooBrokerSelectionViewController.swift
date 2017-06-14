@@ -76,6 +76,23 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         self.launchOAuth(forBroker: selectedBroker)
     }
 
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        struct StaticVars {
+//            static var rowHeights = [String:CGFloat]()
+//        }
+//
+//        let ticketRow = self.ticketRows[indexPath.row]
+//
+//        guard let height = StaticVars.rowHeights[ticketRow.cellReuseId] else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId)
+//            let height = cell?.bounds.size.height ?? tableView.rowHeight
+//            StaticVars.rowHeights[ticketRow.cellReuseId] = height
+//            return height
+//        }
+//
+//        return height
+//    }
+
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -85,20 +102,20 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let broker = self.brokers[indexPath.row]
 
+        if /* broker.featured,*/ let brokerShortName = broker.brokerShortName {
+            if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+                    cell.brokerLogoImageView.image = brokerLogoImage
+                    return cell
+                }
+            } else {
+                print("ERROR: No broker logo provided for \(brokerShortName)")
+            }
+        }
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
         cell.textLabel?.text = broker.brokerLongName
 
         return cell
     }
-
-//    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
-//        super.closeButtonWasTapped(sender)
-//        self.delegate?.cancelWasTapped(fromSelectBrokerViewController: self)
-//    }
 }
-
-//protocol TradeItYahooSelectBrokerViewControllerDelegate: class {
-//    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItYahooSelectBrokerViewController, broker: TradeItBroker)
-//
-//    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
-//}

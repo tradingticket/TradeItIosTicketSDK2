@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItBrokerServices : NSObject
+@interface TradeItBrokerServices : JSONModel
 
 @property (nonatomic) BOOL cancelTradeService;
 @property (nonatomic) BOOL stockOrEtfOrderTradeService;

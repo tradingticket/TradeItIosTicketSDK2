@@ -164,24 +164,26 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {
-    [self getAvailableBrokersJsonWithCompletionBlock:^void(NSArray *brokerDictionaries) {
-        if (brokerDictionaries == nil) {
-            completionBlock(nil);
-        }
+    [self getAvailableBrokersJsonWithCompletionBlock:^void(NSArray *brokers) {
+//        if (brokerDictionaries == nil) {
+//            completionBlock(nil);
+//        }
+//
+//        NSMutableArray<TradeItBroker *> *brokers = [[NSMutableArray alloc] init];
+//
+//        for (NSDictionary *brokerDictionary in brokerDictionaries) {
+//            TradeItBroker *broker = [[TradeItBroker alloc] initWithShortName:brokerDictionary[@"shortName"]
+//                                                                    longName:brokerDictionary[@"longName"]];
+//            [brokers addObject:broker];
+//        }
 
-        NSMutableArray<TradeItBroker *> *brokers = [[NSMutableArray alloc] init];
-
-        for (NSDictionary *brokerDictionary in brokerDictionaries) {
-            TradeItBroker *broker = [[TradeItBroker alloc] initWithShortName:brokerDictionary[@"shortName"]
-                                                                    longName:brokerDictionary[@"longName"]];
-            [brokers addObject:broker];
-        }
-
+        // https://github.com/jsonmodel/jsonmodel
+        NSLog(@"=====> BROKERS:\n%@", brokers); //AKAKTRACE
         completionBlock(brokers);
     }];
 }
 
-- (void)getAvailableBrokersJsonWithCompletionBlock:(void (^)(NSArray *))completionBlock {
+- (void)getAvailableBrokersJsonWithCompletionBlock:(void (^)(NSArray<TradeItBroker *> *))completionBlock {
     TradeItBrokerListRequest *brokerListRequest = [[TradeItBrokerListRequest alloc] initWithApiKey:self.apiKey];
 
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:brokerListRequest
@@ -195,6 +197,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
             TradeItBrokerListResult *successResult
             = (TradeItBrokerListResult *)[TradeItRequestResultFactory buildResult:[TradeItBrokerListResult alloc]
                                                                        jsonString:jsonResponse];
+            NSLog(@"=====> getBrokerList:\n%@", jsonResponse); //AKAKTRACE
             completionBlock(successResult.brokerList);
 
             return;

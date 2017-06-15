@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "TradeItBrokerServices.h"
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItBroker : NSObject
+@interface TradeItBroker : JSONModel
 
 @property (nullable, nonatomic, copy) NSString *brokerShortName;
 

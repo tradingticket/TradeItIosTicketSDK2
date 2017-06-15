@@ -11,7 +11,7 @@
 
 @interface TradeItBrokerListResult : TradeItResult
 
-@property (nullable, copy) NSArray<TradeItBroker *> *brokerList;
+@property (nullable, copy) NSArray<TradeItBroker> *brokerList;
 
 - (NSString * _Nonnull)description;
 @end

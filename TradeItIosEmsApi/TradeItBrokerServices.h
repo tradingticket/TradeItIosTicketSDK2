@@ -11,4 +11,6 @@
 @property (nonatomic) BOOL balanceService;
 @property (nonatomic) BOOL fxTradeService;
 
+
+//{"cancelTradeService":true,"stockOrEtfOrderTradeService":true,"optionTradeService":false,"transactionService":true,"positionService":true,"balanceService":true,"fxTradeService":false}
 @end

@@ -104,7 +104,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
         print("=====> \(broker)") //AKAKTRACE
 
-        if broker.featured, let brokerShortName = broker.brokerShortName {
+        if broker.featuredStockBroker, let brokerShortName = broker.brokerShortName {
             if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
                     cell.brokerLogoImageView.image = brokerLogoImage

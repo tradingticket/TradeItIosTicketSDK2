@@ -2,17 +2,25 @@
 #import "TradeItBrokerServices.h"
 #import <JSONModel/JSONModel.h>
 
+@protocol TradeItBroker
+
+@end
+
 @interface TradeItBroker : JSONModel
 
-@property (nullable, nonatomic, copy) NSString *brokerShortName;
+@property (nullable, nonatomic, copy) NSString *shortName;
 
-@property (nullable, nonatomic, copy) NSString *brokerLongName;
+@property (nullable, nonatomic, copy) NSString *longName;
 
-@property (nonatomic) BOOL featured;
+@property (nonatomic) BOOL featuredStockBroker;
+@property (nonatomic) BOOL featuredFxBroker;
 
-@property (nullable, nonatomic, copy) TradeItBrokerServices *services;
+@property (nonatomic, nullable) TradeItBrokerServices <Optional> *services;
 
 - (nonnull id)initWithShortName:(NSString * _Nullable)brokerShortName
                        longName:(NSString * _Nullable)brokerLongName;
+
+@property (nonatomic, nullable) NSString <Ignore> *brokerShortName;
+@property (nonatomic, nullable) NSString <Ignore> *brokerLongName;
 
 @end

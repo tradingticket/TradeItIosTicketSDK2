@@ -5,19 +5,29 @@
 - (id)initWithShortName:(NSString *)brokerShortName
                longName:(NSString *)brokerLongName {
     if (self = [super init]) {
-        self.brokerShortName = brokerShortName;
-        self.brokerLongName = brokerLongName;
+        self.shortName = brokerShortName;
+        self.longName = brokerLongName;
     }
 
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat: @"[TradeItBroker: brokerShortName=%@ brokerLongName=%@ featured=%@ services=%@]",
-            self.brokerShortName,
-            self.brokerLongName,
-            self.featured ? @"true" : @"false",
+    return [NSString stringWithFormat: @"[TradeItBroker: shortName=%@ longName=%@ featuredStockBroker=%@ featuredFxBroker=%@ services=%@]",
+            self.shortName,
+            self.longName,
+            self.featuredStockBroker ? @"true" : @"false",
+            self.featuredFxBroker ? @"true" : @"false",
             self.services];
+}
+
+// Add backwards compatible getters #startuplyfe
+- (NSString *)brokerShortName {
+    return self.shortName;
+}
+
+- (NSString *)brokerLongName {
+    return self.longName;
 }
 
 @end

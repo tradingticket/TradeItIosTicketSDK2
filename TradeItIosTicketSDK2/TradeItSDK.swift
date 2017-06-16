@@ -13,7 +13,7 @@
     private static var _apiKey: String?
     public static var apiKey: String {
         get {
-            precondition(self._apiKey != nil, "ERROR: apiKey accessed before calling TradeItSDK.configure()!")
+            precondition(self._apiKey != nil, "ERROR: TradeItSDK.apiKey accessed before calling TradeItSDK.configure()!")
             return self._apiKey!
         }
     }
@@ -21,7 +21,7 @@
     private static var _environment: TradeitEmsEnvironments?
     public static var environment: TradeitEmsEnvironments {
         get {
-            precondition(self._environment != nil, "ERROR: environment accessed before calling TradeItSDK.configure()!")
+            precondition(self._environment != nil, "ERROR: TradeItSDK.environment accessed before calling TradeItSDK.configure()!")
             return self._environment!
         }
     }
@@ -73,7 +73,7 @@
     private static var _oAuthCallbackUrl: URL?
     public static var oAuthCallbackUrl: URL {
         get {
-            precondition(self._oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
+            precondition(self._oAuthCallbackUrl != nil, "ERROR: TradeItSDK.oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
             return self._oAuthCallbackUrl!
         }
 
@@ -126,7 +126,7 @@
             self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         } else {
-            print("Warning: TradeItSDK.configure() called multiple times. Ignoring.")
+            print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
         }
     }
 }

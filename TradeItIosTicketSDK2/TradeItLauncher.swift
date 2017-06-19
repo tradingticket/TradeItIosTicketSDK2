@@ -8,6 +8,7 @@ protocol OAuthCompletionListener {
 @objc public class TradeItLauncher: NSObject {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
+    let fxTradingUIFlow = TradeItFxTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
@@ -171,6 +172,21 @@ protocol OAuthCompletionListener {
                 }
             )
         }
+    }
+
+    public func launchFxTrading(
+        fromViewController viewController: UIViewController
+    ) {
+        // TODO: Handle no linked FX brokers
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController)
+            },
+            onFailure: {
+                print("TouchId access denied")
+            }
+        )
+
     }
 
     public func launchAccountManagement(fromViewController viewController: UIViewController) {

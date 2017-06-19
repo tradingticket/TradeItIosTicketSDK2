@@ -67,4 +67,28 @@ enum TicketRow {
             return "Account"
         }
     }
+
+    static func registerNibCells(forTableView tableView: UITableView) {
+        let bundle = TradeItBundleProvider.provide()
+        tableView.register(
+            UINib(nibName: "TradeItReadOnlyTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_READ_ONLY_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItSelectionCellTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_SELECTION_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItSubtitleWithDetailsCellTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_MARKET_DATA_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItNumericInputCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
+        )
+    }
 }

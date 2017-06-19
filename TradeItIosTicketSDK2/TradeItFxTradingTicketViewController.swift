@@ -39,6 +39,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+
+        TicketRow.registerNibCells(forTableView: self.tableView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -52,8 +54,18 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         let ticketRow = self.ticketRows[indexPath.row]
 
         switch ticketRow {
-//        case .symbol: // TODO
-//            self.navigationController?.pushViewController(self.symbolSearchViewController, animated: true)
+        case .symbol:
+            self.selectionViewController.initialSelection = "USD/AUD"
+            self.selectionViewController.selections = [
+                "USD/AUD",
+                "USD/JPY"
+            ]
+            self.selectionViewController.onSelected = { selection in
+                self.order.symbol = selection
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
 //        case .orderAction:

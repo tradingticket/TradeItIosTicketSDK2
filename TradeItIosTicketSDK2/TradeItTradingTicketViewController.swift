@@ -55,6 +55,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+        TicketRow.registerNibCells(forTableView: self.tableView)
 
         TradeItSDK.adService.populate(
             adContainer: adContainer,

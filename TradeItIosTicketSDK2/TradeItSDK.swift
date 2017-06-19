@@ -147,6 +147,6 @@
 
 @objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
     public func getLogo(forBroker broker: String) -> UIImage? {
-        return nil
+        return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
     }
 }

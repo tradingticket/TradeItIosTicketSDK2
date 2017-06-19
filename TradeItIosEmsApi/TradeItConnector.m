@@ -169,7 +169,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:brokerListRequest
                                                                                emsAction:@"preference/getBrokerList"
                                                                              environment:self.environment];
-
     [self sendEMSRequest:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
         if ([tradeItResult isKindOfClass: [TradeItErrorResult class]]) {
@@ -178,9 +177,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
             TradeItBrokerListResult *successResult
             = (TradeItBrokerListResult *)[TradeItRequestResultFactory buildResult:[TradeItBrokerListResult alloc]
                                                                        jsonString:jsonResponse];
-            NSLog(@"=====> getBrokerList:\n%@", jsonResponse); //AKAKTRACE
-            NSLog(@"=====> BROKERS:\n%@", successResult.brokerList); //AKAKTRACE
-
             completionBlock(successResult.brokerList);
         } else if ([tradeItResult.status isEqual:@"ERROR"]) {
             NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);

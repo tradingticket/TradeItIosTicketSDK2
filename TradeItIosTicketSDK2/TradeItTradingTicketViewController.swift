@@ -427,6 +427,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText()
             )
+        default:
+            break
         }
         return cell
     }

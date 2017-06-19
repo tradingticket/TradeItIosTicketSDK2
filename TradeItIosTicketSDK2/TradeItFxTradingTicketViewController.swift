@@ -55,7 +55,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         switch ticketRow {
         case .symbol:
-            self.selectionViewController.initialSelection = "USD/AUD"
+            self.selectionViewController.initialSelection = self.order.symbol
             self.selectionViewController.selections = [
                 "USD/AUD",
                 "USD/JPY"
@@ -154,7 +154,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                    )
 //                }
 //                )
-        },
+            },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -163,7 +163,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
-        },
+            },
             onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
@@ -171,7 +171,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -206,7 +206,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                } else {
 //                    self.updateSharesOwned()
 //                }
-        },
+            },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -214,14 +214,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -279,7 +279,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //        }
     }
 
-    private func setPreviewButtonEnablement() {
+    private func setPlaceOrderButtonEnablement() {
         if self.order.isValid() {
             self.placeOrderButton.enable()
         } else {
@@ -308,7 +308,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
     private func reloadTicket() {
         self.setTitle()
-        self.setPreviewButtonEnablement()
+        self.setPlaceOrderButtonEnablement()
         self.selectedAccountChanged()
         self.updateMarketData()
 
@@ -319,7 +319,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .orderAction,
             .orderType,
             .expiration,
-            .quantity,
+            .amount,
         ]
 
 //        if self.order.requiresLimitPrice() {
@@ -358,18 +358,18 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
-//        case .orderAction:
-//            cell.detailTextLabel?.text = TradeItOrderActionPresenter.labelFor(self.order.action)
-//        case .quantity:
-//            (cell as? TradeItNumericInputCell)?.configure(
-//                initialValue: self.order.quantity,
-//                placeholderText: "Enter shares",
-//                onValueUpdated: { newValue in
-//                    self.order.quantity = newValue
-//                    self.reload(row: .estimatedCost)
-//                    self.setPreviewButtonEnablement()
-//            }
-//            )
+        case .orderAction:
+            cell.detailTextLabel?.text = "TODO"
+        case .amount:
+            (cell as? TradeItNumericInputCell)?.configure(
+                initialValue: self.order.amount,
+                placeholderText: "Amount",
+                onValueUpdated: { newValue in
+                    self.order.amount = newValue
+                    self.reload(row: .estimatedCost)
+                    self.setPlaceOrderButtonEnablement()
+                }
+            )
 //        case .limitPrice:
 //            (cell as? TradeItNumericInputCell)?.configure(
 //                initialValue: self.order.limitPrice,
@@ -378,7 +378,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                    self.order.limitPrice = newValue
 //                    self.reload(row: .estimatedCost)
 //                    self.setPreviewButtonEnablement()
-//            }
+//              }
 //            )
 //        case .stopPrice:
 //            (cell as? TradeItNumericInputCell)?.configure(
@@ -388,21 +388,21 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                    self.order.stopPrice = newValue
 //                    self.reload(row: .estimatedCost)
 //                    self.setPreviewButtonEnablement()
-//            }
+//              }
 //            )
-//        case .marketPrice:
-//            guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-//            marketCell.configure(quotePresenter: self.quotePresenter)
-//        case .estimatedCost:
-//            var estimateChangeText = "N/A"
-//
-//            if let estimatedChange = order.estimatedChange() {
-//                estimateChangeText = NumberFormatter.formatCurrency(
-//                    estimatedChange,
-//                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
-//            }
-//
-//            cell.detailTextLabel?.text = estimateChangeText
+        case .marketPrice:
+            guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
+            marketCell.configure(quotePresenter: self.quotePresenter)
+        case .estimatedCost:
+            var estimateChangeText = "N/A"
+
+            if let estimatedChange = order.estimatedChange() {
+                estimateChangeText = NumberFormatter.formatCurrency(
+                    estimatedChange,
+                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
+            }
+
+            cell.detailTextLabel?.text = estimateChangeText
 //        case .orderType:
 //            cell.detailTextLabel?.text = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
 //        case .expiration:
@@ -420,12 +420,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func accountSecondaryText() -> String? {
-        return "TODO"
-//        if self.order.action == .buy {
-//            return buyingPowerText()
-//        } else {
-//            return sharesOwnedText()
-//        }
+        return "Balance: " // TODO
     }
 }
 

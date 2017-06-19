@@ -10,6 +10,9 @@ enum TicketRow {
     case marketPrice
     case estimatedCost
 
+    // FX
+    case amount
+
     private enum CellReuseId: String {
         case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
         case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
@@ -36,6 +39,8 @@ enum TicketRow {
             cellReuseId = .marketData
         case .account:
             cellReuseId = .selectionDetail
+        case .amount:
+            cellReuseId = .numericInput
         }
 
         return cellReuseId.rawValue
@@ -65,6 +70,8 @@ enum TicketRow {
             return "Market price"
         case .account:
             return "Account"
+        case .amount:
+            return "Amount"
         }
     }
 

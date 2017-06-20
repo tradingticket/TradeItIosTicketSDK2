@@ -5,7 +5,6 @@ import SafariServices
 class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
 
-//    internal weak var delegate: TradeItYahooSelectBrokerViewControllerDelegate?
     private var activityView: MBProgressHUD?
     private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     private var brokers: [TradeItBroker] = []
@@ -82,7 +81,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
-            return 70
+            return 88
         }
 
         return 50
@@ -122,6 +121,16 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         return nil
     }
 
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView.init(frame: CGRect.zero)
+        view.backgroundColor = UIColor.purple
+        return view
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !self.featuredBrokers.isEmpty && section == 0 {
             return self.featuredBrokers.count
@@ -152,6 +161,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
         cell.textLabel?.text = broker?.brokerLongName
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
 
         return cell
     }

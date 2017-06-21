@@ -35,10 +35,6 @@
 // Set stop price for stopLimit and and stopMarket
 @property (copy) NSNumber<Optional> * orderStopPrice;
 
-
-
-
-
 // Session Token - Will be set by the session associated with the request
 // Setting this here will be overriden
 @property (copy) NSString * token;

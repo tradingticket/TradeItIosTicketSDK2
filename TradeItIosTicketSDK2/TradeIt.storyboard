@@ -2017,6 +2017,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <action selector="placeOrderButtonTapped:" destination="6Fz-zh-HDu" eventType="touchUpInside" id="9aq-di-UYd"/>
                                     <action selector="previewOrderButtonTapped:" destination="gnJ-6E-rKZ" eventType="touchUpInside" id="w1U-ld-Zk6"/>
                                 </connections>
                             </button>

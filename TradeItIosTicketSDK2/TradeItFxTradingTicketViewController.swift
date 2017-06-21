@@ -129,7 +129,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
     // MARK: IBActions
 
-    @IBAction func previewOrderButtonTapped(_ sender: UIButton) {
+    @IBAction func placeOrderButtonTapped(_ sender: UIButton) {
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
             else { return }
 
@@ -138,7 +138,15 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Previewing Order"
+                activityView.label.text = "Placing Order"
+                self.order.place(
+                    onSuccess: { placeOrderResult in
+
+                    },
+                    onFailure: { errorResult in
+
+                    }
+                )
 //                self.order.preview(
 //                    onSuccess: { previewOrderResult, placeOrderCallback in
 //                        activityView.hide(animated: true)

@@ -14,6 +14,7 @@
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
+    var fxTradeService: TradeItFxTradeService
 
     private var _enabled = true
     public var isEnabled: Bool {
@@ -50,6 +51,7 @@
         self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
         self.tradeService = TradeItTradeService(session: linkedBroker.session)
+        self.fxTradeService = TradeItFxTradeService(session: linkedBroker.session)
     }
 
     public func getAccountOverview(cacheResult: Bool = true,

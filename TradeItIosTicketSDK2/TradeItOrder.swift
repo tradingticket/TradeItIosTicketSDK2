@@ -81,7 +81,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
             return onFailure(
                 TradeItErrorResult(
                     title: "Linked Broker Account",
-                    message: "A linked broker account must be set before you preview an order."
+                    message: "A linked broker account must be selected before you preview an order."
                 )
             )
         }

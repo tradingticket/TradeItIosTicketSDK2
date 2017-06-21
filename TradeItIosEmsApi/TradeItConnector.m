@@ -164,45 +164,25 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {
-    [self getAvailableBrokersJsonWithCompletionBlock:^void(NSArray *brokerDictionaries) {
-        if (brokerDictionaries == nil) {
-            completionBlock(nil);
-        }
-
-        NSMutableArray<TradeItBroker *> *brokers = [[NSMutableArray alloc] init];
-
-        for (NSDictionary *brokerDictionary in brokerDictionaries) {
-            TradeItBroker *broker = [[TradeItBroker alloc] initWithShortName:brokerDictionary[@"shortName"]
-                                                                    longName:brokerDictionary[@"longName"]];
-            [brokers addObject:broker];
-        }
-
-        completionBlock(brokers);
-    }];
-}
-
-- (void)getAvailableBrokersJsonWithCompletionBlock:(void (^)(NSArray *))completionBlock {
     TradeItBrokerListRequest *brokerListRequest = [[TradeItBrokerListRequest alloc] initWithApiKey:self.apiKey];
 
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:brokerListRequest
-                                                                               emsAction:@"preference/getStocksOrEtfsBrokerList"
+                                                                               emsAction:@"preference/getBrokerList"
                                                                              environment:self.environment];
-    
-    [self sendEMSRequest:request withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         if ([tradeItResult isKindOfClass: [TradeItErrorResult class]]) {
-             NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
-         } else if ([tradeItResult.status isEqual:@"SUCCESS"]){
-             TradeItBrokerListResult *successResult
-                = (TradeItBrokerListResult *)[TradeItRequestResultFactory buildResult:[TradeItBrokerListResult alloc]
-                                                                           jsonString:jsonResponse];
-             completionBlock(successResult.brokerList);
-
-             return;
-         } else if ([tradeItResult.status isEqual:@"ERROR"]){
-             NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
-         }
-
-         completionBlock(nil);
+    [self sendEMSRequest:request
+     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
+        if ([tradeItResult isKindOfClass: [TradeItErrorResult class]]) {
+            NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
+        } else if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+            TradeItBrokerListResult *successResult
+            = (TradeItBrokerListResult *)[TradeItRequestResultFactory buildResult:[TradeItBrokerListResult alloc]
+                                                                       jsonString:jsonResponse];
+            completionBlock(successResult.brokerList);
+        } else if ([tradeItResult.status isEqual:@"ERROR"]) {
+            NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
+        } else {
+            completionBlock(nil);
+        }
     }];
 }
 

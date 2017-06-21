@@ -1,20 +1,22 @@
-//
-//  TradeItBroker.h
-//  TradeItIosEmsApi
-//
-//  Created by Alexander Kramer on 8/9/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
+#import "TradeItBrokerServices.h"
+#import <JSONModel/JSONModel.h>
 
-@interface TradeItBroker : NSObject
+@protocol TradeItBroker
+@end
 
-@property (nullable, copy) NSString *brokerShortName;
+@interface TradeItBroker : JSONModel
 
-@property (nullable, copy) NSString *brokerLongName;
+@property (nullable, nonatomic, copy) NSString *shortName;
 
-- (nonnull id)initWithShortName:(NSString * _Nullable)brokerShortName
-                       longName:(NSString * _Nullable)brokerLongName;
+@property (nullable, nonatomic, copy) NSString *longName;
+
+@property (nonatomic) BOOL featuredStockBroker;
+@property (nonatomic) BOOL featuredFxBroker;
+
+@property (nonatomic, nullable) TradeItBrokerServices <Optional> *services;
+
+@property (nonatomic, nullable) NSString <Ignore> *brokerShortName;
+@property (nonatomic, nullable) NSString <Ignore> *brokerLongName;
 
 @end

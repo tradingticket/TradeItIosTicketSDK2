@@ -1,64 +1,92 @@
 @objc public class TradeItSDK: NSObject {
-    private static var apiKey: String?
-    private static var environment: TradeitEmsEnvironments?
+
+    // MARK: Non-settable properties
+
     private static var configured = false
 
     public static let launcher = TradeItLauncher()
-    public static var cookieService: CookieService = TradeItCookieService()
-    public static var adService: AdService = NullAdService()
-    public static var theme: TradeItTheme = TradeItTheme.light()
-    public static var isPortfolioEnabled = true
     public static let yahooLauncher = TradeItYahooLauncher()
+    internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
     public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
     public static let didUnlinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
-    internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
-    private static var _oAuthCallbackUrl: URL?
-    public static var oAuthCallbackUrl: URL {
+    private static var _apiKey: String?
+    public static var apiKey: String {
         get {
-            precondition(_oAuthCallbackUrl != nil, "ERROR: oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
-            return self._oAuthCallbackUrl!
+            precondition(self._apiKey != nil, "ERROR: TradeItSDK.apiKey accessed before calling TradeItSDK.configure()!")
+            return self._apiKey!
         }
-        set(new) {
-            self._oAuthCallbackUrl = new
+    }
+
+    private static var _environment: TradeitEmsEnvironments?
+    public static var environment: TradeitEmsEnvironments {
+        get {
+            precondition(self._environment != nil, "ERROR: TradeItSDK.environment accessed before calling TradeItSDK.configure()!")
+            return self._environment!
         }
     }
 
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
-            precondition(_linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
-            return _linkedBrokerManager!
-        }
-    }
-
-    internal static var _marketDataService: MarketDataService?
-    public static var marketDataService: MarketDataService {
-        get {
-            precondition(_marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before calling TradeItSDK.configure()!")
-            return _marketDataService!
+            precondition(self._linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
+            return self._linkedBrokerManager!
         }
     }
 
     internal static var _symbolService: TradeItSymbolService?
     public static var symbolService: TradeItSymbolService {
         get {
-            precondition(_symbolService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
-            return _symbolService!
+            precondition(self._symbolService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
+            return self._symbolService!
         }
     }
 
     private static var _brokerCenterService: TradeItBrokerCenterService?
     public static var brokerCenterService: TradeItBrokerCenterService {
         get {
-            precondition(_brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
-            return _brokerCenterService!
+            precondition(self._brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
+            return self._brokerCenterService!
+        }
+    }
+
+    // MARK: Settable properties
+
+    public static var theme: TradeItTheme = TradeItTheme.light()
+    public static var isPortfolioEnabled = true
+    public static var cookieService: CookieService = DefaultCookieService()
+    public static var adService: AdService = DefaultAdService()
+    public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
+
+    internal static var _marketDataService: MarketDataService?
+    public static var marketDataService: MarketDataService {
+        get {
+            precondition(self._marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before initializing!")
+            return self._marketDataService!
+        }
+
+        set(new) {
+            self._marketDataService = new
+        }
+    }
+
+    private static var _oAuthCallbackUrl: URL?
+    public static var oAuthCallbackUrl: URL {
+        get {
+            precondition(self._oAuthCallbackUrl != nil, "ERROR: TradeItSDK.oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
+            return self._oAuthCallbackUrl!
+        }
+
+        set(new) {
+            self._oAuthCallbackUrl = new
         }
     }
 
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
         TradeItRequestResultFactory.setHost(host, forEnvironment: env)
     }
+
+    // MARK: Initializers
 
     public static func configure(
         apiKey: String,
@@ -71,7 +99,8 @@
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
-            cookieService: nil
+            cookieService: nil,
+            brokerLogoService: nil
         )
     }
 
@@ -80,22 +109,24 @@
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         marketDataService: MarketDataService? = nil,
-        cookieService: CookieService? = nil
+        cookieService: CookieService? = nil,
+        brokerLogoService: BrokerLogoService? = nil
     ) {
         if !self.configured {
             self.configured = true
-            self.apiKey = apiKey
-            self.environment = environment
-            if let cookieService = cookieService {
-                self.cookieService = cookieService
-            }
+
+            self.cookieService = cookieService ?? DefaultCookieService()
+            self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
+
+            self._apiKey = apiKey
+            self._environment = environment
             self._oAuthCallbackUrl = oAuthCallbackUrl
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
             self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
             self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
         } else {
-            print("Warning: TradeItSDK.configure() called multiple times. Ignoring.")
+            print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
         }
     }
 }
@@ -104,8 +135,18 @@
     func getCookies() -> [HTTPCookie]
 }
 
-@objc public class TradeItCookieService: NSObject, CookieService {
+@objc public class DefaultCookieService: NSObject, CookieService {
     public func getCookies() -> [HTTPCookie] {
         return []
+    }
+}
+
+@objc public protocol BrokerLogoService {
+    func getLogo(forBroker broker: String) -> UIImage?
+}
+
+@objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
+    public func getLogo(forBroker broker: String) -> UIImage? {
+        return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
     }
 }

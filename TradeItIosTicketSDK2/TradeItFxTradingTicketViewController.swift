@@ -138,30 +138,25 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Placing Order"
+                activityView.label.text = "Placing order"
                 self.order.place(
                     onSuccess: { placeOrderResult in
+                        activityView.hide(animated: true)
 
+                        self.delegate?.orderSuccessfullyPlaced(
+                            onFxTradingTicketViewController: self,
+                            withPlaceOrderResult: placeOrderResult
+                        )
                     },
                     onFailure: { errorResult in
-
+                        activityView.hide(animated: true)
+                        self.alertManager.showAlertWithAction(
+                            error: errorResult,
+                            withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                            onViewController: self
+                        )
                     }
                 )
-//                self.order.preview(
-//                    onSuccess: { previewOrderResult, placeOrderCallback in
-//                        activityView.hide(animated: true)
-//                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
-//                                                                  withPreviewOrderResult: previewOrderResult,
-//                                                                  placeOrderCallback: placeOrderCallback)
-//                }, onFailure: { errorResult in
-//                    activityView.hide(animated: true)
-//                    self.alertManager.showAlertWithAction(
-//                        error: errorResult,
-//                        withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-//                        onViewController: self
-//                    )
-//                }
-//                )
             },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
@@ -433,9 +428,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 }
 
 protocol TradeItFxTradingTicketViewControllerDelegate: class {
-    func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
-        placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    func orderSuccessfullyPlaced(
+        onFxTradingTicketViewController fxTradingTicketViewController: TradeItFxTradingTicketViewController,
+        withPlaceOrderResult placeOrderResult: TradeItFxPlaceOrderResult
     )
 }

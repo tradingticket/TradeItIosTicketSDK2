@@ -1,8 +1,9 @@
 import UIKit
 
-class TradeItFxTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate, TradeItFxTradingTicketViewControllerDelegate {
+class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, TradeItFxTradingTicketViewControllerDelegate, TradeItTradingConfirmationViewControllerDelegate {
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var order = TradeItFxOrder()
+    var placeOrderResult: TradeItFxPlaceOrderResult?
 
     func pushTradingFlow(onNavigationController navController: UINavigationController,
                          asRootViewController: Bool,
@@ -90,23 +91,32 @@ class TradeItFxTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDel
         accountSelectionViewController.navigationController?.setViewControllers([nextViewController], animated: true)
     }
 
-    // MARK: TradeItTradingTicketViewControllerDelegate
+    // MARK: TradeItFxTradingTicketViewControllerDelegate
 
-    internal func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
-        placeOrderCallback: @escaping TradeItPlaceOrderHandlers) {
-//        self.previewOrderResult = previewOrderResult
+    internal func orderSuccessfullyPlaced(
+        onFxTradingTicketViewController fxTradingTicketViewController: TradeItFxTradingTicketViewController,
+        withPlaceOrderResult placeOrderResult: TradeItFxPlaceOrderResult
+    ) {
+        let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingConfirmationView)
 
-//        let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingPreviewView)
-//
-//        if let tradePreviewViewController = nextViewController as? TradeItTradePreviewViewController {
-////            tradePreviewViewController.delegate = self
-//            tradePreviewViewController.linkedBrokerAccount = tradingTicketViewController.order.linkedBrokerAccount
-//            tradePreviewViewController.previewOrderResult = previewOrderResult
-//            tradePreviewViewController.placeOrderCallback = placeOrderCallback
-//        }
+        if let tradingConfirmationViewController = nextViewController as? TradeItTradingConfirmationViewController {
+            tradingConfirmationViewController.delegate = self
+            let orderLeg = placeOrderResult.orderInfoOutput?.orderLegs.first as? TradeItFxOrderLegResult? ?? TradeItFxOrderLegResult()
+            tradingConfirmationViewController.orderNumber = orderLeg?.orderNumber
+            tradingConfirmationViewController.timestamp = placeOrderResult.timestamp
+            tradingConfirmationViewController.confirmationMessage = placeOrderResult.confirmationMessage
+        }
 
-//        tradingTicketViewController.navigationController?.pushViewController(nextViewController, animated: true)
+        fxTradingTicketViewController.navigationController?.setViewControllers([nextViewController], animated: true)
+    }
+
+    // MARK: TradeItTradingConfirmationViewControllerDelegate
+
+    internal func tradeButtonWasTapped(_ tradeItTradingConfirmationViewController: TradeItTradingConfirmationViewController) {
+        if let navigationController = tradeItTradingConfirmationViewController.navigationController {
+            self.pushTradingFlow(onNavigationController: navigationController, asRootViewController: true)
+        } else if let presentingViewController = tradeItTradingConfirmationViewController.presentingViewController {
+            self.presentTradingFlow(fromViewController: presentingViewController)
+        }
     }
 }

@@ -297,7 +297,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSArray *linkedLoginDicts = [self getLinkedLoginsRaw];
 
     // Search for the existing saved link by userId
-    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *linkDict, NSDictionary *bindings) {
+    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *linkDict, NSDictionary * __unused bindings) {
         return [linkDict[@"userId"] isEqual:userId];
     }];
 
@@ -348,7 +348,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
-    [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
         NSDictionary *account = (NSDictionary *) obj;
         if([account[@"broker"] isEqualToString:broker]) {
             [toRemove addObject:obj];
@@ -366,7 +366,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
-    [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
         NSDictionary *account = (NSDictionary *)obj;
         if ([account[@"userId"] isEqualToString: login.userId]) {
             [toRemove addObject:obj];
@@ -398,18 +398,18 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                                                                                emsAction:@"user/oAuthDelete"
                                                                              environment:self.environment];
     
-    [self sendEMSRequest:request withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {}];
+    [self sendEMSRequest:request withCompletionBlock:^(TradeItResult * __unused tradeItResult, NSMutableString * __unused jsonResponse) {}];
 }
 
 -(void) sendEMSRequest:(NSMutableURLRequest *)request
    withCompletionBlock:(void (^)(TradeItResult *, NSMutableString *))completionBlock {
 
-    /*
+/*
     NSLog(@"----------New Request----------");
     NSLog([[request URL] absoluteString]);
     NSString *data = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
     NSLog(data);
-    */
+*/
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];

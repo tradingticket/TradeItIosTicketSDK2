@@ -27,7 +27,7 @@
 
     NSString *endpoint;
     if (request.isFxMarket) {
-        endpoint = @"order/getFxRate";
+        endpoint = @"brokermarketdata/getFxRate";
     } else if (request.suffixMarket) {
         endpoint = @"marketdata/getYahooQuotes";
     } else if (request.symbol) {

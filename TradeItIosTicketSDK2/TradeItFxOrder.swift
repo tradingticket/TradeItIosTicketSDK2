@@ -2,6 +2,7 @@
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
     public var amount: NSDecimalNumber?
+    public var bidPrice: NSDecimalNumber?
 
     func isValid() -> Bool {
         return true // TODO

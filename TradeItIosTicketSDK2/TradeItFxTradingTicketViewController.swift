@@ -14,7 +14,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
-    private var quotePresenter: TradeItQuotePresenter?
+    private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
 
@@ -291,22 +291,23 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func updateMarketData() {
-//        if let symbol = self.order.symbol {
-//            self.marketDataService.getQuote(
-//                symbol: symbol,
-//                onSuccess: { quote in
-//                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
-//                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
-//                    self.reload(row: .marketPrice)
-//                    self.reload(row: .estimatedCost)
-//            },
-//                onFailure: { error in
-//                    self.order.quoteLastPrice = nil
-//            }
-//            )
-//        } else {
-//            self.order.quoteLastPrice = nil
-//        }
+        if let symbol = self.order.symbol, let broker = self.order.linkedBrokerAccount?.brokerName {
+            self.marketDataService.getFxQuote?(
+                symbol: symbol,
+                broker: broker,
+                onSuccess: { quote in
+                    self.quote = quote
+                    self.order.bidPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
+                    self.reload(row: .bid)
+                    self.reload(row: .estimatedCost)
+                },
+                onFailure: { error in
+                    self.order.bidPrice = nil
+                }
+            )
+        } else {
+            self.order.bidPrice = nil
+        }
     }
 
     private func reloadTicket() {
@@ -318,7 +319,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         var ticketRows: [TicketRow] = [
             .account,
             .symbol,
-            .marketPrice,
+            .bid,
             .orderAction,
             .orderType,
             .expiration,
@@ -393,9 +394,15 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                    self.setPreviewButtonEnablement()
 //              }
 //            )
-        case .marketPrice:
+        case .bid:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            marketCell.configure(quotePresenter: self.quotePresenter)
+            let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
+            marketCell.configure(
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
+                detailsLabel: quotePresenter.formatCurrency(quote?.bidPrice),
+                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+            )
         case .estimatedCost:
             var estimateChangeText = "N/A"
 

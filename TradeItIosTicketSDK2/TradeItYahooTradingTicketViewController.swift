@@ -15,8 +15,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     private var selectionViewController: TradeItYahooSelectionViewController!
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
-    private var quotePresenter: TradeItQuotePresenter?
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
+    private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
 
@@ -264,8 +264,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
-                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
+                    self.quote = quote
+                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
                 },
@@ -356,7 +356,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            marketCell.configure(quotePresenter: self.quotePresenter)
+            let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
+            marketCell.configure(
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
+                detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
+                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+            )
         case .estimatedCost:
             var estimateChangeText = "N/A"
 

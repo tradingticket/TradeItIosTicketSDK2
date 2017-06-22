@@ -13,10 +13,12 @@ enum TicketRow {
     // FX
     case amount
     case bid
+    case rate
 
     private enum CellReuseId: String {
         case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
         case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
+        case stepperInput = "TRADING_TICKET_STEPPER_INPUT_CELL_ID"
         case selection = "TRADING_TICKET_SELECTION_CELL_ID"
         case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
         case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
@@ -42,6 +44,8 @@ enum TicketRow {
             cellReuseId = .selectionDetail
         case .amount:
             cellReuseId = .numericInput
+        case .rate:
+            cellReuseId = .stepperInput
         }
 
         return cellReuseId.rawValue
@@ -75,6 +79,8 @@ enum TicketRow {
             return "Account"
         case .amount:
             return "Amount"
+        case .rate:
+            return "Rate"
         }
     }
 
@@ -99,6 +105,10 @@ enum TicketRow {
         tableView.register(
             UINib(nibName: "TradeItNumericInputCell", bundle: bundle),
             forCellReuseIdentifier: "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItStepperInputCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_STEPPER_INPUT_CELL_ID"
         )
     }
 }

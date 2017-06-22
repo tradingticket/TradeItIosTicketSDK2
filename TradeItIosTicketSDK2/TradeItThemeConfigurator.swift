@@ -89,6 +89,7 @@ import UIKit
             button.setTitleColor(UIColor.white, for: .normal)
         } else {
             button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .normal)
+            button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .selected)
             button.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
         }
     }

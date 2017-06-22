@@ -204,6 +204,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func selectedAccountChanged() {
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
+                self.reload(row: .bid)
                 // TODO
 //                if self.order.action == .buy {
 //                    self.updateAccountOverview()
@@ -323,6 +324,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .orderAction,
             .orderType,
             .amount,
+            .rate
         ]
 
         if self.order.requiresLimitPrice() {
@@ -335,7 +337,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         if self.order.requiresExpiration() {
             ticketRows.append(.expiration)
-
         }
 
         self.ticketRows = ticketRows

@@ -13,6 +13,7 @@
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
+#import "TradeItParseErrorResult.h"
 #import "TradeItRequestResultFactory.h"
 #import "TradeItKeychain.h"
 

@@ -22,6 +22,7 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItOAuthDeleteLinkRequest.h"
+#import "TradeItParseErrorResult.h"
 
 #ifdef CARTHAGE
 #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
@@ -445,7 +446,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
               TradeItResult *result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
 
-              if ([result.status isEqual:@"ERROR"]) {
+              if (![result isKindOfClass:[TradeItParseErrorResult class]] && [result.status isEqual:@"ERROR"]) {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 

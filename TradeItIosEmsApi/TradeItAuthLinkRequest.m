@@ -28,7 +28,7 @@
     return [NSString stringWithFormat:@"TradeItAuthenticationInfo: id:%@ password:%@  Broker:%@, APIKey:%@", self.id, self.password, self.broker, self.apiKey];
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *) __unused zone
 {
     TradeItAuthenticationInfo * authInfo = [[TradeItAuthenticationInfo alloc] initWithId:self.id andPassword:self.password andBroker:self.broker];
     id copy = [[[self class] alloc] initWithAuthInfo:authInfo andAPIKey:self.apiKey];

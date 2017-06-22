@@ -260,9 +260,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func setTitle() {
         var title = "Trade"
 
-//        if self.order.action != TradeItOrderAction.unknown {
-//            title = TradeItOrderActionPresenter.labelFor(self.order.action)
-//        }
+        if self.order.action != TradeItFxOrderAction.unknown {
+            title = TradeItFxOrderActionPresenter.labelFor(self.order.action)
+        }
 
         if let symbol = self.order.symbol {
             title += " \(symbol)"

@@ -4,7 +4,20 @@
     public var amount: NSDecimalNumber?
     public var bidPrice: NSDecimalNumber?
     public var action: TradeItFxOrderAction = TradeItFxOrderActionPresenter.DEFAULT
-    public var type: TradeItFxOrderPriceType = TradeItFxOrderPriceTypePresenter.DEFAULT
+    public var type: TradeItFxOrderPriceType = TradeItFxOrderPriceTypePresenter.DEFAULT {
+        didSet {
+            if !requiresExpiration() {
+                expiration = TradeItFxOrderExpirationPresenter.DEFAULT
+            }
+            if !requiresLimitPrice() {
+                limitPrice = nil
+            }
+            if !requiresStopPrice() {
+                stopPrice = nil
+            }
+        }
+    }
+    public var expiration: TradeItFxOrderExpiration = TradeItFxOrderExpirationPresenter.DEFAULT
     public var limitPrice: NSDecimalNumber?
     public var stopPrice: NSDecimalNumber?
 

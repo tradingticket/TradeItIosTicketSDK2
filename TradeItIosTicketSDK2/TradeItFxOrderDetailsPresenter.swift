@@ -1,6 +1,8 @@
 @objc public enum TradeItFxOrderExpiration: Int {
     case goodForDay
     case goodUntilCanceled
+    case immediateOrCancel
+    case fillOrKill
     case unknown
 }
 
@@ -16,22 +18,6 @@
     case sell
     case unknown
 }
-
-//class TradeItFxOrderDetailsPresenter {
-//    private var orderDetails: TradeItPreviewTradeOrderDetails
-//
-//    init(orderDetails: TradeItPreviewTradeOrderDetails) {
-//        self.orderDetails = orderDetails
-//    }
-//
-//    func getOrderExpirationLabel() -> String {
-//        return TradeItOrderExpirationPresenter.labelFor(self.orderDetails.expirationType())
-//    }
-//
-//    func getOrderActionLabel() -> String {
-//        return self.orderDetails.orderAction.capitalized
-//    }
-//}
 
 class TradeItFxOrderPriceTypePresenter {
     static let DEFAULT: TradeItFxOrderPriceType            = .market
@@ -91,30 +77,36 @@ class TradeItFxOrderActionPresenter {
     }
 }
 
-//class TradeItOrderExpirationPresenter {
-//    static let DEFAULT: TradeItOrderExpiration = .goodForDay
-//    static let ACTIONS: [TradeItOrderExpiration] = [.goodForDay, .goodUntilCanceled]
-//
-//    private static let goodForDayDescription = "Good for day"
-//    private static let goodUntilCanceledDescription = "Good until canceled"
-//
-//    static func labels() -> [String] {
-//        return ACTIONS.map(labelFor)
-//    }
-//
-//    static func labelFor(_ type: TradeItOrderExpiration) -> String {
-//        switch(type) {
-//        case .goodForDay: return goodForDayDescription
-//        case .goodUntilCanceled: return goodUntilCanceledDescription
-//        case .unknown : return "Unknown"
-//        }
-//    }
-//
-//    static func enumFor(_ type: String) -> TradeItOrderExpiration {
-//        switch(type) {
-//        case goodForDayDescription: return .goodForDay
-//        case goodUntilCanceledDescription: return .goodUntilCanceled
-//        default: return .unknown
-//        }
-//    }
-//}
+class TradeItFxOrderExpirationPresenter {
+    static let DEFAULT: TradeItFxOrderExpiration = .goodForDay
+    static let ACTIONS: [TradeItFxOrderExpiration] = [.goodForDay, .goodUntilCanceled, .immediateOrCancel, .fillOrKill]
+
+    private static let goodForDayDescription = "Good for day"
+    private static let goodUntilCanceledDescription = "Good until canceled"
+    private static let immediateOrCancelDescription = "Immediate or cancel"
+    private static let fillOrKillDescription = "Fill or kill"
+
+    static func labels() -> [String] {
+        return ACTIONS.map(labelFor)
+    }
+
+    static func labelFor(_ type: TradeItFxOrderExpiration) -> String {
+        switch(type) {
+        case .goodForDay: return goodForDayDescription
+        case .goodUntilCanceled: return goodUntilCanceledDescription
+        case .immediateOrCancel: return immediateOrCancelDescription
+        case .fillOrKill: return fillOrKillDescription
+        case .unknown : return "Unknown"
+        }
+    }
+
+    static func enumFor(_ type: String) -> TradeItFxOrderExpiration {
+        switch(type) {
+        case goodForDayDescription: return .goodForDay
+        case goodUntilCanceledDescription: return .goodUntilCanceled
+        case immediateOrCancelDescription: return .immediateOrCancel
+        case fillOrKillDescription: return .fillOrKill
+        default: return .unknown
+        }
+    }
+}

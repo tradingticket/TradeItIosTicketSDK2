@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 
+// TODO: Why does changing price type refetch the quote?
 class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var placeOrderButton: UIButton!
@@ -76,15 +77,15 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             }
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
-//        case .orderType:
-//            self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
-//            self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
-//            self.selectionViewController.onSelected = { (selection: String) in
-//                self.order.type = TradeItOrderPriceTypePresenter.enumFor(selection)
-//                _ = self.navigationController?.popViewController(animated: true)
-//            }
-//
-//            self.navigationController?.pushViewController(selectionViewController, animated: true)
+        case .orderType:
+            self.selectionViewController.initialSelection = TradeItFxOrderPriceTypePresenter.labelFor(self.order.type)
+            self.selectionViewController.selections = TradeItFxOrderPriceTypePresenter.labels()
+            self.selectionViewController.onSelected = { (selection: String) in
+                self.order.type = TradeItFxOrderPriceTypePresenter.enumFor(selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
 //        case .expiration:
 //            self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
 //            self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
@@ -203,6 +204,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func selectedAccountChanged() {
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
+                // TODO
 //                if self.order.action == .buy {
 //                    self.updateAccountOverview()
 //                } else {
@@ -272,9 +274,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func setOrderDefaults() {
-//        if self.order.action == .unknown {
-//            self.order.action = .buy
-//        }
+        if self.order.action == .unknown {
+            self.order.action = .buy
+        }
 //
 //        if self.order.expiration == .unknown {
 //            self.order.expiration = .goodForDay
@@ -325,13 +327,13 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .amount,
         ]
 
-//        if self.order.requiresLimitPrice() {
-//            ticketRows.append(.limitPrice)
-//        }
-//
-//        if self.order.requiresStopPrice() {
-//            ticketRows.append(.stopPrice)
-//        }
+        if self.order.requiresLimitPrice() {
+            ticketRows.append(.limitPrice)
+        }
+
+        if self.order.requiresStopPrice() {
+            ticketRows.append(.stopPrice)
+        }
 
         ticketRows.append(.estimatedCost)
 
@@ -373,26 +375,26 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.setPlaceOrderButtonEnablement()
                 }
             )
-//        case .limitPrice:
-//            (cell as? TradeItNumericInputCell)?.configure(
-//                initialValue: self.order.limitPrice,
-//                placeholderText: "Enter limit price",
-//                onValueUpdated: { newValue in
-//                    self.order.limitPrice = newValue
-//                    self.reload(row: .estimatedCost)
-//                    self.setPreviewButtonEnablement()
-//              }
-//            )
-//        case .stopPrice:
-//            (cell as? TradeItNumericInputCell)?.configure(
-//                initialValue: self.order.stopPrice,
-//                placeholderText: "Enter stop price",
-//                onValueUpdated: { newValue in
-//                    self.order.stopPrice = newValue
-//                    self.reload(row: .estimatedCost)
-//                    self.setPreviewButtonEnablement()
-//              }
-//            )
+        case .limitPrice:
+            (cell as? TradeItNumericInputCell)?.configure(
+                initialValue: self.order.limitPrice,
+                placeholderText: "Enter limit price",
+                onValueUpdated: { newValue in
+                    self.order.limitPrice = newValue
+                    self.reload(row: .estimatedCost)
+                    self.setPlaceOrderButtonEnablement()
+              }
+            )
+        case .stopPrice:
+            (cell as? TradeItNumericInputCell)?.configure(
+                initialValue: self.order.stopPrice,
+                placeholderText: "Enter stop price",
+                onValueUpdated: { newValue in
+                    self.order.stopPrice = newValue
+                    self.reload(row: .estimatedCost)
+                    self.setPlaceOrderButtonEnablement()
+              }
+            )
         case .bid:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
@@ -412,8 +414,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             }
 
             cell.detailTextLabel?.text = estimateChangeText
-//        case .orderType:
-//            cell.detailTextLabel?.text = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
+        case .orderType:
+            cell.detailTextLabel?.text = TradeItFxOrderPriceTypePresenter.labelFor(self.order.type)
 //        case .expiration:
 //            cell.detailTextLabel?.text = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
         case .account:

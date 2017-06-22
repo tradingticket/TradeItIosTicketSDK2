@@ -4,6 +4,9 @@
     public var amount: NSDecimalNumber?
     public var bidPrice: NSDecimalNumber?
     public var action: TradeItFxOrderAction = TradeItFxOrderActionPresenter.DEFAULT
+    public var type: TradeItFxOrderPriceType = TradeItFxOrderPriceTypePresenter.DEFAULT
+    public var limitPrice: NSDecimalNumber?
+    public var stopPrice: NSDecimalNumber?
 
     func isValid() -> Bool {
         return true // TODO
@@ -40,6 +43,18 @@
             onSuccess: onSuccess,
             onFailure: onFailure
         )
+    }
+
+    public func requiresLimitPrice() -> Bool {
+        return TradeItFxOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
+    }
+
+    public func requiresStopPrice() -> Bool {
+        return TradeItFxOrderPriceTypePresenter.STOP_TYPES.contains(type)
+    }
+
+    public func requiresExpiration() -> Bool {
+        return TradeItFxOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 }
 

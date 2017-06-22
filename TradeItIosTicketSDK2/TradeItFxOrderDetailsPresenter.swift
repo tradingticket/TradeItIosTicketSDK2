@@ -7,8 +7,7 @@
 @objc public enum TradeItFxOrderPriceType: Int {
     case market
     case limit
-    case stopMarket
-    case stopLimit
+    case stop
     case unknown
 }
 
@@ -34,37 +33,35 @@
 //    }
 //}
 
-//class TradeItOrderPriceTypePresenter {
-//    static let DEFAULT: TradeItOrderPriceType            = .market
-//    static let TYPES: [TradeItOrderPriceType]            = [.market, .limit, .stopMarket, .stopLimit]
-//    static let LIMIT_TYPES: [TradeItOrderPriceType]      = [.limit, .stopLimit]
-//    static let STOP_TYPES: [TradeItOrderPriceType]       = [.stopLimit, .stopMarket]
-//    static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.limit, .stopMarket, .stopLimit]
-//
-//    static func labels() -> [String] {
-//        return TYPES.map(labelFor)
-//    }
-//
-//    static func labelFor(_ type: TradeItOrderPriceType) -> String {
-//        switch(type) {
-//        case .market: return "Market"
-//        case .limit: return "Limit"
-//        case .stopMarket: return "Stop Market"
-//        case .stopLimit: return "Stop Limit"
-//        case .unknown: return "Unknown"
-//        }
-//    }
-//
-//    static func enumFor(_ type: String) -> TradeItOrderPriceType {
-//        switch(type) {
-//        case "Market": return .market
-//        case "Limit": return .limit
-//        case "Stop Market": return .stopMarket
-//        case "Stop Limit": return .stopLimit
-//        default: return .unknown
-//        }
-//    }
-//}
+class TradeItFxOrderPriceTypePresenter {
+    static let DEFAULT: TradeItFxOrderPriceType            = .market
+    static let TYPES: [TradeItFxOrderPriceType]            = [.market, .limit, .stop]
+    static let LIMIT_TYPES: [TradeItFxOrderPriceType]      = [.limit]
+    static let STOP_TYPES: [TradeItFxOrderPriceType]       = [.stop]
+    static let EXPIRATION_TYPES: [TradeItFxOrderPriceType] = [.limit, .stop]
+
+    static func labels() -> [String] {
+        return TYPES.map(labelFor)
+    }
+
+    static func labelFor(_ type: TradeItFxOrderPriceType) -> String {
+        switch(type) {
+        case .market: return "Market"
+        case .limit: return "Limit"
+        case .stop: return "Stop"
+        case .unknown: return "Unknown"
+        }
+    }
+
+    static func enumFor(_ type: String) -> TradeItFxOrderPriceType {
+        switch(type) {
+        case "Market": return .market
+        case "Limit": return .limit
+        case "Stop": return .stop
+        default: return .unknown
+        }
+    }
+}
 
 class TradeItFxOrderActionPresenter {
     static let DEFAULT: TradeItFxOrderAction = .buy

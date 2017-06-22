@@ -3,6 +3,7 @@
     public var symbol: String?
     public var amount: NSDecimalNumber?
     public var bidPrice: NSDecimalNumber?
+    public var action: TradeItFxOrderAction = TradeItFxOrderActionPresenter.DEFAULT
 
     func isValid() -> Bool {
         return true // TODO
@@ -59,7 +60,7 @@ class TradeItFxPlaceOrderPresenter {
 
         let orderLeg = TradeItFxOrderLeg()
         orderLeg.priceType = "MARKET"
-        orderLeg.pair = "USD/AUD"
+        orderLeg.pair = "USD/JPY"
         orderLeg.action = "BUY"
         orderLeg.amount = 1000
 

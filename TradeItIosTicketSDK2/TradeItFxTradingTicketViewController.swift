@@ -57,7 +57,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .symbol:
             self.selectionViewController.initialSelection = self.order.symbol
             self.selectionViewController.selections = [
-                "USD/AUD",
                 "USD/JPY"
             ]
             self.selectionViewController.onSelected = { selection in
@@ -68,15 +67,15 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
-//        case .orderAction:
-//            self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
-//            self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
-//            self.selectionViewController.onSelected = { (selection: String) in
-//                self.order.action = TradeItOrderActionPresenter.enumFor(selection)
-//                _ = self.navigationController?.popViewController(animated: true)
-//            }
-//
-//            self.navigationController?.pushViewController(selectionViewController, animated: true)
+        case .orderAction:
+            self.selectionViewController.initialSelection = TradeItFxOrderActionPresenter.labelFor(self.order.action)
+            self.selectionViewController.selections = TradeItFxOrderActionPresenter.labels()
+            self.selectionViewController.onSelected = { (selection: String) in
+                self.order.action = TradeItFxOrderActionPresenter.enumFor(selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
 //        case .orderType:
 //            self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
 //            self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
@@ -363,7 +362,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
-            cell.detailTextLabel?.text = "TODO"
+            cell.detailTextLabel?.text = TradeItFxOrderActionPresenter.labelFor(self.order.action)
         case .amount:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.amount,

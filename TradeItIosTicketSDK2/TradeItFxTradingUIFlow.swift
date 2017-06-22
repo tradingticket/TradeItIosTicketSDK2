@@ -73,14 +73,7 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
                                                  didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
 
-        var nextStoryboardId: TradeItStoryboardID!
-
-        if (order.symbol == nil) {
-            nextStoryboardId = TradeItStoryboardID.symbolSearchView
-        } else {
-            nextStoryboardId = TradeItStoryboardID.fxTradingTicketView
-        }
-
+        let nextStoryboardId = TradeItStoryboardID.fxTradingTicketView
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: nextStoryboardId)
 
         if let tradingTicketViewController = nextViewController as? TradeItFxTradingTicketViewController {

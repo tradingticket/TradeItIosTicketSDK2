@@ -403,7 +403,20 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 -(void) sendEMSRequest:(NSMutableURLRequest *)request
    withCompletionBlock:(void (^)(TradeItResult *, NSMutableString *))completionBlock {
+    [self sendEMSRequestReturnJSON:request forResultClass:[TradeItResult class] withCompletionBlock:completionBlock];
+}
 
+- (void)sendEMSRequest:(NSMutableURLRequest *)request
+        forResultClass:(Class _Nonnull)ResultClass
+   withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+    [self sendEMSRequestReturnJSON:request forResultClass:ResultClass withCompletionBlock:^(TradeItResult *result, NSMutableString * __unused jsonResponse) {
+        completionBlock(result);
+    }];
+}
+
+- (void)sendEMSRequestReturnJSON:(NSMutableURLRequest *)request
+        forResultClass:(Class _Nonnull)ResultClass
+   withCompletionBlock:(void (^)(TradeItResult *, NSMutableString *))completionBlock {
     /*
      NSLog(@"----------New Request----------");
      NSLog([[request URL] absoluteString]);
@@ -416,67 +429,14 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
 
         NSURLSession *session = [NSURLSession sharedSession];
-        [[session dataTaskWithRequest:request
-                    completionHandler:^(
-                                        NSData * _Nullable data,
-                                        NSURLResponse * _Nullable response,
-                                        NSError * _Nullable error
-                                        ) {
-                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-                        if ((data == nil) || ([httpResponse statusCode] != 200)) {
-                            //error occured
-                            NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
-                            TradeItErrorResult *errorResult = [TradeItErrorResult errorWithSystemMessage:@"error sending request to ems server"];
-                            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                completionBlock(errorResult, nil);
-                            });
-
-                            return;
-                        }
-
-                        NSMutableString *jsonResponse = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-                        //             NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
-                        //             NSLog(jsonResponse);
-
-                        //first convert to a generic result to check the type
-                        TradeItResult *tradeItResult = [TradeItRequestResultFactory buildResult:[TradeItResult alloc]
-                                                                                     jsonString:jsonResponse];
-
-                        if ([tradeItResult.status isEqual:@"ERROR"]) {
-                            TradeItErrorResult * errorResult;
-
-                            if (![tradeItResult isKindOfClass:[TradeItErrorResult class]]) {
-                                errorResult = (TradeItErrorResult *)[TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc]
-                                                                                                  jsonString:jsonResponse];
-                            } else {
-                                errorResult = (TradeItErrorResult *) tradeItResult; //this type of error caused by something wrong parsing the response
-                            }
-                            tradeItResult = errorResult;
-                        }
-                        dispatch_async(dispatch_get_main_queue(),^(void){completionBlock(tradeItResult, jsonResponse);});
-                    }] resume];
-    });
-}
-
--(void) sendEMSRequest:(NSMutableURLRequest *)request
-        forResultClass:(Class _Nonnull)ResultClass
-   withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-        NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
-
-        NSURLSession *session = [NSURLSession sharedSession];
-        [[session
-          dataTaskWithRequest:request
-          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
               if ((data == nil) || ([httpResponse statusCode] != 200)) {
                   //error occured
                   NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
                   TradeItErrorResult *errorResult = [TradeItErrorResult errorWithSystemMessage:@"error sending request to ems server"];
                   dispatch_async(dispatch_get_main_queue(), ^(void) {
-                      completionBlock(errorResult);
+                      completionBlock(errorResult, nil);
                   });
                   return;
               }
@@ -489,8 +449,10 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 
-              dispatch_async(dispatch_get_main_queue(),^(void){
-                  completionBlock(result);
+//            NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
+//            NSLog(jsonResponse);
+              dispatch_async(dispatch_get_main_queue(), ^(void) {
+                  completionBlock(result, jsonResponse);
               });
           }] resume];
     });

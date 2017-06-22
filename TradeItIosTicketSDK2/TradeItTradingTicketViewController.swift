@@ -5,6 +5,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -17,6 +18,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var quotePresenter: TradeItQuotePresenter?
+    private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
 
     private var ticketRows = [TicketRow]()
 
@@ -43,13 +45,23 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         symbolSearchViewController.delegate = self
         self.symbolSearchViewController = symbolSearchViewController
 
+        self.keyboardOffsetContraintManager = TradeItKeyboardOffsetConstraintManager(
+            bottomConstraint: self.tableViewBottomConstraint,
+            viewController: self
+        )
+
         self.setOrderDefaults()
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.populate(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -141,9 +153,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
-                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
-                                                                  withPreviewOrderResult: previewOrderResult,
-                                                                  placeOrderCallback: placeOrderCallback)
+                        self.delegate?.orderSuccessfullyPreviewed(
+                            onTradingTicketViewController: self,
+                            withPreviewOrderResult: previewOrderResult,
+                            placeOrderCallback: placeOrderCallback
+                        )
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(

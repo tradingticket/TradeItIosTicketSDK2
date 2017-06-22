@@ -1,19 +1,17 @@
-import UIKit
+import Foundation
 
-class KeyboardViewController: TradeItViewController {
-    var submitButtonBottomSpaceConstraintConstant:CGFloat = 0.0
+class TradeItKeyboardOffsetConstraintManager: NSObject {
+    var bottomConstraintOriginalConstant: CGFloat
+    let bottomConstraintOffset: CGFloat = 82.0
+    let bottomConstraint: NSLayoutConstraint
+    let viewController: UIViewController
 
-    @IBOutlet weak var submitButtonBottomSpaceConstraint: NSLayoutConstraint!
+    init(bottomConstraint: NSLayoutConstraint, viewController: UIViewController) {
+        self.bottomConstraint = bottomConstraint
+        self.bottomConstraintOriginalConstant = self.bottomConstraint.constant
+        self.viewController = viewController
 
-    override func viewDidLoad() {
-        guard (submitButtonBottomSpaceConstraint != nil) else {
-            assertionFailure("TradeIt SDK ERROR: Class inherits from KeyboardViewController without hooking up submitButtonBottomSpaceConstraint IBOoutlet!")
-            return
-        }
-
-        super.viewDidLoad()
-
-        self.submitButtonBottomSpaceConstraintConstant = self.submitButtonBottomSpaceConstraint.constant
+        super.init()
 
         NotificationCenter.default.addObserver(
             self,
@@ -36,18 +34,19 @@ class KeyboardViewController: TradeItViewController {
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
 
             if endFrame.origin.y >= UIScreen.main.bounds.size.height {
-                self.submitButtonBottomSpaceConstraint?.constant = submitButtonBottomSpaceConstraintConstant
+                self.bottomConstraint.constant = bottomConstraintOriginalConstant
             } else {
-                self.submitButtonBottomSpaceConstraint?.constant = endFrame.size.height + submitButtonBottomSpaceConstraintConstant
+                self.bottomConstraint.constant = endFrame.size.height + bottomConstraintOriginalConstant - bottomConstraintOffset
             }
 
             UIView.animate(
                 withDuration: duration,
                 delay: TimeInterval(0),
                 options: animationCurve,
-                animations: { self.view.layoutIfNeeded() },
+                animations: { self.viewController.view.layoutIfNeeded() },
                 completion: nil
             )
         }
     }
+
 }

@@ -286,6 +286,7 @@
                     <connections>
                         <outlet property="reviewOrderButton" destination="ILU-Xz-Odq" id="8wz-eD-4NS"/>
                         <outlet property="tableView" destination="EVW-mn-7L1" id="IBA-x5-Med"/>
+                        <outlet property="tableViewBottomConstraint" destination="ZEc-tA-4Nx" id="PIZ-wU-OIz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jfd-Ow-Adm" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -423,7 +423,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func accountSecondaryText() -> String? {
-        return "Balance: " // TODO
+        return "Balance: TODO"
     }
 }
 

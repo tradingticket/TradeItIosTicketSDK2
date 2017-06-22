@@ -78,7 +78,7 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
 
         if let tradingTicketViewController = nextViewController as? TradeItFxTradingTicketViewController {
             tradingTicketViewController.delegate = self
-            //tradingTicketViewController.order = self.order
+            tradingTicketViewController.order = self.order
         }
 
         accountSelectionViewController.navigationController?.setViewControllers([nextViewController], animated: true)

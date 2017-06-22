@@ -23,18 +23,8 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, withCompletionBlock: { (result, jsonResponse) in
-            guard let jsonResponse = jsonResponse as String? else {
-                return onFailure(self.defaultError)
-            }
-
-            var parsedResult: TradeItResult = self.defaultError
-
-            if (result?.status == "SUCCESS") {
-                parsedResult = TradeItRequestResultFactory.build(TradeItFxPlaceOrderResult(), jsonString: jsonResponse)
-            }
-
-            switch (parsedResult) {
+        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxPlaceOrderResult.self, withCompletionBlock: { result in
+            switch (result) {
             case let placeOrderResult as TradeItFxPlaceOrderResult:
                 onSuccess(placeOrderResult)
             case let error as TradeItErrorResult:

@@ -122,6 +122,10 @@
 - (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
    withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable, NSMutableString * _Nullable))completionBlock;
 
+- (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
+        forResultClass:(Class _Nonnull)resultClass
+   withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
+
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString * _Nonnull)broker
                                 oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl
                                  completionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;

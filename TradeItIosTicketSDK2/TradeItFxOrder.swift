@@ -84,17 +84,15 @@ class TradeItFxPlaceOrderPresenter {
     }
 
     func generateRequest() -> TradeItFxPlaceOrderRequest {
-        // TODO: DYNAMIC VALUES
-
         let orderLeg = TradeItFxOrderLeg()
-        orderLeg.priceType = "MARKET"
-        orderLeg.pair = "USD/JPY"
-        orderLeg.action = "BUY"
-        orderLeg.amount = 1000
+        orderLeg.priceType = priceType()
+        orderLeg.pair = order.symbol
+        orderLeg.action = action()
+        orderLeg.amount = amount()
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()
         fxOrderInfoInput.orderType = "SINGLE"
-        fxOrderInfoInput.orderExpiration = "DAY"
+        fxOrderInfoInput.orderExpiration = expiration()
         fxOrderInfoInput.orderLegs = [orderLeg]
 
         let request = TradeItFxPlaceOrderRequest()
@@ -104,38 +102,37 @@ class TradeItFxPlaceOrderPresenter {
         return request
     }
 
-//    private func action() -> String {
-//        switch order.action {
-//        case .buy: return "buy"
-//        case .sell: return "sell"
-//        case .buyToCover: return "buyToCover"
-//        case .sellShort: return "sellShort"
-//        case .unknown: return "unknown"
-//        }
-//    }
-//
-//    private func priceType() -> String {
-//        switch order.type {
-//        case .market: return "market"
-//        case .limit: return "limit"
-//        case .stopLimit: return "stopLimit"
-//        case .stopMarket: return "stopMarket"
-//        case .unknown: return "unknown"
-//        }
-//    }
-//
-//    private func expiration() -> String {
-//        switch order.expiration {
-//        case .goodForDay: return "day"
-//        case .goodUntilCanceled: return "gtc"
-//        case .unknown: return "unknown"
-//        }
-//    }
-//
-//    private func quantity() -> NSDecimalNumber {
-//        guard let quantity = order.quantity else { return 0 }
-//        return quantity
-//    }
+    private func action() -> String {
+        switch order.action {
+        case .buy: return "buy"
+        case .sell: return "sell"
+        case .unknown: return "unknown"
+        }
+    }
+
+    private func priceType() -> String {
+        switch order.type {
+        case .market: return "market"
+        case .limit: return "limit"
+        case .stop: return "stop"
+        case .unknown: return "unknown"
+        }
+    }
+
+    private func expiration() -> String {
+        switch order.expiration {
+        case .goodForDay: return "day"
+        case .goodUntilCanceled: return "good_till_cancel"
+        case .immediateOrCancel: return "immediate_or_cancel"
+        case .fillOrKill: return "fill_or_kill"
+        case .unknown: return "unknown"
+        }
+    }
+
+    private func amount() -> NSDecimalNumber {
+        guard let amount = order.amount else { return 0 }
+        return amount
+    }
 
     private func symbol() -> String {
         guard let symbol = order.symbol else { return "" }

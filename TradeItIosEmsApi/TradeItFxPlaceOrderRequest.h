@@ -5,6 +5,6 @@
 
 @property (nonatomic, copy) NSString * _Nullable token;
 @property (nonatomic, copy) NSString * _Nullable accountNumber;
-@property (nonatomic, copy) TradeItFxOrderInfoInput * _Nonnull fxOrderInfoInput;
+@property (nonatomic) TradeItFxOrderInfoInput * _Nullable fxOrderInfoInput;
 
 @end

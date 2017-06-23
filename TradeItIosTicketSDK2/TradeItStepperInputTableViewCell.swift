@@ -50,6 +50,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         if numericValue != NSDecimalNumber.notANumber {
             let newValue = numericValue.adding(0.0001)
             self.textField.text = newValue.stringValue
+            self.onValueUpdated?(numericValue)
         }
     }
 
@@ -59,6 +60,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         if numericValue != NSDecimalNumber.notANumber {
             let newValue = numericValue.subtracting(0.0001)
             self.textField.text = newValue.stringValue
+            self.onValueUpdated?(numericValue)
         }
     }
 

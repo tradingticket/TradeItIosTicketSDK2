@@ -5,6 +5,7 @@ import MBProgressHUD
 class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDataSource, UITableViewDelegate, TradeItAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var placeOrderButton: UIButton!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
 
@@ -15,6 +16,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
+    private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
@@ -34,6 +36,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         }
         accountSelectionViewController.delegate = self
         self.accountSelectionViewController = accountSelectionViewController
+
+        self.keyboardOffsetContraintManager = TradeItKeyboardOffsetConstraintManager(
+            bottomConstraint: self.tableViewBottomConstraint,
+            viewController: self
+        )
 
         self.setOrderDefaults()
 

@@ -2036,6 +2036,7 @@
                     <connections>
                         <outlet property="placeOrderButton" destination="SrD-FQ-eD7" id="0Zh-WF-sle"/>
                         <outlet property="tableView" destination="iCV-BD-yCJ" id="bic-9H-jF9"/>
+                        <outlet property="tableViewBottomConstraint" destination="WPC-Jb-L0v" id="2qq-vV-SxO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wqp-Ta-loE" userLabel="First Responder" sceneMemberID="firstResponder"/>

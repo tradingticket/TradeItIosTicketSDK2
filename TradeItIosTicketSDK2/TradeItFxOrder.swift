@@ -12,9 +12,6 @@
             if !requiresLimitPrice() {
                 limitPrice = nil
             }
-            if !requiresStopPrice() {
-                stopPrice = nil
-            }
         }
     }
     public var expiration: TradeItFxOrderExpiration = TradeItFxOrderExpirationPresenter.DEFAULT
@@ -65,10 +62,6 @@
         return TradeItFxOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
-    public func requiresStopPrice() -> Bool {
-        return TradeItFxOrderPriceTypePresenter.STOP_TYPES.contains(type)
-    }
-
     public func requiresExpiration() -> Bool {
         return TradeItFxOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
@@ -84,7 +77,6 @@
         switch type {
         case .market: return true
         case .limit: return validateLimit()
-        case .stop: return validateStop()
         case .unknown: return false
         }
     }
@@ -92,10 +84,6 @@
     private func validateLimit() -> Bool {
         guard let limitPrice = limitPrice else { return false }
         return isGreaterThanZero(limitPrice)
-    }
-
-    private func validateStop() -> Bool {
-        return true // TODO
     }
 
     private func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
@@ -121,6 +109,7 @@ class TradeItFxPlaceOrderPresenter {
         orderLeg.pair = order.symbol
         orderLeg.action = action()
         orderLeg.amount = amount()
+        orderLeg.rate = order.limitPrice
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()
         fxOrderInfoInput.orderType = "SINGLE"
@@ -146,7 +135,6 @@ class TradeItFxPlaceOrderPresenter {
         switch order.type {
         case .market: return "market"
         case .limit: return "limit"
-        case .stop: return "stop"
         case .unknown: return "unknown"
         }
     }
@@ -154,7 +142,7 @@ class TradeItFxPlaceOrderPresenter {
     private func expiration() -> String {
         switch order.expiration {
         case .goodForDay: return "day"
-        case .goodUntilCanceled: return "good_till_cancel"
+        case .goodUntilCanceled: return "GOOD_TILL_CANCEL"
         case .immediateOrCancel: return "immediate_or_cancel"
         case .fillOrKill: return "fill_or_kill"
         case .unknown: return "unknown"

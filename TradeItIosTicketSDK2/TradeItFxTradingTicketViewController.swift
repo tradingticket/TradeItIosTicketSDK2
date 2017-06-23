@@ -330,16 +330,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .bid,
             .orderAction,
             .orderType,
-            .amount,
-            .rate
+            .amount
         ]
 
         if self.order.requiresLimitPrice() {
-            ticketRows.append(.limitPrice)
-        }
-
-        if self.order.requiresStopPrice() {
-            ticketRows.append(.stopPrice)
+            ticketRows.append(.rate)
         }
 
         if self.order.requiresExpiration() {
@@ -383,21 +378,12 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.setPlaceOrderButtonEnablement()
                 }
             )
-        case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
+        case .rate:
+            (cell as? TradeItStepperInputTableViewCell)?.configure(
                 initialValue: self.order.limitPrice,
                 placeholderText: "Enter limit price",
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
-                    self.setPlaceOrderButtonEnablement()
-              }
-            )
-        case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                onValueUpdated: { newValue in
-                    self.order.stopPrice = newValue
                     self.setPlaceOrderButtonEnablement()
               }
             )

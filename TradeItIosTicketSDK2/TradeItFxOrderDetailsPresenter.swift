@@ -9,7 +9,6 @@
 @objc public enum TradeItFxOrderPriceType: Int {
     case market
     case limit
-    case stop
     case unknown
 }
 
@@ -21,10 +20,9 @@
 
 class TradeItFxOrderPriceTypePresenter {
     static let DEFAULT: TradeItFxOrderPriceType            = .market
-    static let TYPES: [TradeItFxOrderPriceType]            = [.market, .limit, .stop]
+    static let TYPES: [TradeItFxOrderPriceType]            = [.market, .limit]
     static let LIMIT_TYPES: [TradeItFxOrderPriceType]      = [.limit]
-    static let STOP_TYPES: [TradeItFxOrderPriceType]       = [.stop]
-    static let EXPIRATION_TYPES: [TradeItFxOrderPriceType] = [.limit, .stop]
+    static let EXPIRATION_TYPES: [TradeItFxOrderPriceType] = [.limit]
 
     static func labels() -> [String] {
         return TYPES.map(labelFor)
@@ -34,7 +32,6 @@ class TradeItFxOrderPriceTypePresenter {
         switch(type) {
         case .market: return "Market"
         case .limit: return "Limit"
-        case .stop: return "Stop"
         case .unknown: return "Unknown"
         }
     }
@@ -43,7 +40,6 @@ class TradeItFxOrderPriceTypePresenter {
         switch(type) {
         case "Market": return .market
         case "Limit": return .limit
-        case "Stop": return .stop
         default: return .unknown
         }
     }

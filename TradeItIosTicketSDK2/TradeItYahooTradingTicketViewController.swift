@@ -4,6 +4,7 @@ import MBProgressHUD
 class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
@@ -15,6 +16,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var quotePresenter: TradeItQuotePresenter?
+    private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
 
     private var ticketRows = [TicketRow]()
 
@@ -25,7 +27,6 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
-
         self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
@@ -34,6 +35,11 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         }
         accountSelectionViewController.delegate = self
         self.accountSelectionViewController = accountSelectionViewController
+
+        self.keyboardOffsetContraintManager = TradeItKeyboardOffsetConstraintManager(
+            bottomConstraint: self.tableViewBottomConstraint,
+            viewController: self
+        )
 
         self.setOrderDefaults()
 

@@ -2136,7 +2136,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="J5u-Gm-Zrf" firstAttribute="centerX" secondItem="OUb-ZV-25R" secondAttribute="centerX" id="7NM-E1-cJK"/>
-                            <constraint firstItem="Mfv-4e-fwa" firstAttribute="top" secondItem="rus-7i-baC" secondAttribute="bottom" constant="16" id="DMW-jX-hA0"/>
+                            <constraint firstItem="Mfv-4e-fwa" firstAttribute="top" secondItem="rus-7i-baC" secondAttribute="bottom" constant="16" id="FfI-2t-iBg"/>
                             <constraint firstItem="rus-7i-baC" firstAttribute="leading" secondItem="OUb-ZV-25R" secondAttribute="leading" id="Oqd-vL-3kk"/>
                             <constraint firstItem="J5u-Gm-Zrf" firstAttribute="top" secondItem="Mfv-4e-fwa" secondAttribute="bottom" constant="16" id="QCo-IA-X0s"/>
                             <constraint firstItem="Rao-xn-87B" firstAttribute="top" secondItem="J5u-Gm-Zrf" secondAttribute="bottom" id="f7d-2S-NOC"/>
@@ -2150,6 +2150,7 @@
                         <outlet property="adContainer" destination="J5u-Gm-Zrf" id="gDg-Aa-vi2"/>
                         <outlet property="previewOrderButton" destination="Mfv-4e-fwa" id="SkG-bW-WTW"/>
                         <outlet property="tableView" destination="rus-7i-baC" id="CAl-jl-ouR"/>
+                        <outlet property="tableViewBottomConstraint" destination="FfI-2t-iBg" id="57x-1a-BEJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Fm-Da-TOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

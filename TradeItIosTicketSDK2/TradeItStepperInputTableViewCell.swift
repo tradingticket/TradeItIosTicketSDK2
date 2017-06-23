@@ -69,5 +69,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         maskLayer.path = path.cgPath
 
         button.layer.mask = maskLayer
+        button.layer.borderWidth = 1
+        button.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
     }
 }

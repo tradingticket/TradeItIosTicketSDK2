@@ -33,7 +33,7 @@
                         </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af1-IK-2sv">
-                        <rect key="frame" x="187" y="7.5" width="30" height="33"/>
+                        <rect key="frame" x="187" y="8" width="30" height="33"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="-"/>
                         <connections>

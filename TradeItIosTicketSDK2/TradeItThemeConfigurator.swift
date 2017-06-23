@@ -5,6 +5,10 @@ import UIKit
         "Unlink Account"
     ]
 
+    static let SQUARE_TEXT_FIELD_IDENTIFIERS = [
+        "Stepper"
+    ]
+
     static func configure(view: UIView?) {
         guard let view = view else { return }
         view.backgroundColor = TradeItSDK.theme.backgroundColor
@@ -98,8 +102,12 @@ import UIKit
         input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.3)
         input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
         input.layer.borderWidth = 1
-        input.layer.cornerRadius = 4
-        input.layer.masksToBounds = true
+
+        if !self.SQUARE_TEXT_FIELD_IDENTIFIERS.contains(input.accessibilityIdentifier ?? "") {
+            input.layer.cornerRadius = 4
+            input.layer.masksToBounds = true
+        }
+
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",

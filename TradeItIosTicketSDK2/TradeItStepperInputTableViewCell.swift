@@ -9,14 +9,8 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         self.textField.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-        self.textField.layer.cornerRadius = 0
-        self.textField.layer.masksToBounds = true
-//        self.textField.setNeedsLayout()
-//        self.textField.layoutIfNeeded()
-
         self.theme(button: self.decrementButton, roundingCorners: [.topLeft, .bottomLeft])
         self.theme(button: self.incrementButton, roundingCorners: [.topRight, .bottomRight])
-
     }
 
     func configure(initialValue: NSDecimalNumber?,

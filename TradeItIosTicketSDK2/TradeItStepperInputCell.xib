@@ -21,6 +21,7 @@
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" textAlignment="right" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lO0-UH-R3i" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                         <rect key="frame" x="217" y="8" width="120" height="33"/>
                         <color key="backgroundColor" red="0.90588235289999997" green="0.95294117649999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <accessibility key="accessibilityConfiguration" identifier="Stepper"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="120" id="FjQ-2S-PHE"/>
                         </constraints>

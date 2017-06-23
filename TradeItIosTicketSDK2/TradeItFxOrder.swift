@@ -22,7 +22,10 @@
     public var stopPrice: NSDecimalNumber?
 
     func isValid() -> Bool {
-        return true // TODO
+        return validateAmount()
+            && validateOrderPriceType()
+            && symbol != nil
+            && linkedBrokerAccount != nil
     }
 
     func estimatedChange() -> NSNumber? {
@@ -68,6 +71,35 @@
 
     public func requiresExpiration() -> Bool {
         return TradeItFxOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
+    }
+
+    // MARK: Private
+
+    private func validateAmount() -> Bool {
+        guard let amount = amount else { return false }
+        return isGreaterThanZero(amount)
+    }
+
+    private func validateOrderPriceType() -> Bool {
+        switch type {
+        case .market: return true
+        case .limit: return validateLimit()
+        case .stop: return validateStop()
+        case .unknown: return false
+        }
+    }
+
+    private func validateLimit() -> Bool {
+        guard let limitPrice = limitPrice else { return false }
+        return isGreaterThanZero(limitPrice)
+    }
+
+    private func validateStop() -> Bool {
+        return true // TODO
+    }
+
+    private func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
+        return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 }
 

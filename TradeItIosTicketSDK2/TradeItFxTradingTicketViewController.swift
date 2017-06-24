@@ -225,7 +225,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.reload(row: .bid)
                 // TODO
 //                if self.order.action == .buy {
-//                    self.updateAccountOverview()
+                    self.updateAccountOverview()
 //                } else {
 //                    self.updateSharesOwned()
 //                }
@@ -252,14 +252,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.order.linkedBrokerAccount?.getAccountOverview(
             onSuccess: { accountOverview in
                 self.reload(row: .account)
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -428,7 +428,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func accountSecondaryText() -> String? {
-        return "Balance: TODO"
+        guard let buyingPower = self.order.linkedBrokerAccount?.fxBalance?.buyingPowerBaseCurrency else { return nil }
+        return "Buying Power: " + NumberFormatter.formatCurrency(
+            buyingPower,
+            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
+        )
     }
 }
 

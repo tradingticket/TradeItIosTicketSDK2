@@ -70,4 +70,20 @@
     }];
 }
 
+- (void)getFxSymbols:(TradeItFxSymbolsRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+//    NSMutableURLRequest *symbolLookupRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+//                                                                                           emsAction:@"marketdata/symbolLookup"
+//                                                                                         environment:self.connector.environment];
+//
+//    [self.connector sendEMSRequest:symbolLookupRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
+//        TradeItResult *resultToReturn = result;
+//
+//        if ([result.status isEqual:@"SUCCESS"]) {
+//            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSymbolLookupResult alloc] jsonString:jsonResponse];
+//        }
+//
+//        completionBlock(resultToReturn);
+//    }];
+}
+
 @end

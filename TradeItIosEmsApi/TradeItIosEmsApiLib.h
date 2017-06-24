@@ -61,6 +61,7 @@
 #import "TradeItFxOrderInfoInput.h"
 #import "TradeItFxOrderLeg.h"
 #import "TradeItFxPlaceOrderResult.h"
+#import "TradeItFxSymbolsRequest.h"
 
 // Use the BalanceService to get account balance information
 #import "TradeItBalanceService.h"

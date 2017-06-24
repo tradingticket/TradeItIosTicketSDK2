@@ -63,16 +63,25 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         switch ticketRow {
         case .symbol:
-            self.selectionViewController.initialSelection = self.order.symbol
-            self.selectionViewController.selections = [
-                "USD/JPY"
-            ]
-            self.selectionViewController.onSelected = { selection in
-                self.order.symbol = selection
-                _ = self.navigationController?.popViewController(animated: true)
-            }
+            TradeItSDK.symbolService.fxSymbols(
+                onSuccess: { symbols in
+                    self.selectionViewController.initialSelection = self.order.symbol
+                    self.selectionViewController.selections = symbols
+                    self.selectionViewController.onSelected = { selection in
+                        self.order.symbol = selection
+                        _ = self.navigationController?.popViewController(animated: true)
+                    }
 
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
+                    self.navigationController?.pushViewController(self.selectionViewController, animated: true)
+                },
+                onFailure: { error in
+                    self.alertManager.showAlertWithAction(
+                        error: error,
+                        withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                        onViewController: self
+                    )
+                }
+            )
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:

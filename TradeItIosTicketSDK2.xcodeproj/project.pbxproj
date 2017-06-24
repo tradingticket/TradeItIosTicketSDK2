@@ -148,6 +148,10 @@
 		75AB473B1EFC63B700A8BEC6 /* TradeItStepperInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AB47391EFC63B700A8BEC6 /* TradeItStepperInputCell.xib */; };
 		75AB473D1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB473C1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift */; };
 		75AB473E1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB473C1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift */; };
+		75AB47441EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AB47421EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AB47451EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AB47421EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AB47461EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AB47431EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m */; };
+		75AB47471EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AB47431EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m */; };
 		75B093A91ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
 		75B093AA1ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
 		75B857B31DD222ED003AB7AB /* TradeItBrokerCenterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */; };
@@ -734,6 +738,8 @@
 		75A333771E8AF83F00716F4C /* ExampleAppObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExampleAppObjC.entitlements; sourceTree = "<group>"; };
 		75AB47391EFC63B700A8BEC6 /* TradeItStepperInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItStepperInputCell.xib; sourceTree = "<group>"; };
 		75AB473C1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItStepperInputTableViewCell.swift; sourceTree = "<group>"; };
+		75AB47421EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItFxSymbolsRequest.h; sourceTree = "<group>"; };
+		75AB47431EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItFxSymbolsRequest.m; sourceTree = "<group>"; };
 		75B093A81ED4AB6B00A72514 /* AdService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdService.swift; sourceTree = "<group>"; };
 		75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerCenterService.swift; sourceTree = "<group>"; };
 		75BAA98B1DB7EA7A00E5435C /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1501,6 +1507,8 @@
 				7591A8FE1EFABF3C008EB943 /* TradeItFxOrderInfoInput.m */,
 				7591A9031EFAC56E008EB943 /* TradeItFxOrderLeg.h */,
 				7591A9041EFAC56E008EB943 /* TradeItFxOrderLeg.m */,
+				75AB47421EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h */,
+				75AB47431EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -1614,6 +1622,7 @@
 				75BAABB51DB7EF2F00E5435C /* TradeItGetPositionsResult.h in Headers */,
 				75BAABB71DB7EF2F00E5435C /* TradeItIosEmsApiLib.h in Headers */,
 				7591A9111EFB09F0008EB943 /* TradeItFxOrderInfoResult.h in Headers */,
+				75AB47441EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h in Headers */,
 				75BAAB991DB7EF2F00E5435C /* TradeItAuthLinkRequest.h in Headers */,
 				FA80FFB81DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.h in Headers */,
 				75BAAB9D1DB7EF2F00E5435C /* TradeItBalanceService.h in Headers */,
@@ -1685,6 +1694,7 @@
 				FC6E7A241DCD1F8B005225CC /* TradeItGetPositionsResult.h in Headers */,
 				FC6E7A251DCD1F8B005225CC /* TradeItIosEmsApiLib.h in Headers */,
 				7591A9121EFB09F0008EB943 /* TradeItFxOrderInfoResult.h in Headers */,
+				75AB47451EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.h in Headers */,
 				FC6E7A261DCD1F8B005225CC /* TradeItAuthLinkRequest.h in Headers */,
 				FC6E7A271DCD1F8B005225CC /* TradeItBalanceService.h in Headers */,
 				FC6E7A281DCD1F8B005225CC /* TradeItRequest.h in Headers */,
@@ -2382,6 +2392,7 @@
 				B59F0CC61EA69D3E00C0F56F /* TradeItSubtitleWithDetailsCellTableViewCell.swift in Sources */,
 				521D2B521E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */,
 				75563C6E1EFC0ADF005AEA60 /* TradeItParseErrorResult.m in Sources */,
+				75AB47461EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */,
 				75EDCEB21DDF8687000739C9 /* TradeItTheme.swift in Sources */,
 				524116BA1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */,
 				75BAABDD1DB7EF2F00E5435C /* TradeItQuotesResult.m in Sources */,
@@ -2583,6 +2594,7 @@
 				B59F0CC71EA69D3E00C0F56F /* TradeItSubtitleWithDetailsCellTableViewCell.swift in Sources */,
 				521D2B531E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */,
 				75563C6F1EFC0ADF005AEA60 /* TradeItParseErrorResult.m in Sources */,
+				75AB47471EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */,
 				524116BB1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */,
 				FC6E79F61DCD1F8B005225CC /* TradeItQuotesResult.m in Sources */,
 				FA5D35641E64CB4C0018CD2F /* UIButton+TradeIt.swift in Sources */,

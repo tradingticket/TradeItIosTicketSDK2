@@ -15,6 +15,7 @@
 @property NSString * userId;
 @property NSString * apiKey;
 @property NSString * advertisingId;
+@property BOOL returnOrderCapabilities;
 
 -(id) initWithUserToken:(NSString *) userToken userId:(NSString *) userId andApiKey:(NSString *) apiKey andAdvertisingId:(NSString *) advertisingId;
 

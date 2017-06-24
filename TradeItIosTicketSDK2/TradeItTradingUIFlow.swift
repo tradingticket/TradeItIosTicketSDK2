@@ -140,8 +140,12 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
         if let tradingConfirmationViewController = nextViewController as? TradeItTradingConfirmationViewController {
             tradingConfirmationViewController.delegate = self
-            tradingConfirmationViewController.previewOrderResult = self.previewOrderResult
-            tradingConfirmationViewController.placeOrderResult = placeOrderResult
+            tradingConfirmationViewController.confirmationMessage = buildConfirmationMessage(
+                previewOrderResult: self.previewOrderResult,
+                placeOrderResult: placeOrderResult
+            )
+            tradingConfirmationViewController.timestamp = placeOrderResult.timestamp
+            tradingConfirmationViewController.orderNumber = placeOrderResult.orderNumber
         }
 
         tradePreviewViewController.navigationController?.setViewControllers([nextViewController], animated: true)
@@ -155,5 +159,21 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
         } else if let presentingViewController = tradeItTradingConfirmationViewController.presentingViewController {
             self.presentTradingFlow(fromViewController: presentingViewController)
         }
+    }
+
+    private func buildConfirmationMessage(previewOrderResult: TradeItPreviewOrderResult?, placeOrderResult: TradeItPlaceOrderResult?) -> String {
+        let orderDetails = previewOrderResult?.orderDetails
+        let orderInfo = placeOrderResult?.orderInfo
+
+        let actionText = orderInfo?.action ?? "[MISSING ACTION]"
+        let symbolText = orderInfo?.symbol ?? "[MISSING SYMBOL]"
+        let priceText = orderDetails?.orderPrice ?? "[MISSING PRICE]"
+        var quantityText = "[MISSING QUANTITY]"
+
+        if let quantity = orderInfo?.quantity {
+            quantityText = NumberFormatter.formatQuantity(quantity)
+        }
+
+        return "Your order to \(actionText) \(quantityText) shares of \(symbolText) at \(priceText) has been successfully transmitted to your broker"
     }
 }

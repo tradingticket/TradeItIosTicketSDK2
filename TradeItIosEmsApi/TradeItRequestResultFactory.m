@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
+#import "TradeItParseErrorResult.h"
 
 @implementation TradeItRequestResultFactory
 
@@ -91,8 +92,8 @@
 
     if (jsonModelError != nil)
     {
-        NSLog(@"Received invalid json from ems server error=%@ response=%@", jsonModelError, jsonString);
-        return [TradeItErrorResult errorWithSystemMessage:@"error parsing json response"];
+        NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", tradeItResult, jsonModelError, jsonString);
+        return [TradeItParseErrorResult errorWithSystemMessage:@"error parsing json response"];
     }
 
     return resultFromJson;

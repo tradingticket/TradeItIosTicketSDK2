@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_STEPPER_INPUT_CELL_ID" id="o7B-de-2u2" customClass="TradeItStepperInputTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o7B-de-2u2" id="tvI-cQ-NXT">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" textAlignment="right" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lO0-UH-R3i" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                        <rect key="frame" x="217" y="8" width="120" height="33"/>
+                        <color key="backgroundColor" red="0.90588235289999997" green="0.95294117649999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <accessibility key="accessibilityConfiguration" identifier="Stepper"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="FjQ-2S-PHE"/>
+                        </constraints>
+                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                        <connections>
+                            <action selector="textFieldDidChange:" destination="o7B-de-2u2" eventType="editingChanged" id="f7I-yt-fPS"/>
+                        </connections>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af1-IK-2sv">
+                        <rect key="frame" x="187" y="8" width="30" height="33"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" title="-"/>
+                        <connections>
+                            <action selector="decrementButtonTapped:" destination="o7B-de-2u2" eventType="touchUpInside" id="SFd-H3-Q6c"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fjz-Dr-coa">
+                        <rect key="frame" x="337" y="8" width="30" height="33"/>
+                        <state key="normal" title="+"/>
+                        <connections>
+                            <action selector="incrementButtonTapped:" destination="o7B-de-2u2" eventType="touchUpInside" id="Kdg-NS-XMC"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="fjz-Dr-coa" firstAttribute="leading" secondItem="lO0-UH-R3i" secondAttribute="trailing" id="69R-Pq-kV9"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fjz-Dr-coa" secondAttribute="trailing" id="9JT-xj-jH5"/>
+                    <constraint firstItem="lO0-UH-R3i" firstAttribute="leading" secondItem="Af1-IK-2sv" secondAttribute="trailing" id="UAg-M6-hXw"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="lO0-UH-R3i" secondAttribute="bottom" id="V1D-Xi-gIq"/>
+                    <constraint firstItem="lO0-UH-R3i" firstAttribute="top" secondItem="tvI-cQ-NXT" secondAttribute="topMargin" id="twM-Lj-Ge1"/>
+                    <constraint firstItem="fjz-Dr-coa" firstAttribute="centerY" secondItem="lO0-UH-R3i" secondAttribute="centerY" id="vyG-Hd-u3d"/>
+                    <constraint firstItem="Af1-IK-2sv" firstAttribute="centerY" secondItem="lO0-UH-R3i" secondAttribute="centerY" id="wIQ-8z-U1Y"/>
+                    <constraint firstItem="Af1-IK-2sv" firstAttribute="height" secondItem="lO0-UH-R3i" secondAttribute="height" id="wTC-gg-1FJ"/>
+                    <constraint firstItem="fjz-Dr-coa" firstAttribute="height" secondItem="lO0-UH-R3i" secondAttribute="height" id="z0R-1F-NZl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="decrementButton" destination="Af1-IK-2sv" id="B1O-IQ-u1t"/>
+                <outlet property="incrementButton" destination="fjz-Dr-coa" id="ZK9-wC-bd8"/>
+                <outlet property="textField" destination="lO0-UH-R3i" id="ngv-rR-7Yw"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

@@ -10,6 +10,7 @@
 #import "TradeItSession.h"
 #import "TradeItQuotesRequest.h"
 #import "TradeItSymbolLookupRequest.h"
+#import "TradeItFxSymbolsRequest.h"
 
 @interface TradeItMarketDataService : NSObject
 
@@ -41,5 +42,6 @@
  */
 - (void)symbolLookup:(TradeItSymbolLookupRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock;
 
+- (void)getFxSymbols:(TradeItFxSymbolsRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock;
 
 @end

@@ -10,6 +10,7 @@
     public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
     public static let didUnlinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
 
+
     private static var _apiKey: String?
     public static var apiKey: String {
         get {
@@ -57,6 +58,7 @@
     public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()
     public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
+    public static var userCountryCode: String?
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {
@@ -108,6 +110,7 @@
         apiKey: String,
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
+        userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
         cookieService: CookieService? = nil,
         brokerLogoService: BrokerLogoService? = nil
@@ -121,6 +124,7 @@
             self._apiKey = apiKey
             self._environment = environment
             self._oAuthCallbackUrl = oAuthCallbackUrl
+            self.userCountryCode = userCountryCode
             self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
             self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
             self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)

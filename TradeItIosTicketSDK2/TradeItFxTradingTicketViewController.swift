@@ -63,7 +63,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         switch ticketRow {
         case .symbol:
+            guard let broker = self.order.linkedBrokerAccount?.brokerName else { return }
             TradeItSDK.symbolService.fxSymbols(
+                forBroker: broker,
                 onSuccess: { symbols in
                     self.selectionViewController.initialSelection = self.order.symbol
                     self.selectionViewController.selections = symbols

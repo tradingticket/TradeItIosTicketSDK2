@@ -39,9 +39,9 @@
         )
     }
 
-    public func fxSymbols(onSuccess: @escaping ([String]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func fxSymbols(forBroker broker: String, onSuccess: @escaping ([String]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let requestData = TradeItFxSymbolsRequest()
-        requestData.broker = "Etoro"
+        requestData.broker = broker
         requestData.apiKey = self.marketDataService.connector.apiKey!
 
         let request = TradeItRequestResultFactory.buildJsonRequest(

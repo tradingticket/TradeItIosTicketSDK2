@@ -92,7 +92,7 @@
 
     if (jsonModelError != nil)
     {
-        NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", tradeItResult, jsonModelError, jsonString);
+        NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", [tradeItResult class], jsonModelError, jsonString);
         return [TradeItParseErrorResult errorWithSystemMessage:@"error parsing json response"];
     }
 

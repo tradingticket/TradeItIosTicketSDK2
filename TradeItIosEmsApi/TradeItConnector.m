@@ -446,7 +446,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
               TradeItResult *result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
 
-              if (![result isKindOfClass:[TradeItParseErrorResult class]] && [result.status isEqual:@"ERROR"]) {
+              if ([result isKindOfClass:[TradeItParseErrorResult class]]) {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 

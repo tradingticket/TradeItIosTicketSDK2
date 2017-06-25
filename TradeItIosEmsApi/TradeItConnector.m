@@ -165,7 +165,16 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {
-    TradeItBrokerListRequest *brokerListRequest = [[TradeItBrokerListRequest alloc] initWithApiKey:self.apiKey];
+    [self getAvailableBrokersWithUserCountryCode:nil
+                                 completionBlock:completionBlock];
+}
+
+- (void)getAvailableBrokersWithUserCountryCode:(NSString * _Nullable)userCountryCode
+                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock
+
+{
+    TradeItBrokerListRequest *brokerListRequest = [[TradeItBrokerListRequest alloc] initWithApiKey:self.apiKey
+                                                                                   userCountryCode:userCountryCode];
 
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:brokerListRequest
                                                                                emsAction:@"preference/getBrokerList"
@@ -181,6 +190,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         }
     }];
 }
+
 
 - (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo *)authInfo
                       andCompletionBlock:(void (^)(TradeItResult *))completionBlock {

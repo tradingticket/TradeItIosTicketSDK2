@@ -408,7 +408,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)sendEMSRequest:(NSMutableURLRequest *)request
-        forResultClass:(Class _Nonnull)ResultClass
+        forResultClass:(Class)ResultClass
    withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     [self sendEMSRequestReturnJSON:request forResultClass:ResultClass withCompletionBlock:^(TradeItResult *result, NSMutableString * __unused jsonResponse) {
         completionBlock(result);

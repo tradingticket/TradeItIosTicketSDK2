@@ -14,7 +14,7 @@
         order: TradeItFxPlaceOrderRequest,
         onSuccess: @escaping (TradeItFxPlaceOrderResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-    ) -> Void {
+    ) {
         order.token = self.session.token
 
         let request = TradeItRequestResultFactory.buildJsonRequest(
@@ -35,9 +35,14 @@
         })
     }
 
-    func getOrderCapabilities(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+    func getOrderCapabilities(
+        linkedBrokerAccount: TradeItLinkedBrokerAccount?,
+        symbol: String?,
+        onSuccess: @escaping (TradeItFxOrderCapabilities) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let requestData = TradeItOrderCapabilitiesRequest()
-        requestData.accountNumber = linkedBrokerAccount.accountNumber
+        requestData.accountNumber = linkedBrokerAccount?.accountNumber
         requestData.symbol = symbol
         requestData.token = self.session.token
 
@@ -47,9 +52,15 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxOrderCapabilities.self, withCompletionBlock: { result in
-            
-            print(result)
+        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxOrderCapabilitiesResult.self, withCompletionBlock: { result in
+            switch result {
+            case let orderCapabilities as TradeItFxOrderCapabilities:
+                onSuccess(orderCapabilities)
+            case let error as TradeItErrorResult:
+                onFailure(error)
+            default:
+                onFailure(TradeItErrorResult.error(withSystemMessage: "Unknown error fetching FxOrderCapabilities"))
+            }
         })
     }
 }

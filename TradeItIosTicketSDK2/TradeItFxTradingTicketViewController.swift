@@ -50,7 +50,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         TicketRow.registerNibCells(forTableView: self.tableView)
 
-        self.selectedAccountChanged()
+        self.updateOrderCapabilities()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +89,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
+            //  self.selectionViewController.initialSelection = self.order.linkedBrokerAccount?.orderCapabilities.first {
+            // TEST
             self.selectionViewController.initialSelection = TradeItFxOrderActionPresenter.labelFor(self.order.action)
             self.selectionViewController.selections = TradeItFxOrderActionPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
@@ -217,7 +219,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
-        self.selectedAccountChanged()
+        self.updateOrderCapabilities()
         _ = self.navigationController?.popViewController(animated: true)
     }
 
@@ -233,36 +235,31 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
     // MARK: Private
 
-    private func selectedAccountChanged() {
+    private func updateOrderCapabilities() {
+        guard let symbol = self.order.symbol, let linkedBrokerAccount = self.order.linkedBrokerAccount else { return }
+
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
 
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
-                // HACKY!!!
-                self.order.linkedBrokerAccount = self.order.linkedBrokerAccount?.linkedBroker?.accounts.first { account in
-                    account.accountNumber == self.order.linkedBrokerAccount?.accountNumber
-                }
+                activityView.label.text = "Fetching order capabilities"
+                self.order.linkedBrokerAccount?.fxTradeService.getOrderCapabilities(
+                    linkedBrokerAccount: linkedBrokerAccount,
+                    symbol: symbol,
+                    onSuccess: { orderCapabilities in
+                        print(orderCapabilities)
+                        activityView.hide(animated: true)
 
-                if self.order.linkedBrokerAccount?.orderCapabilities(forInstrument: .FX)?.symbolSpecific == true {
-                    activityView.label.text = "Fetching order capabilities"
-                    self.order.linkedBrokerAccount?.fxTradeService.getOrderCapabilities(
-                        linkedBrokerAccount: self.order.linkedBrokerAccount!, symbol: "USD/JPY"
-                    )
-
-                } else {
-                    activityView.hide(animated: true)
-
-                    self.reloadTicket()
-                }
-
-
-                // TODO
-//                if self.order.action == .buy {
-                    self.updateAccountOverview()
-//                } else {
-//                    self.updateSharesOwned()
-//                }
+                        self.reloadTicket()
+                    },
+                    onFailure: { error in
+                        print(error)
+                        activityView.hide(animated: true)
+                    }
+                )
+                self.updateAccountOverview()
+                // TODO: Show current position if sell action?
             },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 activityView.hide(animated: true)

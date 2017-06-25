@@ -1,11 +1,3 @@
-//
-//  TradeItBrokerAccount.m
-//  TradeItIosEmsApi
-//
-//  Created by Guillaume Debavelaere on 8/12/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import "TradeItBrokerAccount.h"
 
 @implementation TradeItBrokerAccount
@@ -25,11 +17,13 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"accountBaseCurrency=%@ accountNumber=%@ accountName=%@ tradable=%d",
-            self.accountBaseCurrency,
-            self.accountNumber,
-            self.name,
-            self.tradable];
+    return [
+        NSString stringWithFormat:@"accountBaseCurrency=%@ accountNumber=%@ accountName=%@ tradable=%d",
+        self.accountBaseCurrency,
+        self.accountNumber,
+        self.name,
+        self.tradable
+    ];
 }
 
 @end

@@ -3,12 +3,10 @@
 @implementation TradeItBroker
 
 - (NSString *)description {
-    return [NSString stringWithFormat: @"[TradeItBroker: shortName=%@ longName=%@ featuredStockBroker=%@ featuredFxBroker=%@ services=%@]",
+    return [NSString stringWithFormat: @"[TradeItBroker: shortName=%@, longName=%@, brokerInstruments=%@]",
             self.shortName,
             self.longName,
-            self.featuredStockBroker ? @"true" : @"false",
-            self.featuredFxBroker ? @"true" : @"false",
-            self.services];
+            self.brokerInstruments];
 }
 
 // Add backwards compatible getters :(
@@ -19,6 +17,5 @@
 - (NSString *)brokerLongName {
     return self.longName;
 }
-
 
 @end

@@ -4,19 +4,9 @@
     public var amount: NSDecimalNumber?
     public var bidPrice: NSDecimalNumber?
     public var actionType: String?
-    public var priceType: String? {
-        didSet {
-            if !requiresExpiration() {
-                expirationType = nil
-            }
-            if !requiresLimitPrice() {
-                limitPrice = nil
-            }
-        }
-    }
+    public var priceType: String?
     public var expirationType: String?
     public var limitPrice: NSDecimalNumber?
-    public var stopPrice: NSDecimalNumber?
     public var leverage: NSNumber?
 
     func isValid() -> Bool {
@@ -91,7 +81,6 @@
         return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 }
-
 
 class TradeItFxPlaceOrderPresenter {
     let order: TradeItFxOrder

@@ -101,6 +101,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .priceType:
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
+                self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
+                if !self.order.requiresLimitPrice() {
+                    self.order.limitPrice = nil
+                }
             }
         case .expiration:
             self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expirationType) { selection in
@@ -366,17 +370,17 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .amount
         ]
 
-//        if self.order.requiresLimitPrice() {
-//            ticketRows.append(.rate)
-//        }
+        if self.order.requiresLimitPrice() {
+            ticketRows.append(.rate)
+        }
 
         if let leverageOptions = self.orderCapabilities?.leverageOptions, leverageOptions.count > 0 {
             ticketRows.append(.leverage)
         }
 
-//        if self.order.requiresExpiration() {
-//            ticketRows.append(.expiration)
-//        }
+        if self.order.requiresExpiration() {
+            ticketRows.append(.expiration)
+        }
 
         self.ticketRows = ticketRows
 

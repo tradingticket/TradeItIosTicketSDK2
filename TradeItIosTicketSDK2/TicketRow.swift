@@ -15,6 +15,7 @@ enum TicketRow {
     case bid
     case rate
     case leverage
+    case priceType
 
     private enum CellReuseId: String {
         case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
@@ -49,6 +50,8 @@ enum TicketRow {
             cellReuseId = .stepperInput
         case .leverage:
             cellReuseId = .selection
+        case .priceType:
+            cellReuseId = .selection
         }
 
         return cellReuseId.rawValue
@@ -56,36 +59,24 @@ enum TicketRow {
 
     func getTitle(forAction action: TradeItOrderAction) -> String {
         switch self {
-        case .symbol:
-            return "Symbol"
-        case .orderAction:
-            return "Action"
+        case .symbol: return "Symbol"
+        case .orderAction: return "Action"
         case .estimatedCost:
             let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
             let title = "Estimated \(sellActions.contains(action) ? "proceeds" : "cost")"
             return title
-        case .quantity:
-            return "Shares"
-        case .limitPrice:
-            return "Limit"
-        case .stopPrice:
-            return "Stop"
-        case .orderType:
-            return "Order type"
-        case .expiration:
-            return "Time in force"
-        case .marketPrice:
-            return "Market price"
-        case .bid:
-            return "Bid"
-        case .account:
-            return "Account"
-        case .amount:
-            return "Amount"
-        case .rate:
-            return "Rate"
-        case .leverage:
-            return "Leverage"
+        case .quantity: return "Shares"
+        case .limitPrice: return "Limit"
+        case .stopPrice: return "Stop"
+        case .orderType: return "Order type"
+        case .expiration: return "Time in force"
+        case .marketPrice: return "Market price"
+        case .bid: return "Bid"
+        case .account: return "Account"
+        case .amount: return "Amount"
+        case .rate: return "Rate"
+        case .leverage: return "Leverage"
+        case .priceType: return "Price type"
         }
     }
 

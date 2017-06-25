@@ -3,25 +3,25 @@
     public var symbol: String?
     public var amount: NSDecimalNumber?
     public var bidPrice: NSDecimalNumber?
-    public var action: TradeItFxOrderAction = TradeItFxOrderActionPresenter.DEFAULT
-    public var type: TradeItFxOrderPriceType = TradeItFxOrderPriceTypePresenter.DEFAULT {
+    public var actionType: String?
+    public var priceType: String? {
         didSet {
             if !requiresExpiration() {
-                expiration = TradeItFxOrderExpirationPresenter.DEFAULT
+                expirationType = nil
             }
             if !requiresLimitPrice() {
                 limitPrice = nil
             }
         }
     }
-    public var expiration: TradeItFxOrderExpiration = TradeItFxOrderExpirationPresenter.DEFAULT
+    public var expirationType: String?
     public var limitPrice: NSDecimalNumber?
     public var stopPrice: NSDecimalNumber?
     public var leverage: NSNumber?
 
     func isValid() -> Bool {
         return validateAmount()
-            && validateOrderPriceType()
+//            && validatePriceType()
             && symbol != nil
             && linkedBrokerAccount != nil
     }
@@ -60,11 +60,11 @@
     }
 
     public func requiresLimitPrice() -> Bool {
-        return TradeItFxOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
+        return priceType?.contains("limit") == true
     }
 
     public func requiresExpiration() -> Bool {
-        return TradeItFxOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
+        return priceType?.contains("limit") == true
     }
 
     // MARK: Private
@@ -74,13 +74,13 @@
         return isGreaterThanZero(amount)
     }
 
-    private func validateOrderPriceType() -> Bool {
-        switch type {
-        case .market: return true
-        case .limit: return validateLimit()
-        case .unknown: return false
-        }
-    }
+//    private func validateOrderPriceType() -> Bool {
+//        switch type {
+//        case .market: return true
+//        case .limit: return validateLimit()
+//        case .unknown: return false
+//        }
+//    }
 
     private func validateLimit() -> Bool {
         guard let limitPrice = limitPrice else { return false }
@@ -106,16 +106,16 @@ class TradeItFxPlaceOrderPresenter {
 
     func generateRequest() -> TradeItFxPlaceOrderRequest {
         let orderLeg = TradeItFxOrderLeg()
-        orderLeg.priceType = priceType()
         orderLeg.pair = order.symbol
-        orderLeg.action = action()
+        orderLeg.action = order.actionType
+        orderLeg.priceType = order.priceType
         orderLeg.amount = amount()
         orderLeg.rate = order.limitPrice
         orderLeg.leverage = order.leverage
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()
         fxOrderInfoInput.orderType = "SINGLE"
-        fxOrderInfoInput.orderExpiration = expiration()
+        fxOrderInfoInput.orderExpiration = order.expirationType
         fxOrderInfoInput.orderLegs = [orderLeg]
 
         let request = TradeItFxPlaceOrderRequest()
@@ -123,32 +123,6 @@ class TradeItFxPlaceOrderPresenter {
         request.fxOrderInfoInput = fxOrderInfoInput
 
         return request
-    }
-
-    private func action() -> String {
-        switch order.action {
-        case .buy: return "buy"
-        case .sell: return "sell"
-        case .unknown: return "unknown"
-        }
-    }
-
-    private func priceType() -> String {
-        switch order.type {
-        case .market: return "market"
-        case .limit: return "limit"
-        case .unknown: return "unknown"
-        }
-    }
-
-    private func expiration() -> String {
-        switch order.expiration {
-        case .goodForDay: return "day"
-        case .goodUntilCanceled: return "GOOD_TILL_CANCEL"
-        case .immediateOrCancel: return "immediate_or_cancel"
-        case .fillOrKill: return "fill_or_kill"
-        case .unknown: return "unknown"
-        }
     }
 
     private func amount() -> NSDecimalNumber {

@@ -18,7 +18,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
-    private var leverageOptions: [NSNumber] = []
+    private var orderCapabilities: TradeItFxOrderCapabilities?
 
     private var ticketRows = [TicketRow]()
 
@@ -43,8 +43,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             viewController: self
         )
 
-        self.setOrderDefaults()
-
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
@@ -55,7 +53,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         self.reloadTicket()
     }
 
@@ -97,35 +95,20 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
-            self.selectionViewController.initialSelection = TradeItFxOrderActionPresenter.labelFor(self.order.action)
-            self.selectionViewController.selections = TradeItFxOrderActionPresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.action = TradeItFxOrderActionPresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.actionType) { selection in
+                self.order.actionType = selection
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
-        case .orderType:
-            self.selectionViewController.initialSelection = TradeItFxOrderPriceTypePresenter.labelFor(self.order.type)
-            self.selectionViewController.selections = TradeItFxOrderPriceTypePresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.type = TradeItFxOrderPriceTypePresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+        case .priceType:
+            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
+                self.order.priceType = selection
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .expiration:
-            self.selectionViewController.initialSelection = TradeItFxOrderExpirationPresenter.labelFor(self.order.expiration)
-            self.selectionViewController.selections = TradeItFxOrderExpirationPresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.expiration = TradeItFxOrderExpirationPresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expirationType) { selection in
+                self.order.expirationType = selection
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .leverage:
             self.selectionViewController.initialSelection = self.order.leverage?.stringValue
-            self.selectionViewController.selections = self.leverageOptions.map { $0.stringValue }
+            self.selectionViewController.selections = self.orderCapabilities?.leverageOptions?.map { $0.stringValue } ?? []
             self.selectionViewController.onSelected = { selection in
                 if let selectionInt = Int(selection) {
                     let selectionNumber = NSNumber(value: selectionInt)
@@ -254,16 +237,19 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     linkedBrokerAccount: linkedBrokerAccount,
                     symbol: symbol,
                     onSuccess: { orderCapabilities in
-                        print(orderCapabilities)
                         activityView.hide(animated: true)
 
-                        self.leverageOptions = orderCapabilities.leverageOptions ?? []
-                        self.order.leverage = self.leverageOptions.first
+                        self.orderCapabilities = orderCapabilities
+
+                        self.setOrderDefaults()
+                        // TODO: move to orderDefaults?
+                        self.order.leverage = self.orderCapabilities?.leverageOptions?.first
 
                         self.reloadTicket()
                     },
                     onFailure: { error in
-                        print(error)
+                        //print(error)
+                        // TODO: How to handle this?
                         activityView.hide(animated: true)
                     }
                 )
@@ -323,8 +309,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func setTitle() {
         var title = "Trade"
 
-        if self.order.action != TradeItFxOrderAction.unknown {
-            title = TradeItFxOrderActionPresenter.labelFor(self.order.action)
+        if let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.actionType) {
+            title = actionType
         }
 
         if let symbol = self.order.symbol {
@@ -335,13 +321,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func setOrderDefaults() {
-        if self.order.action == .unknown {
-            self.order.action = .buy
-        }
-
-        if self.order.expiration == .unknown {
-            self.order.expiration = .goodForDay
-        }
+        self.order.actionType = self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.actionType)
+        self.order.priceType = self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.priceType)
+        self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expirationType)
     }
 
     private func setPlaceOrderButtonEnablement() {
@@ -380,21 +362,21 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .symbol,
             .bid,
             .orderAction,
-            .orderType,
+            .priceType,
             .amount
         ]
 
-        if self.order.requiresLimitPrice() {
-            ticketRows.append(.rate)
-        }
+//        if self.order.requiresLimitPrice() {
+//            ticketRows.append(.rate)
+//        }
 
-        if self.leverageOptions.count > 0 {
+        if let leverageOptions = self.orderCapabilities?.leverageOptions, leverageOptions.count > 0 {
             ticketRows.append(.leverage)
         }
 
-        if self.order.requiresExpiration() {
-            ticketRows.append(.expiration)
-        }
+//        if self.order.requiresExpiration() {
+//            ticketRows.append(.expiration)
+//        }
 
         self.ticketRows = ticketRows
 
@@ -402,9 +384,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func reload(row: TicketRow) {
-        guard let indexOfRow = self.ticketRows.index(of: row) else {
-            return
-        }
+        guard let indexOfRow = self.ticketRows.index(of: row) else { return }
 
         let indexPath = IndexPath.init(row: indexOfRow, section: 0)
         self.tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -423,7 +403,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
-            cell.detailTextLabel?.text = TradeItFxOrderActionPresenter.labelFor(self.order.action)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .actions, value: self.order.actionType)
         case .amount:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.amount,
@@ -455,10 +435,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
-        case .orderType:
-            cell.detailTextLabel?.text = TradeItFxOrderPriceTypePresenter.labelFor(self.order.type)
+        case .priceType:
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.priceType)
         case .expiration:
-            cell.detailTextLabel?.text = TradeItFxOrderExpirationPresenter.labelFor(self.order.expiration)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expirationType)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
@@ -479,6 +459,22 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             buyingPower,
             currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
+    }
+
+    private func pushOrderCapabilitiesSelection(
+        field: TradeItInstrumentOrderCapabilityField,
+        value: String?,
+        onSelected: @escaping (String?) -> Void
+        ) {
+        guard let orderCapabilities = self.orderCapabilities else { return }
+        self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
+        self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
+        self.selectionViewController.onSelected = { selection in
+            onSelected(orderCapabilities.valueFor(field: field, label: selection))
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+
+        self.navigationController?.pushViewController(selectionViewController, animated: true)
     }
 }
 

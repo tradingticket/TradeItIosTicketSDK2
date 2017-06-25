@@ -5,6 +5,7 @@ import PromiseKit
     public weak var oAuthDelegate: TradeItOAuthDelegate?
     var connector: TradeItConnector
     var sessionProvider: TradeItSessionProvider
+    private var availableBrokers: [TradeItBroker]? = nil
 
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
@@ -212,11 +213,16 @@ import PromiseKit
 
     public func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
                                        onFailure: @escaping () -> Void) {
-        self.connector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
-            if let availableBrokers = availableBrokers {
-                onSuccess(availableBrokers)
-            } else {
-                onFailure()
+        if let availableBrokers = self.availableBrokers {
+            onSuccess(availableBrokers)
+        } else {
+            self.connector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
+                if let availableBrokers = availableBrokers {
+                    self.availableBrokers = availableBrokers
+                    onSuccess(availableBrokers)
+                } else {
+                    onFailure()
+                }
             }
         }
     }

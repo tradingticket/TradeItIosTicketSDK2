@@ -24,7 +24,7 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
         TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
     }
     
-    //MARK: IBAction
+    // MARK: IBAction
 
     @IBAction func openAccountTapped(_ sender: UIButton) {
         self.showWebView(pageTitle: "Broker Center", url: TradeItSDK.brokerCenterService.getUrl())
@@ -41,9 +41,8 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     @IBAction func termsLinkWasTapped(_ sender: AnyObject) {
         self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms")
     }
-    
 
-    //MARK: private methods
+    // MARK: private methods
 
     private func populateBrokers() {
         self.activityView?.label.text = "Loading Brokers"

@@ -6,10 +6,10 @@
 
     public static let launcher = TradeItLauncher()
     public static let yahooLauncher = TradeItYahooLauncher()
-    internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
     public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
     public static let didUnlinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
 
+    internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
     private static var _apiKey: String?
     public static var apiKey: String {
@@ -115,23 +115,24 @@
         cookieService: CookieService? = nil,
         brokerLogoService: BrokerLogoService? = nil
     ) {
-        if !self.configured {
-            self.configured = true
-
-            self.cookieService = cookieService ?? DefaultCookieService()
-            self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
-
-            self._apiKey = apiKey
-            self._environment = environment
-            self._oAuthCallbackUrl = oAuthCallbackUrl
-            self.userCountryCode = userCountryCode
-            self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-            self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
-            self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
-            self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-        } else {
+        guard !self.configured else {
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
+            return
         }
+
+        self.configured = true
+
+        self.cookieService = cookieService ?? DefaultCookieService()
+        self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
+
+        self._apiKey = apiKey
+        self._environment = environment
+        self._oAuthCallbackUrl = oAuthCallbackUrl
+        self.userCountryCode = userCountryCode
+        self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
+        self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
+        self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
+        self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
     }
 }
 

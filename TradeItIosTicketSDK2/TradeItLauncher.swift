@@ -138,8 +138,10 @@ protocol OAuthCompletionListener {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
                     value: OAuthCallbackDestinationValues.trading.rawValue)

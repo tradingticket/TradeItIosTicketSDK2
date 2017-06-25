@@ -65,7 +65,8 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
-            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl)
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
     }
 
     func unlink() {

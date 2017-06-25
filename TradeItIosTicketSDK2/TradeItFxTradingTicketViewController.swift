@@ -18,6 +18,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
+    private var leverageOptions: [NSNumber] = []
 
     private var ticketRows = [TicketRow]()
 
@@ -79,6 +80,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.selectionViewController.onSelected = { selection in
                         self.order.symbol = selection
                         _ = self.navigationController?.popViewController(animated: true)
+                        self.updateOrderCapabilities()
                     }
 
                     self.navigationController?.pushViewController(self.selectionViewController, animated: true)
@@ -95,8 +97,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
-            //  self.selectionViewController.initialSelection = self.order.linkedBrokerAccount?.orderCapabilities.first {
-            // TEST
             self.selectionViewController.initialSelection = TradeItFxOrderActionPresenter.labelFor(self.order.action)
             self.selectionViewController.selections = TradeItFxOrderActionPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
@@ -125,7 +125,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .leverage:
             self.selectionViewController.initialSelection = self.order.leverage?.stringValue
-            self.selectionViewController.selections = ["1", "5", "10"]
+            self.selectionViewController.selections = self.leverageOptions.map { $0.stringValue }
             self.selectionViewController.onSelected = { selection in
                 if let selectionInt = Int(selection) {
                     let selectionNumber = NSNumber(value: selectionInt)
@@ -257,6 +257,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                         print(orderCapabilities)
                         activityView.hide(animated: true)
 
+                        self.leverageOptions = orderCapabilities.leverageOptions ?? []
+                        self.order.leverage = self.leverageOptions.first
+
                         self.reloadTicket()
                     },
                     onFailure: { error in
@@ -350,6 +353,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func updateMarketData() {
+        self.order.bidPrice = nil
         if let symbol = self.order.symbol, let broker = self.order.linkedBrokerAccount?.brokerName {
             self.marketDataService.getFxQuote?(
                 symbol: symbol,
@@ -363,15 +367,12 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.order.bidPrice = nil
                 }
             )
-        } else {
-            self.order.bidPrice = nil
         }
     }
 
     private func reloadTicket() {
         self.setTitle()
         self.setPlaceOrderButtonEnablement()
-        //self.selectedAccountChanged()
         self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
@@ -387,7 +388,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             ticketRows.append(.rate)
         }
 
-        if true { // TODO: self.order.linkedBrokerAccount?.orderCapabilities(forInstrument: .FX)
+        if self.leverageOptions.count > 0 {
             ticketRows.append(.leverage)
         }
 

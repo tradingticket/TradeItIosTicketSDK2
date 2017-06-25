@@ -54,8 +54,8 @@
 
         self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxOrderCapabilitiesResult.self, withCompletionBlock: { result in
             switch result {
-            case let orderCapabilities as TradeItFxOrderCapabilities:
-                onSuccess(orderCapabilities)
+            case let orderCapabilitiesResult as TradeItFxOrderCapabilitiesResult:
+                onSuccess(orderCapabilitiesResult.orderCapabilities)
             case let error as TradeItErrorResult:
                 onFailure(error)
             default:

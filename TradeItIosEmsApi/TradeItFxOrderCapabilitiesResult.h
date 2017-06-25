@@ -3,6 +3,6 @@
 
 @interface TradeItFxOrderCapabilitiesResult : TradeItResult
 
-@property (nonatomic, copy) TradeItFxOrderCapabilities * _Nullable orderCapabilities;
+@property (nonatomic, copy) TradeItFxOrderCapabilities * _Nonnull orderCapabilities;
 
 @end

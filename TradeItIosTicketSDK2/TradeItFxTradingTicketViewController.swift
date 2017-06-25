@@ -66,9 +66,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         switch ticketRow {
         case .symbol:
             guard let broker = self.order.linkedBrokerAccount?.brokerName else { return }
-            TradeItSDK.symbolService.fxSymbols( // TODO ADD SPINNER otherwise if user taps twice it will crash
+
+            let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+            activityView.label.text = "Fetching available currencies"
+
+            TradeItSDK.symbolService.fxSymbols(
                 forBroker: broker,
                 onSuccess: { symbols in
+                    activityView.hide(animated: true)
                     self.selectionViewController.initialSelection = self.order.symbol
                     self.selectionViewController.selections = symbols
                     self.selectionViewController.onSelected = { selection in
@@ -79,6 +84,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.navigationController?.pushViewController(self.selectionViewController, animated: true)
                 },
                 onFailure: { error in
+                    activityView.hide(animated: true)
                     self.alertManager.showAlertWithAction(
                         error: error,
                         withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,

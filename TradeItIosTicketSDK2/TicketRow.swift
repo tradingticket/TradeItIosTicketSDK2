@@ -14,6 +14,7 @@ enum TicketRow {
     case amount
     case bid
     case rate
+    case leverage
 
     private enum CellReuseId: String {
         case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
@@ -46,6 +47,8 @@ enum TicketRow {
             cellReuseId = .numericInput
         case .rate:
             cellReuseId = .stepperInput
+        case .leverage:
+            cellReuseId = .selection
         }
 
         return cellReuseId.rawValue
@@ -81,6 +84,8 @@ enum TicketRow {
             return "Amount"
         case .rate:
             return "Rate"
+        case .leverage:
+            return "Leverage"
         }
     }
 

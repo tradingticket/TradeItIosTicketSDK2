@@ -1,4 +1,4 @@
-enum TradeItInstrumentType: String {
+public enum TradeItInstrumentType: String {
     case OPTION
     case EQUITY_OR_ETF
     case BUY_WRITES

@@ -34,4 +34,22 @@
             }
         })
     }
+
+    func getOrderCapabilities(linkedBrokerAccount: TradeItLinkedBrokerAccount, symbol: String) {
+        let requestData = TradeItOrderCapabilitiesRequest()
+        requestData.accountNumber = linkedBrokerAccount.accountNumber
+        requestData.symbol = symbol
+        requestData.token = self.session.token
+
+        let request = TradeItRequestResultFactory.buildJsonRequest(
+            for: requestData,
+            emsAction: "order/getFxOrderCapabilities",
+            environment: self.session.connector.environment
+        )
+
+        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxOrderCapabilities.self, withCompletionBlock: { result in
+            
+            print(result)
+        })
+    }
 }

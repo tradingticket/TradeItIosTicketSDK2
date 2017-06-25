@@ -111,6 +111,7 @@ class TradeItLinkedBrokerCache {
                 balance: nil,
                 fxBalance: nil,
                 positions: [],
+                orderCapabilities: [],
                 isEnabled: deserialize(accountEnabled: serializedAccount[ACCOUNT_ENABLED_KEY] as? String)
             )
 

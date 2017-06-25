@@ -17,6 +17,7 @@
     public var expiration: TradeItFxOrderExpiration = TradeItFxOrderExpirationPresenter.DEFAULT
     public var limitPrice: NSDecimalNumber?
     public var stopPrice: NSDecimalNumber?
+    public var leverage: NSNumber?
 
     func isValid() -> Bool {
         return validateAmount()
@@ -110,6 +111,7 @@ class TradeItFxPlaceOrderPresenter {
         orderLeg.action = action()
         orderLeg.amount = amount()
         orderLeg.rate = order.limitPrice
+        orderLeg.leverage = order.leverage
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()
         fxOrderInfoInput.orderType = "SINGLE"

@@ -12,5 +12,6 @@
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable expirationTypes;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable priceTypes;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable orderTypes;
+@property (nonatomic) BOOL symbolSpecific;
 
 @end

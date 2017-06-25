@@ -49,6 +49,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.tableView.tableFooterView = UIView()
 
         TicketRow.registerNibCells(forTableView: self.tableView)
+
+        self.selectedAccountChanged()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +66,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         switch ticketRow {
         case .symbol:
             guard let broker = self.order.linkedBrokerAccount?.brokerName else { return }
-            TradeItSDK.symbolService.fxSymbols(
+            TradeItSDK.symbolService.fxSymbols( // TODO ADD SPINNER otherwise if user taps twice it will crash
                 forBroker: broker,
                 onSuccess: { symbols in
                     self.selectionViewController.initialSelection = self.order.symbol
@@ -109,6 +111,18 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.selectionViewController.selections = TradeItFxOrderExpirationPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
                 self.order.expiration = TradeItFxOrderExpirationPresenter.enumFor(selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
+        case .leverage:
+            self.selectionViewController.initialSelection = self.order.leverage?.stringValue
+            self.selectionViewController.selections = ["1", "5", "10"]
+            self.selectionViewController.onSelected = { selection in
+                if let selectionInt = Int(selection) {
+                    let selectionNumber = NSNumber(value: selectionInt)
+                    self.order.leverage = selectionNumber
+                }
                 _ = self.navigationController?.popViewController(animated: true)
             }
 
@@ -220,9 +234,29 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     // MARK: Private
 
     private func selectedAccountChanged() {
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
-                self.reload(row: .bid)
+                // HACKY!!!
+                self.order.linkedBrokerAccount = self.order.linkedBrokerAccount?.linkedBroker?.accounts.first { account in
+                    account.accountNumber == self.order.linkedBrokerAccount?.accountNumber
+                }
+
+                if self.order.linkedBrokerAccount?.orderCapabilities(forInstrument: .FX)?.symbolSpecific == true {
+                    activityView.label.text = "Fetching order capabilities"
+                    self.order.linkedBrokerAccount?.fxTradeService.getOrderCapabilities(
+                        linkedBrokerAccount: self.order.linkedBrokerAccount!, symbol: "USD/JPY"
+                    )
+
+                } else {
+                    activityView.hide(animated: true)
+
+                    self.reloadTicket()
+                }
+
+
                 // TODO
 //                if self.order.action == .buy {
                     self.updateAccountOverview()
@@ -231,6 +265,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 //                }
             },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
+                activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
@@ -239,6 +274,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 )
             },
             onFailure: { error in
+                activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
@@ -332,7 +368,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func reloadTicket() {
         self.setTitle()
         self.setPlaceOrderButtonEnablement()
-        self.selectedAccountChanged()
+        //self.selectedAccountChanged()
         self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
@@ -346,6 +382,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         if self.order.requiresLimitPrice() {
             ticketRows.append(.rate)
+        }
+
+        if true { // TODO: self.order.linkedBrokerAccount?.orderCapabilities(forInstrument: .FX)
+            ticketRows.append(.leverage)
         }
 
         if self.order.requiresExpiration() {
@@ -421,6 +461,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText()
             )
+        case .leverage:
+            cell.detailTextLabel?.text = self.order.leverage?.stringValue
         default:
             break
         }

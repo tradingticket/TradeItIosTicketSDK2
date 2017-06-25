@@ -447,7 +447,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             accountBaseCurrency: "USD",
                             balance: nil,
                             fxBalance: nil,
-                            positions: [])
+                            positions: [],
+                            orderCapabilities: []
+                        )
                     ]
 
                     print("=====> MANUALLY BUILT LINK!")

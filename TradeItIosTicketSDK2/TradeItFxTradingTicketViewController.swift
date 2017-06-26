@@ -6,6 +6,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var marketDataLabel: UILabel!
 
     public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
 
@@ -55,6 +56,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.reloadTicket()
+        self.marketDataLabel.text = nil
     }
 
     // MARK: UITableViewDelegate
@@ -345,6 +347,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 symbol: symbol,
                 broker: broker,
                 onSuccess: { quote in
+                    self.marketDataLabel.text = "Market data provided by \(broker)."
                     self.quote = quote
                     self.order.bidPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
                     self.reload(row: .bid)

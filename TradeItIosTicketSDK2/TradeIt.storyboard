@@ -1953,7 +1953,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rus-7i-baC" customClass="TradeItDismissableKeyboardTableView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="515"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="500.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J5u-Gm-Zrf">
@@ -1964,17 +1964,26 @@
                                     <constraint firstAttribute="height" constant="50" id="sLo-6I-MvI"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Market data provided by Nasdaq." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gt-1W-nDv">
+                                <rect key="frame" x="16" y="528.5" width="343" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="J5u-Gm-Zrf" firstAttribute="centerX" secondItem="OUb-ZV-25R" secondAttribute="centerX" id="7NM-E1-cJK"/>
-                            <constraint firstItem="Mfv-4e-fwa" firstAttribute="top" secondItem="rus-7i-baC" secondAttribute="bottom" constant="16" id="FfI-2t-iBg"/>
+                            <constraint firstItem="Mfv-4e-fwa" firstAttribute="top" secondItem="7gt-1W-nDv" secondAttribute="bottom" constant="8" id="Byk-tA-aic"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="7gt-1W-nDv" secondAttribute="leading" id="GXg-89-vzh"/>
                             <constraint firstItem="rus-7i-baC" firstAttribute="leading" secondItem="OUb-ZV-25R" secondAttribute="leading" id="Oqd-vL-3kk"/>
                             <constraint firstItem="J5u-Gm-Zrf" firstAttribute="top" secondItem="Mfv-4e-fwa" secondAttribute="bottom" constant="16" id="QCo-IA-X0s"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7gt-1W-nDv" secondAttribute="trailing" id="QXe-C3-8dn"/>
                             <constraint firstItem="Rao-xn-87B" firstAttribute="top" secondItem="J5u-Gm-Zrf" secondAttribute="bottom" id="f7d-2S-NOC"/>
                             <constraint firstItem="rus-7i-baC" firstAttribute="top" secondItem="7Xa-sP-lI6" secondAttribute="bottom" id="gK3-04-nsG"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Mfv-4e-fwa" secondAttribute="leading" id="nNz-2m-TWB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Mfv-4e-fwa" secondAttribute="trailing" id="nTK-eK-LHz"/>
+                            <constraint firstItem="7gt-1W-nDv" firstAttribute="top" secondItem="rus-7i-baC" secondAttribute="bottom" constant="8" id="snV-f2-LnW"/>
                             <constraint firstAttribute="trailing" secondItem="rus-7i-baC" secondAttribute="trailing" id="tFT-pu-fD5"/>
                         </constraints>
                     </view>
@@ -1982,7 +1991,7 @@
                         <outlet property="adContainer" destination="J5u-Gm-Zrf" id="gDg-Aa-vi2"/>
                         <outlet property="previewOrderButton" destination="Mfv-4e-fwa" id="SkG-bW-WTW"/>
                         <outlet property="tableView" destination="rus-7i-baC" id="CAl-jl-ouR"/>
-                        <outlet property="tableViewBottomConstraint" destination="FfI-2t-iBg" id="57x-1a-BEJ"/>
+                        <outlet property="tableViewBottomConstraint" destination="snV-f2-LnW" id="6NE-7c-LpB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Fm-Da-TOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2002,7 +2011,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iCV-BD-yCJ" customClass="TradeItDismissableKeyboardTableView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="565"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrD-FQ-eD7">
@@ -2025,27 +2034,37 @@
                                     <action selector="previewOrderButtonTapped:" destination="gnJ-6E-rKZ" eventType="touchUpInside" id="w1U-ld-Zk6"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Market data provided by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvx-AZ-tfk">
+                                <rect key="frame" x="16" y="578" width="343" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iCV-BD-yCJ" secondAttribute="trailing" id="Djq-TL-6Gp"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="mvx-AZ-tfk" secondAttribute="leading" id="FTm-Hf-Fcg"/>
                             <constraint firstItem="iCV-BD-yCJ" firstAttribute="top" secondItem="sYv-Sy-EOk" secondAttribute="bottom" id="JX8-gM-xtZ"/>
                             <constraint firstItem="SrD-FQ-eD7" firstAttribute="leading" secondItem="BE4-ul-VPA" secondAttribute="leadingMargin" id="QTJ-o3-LBg"/>
-                            <constraint firstItem="SrD-FQ-eD7" firstAttribute="top" secondItem="iCV-BD-yCJ" secondAttribute="bottom" constant="16" id="WPC-Jb-L0v"/>
+                            <constraint firstItem="mvx-AZ-tfk" firstAttribute="top" secondItem="iCV-BD-yCJ" secondAttribute="bottom" constant="8" id="WIZ-0z-7Ch"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SrD-FQ-eD7" secondAttribute="trailing" id="dZu-e5-TK0"/>
                             <constraint firstItem="wzu-nL-pj5" firstAttribute="top" secondItem="SrD-FQ-eD7" secondAttribute="bottom" constant="16" id="epg-P2-rI3"/>
                             <constraint firstItem="iCV-BD-yCJ" firstAttribute="leading" secondItem="BE4-ul-VPA" secondAttribute="leading" id="gtP-0K-dzU"/>
+                            <constraint firstItem="SrD-FQ-eD7" firstAttribute="top" secondItem="mvx-AZ-tfk" secondAttribute="bottom" constant="8" id="oeA-k8-hmB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mvx-AZ-tfk" secondAttribute="trailing" id="qk0-lF-o58"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="marketDataLabel" destination="mvx-AZ-tfk" id="Ely-gQ-be1"/>
                         <outlet property="placeOrderButton" destination="SrD-FQ-eD7" id="0Zh-WF-sle"/>
                         <outlet property="tableView" destination="iCV-BD-yCJ" id="bic-9H-jF9"/>
-                        <outlet property="tableViewBottomConstraint" destination="WPC-Jb-L0v" id="2qq-vV-SxO"/>
+                        <outlet property="tableViewBottomConstraint" destination="WIZ-0z-7Ch" id="kmY-Nz-EfH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wqp-Ta-loE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="156"/>
+            <point key="canvasLocation" x="1776.8" y="155.17241379310346"/>
         </scene>
         <!--Trade It Selection View Controller-->
         <scene sceneID="lpX-LQ-hbW">

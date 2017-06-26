@@ -17,7 +17,6 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
-        self.accountsTableView.tableFooterView = UIView()
 
         TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }

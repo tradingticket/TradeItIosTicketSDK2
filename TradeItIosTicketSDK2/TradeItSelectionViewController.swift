@@ -33,5 +33,7 @@ class TradeItSelectionViewController: TradeItViewController {
             selections: self.selections,
             initialSelection: self.initialSelection
         )
+
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.backBarButtonItem)
     }
 }

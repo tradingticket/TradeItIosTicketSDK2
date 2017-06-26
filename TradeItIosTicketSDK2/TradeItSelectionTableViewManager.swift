@@ -56,7 +56,8 @@ class TradeItSelectionTableViewManager: NSObject, UITableViewDelegate, UITableVi
         } else {
             cell.accessoryType = .none
         }
-        
+
+        TradeItThemeConfigurator.configure(view: cell)
         return cell
     }
 }

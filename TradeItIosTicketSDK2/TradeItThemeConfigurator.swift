@@ -126,10 +126,13 @@ import UIKit
         if tableView.style == .grouped {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
             tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 16))
         } else {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
             tableView.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
+            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0))
         }
+
         tableView.separatorColor = TradeItSDK.theme.tableHeaderBackgroundColor
     }
 

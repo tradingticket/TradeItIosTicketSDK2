@@ -175,12 +175,13 @@ protocol OAuthCompletionListener {
     }
 
     public func launchFxTrading(
-        fromViewController viewController: UIViewController
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItFxOrder = TradeItFxOrder()
     ) {
         // TODO: Handle no linked FX brokers
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
-                self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController)
+                self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
             },
             onFailure: {
                 print("TouchId access denied")

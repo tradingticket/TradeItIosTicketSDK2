@@ -130,7 +130,7 @@
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
     }
 
-    public func orderCapabilities(forInstrument instrument: TradeItInstrumentType) -> TradeItInstrumentOrderCapabilities? {
+    internal func orderCapabilities(forInstrument instrument: TradeItInstrumentType) -> TradeItInstrumentOrderCapabilities? {
         return self.orderCapabilities.first { instrumentCapabilities in
             return instrumentCapabilities.instrument == instrument.rawValue.lowercased()
         }

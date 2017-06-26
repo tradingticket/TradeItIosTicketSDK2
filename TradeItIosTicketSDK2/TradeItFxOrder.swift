@@ -11,7 +11,7 @@
 
     func isValid() -> Bool {
         return validateAmount()
-//            && validatePriceType()
+            && validatePriceType()
             && symbol != nil
             && linkedBrokerAccount != nil
     }
@@ -64,13 +64,13 @@
         return isGreaterThanZero(amount)
     }
 
-//    private func validateOrderPriceType() -> Bool {
-//        switch type {
-//        case .market: return true
-//        case .limit: return validateLimit()
-//        case .unknown: return false
-//        }
-//    }
+    private func validatePriceType() -> Bool {
+        if requiresLimitPrice() {
+            return validateLimit()
+        } else {
+            return true
+        }
+    }
 
     private func validateLimit() -> Bool {
         guard let limitPrice = limitPrice else { return false }

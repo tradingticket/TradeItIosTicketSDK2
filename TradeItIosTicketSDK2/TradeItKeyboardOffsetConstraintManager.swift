@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class TradeItKeyboardOffsetConstraintManager: NSObject {
     var bottomConstraintOriginalConstant: CGFloat

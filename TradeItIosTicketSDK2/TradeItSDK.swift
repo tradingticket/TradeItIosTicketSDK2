@@ -1,3 +1,5 @@
+import UIKit
+
 @objc public class TradeItSDK: NSObject {
 
     // MARK: Non-settable properties

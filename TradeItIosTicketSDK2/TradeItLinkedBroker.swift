@@ -180,6 +180,7 @@ import PromiseKit
                 balance: nil,
                 fxBalance: nil,
                 positions: [],
+                orderCapabilities: account.orderCapabilities as! [TradeItInstrumentOrderCapabilities],
                 isEnabled: accountEnabled
             )
 

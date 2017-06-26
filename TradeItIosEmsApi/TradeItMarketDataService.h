@@ -42,6 +42,4 @@
  */
 - (void)symbolLookup:(TradeItSymbolLookupRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock;
 
-- (void)getFxSymbols:(TradeItFxSymbolsRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock;
-
 @end

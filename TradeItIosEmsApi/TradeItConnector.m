@@ -170,21 +170,16 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:brokerListRequest
                                                                                emsAction:@"preference/getBrokerList"
                                                                              environment:self.environment];
-    [self sendEMSRequest:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
-         if ([tradeItResult isKindOfClass: [TradeItErrorResult class]]) {
-             NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
-         } else if ([tradeItResult.status isEqual:@"SUCCESS"]) {
-             TradeItBrokerListResult *successResult
-             = (TradeItBrokerListResult *)[TradeItRequestResultFactory buildResult:[TradeItBrokerListResult alloc]
-                                                                        jsonString:jsonResponse];
-             completionBlock(successResult.brokerList);
-         } else if ([tradeItResult.status isEqual:@"ERROR"]) {
-             NSLog(@"Could not fetch broker list; got error result: %@", tradeItResult);
-         } else {
-             completionBlock(nil);
-         }
-     }];
+
+    [self sendEMSRequest:request forResultClass:[TradeItBrokerListResult class] withCompletionBlock:^(TradeItResult *result) {
+        if ([result isKindOfClass: [TradeItBrokerListResult class]]) {
+            TradeItBrokerListResult *brokerListResult = (TradeItBrokerListResult *)result;
+            completionBlock(brokerListResult.brokerList);
+        } else {
+            NSLog(@"Could not fetch broker list; got error result: %@", result);
+            completionBlock(nil);
+        }
+    }];
 }
 
 - (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo *)authInfo
@@ -408,7 +403,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (void)sendEMSRequest:(NSMutableURLRequest *)request
-        forResultClass:(Class _Nonnull)ResultClass
+        forResultClass:(Class)ResultClass
    withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     [self sendEMSRequestReturnJSON:request forResultClass:ResultClass withCompletionBlock:^(TradeItResult *result, NSMutableString * __unused jsonResponse) {
         completionBlock(result);
@@ -446,7 +441,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
               TradeItResult *result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
 
-              if (![result isKindOfClass:[TradeItParseErrorResult class]] && [result.status isEqual:@"ERROR"]) {
+              if ([result isKindOfClass:[TradeItParseErrorResult class]]) {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <JSONModel/JSONModel.h>
+#import "TradeItInstrumentOrderCapabilities.h"
 
 @protocol TradeItBrokerAccount
 @end
@@ -21,6 +22,8 @@
 @property (copy) NSString *name;
 
 @property (assign, nonatomic) BOOL tradable;
+
+@property (nonatomic, copy) NSArray<TradeItInstrumentOrderCapabilities> *orderCapabilities;
 
 - (id)initWithAccountBaseCurrency:(NSString *)accountBaseCurrency
                     accountNumber:(NSString *)accountNumber

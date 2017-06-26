@@ -26,16 +26,10 @@
     NSMutableURLRequest *positionRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
                                                                                        emsAction:@"position/getPositions"
                                                                                      environment:self.session.connector.environment];
-    
-    [self.session.connector sendEMSRequest:positionRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
-        
-        if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItGetPositionsResult alloc] jsonString:jsonResponse];
-        }
-        
-        completionBlock(resultToReturn);
-    }];
+
+    [self.session.connector sendEMSRequest:positionRequest
+                            forResultClass:[TradeItGetPositionsResult class]
+                       withCompletionBlock:completionBlock];
 }
 
 @end

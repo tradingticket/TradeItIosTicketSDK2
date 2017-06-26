@@ -11,5 +11,6 @@
 @property (nonatomic, copy) NSString *action;
 @property (nonatomic, copy) NSDecimalNumber *amount;
 @property (nonatomic, copy) NSNumber<Optional> *rate;
+@property (nonatomic, copy) NSNumber<Optional> *leverage;
 
 @end

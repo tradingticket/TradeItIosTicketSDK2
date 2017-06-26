@@ -105,9 +105,10 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if !self.featuredBrokers.isEmpty {
-            let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
-
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
+        if self.featuredBrokers.isEmpty {
+            header.textLabel?.text = "AVAILABLE BROKERS"
+        } else {
             switch section {
             case 0:
                 header.textLabel?.text = "SPONSORED BROKERS"
@@ -117,11 +118,9 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
                 print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
                 return nil
             }
-
-            return header
         }
 
-        return nil
+        return header
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

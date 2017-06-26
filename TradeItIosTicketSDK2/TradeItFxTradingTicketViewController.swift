@@ -472,7 +472,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
-        ) {
+    ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)

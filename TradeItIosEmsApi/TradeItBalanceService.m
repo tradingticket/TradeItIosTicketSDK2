@@ -29,18 +29,10 @@
     NSMutableURLRequest *balanceRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
                                                                                       emsAction:@"balance/getAccountOverview"
                                                                                     environment:self.session.connector.environment];
-    
+
     [self.session.connector sendEMSRequest:balanceRequest
-                       withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
-        
-        if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItAccountOverviewResult alloc]
-                                                           jsonString:jsonResponse];
-        }
-        
-        completionBlock(resultToReturn);
-    }];
+                            forResultClass:[TradeItAccountOverviewResult class]
+                       withCompletionBlock:completionBlock];
 }
 
 @end

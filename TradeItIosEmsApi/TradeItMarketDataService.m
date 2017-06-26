@@ -43,47 +43,20 @@
                                                                                     emsAction:endpoint
                                                                                   environment:self.connector.environment];
 
-    [self.connector sendEMSRequest:quoteRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
+    [self.connector sendEMSRequest:quoteRequest
+                    forResultClass:[TradeItQuotesResult class]
+               withCompletionBlock:completionBlock];
 
-        if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItQuotesResult alloc] jsonString:jsonResponse];
-        }
-
-        completionBlock(resultToReturn);
-    }];
 }
 
 - (void)symbolLookup:(TradeItSymbolLookupRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSMutableURLRequest *symbolLookupRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
                                                                                            emsAction:@"marketdata/symbolLookup"
                                                                                          environment:self.connector.environment];
-    
-    [self.connector sendEMSRequest:symbolLookupRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
-        
-        if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSymbolLookupResult alloc] jsonString:jsonResponse];
-        }
 
-        completionBlock(resultToReturn);
-    }];
-}
-
-- (void)getFxSymbols:(TradeItFxSymbolsRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
-//    NSMutableURLRequest *symbolLookupRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
-//                                                                                           emsAction:@"marketdata/symbolLookup"
-//                                                                                         environment:self.connector.environment];
-//
-//    [self.connector sendEMSRequest:symbolLookupRequest withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-//        TradeItResult *resultToReturn = result;
-//
-//        if ([result.status isEqual:@"SUCCESS"]) {
-//            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItSymbolLookupResult alloc] jsonString:jsonResponse];
-//        }
-//
-//        completionBlock(resultToReturn);
-//    }];
+    [self.connector sendEMSRequest:symbolLookupRequest
+                    forResultClass:[TradeItSymbolLookupResult class]
+               withCompletionBlock:completionBlock];
 }
 
 @end

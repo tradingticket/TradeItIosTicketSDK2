@@ -28,4 +28,5 @@ Pod::Spec.new do |s|
   s.dependency 'PromiseKit', '~> 4.0'
   s.dependency 'MBProgressHUD', '~> 1.0.0'
   s.dependency 'JSONModel', '~> 1.7.0'
+  s.dependency 'BEMCheckBox', '~> 1.4.1'
 end

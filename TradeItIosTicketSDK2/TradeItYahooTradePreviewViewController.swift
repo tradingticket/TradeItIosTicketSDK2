@@ -206,24 +206,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         }
 
         cells += [
+            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
-
-        if let longHoldings = orderDetails.longHoldings {
-            cells.append(ValueCellData(label: "Shares owned", value: NumberFormatter.formatQuantity(longHoldings)))
-        }
-
-        if let shortHoldings = orderDetails.shortHoldings {
-            cells.append(ValueCellData(label: "Shares held short", value: NumberFormatter.formatQuantity(shortHoldings)))
-        }
-
-        if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "Buying power", value: self.formatCurrency(buyingPower)))
-        }
+        ] as [PreviewCellData]
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: "Broker fee", value: self.formatCurrency(estimatedOrderCommission)))

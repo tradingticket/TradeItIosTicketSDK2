@@ -17,6 +17,7 @@ class CloseableViewController: UIViewController {
         }
 
         TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.leftBarButtonItem)
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.rightBarButtonItem)
     }
 
     func createCloseButton() {

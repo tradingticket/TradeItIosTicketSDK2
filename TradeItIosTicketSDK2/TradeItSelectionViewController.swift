@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItSelectionViewController: UIViewController {
+class TradeItSelectionViewController: TradeItViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var adContainer: UIView!
 

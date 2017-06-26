@@ -82,6 +82,8 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
             action: #selector(self.dismissKeyboard)
         )
 
+        TradeItThemeConfigurator.configureBarButtonItem(button: doneBarButtonItem)
+
         var barButtonItems = [UIBarButtonItem]()
         barButtonItems.append(flexSpace)
         barButtonItems.append(doneBarButtonItem)

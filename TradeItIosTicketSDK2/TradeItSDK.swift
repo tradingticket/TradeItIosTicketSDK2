@@ -61,6 +61,7 @@ import UIKit
     public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()
     public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
+    public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {

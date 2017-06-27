@@ -17,7 +17,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     private var activityView: MBProgressHUD?
     private var featuredBroker: TradeItBroker?
 
-    public var headlineText = "Link your broker account to enable:"
+    public var headlineText = TradeItSDK.welcomeScreenHeadlineText
     public var oAuthCallbackUrl: URL?
 
     override func viewDidLoad() {

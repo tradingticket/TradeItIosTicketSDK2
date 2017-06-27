@@ -6,10 +6,10 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
     @IBOutlet weak var brokerTable: UITableView!
     @IBOutlet weak var adContainer: UIView!
 
-    var activityView: MBProgressHUD?
-    var alertManager = TradeItAlertManager()
-    var brokers: [TradeItBroker] = []
-    let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
+    private var activityView: MBProgressHUD?
+    private var alertManager = TradeItAlertManager()
+    private var brokers: [TradeItBroker] = []
+    private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var oAuthCallbackUrl: URL?
     
     override func viewDidLoad() {
@@ -17,11 +17,19 @@ class TradeItSelectBrokerViewController: TradeItViewController, UITableViewDeleg
 
         precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: TradeItSelectBrokerViewController loaded without setting oAuthCallbackUrl!")
 
-        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.activityView = MBProgressHUD.showAdded(
+            to: self.view,
+            animated: true
+        )
 
         self.populateBrokers()
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
+        TradeItSDK.adService.populate(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .link,
+            position: .bottom
+        )
     }
     
     // MARK: IBAction

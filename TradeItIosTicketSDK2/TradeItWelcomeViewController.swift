@@ -10,6 +10,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet weak var featuredBrokerContainerView: UIView!
     @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerImageView: UIImageView!
+    @IBOutlet weak var getStartedButton: UIButton!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
@@ -118,6 +119,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
         }
 
+        self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
+
         self.featuredBrokerContainerView.isHidden = false
         self.featuredBrokerLabel.isHidden = false
         self.bulletListView.isHidden = true
@@ -148,9 +151,9 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
                 self.brokers = availableBrokers
                 self.activityView?.hide(animated: true)
 
-                if let broker = self.brokers.first,
-                    broker.isFeaturedForAnyInstrument() {
+                if let broker = (self.brokers.first { $0.isFeaturedForAnyInstrument() }) {
                     self.setFeaturedBroker(featuredBroker: broker)
+                    self.getStartedButton.setTitle("More", for: .normal)
                 }
             },
             onFailure: {

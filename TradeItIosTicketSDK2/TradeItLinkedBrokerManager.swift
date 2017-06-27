@@ -222,9 +222,14 @@ import PromiseKit
         } else {
             self.connector.getAvailableBrokers(
                 withUserCountryCode: TradeItSDK.userCountryCode,
-                completionBlock: { (availableBrokers: [TradeItBroker]?) in
+                completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
+                    if let featuredBrokerLabelText = featuredBrokerLabelText {
+                        TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
+                    }
+
                     if let availableBrokers = availableBrokers {
                         self.availableBrokers = availableBrokers
+                        self.featuredBrokerLabelText = featuredBrokerLabelText
                         onSuccess(availableBrokers)
                     } else {
                         onFailure()

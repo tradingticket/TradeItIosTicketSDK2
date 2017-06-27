@@ -164,7 +164,7 @@
                                     <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <state key="normal" title="GET STARTED">
+                                <state key="normal" title="Get started">
                                     <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -244,6 +244,7 @@
                         <outlet property="featuredBrokerContainerView" destination="uIk-yb-TE0" id="zTR-ZZ-lp4"/>
                         <outlet property="featuredBrokerImageView" destination="88E-Tj-Ibb" id="EFy-4f-ILx"/>
                         <outlet property="featuredBrokerLabel" destination="yuv-6z-Xo2" id="Dl7-hs-rqT"/>
+                        <outlet property="getStartedButton" destination="Fri-XE-ZRO" id="rjI-4u-DNJ"/>
                         <outlet property="headlineTextLabel" destination="scP-dm-Rke" id="Sbj-vs-VhB"/>
                         <outletCollection property="bullets" destination="w1u-jX-Oma" collectionClass="NSMutableArray" id="43W-Vs-U8S"/>
                         <outletCollection property="bullets" destination="Ixq-zv-ORG" collectionClass="NSMutableArray" id="OK4-YW-fFN"/>

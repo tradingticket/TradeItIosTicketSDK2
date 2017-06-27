@@ -164,13 +164,13 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      }];
 }
 
-- (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock {
+- (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable, NSString * _Nullable))completionBlock {
     [self getAvailableBrokersWithUserCountryCode:nil
                                  completionBlock:completionBlock];
 }
 
 - (void)getAvailableBrokersWithUserCountryCode:(NSString * _Nullable)userCountryCode
-                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock
+                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable, NSString * _Nullable))completionBlock
 
 {
     TradeItBrokerListRequest *brokerListRequest = [[TradeItBrokerListRequest alloc] initWithApiKey:self.apiKey
@@ -183,10 +183,10 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     [self sendEMSRequest:request forResultClass:[TradeItBrokerListResult class] withCompletionBlock:^(TradeItResult *result) {
         if ([result isKindOfClass: [TradeItBrokerListResult class]]) {
             TradeItBrokerListResult *brokerListResult = (TradeItBrokerListResult *)result;
-            completionBlock(brokerListResult.brokerList);
+            completionBlock(brokerListResult.brokerList, brokerListResult.featuredBrokerLabel);
         } else {
             NSLog(@"Could not fetch broker list; got error result: %@", result);
-            completionBlock(nil);
+            completionBlock(nil, nil);
         }
     }];
 }
@@ -449,9 +449,12 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
               NSMutableString *jsonResponse = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-              TradeItResult *result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
+              TradeItResult *result = [TradeItRequestResultFactory buildResult:[TradeItResult alloc] jsonString:jsonResponse];
 
-              if ([result isKindOfClass:[TradeItParseErrorResult class]]) {
+              // TODO: Fix this up. Parses multiple times unnecessarily.
+              if ([result.status isEqualToString:@"SUCCESS"]) {
+                  result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
+              } else {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 

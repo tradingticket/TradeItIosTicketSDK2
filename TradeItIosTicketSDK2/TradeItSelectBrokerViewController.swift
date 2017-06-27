@@ -26,6 +26,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         self.populateBrokers()
 
         TradeItThemeConfigurator.configure(view: self.view, groupedStyle: false)
+        // TODO
         /*TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
@@ -162,26 +163,6 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItThemeConfigurator.configureTableHeader(header: header, groupedStyle: false)
         return header
     }
-
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let cell = UITableViewCell()
-//        if self.featuredBrokers.isEmpty {
-//            cell.textLabel?.text = "AVAILABLE BROKERS"
-//        } else {
-//            switch section {
-//            case 0:
-//                cell.textLabel?.text = "SPONSORED BROKERS"
-//            case 1:
-//                cell.textLabel?.text = "MORE BROKERS"
-//            default:
-//                print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
-//                return nil
-//            }
-//        }
-//
-//        TradeItThemeConfigurator.configureTableHeader(header: cell, groupedStyle: false)
-//        return cell
-//    }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44

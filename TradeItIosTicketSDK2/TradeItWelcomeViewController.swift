@@ -10,6 +10,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet weak var featuredBrokerContainerView: UIView!
     @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerImageView: UIImageView!
+    @IBOutlet weak var getStartedButton: UIButton!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
@@ -148,9 +149,9 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
                 self.brokers = availableBrokers
                 self.activityView?.hide(animated: true)
 
-                if let broker = self.brokers.first,
-                    broker.isFeaturedForAnyInstrument() {
+                if let broker = (self.brokers.first { $0.isFeaturedForAnyInstrument() }) {
                     self.setFeaturedBroker(featuredBroker: broker)
+                    self.getStartedButton.setTitle("More", for: .normal)
                 }
             },
             onFailure: {

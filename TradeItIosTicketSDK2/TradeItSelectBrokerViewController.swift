@@ -120,7 +120,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         self.navigationController?.pushViewController(webViewController, animated: true)
     }
 
-    private func getBrokerAt(indexPath: IndexPath) -> TradeItBroker {
+    private func getBroker(atIndexPath indexPath: IndexPath) -> TradeItBroker {
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             return self.featuredBrokers[indexPath.row]
         } else {
@@ -131,7 +131,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedBroker = self.getBrokerAt(indexPath: indexPath)
+        let selectedBroker = self.getBroker(atIndexPath: indexPath)
         self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.launchOAuth(forBroker: selectedBroker)
     }

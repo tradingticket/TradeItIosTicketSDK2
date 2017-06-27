@@ -89,13 +89,17 @@
         self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
             switch tradeItResult {
             case let positionsResult as TradeItGetPositionsResult:
-                let equityPositions = positionsResult.positions as! [TradeItPosition]
+                guard let equityPositions = positionsResult.positions as? [TradeItPosition] else {
+                    return onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
+                }
                 let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
                     equityPosition.currencyCode = positionsResult.accountBaseCurrency
                     return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
                 }
 
-                let fxPositions = positionsResult.fxPositions as! [TradeItFxPosition]
+                guard let fxPositions = positionsResult.fxPositions as? [TradeItFxPosition] else {
+                    return onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
+                }
                 let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in
                     return TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
                 }

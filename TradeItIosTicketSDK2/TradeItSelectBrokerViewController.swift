@@ -11,12 +11,16 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     private var brokers: [TradeItBroker] = []
     private var featuredBrokers: [TradeItBroker] = []
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    var oAuthCallbackUrl: URL?
+
+    public var oAuthCallbackUrl: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: TradeItSelectBrokerViewController loaded without setting oAuthCallbackUrl!")
+        precondition(
+            self.oAuthCallbackUrl != nil,
+            "TradeItSDK ERROR: TradeItSelectBrokerViewController loaded without setting oAuthCallbackUrl!"
+        )
 
         self.activityView = MBProgressHUD.showAdded(
             to: self.view,
@@ -94,11 +98,17 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
                 let safariViewController = SFSafariViewController(url: url)
-                self.present(safariViewController, animated: true, completion: nil)
+                self.present(
+                    safariViewController,
+                    animated: true,
+                    completion: nil
+                )
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
+                self.alertManager.showError(
+                    errorResult,
+                    onViewController: self
+                )
             }
         )
     }

@@ -106,6 +106,7 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
 
         if let welcomeViewController = initialViewController as? TradeItWelcomeViewController {
             welcomeViewController.delegate = self
+            welcomeViewController.oAuthCallbackUrl = oAuthCallbackUrl
         } else if let selectBrokerViewController = initialViewController as? TradeItSelectBrokerViewController {
             selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
         }

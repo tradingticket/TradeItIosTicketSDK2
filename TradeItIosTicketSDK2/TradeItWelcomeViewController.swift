@@ -1,7 +1,8 @@
 import UIKit
 import MBProgressHUD
+import SafariServices
 
-class TradeItWelcomeViewController: TradeItViewController {
+class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bullets: [UIView]!
     @IBOutlet weak var adContainer: UIView!
     @IBOutlet var bulletListView: UIView!
@@ -13,11 +14,19 @@ class TradeItWelcomeViewController: TradeItViewController {
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
     private var brokers: [TradeItBroker] = []
-    public var headlineText = "Link your broker account to enable:"
     private var activityView: MBProgressHUD?
+    private var featuredBroker: TradeItBroker?
+
+    public var headlineText = "Link your broker account to enable:"
+    public var oAuthCallbackUrl: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        precondition(
+            self.oAuthCallbackUrl != nil,
+            "TradeItSDK ERROR: TradeItWelcomeViewController loaded without setting oAuthCallbackUrl!"
+        )
 
         self.activityView = MBProgressHUD.showAdded(
             to: self.view,
@@ -39,6 +48,22 @@ class TradeItWelcomeViewController: TradeItViewController {
         for bullet in bullets {
             bullet.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
         }
+
+        let gestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(handleTap(gestureRecognizer:))
+        )
+
+        gestureRecognizer.delegate = self
+        self.featuredBrokerContainerView.addGestureRecognizer(gestureRecognizer)
+    }
+
+    // MARK: UIGestureRecognizerDelegate
+
+    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        if let featuredBroker = featuredBroker {
+            self.launchOAuth(forBroker: featuredBroker)
+        }
     }
 
     // MARK: IBActions
@@ -49,13 +74,48 @@ class TradeItWelcomeViewController: TradeItViewController {
 
     // MARK: private methods
 
-    private func setFeaturedBroker(featuredBrokerName: String) {
+    private func launchOAuth(forBroker broker: TradeItBroker) {
+        guard let brokerShortName = broker.brokerShortName else {
+            return
+        }
+
+        self.activityView?.label.text = "Launching broker linking"
+        self.activityView?.show(animated: true)
+
+        TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
+            withBroker: brokerShortName,
+            oAuthCallbackUrl: self.oAuthCallbackUrl!,
+            onSuccess: { url in
+                self.activityView?.hide(animated: true)
+                let safariViewController = SFSafariViewController(url: url)
+                self.present(
+                    safariViewController,
+                    animated: true,
+                    completion: nil
+                )
+            },
+            onFailure: { errorResult in
+                self.alertManager.showError(
+                    errorResult,
+                    onViewController: self
+                )
+            }
+        )
+    }
+
+    private func setFeaturedBroker(featuredBroker: TradeItBroker) {
+        guard let brokerShortName = featuredBroker.brokerShortName else {
+            return
+        }
+
+        self.featuredBroker = featuredBroker
+
         if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-            forBroker: featuredBrokerName
+            forBroker: brokerShortName
         ) {
             self.featuredBrokerImageView.image = brokerLogoImage
         } else {
-            print("TradeIt ERROR: No broker logo provided for \(featuredBrokerName)")
+            print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
         }
 
         self.featuredBrokerContainerView.isHidden = false
@@ -89,9 +149,8 @@ class TradeItWelcomeViewController: TradeItViewController {
                 self.activityView?.hide(animated: true)
 
                 if let broker = self.brokers.first,
-                    broker.isFeaturedForAnyInstrument(),
-                    let brokerShortName = broker.brokerShortName {
-                    self.setFeaturedBroker(featuredBrokerName: brokerShortName)
+                    broker.isFeaturedForAnyInstrument() {
+                    self.setFeaturedBroker(featuredBroker: broker)
                 }
             },
             onFailure: {

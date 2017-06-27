@@ -29,7 +29,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 for broker in availableBrokers {
-                    broker.featuredStockBroker ? self.featuredBrokers.append(broker) : self.brokers.append(broker)
+                    self.brokers.append(broker)
                 }
 
                 self.activityView?.hide(animated: true)

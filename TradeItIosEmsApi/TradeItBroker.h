@@ -11,9 +11,6 @@
 
 @property (nullable, nonatomic, copy) NSString *longName;
 
-@property (nonatomic) BOOL featuredStockBroker;
-@property (nonatomic) BOOL featuredFxBroker;
-
 @property (nonatomic, nullable) TradeItBrokerServices <Optional> *services;
 
 @property (nonatomic, nullable) NSString <Ignore> *brokerShortName;

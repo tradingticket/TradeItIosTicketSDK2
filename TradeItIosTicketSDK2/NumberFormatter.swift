@@ -19,10 +19,10 @@ class NumberFormatter: NSObject {
         return currencyFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     
-    static func formatQuantity(_ number: NSNumber) -> String {
+    static func formatQuantity(_ number: NSNumber, minimumFractionDigits: Int = 2, maximumFractionDigits: Int = 2) -> String {
         quantityFormatter.numberStyle = .decimal
-        quantityFormatter.minimumFractionDigits = 0
-        quantityFormatter.maximumFractionDigits = 2
+        quantityFormatter.minimumFractionDigits = minimumFractionDigits
+        quantityFormatter.maximumFractionDigits = maximumFractionDigits
         return quantityFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     

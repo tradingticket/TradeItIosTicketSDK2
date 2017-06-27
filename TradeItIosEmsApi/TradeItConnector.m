@@ -413,12 +413,11 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 - (void)sendEMSRequestReturnJSON:(NSMutableURLRequest *)request
         forResultClass:(Class _Nonnull)ResultClass
    withCompletionBlock:(void (^)(TradeItResult *, NSMutableString *))completionBlock {
-    /*
+
      NSLog(@"----------New Request----------");
      NSLog([[request URL] absoluteString]);
      NSString *data = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
      NSLog(data);
-     */
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
@@ -445,8 +444,8 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 
-//            NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
-//            NSLog(jsonResponse);
+            NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
+            NSLog(jsonResponse);
               dispatch_async(dispatch_get_main_queue(), ^(void) {
                   completionBlock(result, jsonResponse);
               });

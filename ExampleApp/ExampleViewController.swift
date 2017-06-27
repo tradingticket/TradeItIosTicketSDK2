@@ -262,6 +262,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
+                        label: "Bb theme",
+                        action: {
+                            TradeItSDK.theme = TradeItTheme.bb()
+                            self.handleThemeChange()
+                        }
+                    ),
+                    Action(
                         label: "Custom theme",
                         action: {
                             let customTheme = TradeItTheme()

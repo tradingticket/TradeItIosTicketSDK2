@@ -53,7 +53,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "Link a broker",
                         action: {
-                            TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
+                            TradeItSDK.launcher.launchBrokerLinking(
+                                fromViewController: self,
+                                showWelcomeScreen: true
+                            )
                         }
                     ),
                     Action(

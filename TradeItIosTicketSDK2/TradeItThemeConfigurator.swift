@@ -145,8 +145,10 @@ import UIKit
     private static func styleLabel(_ label: UILabel) {
         if check(view: label, hasTrait: UIAccessibilityTraitButton) {
             label.textColor = TradeItSDK.theme.interactivePrimaryColor
+        } else if label.accessibilityIdentifier == "LIGHT_TEXT" {
+            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.3)
         } else if check(view: label, hasTrait: UIAccessibilityTraitHeader) {
-            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.6)
+            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.55)
         } else {
             label.textColor = TradeItSDK.theme.textColor
         }

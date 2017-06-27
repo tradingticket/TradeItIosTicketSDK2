@@ -12,7 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TradeItSDK.configure(
             apiKey: AppDelegate.API_KEY,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
-            environment: AppDelegate.ENVIRONMENT
+            environment: AppDelegate.ENVIRONMENT,
+            userCountryCode: "US"
         )
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):

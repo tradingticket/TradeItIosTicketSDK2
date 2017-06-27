@@ -3,7 +3,12 @@
 @implementation TradeItBrokerListResult
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"TrasdeItBrokerListSuccessResult: %@ brokerList=%@ ",[super description],self.brokerList];
+    return [
+        NSString stringWithFormat:@"[TradeItBrokerListSuccessResult: %@, featuredBrokerLabel=%@, brokerList=%@]",
+        [super description],
+        self.featuredBrokerLabel,
+        self.brokerList
+    ];
 }
 
 @end

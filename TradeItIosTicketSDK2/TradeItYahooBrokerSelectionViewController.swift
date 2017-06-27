@@ -16,7 +16,10 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
         precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: TradeItYahooBrokerSelectionViewController loaded without setting oAuthCallbackUrl!")
 
-        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.activityView = MBProgressHUD.showAdded(
+            to: self.view,
+            animated: true
+        )
 
         self.populateBrokers()
     }
@@ -29,7 +32,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 for broker in availableBrokers {
-                    broker.featuredStockBroker ? self.featuredBrokers.append(broker) : self.brokers.append(broker)
+                    broker.isFeaturedForAnyInstrument() ? self.featuredBrokers.append(broker) : self.brokers.append(broker)
                 }
 
                 self.activityView?.hide(animated: true)
@@ -102,9 +105,10 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if !self.featuredBrokers.isEmpty {
-            let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
-
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
+        if self.featuredBrokers.isEmpty {
+            header.textLabel?.text = "AVAILABLE BROKERS"
+        } else {
             switch section {
             case 0:
                 header.textLabel?.text = "SPONSORED BROKERS"
@@ -114,11 +118,9 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
                 print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
                 return nil
             }
-
-            return header
         }
 
-        return nil
+        return header
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -146,7 +148,9 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker, let brokerShortName = broker.brokerShortName {
-                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
+                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
+                    forBroker: brokerShortName
+                ) {
                     if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
                         cell.brokerLogoImageView.image = brokerLogoImage
                         return cell

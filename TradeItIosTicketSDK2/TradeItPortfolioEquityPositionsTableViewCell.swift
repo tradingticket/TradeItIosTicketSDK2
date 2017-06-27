@@ -88,7 +88,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     // MARK: private
 
     private func updateTradeButtonVisibility() {
-        if self.selectedPosition?.position?.instrumentType() == TradeItInstrumentType.EQUITY_OR_ETF {
+        if self.selectedPosition?.position?.instrumentType() == TradeItPositionInstrumentType.EQUITY_OR_ETF {
             self.buyButton.isHidden = false
             self.sellButton.isHidden = false
         } else {

@@ -1,4 +1,4 @@
-enum TradeItInstrumentType: String {
+enum TradeItPositionInstrumentType: String {
     case OPTION
     case EQUITY_OR_ETF
     case BUY_WRITES
@@ -14,9 +14,9 @@ enum TradeItInstrumentType: String {
 }
 
 extension TradeItPosition {
-    func instrumentType() -> TradeItInstrumentType? {
+    func instrumentType() -> TradeItPositionInstrumentType? {
         if let symbolClass = self.symbolClass {
-            return TradeItInstrumentType(rawValue: symbolClass)
+            return TradeItPositionInstrumentType(rawValue: symbolClass)
         } else {
             return .UNKNOWN
         }
@@ -24,7 +24,7 @@ extension TradeItPosition {
 }
 
 extension TradeItFxPosition {
-    func instrumentType() -> TradeItInstrumentType? {
+    func instrumentType() -> TradeItPositionInstrumentType? {
         return .FX
     }
 }

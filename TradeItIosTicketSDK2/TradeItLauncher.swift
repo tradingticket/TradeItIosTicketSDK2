@@ -138,8 +138,10 @@ protocol OAuthCompletionListener {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
                     value: OAuthCallbackDestinationValues.trading.rawValue)
@@ -205,6 +207,17 @@ protocol OAuthCompletionListener {
 
     public func launchBrokerLinking(fromViewController viewController: UIViewController) {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
+
+        self.launchBrokerLinking(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen
+        )
+    }
+
+    public func launchBrokerLinking(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool=false
+    ) {
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
         self.linkBrokerUIFlow.presentLinkBrokerFlow(

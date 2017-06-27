@@ -61,7 +61,6 @@ import UIKit
     public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()
     public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
-    public static var userCountryCode: String?
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {

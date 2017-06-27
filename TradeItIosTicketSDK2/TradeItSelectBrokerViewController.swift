@@ -161,7 +161,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         } else {
             switch section {
             case 0:
-                header.textLabel?.text = "SPONSORED BROKERS"
+                header.textLabel?.text = TradeItSDK.featuredBrokerLabelText
             case 1:
                 header.textLabel?.text = "MORE BROKERS"
             default:

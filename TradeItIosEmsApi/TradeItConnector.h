@@ -48,10 +48,10 @@
  *
  *  @param completionBlock Completion callback that accepts an array of TradeItBroker objects, where each object has a "longName" and "shortName". The longName should be displayed to the user and the short name should be used when sending a request to the ems server.
  */
-- (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock;
+- (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable, NSString * _Nullable))completionBlock;
 
 - (void)getAvailableBrokersWithUserCountryCode:(NSString * _Nullable)userCountryCode
-                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock;
+                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable, NSString * _Nullable))completionBlock;
 
 /**
  *  A user oAuth token is generated given credentials for a broker. The token may be used to authenticate the user in the future without them having to re-enter their credentials.

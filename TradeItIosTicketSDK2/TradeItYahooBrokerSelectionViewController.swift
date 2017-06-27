@@ -74,10 +74,18 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         )
     }
 
+    private func getBroker(atIndexPath indexPath: IndexPath) -> TradeItBroker {
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
+            return self.featuredBrokers[indexPath.row]
+        } else {
+            return self.brokers[indexPath.row]
+        }
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedBroker = self.brokers[indexPath.row]
+        let selectedBroker = self.getBroker(atIndexPath: indexPath)
         self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.launchOAuth(forBroker: selectedBroker)
     }

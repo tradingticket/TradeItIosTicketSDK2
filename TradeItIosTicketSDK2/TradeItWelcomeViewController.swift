@@ -119,6 +119,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
         }
 
+        self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
+
         self.featuredBrokerContainerView.isHidden = false
         self.featuredBrokerLabel.isHidden = false
         self.bulletListView.isHidden = true

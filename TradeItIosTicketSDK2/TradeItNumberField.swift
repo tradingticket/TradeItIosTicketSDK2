@@ -43,12 +43,14 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         let currentText: NSString = textField.text as NSString? ?? ""
         let resultText = currentText.replacingCharacters(in: range, with: string)
 
-        guard string.rangeOfCharacter(from: TradeItNumberField.invalidCharacters) == nil,
-            resultText.components(separatedBy: CharacterSet(charactersIn: ",.")).count <= 2
-        else {
-            return false
-        }
 
-        return true
+        let hasOnlyValidCharacters = resultText.rangeOfCharacter(from: TradeItNumberField.invalidCharacters) == nil
+        let hasOnlyOneDecimalPoint = resultText.components(separatedBy: CharacterSet(charactersIn: ",.")).count <= 2
+
+        let components = resultText.components(separatedBy: CharacterSet(charactersIn: ",."))
+        let decimalPlaces = components.last?.lengthOfBytes(using: .utf8) ?? 0
+        let hasValidNumberOfDecimalPlaces = components.count <= 1 || decimalPlaces <= 6
+
+        return hasOnlyValidCharacters && hasOnlyOneDecimalPoint && hasValidNumberOfDecimalPlaces
     }
 }

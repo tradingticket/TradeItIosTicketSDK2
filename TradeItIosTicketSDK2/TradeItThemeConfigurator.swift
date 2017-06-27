@@ -9,17 +9,21 @@ import UIKit
         "Stepper"
     ]
 
-    static func configure(view: UIView?) {
+    static func configure(view: UIView?, groupedStyle: Bool = true) {
         guard let view = view else { return }
         view.backgroundColor = TradeItSDK.theme.backgroundColor
-        configureTheme(view: view)
+        configureTheme(view: view, groupedStyle: groupedStyle)
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
 
-    static func configureTableHeader(header: UIView?) {
+    static func configureTableHeader(header: UIView?, groupedStyle: Bool = true) {
         guard let header = header else { return }
-        header.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+        if groupedStyle {
+            header.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+        } else {
+            header.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
+        }
         configureTableHeaderTheme(view: header)
     }
 
@@ -41,14 +45,14 @@ import UIKit
         }
     }
 
-    private static func configureTheme(view: UIView) {
+    private static func configureTheme(view: UIView, groupedStyle: Bool) {
         switch view {
         case let button as UIButton: styleButton(button)
         case let input as UITextField: styleTextField(input)
         case let input as UISwitch: styleSwitch(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel: styleLabel(label)
-        case let tableView as UITableView: styleTableView(tableView)
+        case let tableView as UITableView: styleTableView(tableView, groupedStyle: groupedStyle)
         case let cell as UITableViewCell: styleTableViewCell(cell)
         case let refreshControl as UIRefreshControl:
             refreshControl.tintColor = TradeItSDK.theme.interactivePrimaryColor
@@ -63,7 +67,7 @@ import UIKit
         }
 
         view.subviews.forEach { subview in
-            configureTheme(view: subview)
+            configureTheme(view: subview, groupedStyle: groupedStyle)
         }
     }
 
@@ -122,8 +126,8 @@ import UIKit
         input.onTintColor = TradeItSDK.theme.interactiveSecondaryColor
     }
 
-    private static func styleTableView(_ tableView: UITableView) {
-        if tableView.style == .grouped {
+    private static func styleTableView(_ tableView: UITableView, groupedStyle: Bool) {
+        if tableView.style == .grouped && groupedStyle {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
             tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
             tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 16))

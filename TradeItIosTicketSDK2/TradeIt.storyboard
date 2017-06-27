@@ -158,11 +158,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fri-XE-ZRO">
-                                <rect key="frame" x="62.5" y="447" width="250" height="40"/>
+                                <rect key="frame" x="16" y="447" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.31764706970000001" green="0.53333336109999996" blue="0.72156864399999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Amc-9l-inZ"/>
-                                    <constraint firstAttribute="width" constant="250" id="idM-Jz-Yv7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="GET STARTED">
@@ -215,11 +214,13 @@
                             <constraint firstItem="4T4-ZR-clB" firstAttribute="centerX" secondItem="DNd-LD-WeB" secondAttribute="centerX" id="1OI-sQ-eqP"/>
                             <constraint firstItem="qXc-XG-HMy" firstAttribute="centerX" secondItem="DNd-LD-WeB" secondAttribute="centerX" id="Aaj-Xz-Hcg"/>
                             <constraint firstItem="scP-dm-Rke" firstAttribute="leading" secondItem="DNd-LD-WeB" secondAttribute="leadingMargin" constant="24" id="DDK-hI-NaC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Fri-XE-ZRO" secondAttribute="trailing" id="ESI-Qu-vqC"/>
                             <constraint firstItem="Fri-XE-ZRO" firstAttribute="centerX" secondItem="DNd-LD-WeB" secondAttribute="centerX" id="JYX-y9-How"/>
                             <constraint firstItem="LEI-35-Ec2" firstAttribute="top" secondItem="scP-dm-Rke" secondAttribute="bottom" constant="30" id="PzM-69-bTQ"/>
                             <constraint firstItem="jg1-nr-Nnv" firstAttribute="centerX" secondItem="DNd-LD-WeB" secondAttribute="centerX" id="QpC-Kz-Edj"/>
                             <constraint firstItem="3eO-ZU-7Wc" firstAttribute="top" secondItem="jg1-nr-Nnv" secondAttribute="bottom" id="TIQ-fY-mHJ"/>
                             <constraint firstAttribute="trailing" secondItem="uIk-yb-TE0" secondAttribute="trailing" constant="20" id="U20-BF-h9F"/>
+                            <constraint firstItem="Fri-XE-ZRO" firstAttribute="leading" secondItem="DNd-LD-WeB" secondAttribute="leadingMargin" id="Vso-Fv-h4E"/>
                             <constraint firstItem="uIk-yb-TE0" firstAttribute="top" secondItem="yuv-6z-Xo2" secondAttribute="bottom" constant="20" id="WM2-fs-8Mg"/>
                             <constraint firstItem="Fri-XE-ZRO" firstAttribute="top" secondItem="uIk-yb-TE0" secondAttribute="bottom" constant="30" id="eBk-qZ-ihg"/>
                             <constraint firstItem="yuv-6z-Xo2" firstAttribute="leading" secondItem="DNd-LD-WeB" secondAttribute="leading" id="eEI-Im-scG"/>
@@ -290,10 +291,10 @@
             </objects>
             <point key="canvasLocation" x="1777" y="-3295"/>
         </scene>
-        <!--Select Your Broker-->
+        <!--OLD Broker Selection-->
         <scene sceneID="IXX-En-peW">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW_OLD" title="OLD Broker Selection" automaticallyAdjustsScrollViewInsets="NO" id="xYJ-xj-EpF" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tMX-1x-5GL"/>
                         <viewControllerLayoutGuide type="bottom" id="Jki-nr-TvV"/>
@@ -305,10 +306,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0rh-GM-L5c">
                                 <rect key="frame" x="0.0" y="20" width="375" height="481"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="xYJ-xj-EpF" id="uRl-P4-lel"/>
-                                    <outlet property="delegate" destination="xYJ-xj-EpF" id="1pe-HV-f91"/>
-                                </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DYh-FK-Th3">
                                 <rect key="frame" x="62.5" y="517" width="250" height="40"/>
@@ -405,14 +402,10 @@
                     <navigationItem key="navigationItem" title="Select Your Broker" id="4Bh-s8-FuX">
                         <barButtonItem key="backBarButtonItem" title="Back" id="OzK-aj-d1G"/>
                     </navigationItem>
-                    <connections>
-                        <outlet property="adContainer" destination="4NW-2j-xXj" id="ZCh-5R-U3J"/>
-                        <outlet property="brokerTable" destination="0rh-GM-L5c" id="2K5-KP-TNq"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yu-Si-uz5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1776.8" y="-2641.5292353823093"/>
+            <point key="canvasLocation" x="1100" y="-3348"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="NcV-Ai-op4">
@@ -2304,6 +2297,120 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gb7-rb-jch" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2520.8000000000002" y="-520.38980509745136"/>
+        </scene>
+        <!--Select your broker-->
+        <scene sceneID="Pjp-cE-Mgf">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_SELECT_BROKER_VIEW" title="Select your broker" automaticallyAdjustsScrollViewInsets="NO" id="2pL-XS-HVT" userLabel="Select your broker" customClass="TradeItSelectBrokerViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TOl-0R-w44"/>
+                        <viewControllerLayoutGuide type="bottom" id="9dv-Wz-eWg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="heq-Ph-rzR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="9qP-6Q-Kqa">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_CELL_ID" id="SER-91-uYb">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SER-91-uYb" id="BsG-9l-ZIZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SLm-yG-7EL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                                    <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="0.5" id="Jqo-aK-WBn"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SLm-yG-7EL" firstAttribute="top" secondItem="BsG-9l-ZIZ" secondAttribute="top" id="Ktg-wf-yjI"/>
+                                                <constraint firstAttribute="trailing" secondItem="SLm-yG-7EL" secondAttribute="trailing" id="kfc-Jb-Mea"/>
+                                                <constraint firstItem="SLm-yG-7EL" firstAttribute="leading" secondItem="BsG-9l-ZIZ" secondAttribute="leading" id="wub-Np-Jva"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_FEATURED_BROKER_CELL_ID" rowHeight="98" id="jfU-1c-BCs" customClass="TradeItYahooFeaturedBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="98"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfU-1c-BCs" id="fQs-DD-ayY">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jFx-M0-Top">
+                                                    <rect key="frame" x="15" y="8" width="345" height="82"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Co-j7-iXk">
+                                                            <rect key="frame" x="20" y="16" width="305" height="50"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="9Co-j7-iXk" firstAttribute="top" secondItem="jFx-M0-Top" secondAttribute="top" constant="16" id="T2R-8u-szU"/>
+                                                        <constraint firstAttribute="trailing" secondItem="9Co-j7-iXk" secondAttribute="trailing" constant="20" id="nWn-hi-GO0"/>
+                                                        <constraint firstItem="9Co-j7-iXk" firstAttribute="leading" secondItem="jFx-M0-Top" secondAttribute="leading" constant="20" id="wi4-bN-vdr"/>
+                                                        <constraint firstAttribute="bottom" secondItem="9Co-j7-iXk" secondAttribute="bottom" constant="16" id="wr2-7x-RMa"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="jFx-M0-Top" secondAttribute="bottom" constant="8" id="A72-pF-vxQ"/>
+                                                <constraint firstItem="jFx-M0-Top" firstAttribute="top" secondItem="fQs-DD-ayY" secondAttribute="top" constant="8" id="ASt-U8-4x6"/>
+                                                <constraint firstItem="jFx-M0-Top" firstAttribute="leading" secondItem="fQs-DD-ayY" secondAttribute="leadingMargin" constant="7" id="OhL-bF-bf0"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jFx-M0-Top" secondAttribute="trailing" constant="7" id="bgR-D4-2Vf"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="brokerLogoImageView" destination="9Co-j7-iXk" id="G7U-jj-1pR"/>
+                                            <outlet property="imageContainerView" destination="jFx-M0-Top" id="pbr-So-Sxz"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_HEADER_CELL_ID" textLabel="9qM-5k-X4w" style="IBUITableViewCellStyleDefault" id="KOj-fH-n98">
+                                        <rect key="frame" x="0.0" y="197.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KOj-fH-n98" id="Siy-9x-gJJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SPONSORED BROKERS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9qM-5k-X4w">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="2pL-XS-HVT" id="QdL-DJ-UKs"/>
+                                    <outlet property="delegate" destination="2pL-XS-HVT" id="YJV-T7-Nqw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9qP-6Q-Kqa" secondAttribute="trailing" id="hSU-dc-YRm"/>
+                            <constraint firstItem="9qP-6Q-Kqa" firstAttribute="leading" secondItem="heq-Ph-rzR" secondAttribute="leading" id="mce-9h-8HO"/>
+                            <constraint firstItem="9dv-Wz-eWg" firstAttribute="top" secondItem="9qP-6Q-Kqa" secondAttribute="bottom" id="wDe-Fo-O5y"/>
+                            <constraint firstItem="9qP-6Q-Kqa" firstAttribute="top" secondItem="TOl-0R-w44" secondAttribute="bottom" id="wZT-ZJ-b9U"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="brokerTable" destination="9qP-6Q-Kqa" id="aeq-0q-qDJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vbh-N1-MVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1777" y="-2641"/>
         </scene>
     </scenes>
     <resources>

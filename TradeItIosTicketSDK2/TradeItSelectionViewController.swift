@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItSelectionViewController: UIViewController {
+class TradeItSelectionViewController: TradeItViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var adContainer: UIView!
 
@@ -33,5 +33,7 @@ class TradeItSelectionViewController: UIViewController {
             selections: self.selections,
             initialSelection: self.initialSelection
         )
+
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.backBarButtonItem)
     }
 }

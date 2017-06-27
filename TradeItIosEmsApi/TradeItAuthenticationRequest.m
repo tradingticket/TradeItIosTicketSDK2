@@ -17,6 +17,7 @@
         self.userId = userId;
         self.apiKey = apiKey;
         self.advertisingId = advertisingId;
+        self.returnOrderCapabilities = true;
     }
     
     return self;

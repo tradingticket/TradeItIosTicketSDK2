@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
+#import "TradeItParseErrorResult.h"
 
 @implementation TradeItRequestResultFactory
 
@@ -48,7 +49,7 @@
             envToHostDict = [@{
                  @(TradeItEmsProductionEnv): @"https://ems.tradingticket.com/",
                  @(TradeItEmsTestEnv): @"https://ems.qa.tradingticket.com/",
-                 @(TradeItEmsLocalEnv): @"http://localhost:8080/"
+                 @(TradeItEmsLocalEnv): @"https://localhost:8443/"
             } mutableCopy];
         }
     );
@@ -91,8 +92,8 @@
 
     if (jsonModelError != nil)
     {
-        NSLog(@"Received invalid json from ems server error=%@ response=%@", jsonModelError, jsonString);
-        return [TradeItErrorResult errorWithSystemMessage:@"error parsing json response"];
+        NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", [tradeItResult class], jsonModelError, jsonString);
+        return [TradeItParseErrorResult errorWithSystemMessage:@"error parsing json response"];
     }
 
     return resultFromJson;

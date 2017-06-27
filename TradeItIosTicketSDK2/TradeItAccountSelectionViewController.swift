@@ -17,7 +17,6 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
-        self.accountsTableView.tableFooterView = UIView()
 
         TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
     }
@@ -78,7 +77,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                 )
             },
             onFailure:  { error, linkedBroker in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,
@@ -119,7 +118,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
                 )
             },
             onFailure:  { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self

@@ -1,24 +1,21 @@
-//
-//  TradeItBroker.m
-//  TradeItIosEmsApi
-//
-//  Created by Alexander Kramer on 8/9/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import "TradeItBroker.h"
 
 @implementation TradeItBroker
 
-- (id)initWithShortName:(NSString *)brokerShortName
-               longName:(NSString *)brokerLongName {
-    if( self = [super init] )
-    {
-        self.brokerShortName = brokerShortName;
-        self.brokerLongName = brokerLongName;
-    }
+- (NSString *)description {
+    return [NSString stringWithFormat: @"[TradeItBroker: shortName=%@, longName=%@, brokerInstruments=%@]",
+            self.shortName,
+            self.longName,
+            self.brokerInstruments];
+}
 
-    return self;
+// Add backwards compatible getters :(
+- (NSString *)brokerShortName {
+    return self.shortName;
+}
+
+- (NSString *)brokerLongName {
+    return self.longName;
 }
 
 @end

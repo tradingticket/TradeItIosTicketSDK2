@@ -13,6 +13,7 @@
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
+#import "TradeItParseErrorResult.h"
 #import "TradeItRequestResultFactory.h"
 #import "TradeItKeychain.h"
 
@@ -56,6 +57,14 @@
 #import "TradeItPlaceTradeOrderInfoPrice.h"
 #import "TradeItSymbolLookupCompany.h"
 #import "TradeItSymbolLookupResult.h"
+#import "TradeItFxPlaceOrderRequest.h"
+#import "TradeItFxOrderInfoInput.h"
+#import "TradeItFxOrderLeg.h"
+#import "TradeItFxPlaceOrderResult.h"
+#import "TradeItFxSymbolsRequest.h"
+#import "TradeItOrderCapabilitiesRequest.h"
+#import "TradeItFxOrderCapabilities.h"
+#import "TradeItFxOrderCapabilitiesResult.h"
 
 // Use the BalanceService to get account balance information
 #import "TradeItBalanceService.h"

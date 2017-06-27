@@ -51,7 +51,7 @@ import UIKit
     }
 }
 
-@objc public class NullAdService: NSObject, AdService {
+@objc public class DefaultAdService: NSObject, AdService {
     public func populate(adContainer: UIView, rootViewController: UIViewController, pageType: TradeItAdPageType, position: TradeItAdPosition) {
         adContainer.isHidden = true
         guard let constraint = (adContainer.constraints.filter { $0.firstAttribute == .height }.first) else { return }

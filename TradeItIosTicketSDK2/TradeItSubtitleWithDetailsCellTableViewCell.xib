@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_MARKET_DATA_CELL_ID" rowHeight="60" id="vRY-Na-xgh" customClass="TradeItSubtitleWithDetailsCellTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vRY-Na-xgh" id="9OE-CE-sLL">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3UN-7z-DAo">
+                        <rect key="frame" x="313.5" y="11" width="46.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNE-a8-2W1">
+                        <rect key="frame" x="275" y="34" width="85" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l3V-QG-Igp">
+                        <rect key="frame" x="14" y="34.5" width="47" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QjA-4f-Sk3">
+                        <rect key="frame" x="14" y="11" width="34" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="l3V-QG-Igp" firstAttribute="centerY" secondItem="eNE-a8-2W1" secondAttribute="centerY" id="ByL-hY-s58"/>
+                    <constraint firstItem="QjA-4f-Sk3" firstAttribute="top" secondItem="9OE-CE-sLL" secondAttribute="topMargin" constant="3" id="D9c-TP-2ju"/>
+                    <constraint firstItem="QjA-4f-Sk3" firstAttribute="leading" secondItem="9OE-CE-sLL" secondAttribute="leadingMargin" constant="6" id="cIp-uH-zhe"/>
+                    <constraint firstItem="3UN-7z-DAo" firstAttribute="centerY" secondItem="QjA-4f-Sk3" secondAttribute="centerY" id="czG-MS-bv4"/>
+                    <constraint firstItem="l3V-QG-Igp" firstAttribute="top" secondItem="QjA-4f-Sk3" secondAttribute="bottom" constant="2.5" id="eM7-lj-bYe"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="3UN-7z-DAo" secondAttribute="trailing" constant="7" id="opo-rq-fJH"/>
+                    <constraint firstItem="eNE-a8-2W1" firstAttribute="trailing" secondItem="3UN-7z-DAo" secondAttribute="trailing" id="rLQ-xd-0zR"/>
+                    <constraint firstItem="l3V-QG-Igp" firstAttribute="leading" secondItem="QjA-4f-Sk3" secondAttribute="leading" id="uyB-ax-4fe"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="detailsLabel" destination="3UN-7z-DAo" id="533-TX-BxB"/>
+                <outlet property="subtitleDetailsLabel" destination="eNE-a8-2W1" id="wZA-BX-s8F"/>
+                <outlet property="subtitleLabel" destination="l3V-QG-Igp" id="fjR-f3-mWt"/>
+                <outlet property="titleLabel" destination="QjA-4f-Sk3" id="j8h-hS-BIw"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

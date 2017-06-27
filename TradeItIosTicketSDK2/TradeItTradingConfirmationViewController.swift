@@ -8,8 +8,9 @@ import UIKit
     @IBOutlet weak var tradeAgainButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
 
-    var previewOrderResult: TradeItPreviewOrderResult?
-    var placeOrderResult: TradeItPlaceOrderResult?
+    var timestamp: String?
+    var confirmationMessage: String?
+    var orderNumber: String?
     var viewControllerProvider = TradeItViewControllerProvider()
     var tradingUIFlow = TradeItTradingUIFlow()
 
@@ -20,10 +21,9 @@ import UIKit
 
         self.viewPortfolioButton.isHidden = !TradeItSDK.isPortfolioEnabled
 
-        self.setConfirmationMessage()
-
-        self.timeStampLabel.text = self.placeOrderResult?.timestamp ?? ""
-        self.orderNumberLabel.text = "Order #\(self.placeOrderResult?.orderNumber ?? "")"
+        self.timeStampLabel.text = self.timestamp
+        self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"
+        self.confirmationTextLabel.text = confirmationMessage
 
         TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .confirmation, position: .bottom)
    }
@@ -38,25 +38,6 @@ import UIKit
             let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioAccountsView)
             navigationController.setViewControllers([portfolioViewController], animated: true)
         }
-    }
-
-    // MARK: Private
-    private func setConfirmationMessage() {
-        let orderDetails = self.previewOrderResult?.orderDetails
-        let orderInfo = self.placeOrderResult?.orderInfo
-
-        let actionText = orderInfo?.action ?? "[MISSING ACTION]"
-        let symbolText = orderInfo?.symbol ?? "[MISSING SYMBOL]"
-        let priceText = orderDetails?.orderPrice ?? "[MISSING PRICE]"
-        var quantityText = "[MISSING QUANTITY]"
-
-        if let quantity = orderInfo?.quantity {
-            quantityText = NumberFormatter.formatQuantity(quantity)
-        }
-
-        let confirmationMessage = "Your order to \(actionText) \(quantityText) shares of \(symbolText) at \(priceText) has been successfully transmitted to your broker"
-
-        self.confirmationTextLabel.text = confirmationMessage
     }
 }
 

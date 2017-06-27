@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '1.1.6'
+  s.version          = '1.1.7'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC
@@ -28,4 +28,5 @@ Pod::Spec.new do |s|
   s.dependency 'PromiseKit', '~> 4.0'
   s.dependency 'MBProgressHUD', '~> 1.0.0'
   s.dependency 'JSONModel', '~> 1.7.0'
+  s.dependency 'BEMCheckBox', '~> 1.4.1'
 end

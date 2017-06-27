@@ -5,18 +5,21 @@ import SafariServices
 class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
 
-//    internal weak var delegate: TradeItYahooSelectBrokerViewControllerDelegate?
-    var activityView: MBProgressHUD?
-    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
-    var brokers: [TradeItBroker] = []
-    var oAuthCallbackUrl: URL?
+    private var activityView: MBProgressHUD?
+    private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
+    private var brokers: [TradeItBroker] = []
+    private var featuredBrokers: [TradeItBroker] = []
+    internal var oAuthCallbackUrl: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         precondition(self.oAuthCallbackUrl != nil, "TradeItSDK ERROR: TradeItYahooBrokerSelectionViewController loaded without setting oAuthCallbackUrl!")
 
-        self.activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.activityView = MBProgressHUD.showAdded(
+            to: self.view,
+            animated: true
+        )
 
         self.populateBrokers()
     }
@@ -28,12 +31,15 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
 
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
-                self.brokers = availableBrokers
+                for broker in availableBrokers {
+                    broker.isFeaturedForAnyInstrument() ? self.featuredBrokers.append(broker) : self.brokers.append(broker)
+                }
+
                 self.activityView?.hide(animated: true)
                 self.brokerTable.reloadData()
             },
             onFailure: {
-                self.alertManager.showAlert(
+                self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
                     withMessage: "Could not fetch the brokers list. Please try again later.",
@@ -76,29 +82,91 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         self.launchOAuth(forBroker: selectedBroker)
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
+            return 88
+        }
+
+        return 50
+    }
+
     // MARK: UITableViewDataSource
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numSections = 0
+        if !self.featuredBrokers.isEmpty { numSections += 1 }
+        if !self.brokers.isEmpty { numSections += 1 }
+
+        return numSections
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
+        if self.featuredBrokers.isEmpty {
+            header.textLabel?.text = "AVAILABLE BROKERS"
+        } else {
+            switch section {
+            case 0:
+                header.textLabel?.text = "SPONSORED BROKERS"
+            case 1:
+                header.textLabel?.text = "MORE BROKERS"
+            default:
+                print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
+                return nil
+            }
+        }
+
+        return header
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView.init(frame: CGRect.zero)
+        view.backgroundColor = UIColor.purple
+        return view
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if !self.featuredBrokers.isEmpty && section == 0 {
+            return self.featuredBrokers.count
+        }
+
         return self.brokers.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let broker = self.brokers[indexPath.row]
+        var broker: TradeItBroker?
+
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
+            broker = self.featuredBrokers[safe: indexPath.row]
+
+            if let broker = broker, let brokerShortName = broker.brokerShortName {
+                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
+                    forBroker: brokerShortName
+                ) {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+                        cell.brokerLogoImageView.image = brokerLogoImage
+                        return cell
+                    }
+                } else {
+                    print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
+                }
+            }
+        } else {
+            broker = self.brokers[safe: indexPath.row]
+        }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
-        cell.textLabel?.text = broker.brokerLongName
+        cell.textLabel?.text = broker?.brokerLongName
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
 
         return cell
     }
-
-//    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
-//        super.closeButtonWasTapped(sender)
-//        self.delegate?.cancelWasTapped(fromSelectBrokerViewController: self)
-//    }
 }
-
-//protocol TradeItYahooSelectBrokerViewControllerDelegate: class {
-//    func brokerWasSelected(_ fromSelectBrokerViewController: TradeItYahooSelectBrokerViewController, broker: TradeItBroker)
-//
-//    func cancelWasTapped(fromSelectBrokerViewController selectBrokerViewController: TradeItSelectBrokerViewController)
-//}

@@ -8,6 +8,7 @@ protocol OAuthCompletionListener {
 @objc public class TradeItLauncher: NSObject {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let tradingUIFlow = TradeItTradingUIFlow()
+    let fxTradingUIFlow = TradeItFxTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
@@ -34,8 +35,9 @@ protocol OAuthCompletionListener {
             originalViewController = topMostViewController.presentingViewController
         }
 
-        // Check for the broker selection screen
-        if originalViewController?.childViewControllers.first is TradeItSelectBrokerViewController {
+        // Check for the Broker Selection or Welcome screen
+        if originalViewController?.childViewControllers.first is TradeItSelectBrokerViewController
+            || originalViewController?.childViewControllers.first is TradeItWelcomeViewController {
             originalViewController = originalViewController?.presentingViewController
         }
 
@@ -137,8 +139,10 @@ protocol OAuthCompletionListener {
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
-            if var urlComponents = URLComponents(url: oAuthCallbackUrl,
-                                                 resolvingAgainstBaseURL: false) {
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+            ) {
                 urlComponents.addOrUpdateQueryStringValue(
                     forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
                     value: OAuthCallbackDestinationValues.trading.rawValue)
@@ -173,6 +177,46 @@ protocol OAuthCompletionListener {
         }
     }
 
+    public func launchFxTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItFxOrder = TradeItFxOrder()
+    ) {
+        // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
+        if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
+            var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
+
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+                ) {
+                urlComponents.addOrUpdateQueryStringValue(
+                    forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
+                    value: OAuthCallbackDestinationValues.fxTrading.rawValue)
+
+                urlComponents.addOrUpdateQueryStringValue(
+                    forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue,
+                    value: order.symbol)
+
+                oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
+            }
+
+            self.linkBrokerUIFlow.presentLinkBrokerFlow(
+                fromViewController: viewController,
+                showWelcomeScreen: true,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
+        } else {
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                },
+                onFailure: {
+                    print("TouchId access denied")
+                }
+            )
+        }
+    }
+
     public func launchAccountManagement(fromViewController viewController: UIViewController) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
@@ -188,6 +232,17 @@ protocol OAuthCompletionListener {
 
     public func launchBrokerLinking(fromViewController viewController: UIViewController) {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
+
+        self.launchBrokerLinking(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen
+        )
+    }
+
+    public func launchBrokerLinking(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool=false
+    ) {
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
         self.linkBrokerUIFlow.presentLinkBrokerFlow(

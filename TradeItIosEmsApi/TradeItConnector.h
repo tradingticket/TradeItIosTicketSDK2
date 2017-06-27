@@ -50,6 +50,9 @@
  */
 - (void)getAvailableBrokersWithCompletionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock;
 
+- (void)getAvailableBrokersWithUserCountryCode:(NSString * _Nullable)userCountryCode
+                               completionBlock:(void (^ _Nullable)(NSArray<TradeItBroker *> * _Nullable))completionBlock;
+
 /**
  *  A user oAuth token is generated given credentials for a broker. The token may be used to authenticate the user in the future without them having to re-enter their credentials.
  * **** This token should be treated and stored like a password.  *****
@@ -121,6 +124,10 @@
  */
 - (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
    withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable, NSMutableString * _Nullable))completionBlock;
+
+- (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
+        forResultClass:(Class _Nonnull)resultClass
+   withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString * _Nonnull)broker
                                 oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl

@@ -1,26 +1,18 @@
-//
-//  TradeItBrokerAccount.h
-//  TradeItIosEmsApi
-//
-//  Created by Guillaume Debavelaere on 8/12/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <JSONModel/JSONModel.h>
+#import "TradeItInstrumentOrderCapabilities.h"
 
 @protocol TradeItBrokerAccount
 @end
 
 @interface TradeItBrokerAccount :  JSONModel<NSCopying>
 
-@property (copy) NSString *accountBaseCurrency;
+@property (nonatomic) NSString *accountBaseCurrency;
+@property (nonatomic) NSString *accountNumber;
+@property (nonatomic) NSString *name;
+@property (nonatomic) BOOL tradable;
 
-@property (copy) NSString *accountNumber;
-
-@property (copy) NSString *name;
-
-@property (assign, nonatomic) BOOL tradable;
+@property (nonatomic, copy) NSArray<TradeItInstrumentOrderCapabilities> *orderCapabilities;
 
 - (id)initWithAccountBaseCurrency:(NSString *)accountBaseCurrency
                     accountNumber:(NSString *)accountNumber

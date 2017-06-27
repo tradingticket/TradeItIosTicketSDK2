@@ -1,7 +1,8 @@
 import UIKit
 import MBProgressHUD
+import BEMCheckBox
 
-class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
+class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var brokerLabel: UILabel!
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
@@ -12,7 +13,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     var placeOrderResult: TradeItPlaceOrderResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData = [PreviewCellData]()
-    //    var acknowledgementCellData: [AcknowledgementCellData] = []
+    var acknowledgementCellData: [AcknowledgementCellData] = []
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
 
@@ -34,6 +35,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
+        
+        updatePlaceOrderButtonStatus()
     }
 
     private func updateOrderDetailsTable() {
@@ -87,7 +90,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                             )
                         }
 
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showAlertWithAction(
                             error: error,
                             withLinkedBroker: linkedBroker,
                             onViewController: self
@@ -136,14 +139,14 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         let cellData = previewCellData[indexPath.row]
 
         switch cellData {
-            //        case let warningCellData as WarningCellData:
-            //            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
-            //            cell.populate(withWarning: warningCellData.warning)
-            //            return cell
-            //        case let acknowledgementCellData as AcknowledgementCellData:
-            //            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
-            //            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
-        //            return cell
+        case let warningCellData as WarningCellData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_WARNING_CELL_ID") as! TradeItYahooPreviewOrderWarningTableViewCell
+            cell.populate(withWarning: warningCellData.warning)
+            return cell
+        case let acknowledgementCellData as AcknowledgementCellData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_ACKNOWLEDGEMENT_CELL_ID") as! TradeItYahooPreviewOrderAcknowledgementTableViewCell
+            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
+        return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_CELL_ID") ?? UITableViewCell()
             cell.textLabel?.text = valueCellData.label
@@ -154,20 +157,41 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             return UITableViewCell()
         }
     }
-
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    // MARK: AcknowledgementDelegate
+    
+    func acknowledgementWasChanged() {
+        updatePlaceOrderButtonStatus()
+    }
+    
     // MARK: Private
-
+    
+    private func updatePlaceOrderButtonStatus() {
+        if allAcknowledgementsAccepted() {
+            self.actionButton.enable()
+        } else {
+            self.actionButton.disable()
+        }
+    }
+    
+    private func allAcknowledgementsAccepted() -> Bool {
+        return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
+    }
+    
     private func generatePreviewCellData() -> [PreviewCellData] {
         guard let linkedBrokerAccount = linkedBrokerAccount,
             let orderDetails = previewOrderResult?.orderDetails
             else { return [] }
 
         var cells = [PreviewCellData]()
-
-        //        cells += generateWarningCellData()
-
-        //        acknowledgementCellData = generateAcknowledgementCellData()
-        //        cells += acknowledgementCellData as [PreviewCellData]
 
         cells += [
             ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
@@ -182,24 +206,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         }
 
         cells += [
+            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
-
-        if let longHoldings = orderDetails.longHoldings {
-            cells.append(ValueCellData(label: "Shares owned", value: NumberFormatter.formatQuantity(longHoldings)))
-        }
-
-        if let shortHoldings = orderDetails.shortHoldings {
-            cells.append(ValueCellData(label: "Shares held short", value: NumberFormatter.formatQuantity(shortHoldings)))
-        }
-
-        if let buyingPower = orderDetails.buyingPower {
-            cells.append(ValueCellData(label: "Buying power", value: self.formatCurrency(buyingPower)))
-        }
+        ] as [PreviewCellData]
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: "Broker fee", value: self.formatCurrency(estimatedOrderCommission)))
@@ -209,7 +221,28 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             cells.append(ValueCellData(label: "Estimated cost", value: self.formatCurrency(estimatedTotalValue)))
         }
         
+        cells += generateWarningCellData()
+
+        acknowledgementCellData = generateAcknowledgementCellData()
+        cells += acknowledgementCellData as [PreviewCellData]
+        
         return cells
+    }
+    
+    private func generateWarningCellData() -> [PreviewCellData] {
+        guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
+        
+        return warnings.map({ warning in
+            return WarningCellData(warning: warning)
+        })
+    }
+    
+    private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
+        guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
+        
+        return acknowledgements.map({ acknowledgement in
+            return AcknowledgementCellData(acknowledgement: acknowledgement)
+        })
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {

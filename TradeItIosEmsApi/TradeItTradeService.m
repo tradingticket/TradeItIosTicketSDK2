@@ -29,16 +29,8 @@
                                                                               environment:self.session.connector.environment];
 
     [self.session.connector sendEMSRequest:request
-                       withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
-        
-        if ([result.status isEqual:@"REVIEW_ORDER"]){
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItPreviewTradeResult alloc]
-                                                           jsonString:jsonResponse];
-        }
-
-        completionBlock(resultToReturn);
-    }];
+                            forResultClass:[TradeItPreviewTradeResult class]
+                       withCompletionBlock:completionBlock];
 }
 
 - (void)placeTrade:(TradeItPlaceTradeRequest *)order withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
@@ -48,16 +40,9 @@
                                                                                emsAction:@"order/placeStockOrEtfOrder"
                                                                              environment:self.session.connector.environment];
 
-    [self.session.connector sendEMSRequest:request withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
-        TradeItResult *resultToReturn = result;
-        
-        if ([result.status isEqual:@"SUCCESS"]) {
-            resultToReturn = [TradeItRequestResultFactory buildResult:[TradeItPlaceTradeResult alloc]
-                                                           jsonString:jsonResponse];
-        }
-        
-        completionBlock(resultToReturn);
-    }];
+    [self.session.connector sendEMSRequest:request
+                            forResultClass:[TradeItPlaceTradeResult class]
+                       withCompletionBlock:completionBlock];
 }
 
 @end

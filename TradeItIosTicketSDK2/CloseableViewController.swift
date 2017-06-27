@@ -15,6 +15,10 @@ class CloseableViewController: UIViewController {
         if viewControllers.count == 1 {
             self.createCloseButton()
         }
+
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.leftBarButtonItem)
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.rightBarButtonItem)
+        TradeItThemeConfigurator.configureBarButtonItem(button: self.navigationItem.backBarButtonItem)
     }
 
     func createCloseButton() {

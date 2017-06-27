@@ -4,6 +4,7 @@ import MBProgressHUD
 class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
@@ -14,7 +15,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     private var selectionViewController: TradeItYahooSelectionViewController!
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
-    private var quotePresenter: TradeItQuotePresenter?
+    private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
+    private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
 
@@ -25,7 +27,6 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
-
         self.selectionViewController = selectionViewController
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
@@ -34,6 +35,11 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
         }
         accountSelectionViewController.delegate = self
         self.accountSelectionViewController = accountSelectionViewController
+
+        self.keyboardOffsetContraintManager = TradeItKeyboardOffsetConstraintManager(
+            bottomConstraint: self.tableViewBottomConstraint,
+            viewController: self
+        )
 
         self.setOrderDefaults()
 
@@ -125,7 +131,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                                                                   placeOrderCallback: placeOrderCallback)
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showAlertWithAction(
                             error: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
@@ -142,7 +148,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 )
             }, onFailure: { errorResult in
                 activityView.hide(animated: true)
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -182,7 +188,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -197,7 +203,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -212,7 +218,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -258,8 +264,8 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
-                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
+                    self.quote = quote
+                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
                 },
@@ -350,7 +356,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            marketCell.configure(quotePresenter: self.quotePresenter)
+            let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
+            marketCell.configure(
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
+                detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
+                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+            )
         case .estimatedCost:
             var estimateChangeText = "N/A"
 

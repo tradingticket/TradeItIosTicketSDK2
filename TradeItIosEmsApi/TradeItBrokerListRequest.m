@@ -2,18 +2,16 @@
 
 @implementation TradeItBrokerListRequest
 
-- (id)initWithApiKey:(NSString *)apiKey{
+- (id)initWithApiKey:(NSString *)apiKey
+     userCountryCode:(NSString * _Nullable)countryCode {
     self = [super init];
 
     if (self) {
         self.apiKey = apiKey;
+        self.countryCode = countryCode;
     }
 
     return self;
-}
-
-- (id) init {
-    return [self initWithApiKey:@""];
 }
 
 @end

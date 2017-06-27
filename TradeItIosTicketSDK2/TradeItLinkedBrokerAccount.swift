@@ -10,10 +10,12 @@
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
+    public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
     weak var linkedBroker: TradeItLinkedBroker?
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
+    var fxTradeService: TradeItFxTradeService
 
     private var _enabled = true
     public var isEnabled: Bool {
@@ -37,7 +39,9 @@
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
          positions: [TradeItPortfolioPosition],
-         isEnabled: Bool=true) {
+         orderCapabilities: [TradeItInstrumentOrderCapabilities] = [],
+         isEnabled: Bool=true
+    ) {
         self.linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
@@ -46,10 +50,12 @@
         self.balance = balance
         self.fxBalance = fxBalance
         self.positions = positions
+        self.orderCapabilities = orderCapabilities
         self._enabled = isEnabled
         self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
         self.tradeService = TradeItTradeService(session: linkedBroker.session)
+        self.fxTradeService = TradeItFxTradeService(session: linkedBroker.session)
     }
 
     public func getAccountOverview(cacheResult: Bool = true,
@@ -122,5 +128,11 @@
         }
 
         return "\(formattedAccountName)\(separator)\(formattedAccountNumber)"
+    }
+
+    internal func orderCapabilities(forInstrument instrument: TradeItTradeInstrumentType) -> TradeItInstrumentOrderCapabilities? {
+        return self.orderCapabilities.first { instrumentCapabilities in
+            return instrumentCapabilities.instrument == instrument.rawValue.lowercased()
+        }
     }
 }

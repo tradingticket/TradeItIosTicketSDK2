@@ -5,18 +5,31 @@ import UIKit
         "Unlink Account"
     ]
 
-    static func configure(view: UIView?) {
+    static let SQUARE_TEXT_FIELD_IDENTIFIERS = [
+        "Stepper"
+    ]
+
+    static func configure(view: UIView?, groupedStyle: Bool = true) {
         guard let view = view else { return }
         view.backgroundColor = TradeItSDK.theme.backgroundColor
-        configureTheme(view: view)
+        configureTheme(view: view, groupedStyle: groupedStyle)
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
 
-    static func configureTableHeader(header: UIView?) {
+    static func configureTableHeader(header: UIView?, groupedStyle: Bool = true) {
         guard let header = header else { return }
-        header.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+        if groupedStyle {
+            header.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+        } else {
+            header.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
+        }
         configureTableHeaderTheme(view: header)
+    }
+
+    static func configureBarButtonItem(button: UIBarButtonItem?) {
+        guard let button = button else { return }
+        button.tintColor = TradeItSDK.theme.interactivePrimaryColor
     }
 
     private static func configureTableHeaderTheme(view: UIView) {
@@ -32,14 +45,14 @@ import UIKit
         }
     }
 
-    private static func configureTheme(view: UIView) {
+    private static func configureTheme(view: UIView, groupedStyle: Bool) {
         switch view {
         case let button as UIButton: styleButton(button)
         case let input as UITextField: styleTextField(input)
         case let input as UISwitch: styleSwitch(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel: styleLabel(label)
-        case let tableView as UITableView: styleTableView(tableView)
+        case let tableView as UITableView: styleTableView(tableView, groupedStyle: groupedStyle)
         case let cell as UITableViewCell: styleTableViewCell(cell)
         case let refreshControl as UIRefreshControl:
             refreshControl.tintColor = TradeItSDK.theme.interactivePrimaryColor
@@ -54,7 +67,7 @@ import UIKit
         }
 
         view.subviews.forEach { subview in
-            configureTheme(view: subview)
+            configureTheme(view: subview, groupedStyle: groupedStyle)
         }
     }
 
@@ -84,36 +97,46 @@ import UIKit
             button.setTitleColor(UIColor.white, for: .normal)
         } else {
             button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .normal)
+            button.setTitleColor(TradeItSDK.theme.interactiveSecondaryColor, for: .selected)
             button.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
         }
     }
 
     private static func styleTextField(_ input: UITextField) {
-        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5)
-        input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
+        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
+        input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.2).cgColor
         input.layer.borderWidth = 1
-        input.layer.cornerRadius = 4
-        input.layer.masksToBounds = true
+
+        if !self.SQUARE_TEXT_FIELD_IDENTIFIERS.contains(input.accessibilityIdentifier ?? "") {
+            input.layer.cornerRadius = 4
+            input.layer.masksToBounds = true
+        }
+
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",
-            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.textColor.withAlphaComponent(0.8)]
+            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.8)]
         )
+        input.setNeedsLayout()
+        input.layoutIfNeeded()
     }
 
     private static func styleSwitch(_ input: UISwitch) {
         input.tintColor = TradeItSDK.theme.interactivePrimaryColor
-        input.onTintColor = TradeItSDK.theme.interactivePrimaryColor
+        input.onTintColor = TradeItSDK.theme.interactiveSecondaryColor
     }
 
-    private static func styleTableView(_ tableView: UITableView) {
-        if tableView.style == .grouped {
+    private static func styleTableView(_ tableView: UITableView, groupedStyle: Bool) {
+        if tableView.style == .grouped && groupedStyle {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
             tableView.backgroundColor = TradeItSDK.theme.tableHeaderBackgroundColor
+            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 16))
         } else {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
             tableView.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
+            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0))
         }
+
         tableView.separatorColor = TradeItSDK.theme.tableHeaderBackgroundColor
     }
 
@@ -126,8 +149,10 @@ import UIKit
     private static func styleLabel(_ label: UILabel) {
         if check(view: label, hasTrait: UIAccessibilityTraitButton) {
             label.textColor = TradeItSDK.theme.interactivePrimaryColor
+        } else if label.accessibilityIdentifier == "LIGHT_TEXT" {
+            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.3)
         } else if check(view: label, hasTrait: UIAccessibilityTraitHeader) {
-            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.6)
+            label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.55)
         } else {
             label.textColor = TradeItSDK.theme.textColor
         }

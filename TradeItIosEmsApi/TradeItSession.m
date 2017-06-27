@@ -82,7 +82,7 @@
     return resultToReturn;
 }
 
-- (void)keepSessionAliveWithCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+- (void)keepSessionAliveWithCompletionBlock:(void (^)(TradeItResult *)) __unused completionBlock {
     NSLog(@"Implement me!!");
 }
 

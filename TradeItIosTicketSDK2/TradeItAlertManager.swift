@@ -10,7 +10,7 @@ import UIKit
         super.init()
     }
 
-    override init() {
+    public override init() {
         super.init()
     }
 
@@ -24,7 +24,7 @@ import UIKit
         let message = messages.joined(separator: ".\n\n")
         let actionTitle = "OK"
 
-        self.showAlert(
+        self.showAlertWithMessageOnly(
             onViewController: viewController,
             withTitle: title,
             withMessage: message,
@@ -33,13 +33,13 @@ import UIKit
         )
     }
 
-    public func showRelinkError(
+    public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
     ) {
-        self.showRelinkError(
+        self.showAlertWithAction(
             error: error,
             withLinkedBroker: linkedBroker,
             onViewController: viewController,
@@ -48,7 +48,7 @@ import UIKit
     }
 
 
-    public func showRelinkError(
+    public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
@@ -70,10 +70,29 @@ import UIKit
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         }
+        
+        let onAlertRetryAuthentication: () -> Void = { () in
+            linkedBroker.authenticate(
+                onSuccess: {
+                    onFinished()
+                },
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                    self.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: viewController,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: onFinished
+                    )
+                },
+                onFailure: { (TradeItErrorResult) in
+                    onFinished()
+                }
+            )
+        }
 
         switch error.errorCode {
         case .brokerLinkError?:
-            self.showAlert(
+            self.showAlertWithMessageOnly(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "Please relink your \(linkedBroker.brokerName) account. Your credentials may have changed with your broker.",
@@ -83,12 +102,22 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         case .oauthError?:
-            self.showAlert(
+            self.showAlertWithMessageOnly(
                 onViewController: viewController,
                 withTitle: "Relink \(linkedBroker.brokerName)",
                 withMessage: "Please relink your \(linkedBroker.brokerName) account. For your security we automatically unlink accounts if they are inactive for 30 days.",
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
+                showCancelAction: true,
+                onCancelActionTapped: onFinished
+            )
+        case .sessionError?:
+            self.showAlertWithMessageOnly(
+                onViewController: viewController,
+                withTitle: "Session Expired",
+                withMessage: "Your account needs to be refreshed to complete this action.",
+                withActionTitle: "Retry",
+                onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,
                 onCancelActionTapped: onFinished
             )
@@ -124,7 +153,7 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlert(
+    public func showAlertWithMessageOnly(
         onViewController viewController: UIViewController,
         withTitle title: String,
         withMessage message: String,

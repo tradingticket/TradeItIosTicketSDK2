@@ -1,10 +1,13 @@
 import PromiseKit
 
 @objc public class TradeItLinkedBrokerManager: NSObject {
+    private var connector: TradeItConnector
+    private var sessionProvider: TradeItSessionProvider
+    private var availableBrokers: [TradeItBroker]? = nil
+    private var featuredBrokerLabelText: String?
+
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
-    var connector: TradeItConnector
-    var sessionProvider: TradeItSessionProvider
 
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
@@ -210,14 +213,24 @@ import PromiseKit
         let _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    public func getAvailableBrokers(onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
-                                       onFailure: @escaping () -> Void) {
-        self.connector.getAvailableBrokers { (availableBrokers: [TradeItBroker]?) in
-            if let availableBrokers = availableBrokers {
-                onSuccess(availableBrokers)
-            } else {
-                onFailure()
-            }
+    public func getAvailableBrokers(
+        onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+        onFailure: @escaping () -> Void
+    ) {
+        if let availableBrokers = self.availableBrokers {
+            onSuccess(availableBrokers)
+        } else {
+            self.connector.getAvailableBrokers(
+                withUserCountryCode: TradeItSDK.userCountryCode,
+                completionBlock: { (availableBrokers: [TradeItBroker]?) in
+                    if let availableBrokers = availableBrokers {
+                        self.availableBrokers = availableBrokers
+                        onSuccess(availableBrokers)
+                    } else {
+                        onFailure()
+                    }
+                }
+            )
         }
     }
 

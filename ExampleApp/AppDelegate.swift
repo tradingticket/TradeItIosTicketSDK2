@@ -4,7 +4,7 @@ import TradeItIosTicketSDK2
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    static let API_KEY = "tradeit-test-api-key" //"tradeit-fx-test-api-key"
+    static let API_KEY = "tradeit-fx-test-api-key" //"tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
 
@@ -12,8 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TradeItSDK.configure(
             apiKey: AppDelegate.API_KEY,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
-            environment: AppDelegate.ENVIRONMENT
+            environment: AppDelegate.ENVIRONMENT,
+            userCountryCode: "US"
         )
+
+        TradeItSDK.welcomeScreenHeadlineText = "This Welcome screen headline text is configurable in the SDK!"
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
         // TradeItSDK.set(host: "https://example.com:1234/myAPI/", forEnvironment: AppDelegate.ENVIRONMENT)

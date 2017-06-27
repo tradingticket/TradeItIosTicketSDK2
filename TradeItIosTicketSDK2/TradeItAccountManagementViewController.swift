@@ -49,7 +49,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.linkedBroker,
                     onViewController: self,
@@ -65,11 +65,12 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
         self.linkBrokerUIFlow.presentRelinkBrokerFlow(
             inViewController: self,
             linkedBroker: self.linkedBroker,
-            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl)
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
     }
 
     func unlink() {
-        self.alertManager.showAlert(
+        self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Unlink \(self.linkedBroker.brokerName)",
             withMessage: "Are you sure you want to unlink your account and remove all the associated data?",

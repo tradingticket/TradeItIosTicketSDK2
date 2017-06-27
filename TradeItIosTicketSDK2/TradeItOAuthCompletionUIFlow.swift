@@ -3,6 +3,7 @@ import UIKit
 class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControllerDelegate {
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     private let tradingUIFlow = TradeItTradingUIFlow()
+    private let fxTradingUIFlow = TradeItFxTradingUIFlow()
     private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
 
@@ -70,6 +71,15 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                     onNavigationController: navController,
                     asRootViewController: true,
                     withOrder: oAuthCallbackUrlParser.order ?? TradeItOrder()
+                )
+            }
+        case .fxTrading:
+            if let navController = viewController.navigationController {
+                // TODO fix this up to generate an FxOrder from params
+                self.fxTradingUIFlow.pushTradingFlow(
+                    onNavigationController: navController,
+                    asRootViewController: true,
+                    withOrder: TradeItFxOrder()
                 )
             }
         case .accountSelection:

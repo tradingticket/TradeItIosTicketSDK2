@@ -1,5 +1,4 @@
 class TradeItOrderDetailsPresenter {
-
     private var orderDetails: TradeItPreviewTradeOrderDetails
 
     init(orderDetails: TradeItPreviewTradeOrderDetails) {
@@ -13,7 +12,6 @@ class TradeItOrderDetailsPresenter {
     func getOrderActionLabel() -> String {
         return self.orderDetails.orderAction.capitalized
     }
-    
 }
 
 class TradeItOrderPriceTypePresenter {

@@ -5,6 +5,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -16,7 +17,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
     private let marketDataService = TradeItSDK.marketDataService
-    private var quotePresenter: TradeItQuotePresenter?
+    private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
+    private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
 
@@ -43,13 +45,24 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         symbolSearchViewController.delegate = self
         self.symbolSearchViewController = symbolSearchViewController
 
+        self.keyboardOffsetContraintManager = TradeItKeyboardOffsetConstraintManager(
+            bottomConstraint: self.tableViewBottomConstraint,
+            viewController: self
+        )
+
         self.setOrderDefaults()
 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+        TicketRow.registerNibCells(forTableView: self.tableView)
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.populate(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -141,12 +154,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
-                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
-                                                                  withPreviewOrderResult: previewOrderResult,
-                                                                  placeOrderCallback: placeOrderCallback)
+                        self.delegate?.orderSuccessfullyPreviewed(
+                            onTradingTicketViewController: self,
+                            withPreviewOrderResult: previewOrderResult,
+                            placeOrderCallback: placeOrderCallback
+                        )
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
-                        self.alertManager.showRelinkError(
+                        self.alertManager.showAlertWithAction(
                             error: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
@@ -165,7 +180,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { errorResult in
                 activityView.hide(animated: true)
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -215,7 +230,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 )
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -230,7 +245,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -245,7 +260,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.reload(row: .account)
             },
             onFailure: { error in
-                self.alertManager.showRelinkError(
+                self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
@@ -291,8 +306,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.marketDataService.getQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.quotePresenter = TradeItQuotePresenter(quote, self.order.linkedBrokerAccount?.accountBaseCurrency)
-                    self.order.quoteLastPrice = self.quotePresenter?.getLastPriceValue()
+                    self.quote = quote
+                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedCost)
                 },
@@ -349,7 +364,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let ticketRow = self.ticketRows[rowIndex]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId) ?? UITableViewCell()
-        cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
+        cell.textLabel?.text = ticketRow.getTitle(forAction: self.order.action)
         cell.selectionStyle = .none
         
         TradeItThemeConfigurator.configure(view: cell)
@@ -391,7 +406,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            marketCell.configure(quotePresenter: self.quotePresenter)
+            let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
+            marketCell.configure(
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
+                detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
+                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+            )
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -412,6 +433,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText()
             )
+        default:
+            break
         }
         return cell
     }
@@ -441,77 +464,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
         return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
-    }
-
-    enum TicketRow {
-        case account
-        case orderAction
-        case orderType
-        case quantity
-        case expiration
-        case limitPrice
-        case stopPrice
-        case symbol
-        case marketPrice
-        case estimatedCost
-
-        private enum CellReuseId: String {
-            case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
-            case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
-            case selection = "TRADING_TICKET_SELECTION_CELL_ID"
-            case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
-            case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
-        }
-
-        var cellReuseId: String {
-            var cellReuseId: CellReuseId
-
-            switch self {
-            case .symbol:
-                cellReuseId = .selection
-            case .orderAction:
-                cellReuseId = .selection
-            case .estimatedCost:
-                cellReuseId = .readOnly
-            case .quantity, .limitPrice, .stopPrice:
-                cellReuseId = .numericInput
-            case .orderType, .expiration:
-                cellReuseId = .selection
-            case .marketPrice:
-                cellReuseId = .marketData
-            case .account:
-                cellReuseId = .selectionDetail
-            }
-
-            return cellReuseId.rawValue
-        }
-
-        func getTitle(forOrder order: TradeItOrder) -> String {
-            switch self {
-            case .symbol:
-                return "Symbol"
-            case .orderAction:
-                return "Action"
-            case .estimatedCost:
-                let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let title = "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
-                return title
-            case .quantity:
-                return "Shares"
-            case .limitPrice:
-                return "Limit"
-            case .stopPrice:
-                return "Stop"
-            case .orderType:
-                return "Order type"
-            case .expiration:
-                return "Time in force"
-            case .marketPrice:
-                return "Market price"
-            case .account:
-                return "Account"
-            }
-        }
     }
 }
 

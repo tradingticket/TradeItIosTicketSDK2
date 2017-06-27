@@ -16,7 +16,7 @@
 /**
  *  Required property as the connector is used to make the requests to the EMS servers
  */
-@property TradeItConnector * _Nullable connector;
+@property TradeItConnector * _Nonnull connector;
 
 /**
  *  Once the session has been established the session token is stored here.

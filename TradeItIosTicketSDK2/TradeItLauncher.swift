@@ -180,16 +180,40 @@ protocol OAuthCompletionListener {
         fromViewController viewController: UIViewController,
         withOrder order: TradeItFxOrder = TradeItFxOrder()
     ) {
-        // TODO: Handle no linked FX brokers
-        deviceManager.authenticateUserWithTouchId(
-            onSuccess: {
-                self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
-            },
-            onFailure: {
-                print("TouchId access denied")
-            }
-        )
+        // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
+        if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
+            var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
+            if var urlComponents = URLComponents(
+                url: oAuthCallbackUrl,
+                resolvingAgainstBaseURL: false
+                ) {
+                urlComponents.addOrUpdateQueryStringValue(
+                    forKey: OAuthCallbackQueryParamKeys.tradeItDestination.rawValue,
+                    value: OAuthCallbackDestinationValues.fxTrading.rawValue)
+
+                urlComponents.addOrUpdateQueryStringValue(
+                    forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue,
+                    value: order.symbol)
+
+                oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
+            }
+
+            self.linkBrokerUIFlow.presentLinkBrokerFlow(
+                fromViewController: viewController,
+                showWelcomeScreen: true,
+                oAuthCallbackUrl: oAuthCallbackUrl
+            )
+        } else {
+            deviceManager.authenticateUserWithTouchId(
+                onSuccess: {
+                    self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                },
+                onFailure: {
+                    print("TouchId access denied")
+                }
+            )
+        }
     }
 
     public func launchAccountManagement(fromViewController viewController: UIViewController) {

@@ -36,7 +36,6 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
         var initialStoryboardId: TradeItStoryboardID!
 
         self.initializeLinkedAccount(forOrder: order)
-        // TODO: Initialize order.symbol
 
         if (order.linkedBrokerAccount == nil) {
             initialStoryboardId = TradeItStoryboardID.accountSelectionView

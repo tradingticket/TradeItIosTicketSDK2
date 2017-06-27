@@ -28,8 +28,6 @@ class YahooAction: Action {
     }
 }
 
-
-
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 

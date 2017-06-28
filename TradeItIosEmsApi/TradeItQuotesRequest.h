@@ -15,7 +15,6 @@
 @property (copy) NSString * _Nullable symbols;
 @property (copy) NSString * _Nullable apiKey;
 @property (copy) NSString * _Nullable suffixMarket;
-@property BOOL isFxMarket;
 
 - (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol;
 - (id _Nonnull)initWithFxSymbol:(NSString * _Nonnull) symbol andBroker: (NSString * _Nonnull) broker;

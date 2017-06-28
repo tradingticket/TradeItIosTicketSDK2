@@ -4,13 +4,6 @@
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     )
-
-    @objc optional func getFxQuote(
-        symbol: String,
-        broker: String,
-        onSuccess: @escaping (TradeItQuote) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    )
 }
 
 @objc public class TradeItSymbolService: NSObject {
@@ -77,17 +70,6 @@
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         let quotesRequest = TradeItQuotesRequest(symbol: symbol)
-
-        self.getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
-    }
-
-    public func getFxQuote(
-        symbol: String,
-        broker: String,
-        onSuccess: @escaping (TradeItQuote) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    ) {
-        let quotesRequest = TradeItQuotesRequest(fxSymbol: symbol, andBroker: broker)
 
         self.getQuote(quoteRequest: quotesRequest, onSuccess: onSuccess, onFailure: onFailure)
     }

@@ -26,9 +26,7 @@
     request.apiKey = self.connector.apiKey;
 
     NSString *endpoint;
-    if (request.isFxMarket) {
-        endpoint = @"brokermarketdata/getFxRate";
-    } else if (request.suffixMarket) {
+    if (request.suffixMarket) {
         endpoint = @"marketdata/getYahooQuotes";
     } else if (request.symbol) {
         endpoint = @"marketdata/getQuote";

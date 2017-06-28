@@ -166,6 +166,33 @@ import PromiseKit
         )
     }
 
+    public func getFxQuote(
+        symbol: String,
+        onSuccess: @escaping (TradeItQuote) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        let data = TradeItFxQuoteRequest()
+        data.symbol = symbol
+        data.token = self.session.token
+
+        let request = TradeItRequestResultFactory.buildJsonRequest(
+            for: data,
+            emsAction: "brokermarketdata/getFxRate",
+            environment: self.session.connector.environment
+        )
+
+        self.session.connector.sendEMSRequest(request, forResultClass: TradeItQuotesResult.self, withCompletionBlock: { result in
+            if let quotesResult = result as? TradeItQuotesResult,
+                let quote = quotesResult.quotes?.first as? TradeItQuote {
+                onSuccess(quote)
+            } else if let errorResult = result as? TradeItErrorResult {
+                onFailure(errorResult)
+            } else {
+                onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching the quote failed. Please try again later."))
+            }
+        })
+    }
+
     // MARK: Private
 
     private func updateLinkedBrokerAccounts(fromBrokerAccounts accounts: [TradeItBrokerAccount]) {

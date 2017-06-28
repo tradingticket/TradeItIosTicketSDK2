@@ -16,7 +16,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private let viewProvider = TradeItViewControllerProvider()
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
-    private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
     private var orderCapabilities: TradeItFxOrderCapabilities?
@@ -321,12 +320,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
     private func updateMarketData() {
         self.order.rate = nil
-        if let symbol = self.order.symbol, let broker = self.order.linkedBrokerAccount?.brokerName {
-            self.marketDataService.getFxQuote?(
+        if let symbol = self.order.symbol, let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker {
+            linkedBroker.getFxQuote(
                 symbol: symbol,
-                broker: broker,
                 onSuccess: { quote in
-                    self.marketDataLabel.text = "Market data provided by \(broker)."
+                    self.marketDataLabel.text = "Market data provided by \(linkedBroker.brokerName)."
                     self.quote = quote
                     self.order.symbol = quote.symbol
                     self.order.rate = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)

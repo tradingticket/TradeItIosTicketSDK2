@@ -26,7 +26,6 @@
 
 -(id) initWithFxSymbol:(NSString *) symbol andBroker:(NSString *)broker {
     self = [self initWithSymbol:symbol];
-    self.isFxMarket = true;
     self.broker = broker;
     return self;
 }

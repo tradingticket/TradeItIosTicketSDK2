@@ -80,8 +80,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
                 self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
-                if !self.order.requiresLimitPrice() {
-                    self.order.limitPrice = nil
+                if !self.order.requiresRate() {
+                    self.order.rate = nil
                 }
             }
         case .expiration:
@@ -319,7 +319,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func updateMarketData() {
-        self.order.bidPrice = nil
+        self.order.rate = nil
         if let symbol = self.order.symbol, let broker = self.order.linkedBrokerAccount?.brokerName {
             self.marketDataService.getFxQuote?(
                 symbol: symbol,
@@ -328,12 +328,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.marketDataLabel.text = "Market data provided by \(broker)."
                     self.quote = quote
                     self.order.symbol = quote.symbol
-                    self.order.bidPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
+                    self.order.rate = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
                     self.reload(row: .bid)
                     self.reload(row: .symbol)
+                    self.reload(row: .rate)
                 },
                 onFailure: { error in
-                    self.order.bidPrice = nil
+                    self.order.rate = nil
+                    self.reload(row: .rate)
                     self.order.symbol = nil
                     self.pushSymbolSelection()
                 }
@@ -355,7 +357,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .amount
         ]
 
-        if self.order.requiresLimitPrice() {
+        if self.order.requiresRate() {
             ticketRows.append(.rate)
         }
 
@@ -404,10 +406,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             )
         case .rate:
             (cell as? TradeItStepperInputTableViewCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
+                initialValue: self.order.rate,
+                placeholderText: "Enter rate",
                 onValueUpdated: { newValue in
-                    self.order.limitPrice = newValue
+                    self.order.rate = newValue
                     self.setPlaceOrderButtonEnablement()
               }
             )

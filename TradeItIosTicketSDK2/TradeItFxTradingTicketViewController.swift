@@ -80,8 +80,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
                 self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
-                if !self.order.requiresRate() {
-                    self.order.rate = nil
+                if self.order.requiresRate() {
+                    self.updateMarketData()
                 }
             }
         case .expiration:
@@ -191,6 +191,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.updateOrderCapabilities()
+        self.updateMarketData()
         _ = self.navigationController?.popViewController(animated: true)
     }
 
@@ -346,7 +347,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func reloadTicket() {
         self.setTitle()
         self.setPlaceOrderButtonEnablement()
-        self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
             .account,
@@ -484,6 +484,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     self.order.symbol = selection
                     _ = self.navigationController?.popViewController(animated: true)
                     self.updateOrderCapabilities()
+                    self.updateMarketData()
                 }
 
                 self.navigationController?.pushViewController(self.selectionViewController, animated: true)

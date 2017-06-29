@@ -9,6 +9,7 @@
 
 @property (nonatomic, copy) NSString * _Nonnull instrument;
 @property (nonatomic, copy) NSString<Optional> * _Nullable symbol;
+@property (nonatomic, copy) NSNumber<Optional> * _Nullable precision;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable actions;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable expirationTypes;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable priceTypes;

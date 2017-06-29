@@ -6,6 +6,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
     @IBOutlet weak var incrementButton: UIButton!
 
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
+    private var maxDecimalPlaces: Int = 4
 
     override func awakeFromNib() {
         self.textField.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
@@ -14,11 +15,14 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         self.addDoneButtonToKeyboard()
     }
 
-    func configure(initialValue: NSDecimalNumber?,
+    func configure(initialValue: String?,
                    placeholderText: String,
+                   maxDecimalPlaces: Int?,
                    onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void) {
         self.onValueUpdated = onValueUpdated
         self.textField.placeholder = placeholderText
+        self.maxDecimalPlaces = maxDecimalPlaces ?? 4
+        self.textField.maxDecimalPlaces = self.maxDecimalPlaces
 
         if let initialValue = initialValue {
             self.textField.text = "\(initialValue)"
@@ -47,7 +51,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         let numericValue = NSDecimalNumber.init(string: self.textField.text)
 
         if numericValue != NSDecimalNumber.notANumber {
-            let newValue = numericValue.adding(0.0001)
+            let newValue = numericValue.adding(stepSizeToChange(numericValue))
             self.textField.text = newValue.stringValue
             self.onValueUpdated?(numericValue)
         }
@@ -57,13 +61,18 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         let numericValue = NSDecimalNumber.init(string: self.textField.text)
 
         if numericValue != NSDecimalNumber.notANumber {
-            let newValue = numericValue.subtracting(0.0001)
+            let newValue = numericValue.subtracting(stepSizeToChange(numericValue))
             self.textField.text = newValue.stringValue
             self.onValueUpdated?(numericValue)
         }
     }
 
     // MARK: Private
+
+    private func stepSizeToChange(_ value: NSDecimalNumber) -> NSDecimalNumber {
+        let decimalPlaces16 = Int16(maxDecimalPlaces * -1)
+        return NSDecimalNumber(mantissa: 1, exponent: decimalPlaces16, isNegative: false)
+    }
 
     private func addDoneButtonToKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))

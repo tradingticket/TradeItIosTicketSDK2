@@ -10,6 +10,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         #selector(cut(_:))
     ]
 
+    var maxDecimalPlaces = 4
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.delegate = self
@@ -40,6 +42,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
+        if string == "" { return true }
+
         let currentText: NSString = textField.text as NSString? ?? ""
         let resultText = currentText.replacingCharacters(in: range, with: string)
 
@@ -49,7 +53,7 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
 
         let components = resultText.components(separatedBy: CharacterSet(charactersIn: ",."))
         let decimalPlaces = components.last?.lengthOfBytes(using: .utf8) ?? 0
-        let hasValidNumberOfDecimalPlaces = components.count <= 1 || decimalPlaces <= 6
+        let hasValidNumberOfDecimalPlaces = components.count <= 1 || decimalPlaces <= maxDecimalPlaces
 
         return hasOnlyValidCharacters && hasOnlyOneDecimalPoint && hasValidNumberOfDecimalPlaces
     }

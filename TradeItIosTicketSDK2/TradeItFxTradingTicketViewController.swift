@@ -377,6 +377,12 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         TradeItThemeConfigurator.configure(view: cell)
 
+        let quotePresenter = TradeItQuotePresenter(
+            "",
+            minimumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4,
+            maximumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4
+        )
+
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
@@ -392,9 +398,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 }
             )
         case .rate:
+            let initialValue = quotePresenter.formatCurrency(self.order.rate)
             (cell as? TradeItStepperInputTableViewCell)?.configure(
-                initialValue: self.order.rate,
+                initialValue: initialValue,
                 placeholderText: "Enter rate",
+                maxDecimalPlaces: self.orderCapabilities?.precision?.intValue,
                 onValueUpdated: { newValue in
                     self.order.rate = newValue
                     self.setPlaceOrderButtonEnablement()
@@ -402,14 +410,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             )
         case .bid:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            let quotePresenter = TradeItQuotePresenter(
-                "",
-                minimumFractionDigits: 4,
-                maximumFractionDigits: 4
-            )
             marketCell.configure(
                 subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
-                detailsLabel: quotePresenter.formatCurrency(quote?.bidPrice),
+                detailsLabel: quote?.bidPrice?.stringValue,
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )

@@ -17,6 +17,12 @@
 #import "TradeItBrokerAccount.h"
 #import "TradeItErrorResult.h"
 
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
+
 @implementation TradeItSession
 
 - (id)initWithConnector:(TradeItConnector *)connector {
@@ -29,11 +35,10 @@
 
 - (void)authenticate:(TradeItLinkedLogin *)linkedLogin withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSString *userToken = [self.connector userTokenFromKeychainId:linkedLogin.keychainId];
-    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     TradeItAuthenticationRequest *authRequest = [[TradeItAuthenticationRequest alloc] initWithUserToken:userToken
                                                                                                  userId:linkedLogin.userId
                                                                                               andApiKey:self.connector.apiKey
-                                                                                       andAdvertisingId:advertisingId];
+                                                                                       andAdvertisingId:[self getAdvertisingId]];
 
     NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:authRequest
                                                                                emsAction:@"user/authenticate"
@@ -44,6 +49,14 @@
         completionBlock([self parseAuthResponse:result
                                    jsonResponse:jsonResponse]);
     }];
+}
+
+- (NSString *)getAdvertisingId {
+    if (TradeItSDK.isAdServiceEnabled) {
+        return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    } else {
+        return nil;
+    }
 }
 
 - (void)answerSecurityQuestion:(NSString *)answer

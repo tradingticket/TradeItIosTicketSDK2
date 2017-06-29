@@ -57,6 +57,7 @@ import UIKit
 
     public static var theme: TradeItTheme = TradeItTheme.light()
     public static var isPortfolioEnabled = true
+    public static var isAdServiceEnabled = false
     public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
     public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()

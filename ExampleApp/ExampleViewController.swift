@@ -445,6 +445,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             linkedBroker: linkedBroker,
                             accountName: "Manual Account Name",
                             accountNumber: "Manual Account Number",
+                            accountIndex: "Manual Account Index",
                             accountBaseCurrency: "USD",
                             balance: nil,
                             fxBalance: nil,

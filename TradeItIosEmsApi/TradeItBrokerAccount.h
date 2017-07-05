@@ -9,6 +9,7 @@
 
 @property (nonatomic) NSString *accountBaseCurrency;
 @property (nonatomic) NSString *accountNumber;
+@property (nonatomic) NSString *accountIndex;
 @property (nonatomic) NSString *name;
 @property (nonatomic) BOOL tradable;
 

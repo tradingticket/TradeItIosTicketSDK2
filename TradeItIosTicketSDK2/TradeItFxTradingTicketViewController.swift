@@ -224,7 +224,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                         self.alertManager.showAlertWithAction(
                             error: error,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                            onViewController: self
+                            onViewController: self,
+                            onFinished: {
+                                guard let errorFields = error.errorFields as? [String] else { return }
+                                if (errorFields.contains("symbol")) {
+                                    self.order.symbol = nil
+                                    self.pushSymbolSelection()
+                                }
+                            }
                         )
                     }
                 )

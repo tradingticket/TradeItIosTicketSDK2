@@ -43,7 +43,8 @@ import UIKit
             error: error,
             withLinkedBroker: linkedBroker,
             onViewController: viewController,
-            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl,
+            onFinished: onFinished
         )
     }
 

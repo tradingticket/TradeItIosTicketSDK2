@@ -452,7 +452,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
               TradeItResult *result = [TradeItRequestResultFactory buildResult:[TradeItResult alloc] jsonString:jsonResponse];
 
               // TODO: Fix this up. Parses multiple times unnecessarily.
-              if ([result.status isEqualToString:@"SUCCESS"]) {
+              if (![result.status isEqualToString:@"ERROR"]) {
                   result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
               } else {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];

@@ -26,10 +26,9 @@
             })
         } else if let fxPosition = self.fxPosition,
             let fxSymbol = fxPosition.symbol,
-            let broker = self.linkedBrokerAccount.brokerName {
-            TradeItSDK.marketDataService.getFxQuote?(
+            let linkedBroker = self.linkedBrokerAccount.linkedBroker {
+            linkedBroker.getFxQuote(
                 symbol: fxSymbol,
-                broker: broker,
                 onSuccess: { quote in
                     self.quote = quote
                     onFinished()

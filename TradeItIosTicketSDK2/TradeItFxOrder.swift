@@ -2,11 +2,16 @@
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
     public var amount: NSDecimalNumber?
-    public var bidPrice: NSDecimalNumber?
     public var actionType: String?
-    public var priceType: String?
+    public var priceType: String? {
+        didSet {
+            if !requiresRate() {
+                rate = nil
+            }
+        }
+    }
     public var expirationType: String?
-    public var limitPrice: NSDecimalNumber?
+    public var rate: NSDecimalNumber?
     public var leverage: NSNumber?
 
     func isValid() -> Bool {
@@ -49,7 +54,7 @@
         )
     }
 
-    public func requiresLimitPrice() -> Bool {
+    public func requiresRate() -> Bool {
         return priceType?.contains("limit") == true
     }
 
@@ -65,16 +70,16 @@
     }
 
     private func validatePriceType() -> Bool {
-        if requiresLimitPrice() {
-            return validateLimit()
+        if requiresRate() {
+            return validateRate()
         } else {
             return true
         }
     }
 
-    private func validateLimit() -> Bool {
-        guard let limitPrice = limitPrice else { return false }
-        return isGreaterThanZero(limitPrice)
+    private func validateRate() -> Bool {
+        guard let rate = rate else { return false }
+        return isGreaterThanZero(rate)
     }
 
     private func isGreaterThanZero(_ value: NSDecimalNumber) -> Bool {
@@ -99,7 +104,7 @@ class TradeItFxPlaceOrderPresenter {
         orderLeg.action = order.actionType
         orderLeg.priceType = order.priceType
         orderLeg.amount = amount()
-        orderLeg.rate = order.limitPrice
+        orderLeg.rate = order.rate
         orderLeg.leverage = order.leverage
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()

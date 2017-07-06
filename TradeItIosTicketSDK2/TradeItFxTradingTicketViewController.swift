@@ -16,7 +16,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private let viewProvider = TradeItViewControllerProvider()
     private var selectionViewController: TradeItSelectionViewController!
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
-    private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
     private var orderCapabilities: TradeItFxOrderCapabilities?
@@ -80,8 +79,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
                 self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
-                if !self.order.requiresLimitPrice() {
-                    self.order.limitPrice = nil
+                if self.order.requiresRate() {
+                    self.updateMarketData()
                 }
             }
         case .expiration:
@@ -191,17 +190,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.updateOrderCapabilities()
+        self.updateMarketData()
         _ = self.navigationController?.popViewController(animated: true)
-    }
-
-    // MARK: TradeItSymbolSearchViewControllerDelegate
-
-    func symbolSearchViewController(
-        _ symbolSearchViewController: TradeItSymbolSearchViewController,
-        didSelectSymbol selectedSymbol: String
-    ) {
-        self.order.symbol = selectedSymbol
-        _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private
@@ -224,6 +214,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                         self.orderCapabilities = orderCapabilities
 
                         self.setOrderDefaults()
+                        self.setSymbol(orderCapabilities.symbol)
+                        self.updateMarketData()
 
                         self.reloadTicket()
                     },
@@ -232,7 +224,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                         self.alertManager.showAlertWithAction(
                             error: error,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                            onViewController: self
+                            onViewController: self,
+                            onFinished: {
+                                guard let errorFields = error.errorFields as? [String] else { return }
+                                if (errorFields.contains("symbol")) {
+                                    self.order.symbol = nil
+                                    self.pushSymbolSelection()
+                                }
+                            }
                         )
                     }
                 )
@@ -319,23 +318,21 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func updateMarketData() {
-        self.order.bidPrice = nil
-        if let symbol = self.order.symbol, let broker = self.order.linkedBrokerAccount?.brokerName {
-            self.marketDataService.getFxQuote?(
+        self.order.rate = nil
+        self.reload(row: .rate)
+        if let symbol = self.order.symbol, let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker {
+            linkedBroker.getFxQuote(
                 symbol: symbol,
-                broker: broker,
                 onSuccess: { quote in
-                    self.marketDataLabel.text = "Market data provided by \(broker)."
+                    self.marketDataLabel.text = "Market data provided by \(linkedBroker.brokerName)."
                     self.quote = quote
-                    self.order.symbol = quote.symbol
-                    self.order.bidPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
+                    self.order.rate = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
                     self.reload(row: .bid)
-                    self.reload(row: .symbol)
+                    self.reload(row: .rate)
                 },
                 onFailure: { error in
-                    self.order.bidPrice = nil
-                    self.order.symbol = nil
-                    self.pushSymbolSelection()
+                    self.order.rate = nil
+                    self.reload(row: .rate)
                 }
             )
         }
@@ -344,7 +341,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     private func reloadTicket() {
         self.setTitle()
         self.setPlaceOrderButtonEnablement()
-        self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
             .account,
@@ -355,7 +351,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .amount
         ]
 
-        if self.order.requiresLimitPrice() {
+        if self.order.requiresRate() {
             ticketRows.append(.rate)
         }
 
@@ -388,6 +384,12 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         TradeItThemeConfigurator.configure(view: cell)
 
+        let quotePresenter = TradeItQuotePresenter(
+            "",
+            minimumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4,
+            maximumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4
+        )
+
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
@@ -403,24 +405,21 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 }
             )
         case .rate:
+            let initialValue = quotePresenter.formatCurrency(self.order.rate)
             (cell as? TradeItStepperInputTableViewCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
+                initialValue: initialValue,
+                placeholderText: "Enter rate",
+                maxDecimalPlaces: self.orderCapabilities?.precision?.intValue,
                 onValueUpdated: { newValue in
-                    self.order.limitPrice = newValue
+                    self.order.rate = newValue
                     self.setPlaceOrderButtonEnablement()
               }
             )
         case .bid:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
-            let quotePresenter = TradeItQuotePresenter(
-                "",
-                minimumFractionDigits: 4,
-                maximumFractionDigits: 4
-            )
             marketCell.configure(
                 subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
-                detailsLabel: quotePresenter.formatCurrency(quote?.bidPrice),
+                detailsLabel: quote?.bidPrice?.stringValue,
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
@@ -466,6 +465,13 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.navigationController?.pushViewController(selectionViewController, animated: true)
     }
 
+
+    private func setSymbol(_ symbol: String?) {
+        self.order.symbol = symbol
+        self.setTitle()
+        self.reload(row: .symbol)
+    }
+
     private func pushSymbolSelection() {
         guard let broker = self.order.linkedBrokerAccount?.brokerName else { return }
 
@@ -479,9 +485,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.selectionViewController.initialSelection = self.order.symbol
                 self.selectionViewController.selections = symbols
                 self.selectionViewController.onSelected = { selection in
-                    self.order.symbol = selection
+                    self.setSymbol(selection)
                     _ = self.navigationController?.popViewController(animated: true)
                     self.updateOrderCapabilities()
+                    self.updateMarketData()
                 }
 
                 self.navigationController?.pushViewController(self.selectionViewController, animated: true)

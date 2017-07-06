@@ -2,6 +2,6 @@
 
 @interface TradeItFxOrderCapabilities : TradeItInstrumentOrderCapabilities
 
-@property (nonatomic, copy) NSArray<NSNumber *> * _Nullable leverageOptions;
+@property (nonatomic, copy) NSArray<NSNumber *><Optional> * _Nullable leverageOptions;
 
 @end

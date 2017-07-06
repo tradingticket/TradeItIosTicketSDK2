@@ -231,6 +231,9 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                                     self.order.symbol = nil
                                     self.pushSymbolSelection()
                                 }
+                                if (errorFields.contains("account")) {
+                                    self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+                                }
                             }
                         )
                     }

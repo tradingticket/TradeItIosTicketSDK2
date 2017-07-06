@@ -303,6 +303,10 @@ import PromiseKit
         }
     }
 
+    public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
+        return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
+    }
+
     // MARK: Internal
 
     @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
@@ -402,10 +406,6 @@ import PromiseKit
                 }
             }
         )
-    }
-
-    internal func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
-        return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
 
     // MARK: Private

@@ -203,6 +203,7 @@ import PromiseKit
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
+                accountIndex: account.accountIndex,
                 accountBaseCurrency: account.accountBaseCurrency,
                 balance: nil,
                 fxBalance: nil,

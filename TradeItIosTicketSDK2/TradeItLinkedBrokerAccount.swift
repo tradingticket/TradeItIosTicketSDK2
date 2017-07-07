@@ -5,6 +5,7 @@
 
     public var accountName = ""
     public var accountNumber = ""
+    public var accountIndex = ""
     public var accountBaseCurrency = ""
     public var balanceLastUpdated: Date?
     public var balance: TradeItAccountOverview?
@@ -34,6 +35,7 @@
     init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
+         accountIndex: String,
          accountBaseCurrency: String,
          balanceLastUpdated: Date? = nil,
          balance: TradeItAccountOverview?,
@@ -45,6 +47,7 @@
         self.linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
+        self.accountIndex = accountIndex
         self.accountBaseCurrency = accountBaseCurrency
         self.balanceLastUpdated = balanceLastUpdated
         self.balance = balance

@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'Apache License 2.0', :file => 'LICENSE' }
   s.author           = { 'Trading Ticket Inc.' => 'support@trade.it' }
   s.source           = { :git => 'https://github.com/tradingticket/TradeItIosTicketSDK2.git', :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/tradingticket'
+  s.social_media_url = 'https://twitter.com/tradeit'
 
   s.ios.deployment_target = '9.0'
 

@@ -226,14 +226,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self,
                             onFinished: {
-                                guard let errorFields = error.errorFields as? [String] else { return }
-                                if (errorFields.contains("symbol")) {
-                                    self.order.symbol = nil
-                                    self.pushSymbolSelection()
-                                }
-                                if (errorFields.contains("account")) {
-                                    self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
-                                }
+                                self.handleValidationError(error)
                             }
                         )
                     }
@@ -501,10 +494,24 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self
+                    onViewController: self,
+                    onFinished: {
+                        self.handleValidationError(error)
+                    }
                 )
             }
         )
+    }
+
+    private func handleValidationError(_ error: TradeItErrorResult) {
+        guard let errorFields = error.errorFields as? [String] else { return }
+        if (errorFields.contains("symbol")) {
+            self.order.symbol = nil
+            self.pushSymbolSelection()
+        }
+        if (errorFields.contains("account")) {
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        }
     }
 }
 

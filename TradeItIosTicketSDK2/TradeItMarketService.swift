@@ -45,13 +45,15 @@
 
         // TODO: Fix this. Our connector doesn't support a way to just get back a string array from JSON.
         self.marketDataService.connector.sendEMSRequest(request, withCompletionBlock: { result, jsonResponse in
-            guard let data = jsonResponse?.data(using: String.Encoding.utf8.rawValue),
+            if let data = jsonResponse?.data(using: String.Encoding.utf8.rawValue),
                 let symbolsTemp = try? JSONSerialization.jsonObject(with: data, options: []) as? [String],
-                let symbols = symbolsTemp else {
-                onFailure(TradeItErrorResult.error(withSystemMessage: "Failed to get FX symbols"))
-                return
+                let symbols = symbolsTemp {
+                onSuccess(symbols)
+            }  else {
+                let jsonString = jsonResponse as String?
+                let errorResult = TradeItRequestResultFactory.build(TradeItErrorResult(), jsonString: jsonString) as? TradeItErrorResult
+                onFailure(errorResult ?? TradeItErrorResult.error(withSystemMessage: "Failed to fetch FX symbols"))
             }
-            onSuccess(symbols)
         })
     }
 }

@@ -16,9 +16,18 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         self.activityIndicator.hidesWhenStopped = true
         setupSearchTextField()
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrument: nil,
+            trackPageViewAsPageType: false
+        )
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField.becomeFirstResponder()

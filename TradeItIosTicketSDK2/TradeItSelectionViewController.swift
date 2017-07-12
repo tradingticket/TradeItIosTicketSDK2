@@ -21,9 +21,17 @@ class TradeItSelectionViewController: TradeItViewController {
             }
         )
 
-        if let adContainer = self.adContainer {
-            TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
-        }
+
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrument: nil,
+            trackPageViewAsPageType: false
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

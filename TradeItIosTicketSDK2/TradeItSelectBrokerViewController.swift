@@ -31,11 +31,15 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
         TradeItThemeConfigurator.configure(view: self.view, groupedStyle: false)
 
-        TradeItSDK.adService.populate(
+        TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .link,
-            position: .bottom
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrument: nil,
+            trackPageViewAsPageType: false
         )
     }
     

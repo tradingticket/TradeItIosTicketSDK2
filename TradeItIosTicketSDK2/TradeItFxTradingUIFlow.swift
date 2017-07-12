@@ -97,6 +97,11 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
             tradingConfirmationViewController.orderNumber = orderLeg?.orderNumber
             tradingConfirmationViewController.timestamp = placeOrderResult.timestamp
             tradingConfirmationViewController.confirmationMessage = placeOrderResult.confirmationMessage
+
+            // Analytics tracking only
+            tradingConfirmationViewController.broker = order.linkedBrokerAccount?.linkedBroker?.brokerName
+            tradingConfirmationViewController.symbol = order.symbol
+            tradingConfirmationViewController.instrument = TradeItTradeInstrumentType.fx.rawValue
         }
 
         fxTradingTicketViewController.navigationController?.setViewControllers([nextViewController], animated: true)

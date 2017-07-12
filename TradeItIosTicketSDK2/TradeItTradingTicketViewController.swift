@@ -57,11 +57,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.tableFooterView = UIView()
         TicketRow.registerNibCells(forTableView: self.tableView)
 
-        TradeItSDK.adService.populate(
+        TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .trading,
-            position: .bottom
+            position: .bottom,
+            broker: self.order.linkedBrokerAccount?.linkedBroker?.brokerName,
+            symbol: self.order.symbol,
+            instrument: TradeItTradeInstrumentType.equities.rawValue,
+            trackPageViewAsPageType: true
         )
     }
 

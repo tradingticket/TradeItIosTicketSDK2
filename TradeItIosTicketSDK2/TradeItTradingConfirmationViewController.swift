@@ -14,6 +14,11 @@ import UIKit
     var viewControllerProvider = TradeItViewControllerProvider()
     var tradingUIFlow = TradeItTradingUIFlow()
 
+    // Analytics tracking only
+    var broker: String?
+    var symbol: String?
+    var instrument: String?
+
     weak var delegate: TradeItTradingConfirmationViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -25,7 +30,16 @@ import UIKit
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"
         self.confirmationTextLabel.text = confirmationMessage
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .confirmation, position: .bottom)
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .confirmation,
+            position: .bottom,
+            broker: broker,
+            symbol: symbol,
+            instrument: instrument,
+            trackPageViewAsPageType: true
+        )
    }
 
     // MARK: IBActions

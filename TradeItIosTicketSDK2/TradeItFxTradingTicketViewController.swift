@@ -7,6 +7,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var marketDataLabel: UILabel!
+    @IBOutlet weak var adContainer: UIView!
 
     public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
 
@@ -50,6 +51,17 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         TicketRow.registerNibCells(forTableView: self.tableView)
 
         self.updateOrderCapabilities()
+
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom,
+            broker: self.order.linkedBrokerAccount?.linkedBroker?.brokerName,
+            symbol: self.order.symbol,
+            instrument: TradeItTradeInstrumentType.fx.rawValue,
+            trackPageViewAsPageType: true
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

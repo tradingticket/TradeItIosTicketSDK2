@@ -324,6 +324,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "manualBuildLinkedBroker",
                         action: self.manualBuildLinkedBroker
+                    ),
+                    Action(
+                        label: "manualSyncLinkedBrokers",
+                        action: self.manualSyncLinkedBrokers
                     )
                 ]
             ),
@@ -467,12 +471,11 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualBuildLinkedBroker() {
-        TradeItSDK.linkedBrokerManager.linkedBrokers = []
-
+        let userIdUserTokenBrokerToBuild = UserIdUserTokenBroker(userId: "f931499973132260a945",
+                                                                 userToken: "1SZflzTIOe8QkYKmSshUcG8Q5awG%2BeYDfqsRz1A5L8LBJO7aOQReBU2udBJ%2BvE5MmoHtGE%2FFroMx4fHD3%2BF1fHEhxeET5Xuk6m0XiRZ%2FTHcTwJ177DZ%2BWhjjxuf%2FF0%2Bj2h4ZzMVIvRUSQ3wCVlRw4w%3D%3D",
+                                                                 broker: "dummy")
         TradeItSDK.linkedBrokerManager.injectBroker(
-            userId: "e041482902073625472a",
-            userToken: "R4U3fyK4vjFAMCa9hRwm1qbfgaN669WGkwksirBgKulUcW5WJhqLEGPOhXJ6MsiV6hH3BTIDrkRQXlLCqBj1tEIIODef%2FiJJbMcJ49pKW%2FLlKTcCW2Ygzz%2BrFDIKlq38H8yMa6R%2B%2F0NHuYC6THvD4A%3D%3D",
-            broker: "dummy",
+            userIdUserTokenBroker: userIdUserTokenBrokerToBuild,
             onSuccess: { linkedBroker in
                 linkedBroker.authenticateIfNeeded(onSuccess: {
                     linkedBroker.accounts = [
@@ -503,6 +506,28 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             },
             onFailure: { errorResult in
                 print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+            }
+        )
+    }
+
+    private func manualSyncLinkedBrokers() {
+        
+        let userIdUserTokenBrokerListToSync = [
+            UserIdUserTokenBroker(userId: "8fa14999720337719675",
+                                  userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
+                                  broker: "dummy"),
+            UserIdUserTokenBroker(userId: "3741499971984583d2f1",
+                                  userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
+                                  broker: "dummyFx")
+        ]
+        TradeItSDK.linkedBrokerManager.syncLinkedBrokers(
+            userIdUserTokenBrokerList: userIdUserTokenBrokerListToSync,
+            onFailure: { errorResult in
+                print("=====> Failed to synch linked brokers manually: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+            },
+            onFinished: {
+                print("=====> MANUALLY SYNC LINKED BROKERS!")
+                TradeItSDK.linkedBrokerManager.printLinkedBrokers()
             }
         )
     }

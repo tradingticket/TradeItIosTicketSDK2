@@ -230,16 +230,12 @@ import PromiseKit
     }
 
     public func injectBroker(
-        userId: String,
-        userToken: String,
-        broker: String,
+        userIdUserTokenBroker: UserIdUserTokenBroker,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         self.saveLinkedBrokerToKeychain(
-            userId: userId,
-            userToken: userToken,
-            broker: broker,
+            userIdUserTokenBroker: userIdUserTokenBroker,
             onSuccess: onSuccess,
             onFailure: onFailure
         )
@@ -296,6 +292,31 @@ import PromiseKit
     public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
+    
+    public func syncLinkedBrokers(userIdUserTokenBrokerList: [UserIdUserTokenBroker],
+                                  onFailure: @escaping (TradeItErrorResult) -> Void,
+                                  onFinished: @escaping () -> Void) {
+        // Add missing linkedBrokers
+        let userIdsFromlinkedBrokers = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
+        let userIdUserTokenBrokersToAdd = userIdUserTokenBrokerList.filter { !userIdsFromlinkedBrokers.contains($0.userId) }
+        
+        userIdUserTokenBrokersToAdd.forEach { userIdUserTokenBroker in
+            injectBroker(userIdUserTokenBroker: userIdUserTokenBroker,
+                         onSuccess: { (linkedBroker) in
+                            TradeItSDK.linkedBrokerCache.cache(linkedBroker: linkedBroker)
+                         },
+                         onFailure: onFailure
+            )
+        }
+        
+        // Remove non existing linkedBrokers
+        let linkedBrokersToRemove = self.linkedBrokers.filter { !userIdUserTokenBrokerList.flatMap { $0.userId }.contains($0.linkedLogin.userId ?? "") }
+        linkedBrokersToRemove.forEach { linkedBrokerToRemove in
+            self.removeBroker(linkedBroker: linkedBrokerToRemove)
+        }
+        
+        onFinished()
+    }
 
     // MARK: Internal
 
@@ -314,17 +335,15 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let authResult as TradeItAuthLinkResult:
-                let userId = authResult.userId
-                let userToken = authResult.userToken
-
+                let userIdUserTokenBroker = UserIdUserTokenBroker(userId: authResult.userId,
+                                                                  userToken: authResult.userToken,
+                                                                  broker: authInfo.broker)
                 self.saveLinkedBrokerToKeychain(
-                    userId: userId,
-                    userToken: userToken,
-                    broker: authInfo.broker,
+                    userIdUserTokenBroker: userIdUserTokenBroker,
                     onSuccess: { linkedBroker in
                         linkedBroker.authenticateIfNeeded(
                             onSuccess: {
-                                self.oAuthDelegate?.didLink?(userId: userId, userToken: userToken)
+                                self.oAuthDelegate?.didLink?(userId: userIdUserTokenBroker.userId, userToken: userIdUserTokenBroker.userToken)
                                 onSuccess(linkedBroker)
                         },
                             onSecurityQuestion: onSecurityQuestion,
@@ -481,13 +500,11 @@ import PromiseKit
     }
 
     private func saveLinkedBrokerToKeychain(
-        userId: String?,
-        userToken: String?,
-        broker: String,
+        userIdUserTokenBroker: UserIdUserTokenBroker,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        let linkedLogin = self.connector.saveToKeychain(withUserId: userId, andUserToken: userToken, andBroker: broker, andLabel: broker)
+        let linkedLogin = self.connector.saveToKeychain(withUserId: userIdUserTokenBroker.userId, andUserToken: userIdUserTokenBroker.userToken, andBroker: userIdUserTokenBroker.broker, andLabel: userIdUserTokenBroker.broker)
 
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
@@ -524,6 +541,14 @@ import PromiseKit
         return availableBrokersPromise
     }
 
+    private func removeBroker(linkedBroker: TradeItLinkedBroker) {
+        self.connector.unlinkLogin(linkedBroker.linkedLogin)
+        if let index = self.linkedBrokers.index(of: linkedBroker) {
+            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            self.linkedBrokers.remove(at: index)
+        }
+    }
+
     // MARK: Debugging
 
     internal func printLinkedBrokers() {
@@ -546,6 +571,11 @@ import PromiseKit
         print("=====> ===============\n\n")
     }
 }
+
+public typealias UserId = String
+public typealias UserToken = String
+public typealias Broker = String
+public typealias UserIdUserTokenBroker = (userId: UserId, userToken: UserToken, broker: Broker)
 
 @objc public protocol TradeItOAuthDelegate {
     @objc optional func didLink(userId: String, userToken: String)

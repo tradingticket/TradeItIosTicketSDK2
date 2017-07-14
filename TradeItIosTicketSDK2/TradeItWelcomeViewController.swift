@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
+import SDWebImage
 
 class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bullets: [UIView]!
@@ -76,9 +77,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     // MARK: private methods
 
     private func launchOAuth(forBroker broker: TradeItBroker) {
-        guard let brokerShortName = broker.brokerShortName else {
-            return
-        }
+        guard let brokerShortName = broker.brokerShortName else { return }
 
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
@@ -105,9 +104,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     }
 
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
-        guard let brokerShortName = featuredBroker.brokerShortName else {
-            return
-        }
+        guard let brokerShortName = featuredBroker.brokerShortName else { return }
 
         self.featuredBroker = featuredBroker
 
@@ -115,6 +112,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             forBroker: brokerShortName
         ) {
             self.featuredBrokerImageView.image = brokerLogoImage
+        } else if getRemoteLogo(featuredBroker) {
+            print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
         } else {
             print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
         }
@@ -124,6 +123,19 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         self.featuredBrokerContainerView.isHidden = false
         self.featuredBrokerLabel.isHidden = false
         self.bulletListView.isHidden = true
+    }
+
+    private func getRemoteLogo(_ broker: TradeItBroker) -> Bool {
+        guard let logos = broker.logos as? [TradeItBrokerLogo],
+            let logoData = logos.first(where: { $0.name == "large" }),
+            let logoUrlString = logoData.url,
+            let logoUrl = URL(string: logoUrlString) else {
+                return false
+            }
+        self.featuredBrokerImageView.sd_setImage(with: logoUrl)
+        self.featuredBrokerImageView.setIndicatorStyle(.gray)
+        self.featuredBrokerImageView.setShowActivityIndicator(true)
+        return true
     }
 
     private func hideFeaturedBroker() {

@@ -16,7 +16,7 @@ import UIKit
         position: TradeItAdPosition,
         broker: String?,
         symbol: String?,
-        instrument: String?,
+        instrumentType: String?,
         trackPageViewAsPageType: Bool
     )
 }
@@ -77,7 +77,7 @@ import UIKit
             position: position,
             broker: nil,
             symbol: nil,
-            instrument: nil
+            instrumentType: nil
         )
     }
 
@@ -88,7 +88,7 @@ import UIKit
         position: TradeItAdPosition,
         broker: String?,
         symbol: String?,
-        instrument: String?,
+        instrumentType: String?,
         trackPageViewAsPageType: Bool = true
     ) {
         adContainer.isHidden = true

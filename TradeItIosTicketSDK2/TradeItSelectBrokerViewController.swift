@@ -38,7 +38,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             position: .bottom,
             broker: nil,
             symbol: nil,
-            instrument: nil,
+            instrumentType: nil,
             trackPageViewAsPageType: false
         )
     }

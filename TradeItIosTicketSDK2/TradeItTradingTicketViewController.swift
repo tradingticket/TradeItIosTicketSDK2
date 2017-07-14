@@ -64,7 +64,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             position: .bottom,
             broker: self.order.linkedBrokerAccount?.linkedBroker?.brokerName,
             symbol: self.order.symbol,
-            instrument: TradeItTradeInstrumentType.equities.rawValue,
+            instrumentType: TradeItTradeInstrumentType.equities.rawValue,
             trackPageViewAsPageType: true
         )
     }

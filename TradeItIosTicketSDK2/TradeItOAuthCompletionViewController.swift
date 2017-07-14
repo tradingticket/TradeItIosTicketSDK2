@@ -49,7 +49,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                             position: .bottom,
                             broker: linkedBroker.brokerName,
                             symbol: nil,
-                            instrument: nil,
+                            instrumentType: nil,
                             trackPageViewAsPageType: true
                         )
                         linkedBroker.refreshAccountBalances(onFinished: {

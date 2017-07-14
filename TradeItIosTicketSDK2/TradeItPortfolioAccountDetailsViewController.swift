@@ -32,7 +32,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             position: .bottom,
             broker: linkedBrokerAccount.linkedBroker?.brokerName,
             symbol: nil,
-            instrument: nil,
+            instrumentType: nil,
             trackPageViewAsPageType: true
         )
     }

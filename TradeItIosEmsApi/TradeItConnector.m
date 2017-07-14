@@ -183,6 +183,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     [self sendEMSRequest:request forResultClass:[TradeItBrokerListResult class] withCompletionBlock:^(TradeItResult *result) {
         if ([result isKindOfClass: [TradeItBrokerListResult class]]) {
             TradeItBrokerListResult *brokerListResult = (TradeItBrokerListResult *)result;
+//            NSLog(@"\n\n\n=====> brokerListResult: %@\n\n\n", brokerListResult);
             completionBlock(brokerListResult.brokerList, brokerListResult.featuredBrokerLabel);
         } else {
             NSLog(@"Could not fetch broker list; got error result: %@", result);

@@ -202,7 +202,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
                     if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
                         cell.brokerLogoImageView.image = brokerLogoImage
-                    } else if getRemoteLogo(broker, imageView: cell.brokerLogoImageView) {
+                    } else if getRemoteLogo(forBroker: broker, imageView: cell.brokerLogoImageView) {
                         print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
                     } else {
                         print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
@@ -223,7 +223,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         return cell
     }
 
-    private func getRemoteLogo(_ broker: TradeItBroker, imageView: UIImageView) -> Bool {
+    private func getRemoteLogo(forBroker broker: TradeItBroker, imageView: UIImageView) -> Bool {
         guard let logos = broker.logos as? [TradeItBrokerLogo],
             let logoData = logos.first(where: { $0.name == "small" }),
             let logoUrlString = logoData.url,

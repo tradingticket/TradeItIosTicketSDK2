@@ -112,7 +112,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             forBroker: brokerShortName
         ) {
             self.featuredBrokerImageView.image = brokerLogoImage
-        } else if getRemoteLogo(featuredBroker) {
+        } else if getRemoteLogo(forBroker: featuredBroker) {
             print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
         } else {
             print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
@@ -125,7 +125,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         self.bulletListView.isHidden = true
     }
 
-    private func getRemoteLogo(_ broker: TradeItBroker) -> Bool {
+    private func getRemoteLogo(forBroker broker: TradeItBroker) -> Bool {
         guard let logos = broker.logos as? [TradeItBrokerLogo],
             let logoData = logos.first(where: { $0.name == "large" }),
             let logoUrlString = logoData.url,

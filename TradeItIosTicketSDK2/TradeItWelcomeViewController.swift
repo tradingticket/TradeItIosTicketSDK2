@@ -104,38 +104,15 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     }
 
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
-        guard let brokerShortName = featuredBroker.brokerShortName else { return }
-
         self.featuredBroker = featuredBroker
 
-        if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-            forBroker: brokerShortName
-        ) {
-            self.featuredBrokerImageView.image = brokerLogoImage
-        } else if getRemoteLogo(forBroker: featuredBroker) {
-            print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
-        } else {
-            print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
-        }
+        TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
 
         self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
 
         self.featuredBrokerContainerView.isHidden = false
         self.featuredBrokerLabel.isHidden = false
         self.bulletListView.isHidden = true
-    }
-
-    private func getRemoteLogo(forBroker broker: TradeItBroker) -> Bool {
-        guard let logos = broker.logos as? [TradeItBrokerLogo],
-            let logoData = logos.first(where: { $0.name == "large" }),
-            let logoUrlString = logoData.url,
-            let logoUrl = URL(string: logoUrlString) else {
-                return false
-            }
-        self.featuredBrokerImageView.sd_setImage(with: logoUrl)
-        self.featuredBrokerImageView.setIndicatorStyle(.gray)
-        self.featuredBrokerImageView.setShowActivityIndicator(true)
-        return true
     }
 
     private func hideFeaturedBroker() {

@@ -197,16 +197,10 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
-            if let broker = broker, let brokerShortName = broker.brokerShortName {
+            if let broker = broker {
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
 
-                    if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
-                        cell.brokerLogoImageView.image = brokerLogoImage
-                    } else if getRemoteLogo(forBroker: broker, imageView: cell.brokerLogoImageView) {
-                        print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
-                    } else {
-                        print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
-                    }
+                    TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: cell.brokerLogoImageView, withSize: .small)
 
                     return cell
                 }
@@ -221,19 +215,5 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItThemeConfigurator.configure(view: cell)
 
         return cell
-    }
-
-    private func getRemoteLogo(forBroker broker: TradeItBroker, imageView: UIImageView) -> Bool {
-        guard let logos = broker.logos as? [TradeItBrokerLogo],
-            let logoData = logos.first(where: { $0.name == "small" }),
-            let logoUrlString = logoData.url,
-            let logoUrl = URL(string: logoUrlString) else {
-                return false
-        }
-
-        imageView.sd_setImage(with: logoUrl)
-        imageView.setIndicatorStyle(.gray)
-        imageView.setShowActivityIndicator(true)
-        return true
     }
 }

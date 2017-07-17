@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
+import SDWebImage
 
 class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -38,7 +39,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             position: .bottom,
             broker: nil,
             symbol: nil,
-            instrument: nil,
+            instrumentType: nil,
             trackPageViewAsPageType: false
         )
     }
@@ -196,16 +197,12 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
-            if let broker = broker, let brokerShortName = broker.brokerShortName {
-                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-                    forBroker: brokerShortName
-                ) {
-                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
-                        cell.brokerLogoImageView.image = brokerLogoImage
-                        return cell
-                    }
-                } else {
-                    print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
+            if let broker = broker {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+
+                    TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: cell.brokerLogoImageView, withSize: .small)
+
+                    return cell
                 }
             }
         } else {

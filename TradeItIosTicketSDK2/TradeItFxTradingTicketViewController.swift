@@ -59,7 +59,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             position: .bottom,
             broker: self.order.linkedBrokerAccount?.linkedBroker?.brokerName,
             symbol: self.order.symbol,
-            instrument: TradeItTradeInstrumentType.fx.rawValue,
+            instrumentType: TradeItTradeInstrumentType.fx.rawValue,
             trackPageViewAsPageType: true
         )
     }

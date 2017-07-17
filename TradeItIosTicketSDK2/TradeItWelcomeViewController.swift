@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
+import SDWebImage
 
 class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bullets: [UIView]!
@@ -76,9 +77,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     // MARK: private methods
 
     private func launchOAuth(forBroker broker: TradeItBroker) {
-        guard let brokerShortName = broker.brokerShortName else {
-            return
-        }
+        guard let brokerShortName = broker.brokerShortName else { return }
 
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
@@ -105,19 +104,9 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     }
 
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
-        guard let brokerShortName = featuredBroker.brokerShortName else {
-            return
-        }
-
         self.featuredBroker = featuredBroker
 
-        if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-            forBroker: brokerShortName
-        ) {
-            self.featuredBrokerImageView.image = brokerLogoImage
-        } else {
-            print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
-        }
+        TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
 
         self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
 

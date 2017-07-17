@@ -1,4 +1,5 @@
 github "Boris-Em/BEMCheckBox" "1.4.1"
-github "JSONModel/JSONModel" "1e80ecaec8314c7d367676ed0e8545c10c563612"
+github "JSONModel/JSONModel" "364f57ba9671af417b35762049d8aed482fcf075"
 github "jdg/MBProgressHUD" "1.0.0"
-github "mxcl/PromiseKit" "4.2.2"
+github "mxcl/PromiseKit" "4.3.0"
+github "rs/SDWebImage" "3.8.2"

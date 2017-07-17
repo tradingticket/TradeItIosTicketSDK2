@@ -37,7 +37,7 @@ import UIKit
             position: .bottom,
             broker: broker,
             symbol: symbol,
-            instrument: instrument,
+            instrumentType: instrument,
             trackPageViewAsPageType: true
         )
    }

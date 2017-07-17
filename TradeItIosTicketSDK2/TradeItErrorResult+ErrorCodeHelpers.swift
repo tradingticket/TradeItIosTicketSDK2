@@ -23,6 +23,17 @@ extension TradeItErrorResult: Error {
             self.code = new?.rawValue as NSNumber?
         }
     }
+    public var title: String {
+        get {
+            return self.shortMessage ?? ""
+        }
+    }
+    public var message: String {
+        get {
+            let messages = (self.longMessages as? [String]) ?? []
+            return messages.joined(separator: ".\n\n")
+        }
+    }
 
     convenience init(title: String,
                      message: String = "Unknown response sent from the server.",

@@ -19,16 +19,11 @@ import UIKit
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
     ) {
-        let title = error.shortMessage ?? ""
-        let messages = (error.longMessages as? [String]) ?? []
-        let message = messages.joined(separator: ".\n\n")
-        let actionTitle = "OK"
-
         self.showAlertWithMessageOnly(
             onViewController: viewController,
-            withTitle: title,
-            withMessage: message,
-            withActionTitle: actionTitle,
+            withTitle: error.title,
+            withMessage: error.message,
+            withActionTitle: "OK",
             onAlertActionTapped: onFinished
         )
     }
@@ -95,8 +90,8 @@ import UIKit
         case .brokerLinkError?:
             self.showAlertWithMessageOnly(
                 onViewController: viewController,
-                withTitle: "Relink \(linkedBroker.brokerName)",
-                withMessage: "Please relink your \(linkedBroker.brokerName) account. Your credentials may have changed with your broker.",
+                withTitle: error.title,
+                withMessage: error.message,
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
@@ -105,8 +100,8 @@ import UIKit
         case .oauthError?:
             self.showAlertWithMessageOnly(
                 onViewController: viewController,
-                withTitle: "Relink \(linkedBroker.brokerName)",
-                withMessage: "Please relink your \(linkedBroker.brokerName) account. For your security we automatically unlink accounts if they are inactive for 30 days.",
+                withTitle: error.title,
+                withMessage: error.message,
                 withActionTitle: "Update",
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
@@ -115,8 +110,8 @@ import UIKit
         case .sessionError?:
             self.showAlertWithMessageOnly(
                 onViewController: viewController,
-                withTitle: "Session Expired",
-                withMessage: "Your account needs to be refreshed to complete this action.",
+                withTitle: error.title,
+                withMessage: error.message,
                 withActionTitle: "Retry",
                 onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,

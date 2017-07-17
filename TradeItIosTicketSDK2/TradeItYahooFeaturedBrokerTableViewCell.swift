@@ -16,5 +16,4 @@ class TradeItYahooFeaturedBrokerTableViewCell: UITableViewCell {
         self.imageContainerView.layer.shadowOpacity = 0.1
         self.imageContainerView.layer.shadowRadius = 1
     }
-
 }

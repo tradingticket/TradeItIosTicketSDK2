@@ -3,17 +3,19 @@ import PromiseKit
 @objc public class TradeItLinkedBrokerManager: NSObject {
     private var connector: TradeItConnector
     private var sessionProvider: TradeItSessionProvider
-    private var availableBrokers: [TradeItBroker]? = nil
+    private var availableBrokersPromise: Promise<[TradeItBroker]>? = nil
     private var featuredBrokerLabelText: String?
 
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
-
+    
     public init(apiKey: String, environment: TradeitEmsEnvironments) {
         self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
         self.sessionProvider = TradeItSessionProvider()
 
         super.init()
+        
+        self.availableBrokersPromise = getAvailableBrokersPromise()
         self.loadLinkedBrokersFromKeychain()
     }
 
@@ -23,6 +25,8 @@ import PromiseKit
         self.sessionProvider = TradeItSessionProvider()
 
         super.init()
+
+        self.availableBrokersPromise = getAvailableBrokersPromise()        
         self.loadLinkedBrokersFromKeychain()
     }
 
@@ -214,29 +218,15 @@ import PromiseKit
     }
 
     public func getAvailableBrokers(
-        onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
-        onFailure: @escaping () -> Void
-    ) {
-        if let availableBrokers = self.availableBrokers {
-            onSuccess(availableBrokers)
-        } else {
-            self.connector.getAvailableBrokers(
-                withUserCountryCode: TradeItSDK.userCountryCode,
-                completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
-                    if let featuredBrokerLabelText = featuredBrokerLabelText {
-                        TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
-                    }
-
-                    if let availableBrokers = availableBrokers {
-                        self.availableBrokers = availableBrokers
-                        self.featuredBrokerLabelText = featuredBrokerLabelText
-                        onSuccess(availableBrokers)
-                    } else {
-                        onFailure()
-                    }
-                }
-            )
-        }
+                onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+                onFailure: @escaping () -> Void
+        ) {
+            getAvailableBrokersPromise().then { availableBrokers -> Void in
+                onSuccess(availableBrokers)
+            }.catch { error in
+                 self.availableBrokersPromise = nil
+                 onFailure()
+            }
     }
 
     public func injectBroker(
@@ -509,6 +499,29 @@ import PromiseKit
                 message: "Failed to save the linked login to the keychain"
             ))
         }
+    }
+    
+    private func getAvailableBrokersPromise() -> Promise<[TradeItBroker]> {
+        let availableBrokersPromise = self.availableBrokersPromise ?? Promise<[TradeItBroker]> { fulfill, reject in
+            self.connector.getAvailableBrokers(
+                withUserCountryCode: TradeItSDK.userCountryCode,
+                completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
+                    if let featuredBrokerLabelText = featuredBrokerLabelText {
+                        TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
+                    }
+                    if let availableBrokers = availableBrokers {
+                        self.featuredBrokerLabelText = featuredBrokerLabelText
+                        fulfill(availableBrokers)
+                    } else {
+                        reject(TradeItErrorResult(
+                            title: "Could not fetch brokers",
+                            message: "Could not fetch the brokers list. Please try again later.")
+                        )
+                    }
+                }
+            )
+        }
+        return availableBrokersPromise
     }
 
     // MARK: Debugging

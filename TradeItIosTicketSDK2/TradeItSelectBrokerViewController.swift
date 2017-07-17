@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
+import SDWebImage
 
 class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -197,15 +198,17 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker, let brokerShortName = broker.brokerShortName {
-                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-                    forBroker: brokerShortName
-                ) {
-                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+
+                    if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
                         cell.brokerLogoImageView.image = brokerLogoImage
-                        return cell
+                    } else if getRemoteLogo(broker, imageView: cell.brokerLogoImageView) {
+                        print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
+                    } else {
+                        print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
                     }
-                } else {
-                    print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
+
+                    return cell
                 }
             }
         } else {
@@ -218,5 +221,19 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItThemeConfigurator.configure(view: cell)
 
         return cell
+    }
+
+    private func getRemoteLogo(_ broker: TradeItBroker, imageView: UIImageView) -> Bool {
+        guard let logos = broker.logos as? [TradeItBrokerLogo],
+            let logoData = logos.first(where: { $0.name == "small" }),
+            let logoUrlString = logoData.url,
+            let logoUrl = URL(string: logoUrlString) else {
+                return false
+        }
+
+        imageView.sd_setImage(with: logoUrl)
+        imageView.setIndicatorStyle(.gray)
+        imageView.setShowActivityIndicator(true)
+        return true
     }
 }

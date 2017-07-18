@@ -46,7 +46,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         defaultSections = [
             Section(
-                label: "SDK SCREENS",
+                label: "SDK Screens",
                 actions: [
                     Action(
                         label: "Link a broker",
@@ -90,7 +90,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "THEMES",
+                label: "Themes",
                 actions: [
                     Action(
                         label: "Light theme",
@@ -119,7 +119,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "SETTINGS",
+                label: "Settings",
                 actions: [
                     Action(
                         label: "Unlink all brokers",
@@ -246,7 +246,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "THEMES",
+                label: "Themes",
                 actions: [
                     Action(
                         label: "Light theme",

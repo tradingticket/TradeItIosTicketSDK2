@@ -151,3 +151,24 @@ import UIKit
         return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
     }
 }
+
+//@objc public class DefaultRequestFactory: NSObject, RequestFactory {
+//    public func buildRequest(
+//        for url: URL,
+//        httpMethod: String,
+//        parameters: [String: String],
+//        headers: [String: String]
+//        ) -> URLRequest? {
+//        print("================> OMGOMGOMGOMGOMGOMG: \(url.absoluteString)")
+//        return URLRequest(url: URL(string: "www.google.com")!)
+//    }
+//}
+
+//@objc public protocol RequestFactory {
+//    func buildRequest(
+//        forUrl url: URL,
+//        httpMethod: String,
+//        parameters: [String: String],
+//        headers: [String: String]
+//    ) -> NSURLRequest?
+//}

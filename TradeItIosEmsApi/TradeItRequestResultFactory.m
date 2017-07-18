@@ -3,6 +3,12 @@
 #import "TradeItErrorResult.h"
 #import "TradeItParseErrorResult.h"
 
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
+
 @implementation TradeItRequestResultFactory
 
 static id<RequestFactory> _requestFactory = nil;

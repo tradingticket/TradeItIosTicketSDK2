@@ -130,9 +130,11 @@ import UIKit
         self._environment = environment
         self._oAuthCallbackUrl = oAuthCallbackUrl
         self.userCountryCode = userCountryCode
-        self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-        self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
-        self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
+
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self._linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
+        self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
+        self._symbolService = TradeItSymbolService(connector: connector)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
     }
 }

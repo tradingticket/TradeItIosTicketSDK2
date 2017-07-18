@@ -29,7 +29,7 @@
 #import "TradeItUpdateLinkRequest.h"
 #import "TradeItBroker.h"
 #import "TradeItBrokerAccount.h"
-#import "TradeItMarketDataService.h"
+#import "TradeItSymbolLookupRequest.h"
 #import "TradeItBrokerListRequest.h"
 #import "TradeItOAuthLoginPopupUrlForMobileRequest.h"
 #import "TradeItOAuthLoginPopupUrlForMobileResult.h"

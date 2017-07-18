@@ -8,11 +8,6 @@ import PromiseKit
 
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
-    
-    public convenience init(apiKey: String, environment: TradeitEmsEnvironments) {
-        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        self.init(connector: connector)
-    }
 
     init(connector: TradeItConnector) {
         self.connector = connector
@@ -205,7 +200,7 @@ import PromiseKit
 
         _ = when(resolved: promises).always(execute: onFinished)
     }
-    
+
     public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
         let promises = self.getAllAuthenticatedLinkedBrokers().map { linkedBroker in
             return Promise<Void> { fulfill, reject in

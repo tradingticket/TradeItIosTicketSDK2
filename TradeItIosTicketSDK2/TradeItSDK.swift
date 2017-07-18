@@ -59,7 +59,6 @@ import UIKit
     public static var isPortfolioEnabled = true
     public static var isAdServiceEnabled = false
     public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
-    public static var cookieService: CookieService = DefaultCookieService()
     public static var adService: AdService = DefaultAdService()
     public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
     public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
@@ -106,7 +105,6 @@ import UIKit
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
-            cookieService: nil,
             brokerLogoService: nil
         )
     }
@@ -117,7 +115,6 @@ import UIKit
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
-        cookieService: CookieService? = nil,
         requestFactory: RequestFactory? = nil,
         brokerLogoService: BrokerLogoService? = nil
     ) {
@@ -128,7 +125,6 @@ import UIKit
 
         self.configured = true
 
-        self.cookieService = cookieService ?? DefaultCookieService()
         self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
 
         self._apiKey = apiKey
@@ -143,16 +139,6 @@ import UIKit
         if let requestFactory = requestFactory {
             TradeItRequestResultFactory.requestFactory = requestFactory
         }
-    }
-}
-
-@objc public protocol CookieService {
-    func getCookies() -> [HTTPCookie]
-}
-
-@objc public class DefaultCookieService: NSObject, CookieService {
-    public func getCookies() -> [HTTPCookie] {
-        return []
     }
 }
 

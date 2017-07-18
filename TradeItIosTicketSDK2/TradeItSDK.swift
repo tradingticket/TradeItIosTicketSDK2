@@ -118,6 +118,7 @@ import UIKit
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
         cookieService: CookieService? = nil,
+        requestFactory: RequestFactory? = nil,
         brokerLogoService: BrokerLogoService? = nil
     ) {
         guard !self.configured else {
@@ -138,6 +139,10 @@ import UIKit
         self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
         self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
+
+        if let requestFactory = requestFactory {
+            TradeItRequestResultFactory.requestFactory = requestFactory
+        }
     }
 }
 

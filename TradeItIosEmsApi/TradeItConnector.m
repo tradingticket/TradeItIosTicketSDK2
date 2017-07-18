@@ -432,9 +432,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      */
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-        NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
-
         NSURLSession *session = [NSURLSession sharedSession];
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;

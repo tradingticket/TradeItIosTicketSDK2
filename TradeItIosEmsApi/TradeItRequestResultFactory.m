@@ -5,6 +5,11 @@
 
 @implementation TradeItRequestResultFactory
 
+static id<RequestFactory> _requestFactory = nil;
+
++ (id<RequestFactory> _Nullable)requestFactory { return _requestFactory; }
++ (void)setRequestFactory:(id<RequestFactory> _Nullable)requestFactory { _requestFactory = requestFactory; }
+
 + (NSURL *)getBaseUrlForEnvironment:(TradeitEmsEnvironments)env {
     TradeItEmsApiVersion version = TradeItEmsApiVersion_2;
 
@@ -69,6 +74,25 @@
 + (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)emsAction
                                       environment:(TradeitEmsEnvironments)env {
+    if (self.requestFactory != nil) {
+        NSURL *url = [NSURL URLWithString:emsAction
+                            relativeToURL:[TradeItRequestResultFactory getBaseUrlForEnvironment:env]];
+
+        NSDictionary *requestParams = [requestObject toDictionary];
+
+        NSDictionary *headers = @{
+                                  @"Accept": @"application/json",
+                                  @"Content-Type": @"application/json"
+                                  };
+
+        NSURLRequest *request = [TradeItRequestResultFactory.requestFactory buildRequestForUrl:url
+                                                                                    httpMethod:@"POST"
+                                                                                    parameters:requestParams
+                                                                                       headers:headers];
+
+        return (NSMutableURLRequest *)[request mutableCopy];
+    }
+
     NSData *requestData = [[requestObject toJSONString] dataUsingEncoding:NSUTF8StringEncoding];
 
     NSURL *url = [NSURL URLWithString:emsAction

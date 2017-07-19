@@ -218,15 +218,15 @@ import PromiseKit
     }
 
     public func getAvailableBrokers(
-                onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
-                onFailure: @escaping () -> Void
-        ) {
-            getAvailableBrokersPromise().then { availableBrokers -> Void in
-                onSuccess(availableBrokers)
-            }.catch { error in
-                 self.availableBrokersPromise = nil
-                 onFailure()
-            }
+        onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
+        onFailure: @escaping () -> Void
+    ) {
+        getAvailableBrokersPromise().then { availableBrokers -> Void in
+            onSuccess(availableBrokers)
+        }.catch { error in
+            self.availableBrokersPromise = nil
+            onFailure()
+        }
     }
 
     public func injectBroker(
@@ -406,7 +406,7 @@ import PromiseKit
         oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) {
+    ) {
         guard let brokerName = broker ?? self.getLinkedBroker(forUserId: userId)?.brokerName else {
             print("TradeItSDK ERROR: Could not determine broker name for getOAuthLoginPopupForTokenUpdateUrl()!")
             onFailure(

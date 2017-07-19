@@ -44,15 +44,15 @@ import SafariServices
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
-        guard let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .yahooBrokerSelectionView) as? TradeItYahooBrokerSelectionViewController else {
+        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
+
+        if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
+            brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
+            viewController.present(navController, animated: true, completion: nil)
+        } else {
             print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController!")
             return
         }
-
-        let navController = UINavigationController()
-        navController.setViewControllers([selectBrokerViewController], animated: true)
-
-        viewController.present(navController, animated: true, completion: nil)
     }
 
     func presentRelinkBrokerFlow(

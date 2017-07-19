@@ -7,6 +7,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var editOrderButton: UIButton!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
@@ -30,7 +31,6 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         self.statusLabel.text = "Preview order"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)
-
         self.previewCellData = self.generatePreviewCellData()
 
         orderDetailsTable.dataSource = self
@@ -122,6 +122,9 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         } else {
             self.submitOrder()
         }
+    }
+    @IBAction func editOrderButtonTapped(_ sender: Any) {
+        _ = navigationController?.popViewController(animated: true)
     }
 
     // MARK: UITableViewDelegate

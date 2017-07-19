@@ -7,10 +7,8 @@ public typealias OnOAuthCompletionSuccessHandler = ((
 ) -> Void)
 
 class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionViewControllerDelegate {
-    private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    private let tradingUIFlow = TradeItTradingUIFlow()
-    private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
-    private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
+    private let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
 
     private var onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler?
 

@@ -2,10 +2,11 @@ import UIKit
 import SafariServices
 
 @objc public class TradeItYahooLauncher: NSObject {
-    let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
-    var deviceManager = TradeItDeviceManager()
-    let tradingUIFlow = TradeItYahooTradingUIFlow()
-    let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
+    private let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private var deviceManager = TradeItDeviceManager()
+    private let tradingUIFlow = TradeItYahooTradingUIFlow()
+    private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
+    private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
 
     override internal init() {}
 
@@ -20,12 +21,34 @@ import SafariServices
         fromViewController viewController: UIViewController,
         oAuthCallbackUrl: URL
     ) {
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
-        
-        if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
-            brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
-            viewController.present(navController, animated: true)
-        }
+        self.linkBrokerUIFlow.presentLinkBrokerFlow(
+            fromViewController: viewController,
+            showWelcomeScreen: false,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
+    }
+
+    public func launchRelinking(
+        fromViewController viewController: UIViewController,
+        forLinkedBroker linkedBroker: TradeItLinkedBroker
+    ) {
+        self.launchRelinking(
+            fromViewController: viewController,
+            forLinkedBroker: linkedBroker,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
+    }
+
+    public func launchRelinking(
+        fromViewController viewController: UIViewController,
+        forLinkedBroker linkedBroker: TradeItLinkedBroker,
+        oAuthCallbackUrl: URL
+    ) {
+        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+            inViewController: viewController,
+            linkedBroker: linkedBroker,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     public func handleOAuthCallback(

@@ -158,9 +158,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "Portfolio for linked broker account",
+                        label: "Portfolio for first linked broker account",
                         action: {
-                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
                                 return print("=====> You must link a broker with an account first")
                             }
 
@@ -208,6 +208,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         label: "Link a broker",
                         action: {
                             TradeItSDK.launcher.launchBrokerLinking(fromViewController: self)
+                        }
+                    ),
+                    Action(
+                        label: "Relink first broker",
+                        action: {
+                            guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
+                                return print("=====> ExampleApp: No brokers to relink.")
+                            }
+
+                            TradeItSDK.launcher.launchRelinking(
+                                fromViewController: self,
+                                forLinkedBroker: linkedBroker
+                            )
                         }
                     ),
                     Action(
@@ -321,6 +334,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         label: "OAuth Flow",
                         action: {
                             TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self)
+                        }
+                    ),
+                    YahooAction(
+                        label: "Relink first broker",
+                        action: {
+                            guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
+                                return print("=====> ExampleApp: No brokers to relink.")
+                            }
+
+                            TradeItSDK.yahooLauncher.launchRelinking(
+                                fromViewController: self,
+                                forLinkedBroker: linkedBroker
+                            )
                         }
                     ),
                     YahooAction(

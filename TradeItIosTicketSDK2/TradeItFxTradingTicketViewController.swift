@@ -7,6 +7,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var marketDataLabel: UILabel!
+    @IBOutlet weak var adContainer: UIView!
 
     public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
 
@@ -50,6 +51,17 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         TicketRow.registerNibCells(forTableView: self.tableView)
 
         self.updateOrderCapabilities()
+
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom,
+            broker: self.order.linkedBrokerAccount?.linkedBroker?.brokerName,
+            symbol: self.order.symbol,
+            instrumentType: TradeItTradeInstrumentType.fx.rawValue,
+            trackPageViewAsPageType: true
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -226,11 +238,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self,
                             onFinished: {
-                                guard let errorFields = error.errorFields as? [String] else { return }
-                                if (errorFields.contains("symbol")) {
-                                    self.order.symbol = nil
-                                    self.pushSymbolSelection()
-                                }
+                                self.handleValidationError(error)
                             }
                         )
                     }
@@ -498,10 +506,24 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self
+                    onViewController: self,
+                    onFinished: {
+                        self.handleValidationError(error)
+                    }
                 )
             }
         )
+    }
+
+    private func handleValidationError(_ error: TradeItErrorResult) {
+        guard let errorFields = error.errorFields as? [String] else { return }
+        if (errorFields.contains("symbol")) {
+            self.order.symbol = nil
+            self.pushSymbolSelection()
+        }
+        if (errorFields.contains("account")) {
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        }
     }
 }
 

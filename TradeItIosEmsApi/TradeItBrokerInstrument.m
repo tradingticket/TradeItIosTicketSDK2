@@ -4,16 +4,16 @@
 
 - (NSString *)description {
     return [
-        NSString stringWithFormat:@"[instrument=%@, balance=%@, cancel=%@, isFeatured=%@, orderStatus=%@, positions=%@, quote=%@, trade=%@, transactions=%@]",
+        NSString stringWithFormat:@"[instrument=%@, isFeatured=%@, supportsAccountOverview=%@, supportsFxRates=%@, supportsOrderCanceling=%@, supportsOrderStatus=%@, supportsPositions=%@, supportsTrading=%@, supportsTransactionHistory=%@]",
         self.instrument,
-        self.balance ? @"true" : @"false",
-        self.cancel ? @"true" : @"false",
         self.isFeatured ? @"true" : @"false",
-        self.orderStatus ? @"true" : @"false",
-        self.positions ? @"true" : @"false",
-        self.quote ? @"true" : @"false",
-        self.trade ? @"true" : @"false",
-        self.transactions ? @"true" : @"false"
+        self.supportsAccountOverview ? @"true" : @"false",
+        self.supportsFxRates ? @"true" : @"false",
+        self.supportsOrderCanceling ? @"true" : @"false",
+        self.supportsOrderStatus ? @"true" : @"false",
+        self.supportsPositions ? @"true" : @"false",
+        self.supportsTrading ? @"true" : @"false",
+        self.supportsTransactionHistory ? @"true" : @"false"
     ];
 }
 

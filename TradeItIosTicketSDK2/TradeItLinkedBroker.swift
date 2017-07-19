@@ -38,11 +38,15 @@ import PromiseKit
         self.error = nil
     }
 
-    public func authenticate(onSuccess: @escaping () -> Void,
-                             onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-                                                            _ submitAnswer: @escaping (String) -> Void,
-                                                            _ onCancelSecurityQuestion: @escaping () -> Void) -> Void,
-                             onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+    public func authenticate(
+        onSuccess: @escaping () -> Void,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) -> Void {
         let authenticationResponseHandler = YCombinator { handler in
             { (tradeItResult: TradeItResult) in
                 switch tradeItResult {
@@ -99,7 +103,8 @@ import PromiseKit
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void) -> Void {
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) -> Void {
         guard let error = self.error else {
                 onSuccess()
                 return
@@ -114,9 +119,11 @@ import PromiseKit
         }
     }
 
-    public func refreshAccountBalances(force: Bool = true,
-                                       cacheResult: Bool = true,
-                                       onFinished: @escaping () -> Void) {
+    public func refreshAccountBalances(
+        force: Bool = true,
+        cacheResult: Bool = true,
+        onFinished: @escaping () -> Void
+    ) {
         let promises = accounts.filter { account in
             return force || (account.balance == nil && account.fxBalance == nil)
         }.map { account in
@@ -203,11 +210,12 @@ import PromiseKit
                 linkedBroker: self,
                 accountName: account.name,
                 accountNumber: account.accountNumber,
+                accountIndex: account.accountIndex,
                 accountBaseCurrency: account.accountBaseCurrency,
                 balance: nil,
                 fxBalance: nil,
                 positions: [],
-                orderCapabilities: account.orderCapabilities as! [TradeItInstrumentOrderCapabilities],
+                orderCapabilities: account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? [],
                 isEnabled: accountEnabled
             )
 

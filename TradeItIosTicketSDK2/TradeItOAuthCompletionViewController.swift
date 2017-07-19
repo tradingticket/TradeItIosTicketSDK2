@@ -42,6 +42,16 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
+                        TradeItSDK.adService.populate?(
+                            adContainer: self.adContainer,
+                            rootViewController: self,
+                            pageType: .link,
+                            position: .bottom,
+                            broker: linkedBroker.brokerName,
+                            symbol: nil,
+                            instrumentType: nil,
+                            trackPageViewAsPageType: true
+                        )
                         linkedBroker.refreshAccountBalances(onFinished: {
                             self.setSuccessState(forBroker: linkedBroker.brokerName)
                         })
@@ -83,8 +93,6 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
             }
         )
-
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .link, position: .bottom)
     }
 
     // MARK: Private

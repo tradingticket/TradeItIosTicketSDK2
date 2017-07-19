@@ -15,6 +15,9 @@ PODS:
   - PromiseKit/UIKit (4.2.2):
     - PromiseKit/CorePromise
   - Quick (0.10.0)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - BEMCheckBox (~> 1.4.1)
@@ -23,6 +26,7 @@ DEPENDENCIES:
   - Nimble (~> 5.1.1)
   - PromiseKit (~> 4.0)
   - Quick (~> 0.10.0)
+  - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
@@ -31,7 +35,8 @@ SPEC CHECKSUMS:
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   PromiseKit: 00e8886881f151c7e573d06b437915b0bb2970ec
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 8617e3cd448027a03d5b70c1f74901c37f68998a
+PODFILE CHECKSUM: d926dcd3d4ceb104d01b1c9c6cf1cb3a7502cbab
 
 COCOAPODS: 1.2.1

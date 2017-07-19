@@ -239,6 +239,19 @@ protocol OAuthCompletionListener {
         )
     }
 
+    public func launchRelinking(
+        fromViewController viewController: UIViewController,
+        forLinkedBroker linkedBroker: TradeItLinkedBroker
+    ) {
+        let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
+
+        self.linkBrokerUIFlow.presentRelinkBrokerFlow(
+            inViewController: viewController,
+            linkedBroker: linkedBroker,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
+    }
+
     public func launchBrokerLinking(
         fromViewController viewController: UIViewController,
         showWelcomeScreen: Bool=false

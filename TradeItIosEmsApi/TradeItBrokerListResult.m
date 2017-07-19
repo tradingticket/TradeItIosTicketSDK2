@@ -4,7 +4,7 @@
 
 - (NSString *)description{
     return [
-        NSString stringWithFormat:@"[TradeItBrokerListSuccessResult: %@, featuredBrokerLabel=%@, brokerList=%@]",
+        NSString stringWithFormat:@"[TradeItBrokerListResult: %@, featuredBrokerLabel=%@, brokerList=%@]",
         [super description],
         self.featuredBrokerLabel,
         self.brokerList

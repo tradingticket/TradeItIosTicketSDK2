@@ -10,6 +10,7 @@ class TradeItLinkedBrokerCache {
     private let ACCOUNTS_LAST_UPDATED_KEY = "ACCOUNTS_LAST_UPDATED"
     private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
     private let ACCOUNT_NUMBER_KEY = "ACCOUNT_NUMBER"
+    private let ACCOUNT_INDEX_KEY = "ACCOUNT_INDEX"
     private let ACCOUNT_BASE_CURRENCY_KEY = "ACCOUNT_BASE_CURRENCY"
     private let ACCOUNT_ENABLED_KEY = "ACCOUNT_ENABLED"
     private let ACCOUNTS_LINK_DELAY_ERROR_KEY = "ACCOUNTS_LINK_DELAY_ERROR"
@@ -106,7 +107,8 @@ class TradeItLinkedBrokerCache {
                 linkedBroker: linkedBroker,
                 accountName: serializedAccount[ACCOUNT_NAME_KEY] as? String  ?? "",
                 accountNumber: serializedAccount[ACCOUNT_NUMBER_KEY]  as? String ?? "",
-                accountBaseCurrency: serializedAccount[ACCOUNT_BASE_CURRENCY_KEY]  as? String ?? "USD",
+                accountIndex: serializedAccount[ACCOUNT_INDEX_KEY] as? String ?? "",
+                accountBaseCurrency: serializedAccount[ACCOUNT_BASE_CURRENCY_KEY] as? String ?? "USD",
                 balanceLastUpdated: serializedAccount[BALANCE_LAST_UPDATED_KEY] as? Date,
                 balance: nil,
                 fxBalance: nil,
@@ -139,6 +141,7 @@ class TradeItLinkedBrokerCache {
             var serializedAccount = SerializedLinkedBrokerAccount()
             serializedAccount[ACCOUNT_NAME_KEY] = account.accountName
             serializedAccount[ACCOUNT_NUMBER_KEY] = account.accountNumber
+            serializedAccount[ACCOUNT_INDEX_KEY] = account.accountIndex
             serializedAccount[ACCOUNT_BASE_CURRENCY_KEY] = account.accountBaseCurrency
             serializedAccount[ACCOUNT_ENABLED_KEY] = account.isEnabled ? ACCOUNT_ENABLED_VALUE : ACCOUNT_DISABLED_VALUE
 

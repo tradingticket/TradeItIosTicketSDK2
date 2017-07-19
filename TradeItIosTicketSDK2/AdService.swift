@@ -7,6 +7,18 @@ import UIKit
         pageType: TradeItAdPageType,
         position: TradeItAdPosition
     )
+
+    // Obj-C compatibility helper
+    @objc optional func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition,
+        broker: String?,
+        symbol: String?,
+        instrumentType: String?,
+        trackPageViewAsPageType: Bool
+    )
 }
 
 @objc public enum TradeItAdPageType: Int {
@@ -52,7 +64,33 @@ import UIKit
 }
 
 @objc public class DefaultAdService: NSObject, AdService {
-    public func populate(adContainer: UIView, rootViewController: UIViewController, pageType: TradeItAdPageType, position: TradeItAdPosition) {
+    public func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition
+    ) {
+        self.populate(
+            adContainer: adContainer,
+            rootViewController: rootViewController,
+            pageType: pageType,
+            position: position,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil
+        )
+    }
+
+    public func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition,
+        broker: String?,
+        symbol: String?,
+        instrumentType: String?,
+        trackPageViewAsPageType: Bool = true
+    ) {
         adContainer.isHidden = true
         guard let constraint = (adContainer.constraints.filter { $0.firstAttribute == .height }.first) else { return }
         constraint.constant = 0

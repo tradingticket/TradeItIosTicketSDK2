@@ -146,19 +146,3 @@ class DummyMarketDataService: MarketDataService {
         onFailure(error)
     }
 }
-
-// Only implement this protocol if you need to inject your own cookies
-class TestCookieService: NSObject, CookieService {
-    public func getCookies() -> [HTTPCookie] {
-        let cookie = HTTPCookie(
-            properties: [
-                .name: "TestCookie",
-                .value: "Test value @#$%^$&*",
-                .path: "/",
-                .domain: "ems.qa.tradingticket.com"
-            ]
-        )!
-
-        return [cookie]
-    }
-}

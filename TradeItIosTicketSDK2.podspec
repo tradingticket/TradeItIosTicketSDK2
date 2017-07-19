@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '1.1.12'
+  s.version          = '1.1.14'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'Apache License 2.0', :file => 'LICENSE' }
   s.author           = { 'Trading Ticket Inc.' => 'support@trade.it' }
   s.source           = { :git => 'https://github.com/tradingticket/TradeItIosTicketSDK2.git', :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/tradingticket'
+  s.social_media_url = 'https://twitter.com/tradeit'
 
   s.ios.deployment_target = '9.0'
 
@@ -29,4 +29,5 @@ Pod::Spec.new do |s|
   s.dependency 'MBProgressHUD', '~> 1.0.0'
   s.dependency 'JSONModel', '~> 1.7.0'
   s.dependency 'BEMCheckBox', '~> 1.4.1'
+  s.dependency 'SDWebImage', '~> 3.8.2'
 end

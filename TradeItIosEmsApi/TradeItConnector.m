@@ -183,6 +183,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     [self sendEMSRequest:request forResultClass:[TradeItBrokerListResult class] withCompletionBlock:^(TradeItResult *result) {
         if ([result isKindOfClass: [TradeItBrokerListResult class]]) {
             TradeItBrokerListResult *brokerListResult = (TradeItBrokerListResult *)result;
+//            NSLog(@"\n\n\n=====> brokerListResult: %@\n\n\n", brokerListResult);
             completionBlock(brokerListResult.brokerList, brokerListResult.featuredBrokerLabel);
         } else {
             NSLog(@"Could not fetch broker list; got error result: %@", result);
@@ -252,7 +253,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         return [[TradeItLinkedLogin alloc] initWithLabel:linkDict[@"label"]
                                                   broker:broker
                                                   userId:link.userId
-                                           andKeyChainId:keychainId];
+                                              keyChainId:keychainId];
     } else {
         // No existing link for that userId so make a new one
         TradeItAuthLinkResult *authLinkResult = [[TradeItAuthLinkResult alloc] init];
@@ -296,7 +297,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     return [[TradeItLinkedLogin alloc] initWithLabel:label
                                               broker:broker
                                               userId:userId
-                                       andKeyChainId:keychainId];
+                                          keyChainId:keychainId];
 }
 
 - (NSDictionary *)getLinkedLoginDictByuserId:(NSString *)userId {
@@ -344,7 +345,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         [accountsToReturn addObject:[[TradeItLinkedLogin alloc] initWithLabel:account[@"label"]
                                                                        broker:account[@"broker"]
                                                                        userId:account[@"userId"]
-                                                                andKeyChainId:account[@"keychainId"]]];
+                                                                   keyChainId:account[@"keychainId"]]];
     }
 
     return accountsToReturn;
@@ -431,9 +432,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      */
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-        NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
-
         NSURLSession *session = [NSURLSession sharedSession];
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;

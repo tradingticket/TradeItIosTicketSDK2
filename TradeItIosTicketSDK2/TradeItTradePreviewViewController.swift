@@ -54,7 +54,16 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         orderDetailsTable.delegate = self
         updatePlaceOrderButtonStatus()
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .trading, position: .bottom)
+        TradeItSDK.adService.populate?(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .trading,
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil,
+            trackPageViewAsPageType: false
+        )
     }
 
     @IBAction func placeOrderTapped(_ sender: UIButton) {

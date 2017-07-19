@@ -27,7 +27,12 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
 
             context("when linked brokers exist in the keychain") {
                 it("initializes linkedBrokers from the linked brokers stored in the keychain") {
-                    let storedLinkedLogin = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                    let storedLinkedLogin = TradeItLinkedLogin(
+                        label: "My linked login 1",
+                        broker: "Broker #1",
+                        userId: "userId1",
+                        keyChainId: "keychainId1"
+                    )
                     connector.tradeItLinkedLoginArrayToReturn = [storedLinkedLogin]
 
                     linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
@@ -239,9 +244,24 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 var account31: TradeItLinkedBrokerAccount!
 
                 beforeEach {
-                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
-                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
-                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    let linkedOldLogin1 = TradeItLinkedLogin(
+                        label: "My linked login 1",
+                        broker: "Broker #1",
+                        userId: "userId1",
+                        keyChainId: "keychainId1"
+                    )
+                    let linkedOldLogin2 = TradeItLinkedLogin(
+                        label: "My linked login 2",
+                        broker: "Broker #2",
+                        userId: "userId2",
+                        keyChainId: "keychainId2"
+                    )
+                    let linkedOldLogin3 = TradeItLinkedLogin(
+                        label: "My linked login 3",
+                        broker: "Broker #3",
+                        userId: "userId3",
+                        keyChainId: "keychainId3"
+                    )
 
                     let tradeItSession1 = FakeTradeItSession()
                     let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
@@ -296,9 +316,24 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 var account31: TradeItLinkedBrokerAccount!
                 
                 beforeEach {
-                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
-                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
-                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    let linkedOldLogin1 = TradeItLinkedLogin(
+                        label: "My linked login 1",
+                        broker: "Broker #1",
+                        userId: "userId1",
+                        keyChainId: "keychainId1"
+                    )
+                    let linkedOldLogin2 = TradeItLinkedLogin(
+                        label: "My linked login 2",
+                        broker: "Broker #2",
+                        userId: "userId2",
+                        keyChainId: "keychainId2"
+                    )
+                    let linkedOldLogin3 = TradeItLinkedLogin(
+                        label: "My linked login 3",
+                        broker: "Broker #3",
+                        userId: "userId3",
+                        keyChainId: "keychainId3"
+                    )
                     
                     let tradeItSession1 = FakeTradeItSession()
                     let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
@@ -355,9 +390,24 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 var account31: TradeItLinkedBrokerAccount!
                 
                 beforeEach {
-                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
-                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
-                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
+                    let linkedOldLogin1 = TradeItLinkedLogin(
+                        label: "My linked login 1",
+                        broker: "Broker #1",
+                        userId: "userId1",
+                        keyChainId: "keychainId1"
+                    )
+                    let linkedOldLogin2 = TradeItLinkedLogin(
+                        label: "My linked login 2",
+                        broker: "Broker #2",
+                        userId: "userId2",
+                        keyChainId: "keychainId2"
+                    )
+                    let linkedOldLogin3 = TradeItLinkedLogin(
+                        label: "My linked login 3",
+                        broker: "Broker #3",
+                        userId: "userId3",
+                        keyChainId: "keychainId3"
+                    )
                     
                     let tradeItSession1 = FakeTradeItSession()
                     let linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
@@ -397,10 +447,25 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 var account31: TradeItLinkedBrokerAccount!
                 var linkedOldBroker1: TradeItLinkedBroker!
                 beforeEach {
-                    let linkedOldLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
-                    let linkedOldLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
-                    let linkedOldLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId3")
-                    
+                    let linkedOldLogin1 = TradeItLinkedLogin(
+                        label: "My linked login 1",
+                        broker: "Broker #1",
+                        userId: "userId1",
+                        keyChainId: "keychainId1"
+                    )
+                    let linkedOldLogin2 = TradeItLinkedLogin(
+                        label: "My linked login 2",
+                        broker: "Broker #2",
+                        userId: "userId2",
+                        keyChainId: "keychainId2"
+                    )
+                    let linkedOldLogin3 = TradeItLinkedLogin(
+                        label: "My linked login 3",
+                        broker: "Broker #3",
+                        userId: "userId3",
+                        keyChainId: "keychainId3"
+                    )
+
                     let tradeItSession1 = FakeTradeItSession()
                     linkedOldBroker1 = TradeItLinkedBroker(session: tradeItSession1, linkedLogin: linkedOldLogin1)
                     account11 = TradeItLinkedBrokerAccount(linkedBroker: linkedOldBroker1, accountName: "My account #11", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])
@@ -563,7 +628,7 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             var linkedBroker2: FakeTradeItLinkedBroker!
             var linkedBroker3: FakeTradeItLinkedBroker!
             beforeEach {
-                let linkedLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", andKeyChainId: "keychainId1")
+                let linkedLogin1 = TradeItLinkedLogin(label: "My linked login 1", broker: "Broker #1", userId: "userId1", keyChainId: "keychainId1")
 
                 let tradeItSession = FakeTradeItSession()
                 linkedBroker1 = FakeTradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin1)
@@ -572,14 +637,14 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
                 linkedBroker1.accounts = [account11, account12]
                 linkedBroker1.clearError()
 
-                let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", andKeyChainId: "keychainId2")
+                let linkedLogin2 = TradeItLinkedLogin(label: "My linked login 2", broker: "Broker #2", userId: "userId2", keyChainId: "keychainId2")
                 let tradeItSession2 = FakeTradeItSession()
                 linkedBroker2 = FakeTradeItLinkedBroker(session: tradeItSession2, linkedLogin: linkedLogin2)
                 let account21 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker2, accountName: "My account #21", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
                 linkedBroker2.accounts = [account21]
                 linkedBroker2.clearError()
 
-                let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", andKeyChainId: "keychainId2")
+                let linkedLogin3 = TradeItLinkedLogin(label: "My linked login 3", broker: "Broker #3", userId: "userId3", keyChainId: "keychainId2")
                 let tradeItSession3 = FakeTradeItSession()
                 linkedBroker3 = FakeTradeItLinkedBroker(session: tradeItSession3, linkedLogin: linkedLogin3)
                 let account31 = TradeItLinkedBrokerAccount(linkedBroker: linkedBroker3, accountName: "My account #31", accountNumber: "5678901234", balance: nil, fxBalance: nil, positions: [])
@@ -641,7 +706,15 @@ class TradeItLinkedBrokerManagerSpec: QuickSpec {
             beforeEach {
                 connector.calls.reset()
                 relinkSession = FakeTradeItSession()
-                relinkLinkedBroker = TradeItLinkedBroker(session: relinkSession, linkedLogin: TradeItLinkedLogin(label: "my label", broker: "My broker", userId: "My user Id", andKeyChainId: "My keychain Id "))
+                relinkLinkedBroker = TradeItLinkedBroker(
+                    session: relinkSession,
+                    linkedLogin: TradeItLinkedLogin(
+                        label: "my label",
+                        broker: "My broker",
+                        userId: "My user Id",
+                        keyChainId: "My keychain Id "
+                    )
+                )
                 linkedBrokerManager.linkedBrokers = [relinkLinkedBroker]
                 onSuccessCallbackWasCalled = 0
                 onSecurityQuestionWasCalled = 0

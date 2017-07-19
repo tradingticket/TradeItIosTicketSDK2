@@ -10,20 +10,29 @@ class Action {
     public var label: String
     public var action: () -> Void
 
-    init(label: String, action: @escaping () -> Void) {
+    init(
+        label: String,
+        action: @escaping () -> Void,
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeOAuth"
+    ) {
         self.label = label
-        self.action = action
+        self.action = {
+            TradeItSDK.oAuthCallbackUrl = URL(string: oAuthCallbackUrl)!
+            action()
+        }
     }
 }
 
 class YahooAction: Action {
-    override init(label: String, action: @escaping () -> Void) {
+    override init(
+        label: String,
+        action: @escaping () -> Void,
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeYahooOAuth"
+    ) {
         super.init(
             label: label,
-            action: {
-                TradeItSDK.oAuthCallbackUrl = URL(string: "tradeItExampleScheme://completeYahooOAuth")!
-                action()
-            }
+            action: action,
+            oAuthCallbackUrl: oAuthCallbackUrl
         )
     }
 }
@@ -46,7 +55,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         defaultSections = [
             Section(
-                label: "SDK SCREENS",
+                label: "SDK Screens",
                 actions: [
                     Action(
                         label: "Link a broker",
@@ -90,7 +99,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "THEMES",
+                label: "Themes",
                 actions: [
                     Action(
                         label: "Light theme",
@@ -119,7 +128,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "SETTINGS",
+                label: "Settings",
                 actions: [
                     Action(
                         label: "Unlink all brokers",
@@ -149,9 +158,9 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "Portfolio for linked broker account",
+                        label: "Portfolio for first linked broker account",
                         action: {
-                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.last else {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
                                 return print("=====> You must link a broker with an account first")
                             }
 
@@ -202,6 +211,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
+                        label: "Relink first broker",
+                        action: {
+                            guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
+                                return print("=====> ExampleApp: No brokers to relink.")
+                            }
+
+                            TradeItSDK.launcher.launchRelinking(
+                                fromViewController: self,
+                                forLinkedBroker: linkedBroker
+                            )
+                        }
+                    ),
+                    Action(
                         label: "Broker Center",
                         action: {
                             TradeItSDK.launcher.launchBrokerCenter(fromViewController: self)
@@ -246,7 +268,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "THEMES",
+                label: "Themes",
                 actions: [
                     Action(
                         label: "Light theme",
@@ -302,6 +324,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "manualBuildLinkedBroker",
                         action: self.manualBuildLinkedBroker
+                    ),
+                    Action(
+                        label: "manualSyncLinkedBrokers",
+                        action: self.manualSyncLinkedBrokers
                     )
                 ]
             ),
@@ -312,6 +338,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         label: "OAuth Flow",
                         action: {
                             TradeItSDK.yahooLauncher.launchOAuth(fromViewController: self)
+                        }
+                    ),
+                    YahooAction(
+                        label: "Relink first broker",
+                        action: {
+                            guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
+                                return print("=====> ExampleApp: No brokers to relink.")
+                            }
+
+                            TradeItSDK.yahooLauncher.launchRelinking(
+                                fromViewController: self,
+                                forLinkedBroker: linkedBroker
+                            )
                         }
                     ),
                     YahooAction(
@@ -432,41 +471,74 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualBuildLinkedBroker() {
-        TradeItSDK.linkedBrokerManager.linkedBrokers = []
+        let userIdUserTokenBrokerToBuild = UserIdUserTokenBroker(
+            userId: "f931499973132260a945",
+            userToken: "1SZflzTIOe8QkYKmSshUcG8Q5awG%2BeYDfqsRz1A5L8LBJO7aOQReBU2udBJ%2BvE5MmoHtGE%2FFroMx4fHD3%2BF1fHEhxeET5Xuk6m0XiRZ%2FTHcTwJ177DZ%2BWhjjxuf%2FF0%2Bj2h4ZzMVIvRUSQ3wCVlRw4w%3D%3D",
+            broker: "dummy"
+        )
 
         TradeItSDK.linkedBrokerManager.injectBroker(
-            userId: "e041482902073625472a",
-            userToken: "R4U3fyK4vjFAMCa9hRwm1qbfgaN669WGkwksirBgKulUcW5WJhqLEGPOhXJ6MsiV6hH3BTIDrkRQXlLCqBj1tEIIODef%2FiJJbMcJ49pKW%2FLlKTcCW2Ygzz%2BrFDIKlq38H8yMa6R%2B%2F0NHuYC6THvD4A%3D%3D",
-            broker: "dummy",
+            userIdUserTokenBroker: userIdUserTokenBrokerToBuild,
             onSuccess: { linkedBroker in
-                linkedBroker.authenticateIfNeeded(onSuccess: {
-                    linkedBroker.accounts = [
-                        TradeItLinkedBrokerAccount(
-                            linkedBroker: linkedBroker,
-                            accountName: "Manual Account Name",
-                            accountNumber: "Manual Account Number",
-                            accountBaseCurrency: "USD",
-                            balance: nil,
-                            fxBalance: nil,
-                            positions: [],
-                            orderCapabilities: []
-                        )
-                    ]
+                linkedBroker.authenticateIfNeeded(
+                    onSuccess: {
+                        linkedBroker.accounts = [
+                            TradeItLinkedBrokerAccount(
+                                linkedBroker: linkedBroker,
+                                accountName: "Manual Account Name",
+                                accountNumber: "Manual Account Number",
+                                accountIndex: "Manual Account Index",
+                                accountBaseCurrency: "USD",
+                                balance: nil,
+                                fxBalance: nil,
+                                positions: [],
+                                orderCapabilities: []
+                            )
+                        ]
 
-                    print("=====> MANUALLY BUILT LINK!")
-                    TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-                }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-                    self.alertManager.promptUserToAnswerSecurityQuestion(
-                        securityQuestion,
-                        onViewController: self,
-                        onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: cancelQuestion)
-                }, onFailure: { errorResult in
-                    print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
-                })
+                        print("=====> MANUALLY BUILT LINK!")
+                        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
+                    },
+                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: self,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelQuestion)
+                    },
+                    onFailure: { errorResult in
+                        print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+                    }
+                )
             },
             onFailure: { errorResult in
                 print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+            }
+        )
+    }
+
+    private func manualSyncLinkedBrokers() {
+        
+        let userIdUserTokenBrokerListToSync = [
+            UserIdUserTokenBroker(
+                userId: "8fa14999720337719675",
+                userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
+                broker: "dummy"
+            ),
+            UserIdUserTokenBroker(
+                userId: "3741499971984583d2f1",
+                userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
+                broker: "dummyFx"
+            )
+        ]
+        TradeItSDK.linkedBrokerManager.syncLinkedBrokers(
+            userIdUserTokenBrokerList: userIdUserTokenBrokerListToSync,
+            onFailure: { errorResult in
+                print("=====> Failed to synch linked brokers manually: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+            },
+            onFinished: {
+                print("=====> MANUALLY SYNC LINKED BROKERS!")
+                TradeItSDK.linkedBrokerManager.printLinkedBrokers()
             }
         )
     }

@@ -92,11 +92,15 @@ class TradeItLoginViewControllerSpec: QuickSpec {
             describe("relinking the account") {
                 var relinkedBroker: FakeTradeItLinkedBroker!
                 beforeEach {
-                    relinkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(),
-                                                             linkedLogin: TradeItLinkedLogin(label: "my label",
-                                                                                             broker: "my broker",
-                                                                                             userId: "my userId",
-                                                                                             andKeyChainId: "my keychain id"))
+                    relinkedBroker = FakeTradeItLinkedBroker(
+                        session: FakeTradeItSession(),
+                        linkedLogin: TradeItLinkedLogin(
+                            label: "my label",
+                            broker: "my broker",
+                            userId: "my userId",
+                            keyChainId: "my keychain id"
+                        )
+                    )
                     controller.userNameInput.text = "My Special Username"
                     controller.userNameOnEditingChanged(controller.userNameInput)
                     controller.passwordInput.text = "My Special Password"
@@ -198,17 +202,21 @@ class TradeItLoginViewControllerSpec: QuickSpec {
                     beforeEach {
                         let onSuccess = linkedBrokerManager.calls.forMethod("linkBroker(authInfo:onSuccess:onSecurityQuestion:onFailure:)")[0].args["onSuccess"] as! ((TradeItLinkedBroker) -> Void)
                         
-                        linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(),
-                                                           linkedLogin: TradeItLinkedLogin(label: "",
-                                                                                           broker: "",
-                                                                                           userId: "",
-                                                                                           andKeyChainId: ""))
+                        linkedBroker = FakeTradeItLinkedBroker(
+                            session: FakeTradeItSession(),
+                            linkedLogin: TradeItLinkedLogin(
+                                label: "",
+                                broker: "",
+                                userId: "",
+                                keyChainId: ""
+                            )
+                        )
                         onSuccess(linkedBroker)
                     }
 
                     // FIX: itBehavesLike("authenticating the broker") {["controller": controller, "linkedBroker": linkedBroker, "nav": nav]}
-                    
-                    
+
+
                 }
 
                 context("when linking fails") {

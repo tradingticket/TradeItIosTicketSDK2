@@ -1,11 +1,3 @@
-//
-//  TradeItAuthenticationRequest.m
-//  TradeItIosEmsApi
-//
-//  Created by Antonio Reyes on 1/28/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import "TradeItAuthenticationRequest.h"
 
 @implementation TradeItAuthenticationRequest
@@ -17,7 +9,6 @@
         self.userId = userId;
         self.apiKey = apiKey;
         self.advertisingId = advertisingId;
-        self.returnOrderCapabilities = true;
     }
     
     return self;

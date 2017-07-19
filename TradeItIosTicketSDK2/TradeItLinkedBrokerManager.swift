@@ -535,29 +535,36 @@ import PromiseKit
     }
     
     private func getAvailableBrokersPromise() -> Promise<[TradeItBroker]> {
-        let availableBrokersPromise = self.availableBrokersPromise ?? Promise<[TradeItBroker]> { fulfill, reject in
-            self.connector.getAvailableBrokers(
-                withUserCountryCode: TradeItSDK.userCountryCode,
-                completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
-                    if let featuredBrokerLabelText = featuredBrokerLabelText {
-                        TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
-                    }
+        if let availableBrokersPromise = self.availableBrokersPromise {
+            return availableBrokersPromise
+        } else {
+            let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
+                self.connector.getAvailableBrokers(
+                    withUserCountryCode: TradeItSDK.userCountryCode,
+                    completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
+                        if let featuredBrokerLabelText = featuredBrokerLabelText {
+                            TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
+                        }
 
-                    if let availableBrokers = availableBrokers {
-                        self.featuredBrokerLabelText = featuredBrokerLabelText
-                        fulfill(availableBrokers)
-                    } else {
-                        reject(
-                            TradeItErrorResult(
-                                title: "Could not fetch brokers",
-                                message: "Could not fetch the brokers list. Please try again later."
+                        if let availableBrokers = availableBrokers {
+                            self.featuredBrokerLabelText = featuredBrokerLabelText
+                            fulfill(availableBrokers)
+                        } else {
+                            reject(
+                                TradeItErrorResult(
+                                    title: "Could not fetch brokers",
+                                    message: "Could not fetch the brokers list. Please try again later."
+                                )
                             )
-                        )
+                        }
                     }
-                }
-            )
+                )
+            }
+
+            self.availableBrokersPromise = availableBrokersPromise
+
+            return availableBrokersPromise
         }
-        return availableBrokersPromise
     }
 
     private func removeBroker(linkedBroker: TradeItLinkedBroker) {

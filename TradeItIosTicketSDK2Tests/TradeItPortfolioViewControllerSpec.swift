@@ -164,7 +164,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             describe("when a broker in error was selected") {
                 var linkedBroker: TradeItLinkedBroker!
                 beforeEach {
-                    linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", andKeyChainId: "My keychain"))
+                    linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", keyChainId: "My keychain"))
                     let error = TradeItErrorResult()
                     error.code = 300
                     error.shortMessage = "My short message"
@@ -178,7 +178,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             describe("when relinkAccount was tapped for a broker in error") {
                 var linkedBrokerToRelink: FakeTradeItLinkedBroker!
                 beforeEach {
-                    linkedBrokerToRelink = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", andKeyChainId: "My keychain"))
+                    linkedBrokerToRelink = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", keyChainId: "My keychain"))
                     let error = TradeItErrorResult()
                     error.code = 300
                     error.shortMessage = "My short message"
@@ -238,7 +238,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
             describe("when reloadAccountWasTapped was tapped for a broker in error") {
                 var linkedBrokerToReload: FakeTradeItLinkedBroker!
                 beforeEach {
-                    linkedBrokerToReload = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", andKeyChainId: "My keychain"))
+                    linkedBrokerToReload = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin(label: "My label", broker: "My broker", userId: "My userID", keyChainId: "My keychain"))
                     let error = TradeItErrorResult()
                     error.code = 300
                     error.shortMessage = "My short message"

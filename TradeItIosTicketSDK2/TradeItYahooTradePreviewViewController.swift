@@ -3,11 +3,9 @@ import MBProgressHUD
 import BEMCheckBox
 
 class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
-    @IBOutlet weak var brokerLabel: UILabel!
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var editOrderButton: UIButton!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
@@ -27,7 +25,6 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         precondition(self.linkedBrokerAccount != nil, "TradeItSDK ERROR: TradeItYahooTradingPreviewViewController loaded without setting linkedBrokerAccount.")
 
         self.title = "Preview order"
-        self.brokerLabel.text = self.linkedBrokerAccount.brokerName
         self.statusLabel.text = "Preview order"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)

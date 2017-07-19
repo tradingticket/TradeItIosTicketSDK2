@@ -10,20 +10,29 @@ class Action {
     public var label: String
     public var action: () -> Void
 
-    init(label: String, action: @escaping () -> Void) {
+    init(
+        label: String,
+        action: @escaping () -> Void,
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeOAuth"
+    ) {
         self.label = label
-        self.action = action
+        self.action = {
+            TradeItSDK.oAuthCallbackUrl = URL(string: oAuthCallbackUrl)!
+            action()
+        }
     }
 }
 
 class YahooAction: Action {
-    override init(label: String, action: @escaping () -> Void) {
+    override init(
+        label: String,
+        action: @escaping () -> Void,
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeYahooOAuth"
+    ) {
         super.init(
             label: label,
-            action: {
-                TradeItSDK.oAuthCallbackUrl = URL(string: "tradeItExampleScheme://completeYahooOAuth")!
-                action()
-            }
+            action: action,
+            oAuthCallbackUrl: oAuthCallbackUrl
         )
     }
 }

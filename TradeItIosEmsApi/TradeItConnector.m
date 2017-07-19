@@ -253,7 +253,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         return [[TradeItLinkedLogin alloc] initWithLabel:linkDict[@"label"]
                                                   broker:broker
                                                   userId:link.userId
-                                           andKeyChainId:keychainId];
+                                              keyChainId:keychainId];
     } else {
         // No existing link for that userId so make a new one
         TradeItAuthLinkResult *authLinkResult = [[TradeItAuthLinkResult alloc] init];
@@ -297,7 +297,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     return [[TradeItLinkedLogin alloc] initWithLabel:label
                                               broker:broker
                                               userId:userId
-                                       andKeyChainId:keychainId];
+                                          keyChainId:keychainId];
 }
 
 - (NSDictionary *)getLinkedLoginDictByuserId:(NSString *)userId {
@@ -345,7 +345,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         [accountsToReturn addObject:[[TradeItLinkedLogin alloc] initWithLabel:account[@"label"]
                                                                        broker:account[@"broker"]
                                                                        userId:account[@"userId"]
-                                                                andKeyChainId:account[@"keychainId"]]];
+                                                                   keyChainId:account[@"keychainId"]]];
     }
 
     return accountsToReturn;

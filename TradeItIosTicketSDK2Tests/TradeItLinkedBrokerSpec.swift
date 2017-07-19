@@ -13,7 +13,8 @@ class TradeItLinkedBrokerSpec: QuickSpec {
             linkedLogin = TradeItLinkedLogin(label: "My Special Label",
                 broker: "My Special Broker",
                 userId: "My Special User ID",
-                andKeyChainId: "My Special Keychain ID")
+                keyChainId: "My Special Keychain ID"
+            )
 
             linkedBroker = TradeItLinkedBroker(session: session, linkedLogin: linkedLogin)
         }

@@ -38,13 +38,15 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     label: "My Special Label 1",
                     broker: "My Special Broker 1",
                     userId: "My Special User ID 1",
-                    andKeyChainId: "My Special Keychain ID 1")
+                    keyChainId: "My Special Keychain ID 1"
+                )
 
                 linkedLogin2 = TradeItLinkedLogin(
                     label: "My Special Label 2",
                     broker: "My Special Broker 2",
                     userId: "My Special User ID 2",
-                    andKeyChainId: "My Special Keychain ID 2")
+                    keyChainId: "My Special Keychain ID 2"
+                )
 
                 linkedBroker1 = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: linkedLogin1)
                 linkedBroker2 = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: linkedLogin2)
@@ -61,7 +63,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     accountNumber: "My Special Account Number 1",
                     balance: nil,
                     fxBalance: nil,
-                    positions: [])
+                    positions: []
+                )
 
                 linkedBroker1.accounts.append(account1)
 
@@ -72,7 +75,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     balance: nil,
                     fxBalance: nil,
                     positions: [],
-                    isEnabled: false)
+                    isEnabled: false
+                )
 
                 linkedBroker1.accounts.append(account2)
 
@@ -82,7 +86,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                     accountNumber: "My Special Account Number 3",
                     balance: nil,
                     fxBalance: nil,
-                    positions: [])
+                    positions: []
+                )
 
                 linkedBroker2.accounts.append(account3)
             }
@@ -347,7 +352,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             label: "My Special Label 1",
                             broker: "My Special Broker 1",
                             userId: "My Uncached User ID",
-                            andKeyChainId: "My Special Keychain ID 1")
+                            keyChainId: "My Special Keychain ID 1"
+                        )
 
                         linkedBrokerToSync = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: uncachedLinkedLogin)
 
@@ -357,7 +363,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             accountNumber: "My Original Account Number",
                             balance: nil,
                             fxBalance: nil,
-                            positions: [])
+                            positions: []
+                        )
 
                         linkedBrokerToSync.accounts.append(account1)
 
@@ -451,7 +458,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             accountNumber: "My Original Account Number",
                             balance: nil,
                             fxBalance: nil,
-                            positions: [])
+                            positions: []
+                        )
 
                         linkedBrokerToRemove.accounts.append(account1)
 
@@ -475,7 +483,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             label: "My Special Label 1",
                             broker: "My Special Broker 1",
                             userId: "My Uncached User ID",
-                            andKeyChainId: "My Special Keychain ID 1")
+                            keyChainId: "My Special Keychain ID 1"
+                        )
 
                         linkedBrokerToRemove = TradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: uncachedLinkedLogin)
 
@@ -485,7 +494,8 @@ class TradeItLinkedBrokerCacheSpec: QuickSpec {
                             accountNumber: "My Original Account Number",
                             balance: nil,
                             fxBalance: nil,
-                            positions: [])
+                            positions: []
+                        )
 
                         linkedBrokerToRemove.accounts.append(account1)
 

@@ -9,14 +9,9 @@ import PromiseKit
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
     
-    public init(apiKey: String, environment: TradeitEmsEnvironments) {
-        self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        self.sessionProvider = TradeItSessionProvider()
-
-        super.init()
-        
-        self.availableBrokersPromise = getAvailableBrokersPromise()
-        self.loadLinkedBrokersFromKeychain()
+    public convenience init(apiKey: String, environment: TradeitEmsEnvironments) {
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self.init(connector: connector)
     }
 
     init(connector: TradeItConnector) {

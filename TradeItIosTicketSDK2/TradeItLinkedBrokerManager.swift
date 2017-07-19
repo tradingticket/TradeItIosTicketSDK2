@@ -530,6 +530,9 @@ import PromiseKit
     }
     
     private func getAvailableBrokersPromise() -> Promise<[TradeItBroker]> {
+//        TODO: Add locking in case this gets called multiple times
+//        let lockQueue = DispatchQueue(label: "getAvailableBrokersPromiseLock")
+//        lockQueue.sync() { CODE GOES HERE }
         if let availableBrokersPromise = self.availableBrokersPromise {
             return availableBrokersPromise
         } else {
@@ -551,6 +554,8 @@ import PromiseKit
                                     message: "Could not fetch the brokers list. Please try again later."
                                 )
                             )
+
+                            self.availableBrokersPromise = nil
                         }
                     }
                 )

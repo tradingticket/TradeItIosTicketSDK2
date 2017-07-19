@@ -14,6 +14,7 @@
 		521D2B4F1E551CDF00F7204B /* TradeItOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */; };
 		521D2B521E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */; };
 		521D2B531E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */; };
+		52333B2E1F1F1C9E00570104 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52333B2D1F1F1C9E00570104 /* SDWebImage.framework */; };
 		524116BA1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
 		524116BB1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
 		524116BC1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
@@ -458,7 +459,6 @@
 		FAD76ECA1EF0CA85007FA943 /* TradeItYahooFeaturedBrokerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD76EC81EF0CA85007FA943 /* TradeItYahooFeaturedBrokerTableViewCell.swift */; };
 		FAE77F491EB3AA0E005E90EB /* TradeItYahooOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE77F471EB3AA0E005E90EB /* TradeItYahooOAuthCompletionUIFlow.swift */; };
 		FAE77F4A1EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE77F481EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift */; };
-		FAFB2A6B1F1EF7E60096066F /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFB2A6A1F1EF7E60096066F /* SDWebImage.framework */; };
 		FC6BC23E1DD28531005AE093 /* TradeItIosTicketSDK2Carthage.h in Headers */ = {isa = PBXBuildFile; fileRef = FC6BC23D1DD28531005AE093 /* TradeItIosTicketSDK2Carthage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC6E79951DCD1F8B005225CC /* TradeItQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAB581DB7EF2F00E5435C /* TradeItQuote.m */; };
 		FC6E79961DCD1F8B005225CC /* TradeItAccountManagementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA511DB7EEB400E5435C /* TradeItAccountManagementTableViewCell.swift */; };
@@ -676,6 +676,7 @@
 		521D2B491E54EC7600F7204B /* TradeItOAuthCompletionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOAuthCompletionViewController.swift; sourceTree = "<group>"; };
 		521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOAuthCompletionUIFlow.swift; sourceTree = "<group>"; };
 		521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOAuthCallbackUrlParser.swift; sourceTree = "<group>"; };
+		52333B2D1F1F1C9E00570104 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "../../../Library/Developer/Xcode/DerivedData/TradeItIosTicketSDK2-bjtghtdckbcvqyavecgcejbzewtz/Build/Products/Debug-iphonesimulator/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateTimestampFormatter.swift; sourceTree = "<group>"; };
 		526E30F81E28B60C00636640 /* TradeItYahooTradingUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooTradingUIFlow.swift; sourceTree = "<group>"; };
 		526E30FC1E29AA2300636640 /* TradeItYahooAccountSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooAccountSelectionViewController.swift; sourceTree = "<group>"; };
@@ -1078,7 +1079,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAFB2A6B1F1EF7E60096066F /* SDWebImage.framework in Frameworks */,
+				52333B2E1F1F1C9E00570104 /* SDWebImage.framework in Frameworks */,
 				FC6E7A7C1DCF9BC6005225CC /* UIKit.framework in Frameworks */,
 				FC6E7A211DCD1F8B005225CC /* LocalAuthentication.framework in Frameworks */,
 				FC6E7A781DCD2005005225CC /* MBProgressHUD.framework in Frameworks */,
@@ -1478,6 +1479,7 @@
 		E71EF0CCD3AC458510F32784 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52333B2D1F1F1C9E00570104 /* SDWebImage.framework */,
 				FAFB2A6A1F1EF7E60096066F /* SDWebImage.framework */,
 				FC6E7A7B1DCF9BC6005225CC /* UIKit.framework */,
 				FC6E7A751DCD2005005225CC /* MBProgressHUD.framework */,

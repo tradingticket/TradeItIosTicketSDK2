@@ -1,3 +1,5 @@
+import UIKit
+
 enum TradeItBrokerLogoSize: String {
     case small
     case large
@@ -25,8 +27,8 @@ class TradeItBrokerLogoService {
         }
 
         imageView.sd_setImage(with: logoUrl)
-        imageView.setIndicatorStyle(.gray)
-        imageView.setShowActivityIndicator(true)
+        imageView.sd_setIndicatorStyle(.gray)
+        imageView.sd_setShowActivityIndicatorView(true)
         return true
     }
 }

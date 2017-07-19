@@ -14,7 +14,7 @@ def app_pods
   pod 'MBProgressHUD', '~> 1.0.0'
   pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'
-  pod 'SDWebImage', '~> 3.8'
+  pod 'SDWebImage', '~> 4.0.0'
 end
 
 target 'TradeItIosTicketSDK2Tests' do

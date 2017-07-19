@@ -2,4 +2,4 @@ github "mxcl/PromiseKit" ~> 4.0
 github "jdg/MBProgressHUD" ~> 1.0.0
 github "JSONModel/JSONModel" "master"
 github "Boris-Em/BEMCheckBox" ~> 1.4.1
-github "rs/SDWebImage" ~> 3.8.2
+github "rs/SDWebImage" ~> 4.0.0

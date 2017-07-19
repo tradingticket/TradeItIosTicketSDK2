@@ -458,6 +458,7 @@
 		FAD76ECA1EF0CA85007FA943 /* TradeItYahooFeaturedBrokerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD76EC81EF0CA85007FA943 /* TradeItYahooFeaturedBrokerTableViewCell.swift */; };
 		FAE77F491EB3AA0E005E90EB /* TradeItYahooOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE77F471EB3AA0E005E90EB /* TradeItYahooOAuthCompletionUIFlow.swift */; };
 		FAE77F4A1EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE77F481EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift */; };
+		FAFB2A6B1F1EF7E60096066F /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFB2A6A1F1EF7E60096066F /* SDWebImage.framework */; };
 		FC6BC23E1DD28531005AE093 /* TradeItIosTicketSDK2Carthage.h in Headers */ = {isa = PBXBuildFile; fileRef = FC6BC23D1DD28531005AE093 /* TradeItIosTicketSDK2Carthage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC6E79951DCD1F8B005225CC /* TradeItQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAB581DB7EF2F00E5435C /* TradeItQuote.m */; };
 		FC6E79961DCD1F8B005225CC /* TradeItAccountManagementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA511DB7EEB400E5435C /* TradeItAccountManagementTableViewCell.swift */; };
@@ -1020,6 +1021,7 @@
 		FAD76EC81EF0CA85007FA943 /* TradeItYahooFeaturedBrokerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooFeaturedBrokerTableViewCell.swift; sourceTree = "<group>"; };
 		FAE77F471EB3AA0E005E90EB /* TradeItYahooOAuthCompletionUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooOAuthCompletionUIFlow.swift; sourceTree = "<group>"; };
 		FAE77F481EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItYahooOAuthCompletionViewController.swift; sourceTree = "<group>"; };
+		FAFB2A6A1F1EF7E60096066F /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "../../Library/Developer/Xcode/DerivedData/TradeItIosTicketSDK2-dpvcksmykhmltjhkeyvsgffldkmh/Build/Products/Debug-iphonesimulator/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		FC6BC23D1DD28531005AE093 /* TradeItIosTicketSDK2Carthage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItIosTicketSDK2Carthage.h; sourceTree = "<group>"; };
 		FC6E7A731DCD1F8B005225CC /* TradeItIosTicketSDK2Carthage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2Carthage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC6E7A751DCD2005005225CC /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
@@ -1076,6 +1078,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFB2A6B1F1EF7E60096066F /* SDWebImage.framework in Frameworks */,
 				FC6E7A7C1DCF9BC6005225CC /* UIKit.framework in Frameworks */,
 				FC6E7A211DCD1F8B005225CC /* LocalAuthentication.framework in Frameworks */,
 				FC6E7A781DCD2005005225CC /* MBProgressHUD.framework in Frameworks */,
@@ -1475,6 +1478,7 @@
 		E71EF0CCD3AC458510F32784 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FAFB2A6A1F1EF7E60096066F /* SDWebImage.framework */,
 				FC6E7A7B1DCF9BC6005225CC /* UIKit.framework */,
 				FC6E7A751DCD2005005225CC /* MBProgressHUD.framework */,
 				FC6E7A761DCD2005005225CC /* PromiseKit.framework */,

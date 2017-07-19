@@ -471,38 +471,45 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func manualBuildLinkedBroker() {
-        let userIdUserTokenBrokerToBuild = UserIdUserTokenBroker(userId: "f931499973132260a945",
-                                                                 userToken: "1SZflzTIOe8QkYKmSshUcG8Q5awG%2BeYDfqsRz1A5L8LBJO7aOQReBU2udBJ%2BvE5MmoHtGE%2FFroMx4fHD3%2BF1fHEhxeET5Xuk6m0XiRZ%2FTHcTwJ177DZ%2BWhjjxuf%2FF0%2Bj2h4ZzMVIvRUSQ3wCVlRw4w%3D%3D",
-                                                                 broker: "dummy")
+        let userIdUserTokenBrokerToBuild = UserIdUserTokenBroker(
+            userId: "f931499973132260a945",
+            userToken: "1SZflzTIOe8QkYKmSshUcG8Q5awG%2BeYDfqsRz1A5L8LBJO7aOQReBU2udBJ%2BvE5MmoHtGE%2FFroMx4fHD3%2BF1fHEhxeET5Xuk6m0XiRZ%2FTHcTwJ177DZ%2BWhjjxuf%2FF0%2Bj2h4ZzMVIvRUSQ3wCVlRw4w%3D%3D",
+            broker: "dummy"
+        )
+
         TradeItSDK.linkedBrokerManager.injectBroker(
             userIdUserTokenBroker: userIdUserTokenBrokerToBuild,
             onSuccess: { linkedBroker in
-                linkedBroker.authenticateIfNeeded(onSuccess: {
-                    linkedBroker.accounts = [
-                        TradeItLinkedBrokerAccount(
-                            linkedBroker: linkedBroker,
-                            accountName: "Manual Account Name",
-                            accountNumber: "Manual Account Number",
-                            accountIndex: "Manual Account Index",
-                            accountBaseCurrency: "USD",
-                            balance: nil,
-                            fxBalance: nil,
-                            positions: [],
-                            orderCapabilities: []
-                        )
-                    ]
+                linkedBroker.authenticateIfNeeded(
+                    onSuccess: {
+                        linkedBroker.accounts = [
+                            TradeItLinkedBrokerAccount(
+                                linkedBroker: linkedBroker,
+                                accountName: "Manual Account Name",
+                                accountNumber: "Manual Account Number",
+                                accountIndex: "Manual Account Index",
+                                accountBaseCurrency: "USD",
+                                balance: nil,
+                                fxBalance: nil,
+                                positions: [],
+                                orderCapabilities: []
+                            )
+                        ]
 
-                    print("=====> MANUALLY BUILT LINK!")
-                    TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-                }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
-                    self.alertManager.promptUserToAnswerSecurityQuestion(
-                        securityQuestion,
-                        onViewController: self,
-                        onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: cancelQuestion)
-                }, onFailure: { errorResult in
-                    print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
-                })
+                        print("=====> MANUALLY BUILT LINK!")
+                        TradeItSDK.linkedBrokerManager.printLinkedBrokers()
+                    },
+                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: self,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelQuestion)
+                    },
+                    onFailure: { errorResult in
+                        print("=====> Failed to authenticate manual link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+                    }
+                )
             },
             onFailure: { errorResult in
                 print("=====> Failed to manually link: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
@@ -513,12 +520,16 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     private func manualSyncLinkedBrokers() {
         
         let userIdUserTokenBrokerListToSync = [
-            UserIdUserTokenBroker(userId: "8fa14999720337719675",
-                                  userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
-                                  broker: "dummy"),
-            UserIdUserTokenBroker(userId: "3741499971984583d2f1",
-                                  userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
-                                  broker: "dummyFx")
+            UserIdUserTokenBroker(
+                userId: "8fa14999720337719675",
+                userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
+                broker: "dummy"
+            ),
+            UserIdUserTokenBroker(
+                userId: "3741499971984583d2f1",
+                userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
+                broker: "dummyFx"
+            )
         ]
         TradeItSDK.linkedBrokerManager.syncLinkedBrokers(
             userIdUserTokenBrokerList: userIdUserTokenBrokerListToSync,

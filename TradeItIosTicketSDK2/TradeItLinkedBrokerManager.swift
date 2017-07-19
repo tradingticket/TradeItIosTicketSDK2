@@ -293,19 +293,22 @@ import PromiseKit
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
     
-    public func syncLinkedBrokers(userIdUserTokenBrokerList: [UserIdUserTokenBroker],
-                                  onFailure: @escaping (TradeItErrorResult) -> Void,
-                                  onFinished: @escaping () -> Void) {
+    public func syncLinkedBrokers(
+        userIdUserTokenBrokerList: [UserIdUserTokenBroker],
+        onFailure: @escaping (TradeItErrorResult) -> Void,
+        onFinished: @escaping () -> Void
+    ) {
         // Add missing linkedBrokers
         let userIdsFromlinkedBrokers = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
         let userIdUserTokenBrokersToAdd = userIdUserTokenBrokerList.filter { !userIdsFromlinkedBrokers.contains($0.userId) }
         
         userIdUserTokenBrokersToAdd.forEach { userIdUserTokenBroker in
-            injectBroker(userIdUserTokenBroker: userIdUserTokenBroker,
-                         onSuccess: { (linkedBroker) in
-                            TradeItSDK.linkedBrokerCache.cache(linkedBroker: linkedBroker)
-                         },
-                         onFailure: onFailure
+            injectBroker(
+                userIdUserTokenBroker: userIdUserTokenBroker,
+                onSuccess: { (linkedBroker) in
+                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: linkedBroker)
+                },
+                onFailure: onFailure
             )
         }
         
@@ -324,7 +327,8 @@ import PromiseKit
     internal func linkBroker(
         authInfo: TradeItAuthenticationInfo,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
@@ -335,17 +339,22 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             case let authResult as TradeItAuthLinkResult:
-                let userIdUserTokenBroker = UserIdUserTokenBroker(userId: authResult.userId,
-                                                                  userToken: authResult.userToken,
-                                                                  broker: authInfo.broker)
+                let userIdUserTokenBroker = UserIdUserTokenBroker(
+                    userId: authResult.userId,
+                    userToken: authResult.userToken,
+                    broker: authInfo.broker
+                )
                 self.saveLinkedBrokerToKeychain(
                     userIdUserTokenBroker: userIdUserTokenBroker,
                     onSuccess: { linkedBroker in
                         linkedBroker.authenticateIfNeeded(
                             onSuccess: {
-                                self.oAuthDelegate?.didLink?(userId: userIdUserTokenBroker.userId, userToken: userIdUserTokenBroker.userToken)
+                                self.oAuthDelegate?.didLink?(
+                                    userId: userIdUserTokenBroker.userId,
+                                    userToken: userIdUserTokenBroker.userToken
+                                )
                                 onSuccess(linkedBroker)
-                        },
+                            },
                             onSecurityQuestion: onSecurityQuestion,
                             onFailure: onFailure
                         )
@@ -364,7 +373,8 @@ import PromiseKit
         _ linkedBroker: TradeItLinkedBroker,
         authInfo: TradeItAuthenticationInfo,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-        onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
@@ -443,7 +453,7 @@ import PromiseKit
         if var urlComponents = URLComponents(
             url: oAuthCallbackUrl,
             resolvingAgainstBaseURL: false
-            ) {
+        ) {
             urlComponents.addOrUpdateQueryStringValue(
                 forKey: OAuthCallbackQueryParamKeys.relinkUserId.rawValue,
                 value: userId
@@ -451,7 +461,6 @@ import PromiseKit
 
             relinkOAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl
         }
-
 
         self.connector.getOAuthLoginPopupURLForTokenUpdate(
             withBroker: brokerName,
@@ -504,17 +513,24 @@ import PromiseKit
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        let linkedLogin = self.connector.saveToKeychain(withUserId: userIdUserTokenBroker.userId, andUserToken: userIdUserTokenBroker.userToken, andBroker: userIdUserTokenBroker.broker, andLabel: userIdUserTokenBroker.broker)
+        let linkedLogin = self.connector.saveToKeychain(
+            withUserId: userIdUserTokenBroker.userId,
+            andUserToken: userIdUserTokenBroker.userToken,
+            andBroker: userIdUserTokenBroker.broker,
+            andLabel: userIdUserTokenBroker.broker
+        )
 
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
             self.linkedBrokers.append(linkedBroker)
             onSuccess(linkedBroker)
         } else {
-            onFailure(TradeItErrorResult(
-                title: "Keychain error",
-                message: "Failed to save the linked login to the keychain"
-            ))
+            onFailure(
+                TradeItErrorResult(
+                    title: "Keychain error",
+                    message: "Failed to save the linked login to the keychain"
+                )
+            )
         }
     }
     
@@ -526,13 +542,16 @@ import PromiseKit
                     if let featuredBrokerLabelText = featuredBrokerLabelText {
                         TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
                     }
+
                     if let availableBrokers = availableBrokers {
                         self.featuredBrokerLabelText = featuredBrokerLabelText
                         fulfill(availableBrokers)
                     } else {
-                        reject(TradeItErrorResult(
-                            title: "Could not fetch brokers",
-                            message: "Could not fetch the brokers list. Please try again later.")
+                        reject(
+                            TradeItErrorResult(
+                                title: "Could not fetch brokers",
+                                message: "Could not fetch the brokers list. Please try again later."
+                            )
                         )
                     }
                 }

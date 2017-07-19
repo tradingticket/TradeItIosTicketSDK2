@@ -598,10 +598,22 @@ import PromiseKit
     }
 }
 
-public typealias UserId = String
-public typealias UserToken = String
-public typealias Broker = String
-public typealias UserIdUserTokenBroker = (userId: UserId, userToken: UserToken, broker: Broker)
+@objc public class UserIdUserTokenBroker: NSObject {
+    let userId: String
+    let userToken: String
+    let broker: String
+
+    public init(
+        userId: String,
+        userToken: String,
+        broker: String
+    ) {
+        self.userId = userId
+        self.userToken = userToken
+        self.broker = broker
+    }
+}
+
 
 @objc public protocol TradeItOAuthDelegate {
     @objc optional func didLink(userId: String, userToken: String)

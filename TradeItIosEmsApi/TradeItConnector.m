@@ -40,6 +40,7 @@
 
 @implementation TradeItConnector {
     BOOL runAsyncCompletionBlockOnMainThread;
+    NSString* userAgent;
 }
 
 NSString *BROKER_LIST_KEYNAME = @"TRADEIT_BROKERS";
@@ -66,24 +67,11 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = environment;
         self.version = version;
         runAsyncCompletionBlockOnMainThread = true;
+        userAgent = [UserAgent getUserAgent];
     }
 
     return self;
 }
-
-- (id)initWithApiKey:(NSString *)apiKey {
-    self = [super init];
-
-    if (self) {
-        self.apiKey = apiKey;
-        self.environment = TradeItEmsProductionEnv;
-        self.version = TradeItEmsApiVersion_2;
-        runAsyncCompletionBlockOnMainThread = true;
-    }
-
-    return self;
-}
-
 
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString *)broker
                                 oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
@@ -433,7 +421,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         NSURLSession *session = [NSURLSession sharedSession];
-        NSString* userAgent = [UserAgent getUserAgent];
         [request addValue:userAgent forHTTPHeaderField:@"User-Agent"];
 
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

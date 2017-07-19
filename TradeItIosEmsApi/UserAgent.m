@@ -28,7 +28,7 @@
     NSDictionary<NSString *, id> * bundleProviderSDK2 = [[TradeItBundleProvider provide] infoDictionary];
     
     NSString *sdkName = [bundleProviderSDK2 valueForKey:@"CFBundleName"];
-    NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleShortVersionString"];
+    NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleVersion"];
     
     return [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
 }

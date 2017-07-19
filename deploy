@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euo pipefail
+
+VERSION=$1
+
+xcrun agvtool what-version
+xcrun agvtool new-version -all $VERSION
+xcrun agvtool new-marketing-version $VERSION
+
+git add TradeItIosTicketSDK2.xcodeproj/project.pbxproj
+git add */Info.plist
+git commit -m "Version: $VERSION" -e -v
+
+carthage build --no-skip-current --platform iOS
+
+git tag $VERSION
+git push origin $VERSION
+
+pod repo push tradingticket *.podspec --verbose --allow-warnings

@@ -79,26 +79,21 @@
                                    onSuccess: @escaping (TradeItAccountOverview?) -> Void,
                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
-        self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
-            switch tradeItResult {
-            case let accountOverviewResult as TradeItAccountOverviewResult:
-                self.balanceLastUpdated = Date()
-                self.balance = accountOverviewResult.accountOverview
-                self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker?.clearError()
+        self.tradeItBalanceService.getAccountOverview(request, onSuccess: { result in
+            self.balanceLastUpdated = Date()
+            self.balance = result.accountOverview
+            self.fxBalance = result.fxAccountOverview
+            self.linkedBroker?.clearError()
 
-                if cacheResult {
-                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
-                }
-
-                onSuccess(accountOverviewResult.accountOverview)
-            case let errorResult as TradeItErrorResult:
-                self.linkedBroker?.error = errorResult
-                onFailure(errorResult)
-            default:
-                onFailure(TradeItErrorResult(title: "Could not retrieve account balances. Please try again."))
+            if cacheResult {
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
             }
-        }
+
+            onSuccess(result.accountOverview)
+        }, onFailure: { error in
+            self.linkedBroker?.error = error
+            onFailure(error)
+        })
     }
 
     public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {

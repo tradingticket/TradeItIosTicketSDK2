@@ -2,10 +2,9 @@
 #import "TradeItResult.h"
 
 @protocol RequestFactory
-- (NSURLRequest * _Nullable)buildRequestForUrl:(NSURL * _Nonnull)url
-                                    httpMethod:(NSString * _Nonnull)httpMethod
-                                    parameters:(NSDictionary<NSString *, NSString *> * _Nonnull)parameters
-                                       headers:(NSDictionary<NSString *, NSString *> * _Nonnull)headers;
+- (NSURLRequest * _Nullable)buildPostRequestForUrl:(NSURL * _Nonnull)url
+                                      jsonPostBody:(NSString * _Nonnull)parameters
+                                           headers:(NSDictionary<NSString *, NSString *> * _Nonnull)headers;
 @end
 
 

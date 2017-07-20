@@ -48,7 +48,6 @@
 #import "TradeItQuote.h"
 
 // Use the TradeService to preview and place trades
-#import "TradeItTradeService.h"
 #import "TradeItPreviewTradeRequest.h"
 #import "TradeItPreviewTradeOrderDetails.h"
 #import "TradeItPreviewTradeResult.h"

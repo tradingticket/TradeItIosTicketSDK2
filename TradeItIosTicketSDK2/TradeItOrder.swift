@@ -97,27 +97,17 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
 
         linkedBrokerAccount.tradeService.previewTrade(
             previewPresenter.generateRequest(),
-            withCompletionBlock: { result in
-                switch result {
-                case let previewOrderResult as TradeItPreviewOrderResult:
-                    onSuccess(
-                        previewOrderResult,
-                        self.generatePlaceOrderCallback(
-                            tradeService: linkedBrokerAccount.tradeService,
-                            previewOrderResult: previewOrderResult
-                        )
+            onSuccess: { result in
+                onSuccess(
+                    result,
+                    self.generatePlaceOrderCallback(
+                        tradeService: linkedBrokerAccount.tradeService,
+                        previewOrderResult: result
                     )
-                case let errorResult as TradeItErrorResult:
-                    linkedBrokerAccount.linkedBroker?.error = errorResult
-                    onFailure(errorResult)
-                default:
-                    onFailure(
-                        TradeItErrorResult(
-                            title: "Preview failed",
-                            message: "There was a problem previewing your order. Please try again."
-                        )
-                    )
-                }
+                )
+            }, onFailure: { error in
+                linkedBrokerAccount.linkedBroker?.error = error
+                onFailure(error)
             }
         )
     }
@@ -167,17 +157,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     private func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onFailure in
             let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
-
-            tradeService.placeTrade(placeOrderRequest) { result in
-                switch result {
-                case let placeOrderResult as TradeItPlaceOrderResult:
-                    onSuccess(placeOrderResult)
-                case let errorResult as TradeItErrorResult:
-                    onFailure(errorResult)
-                default:
-                    onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
-                }
-            }
+            tradeService.placeTrade(placeOrderRequest, onSuccess: onSuccess, onFailure: onFailure)
         }
     }
 }

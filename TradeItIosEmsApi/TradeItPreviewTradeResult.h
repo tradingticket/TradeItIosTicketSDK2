@@ -25,7 +25,7 @@
 /**
  *  A TradeIt internal orderId used to reference the preview order, needed to place the order
  */
-@property (nullable, copy) NSString *orderId;
+@property (nonnull, copy) NSString *orderId;
 
 /**
  *  An Object with order details. @see TradeItStockOrEtfTradeReviewOrderDetails

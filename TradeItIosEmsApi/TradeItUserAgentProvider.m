@@ -1,4 +1,4 @@
-#import "UserAgent.h"
+#import "TradeItUserAgentProvider.h"
 #include <UIKit/UIKit.h>
 #include <sys/sysctl.h>
 
@@ -8,7 +8,7 @@
     #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
 #endif
 
-@implementation UserAgent
+@implementation TradeItUserAgentProvider
 
 
 + (NSString *)getUserAgent {
@@ -33,7 +33,7 @@
     return [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
 }
 
-+ (NSString *) getSysInfoByName:(char *)typeSpecifier
++ (NSString *)getSysInfoByName:(char *)typeSpecifier
 {
     size_t size;
     sysctlbyname(typeSpecifier, NULL, &size, NULL, 0);

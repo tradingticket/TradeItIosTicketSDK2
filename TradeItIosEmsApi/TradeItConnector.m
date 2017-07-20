@@ -23,7 +23,7 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItOAuthDeleteLinkRequest.h"
 #import "TradeItParseErrorResult.h"
-#import "UserAgent.h"
+#import "TradeItUserAgentProvider.h"
 
 #ifdef CARTHAGE
 #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
@@ -67,7 +67,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = environment;
         self.version = version;
         runAsyncCompletionBlockOnMainThread = true;
-        userAgent = [UserAgent getUserAgent];
+        userAgent = [TradeItUserAgentProvider getUserAgent];
     }
 
     return self;

@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
 
-@interface UserAgent : NSObject
+@interface TradeItUserAgentProvider : NSObject
 + (NSString *)getUserAgent;
 @end

@@ -6,6 +6,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var editOrderButton: UIButton!
+    @IBOutlet weak var actionButtonWidthConstraint: NSLayoutConstraint!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
@@ -60,6 +62,11 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
                 placeOrderCallback(
                     { placeOrderResult in
+                        //Remove the editOrderButton and expand the action button
+                        self.editOrderButton.removeFromSuperview()
+                        self.actionButtonWidthConstraint.isActive = false
+                        self.actionButtonWidthConstraint = NSLayoutConstraint(item: self.actionButton, attribute: .width, relatedBy: .equal, toItem: self.actionButton.superview, attribute: .width, multiplier: 0.9, constant: 0)
+                        NSLayoutConstraint.activate([self.actionButtonWidthConstraint])
 
                         self.placeOrderResult = placeOrderResult
 

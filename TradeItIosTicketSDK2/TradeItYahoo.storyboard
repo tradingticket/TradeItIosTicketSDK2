@@ -438,14 +438,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kW5-BI-uje">
-                                                    <rect key="frame" x="15" y="12" width="34" height="21"/>
+                                                    <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZYL-iw-l3L">
-                                                    <rect key="frame" x="314" y="12" width="46" height="21"/>
+                                                    <rect key="frame" x="314.5" y="12" width="45.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -603,6 +603,8 @@
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="WmD-Ux-mLR" id="fVk-rk-im7"/>
+                        <outlet property="actionButtonWidthConstraint" destination="ZfI-en-FT9" id="ZX7-X7-jZ0"/>
+                        <outlet property="editOrderButton" destination="HKj-um-Xr9" id="TQ2-YH-naf"/>
                         <outlet property="orderDetailsTable" destination="73G-qD-TFr" id="cV8-bQ-8nV"/>
                         <outlet property="statusLabel" destination="PeI-Kt-6k1" id="mxl-0Y-XTI"/>
                     </connections>

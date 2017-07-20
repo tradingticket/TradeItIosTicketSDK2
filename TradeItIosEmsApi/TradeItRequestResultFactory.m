@@ -71,42 +71,24 @@ static id<RequestFactory> _requestFactory = nil;
     }
 }
 
-+ (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
++ (NSURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)emsAction
                                       environment:(TradeitEmsEnvironments)env {
-    if (self.requestFactory != nil) {
-        NSURL *url = [NSURL URLWithString:emsAction
-                            relativeToURL:[TradeItRequestResultFactory getBaseUrlForEnvironment:env]];
-
-        NSDictionary *requestParams = [requestObject toDictionary];
-
-        NSDictionary *headers = @{
-                                  @"Accept": @"application/json",
-                                  @"Content-Type": @"application/json"
-                                  };
-
-        NSURLRequest *request = [TradeItRequestResultFactory.requestFactory buildRequestForUrl:url
-                                                                                    httpMethod:@"POST"
-                                                                                    parameters:requestParams
-                                                                                       headers:headers];
-
-        return (NSMutableURLRequest *)[request mutableCopy];
-    }
-
-    NSData *requestData = [[requestObject toJSONString] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *requestJsonString = [requestObject toJSONString];
 
     NSURL *url = [NSURL URLWithString:emsAction
                         relativeToURL:[TradeItRequestResultFactory getBaseUrlForEnvironment:env]];
 
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSString *contentLength = [NSString stringWithFormat:@"%lu", (unsigned long)[requestData length]];
-    [request setValue:contentLength forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody: requestData];
+    NSDictionary *headers = @{
+                              @"Accept": @"application/json",
+                              @"Content-Type": @"application/json"
+                              };
 
-    return request;
+    NSURLRequest *request = [TradeItRequestResultFactory.requestFactory buildPostRequestForUrl:url
+                                                                                  jsonPostBody:requestJsonString
+                                                                                       headers:headers];
+
+    return request; //(NSMutableURLRequest *)[request mutableCopy];
 }
 
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
@@ -114,8 +96,7 @@ static id<RequestFactory> _requestFactory = nil;
     JSONModelError *jsonModelError = nil;
     TradeItResult *resultFromJson = [tradeItResult initWithString:jsonString error:&jsonModelError];
 
-    if (jsonModelError != nil)
-    {
+    if (jsonModelError != nil) {
         NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", [tradeItResult class], jsonModelError, jsonString);
         return [TradeItParseErrorResult errorWithSystemMessage:@"error parsing json response"];
     }

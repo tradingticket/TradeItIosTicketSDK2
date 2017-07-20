@@ -105,6 +105,7 @@ import UIKit
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
+            requestFactory: nil,
             brokerLogoService: nil
         )
     }
@@ -125,6 +126,9 @@ import UIKit
 
         self.configured = true
 
+        // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
+        TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
+
         self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
 
         self._apiKey = apiKey
@@ -135,10 +139,6 @@ import UIKit
         self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
         self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-
-        if let requestFactory = requestFactory {
-            TradeItRequestResultFactory.requestFactory = requestFactory
-        }
     }
 }
 
@@ -149,5 +149,20 @@ import UIKit
 @objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
     public func getLogo(forBroker broker: String) -> UIImage? {
         return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
+    }
+}
+
+@objc public class DefaultRequestFactory: NSObject, RequestFactory {
+    public func buildPostRequest(
+        for url: URL,
+        jsonPostBody: String,
+        headers: [String : String]
+    ) -> URLRequest? {
+        var request = URLRequest(url: url)
+        request.httpBody = jsonPostBody.data(using: .utf8)
+        request.httpMethod = "POST" // TODO: FIND APPLE CONSTANT
+        request.allHTTPHeaderFields = headers // TODO: Add Dictionary extension for merging dictionaries
+
+        return request;
     }
 }

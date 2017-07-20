@@ -9,14 +9,9 @@ import PromiseKit
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
     
-    public init(apiKey: String, environment: TradeitEmsEnvironments) {
-        self.connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
-        self.sessionProvider = TradeItSessionProvider()
-
-        super.init()
-        
-        self.availableBrokersPromise = getAvailableBrokersPromise()
-        self.loadLinkedBrokersFromKeychain()
+    public convenience init(apiKey: String, environment: TradeitEmsEnvironments) {
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self.init(connector: connector)
     }
 
     init(connector: TradeItConnector) {
@@ -535,29 +530,41 @@ import PromiseKit
     }
     
     private func getAvailableBrokersPromise() -> Promise<[TradeItBroker]> {
-        let availableBrokersPromise = self.availableBrokersPromise ?? Promise<[TradeItBroker]> { fulfill, reject in
-            self.connector.getAvailableBrokers(
-                withUserCountryCode: TradeItSDK.userCountryCode,
-                completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
-                    if let featuredBrokerLabelText = featuredBrokerLabelText {
-                        TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
-                    }
+//        TODO: Add locking in case this gets called multiple times
+//        let lockQueue = DispatchQueue(label: "getAvailableBrokersPromiseLock")
+//        lockQueue.sync() { CODE GOES HERE }
+        if let availableBrokersPromise = self.availableBrokersPromise {
+            return availableBrokersPromise
+        } else {
+            let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
+                self.connector.getAvailableBrokers(
+                    withUserCountryCode: TradeItSDK.userCountryCode,
+                    completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
+                        if let featuredBrokerLabelText = featuredBrokerLabelText {
+                            TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
+                        }
 
-                    if let availableBrokers = availableBrokers {
-                        self.featuredBrokerLabelText = featuredBrokerLabelText
-                        fulfill(availableBrokers)
-                    } else {
-                        reject(
-                            TradeItErrorResult(
-                                title: "Could not fetch brokers",
-                                message: "Could not fetch the brokers list. Please try again later."
+                        if let availableBrokers = availableBrokers {
+                            self.featuredBrokerLabelText = featuredBrokerLabelText
+                            fulfill(availableBrokers)
+                        } else {
+                            reject(
+                                TradeItErrorResult(
+                                    title: "Could not fetch brokers",
+                                    message: "Could not fetch the brokers list. Please try again later."
+                                )
                             )
-                        )
+
+                            self.availableBrokersPromise = nil
+                        }
                     }
-                }
-            )
+                )
+            }
+
+            self.availableBrokersPromise = availableBrokersPromise
+
+            return availableBrokersPromise
         }
-        return availableBrokersPromise
     }
 
     private func removeBroker(linkedBroker: TradeItLinkedBroker) {
@@ -591,10 +598,22 @@ import PromiseKit
     }
 }
 
-public typealias UserId = String
-public typealias UserToken = String
-public typealias Broker = String
-public typealias UserIdUserTokenBroker = (userId: UserId, userToken: UserToken, broker: Broker)
+@objc public class UserIdUserTokenBroker: NSObject {
+    let userId: String
+    let userToken: String
+    let broker: String
+
+    public init(
+        userId: String,
+        userToken: String,
+        broker: String
+    ) {
+        self.userId = userId
+        self.userToken = userToken
+        self.broker = broker
+    }
+}
+
 
 @objc public protocol TradeItOAuthDelegate {
     @objc optional func didLink(userId: String, userToken: String)

@@ -20,16 +20,13 @@
 
         self.session.connector.sendEMSRequest(request, forResultClass: TradeItAccountOverviewResult.self) { result in
             switch (result) {
-            case let accountOverviewResult as TradeItAccountOverviewResult:
-                onSuccess(accountOverviewResult)
-            case let error as TradeItErrorResult:
-                onFailure(error)
+            case let result as TradeItAccountOverviewResult: onSuccess(result)
+            case let error as TradeItErrorResult: onFailure(error)
             default:
                 onFailure(TradeItErrorResult(
                     title: "Could not retrieve account balances. Please try again."
                 ))
             }
         }
-
     }
 }

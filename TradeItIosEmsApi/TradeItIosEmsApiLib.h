@@ -75,7 +75,6 @@
 #import "TradeItFxAccountOverview.h"
 
 // Use the PositionSerview to get account position information
-#import "TradeItPositionService.h"
 #import "TradeItGetPositionsRequest.h"
 #import "TradeItGetPositionsResult.h"
 #import "TradeItPosition.h"

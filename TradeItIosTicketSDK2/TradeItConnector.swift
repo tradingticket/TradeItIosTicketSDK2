@@ -51,38 +51,3 @@ public extension TradeItConnector {
         }
     }
 }
-
-//
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-//        NSURLSession *session = [NSURLSession sharedSession];
-//        [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-//            if ((data == nil) || ([httpResponse statusCode] != 200)) {
-//            //error occured
-//            NSLog(@"ERROR from EMS server response=%@ error=%@", response, error);
-//            TradeItErrorResult *errorResult = [TradeItErrorResult errorWithSystemMessage:@"error sending request to ems server"];
-//            dispatch_async(dispatch_get_main_queue(), ^(void) {
-//            completionBlock(errorResult, nil);
-//            });
-//            return;
-//            }
-//
-//            NSMutableString *jsonResponse = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//
-//            TradeItResult *result = [TradeItRequestResultFactory buildResult:[TradeItResult alloc] jsonString:jsonResponse];
-//
-//            // TODO: Fix this up. Parses multiple times unnecessarily.
-//            if (![result.status isEqualToString:@"ERROR"]) {
-//            result = [TradeItRequestResultFactory buildResult:[ResultClass alloc] jsonString:jsonResponse];
-//            } else {
-//            result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
-//            }
-//
-//            //            NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
-//            //            NSLog(jsonResponse);
-//            dispatch_async(dispatch_get_main_queue(), ^(void) {
-//            completionBlock(result, jsonResponse);
-//            });
-//            }] resume];
-//        });
-//}

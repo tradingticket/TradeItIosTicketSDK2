@@ -40,7 +40,6 @@
 #import "TradeItUnlinkLoginResult.h"
 
 // Once you have a link you'll establish a session using the linkedLogin
-#import "TradeItSession.h"
 #import "TradeItSecurityQuestionRequest.h"
 #import "TradeItSecurityQuestionResult.h"
 #import "TradeItQuotesRequest.h"

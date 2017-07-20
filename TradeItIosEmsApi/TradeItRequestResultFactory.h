@@ -2,7 +2,8 @@
 #import "TradeItResult.h"
 
 @protocol RequestFactory
-- (NSURLRequest * _Nullable)buildPostRequestForUrl:(NSURL * _Nonnull)url
+// TODO: Can this be Nonnull return?
+- (NSURLRequest * _Nonnull)buildPostRequestForUrl:(NSURL * _Nonnull)url
                                       jsonPostBody:(NSString * _Nonnull)parameters
                                            headers:(NSDictionary<NSString *, NSString *> * _Nonnull)headers;
 @end
@@ -12,9 +13,9 @@
 
 @property (class) id<RequestFactory> _Nullable requestFactory;
 
-+ (NSURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
-                                 emsAction:(NSString *)action
-                               environment:(TradeitEmsEnvironments)env;
++ (NSURLRequest * _Nonnull)buildJsonRequestForModel:(JSONModel *)requestObject
+                                        emsAction:(NSString *)action
+                                      environment:(TradeitEmsEnvironments)env;
 
 
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult

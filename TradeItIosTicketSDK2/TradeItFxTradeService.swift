@@ -18,7 +18,7 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxPlaceOrderResult.self, withCompletionBlock: { result in
+        self.session.connector.send(request, targetClassType: TradeItFxPlaceOrderResult.self, withCompletionBlock: { result in
             switch (result) {
             case let placeOrderResult as TradeItFxPlaceOrderResult:
                 onSuccess(placeOrderResult)
@@ -52,7 +52,7 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItFxOrderCapabilitiesResult.self, withCompletionBlock: { result in
+        self.session.connector.send(request, targetClassType: TradeItFxOrderCapabilitiesResult.self, withCompletionBlock: { result in
             switch result {
             case let orderCapabilitiesResult as TradeItFxOrderCapabilitiesResult:
                 onSuccess(orderCapabilitiesResult.orderCapabilities)

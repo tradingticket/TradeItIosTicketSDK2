@@ -144,7 +144,7 @@ import UIKit
         for url: URL,
         jsonPostBody: String,
         headers: [String : String]
-    ) -> URLRequest? {
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpBody = jsonPostBody.data(using: .utf8)
         request.httpMethod = "POST"

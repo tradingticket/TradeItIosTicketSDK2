@@ -18,7 +18,7 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItPreviewTradeResult.self) { result in
+        self.session.connector.send(request, targetClassType: TradeItPreviewTradeResult.self) { result in
             switch (result) {
             case let result as TradeItPreviewTradeResult: onSuccess(result)
             case let error as TradeItErrorResult: onFailure(error)
@@ -44,7 +44,7 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItPlaceTradeResult.self) { result in
+        self.session.connector.send(request, targetClassType: TradeItPlaceTradeResult.self) { result in
             switch (result) {
             case let result as TradeItPlaceTradeResult: onSuccess(result)
             case let error as TradeItErrorResult: onFailure(error)

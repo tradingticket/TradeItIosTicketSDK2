@@ -11,7 +11,7 @@
 @implementation TradeItAuthenticationResult
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TradeItSuccessAuthenticationResult: %@ accounts=%@ ",
+    return [NSString stringWithFormat:@"TradeItAuthenticationResult: %@ accounts=%@ ",
             [super description],
             self.accounts];
 }

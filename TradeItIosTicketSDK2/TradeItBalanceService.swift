@@ -18,7 +18,7 @@
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItAccountOverviewResult.self) { result in
+        self.session.connector.send(request, targetClassType: TradeItAccountOverviewResult.self) { result in
             switch (result) {
             case let result as TradeItAccountOverviewResult: onSuccess(result)
             case let error as TradeItErrorResult: onFailure(error)

@@ -194,25 +194,16 @@ import PromiseKit
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(
-            request,
-            forResultClass: TradeItQuotesResult.self,
-            withCompletionBlock: { result in
-                if let quotesResult = result as? TradeItQuotesResult,
-                    let quote = quotesResult.quotes?.first as? TradeItQuote {
-                    onSuccess(quote)
-                } else if let errorResult = result as? TradeItErrorResult {
-                    onFailure(errorResult)
-                } else {
-                    onFailure(
-                        TradeItErrorResult(
-                            title: "Market data error",
-                            message: "Could not fetch quote. Please try again."
-                        )
-                    )
-                }
+        self.session.connector.send(request, targetClassType: TradeItQuotesResult.self, withCompletionBlock: { result in
+            if let quotesResult = result as? TradeItQuotesResult,
+                let quote = quotesResult.quotes?.first as? TradeItQuote {
+                onSuccess(quote)
+            } else if let errorResult = result as? TradeItErrorResult {
+                onFailure(errorResult)
+            } else {
+                onFailure(TradeItErrorResult(title: "Market data error", message: "Could not fetch quote. Please try again."))
             }
-        )
+        })
     }
 
     // MARK: Private

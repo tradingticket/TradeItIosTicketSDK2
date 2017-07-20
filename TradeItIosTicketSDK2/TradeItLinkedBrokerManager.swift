@@ -5,6 +5,7 @@ import PromiseKit
     private var sessionProvider: TradeItSessionProvider
     private var availableBrokersPromise: Promise<[TradeItBroker]>? = nil
     private var featuredBrokerLabelText: String?
+    private let brokerService: TradeItBrokerService
 
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
@@ -13,6 +14,7 @@ import PromiseKit
         self.connector = connector
 
         self.sessionProvider = TradeItSessionProvider()
+        self.brokerService = TradeItBrokerService(connector: connector)
 
         super.init()
 
@@ -468,26 +470,19 @@ import PromiseKit
             return availableBrokersPromise
         } else {
             let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
-                self.connector.getAvailableBrokers(
-                    withUserCountryCode: TradeItSDK.userCountryCode,
-                    completionBlock: { (availableBrokers: [TradeItBroker]?, featuredBrokerLabelText: String?) in
+                brokerService.getAvailableBrokers(
+                    userCountryCode: TradeItSDK.userCountryCode,
+                    onSuccess: { availableBrokers, featuredBrokerLabelText in
+                        // TODO: Why are these optional?
                         if let featuredBrokerLabelText = featuredBrokerLabelText {
                             TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
-                        }
-
-                        if let availableBrokers = availableBrokers {
                             self.featuredBrokerLabelText = featuredBrokerLabelText
-                            fulfill(availableBrokers)
-                        } else {
-                            reject(
-                                TradeItErrorResult(
-                                    title: "Available brokers failure",
-                                    message: "Could not fetch the list of available brokers. Please try again later."
-                                )
-                            )
-
-                            self.availableBrokersPromise = nil
                         }
+
+                        fulfill(availableBrokers)
+                    }, onFailure: { error in
+                        self.availableBrokersPromise = nil
+                        reject(error)
                     }
                 )
             }

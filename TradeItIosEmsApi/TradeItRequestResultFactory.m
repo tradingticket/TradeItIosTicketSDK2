@@ -2,6 +2,7 @@
 #import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
 #import "TradeItParseErrorResult.h"
+#import "TradeItUserAgentProvider.h"
 
 @implementation TradeItRequestResultFactory
 
@@ -74,6 +75,8 @@ static id<RequestFactory> _requestFactory = nil;
 + (NSURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
                                         emsAction:(NSString *)emsAction
                                       environment:(TradeitEmsEnvironments)env {
+    NSString *userAgent = [TradeItUserAgentProvider getUserAgent];
+
     NSString *requestJsonString = [requestObject toJSONString];
 
     NSURL *url = [NSURL URLWithString:emsAction
@@ -81,14 +84,15 @@ static id<RequestFactory> _requestFactory = nil;
 
     NSDictionary *headers = @{
                               @"Accept": @"application/json",
-                              @"Content-Type": @"application/json"
+                              @"Content-Type": @"application/json",
+                              @"User-Agent": userAgent
                               };
 
     NSURLRequest *request = [TradeItRequestResultFactory.requestFactory buildPostRequestForUrl:url
                                                                                   jsonPostBody:requestJsonString
                                                                                        headers:headers];
 
-    return request; //(NSMutableURLRequest *)[request mutableCopy];
+    return request;
 }
 
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult

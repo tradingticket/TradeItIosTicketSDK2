@@ -24,9 +24,9 @@
 - (void)previewTrade:(TradeItPreviewTradeRequest *)order withCompletionBlock:(void (^)(TradeItResult *)) completionBlock {
     order.token = self.session.token;
     
-    NSMutableURLRequest * request = [TradeItRequestResultFactory buildJsonRequestForModel:order
-                                                                                emsAction:@"order/previewStockOrEtfOrder"
-                                                                              environment:self.session.connector.environment];
+    NSURLRequest * request = [TradeItRequestResultFactory buildJsonRequestForModel:order
+                                                                         emsAction:@"order/previewStockOrEtfOrder"
+                                                                       environment:self.session.connector.environment];
 
     [self.session.connector sendEMSRequest:request
                             forResultClass:[TradeItPreviewTradeResult class]
@@ -36,9 +36,9 @@
 - (void)placeTrade:(TradeItPlaceTradeRequest *)order withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     order.token = self.session.token;
     
-    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:order
-                                                                               emsAction:@"order/placeStockOrEtfOrder"
-                                                                             environment:self.session.connector.environment];
+    NSURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:order
+                                                                        emsAction:@"order/placeStockOrEtfOrder"
+                                                                      environment:self.session.connector.environment];
 
     [self.session.connector sendEMSRequest:request
                             forResultClass:[TradeItPlaceTradeResult class]

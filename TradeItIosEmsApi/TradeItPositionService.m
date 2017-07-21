@@ -23,9 +23,9 @@
 - (void) getAccountPositions:(TradeItGetPositionsRequest *) request withCompletionBlock:(void (^)(TradeItResult *)) completionBlock {
     request.token = self.session.token;
     
-    NSMutableURLRequest *positionRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
-                                                                                       emsAction:@"position/getPositions"
-                                                                                     environment:self.session.connector.environment];
+    NSURLRequest *positionRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                emsAction:@"position/getPositions"
+                                                                              environment:self.session.connector.environment];
 
     [self.session.connector sendEMSRequest:positionRequest
                             forResultClass:[TradeItGetPositionsResult class]

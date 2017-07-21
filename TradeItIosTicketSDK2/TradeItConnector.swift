@@ -1,9 +1,9 @@
 public extension TradeItConnector {
     func sendReturnJSON(
         _ request: URLRequest,
-        withCompletionBlock completionBlock: @escaping (TradeItResult, String) -> Void
+        withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
     ) {
-        self.sendEMSRequestReturnJSON(request, withCompletionBlock: completionBlock)
+        self.send(request, withCompletionBlock: completionBlock)
     }
 
     func send<T: TradeItResult>(
@@ -11,7 +11,7 @@ public extension TradeItConnector {
         targetClassType: T.Type,
         withCompletionBlock completionBlock: @escaping (TradeItResult?) -> Void
     ) {
-        self.sendEMSRequestReturnJSON(request) { result, json in
+        self.send(request) { result, json in
             if result.status != "ERROR" { // Try to cast to desired resultClass
                 completionBlock(TradeItResultTransformer.transform(targetClassType: targetClassType, json: json))
             } else {
@@ -20,9 +20,9 @@ public extension TradeItConnector {
         }
     }
 
-    private func sendEMSRequestReturnJSON(
+    private func send(
         _ request: URLRequest,
-        withCompletionBlock completionBlock: @escaping (TradeItResult, String) -> Void
+        withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
     ) {
         DispatchQueue.global(qos: .userInitiated).async {
             let session = URLSession.shared
@@ -44,8 +44,8 @@ public extension TradeItConnector {
                         completionBlock(finalResult, json)
                     }
                 } else {
-                    // TODO: Figure out what to do here?
-                    completionBlock(TradeItErrorResult.error(withSystemMessage: "Data Error"), "{}")
+                    // TODO: Figure out what to do here? httpResponse failed or similar
+                    completionBlock(TradeItErrorResult.error(withSystemMessage: "Data Error"), nil)
                 }
             }).resume()
         }

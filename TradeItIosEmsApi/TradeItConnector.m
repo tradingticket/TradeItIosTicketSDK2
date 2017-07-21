@@ -72,6 +72,20 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     return self;
 }
 
+- (id)initWithApiKey:(NSString *)apiKey {
+    self = [super init];
+
+    if (self) {
+        self.apiKey = apiKey;
+        self.environment = TradeItEmsProductionEnv;
+        self.version = TradeItEmsApiVersion_2;
+        runAsyncCompletionBlockOnMainThread = true;
+    }
+
+    return self;
+}
+
+// TODO: Extract and Swiftify to OAuthService
 - (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString *)broker
                                 oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
                                  completionBlock:(void (^)(TradeItResult *))completionBlock {
@@ -98,6 +112,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      }];
 }
 
+// TODO: Extract and Swiftify to OAuthService
 - (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString *)broker
                                                userId:(NSString *)userId
                                      oAuthCallbackUrl:(NSURL *)oAuthCallbackUrl
@@ -126,7 +141,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      }];
 }
 
-
+// TODO: Extract and Swiftify to OAuthService
 - (void)getOAuthAccessTokenWithOAuthVerifier:(NSString *)oAuthVerifier
                              completionBlock:(void (^)(TradeItResult *))completionBlock {
 
@@ -151,6 +166,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      }];
 }
 
+// TODO: Deprecated - should be using OAuth
 - (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo *)authInfo
                       andCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     TradeItAuthLinkRequest *authLinkRequest = [[TradeItAuthLinkRequest alloc] initWithAuthInfo:authInfo andAPIKey:self.apiKey];
@@ -172,6 +188,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
      }];
 }
 
+// TODO: Extract and Swiftify to OAuthService
 - (void)updateUserToken:(TradeItLinkedLogin *)linkedLogin
                authInfo:(TradeItAuthenticationInfo *)authInfo
      andCompletionBlock:(void (^)(TradeItResult *))completionBlock {
@@ -354,9 +371,8 @@ withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     return [TradeItKeychain getStringForKey:keychainId];
 }
 
-// UNEXPOSED METHOD
-- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin
-    withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+// TODO: Extract and Swiftify to OAuthService
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin {
     NSString *userToken = [self userTokenFromKeychainId:linkedLogin.keychainId];
 
     TradeItOAuthDeleteLinkRequest *oAuthDeleteLinkRequest = [[TradeItOAuthDeleteLinkRequest alloc] init];

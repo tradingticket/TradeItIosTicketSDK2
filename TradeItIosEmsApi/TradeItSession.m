@@ -40,10 +40,10 @@
                                                                                               andApiKey:self.connector.apiKey
                                                                                        andAdvertisingId:[self getAdvertisingId]];
 
-    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:authRequest
-                                                                               emsAction:@"user/authenticate"
-                                                                             environment:self.connector.environment];
-    
+    NSURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:authRequest
+                                                                        emsAction:@"user/authenticate"
+                                                                      environment:self.connector.environment];
+
     [self.connector sendEMSRequest:request
                withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {
         completionBlock([self parseAuthResponse:result
@@ -63,9 +63,9 @@
            withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     TradeItSecurityQuestionRequest *secRequest = [[TradeItSecurityQuestionRequest alloc] initWithToken:self.token andAnswer:answer];
 
-    NSMutableURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:secRequest
-                                                                               emsAction:@"user/answerSecurityQuestion"
-                                                                             environment:self.connector.environment];
+    NSURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:secRequest
+                                                                        emsAction:@"user/answerSecurityQuestion"
+                                                                      environment:self.connector.environment];
 
     [self.connector sendEMSRequest:request
                withCompletionBlock:^(TradeItResult *result, NSMutableString *jsonResponse) {

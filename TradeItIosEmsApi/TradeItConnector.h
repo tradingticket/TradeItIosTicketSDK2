@@ -37,8 +37,6 @@
  */
 @property TradeItEmsApiVersion version;
 
-- (nonnull id)initWithApiKey:(nonnull NSString *)apiKey;
-
 - (nonnull id)initWithApiKey:(nonnull NSString *)apiKey
                  environment:(TradeitEmsEnvironments)environment
                      version:(TradeItEmsApiVersion)version;
@@ -122,10 +120,10 @@
  *  Method used by the session and services to issue requests to the ems servers
  *  You shouldn't need to call this method directly
  */
-- (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
+- (void)sendEMSRequest:(NSURLRequest * _Nullable)request
    withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable, NSMutableString * _Nullable))completionBlock;
 
-- (void)sendEMSRequest:(NSMutableURLRequest * _Nullable)request
+- (void)sendEMSRequest:(NSURLRequest * _Nullable)request
         forResultClass:(Class _Nonnull)resultClass
    withCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 

@@ -37,9 +37,9 @@
         return;
     }
 
-    NSMutableURLRequest *quoteRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
-                                                                                    emsAction:endpoint
-                                                                                  environment:self.connector.environment];
+    NSURLRequest *quoteRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                             emsAction:endpoint
+                                                                           environment:self.connector.environment];
 
     [self.connector sendEMSRequest:quoteRequest
                     forResultClass:[TradeItQuotesResult class]
@@ -48,9 +48,9 @@
 }
 
 - (void)symbolLookup:(TradeItSymbolLookupRequest *)request withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
-    NSMutableURLRequest *symbolLookupRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
-                                                                                           emsAction:@"marketdata/symbolLookup"
-                                                                                         environment:self.connector.environment];
+    NSURLRequest *symbolLookupRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                                    emsAction:@"marketdata/symbolLookup"
+                                                                                  environment:self.connector.environment];
 
     [self.connector sendEMSRequest:symbolLookupRequest
                     forResultClass:[TradeItSymbolLookupResult class]

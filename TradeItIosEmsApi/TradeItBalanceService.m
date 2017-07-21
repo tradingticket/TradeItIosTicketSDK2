@@ -26,9 +26,9 @@
        withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     request.token = self.session.token;
 
-    NSMutableURLRequest *balanceRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
-                                                                                      emsAction:@"balance/getAccountOverview"
-                                                                                    environment:self.session.connector.environment];
+    NSURLRequest *balanceRequest = [TradeItRequestResultFactory buildJsonRequestForModel:request
+                                                                               emsAction:@"balance/getAccountOverview"
+                                                                             environment:self.session.connector.environment];
 
     [self.session.connector sendEMSRequest:balanceRequest
                             forResultClass:[TradeItAccountOverviewResult class]

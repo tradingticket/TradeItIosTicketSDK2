@@ -42,9 +42,15 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
         self.avgCostLabelValue.text = presenter.getAvgCost()
+        
         self.lastPriceLabelValue.text = presenter.getLastPrice()
+        
+        self.lastPriceLabelValue.setNeedsLayout()
+        self.lastPriceLabelValue.layoutIfNeeded()
+        self.lastPriceLabelValue.textColor = presenter.getFormattedDayChangeColor()
+        
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
-
+        
         self.dayReturnLabel.text = presenter.getFormattedDayReturn()
         self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
 

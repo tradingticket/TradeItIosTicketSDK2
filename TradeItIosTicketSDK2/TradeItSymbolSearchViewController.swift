@@ -15,7 +15,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.activityIndicator.hidesWhenStopped = true
         setupSearchTextField()
-
+        
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
@@ -27,7 +27,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
             trackPageViewAsPageType: false
         )
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField.becomeFirstResponder()
@@ -42,8 +42,14 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         searchLabel.sizeToFit()
         searchTextField.leftView = searchLabel
         searchTextField.leftViewMode = .always
+        searchTextField.autocorrectionType = .no
+        searchTextField.returnKeyType = .done
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.resignFirstResponder()
+        return true
+    }
 
     // MARK: UITextFieldDelegate
 

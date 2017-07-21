@@ -386,6 +386,25 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 }
                             )
                         }
+                    ),
+                    YahooAction(
+                        label: "Manual launchAuthentication",
+                        action: {
+                            let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
+                            guard !linkedBrokers.isEmpty else {
+                                print("=====> NO LINKED BROKERS!")
+                                return
+                            }
+                            TradeItSDK.yahooLauncher.launchAuthentication(
+                                forLinkedBroker: linkedBrokers[0],
+                                onViewController: self,
+                                onSuccess: {
+                                    print("=====> Manual launchAuthentication successful")
+                                },
+                                onFailure: { errorResult in
+                                    print(errorResult)
+                            })
+                        }
                     )
                 ]
             )

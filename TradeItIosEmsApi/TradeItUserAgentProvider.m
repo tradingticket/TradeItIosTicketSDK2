@@ -10,31 +10,36 @@
 
 @implementation TradeItUserAgentProvider
 
-
 + (NSString *)getUserAgent {
-    NSDictionary<NSString *, id> *bundleDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *appName = [bundleDict valueForKey:@"CFBundleName"];
-    NSString *appVersion = [bundleDict valueForKey:@"CFBundleShortVersionString"];
-    
-    NSString * appDescriptor = [NSString stringWithFormat:@"%@/%@", appName, appVersion];
-    
-    UIDevice *device = [UIDevice currentDevice];
-    NSString* systemVersion = [device systemVersion];
-    
-    NSString * osDescriptor = [NSString stringWithFormat:@"%@ %@", @"iOS", systemVersion];
-    
-    NSString * hardwareString = [self getSysInfoByName:"hw.model"];
-    
-    NSDictionary<NSString *, id> * bundleProviderSDK2 = [[TradeItBundleProvider provide] infoDictionary];
-    
-    NSString *sdkName = [bundleProviderSDK2 valueForKey:@"CFBundleName"];
-    NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleVersion"];
-    
-    return [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
+    static NSString *userAgent = nil;
+    static dispatch_once_t onceToken;
+
+    dispatch_once(&onceToken, ^{
+        NSDictionary<NSString *, id> *bundleDict = [[NSBundle mainBundle] infoDictionary];
+        NSString *appName = [bundleDict valueForKey:@"CFBundleName"];
+        NSString *appVersion = [bundleDict valueForKey:@"CFBundleShortVersionString"];
+
+        NSString *appDescriptor = [NSString stringWithFormat:@"%@/%@", appName, appVersion];
+
+        UIDevice *device = [UIDevice currentDevice];
+        NSString *systemVersion = [device systemVersion];
+
+        NSString *osDescriptor = [NSString stringWithFormat:@"%@ %@", @"iOS", systemVersion];
+
+        NSString *hardwareString = [self getSysInfoByName:"hw.model"];
+
+        NSDictionary<NSString *, id> *bundleProviderSDK2 = [[TradeItBundleProvider provide] infoDictionary];
+
+        NSString *sdkName = [bundleProviderSDK2 valueForKey:@"CFBundleName"];
+        NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleVersion"];
+
+        userAgent = [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
+    });
+
+    return userAgent;
 }
 
-+ (NSString *)getSysInfoByName:(char *)typeSpecifier
-{
++ (NSString *)getSysInfoByName:(char *)typeSpecifier {
     size_t size;
     sysctlbyname(typeSpecifier, NULL, &size, NULL, 0);
     

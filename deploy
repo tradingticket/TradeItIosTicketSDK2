@@ -1,19 +1,44 @@
 #!/bin/bash
 set -euo pipefail
 
-VERSION=$1
+git fetch --tags -p
 
-xcrun agvtool what-version
-xcrun agvtool new-version -all $VERSION
-xcrun agvtool new-marketing-version $VERSION
+# Check if there are uncommitted changes
+git diff-index --quiet HEAD -- || { echo "ERROR: You have uncommitted local changes. Commit or clean up before proceeding."; exit; }
 
+LATEST_GIT_TAG=`git tag -l --points-at HEAD`
+BUNDLE_VERSION=`xcrun agvtool what-version`
+POD_VERSION=`grep "s.version[ ]\+=" TradeItIosTicketSDK2.podspec | grep -Eo "\d+\.\d+\.\d+"`
+
+if  [[ "$BUNDLE_VERSION" != "$POD_VERSION" && "$BUNDLE_VERSION" != "$LATEST_GIT_TAG" ]]; then
+  echo "Mismatch between bundle version ${BUNDLE_VERSION}, pod version ${POD_VERSION}, and ${LATEST_GIT_TAG}!!!. Rectify versions/tag before running the deploy script..."
+  exit 1
+fi
+
+echo "Current version: ${BUNDLE_VERSION}"
+
+echo -n "Enter new version to deploy?:"
+read NEW_VERSION
+
+echo -e "\n\nPreparing to deploy new version ${NEW_VERSION}..."
+sleep 3 # Pause to give user a chance to back out with Ctrl-C
+
+echo -e "\n\nSetting new bundle version..."
+xcrun agvtool new-version -all $NEW_VERSION
+xcrun agvtool new-marketing-version $NEW_VERSION
+
+echo -e "\n\nUpdating TradeItIosTicketSDK2.podspec version..."
+sed -i "" "s/= '$POD_VERSION'/= '$NEW_VERSION'/g" TradeItIosTicketSDK2.podspec
+
+git add TradeItIosTicketSDK2.podspec
 git add TradeItIosTicketSDK2.xcodeproj/project.pbxproj
 git add */Info.plist
-git commit -m "Version: $VERSION" -e -v
+git commit -m "Version: $NEW_VERSION" -e -v
 
 carthage build --no-skip-current --platform iOS
 
-git tag $VERSION
-git push origin $VERSION
+git tag $NEW_VERSION
+git push origin $NEW_VERSION
 
-pod repo push tradingticket *.podspec --verbose --allow-warnings
+pod repo push tradingticket TradeItIosTicketSDK2.podspec --verbose --allow-warnings
+

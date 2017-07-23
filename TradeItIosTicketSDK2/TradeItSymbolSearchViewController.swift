@@ -15,7 +15,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.activityIndicator.hidesWhenStopped = true
         setupSearchTextField()
-        
+
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
@@ -27,7 +27,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
             trackPageViewAsPageType: false
         )
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField.becomeFirstResponder()
@@ -45,7 +45,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         searchTextField.autocorrectionType = .no
         searchTextField.returnKeyType = .done
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.resignFirstResponder()
         return true
@@ -56,14 +56,14 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let originalText: NSString = textField.text as NSString? ?? ""
         let resultText = originalText.replacingCharacters(in: range, with: string)
-        
+
         self.activityIndicator.startAnimating()
-        
+
         TradeItSDK.symbolService.symbolLookup(
             resultText,
             onSuccess: { results in
                 let inputText = textField.text
-                
+
                 if inputText == resultText {
                     self.activityIndicator.stopAnimating()
                     self.symbolSearchResults = results
@@ -85,7 +85,6 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.delegate?.symbolSearchViewController(self, didSelectSymbol: selectedSymbol)
     }
-
 
     // MARK: UITableViewDataSource
 

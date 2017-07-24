@@ -3,7 +3,8 @@ import UIKit
 class TradeItYahooAccountSelectionViewController: CloseableViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
     @IBOutlet weak var accountsTableView: UITableView!
 
-    let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
+    let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
+    var alertManager: TradeItAlertManager?
     var accountSelectionTableManager = TradeItYahooAccountSelectionTableViewManager()
     weak var delegate: TradeItYahooAccountSelectionViewControllerDelegate?
 
@@ -11,6 +12,7 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
         super.viewDidLoad()
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
+        self.alertManager = TradeItAlertManager(linkBrokerUIFlow: linkBrokerUIFlow)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -27,7 +29,7 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
         // TODO: Need to think about how not to have to wrap every linked broker action in a call to authenticate
         TradeItSDK.linkedBrokerManager.authenticateAll(
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
+                self.alertManager?.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
                     onViewController: self,
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
@@ -35,7 +37,7 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
                 )
             },
             onFailure:  { error, linkedBroker in
-                self.alertManager.showAlertWithAction(
+                self.alertManager?.showAlertWithAction(
                     error: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,
@@ -57,6 +59,14 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
 
     func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.delegate?.accountSelectionViewController(self, didSelectLinkedBrokerAccount: linkedBrokerAccount)
+    }
+    
+    func addBrokerageAccountWasSelected() {
+        self.linkBrokerUIFlow.presentLinkBrokerFlow(
+            fromViewController: self,
+            showWelcomeScreen: false,
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+        )
     }
 }
 

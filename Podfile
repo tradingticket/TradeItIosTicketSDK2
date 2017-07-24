@@ -22,6 +22,10 @@ target 'TradeItIosTicketSDK2Tests' do
   app_pods
 end
 
+target 'ExampleAppUITests' do
+    app_pods
+end
+
 target 'TradeItIosTicketSDK2' do
   app_pods
 end

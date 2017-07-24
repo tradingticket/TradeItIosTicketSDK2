@@ -341,8 +341,8 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
     [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
-        NSDictionary *account = (NSDictionary *) obj;
-        if([account[@"broker"] isEqualToString:broker]) {
+        NSDictionary *account = (NSDictionary *)obj;
+        if ([account[@"broker"] isEqualToString:broker]) {
             [toRemove addObject:obj];
         }
     }];
@@ -360,12 +360,12 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [accounts enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger __unused idx, BOOL * _Nonnull __unused stop) {
         NSDictionary *account = (NSDictionary *)obj;
-        if ([account[@"userId"] isEqualToString: login.userId]) {
+        if ([account[@"userId"] isEqualToString:login.userId]) {
             [toRemove addObject:obj];
         }
     }];
 
-    for (NSDictionary * account in toRemove) {
+    for (NSDictionary *account in toRemove) {
         [accounts removeObject:account];
     }
 

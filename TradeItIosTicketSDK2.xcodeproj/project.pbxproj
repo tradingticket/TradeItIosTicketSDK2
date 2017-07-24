@@ -2889,7 +2889,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98A2390A961A32AF0F09BD1B /* Pods-TradeItIosTicketSDK2Tests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2903,7 +2903,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3221054900C12E65DD9A6D9A /* Pods-TradeItIosTicketSDK2Tests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TradeItIosTicketSDK2Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3106,7 +3106,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CFA3D7027ABB635CCC657394 /* Pods-ExampleApp.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
 				DEVELOPMENT_TEAM = 58CRH77TZ6;
@@ -3123,7 +3123,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B9A7A2C8461DB5A2D48CB14 /* Pods-ExampleApp.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExampleApp/ExampleApp.entitlements;
 				DEVELOPMENT_TEAM = 58CRH77TZ6;

@@ -8,7 +8,7 @@
 @interface TradeItInstrumentOrderCapabilities : JSONModel
 
 @property (nonatomic, copy) NSString * _Nonnull instrument;
-@property (nonatomic, copy) NSString<Optional> * _Nullable symbol;
+@property (nonatomic, copy) NSString<Optional> * _Nullable tradeItSymbol;
 @property (nonatomic, copy) NSNumber<Optional> * _Nullable precision;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable actions;
 @property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable expirationTypes;

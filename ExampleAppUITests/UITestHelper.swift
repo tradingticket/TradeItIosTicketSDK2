@@ -1,5 +1,18 @@
 import XCTest
 
+extension XCUIElement {
+    func scrollToElement(element: XCUIElement) {
+        while !element.visible() {
+            swipeUp()
+        }
+    }
+    
+    func visible() -> Bool {
+        guard self.exists && !self.frame.isEmpty else { return false }
+        return XCUIApplication().windows.element(boundBy: 0).frame.contains(self.frame)
+    }
+}
+
 extension XCTestCase {
     func predicateDoesntExist() -> NSPredicate {
         return NSPredicate(format: "exists == false")
@@ -24,6 +37,10 @@ extension XCTestCase {
     func predicateNotHasKeyboardFocus() -> NSPredicate {
         return NSPredicate(format:"hasKeyboardFocus == false")
     }
+    
+    func predicateBeginsWith(label: String) -> NSPredicate {
+        return NSPredicate(format: ("label BEGINSWITH '\(label)'"))
+    }
 
     func waitForElementToDisappear(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
         usleep(100_000)
@@ -31,7 +48,7 @@ extension XCTestCase {
         self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementToAppear(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
+    func waitForElementToAppear(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 10) {
         usleep(100_000)
         self.expectation(for: self.predicateExists(), evaluatedWith:element, handler: nil)
         self.waitForExpectations(timeout: seconds, handler: nil)
@@ -43,7 +60,7 @@ extension XCTestCase {
         self.waitForExpectations(timeout: seconds, handler: nil)
     }
 
-    func waitForElementToBeHittable(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 5) {
+    func waitForElementToBeHittable(_ element: XCUIElement, withinSeconds seconds: TimeInterval = 10) {
         usleep(100_000)
         self.expectation(for: self.predicateIsHittable(), evaluatedWith:element, handler: nil)
         self.waitForExpectations(timeout: seconds, handler: nil)
@@ -145,24 +162,48 @@ extension XCTestCase {
     }
     
     func clearData(_ app: XCUIApplication) {
-        let deleteLinkedBrokersText = app.tables.staticTexts["deleteLinkedBrokers"]
-        waitForElementToBeHittable(deleteLinkedBrokersText)
+        let deleteLinkedBrokersText = app.tables.staticTexts["Unlink all brokers"]
+        scrollDownTo(app, element: deleteLinkedBrokersText)
         deleteLinkedBrokersText.tap()
+        let alert = app.alerts["Deletion complete."]
+        waitForElementToAppear(alert)
+        alert.buttons["OK"].tap()
+    }
+    
+    func scrollDownTo(_ app: XCUIApplication, element: XCUIElement, retry: Int = 3) {
+        let table = app.tables.element(boundBy: 0)
+        
+        table.swipeUp()
+        
+        if (!element.exists && retry > 0) {
+            scrollDownTo(app, element: element, retry: (retry - 1))
+        }
+        
+        if (!element.exists && retry == 0) {
+            scrollUpTo(app, element: element, retry: (retry + 1))
+        }
+    }
+    
+    func scrollUpTo(_ app: XCUIApplication, element: XCUIElement, retry: Int = 3) {
+        let table = app.tables.element(boundBy: 0)
+        
+        table.swipeDown()
+        
+        if (!element.exists && retry > 0) {
+            scrollUpTo(app, element: element, retry: (retry - 1))
+        }
     }
     
     func handleWelcomeScreen(_ app: XCUIApplication, launchOption: String) {
         let launchPortfolioText = app.tables.staticTexts["\(launchOption)"]
-        waitForElementToBeHittable(launchPortfolioText)
+        scrollUpTo(app, element: launchPortfolioText)
         launchPortfolioText.tap()
         waitForElementToAppear(app.navigationBars["Welcome"])
-        XCTAssert(app.otherElements.staticTexts["Link your broker account"].exists)
-        app.buttons["Get Started Now"].tap()
+        app.buttons["Get started"].tap()
     }
     
     func selectBrokerFromTheBrokerSelectionScreen(_ app: XCUIApplication, longBrokerName: String) {
-        XCTAssert(app.navigationBars["Select Your Broker"].exists)
-        let ezLoadingActivity = app.staticTexts["Loading Brokers"]
-        waitForElementToDisappear(ezLoadingActivity)
+        XCTAssert(app.navigationBars["Select your broker"].exists)
         XCTAssert(app.tables.cells.count > 0)
         let dummyBrokerStaticText = app.tables.staticTexts[longBrokerName]
         XCTAssert(dummyBrokerStaticText.exists)
@@ -170,20 +211,32 @@ extension XCTestCase {
     }
     
     func submitValidCredentialsOnTheLoginScreen(_ app: XCUIApplication, longBrokerName: String, username: String = "dummy", password: String = "dummy") {
-        XCTAssert(app.navigationBars["Login"].exists)
         let usernameTextField = app.textFields["\(longBrokerName) Username"]
         let passwordTextField = app.secureTextFields["\(longBrokerName) Password"]
-        waitForElementToHaveKeyboardFocus(usernameTextField)
-        waitForElementNotToHaveKeyboardFocus(passwordTextField)
+        waitForElementToAppear(usernameTextField)
+        usernameTextField.tap()
         
-        XCTAssert(app.staticTexts["Log in to \(longBrokerName)"].exists)
+        waitForElementToHaveKeyboardFocus(usernameTextField)
         usernameTextField.typeText(username)
         passwordTextField.tap()
         waitForElementToHaveKeyboardFocus(passwordTextField)
         waitForElementNotToHaveKeyboardFocus(usernameTextField)
         passwordTextField.typeText(password)
         
-        app.buttons["Link Broker"].tap()
+        app.buttons["Sign In"].tap()
+    }
+    
+    func completeOauthScreen(_ app: XCUIApplication) {
+        let successText = app.staticTexts["Success!"]
+        waitForElementToAppear(successText)
+        XCTAssert(successText.exists)
+        app.buttons["Continue"].tap()
+    }
+    
+    func tapCloseButton(_ app: XCUIApplication) {
+        let closeButton = app.buttons["Close"]
+        waitForElementToBeHittable(closeButton)
+        closeButton.tap()
     }
     
     func selectAccountOnPortfolioScreen(_ app: XCUIApplication, rowNum: Int) {
@@ -200,131 +253,56 @@ extension XCTestCase {
     
     func testPortfolioValues(_ app: XCUIApplication, brokerName: String){
         if(brokerName == "Dummy"){
-            //AccountTotalValue
-            XCTAssert(app.staticTexts["$76,489.23"].exists)
             //Balances
-            XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["Individual**cct1 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            waitForElementToAppear(app.tables.staticTexts["AAPL"])//change
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
-            app.tables.staticTexts["AAPL"].tap()
+            XCTAssert(app.tables.staticTexts["Individual**0001"].exists)
+            testPortfolioValues(app)
         }
         else if(brokerName == "dummyMultipleAcct1"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Individual**cct1"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["Individual**cct1 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            waitForElementToAppear(app.tables.staticTexts["AAPL"])//change
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
-            app.tables.staticTexts["AAPL"].tap()
+            XCTAssert(app.tables.staticTexts["Individual**0001"].exists)
+            testPortfolioValues(app)
         }
         else if(brokerName == "jointIRA"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Joint IRA **cct2"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["Joint IRA **cct2 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            waitForElementToAppear(app.tables.staticTexts["AAPL"])//change
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
-            app.tables.staticTexts["AAPL"].tap()
+            XCTAssert(app.tables.staticTexts["Joint IRA **0002"].exists)
+            testPortfolioValues(app)
         }
         else if(brokerName == "Joint401k"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Joint 401k**cct3"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["Joint 401k**cct3 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            waitForElementToAppear(app.tables.staticTexts["AAPL"])//change
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
-            app.tables.staticTexts["AAPL"].tap()
+            XCTAssert(app.tables.staticTexts["Joint 401k**0003"].exists)
+            testPortfolioValues(app)
         }
         else if(brokerName == "MargicAcct"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Margin Acc**cct4"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["Margin Acc**cct4 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            waitForElementToAppear(app.tables.staticTexts["AAPL"]) //change
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
-            app.tables.staticTexts["AAPL"].tap()
+            XCTAssert(app.tables.staticTexts["Margin Acc**0004"].exists)
+            testPortfolioValues(app)
         }
         else if(brokerName == "OptionAcct"){
             //Balances
-            XCTAssert(app.tables.staticTexts["OPTIONS SU**cct5"].exists)
-            XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
-            XCTAssert(app.tables.staticTexts["$76,489.23 (22.84%)"].exists)
-            //Positions
-            let holdingsTitle = app.staticTexts["OPTIONS SU**cct5 Holdings"]
-            waitForElementToAppear(holdingsTitle)
-            XCTAssert(app.tables.staticTexts["AAPL"].exists)
-            XCTAssert(app.tables.staticTexts["1 shares"].exists)
-            XCTAssert(app.tables.staticTexts["$103.34"].exists)
-            XCTAssert(app.tables.staticTexts["$112.34"].exists)
-            //Positions details
-            app.tables.staticTexts["AAPL"].tap()
-            waitForElementToAppear(app.tables.staticTexts["Bid"])
-            XCTAssert(app.tables.staticTexts["Ask"].exists)
-            XCTAssert(app.tables.staticTexts["Total Value"].exists)
-            XCTAssert(app.tables.staticTexts["Total Return"].exists)
-            XCTAssert(app.tables.staticTexts["Day"].exists)
+            XCTAssert(app.tables.staticTexts["OPTIONS SU**0005"].exists)
+            testPortfolioValues(app)
         }
+    }
+    
+    private func testPortfolioValues(_ app: XCUIApplication) {
+        XCTAssert(app.tables.staticTexts["$2,408.12"].exists)
+        XCTAssert(app.tables.staticTexts["$76,489.23"].exists)
+        XCTAssert(app.tables.staticTexts[" (+22.84%)"].exists)
+        //Positions
+        waitForElementToAppear(app.tables.staticTexts["AAPL"]) //change
+        XCTAssert(app.tables.staticTexts["1 shares"].exists)
+        XCTAssert(app.tables.staticTexts["$103.34"].exists)
+        XCTAssert(app.tables.staticTexts["$112.34"].exists)
+        //Positions details
+        app.tables.staticTexts["AAPL"].tap()
+        waitForElementToAppear(app.tables.staticTexts["Bid / Ask"])
+        XCTAssert(app.tables.staticTexts["Total Value"].exists)
+        XCTAssert(app.tables.staticTexts["Total Return"].exists)
+        XCTAssert(app.tables.staticTexts["Day Return"].exists)
+        waitForElementToDisappear(app.tables.staticTexts["N/A"])
+        app.tables.staticTexts["AAPL"].tap()
+        let portfolioBackButton = app.buttons["Portfolio"]
+        waitForElementToBeHittable(portfolioBackButton)
+        portfolioBackButton.tap()
     }
 }

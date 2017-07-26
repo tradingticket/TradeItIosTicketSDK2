@@ -59,17 +59,19 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
     
     private func genericErrorFlow(_ dummyUsername: String, errorMessage: String){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+        handleWelcomeScreen(app, launchOption: "Portfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: dummyUsername)
         waitForElementToAppear(app.alerts["Could Not Login"])
         let alert = app.alerts["Could Not Login"]
         XCTAssert(alert.staticTexts[errorMessage].exists)
         alert.buttons["OK"].tap()
-        waitForElementToDisappear(alert)
-        app.buttons["Link Broker"].tap()
-        waitForElementToAppear(alert)
-        XCTAssert(alert.staticTexts[errorMessage].exists)
+        
+        let successText = app.staticTexts["Success!"]
+        waitForElementToAppear(successText)
+        XCTAssert(successText.exists)
+        app.buttons["Continue"].tap()
+        tapCloseButton(app)
     }
     
     //TODO: Wait for dummyFailTrade to be fixed

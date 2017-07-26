@@ -21,106 +21,119 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
     //******************//
     func testPortfolioWithWelcomeSingleAcc() {
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+        handleWelcomeScreen(app, launchOption: "Portfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
-        selectAccountOnPortfolioScreen(app, rowNum: 1)
+        completeOauthScreen(app)
+        selectAccountOnPortfolioScreen(app, rowNum: 2)
         testPortfolioValues(app, brokerName: "Dummy")
     }
     
     func testPortfolioWithoutWelcome(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+        handleWelcomeScreen(app, launchOption: "Portfolio")
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+        completeOauthScreen(app)
         app.navigationBars["Portfolio"].buttons["Close"].tap()
-        waitForElementToBeHittable(app.tables.staticTexts["launchPortfolio"])
-        app.tables.staticTexts["launchPortfolio"].tap()
+        waitForElementToBeHittable(app.tables.staticTexts["Portfolio"])
+        app.tables.staticTexts["Portfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        waitForElementToAppear(app.tables.staticTexts["Individual**cct1"])
+        waitForElementToAppear(app.tables.staticTexts["Individual**0001"])
     }
     
     func testPortfolioWithWelcomeMultiAcc(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+        handleWelcomeScreen(app, launchOption: "Portfolio")
         
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
+        completeOauthScreen(app)
         selectAccountOnPortfolioScreen(app, rowNum: 1)
         
         //log into dummy acc
-        app.buttons["Edit Accounts"].tap()
-        app.buttons["Add Account"].tap()
+        app.buttons["Manage"].tap()
+        app.tables.staticTexts["Add Account"].tap()
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
+        completeOauthScreen(app)
         
         //back to portfolio view
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
-        testPortfolioValues(app, brokerName: "dummyMultipleAcct1")
         selectAccountOnPortfolioScreen(app, rowNum: 2)
-        testPortfolioValues(app, brokerName: "jointIRA")
-        selectAccountOnPortfolioScreen(app, rowNum: 3)
-        testPortfolioValues(app, brokerName: "Joint401k")
+        testPortfolioValues(app, brokerName: "dummyMultipleAcct1")
+        waitForElementToAppear(app.navigationBars["Portfolio"])
         selectAccountOnPortfolioScreen(app, rowNum: 4)
-        testPortfolioValues(app, brokerName: "MargicAcct")
+        testPortfolioValues(app, brokerName: "jointIRA")
+        waitForElementToAppear(app.navigationBars["Portfolio"])
         selectAccountOnPortfolioScreen(app, rowNum: 5)
+        testPortfolioValues(app, brokerName: "Joint401k")
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+        selectAccountOnPortfolioScreen(app, rowNum: 6)
+        testPortfolioValues(app, brokerName: "MargicAcct")
+        waitForElementToAppear(app.navigationBars["Portfolio"])
+        selectAccountOnPortfolioScreen(app, rowNum: 7)
         testPortfolioValues(app, brokerName: "OptionAcct")
     }
     
     func testUnlinkingAcc(){
         clearData(app)
-        handleWelcomeScreen(app, launchOption: "launchPortfolio")
+        handleWelcomeScreen(app, launchOption: "Portfolio")
 
         //log into dummyMultiple
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
-        selectAccountOnPortfolioScreen(app, rowNum: 1)
+        completeOauthScreen(app)
 
         //unlink and test if portfolio view if reflect the change
-        app.buttons["Edit Accounts"].tap()
+        app.buttons["Manage"].tap()
         waitForElementToAppear(app.navigationBars["Accounts"])
         app.tables.staticTexts["Dummy (5 accounts)"].tap()
         waitForElementToAppear(app.navigationBars["Dummy"])
-        app.tables.switches["Joint 401k**cct3, BUYING POWER, $2,408.12"].tap()
+        app.tables.switches.matching(predicateBeginsWith(label: "Joint 401k**0003")).element.tap()
         app.navigationBars["Dummy"].buttons.element(boundBy: 0).tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
-        XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists) // true: 401k acc is unlinked
-        XCTAssertTrue(app.staticTexts["$305,956.91"].exists) // true: total value reflects change
+        XCTAssertFalse(app.tables.staticTexts["Joint 401k**003"].exists) // true: 401k acc is disabled
+        let totalValue = app.staticTexts["$305,956.91"]
+        waitForElementToAppear(totalValue)
 
         //log into dummy acc
-        app.buttons["Edit Accounts"].tap()
-        app.buttons["Add Account"].tap()
+        app.buttons["Manage"].tap()
+        app.tables.staticTexts["Add Account"].tap()
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker")
-
+        completeOauthScreen(app)
+        
         //back to portfolio view
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
 
         //delete dummy broker
-        app.buttons["Edit Accounts"].tap()
+        app.buttons["Manage"].tap()
         app.tables.staticTexts["Dummy (5 accounts)"].tap()
         waitForElementToAppear(app.navigationBars["Dummy"])
-        XCTAssert(app.buttons["Unlink Account"].exists)
-        app.buttons["Unlink Account"].tap()
+        let unlinkCell = app.tables.staticTexts["Unlink"]
+        XCTAssert(unlinkCell.exists)
+        unlinkCell.tap()
         app.alerts["Unlink Dummy"].buttons["Unlink"].tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        XCTAssert(app.staticTexts["$0.00"].exists) // true: dummyMultiple accs are removed
+        XCTAssert(app.staticTexts["$76,489.23"].exists) // true: dummyMultiple accs are removed
 
         //exit app
         app.navigationBars["Portfolio"].buttons["Close"].tap()
 
         //and relaunch portfolio
-        let launchPortfolioText = app.tables.staticTexts["launchPortfolio"]
+        let launchPortfolioText = app.tables.staticTexts["Portfolio"]
         waitForElementToBeHittable(launchPortfolioText)
         launchPortfolioText.tap()
 
         //test if data is persistent
+        selectAccountOnPortfolioScreen(app, rowNum: 2)
         testPortfolioValues(app, brokerName: "Dummy")
-        XCTAssertFalse(app.tables.staticTexts["Joint IRA **cct2"].exists)
-        XCTAssertFalse(app.tables.staticTexts["Joint 401k**cct3"].exists)
-        XCTAssertFalse(app.tables.staticTexts["Margin Acc**cct4"].exists)
-        XCTAssertFalse(app.tables.staticTexts["OPTIONS SU**cct5"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Joint IRA **0002"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Joint 401k**0003"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Margin Acc**0004"].exists)
+        XCTAssertFalse(app.tables.staticTexts["OPTIONS SU**0005"].exists)
     }
 }

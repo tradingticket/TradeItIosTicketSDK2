@@ -268,20 +268,34 @@ import PromiseKit
         return self.linkedBrokers.filter { $0.error == nil }
     }
 
-    public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false)
-
-        if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
-            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-            self.linkedBrokers.remove(at: index)
-            self.oAuthDelegate?.didUnlink?(userId: userId)
-            NotificationCenter.default.post(
-                name: TradeItSDK.didUnlinkNotificationName,
-                object: nil,
-                userInfo: [
-                    "linkedBroker": linkedBroker
-                ]
-            )
+    public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker,
+                             onSuccess: @escaping () -> Void,
+                             onFailure: @escaping (TradeItErrorResult) -> Void) {
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false) { result in
+            switch result {
+            case _ as TradeItUnlinkLoginResult:
+                if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
+                    TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                    self.linkedBrokers.remove(at: index)
+                    self.oAuthDelegate?.didUnlink?(userId: userId)
+                    NotificationCenter.default.post(
+                        name: TradeItSDK.didUnlinkNotificationName,
+                        object: nil,
+                        userInfo: [
+                            "linkedBroker": linkedBroker
+                        ]
+                    )
+                    onSuccess()
+                } else {
+                    let error = TradeItErrorResult(title: "UnlinkBroker error")
+                    error.systemMessage = "This linkedBroker was already unlinked"
+                    onFailure(error)
+                }
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            default:
+                onFailure(TradeItErrorResult(title: "UnlinkBroker error"))
+            }
         }
     }
 
@@ -572,11 +586,11 @@ import PromiseKit
     }
 
     private func removeBroker(linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: true)
-
-        if let index = self.linkedBrokers.index(of: linkedBroker) {
-            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-            self.linkedBrokers.remove(at: index)
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: true) { result in
+            if let index = self.linkedBrokers.index(of: linkedBroker) {
+                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                self.linkedBrokers.remove(at: index)
+            }
         }
     }
 

@@ -713,14 +713,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT, version: TradeItEmsApiVersion_2)
 
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
-
         for linkedLogin in linkedLogins {
-            connector.unlinkLogin(linkedLogin, localOnly: false)
-            if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
-                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            connector.unlinkLogin(linkedLogin, localOnly: false) { result in
+                if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
+                    TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                }
             }
         }
-
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
         let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count

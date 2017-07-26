@@ -7,7 +7,8 @@ import SafariServices
     private let tradingUIFlow = TradeItYahooTradingUIFlow()
     private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
     private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
-
+    private let alertManager = TradeItAlertManager()
+    
     override internal init() {}
 
     public func launchOAuth(fromViewController viewController: UIViewController) {
@@ -111,6 +112,25 @@ import SafariServices
             onFailure: {
                 print("Access denied")
             }
+        )
+    }
+    
+    public func launchAuthentication(
+        forLinkedBroker linkedBroker: TradeItLinkedBroker,
+        onViewController viewController: UIViewController,
+        onSuccess: @escaping () -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        linkedBroker.authenticate(
+            onSuccess: onSuccess,
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: viewController,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelQuestion)
+            },
+            onFailure: onFailure
         )
     }
 }

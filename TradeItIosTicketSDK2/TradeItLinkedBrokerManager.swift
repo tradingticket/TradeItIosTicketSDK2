@@ -285,12 +285,8 @@ import PromiseKit
                             "linkedBroker": linkedBroker
                         ]
                     )
-                    onSuccess()
-                } else {
-                    let error = TradeItErrorResult(title: "UnlinkBroker error")
-                    error.systemMessage = "This linkedBroker was already unlinked"
-                    onFailure(error)
                 }
+                onSuccess()
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             default:

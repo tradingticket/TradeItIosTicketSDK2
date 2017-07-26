@@ -12,9 +12,9 @@
 
 @property (class) id<RequestFactory> _Nullable requestFactory;
 
-+ (NSMutableURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
-                                        emsAction:(NSString *)action
-                                      environment:(TradeitEmsEnvironments)env;
++ (NSURLRequest *)buildJsonRequestForModel:(JSONModel *)requestObject
+                                 emsAction:(NSString *)action
+                               environment:(TradeitEmsEnvironments)env;
 
 
 + (TradeItResult *)buildResult:(TradeItResult *)tradeItResult

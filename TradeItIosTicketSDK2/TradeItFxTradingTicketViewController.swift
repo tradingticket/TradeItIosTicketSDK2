@@ -226,7 +226,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                         self.orderCapabilities = orderCapabilities
 
                         self.setOrderDefaults()
-                        self.setSymbol(orderCapabilities.symbol)
+                        self.setSymbol(orderCapabilities.tradeItSymbol)
                         self.updateMarketData()
 
                         self.reloadTicket()

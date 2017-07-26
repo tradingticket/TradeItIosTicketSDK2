@@ -3,10 +3,11 @@ import MBProgressHUD
 import BEMCheckBox
 
 class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
-    @IBOutlet weak var brokerLabel: UILabel!
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var editOrderButton: UIButton!
+    @IBOutlet weak var actionButtonWidthConstraint: NSLayoutConstraint!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
     var previewOrderResult: TradeItPreviewOrderResult?
@@ -26,11 +27,9 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         precondition(self.linkedBrokerAccount != nil, "TradeItSDK ERROR: TradeItYahooTradingPreviewViewController loaded without setting linkedBrokerAccount.")
 
         self.title = "Preview order"
-        self.brokerLabel.text = self.linkedBrokerAccount.brokerName
         self.statusLabel.text = "Preview order"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)
-
         self.previewCellData = self.generatePreviewCellData()
 
         orderDetailsTable.dataSource = self
@@ -39,8 +38,8 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         updatePlaceOrderButtonStatus()
     }
 
-    private func updateOrderDetailsTable() {
-        self.previewCellData = self.generatePreviewCellData()
+    private func updateOrderDetailsTable(withWarningsAndAcknowledgment: Bool = true) {
+        self.previewCellData = self.generatePreviewCellData(withWarningsAndAcknowledgment: withWarningsAndAcknowledgment)
         self.orderDetailsTable.reloadData()
     }
 
@@ -63,7 +62,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
                 placeOrderCallback(
                     { placeOrderResult in
-
+                        //Remove the editOrderButton and expand the action button
+                        self.editOrderButton.removeFromSuperview()
+                        self.actionButtonWidthConstraint.isActive = false
+                        self.actionButtonWidthConstraint = NSLayoutConstraint(item: self.actionButton, attribute: .width, relatedBy: .equal, toItem: self.actionButton.superview, attribute: .width, multiplier: 0.9, constant: 0)
+                        NSLayoutConstraint.activate([self.actionButtonWidthConstraint])
+                        
                         self.placeOrderResult = placeOrderResult
 
                         self.title = "Order Confirmation"
@@ -74,7 +78,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                         self.actionButton.enable()
                         self.actionButton.setTitle(self.actionButtonTitleTextGoToPortolio, for: .normal)
 
-                        self.updateOrderDetailsTable()
+                        self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
 
                         activityView.hide(animated: true)
                     },
@@ -122,6 +126,9 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         } else {
             self.submitOrder()
         }
+    }
+    @IBAction func editOrderButtonTapped(_ sender: Any) {
+        _ = navigationController?.popViewController(animated: true)
     }
 
     // MARK: UITableViewDelegate
@@ -186,7 +193,7 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
         return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
     }
     
-    private func generatePreviewCellData() -> [PreviewCellData] {
+    private func generatePreviewCellData(withWarningsAndAcknowledgment: Bool = true) -> [PreviewCellData] {
         guard let linkedBrokerAccount = linkedBrokerAccount,
             let orderDetails = previewOrderResult?.orderDetails
             else { return [] }
@@ -221,10 +228,12 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             cells.append(ValueCellData(label: "Estimated cost", value: self.formatCurrency(estimatedTotalValue)))
         }
         
-        cells += generateWarningCellData()
+        if withWarningsAndAcknowledgment {
+            cells += generateWarningCellData()
+            acknowledgementCellData = generateAcknowledgementCellData()
+            cells += acknowledgementCellData as [PreviewCellData]
+        }
 
-        acknowledgementCellData = generateAcknowledgementCellData()
-        cells += acknowledgementCellData as [PreviewCellData]
         
         return cells
     }

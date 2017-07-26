@@ -85,5 +85,6 @@
 
 // EMS API Util classes
 #import "TradeItTypeDefs.h"
+#import "TradeItUserAgentProvider.h"
 
 #endif

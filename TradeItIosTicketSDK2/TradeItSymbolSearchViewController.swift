@@ -42,22 +42,28 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
         searchLabel.sizeToFit()
         searchTextField.leftView = searchLabel
         searchTextField.leftViewMode = .always
+        searchTextField.autocorrectionType = .no
+        searchTextField.returnKeyType = .done
     }
-    
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.resignFirstResponder()
+        return true
+    }
 
     // MARK: UITextFieldDelegate
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let originalText: NSString = textField.text as NSString? ?? ""
         let resultText = originalText.replacingCharacters(in: range, with: string)
-        
+
         self.activityIndicator.startAnimating()
-        
+
         TradeItSDK.symbolService.symbolLookup(
             resultText,
             onSuccess: { results in
                 let inputText = textField.text
-                
+
                 if inputText == resultText {
                     self.activityIndicator.stopAnimating()
                     self.symbolSearchResults = results
@@ -79,7 +85,6 @@ class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDeleg
 
         self.delegate?.symbolSearchViewController(self, didSelectSymbol: selectedSymbol)
     }
-
 
     // MARK: UITableViewDataSource
 

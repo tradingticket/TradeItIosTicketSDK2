@@ -269,7 +269,8 @@ import PromiseKit
     }
 
     public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin)
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false)
+
         if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)
@@ -288,7 +289,7 @@ import PromiseKit
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
     
-    public func syncLinkedBrokers(
+    public func syncLocalLinkedBrokers(
         userIdUserTokenBrokerList: [UserIdUserTokenBroker],
         onFailure: @escaping (TradeItErrorResult) -> Void,
         onFinished: @escaping () -> Void
@@ -308,7 +309,10 @@ import PromiseKit
         }
         
         // Remove non existing linkedBrokers
-        let linkedBrokersToRemove = self.linkedBrokers.filter { !userIdUserTokenBrokerList.flatMap { $0.userId }.contains($0.linkedLogin.userId ?? "") }
+        let linkedBrokersToRemove = self.linkedBrokers.filter {
+            !userIdUserTokenBrokerList.flatMap { $0.userId }.contains($0.linkedLogin.userId ?? "")
+        }
+
         linkedBrokersToRemove.forEach { linkedBrokerToRemove in
             self.removeBroker(linkedBroker: linkedBrokerToRemove)
         }
@@ -568,7 +572,8 @@ import PromiseKit
     }
 
     private func removeBroker(linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin)
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: true)
+
         if let index = self.linkedBrokers.index(of: linkedBroker) {
             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             self.linkedBrokers.remove(at: index)

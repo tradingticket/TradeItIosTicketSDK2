@@ -160,7 +160,7 @@ import UIKit
     ) -> URLRequest? {
         var request = URLRequest(url: url)
         request.httpBody = jsonPostBody.data(using: .utf8)
-        request.httpMethod = "POST" // TODO: FIND APPLE CONSTANT
+        request.httpMethod = "POST"
         request.allHTTPHeaderFields = headers // TODO: Add Dictionary extension for merging dictionaries
 
         return request;

@@ -28,7 +28,7 @@ import UIKit
 
         precondition(self.oAuthCallbackUrlParser != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set before loading TradeItOAuthCompletionViewController")
 
-        guard (self.oAuthCallbackUrlParser?.oAuthVerifier) != nil else {
+        guard let oAuthVerifier = self.oAuthCallbackUrlParser?.oAuthVerifier else {
             self.setFailureState(withMessage: "Could not complete broker linking. No OAuth verifier present in callback. Please try again.")
             return
         }

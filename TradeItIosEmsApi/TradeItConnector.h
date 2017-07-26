@@ -112,8 +112,6 @@
 /**
  *  Used to unlink the linked account. Should be exposed to the user via the app settings.
  */
-- (void)unlinkBroker:(NSString * _Nullable)broker;
-
 - (void)unlinkLogin:(TradeItLinkedLogin * _Nullable)login
           localOnly:(BOOL)localOnly;
 

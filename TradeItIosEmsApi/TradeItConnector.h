@@ -114,7 +114,8 @@
  */
 - (void)unlinkBroker:(NSString * _Nullable)broker;
 
-- (void)unlinkLogin:(TradeItLinkedLogin * _Nullable)login;
+- (void)unlinkLogin:(TradeItLinkedLogin * _Nullable)login
+          localOnly:(BOOL)localOnly;
 
 /**
  *  Method used by the session and services to issue requests to the ems servers

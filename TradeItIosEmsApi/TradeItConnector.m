@@ -354,7 +354,8 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
 }
 
-- (void)unlinkLogin:(TradeItLinkedLogin *)login {
+- (void)unlinkLogin:(TradeItLinkedLogin *)login
+          localOnly:(BOOL)localOnly {
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
@@ -371,7 +372,9 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
 
-    [self oAuthDeleteLink:login];
+    if (!localOnly) {
+        [self oAuthDeleteLink:login];
+    }
 }
 
 - (NSString *)userTokenFromKeychainId:(NSString *)keychainId {

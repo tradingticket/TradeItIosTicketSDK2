@@ -552,7 +552,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 broker: "dummyFx"
             )
         ]
-        TradeItSDK.linkedBrokerManager.syncLinkedBrokers(
+        TradeItSDK.linkedBrokerManager.syncLocalLinkedBrokers(
             userIdUserTokenBrokerList: userIdUserTokenBrokerListToSync,
             onFailure: { errorResult in
                 print("=====> Failed to synch linked brokers manually: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
@@ -715,7 +715,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
 
         for linkedLogin in linkedLogins {
-            connector.unlinkLogin(linkedLogin)
+            connector.unlinkLogin(linkedLogin, localOnly: false)
             if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
                 TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
             }

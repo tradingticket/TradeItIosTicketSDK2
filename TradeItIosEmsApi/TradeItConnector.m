@@ -463,8 +463,8 @@ withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
                   result = [TradeItRequestResultFactory buildResult:[TradeItErrorResult alloc] jsonString:jsonResponse];
               }
 
-//            NSLog(@"----------Response %@----------", [[request URL] absoluteString]);
-//            NSLog(jsonResponse);
+            NSLog(@"\n\n----------Response %@----------\n", [[request URL] absoluteString]);
+            NSLog(jsonResponse);
               dispatch_async(dispatch_get_main_queue(), ^(void) {
                   completionBlock(result, jsonResponse);
               });

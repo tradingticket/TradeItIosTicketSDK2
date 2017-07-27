@@ -128,7 +128,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
 
         func cell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell {
             if isAccountLinkDelayedError() {
-                 let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_ERROR_CELL_ID") as?TradeItLinkedBrokerErrorTableViewCell
+                 let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_ERROR_CELL_ID") as? TradeItLinkedBrokerErrorTableViewCell
                 cell?.populate(withLinkedBroker: linkedBroker)
                 return cell ?? UITableViewCell()
             }
@@ -150,7 +150,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         }
 
         func isAccountLinkDelayedError() -> Bool {
-            return linkedBroker.isAccountLinkDelayedError
+            return self.linkedBroker.isAccountLinkDelayedError
         }
     }
 

@@ -38,6 +38,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
+        app.buttons["Done"].tap()
         waitForElementToBeHittable(app.buttons["Preview order"])
         app.buttons["Preview order"].tap()
         //Review screen
@@ -77,6 +78,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         testTradeScreenValues(app)
         //Place 1 GE stop Limit order gtc
         fillOrder(app, orderAction: "Buy", orderType: "stopLimit", limitPrice: "25", stopPrice: "30", quantity: "1", expiration: "gtc")
+        app.buttons["Done"].tap()
         waitForElementToBeHittable(app.buttons["Preview order"])
         app.buttons["Preview order"].tap()
         // Preview screen

@@ -18,7 +18,8 @@ class TradeItSDK2AlertQueue: XCTestCase{
         advancedOptions.tap()
         
         let launchAlertQueue = app.tables.staticTexts["Alert Queue"]
-        scrollDownTo(app, element: launchAlertQueue)
+//        scrollDownTo(app, element: launchAlertQueue)
+        waitForElementToAppear(launchAlertQueue)
         launchAlertQueue.tap()
         
         let alert1 = app.alerts["Alert 1"]

@@ -17,45 +17,48 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
     }
     
     //test different error messages without authenticating
-    func testDummyAppCompleteFlow(){
-        let expectMessage = "Your broker needs you to complete your account application before you can trade. Please visit your broker to answer a few more questions and finalize your account."
+    func testAuthErrorFlow() {
+        //testDummyAppCompleteFlow
+        var expectMessage = "Your broker needs you to complete your account application before you can trade. Please visit your broker to answer a few more questions and finalize your account."
         genericErrorFlow("dummyCompleteApplication", errorMessage: expectMessage)
-    }
-    
-    func testDummyActionFlow(){
-        let expectMessage = "Your broker needs more information before you can trade. Please visit your broker website for details."
+        
+        
+        //testDummyActionFlow
+        expectMessage = "Your broker needs more information before you can trade. Please visit your broker website for details."
         genericErrorFlow("dummyAction", errorMessage: expectMessage)
-    }
-    
-    func testDummyNoAccountFlow(){
-        let expectMessage = "Your broker requires an active account before you can trade. It's possible your funds have yet to clear or an agreement needs signed, please visit your brokers for more information."
+        
+        
+        //testDummyNoAccountFlow
+        expectMessage = "Your broker requires an active account before you can trade. It's possible your funds have yet to clear or an agreement needs signed, please visit your brokers for more information."
         genericErrorFlow("dummyNoAccount", errorMessage: expectMessage)
-    }
-    
-    func testDummyQuoteFlow(){
-        let expectMessage = "Your broker requires you to sign or update your Real-Time quote agreements before you can trade. Please visit your broker website for details."
+        
+        
+        //testDummyQuoteFlow
+        expectMessage = "Your broker requires you to sign or update your Real-Time quote agreements before you can trade. Please visit your broker website for details."
         genericErrorFlow("dummyQuote", errorMessage: expectMessage)
-    }
-    
-    func testDummySecureAccountFlow(){
-        let expectMessage = "For your security, your broker requires you to create or update your security question before you can trade. Please visit your broker website for details."
+        
+        
+        //testDummySecureAccountFlow
+        expectMessage = "For your security, your broker requires you to create or update your security question before you can trade. Please visit your broker website for details."
         genericErrorFlow("dummySecureAccount", errorMessage: expectMessage)
-    }
-    
-    func testDummyResetPasswordFlow(){
-        let expectMessage = "Your broker requires you to update or reset your password before you can trade. Please visit your broker website for details."
+        
+        
+        //testDummyResetPasswordFlow
+        expectMessage = "Your broker requires you to update or reset your password before you can trade. Please visit your broker website for details."
         genericErrorFlow("dummyResetPassword", errorMessage: expectMessage)
-    }
-    
-    func testDummyCreateUsernameFlow(){
-        let expectMessage = "For your security, your broker requires you to create a username before you can login. Please visit your broker website for details."
+        
+        
+        //testDummyCreateUsernameFlow
+        expectMessage = "For your security, your broker requires you to create a username before you can login. Please visit your broker website for details."
         genericErrorFlow("dummyCreateUsername", errorMessage: expectMessage)
-        }
-    
-    func testDummyRetirementFlow(){
-        let expectMessage = "You cannot trade this kind of security in a retirement account. Please visit your broker to open a brokerage account today."
+        
+        
+        //testDummyRetirementFlow
+        expectMessage = "You cannot trade this kind of security in a retirement account. Please visit your broker to open a brokerage account today."
         genericErrorFlow("dummyRetirement", errorMessage: expectMessage)
+        
     }
+    
     
     private func genericErrorFlow(_ dummyUsername: String, errorMessage: String){
         clearData(app)

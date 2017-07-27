@@ -61,7 +61,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         
         //back to portfolio view
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
-        selectAccountOnPortfolioScreen(app, rowNum: 2)
+        selectAccountOnPortfolioScreen(app, rowNum: 3)
         testPortfolioValues(app, brokerName: "dummyMultipleAcct1")
         waitForElementToAppear(app.navigationBars["Portfolio"])
         selectAccountOnPortfolioScreen(app, rowNum: 4)

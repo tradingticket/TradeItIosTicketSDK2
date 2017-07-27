@@ -30,6 +30,8 @@ import SafariServices
             return
         }
 
+        selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
+
         if (asRootViewController) {
             navController.setViewControllers([selectBrokerViewController], animated: true)
         } else {

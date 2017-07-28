@@ -268,9 +268,11 @@ import PromiseKit
         return self.linkedBrokers.filter { $0.error == nil }
     }
 
-    public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker,
-                             onSuccess: @escaping () -> Void,
-                             onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func unlinkBroker(
+        _ linkedBroker: TradeItLinkedBroker,
+        onSuccess: @escaping () -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false) { result in
             switch result {
             case _ as TradeItUnlinkLoginResult:
@@ -290,7 +292,7 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "UnlinkBroker error"))
+                onFailure(TradeItErrorResult(title: "Something went wrong trying to unlink. Please try again later."))
             }
         }
     }

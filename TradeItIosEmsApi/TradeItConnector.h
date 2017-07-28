@@ -114,7 +114,7 @@
  */
 - (void)unlinkLogin:(TradeItLinkedLogin * _Nullable)login
           localOnly:(BOOL)localOnly
-          withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
+withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
 
 /**
  *  Method used by the session and services to issue requests to the ems servers

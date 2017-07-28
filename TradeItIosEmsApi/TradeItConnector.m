@@ -340,7 +340,28 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 - (void)unlinkLogin:(TradeItLinkedLogin *)login
           localOnly:(BOOL)localOnly
-          withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+    if (localOnly) {
+        [self deleteLocalLinkedLogin:login];
+
+        TradeItUnlinkLoginResult *successResult = [[TradeItUnlinkLoginResult alloc] init];
+        successResult.status = @"SUCCESS";
+        successResult.shortMessage = @"Broker succesfully unlinked";
+        completionBlock(successResult);
+    } else {
+        [self oAuthDeleteLink:login
+          withCompletionBlock:^void(TradeItResult *result) {
+              if ([result isSuccessful]) {
+                  [self deleteLocalLinkedLogin:login];
+              }
+
+              completionBlock(result);
+        }];
+    }
+}
+
+// UNEXPOSED METHOD
+- (void)deleteLocalLinkedLogin:(TradeItLinkedLogin *)login {
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSMutableArray *toRemove = [[NSMutableArray alloc] init];
 
@@ -356,23 +377,15 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     }
 
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
-
-    if (localOnly) {
-        TradeItUnlinkLoginResult *successResult = [TradeItUnlinkLoginResult init];
-        successResult.status = @"SUCCESS";
-        successResult.shortMessage = @"User succesfully unlinked";
-        completionBlock(successResult);
-    } else {
-        [self oAuthDeleteLink:login withCompletionBlock:completionBlock];
-    }
 }
 
 - (NSString *)userTokenFromKeychainId:(NSString *)keychainId {
     return [TradeItKeychain getStringForKey:keychainId];
 }
 
+// UNEXPOSED METHOD
 - (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin
-        withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
+    withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSString *userToken = [self userTokenFromKeychainId:linkedLogin.keychainId];
 
     TradeItOAuthDeleteLinkRequest *oAuthDeleteLinkRequest = [[TradeItOAuthDeleteLinkRequest alloc] init];

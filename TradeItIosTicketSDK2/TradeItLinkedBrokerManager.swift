@@ -533,6 +533,9 @@ import PromiseKit
 
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+            if userIdUserTokenBroker.isAccountLinkDelayedError {
+                linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
+            }
             self.linkedBrokers.append(linkedBroker)
             onSuccess(linkedBroker)
         } else {
@@ -619,15 +622,18 @@ import PromiseKit
     let userId: String
     let userToken: String
     let broker: String
-
+    let isAccountLinkDelayedError: Bool
+    
     public init(
         userId: String,
         userToken: String,
-        broker: String
+        broker: String,
+        isAccountLinkDelayedError: Bool = false
     ) {
         self.userId = userId
         self.userToken = userToken
         self.broker = broker
+        self.isAccountLinkDelayedError = isAccountLinkDelayedError
     }
 }
 

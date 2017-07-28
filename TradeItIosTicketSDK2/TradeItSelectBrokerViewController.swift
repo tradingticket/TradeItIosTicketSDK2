@@ -198,11 +198,12 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker {
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
-
-                    TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: cell.brokerLogoImageView, withSize: .small)
-
-                    return cell
+                let brokerLogoImageView = UIImageView()
+                if TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: brokerLogoImageView, withSize: .small) {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+                        cell.brokerLogoImageView.image = brokerLogoImageView.image
+                        return cell
+                    }
                 }
             }
         } else {

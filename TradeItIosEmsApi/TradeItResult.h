@@ -39,5 +39,6 @@
  */
 @property (nullable, copy) NSArray<Optional> *longMessages;
 
+- (BOOL)isSuccessful;
 
 @end

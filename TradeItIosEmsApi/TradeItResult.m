@@ -25,4 +25,9 @@
 - (NSString *)description{
     return [NSString stringWithFormat:@"status=%@ token=%@ shortMessage=%@ longMessages%@",self.status, self.token, self.shortMessage, self.longMessages];
 }
+
+- (BOOL)isSuccessful {
+    return [@"SUCCESS" isEqualToString:self.status];
+}
+
 @end

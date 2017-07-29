@@ -545,7 +545,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 userId: "8fa14999720337719675",
                 userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
                 broker: "dummy",
-                isAccountLinkDelayedError: true
+                isLinkActivationPending: true
             ),
             UserIdUserTokenBroker(
                 userId: "3741499971984583d2f1",

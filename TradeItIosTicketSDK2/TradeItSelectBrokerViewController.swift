@@ -51,15 +51,15 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     }
     
     @IBAction func helpLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/faq")
+        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/helpcenter")
     }
     
     @IBAction func privacyLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy")
+        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy-policy")
     }
     
     @IBAction func termsLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms")
+        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms-of-service")
     }
 
     // MARK: private methods

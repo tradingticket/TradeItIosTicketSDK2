@@ -4,7 +4,9 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
     private var _table: UITableView?
     private var linkedBrokers: [TradeItLinkedBroker] = []
     private var refreshControl: UIRefreshControl?
+    private let addAccountTableSectionIndex = 0
     internal weak var delegate: TradeItYahooAccountSelectionTableViewManagerDelegate?
+    private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
     
     var accountsTable: UITableView? {
         get {
@@ -23,9 +25,28 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
     
     func updateLinkedBrokers(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
         self.linkedBrokers = linkedBrokers
+        self.linkedBrokerSectionPresenters = linkedBrokers.map { linkedBroker in
+            return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker)
+        }
         self.accountsTable?.reloadData()
     }
-    
+
+    func initiateRefresh(animated: Bool = true) {
+        if animated {
+            self.refreshControl?.beginRefreshing()
+        }
+        self.delegate?.refreshRequested(
+            fromAccountSelectionTableViewManager: self,
+            onRefreshComplete: { linkedBrokers in
+                if let linkedBrokers = linkedBrokers  {
+                    self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
+                }
+
+                self.refreshControl?.endRefreshing()
+            }
+        )
+    }
+
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -33,15 +54,33 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
         case addAccountTableSectionIndex:
             self.delegate?.addBrokerageAccountWasSelected()
         default:
-            let linkedBroker = self.linkedBrokers[indexPath.section - 1]
-            let selectedAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
-            self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
+            let linkedBrokerIndex = indexPath.section - 1
+            guard let linkedBrokerPresenter = self.linkedBrokerSectionPresenters[safe: linkedBrokerIndex] else { return }
+
+            if linkedBrokerPresenter.isAccountLinkDelayedError() {
+                let cell = tableView.cellForRow(at: indexPath)
+                let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+                activityView.startAnimating()
+                cell?.accessoryView = activityView
+                guard let error = linkedBrokerPresenter.linkedBroker.error else { return }
+                if error.requiresAuthentication() {
+                    self.delegate?.authenticate(
+                        linkedBroker: linkedBrokerPresenter.linkedBroker,
+                        onFinished: {
+                            tableView.reloadRows(at: [indexPath], with: .automatic)
+                        }
+                    )
+                } else {
+                    self.initiateRefresh()
+                }
+            } else {
+                guard let selectedAccount = linkedBrokerPresenter.accountFor(row: indexPath.row) else { return }
+                self.delegate?.linkedBrokerAccountWasSelected(selectedAccount)
+            }
         }
     }
     
     // MARK: UITableViewDataSource
-    
-    private let addAccountTableSectionIndex = 0
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.linkedBrokers.count + 1
@@ -62,14 +101,8 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
         case addAccountTableSectionIndex:
             return 1
         default:
-            var numberOfLinkedAccounts = 0
-            
-            if self.linkedBrokers.count > 0 {
-                let linkedBroker = self.linkedBrokers[section - 1]
-                numberOfLinkedAccounts = linkedBroker.getEnabledAccounts().count
-            }
-            
-            return numberOfLinkedAccounts
+            let sectionPresenter = self.linkedBrokerSectionPresenters[section - 1]
+            return sectionPresenter.numberOfRows()
         }
     }
     
@@ -79,20 +112,8 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
             let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_ADD_CELL_ID") ?? UITableViewCell()
             return cell
         default:
-            let linkedBroker = self.linkedBrokers[indexPath.section - 1]
-            let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[indexPath.row]
-
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") ?? UITableViewCell()
-
-            let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
-            cell.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
-
-            cell.detailTextLabel?.text = ""
-
-            if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
-                cell.detailTextLabel?.text = "Buying power: " + buyingPower
-            }
-            return cell
+            let sectionPresenter = self.linkedBrokerSectionPresenters[indexPath.section - 1]
+            return sectionPresenter.cell(forTableView: tableView, andRow: indexPath.row)
         }
     }
     
@@ -110,19 +131,69 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
     }
     
     func refreshControlActivated() {
-        self.delegate?.refreshRequested(fromAccountSelectionTableViewManager: self,
-                                        onRefreshComplete: { linkedBrokers in
-                                            if let linkedBrokers = linkedBrokers {
-                                                self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
-                                            }
+        self.delegate?.refreshRequested(
+            fromAccountSelectionTableViewManager: self,
+            onRefreshComplete: { linkedBrokers in
+                if let linkedBrokers = linkedBrokers {
+                    self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
+                }
                                             
-                                            self.refreshControl?.endRefreshing()
-        })
+                self.refreshControl?.endRefreshing()
+            }
+        )
+    }
+}
+
+fileprivate class LinkedBrokerSectionPresenter {
+    let linkedBroker: TradeItLinkedBroker
+    
+    init(linkedBroker: TradeItLinkedBroker) {
+        self.linkedBroker = linkedBroker
+    }
+    
+    func numberOfRows() -> Int {
+        if self.isAccountLinkDelayedError() {
+            return 1
+        } else {
+            return self.linkedBroker.getEnabledAccounts().count
+        }
+    }
+    
+    func cell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell {
+        if self.isAccountLinkDelayedError() {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_ERROR_CELL_ID") as? TradeItLinkedBrokerErrorTableViewCell
+            cell?.populate(withLinkedBroker: linkedBroker)
+            cell?.selectionStyle = .none
+            return cell ?? UITableViewCell()
+        } else {
+            let linkedBrokerAccount = linkedBroker.getEnabledAccounts()[row]
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_SELECTION_CELL_ID") ?? UITableViewCell()
+            
+            let presenter = TradeItPortfolioBalanceEquityPresenter(linkedBrokerAccount)
+            cell.textLabel?.text = linkedBrokerAccount.getFormattedAccountName()
+            
+            cell.detailTextLabel?.text = ""
+            
+            if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
+                cell.detailTextLabel?.text = "Buying power: " + buyingPower
+            }
+            return cell
+        }
+    }
+    
+    func accountFor(row: Int) -> TradeItLinkedBrokerAccount? {
+        return self.linkedBroker.getEnabledAccounts()[safe: row]
+    }
+    
+    func isAccountLinkDelayedError() -> Bool {
+        return self.linkedBroker.isAccountLinkDelayedError
     }
 }
 
 protocol TradeItYahooAccountSelectionTableViewManagerDelegate: class {
     func addBrokerageAccountWasSelected()
+    func authenticate(linkedBroker: TradeItLinkedBroker, onFinished: @escaping () -> Void)
     func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount)
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItYahooAccountSelectionTableViewManager,
                           onRefreshComplete: @escaping ([TradeItLinkedBroker]?) -> Void)

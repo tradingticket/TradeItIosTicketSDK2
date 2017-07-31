@@ -268,20 +268,32 @@ import PromiseKit
         return self.linkedBrokers.filter { $0.error == nil }
     }
 
-    public func unlinkBroker(_ linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false)
-
-        if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
-            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-            self.linkedBrokers.remove(at: index)
-            self.oAuthDelegate?.didUnlink?(userId: userId)
-            NotificationCenter.default.post(
-                name: TradeItSDK.didUnlinkNotificationName,
-                object: nil,
-                userInfo: [
-                    "linkedBroker": linkedBroker
-                ]
-            )
+    public func unlinkBroker(
+        _ linkedBroker: TradeItLinkedBroker,
+        onSuccess: @escaping () -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: false) { result in
+            switch result {
+            case _ as TradeItUnlinkLoginResult:
+                if let index = self.linkedBrokers.index(of: linkedBroker), let userId = linkedBroker.linkedLogin.userId {
+                    TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                    self.linkedBrokers.remove(at: index)
+                    self.oAuthDelegate?.didUnlink?(userId: userId)
+                    NotificationCenter.default.post(
+                        name: TradeItSDK.didUnlinkNotificationName,
+                        object: nil,
+                        userInfo: [
+                            "linkedBroker": linkedBroker
+                        ]
+                    )
+                }
+                onSuccess()
+            case let errorResult as TradeItErrorResult:
+                onFailure(errorResult)
+            default:
+                onFailure(TradeItErrorResult(title: "Something went wrong trying to unlink. Please try again later."))
+            }
         }
     }
 
@@ -502,9 +514,9 @@ import PromiseKit
 
     private func loadLinkedBrokerFromLinkedLogin(_ linkedLogin: TradeItLinkedLogin) -> TradeItLinkedBroker {
         let tradeItSession = sessionProvider.provide(connector: self.connector)
-        //provides a default token, so if the user doesn't authenticate before an other call, it will pass an expired token in order to get the session expired error
-        tradeItSession?.token = "trade-it-fetch-fresh-token"
-        return TradeItLinkedBroker(session: tradeItSession!, linkedLogin: linkedLogin)
+        // provides a default token, so if the user doesn't authenticate before an other call, it will pass an expired token in order to get the session expired error
+        tradeItSession.token = "trade-it-fetch-fresh-token"
+        return TradeItLinkedBroker(session: tradeItSession, linkedLogin: linkedLogin)
     }
 
     private func saveLinkedBrokerToKeychain(
@@ -521,6 +533,9 @@ import PromiseKit
 
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
+            if userIdUserTokenBroker.isLinkActivationPending {
+                linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) link is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
+            }
             self.linkedBrokers.append(linkedBroker)
             onSuccess(linkedBroker)
         } else {
@@ -572,11 +587,11 @@ import PromiseKit
     }
 
     private func removeBroker(linkedBroker: TradeItLinkedBroker) {
-        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: true)
-
-        if let index = self.linkedBrokers.index(of: linkedBroker) {
-            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-            self.linkedBrokers.remove(at: index)
+        self.connector.unlinkLogin(linkedBroker.linkedLogin, localOnly: true) { result in
+            if let index = self.linkedBrokers.index(of: linkedBroker) {
+                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                self.linkedBrokers.remove(at: index)
+            }
         }
     }
 
@@ -607,15 +622,18 @@ import PromiseKit
     let userId: String
     let userToken: String
     let broker: String
-
+    let isLinkActivationPending: Bool
+    
     public init(
         userId: String,
         userToken: String,
-        broker: String
+        broker: String,
+        isLinkActivationPending: Bool = false
     ) {
         self.userId = userId
         self.userToken = userToken
         self.broker = broker
+        self.isLinkActivationPending = isLinkActivationPending
     }
 }
 

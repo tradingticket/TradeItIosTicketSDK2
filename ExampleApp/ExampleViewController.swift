@@ -544,7 +544,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             UserIdUserTokenBroker(
                 userId: "8fa14999720337719675",
                 userToken: "XZZt9cfIz9APLljOPeKhFjOuz5mSa1E9Q5Un%2Fc1ARlaD4wQixu6S%2BUIQ6rOhiUDV1RJM0stg7EqVslOH5oxGYHBvdLrKqNoi%2BdRzGscDF3nNbzBR3QJMV5SxsgyEkaLrmFETBZUiaRcfKSR6kvLznA%3D%3D",
-                broker: "dummy"
+                broker: "dummy",
+                isLinkActivationPending: true
             ),
             UserIdUserTokenBroker(
                 userId: "3741499971984583d2f1",
@@ -713,14 +714,13 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT, version: TradeItEmsApiVersion_2)
 
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
-
         for linkedLogin in linkedLogins {
-            connector.unlinkLogin(linkedLogin, localOnly: false)
-            if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
-                TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            connector.unlinkLogin(linkedLogin, localOnly: false) { result in
+                if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
+                    TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                }
             }
         }
-
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
         let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count

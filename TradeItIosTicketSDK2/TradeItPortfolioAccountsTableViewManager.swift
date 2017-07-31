@@ -203,7 +203,7 @@ fileprivate class LinkedBrokerSectionPresenter {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         if error.isAccountLinkDelayedError() {
             cell.textLabel?.text = "Activation in Progress"
-            cell.detailTextLabel?.text = "Account is being activated. Check back soon."
+            cell.detailTextLabel?.text = "Account link is being activated. Check back soon."
         } else if error.requiresRelink() {
             cell.textLabel?.text = "Relink Broker"
             cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerName) failed. Tap to relink."

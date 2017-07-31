@@ -121,7 +121,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             case 0:
                 header.textLabel?.text = "SPONSORED BROKERS"
             case 1:
-                header.textLabel?.text = "MORE BROKERS"
+                header.textLabel?.text = "ALL BROKERS"
             default:
                 print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
                 return nil

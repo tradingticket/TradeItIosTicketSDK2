@@ -80,6 +80,7 @@ protocol OAuthCompletionListener {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
+                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         } else {
@@ -163,6 +164,7 @@ protocol OAuthCompletionListener {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
+                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         } else {
@@ -203,6 +205,7 @@ protocol OAuthCompletionListener {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
+                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         } else {
@@ -254,13 +257,15 @@ protocol OAuthCompletionListener {
 
     public func launchBrokerLinking(
         fromViewController viewController: UIViewController,
-        showWelcomeScreen: Bool=false
+        showWelcomeScreen: Bool=false,
+        hideOpenAccountButton: Bool=false
     ) {
         let oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
 
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: viewController,
             showWelcomeScreen: showWelcomeScreen,
+            hideOpenAccountButton: hideOpenAccountButton,
             oAuthCallbackUrl: oAuthCallbackUrl
         )
     }
@@ -302,6 +307,7 @@ protocol OAuthCompletionListener {
             self.linkBrokerUIFlow.presentLinkBrokerFlow(
                 fromViewController: viewController,
                 showWelcomeScreen: true,
+                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         } else {

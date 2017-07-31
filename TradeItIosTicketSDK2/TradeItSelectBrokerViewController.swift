@@ -6,6 +6,7 @@ import SDWebImage
 class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     @IBOutlet weak var adContainer: UIView!
+    @IBOutlet weak var openNewAccountButton: UIButton!
 
     private var activityView: MBProgressHUD?
     private var alertManager = TradeItAlertManager()
@@ -14,6 +15,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     public var oAuthCallbackUrl: URL?
+    public var hideOpenAccountButton: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,10 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             instrumentType: nil,
             trackPageViewAsPageType: false
         )
+        
+        if hideOpenAccountButton {
+            self.openNewAccountButton.removeFromSuperview()
+        }
     }
     
     // MARK: IBAction

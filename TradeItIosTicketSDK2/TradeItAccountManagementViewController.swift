@@ -88,6 +88,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                                 parentBrokerManagementView.linkBrokerUIFlow.presentLinkBrokerFlow(
                                     fromViewController: navController,
                                     showWelcomeScreen: true,
+                                    hideOpenAccountButton: false,
                                     oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
                                 )
                             }

@@ -25,6 +25,7 @@ import SafariServices
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: viewController,
             showWelcomeScreen: false,
+            hideOpenAccountButton: false,
             oAuthCallbackUrl: oAuthCallbackUrl
         )
     }

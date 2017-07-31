@@ -54,6 +54,7 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
                 onNavigationController: navController,
                 asRootViewController: true,
                 showWelcomeScreen: false,
+                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         }

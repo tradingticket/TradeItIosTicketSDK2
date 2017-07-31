@@ -21,6 +21,7 @@ import SafariServices
         onNavigationController navController: UINavigationController,
         asRootViewController: Bool,
         showWelcomeScreen: Bool,
+        hideOpenAccountButton: Bool,
         oAuthCallbackUrl: URL
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
@@ -42,6 +43,7 @@ import SafariServices
     func presentLinkBrokerFlow(
         fromViewController viewController: UIViewController,
         showWelcomeScreen: Bool,
+        hideOpenAccountButton: Bool,
         oAuthCallbackUrl: URL
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl

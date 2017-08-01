@@ -101,7 +101,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendReturnJSON:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+         if ([tradeItResult isSuccessful]) {
              TradeItOAuthLoginPopupUrlForMobileResult *successResult
              = (TradeItOAuthLoginPopupUrlForMobileResult *)[TradeItRequestResultFactory buildResult:[TradeItOAuthLoginPopupUrlForMobileResult alloc]
                                                                                          jsonString:jsonResponse];
@@ -130,7 +130,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendReturnJSON:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+         if ([tradeItResult isSuccessful]) {
              TradeItOAuthLoginPopupUrlForTokenUpdateResult *successResult
              = (TradeItOAuthLoginPopupUrlForTokenUpdateResult *)[TradeItRequestResultFactory buildResult:[TradeItOAuthLoginPopupUrlForTokenUpdateResult alloc]
                                                                                               jsonString:jsonResponse];
@@ -155,7 +155,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendReturnJSON:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+         if ([tradeItResult isSuccessful]) {
              TradeItOAuthAccessTokenResult *successResult
              = (TradeItOAuthAccessTokenResult *)[TradeItRequestResultFactory buildResult:[TradeItOAuthAccessTokenResult alloc]
                                                                               jsonString:jsonResponse];
@@ -177,7 +177,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendReturnJSON:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+         if ([tradeItResult isSuccessful]) {
              TradeItAuthLinkResult *successResult
              = (TradeItAuthLinkResult*)[TradeItRequestResultFactory buildResult:[TradeItAuthLinkResult alloc]
                                                                      jsonString:jsonResponse];
@@ -203,7 +203,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     [self sendReturnJSON:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult.status isEqual:@"SUCCESS"]) {
+         if ([tradeItResult isSuccessful]) {
              TradeItUpdateLinkResult *successResult
              = (TradeItUpdateLinkResult *)[TradeItRequestResultFactory buildResult:[TradeItUpdateLinkResult alloc]
                                                                         jsonString:jsonResponse];
@@ -372,7 +372,8 @@ withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
 }
 
 // TODO: Extract and Swiftify to OAuthService
-- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin {
+- (void)oAuthDeleteLink:(TradeItLinkedLogin *)linkedLogin
+    withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
     NSString *userToken = [self userTokenFromKeychainId:linkedLogin.keychainId];
 
     TradeItOAuthDeleteLinkRequest *oAuthDeleteLinkRequest = [[TradeItOAuthDeleteLinkRequest alloc] init];
@@ -384,7 +385,16 @@ withCompletionBlock:(void (^)(TradeItResult *))completionBlock {
                                                                                emsAction:@"user/oAuthDelete"
                                                                              environment:self.environment];
 
-    [self sendReturnJSON:request withCompletionBlock:^(TradeItResult * __unused tradeItResult, NSString * __unused jsonResponse) {}];
+    [self sendReturnJSON:request withCompletionBlock:^(TradeItResult * __unused tradeItResult, NSString * __unused jsonResponse) {
+        if ([tradeItResult isSuccessful]) {
+            TradeItUnlinkLoginResult *successResult
+            = (TradeItUnlinkLoginResult *)[TradeItRequestResultFactory buildResult:[TradeItUnlinkLoginResult alloc]
+                                                                        jsonString:jsonResponse];
+            tradeItResult = successResult;
+        }
+        
+        completionBlock(tradeItResult);
+    }];
 }
 
 @end

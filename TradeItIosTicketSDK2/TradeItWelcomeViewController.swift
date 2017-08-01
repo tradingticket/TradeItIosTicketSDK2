@@ -106,7 +106,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
         self.featuredBroker = featuredBroker
 
-        TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
+        _ = TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
 
         self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
 

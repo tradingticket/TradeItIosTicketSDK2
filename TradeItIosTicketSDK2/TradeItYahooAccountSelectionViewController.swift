@@ -18,8 +18,8 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let enabledBrokers = TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: enabledBrokers)
+        let displayableBrokers = TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
+        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: displayableBrokers)
     }
 
     // MARK: TradeItYahooAccounSelectionTableViewManagerDelegate
@@ -43,16 +43,48 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
                     onViewController: self,
                     onFinished: {
                         // QUESTION: is this just going to re-run authentication for all linked brokers again if one failed?
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
                     }
                 )
             },
             onFinished: {
                 TradeItSDK.linkedBrokerManager.refreshAccountBalances(
                     onFinished:  {
-                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllEnabledLinkedBrokers())
+                        onRefreshComplete(TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers())
                     }
                 )   
+            }
+        )
+    }
+
+    func authenticate(linkedBroker: TradeItLinkedBroker, onFinished: @escaping () -> Void) {
+        linkedBroker.authenticateIfNeeded(
+            onSuccess: {
+                linkedBroker.refreshAccountBalances(
+                    onFinished: {
+                        self.accountSelectionTableManager.updateLinkedBrokers(
+                            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
+                        )
+                    }
+                )
+                onFinished()
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager?.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+                onFinished()
+            },
+            onFailure:  { error in
+                self.alertManager?.showAlertWithAction(
+                    error: error,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self
+                )
+                onFinished()
             }
         )
     }

@@ -290,7 +290,6 @@ extension XCTestCase {
         XCTAssert(app.tables.staticTexts["Total Value"].exists)
         XCTAssert(app.tables.staticTexts["Total Return"].exists)
         XCTAssert(app.tables.staticTexts["Day Return"].exists)
-        waitForElementToDisappear(app.tables.staticTexts["N/A"])
         app.tables.staticTexts["AAPL"].tap()
         let portfolioBackButton = app.buttons["Portfolio"]
         waitForElementToBeHittable(portfolioBackButton)

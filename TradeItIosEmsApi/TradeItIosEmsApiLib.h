@@ -38,6 +38,7 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItUnlinkLoginResult.h"
+#import "TradeItOAuthDeleteLinkRequest.h"
 
 // Once you have a link you'll establish a session using the linkedLogin
 #import "TradeItSecurityQuestionRequest.h"

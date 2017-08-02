@@ -54,15 +54,6 @@
                       andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 /**
- *  If the oAuth token becomes stale, we can issue a new token by the previous linked login. This will replace the occurrence, if any, in the keychain/userprofile.  If it was never previously saved, it will be created.
- *
- *  @param completionBlock Completion callback that accepts a TradeItResult with the successful or failed response for authentication.
- */
-- (void)updateUserToken:(TradeItLinkedLogin * _Nullable)linkedLogin
-               authInfo:(TradeItAuthenticationInfo * _Nullable)authInfo
-     andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
-
-/**
  *  Using a successful response from the linkBrokerWithAuthenticationInfo:andCompletionBlock: this method will save basic information to the user preferences, and a UUID pointed to the actual user token which will be stored in the keychain.
  */
 - (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link
@@ -92,31 +83,6 @@
  */
 - (NSArray * _Nullable)getLinkedLogins;
 
-/**
- *  Exchange the keychainId for the userToken associated with it.
- *  This is the last chance to protect the user, retrieving this token should be protected by a pin, password or touchId.
- *
- *  @return token, to establish a session with the associated user and broker
- */
-- (NSString * _Nullable)userTokenFromKeychainId:(NSString * _Nullable)keychainId;
-
-/**
- *  Used to unlink the linked account. Should be exposed to the user via the app settings.
- */
-- (void)unlinkLogin:(TradeItLinkedLogin * _Nullable)login
-          localOnly:(BOOL)localOnly
-withCompletionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
-
-- (void)getOAuthLoginPopupUrlForMobileWithBroker:(NSString * _Nonnull)broker
-                                oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl
-                                 completionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
-
-- (void)getOAuthLoginPopupURLForTokenUpdateWithBroker:(NSString * _Nonnull)broker
-                                               userId:(NSString * _Nonnull)userId
-                                     oAuthCallbackUrl:(NSURL * _Nonnull)oAuthCallbackUrl
-                                      completionBlock:(void (^ _Nonnull)(TradeItResult * _Nonnull))completionBlock;
-
-- (void)getOAuthAccessTokenWithOAuthVerifier:(NSString * _Nullable)oAuthVerifier
-                             completionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
+- (void)deleteLocalLinkedLogin:(TradeItLinkedLogin * _Nonnull)login;
 
 @end

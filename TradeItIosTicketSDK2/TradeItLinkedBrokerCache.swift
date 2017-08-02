@@ -29,21 +29,20 @@ class TradeItLinkedBrokerCache {
     }
 
     func cache(linkedBroker: TradeItLinkedBroker?) {
-        guard let linkedBroker = linkedBroker, let userId = linkedBroker.linkedLogin.userId else { return }
+        guard let linkedBroker = linkedBroker else { return }
 
         var linkedBrokerCache = userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
 
         let serializedLinkedBroker = serialize(linkedBroker: linkedBroker)
 
-        linkedBrokerCache[userId] = serializedLinkedBroker
+        linkedBrokerCache[linkedBroker.linkedLogin.userId] = serializedLinkedBroker
 
         self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
-        guard let userId = linkedBroker.linkedLogin.userId
-            , let linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
-            , let serializedLinkedBroker = linkedBrokerCache[userId] as SerializedLinkedBroker?
+        guard let linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
+            , let serializedLinkedBroker = linkedBrokerCache[linkedBroker.linkedLogin.userId] as SerializedLinkedBroker?
             else { return }
 
         if let serializedAccounts = serializedLinkedBroker[ACCOUNTS_KEY] as? [SerializedLinkedBrokerAccount] {
@@ -68,11 +67,10 @@ class TradeItLinkedBrokerCache {
     }
 
     func remove(linkedBroker: TradeItLinkedBroker) {
-        guard let userId = linkedBroker.linkedLogin.userId
-            , var linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
+        guard var linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
             else { return }
 
-        linkedBrokerCache[userId] = nil
+        linkedBrokerCache[linkedBroker.linkedLogin.userId] = nil
         self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
     }
 

@@ -1,4 +1,9 @@
 public extension TradeItConnector {
+    
+    func userToken(fromKeychainId keychainId: String) -> String? {
+        return TradeItKeychain.getStringForKey(keychainId)
+    }
+    
     func sendReturnJSON(
         _ request: URLRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
@@ -20,6 +25,8 @@ public extension TradeItConnector {
         }
     }
 
+    // MARK: Private
+    
     private func send(
         _ request: URLRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void

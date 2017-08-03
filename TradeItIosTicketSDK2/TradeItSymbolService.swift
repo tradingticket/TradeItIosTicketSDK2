@@ -8,7 +8,7 @@
     public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: symbolLookupRequest,
             emsAction: "marketdata/symbolLookup",
             environment: self.connector.environment
@@ -31,7 +31,7 @@
         requestData.broker = broker
         requestData.apiKey = self.connector.apiKey
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: requestData,
             emsAction: "brokermarketdata/getFxCurrencyPairs",
             environment: self.connector.environment

@@ -2,10 +2,10 @@
 
 @interface TradeItOAuthAccessTokenRequest : TradeItRequest
 
-@property (copy) NSString *apiKey;
-@property (copy) NSString *oAuthVerifier;
+@property (copy, nonnull) NSString *apiKey;
+@property (copy, nonnull) NSString *oAuthVerifier;
 
-- (id)initWithApiKey:(NSString *)apiKey
-       oAuthVerifier:(NSString *)oAuthVerifier;
+- (_Nonnull id)initWithApiKey:(NSString * _Nonnull)apiKey
+       oAuthVerifier:(NSString * _Nonnull)oAuthVerifier;
 
 @end

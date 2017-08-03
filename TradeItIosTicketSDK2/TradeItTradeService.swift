@@ -12,7 +12,7 @@
     ) {
         data.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "order/previewStockOrEtfOrder",
             environment: self.session.connector.environment
@@ -38,7 +38,7 @@
     ) {
         data.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "order/placeStockOrEtfOrder",
             environment: self.session.connector.environment

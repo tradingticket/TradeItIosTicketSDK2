@@ -23,9 +23,9 @@
             andApiKey: self.connector.apiKey
         )
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: quoteRequest,
-            emsAction: getEndpoint(forRequest: quoteRequest),
+            emsAction: getEndpoint(forRequest: quoteRequest) ?? "",
             environment: self.connector.environment
         )
 

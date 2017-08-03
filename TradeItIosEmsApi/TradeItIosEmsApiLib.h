@@ -14,7 +14,6 @@
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
 #import "TradeItParseErrorResult.h"
-#import "TradeItRequestResultFactory.h"
 #import "TradeItKeychain.h"
 
 // Start with the connector, you'll set your API key and the environment

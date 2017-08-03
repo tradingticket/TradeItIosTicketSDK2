@@ -88,7 +88,7 @@ import UIKit
     }
 
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
-        TradeItRequestResultFactory.setHost(host, forEnvironment: env)
+        TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
 
     // MARK: Initializers
@@ -123,8 +123,7 @@ import UIKit
 
         self.configured = true
 
-        // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
-        TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
+        TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory)
 
         self._apiKey = apiKey
         self._environment = environment

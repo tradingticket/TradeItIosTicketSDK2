@@ -7,7 +7,6 @@
 //
 
 #import "TradeItConnector.h"
-#import "TradeItRequestResultFactory.h"
 #import "TradeItErrorResult.h"
 #import "TradeItKeychain.h"
 #import "TradeItAuthLinkRequest.h"

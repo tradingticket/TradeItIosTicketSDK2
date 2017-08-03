@@ -12,7 +12,7 @@
     ) {
         positionsRequest.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: positionsRequest,
             emsAction: "position/getPositions",
             environment: self.session.connector.environment

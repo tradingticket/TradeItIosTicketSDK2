@@ -12,7 +12,7 @@
     ) {
         accountOverviewRequest.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: accountOverviewRequest,
             emsAction: "balance/getAccountOverview",
             environment: self.session.connector.environment

@@ -12,7 +12,7 @@ class TradeItBrokerService {
     ) {
         let data = TradeItBrokerListRequest(apiKey: self.connector.apiKey, userCountryCode: userCountryCode)
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "preference/getBrokerList",
             environment: self.connector.environment

@@ -13,7 +13,7 @@
 @property (copy) NSString * _Nullable symbol;
 @property (copy) NSString * _Nullable broker;
 @property (copy) NSString * _Nullable symbols;
-@property (copy) NSString * _Nullable apiKey;
+@property (copy) NSString * _Nonnull apiKey;
 @property (copy) NSString * _Nullable suffixMarket;
 
 - (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol

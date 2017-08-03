@@ -188,7 +188,7 @@ import PromiseKit
         data.symbol = symbol
         data.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "brokermarketdata/getFxRate",
             environment: self.session.connector.environment

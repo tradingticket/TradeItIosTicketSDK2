@@ -10,7 +10,7 @@ public class TradeItSession {
     }
 
     func authenticate(_ linkedLogin: TradeItLinkedLogin, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
-        let userToken = self.connector.userToken(fromKeychainId: linkedLogin.keychainId)
+        let userToken = self.connector.userToken(fromKeychainId: linkedLogin.keychainId) ?? ""
         let authRequest = TradeItAuthenticationRequest(
             userToken: userToken,
             userId: linkedLogin.userId,
@@ -18,7 +18,7 @@ public class TradeItSession {
             andAdvertisingId: getAdvertisingId()
         )
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: authRequest,
             emsAction: "user/authenticate",
             environment: connector.environment
@@ -39,7 +39,7 @@ public class TradeItSession {
 
     func answerSecurityQuestion(_ answer: String, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
         let secRequest = TradeItSecurityQuestionRequest(token: self.token, andAnswer: answer)
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: secRequest,
             emsAction: "user/answerSecurityQuestion",
             environment: connector.environment

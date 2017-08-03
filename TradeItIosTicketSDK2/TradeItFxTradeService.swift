@@ -12,7 +12,7 @@
     ) {
         order.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: order,
             emsAction: "order/placeFxOrder",
             environment: self.session.connector.environment
@@ -46,7 +46,7 @@
         requestData.symbol = symbol
         requestData.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: requestData,
             emsAction: "order/getFxOrderCapabilities",
             environment: self.session.connector.environment

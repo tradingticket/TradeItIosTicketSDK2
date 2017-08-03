@@ -14,7 +14,7 @@
         
         let data = TradeItOAuthLoginPopupUrlForMobileRequest(apiKey: self.connector.apiKey, broker: broker, interAppAddressCallback: oAuthCallbackUrl.absoluteString)
         
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "user/getOAuthLoginPopupUrlForMobile",
             environment: self.connector.environment
@@ -58,7 +58,7 @@
             interAppAddressCallback: oAuthCallbackUrl.absoluteString
         )
         
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "user/getOAuthLoginPopupURLForTokenUpdate",
             environment: self.connector.environment
@@ -100,7 +100,7 @@
             oAuthVerifier: oAuthVerifier
         )
         
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "user/getOAuthAccessToken",
             environment: self.connector.environment
@@ -156,10 +156,10 @@
         let data = TradeItOAuthDeleteLinkRequest(
             apiKey: self.connector.apiKey,
             userId: linkedLogin.userId,
-            userToken: self.connector.userToken(fromKeychainId: linkedLogin.keychainId) ?? ""
+            userToken: self.connector.userToken(fromKeychainId: linkedLogin.keychainId)
         )
         
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "user/oAuthDelete",
             environment: self.connector.environment

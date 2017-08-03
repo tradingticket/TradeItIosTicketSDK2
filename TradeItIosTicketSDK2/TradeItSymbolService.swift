@@ -36,7 +36,7 @@
             emsAction: "brokermarketdata/getFxCurrencyPairs",
             environment: self.connector.environment
         )
-
+        
         // TODO: Fix this. Our connector doesn't support a way to just get back a string array from JSON.
         self.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
             if let data = jsonResponse?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)),
@@ -45,7 +45,7 @@
                 onSuccess(symbols)
             } else {
                 let jsonString = jsonResponse as String?
-                let errorResult = TradeItRequestResultFactory.build(TradeItErrorResult(), jsonString: jsonString) as? TradeItErrorResult
+                let errorResult =  TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: jsonString)
                 onFailure(errorResult ?? TradeItErrorResult.error(withSystemMessage: "Failed to fetch FX symbols"))
             }
         })

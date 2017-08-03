@@ -95,17 +95,4 @@ static id<RequestFactory> _requestFactory = nil;
     return request;
 }
 
-+ (TradeItResult *)buildResult:(TradeItResult *)tradeItResult
-                    jsonString:(NSString *)jsonString {
-    JSONModelError *jsonModelError = nil;
-    TradeItResult *resultFromJson = [tradeItResult initWithString:jsonString error:&jsonModelError];
-
-    if (jsonModelError != nil) {
-        NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", [tradeItResult class], jsonModelError, jsonString);
-        return [TradeItParseErrorResult errorWithSystemMessage:@"Error parsing json response."];
-    }
-
-    return resultFromJson;
-}
-
 @end

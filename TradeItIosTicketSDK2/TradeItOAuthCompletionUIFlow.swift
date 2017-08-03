@@ -46,7 +46,6 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                 onNavigationController: navController,
                 asRootViewController: true,
                 showWelcomeScreen: false,
-                hideOpenAccountButton: false,
                 oAuthCallbackUrl: oAuthCallbackUrl
             )
         }

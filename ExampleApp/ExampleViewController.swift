@@ -218,7 +218,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             TradeItSDK.launcher.launchBrokerLinking(
                                 fromViewController: self.advancedViewController,
                                 showWelcomeScreen: false,
-                                hideOpenAccountButton: true
+                                showOpenAccountButton: false
                             )
                         }
                     ),

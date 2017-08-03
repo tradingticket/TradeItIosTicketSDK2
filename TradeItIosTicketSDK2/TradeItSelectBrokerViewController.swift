@@ -15,7 +15,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     public var oAuthCallbackUrl: URL?
-    public var hideOpenAccountButton: Bool = false
+    public var showOpenAccountButton: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             trackPageViewAsPageType: false
         )
         
-        if hideOpenAccountButton {
+        if !showOpenAccountButton {
             self.openNewAccountButton.removeFromSuperview()
         }
     }

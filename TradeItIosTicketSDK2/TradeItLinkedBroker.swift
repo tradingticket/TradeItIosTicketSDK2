@@ -13,7 +13,12 @@ import PromiseKit
             }
 
             self._error = newError
-            self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+
+            if newError?.isAccountLinkDelayedError() ?? false {
+                self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+                // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
+            }
         }
         get { return self._error }
     }
@@ -78,9 +83,6 @@ import PromiseKit
                     )
                 case let error as TradeItErrorResult:
                     self.error = error
-                    if self.isAccountLinkDelayedError { // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app 
-                        TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
-                    }
                     onFailure(error)
                 default:
                     handler(

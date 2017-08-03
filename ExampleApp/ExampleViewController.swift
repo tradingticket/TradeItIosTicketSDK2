@@ -682,7 +682,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 onSuccess: { result in
                     if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
                             TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-                        }
+                    }
                 },
                 onFailure:  { errorResult in
                     print("=====> error unlink login: \(errorResult.code), \(errorResult.shortMessage), \(errorResult.longMessages?.first) ")

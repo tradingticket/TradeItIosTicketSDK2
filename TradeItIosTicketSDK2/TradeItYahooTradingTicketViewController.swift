@@ -23,16 +23,22 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let selectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooSelectionView) as? TradeItYahooSelectionViewController else {
+        guard let selectionViewController = self.viewProvider.provideViewController(
+            forStoryboardId: .yahooSelectionView
+        ) as? TradeItYahooSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
             return
         }
+
         self.selectionViewController = selectionViewController
 
-        guard let accountSelectionViewController = self.viewProvider.provideViewController(forStoryboardId: .yahooAccountSelectionView) as? TradeItYahooAccountSelectionViewController else {
+        guard let accountSelectionViewController = self.viewProvider.provideViewController(
+            forStoryboardId: .yahooAccountSelectionView
+        ) as? TradeItYahooAccountSelectionViewController else {
             assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
             return
         }
+
         accountSelectionViewController.delegate = self
         self.accountSelectionViewController = accountSelectionViewController
 
@@ -126,10 +132,13 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
-                        self.delegate?.orderSuccessfullyPreviewed(onTradingTicketViewController: self,
-                                                                  withPreviewOrderResult: previewOrderResult,
-                                                                  placeOrderCallback: placeOrderCallback)
-                    }, onFailure: { errorResult in
+                        self.delegate?.orderSuccessfullyPreviewed(
+                            onTradingTicketViewController: self,
+                            withPreviewOrderResult: previewOrderResult,
+                            placeOrderCallback: placeOrderCallback
+                        )
+                    },
+                    onFailure: { errorResult in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(
                             error: errorResult,
@@ -360,7 +369,10 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
             marketCell.configure(
                 subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
                 detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
-                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabel: quotePresenter.formatChange(
+                    change: quote?.change,
+                    percentChange: quote?.pctChange
+                ),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
         case .estimatedCost:

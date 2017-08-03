@@ -46,7 +46,9 @@ import SafariServices
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView)
+        let navController = self.viewControllerProvider.provideNavigationController(
+            withRootViewStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView
+        )
 
         if let brokerSelectionViewController = navController.viewControllers.last as? TradeItYahooBrokerSelectionViewController {
             brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl

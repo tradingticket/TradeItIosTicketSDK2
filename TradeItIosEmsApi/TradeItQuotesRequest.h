@@ -16,11 +16,18 @@
 @property (copy) NSString * _Nullable apiKey;
 @property (copy) NSString * _Nullable suffixMarket;
 
-- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol;
-- (id _Nonnull)initWithFxSymbol:(NSString * _Nonnull) symbol andBroker: (NSString * _Nonnull) broker;
+- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol
+                    andApiKey: (NSString * _Nonnull) apiKey;
 
-- (id _Nonnull)initWithSymbols:(NSArray * _Nonnull) symbols;
+- (id _Nonnull)initWithFxSymbol:(NSString * _Nonnull) symbol
+                      andBroker: (NSString * _Nonnull) broker
+                      andApiKey: (NSString * _Nonnull) apiKey;
 
-- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol andMarketSuffix: (NSString * _Nonnull) suffix;
+- (id _Nonnull)initWithSymbols:(NSArray * _Nonnull) symbols
+                     andApiKey: (NSString * _Nonnull) apiKey;
+
+- (id _Nonnull)initWithSymbol:(NSString * _Nonnull) symbol
+              andMarketSuffix: (NSString * _Nonnull) suffix
+                    andApiKey: (NSString * _Nonnull) apiKey;
 
 @end

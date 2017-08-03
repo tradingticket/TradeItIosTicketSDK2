@@ -18,7 +18,10 @@
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        let quoteRequest = TradeItQuotesRequest(symbol: symbol)
+        let quoteRequest = TradeItQuotesRequest(
+            symbol: symbol,
+            andApiKey: self.connector.apiKey
+        )
 
         let request = TradeItRequestResultFactory.buildJsonRequest(
             for: quoteRequest,

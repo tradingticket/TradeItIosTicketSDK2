@@ -6,7 +6,7 @@ import PromiseKit
     private var availableBrokersPromise: Promise<[TradeItBroker]>? = nil
     private var featuredBrokerLabelText: String?
     private let brokerService: TradeItBrokerService
-    private let oAuthService: TradeItOauthService
+    private let oAuthService: TradeItOAuthService
 
     public var linkedBrokers: [TradeItLinkedBroker] = []
     public weak var oAuthDelegate: TradeItOAuthDelegate?
@@ -16,7 +16,7 @@ import PromiseKit
 
         self.sessionProvider = TradeItSessionProvider()
         self.brokerService = TradeItBrokerService(connector: connector)
-        self.oAuthService = TradeItOauthService(connector: connector)
+        self.oAuthService = TradeItOAuthService(connector: connector)
         
         super.init()
 

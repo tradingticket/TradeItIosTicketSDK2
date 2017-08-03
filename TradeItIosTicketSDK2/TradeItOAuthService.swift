@@ -1,4 +1,4 @@
-@objc public class TradeItOauthService: NSObject {
+@objc public class TradeItOAuthService: NSObject {
     private let connector: TradeItConnector
     
     init(connector: TradeItConnector) {
@@ -142,40 +142,6 @@
                 },
                 onFailure: onFailure
             )
-        }
-    }
-    
-    // MARK: Internal
-    
-    @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
-    internal func updateUserToken(
-        linkedlogin:TradeItLinkedLogin,
-        authInfo: TradeItAuthenticationInfo,
-        onSuccess: @escaping (_ updateLinkResult: TradeItUpdateLinkResult) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-        ) -> Void {
-        
-        let data = TradeItUpdateLinkRequest(
-            userId: linkedlogin.userId,
-            authInfo: authInfo,
-            apiKey: self.connector.apiKey
-        )
-        
-        let request = TradeItRequestResultFactory.buildJsonRequest(
-            for: data,
-            emsAction: "user/oAuthUpdate",
-            environment: self.connector.environment
-        )
-        
-        self.connector.send(request, targetClassType: TradeItUpdateLinkResult.self) { result in
-            switch result {
-                case let updateLinkResult as TradeItUpdateLinkResult: onSuccess(updateLinkResult)
-                case let errorResult as TradeItErrorResult: onFailure(errorResult)
-                default:
-                    let error = TradeItErrorResult(title: "OAuth update error")
-                    onFailure(error)
-                
-            }
         }
     }
     

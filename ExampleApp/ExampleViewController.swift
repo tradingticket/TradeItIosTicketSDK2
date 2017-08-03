@@ -672,7 +672,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT, version: TradeItEmsApiVersion_2)
-        let oAuthService = TradeItOauthService(connector: connector)
+        let oAuthService = TradeItOAuthService(connector: connector)
         
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
         for linkedLogin in linkedLogins {

@@ -213,16 +213,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "Hide Open account button",
-                        action: {
-                            TradeItSDK.launcher.launchBrokerLinking(
-                                fromViewController: self.advancedViewController,
-                                showWelcomeScreen: false,
-                                showOpenAccountButton: false
-                            )
-                        }
-                    ),
-                    Action(
                         label: "Relink first broker",
                         action: {
                             guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {

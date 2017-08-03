@@ -7,22 +7,7 @@
 //
 
 #import "TradeItConnector.h"
-#import "TradeItErrorResult.h"
 #import "TradeItKeychain.h"
-#import "TradeItAuthLinkRequest.h"
-#import "TradeItBrokerListRequest.h"
-#import "TradeItBrokerListResult.h"
-#import "TradeItUpdateLinkRequest.h"
-#import "TradeItUpdateLinkResult.h"
-#import "TradeItOAuthLoginPopupUrlForMobileRequest.h"
-#import "TradeItOAuthLoginPopupUrlForMobileResult.h"
-#import "TradeItOAuthAccessTokenRequest.h"
-#import "TradeItOAuthAccessTokenResult.h"
-#import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
-#import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
-#import "TradeItOAuthDeleteLinkRequest.h"
-#import "TradeItParseErrorResult.h"
-#import "TradeItUnlinkLoginResult.h"
 
 #ifdef CARTHAGE
 #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>

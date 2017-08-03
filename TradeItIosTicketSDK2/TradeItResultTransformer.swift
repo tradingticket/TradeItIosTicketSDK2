@@ -1,5 +1,5 @@
 class TradeItResultTransformer {
-    static let JSON_ERROR = TradeItParseErrorResult.error(withSystemMessage: "Error parsing JSON response")
+    static let JSON_ERROR = TradeItErrorResult.error(withSystemMessage: "Error parsing JSON response")
 
     static func transform<T: TradeItResult>(targetClassType: T.Type, json: String?) -> T? {
         var error: JSONModelError? = nil

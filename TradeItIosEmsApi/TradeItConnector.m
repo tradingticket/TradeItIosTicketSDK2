@@ -83,28 +83,6 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     return self;
 }
 
-// TODO: Deprecated - should be using OAuth
-- (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo *)authInfo
-                      andCompletionBlock:(void (^)(TradeItResult *))completionBlock {
-    TradeItAuthLinkRequest *authLinkRequest = [[TradeItAuthLinkRequest alloc] initWithAuthInfo:authInfo andAPIKey:self.apiKey];
-
-    NSURLRequest *request = [TradeItRequestResultFactory buildJsonRequestForModel:authLinkRequest
-                                                                               emsAction:@"user/oAuthLink"
-                                                                             environment:self.environment];
-
-    [self sendReturnJSON:request
-     withCompletionBlock:^(TradeItResult *tradeItResult, NSString *jsonResponse) {
-         if ([tradeItResult isSuccessful]) {
-             TradeItAuthLinkResult *successResult
-             = (TradeItAuthLinkResult*)[TradeItRequestResultFactory buildResult:[TradeItAuthLinkResult alloc]
-                                                                     jsonString:jsonResponse];
-             tradeItResult = successResult;
-         }
-
-         completionBlock(tradeItResult);
-     }];
-}
-
 - (TradeItLinkedLogin *)updateKeychainWithLink:(TradeItAuthLinkResult *)link
                                     withBroker:(NSString *)broker {
     NSDictionary *linkDict = [self getLinkedLoginDictByuserId:link.userId];

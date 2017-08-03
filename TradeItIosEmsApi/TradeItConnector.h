@@ -43,17 +43,6 @@
                      version:(TradeItEmsApiVersion)version;
 
 /**
- *  A user oAuth token is generated given credentials for a broker. The token may be used to authenticate the user in the future without them having to re-enter their credentials.
- * **** This token should be treated and stored like a password.  *****
- *  It's recommended to use the saveLinkToKeychain method to hold onto the token, and use either touchId or a short password like a 4 digit pen before retrieving the token for the user
- *
- *  @param authenticationInfo A populated TradeItAuthenticationInfo with the username and password
- *  @param completionBlock Completion callback that accepts a TradeItResult with the successful or failed response for authentication.
- */
-- (void)linkBrokerWithAuthenticationInfo:(TradeItAuthenticationInfo * _Nullable)authenticationInfo
-                      andCompletionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
-
-/**
  *  Using a successful response from the linkBrokerWithAuthenticationInfo:andCompletionBlock: this method will save basic information to the user preferences, and a UUID pointed to the actual user token which will be stored in the keychain.
  */
 - (TradeItLinkedLogin * _Nullable)saveToKeychainWithLink:(TradeItAuthLinkResult * _Nullable)link

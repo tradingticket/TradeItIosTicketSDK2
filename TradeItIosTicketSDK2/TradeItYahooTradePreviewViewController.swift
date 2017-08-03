@@ -82,20 +82,20 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
 
                         activityView.hide(animated: true)
                     },
-                    { error in
+                    { errorResult in
                         activityView.hide(animated: true)
 
                         self.actionButton.enable()
 
                         guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
                             return self.alertManager.showError(
-                                error,
+                                errorResult,
                                 onViewController: self
                             )
                         }
 
                         self.alertManager.showAlertWithAction(
-                            error: error,
+                            error: errorResult,
                             withLinkedBroker: linkedBroker,
                             onViewController: self
                         )
@@ -114,8 +114,19 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.actionButton.enable()
-                // TODO: use self.alertManager.showRelinkError
-                self.alertManager.showError(errorResult, onViewController: self)
+
+                guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
+                    return self.alertManager.showError(
+                        errorResult,
+                        onViewController: self
+                    )
+                }
+
+                self.alertManager.showAlertWithAction(
+                    error: errorResult,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: self
+                )
             }
         )
     }

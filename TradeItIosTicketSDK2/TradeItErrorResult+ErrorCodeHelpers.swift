@@ -44,7 +44,27 @@ extension TradeItErrorResult: Error {
         self.systemMessage = message
         self.code = NSDecimalNumber(value: code.rawValue)
     }
-
+    
+    public static func error(withSystemMessage systemMessage: String) -> TradeItErrorResult {
+            let errorResult = TradeItErrorResult()
+            errorResult.status = "ERROR"
+            errorResult.errorCode = .systemError
+            errorResult.systemMessage = systemMessage
+            errorResult.shortMessage = "Request failed"
+            errorResult.longMessages = ["Could not complete your request. Please try again."]
+            return errorResult
+    }
+    
+    public static func tradeError(withSystemMessage systemMessage: String) -> TradeItErrorResult {
+        let errorResult = TradeItErrorResult()
+        errorResult.status = "ERROR"
+        errorResult.errorCode = .brokerExecutionError
+        errorResult.systemMessage = systemMessage
+        errorResult.shortMessage = "Could not place your order"
+        errorResult.longMessages = ["Trading is temporarily unavailable. Please try again later."]
+        return errorResult
+    }
+    
     public func requiresRelink() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)

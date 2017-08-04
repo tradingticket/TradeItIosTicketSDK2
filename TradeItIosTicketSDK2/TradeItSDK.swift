@@ -4,8 +4,8 @@ import UIKit
 
     // MARK: Non-settable properties
 
+    private static let sdkInstance = TradeItSDK()
     private static var configured = false
-
     public static let launcher = TradeItLauncher()
     public static let yahooLauncher = TradeItYahooLauncher()
     public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
@@ -13,43 +13,43 @@ import UIKit
 
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
-    private static var _apiKey: String?
+    private var _apiKey: String?
     public static var apiKey: String {
         get {
-            precondition(self._apiKey != nil, "ERROR: TradeItSDK.apiKey accessed before calling TradeItSDK.configure()!")
-            return self._apiKey!
+            precondition(TradeItSDK.sdkInstance._apiKey != nil, "ERROR: TradeItSDK.apiKey accessed before calling TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._apiKey!
         }
     }
 
-    private static var _environment: TradeitEmsEnvironments?
+    private var _environment: TradeitEmsEnvironments?
     public static var environment: TradeitEmsEnvironments {
         get {
-            precondition(self._environment != nil, "ERROR: TradeItSDK.environment accessed before calling TradeItSDK.configure()!")
-            return self._environment!
+            precondition(TradeItSDK.sdkInstance._environment != nil, "ERROR: TradeItSDK.environment accessed before calling TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._environment!
         }
     }
 
-    internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
+    private var _linkedBrokerManager: TradeItLinkedBrokerManager?
     public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
-            precondition(self._linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
-            return self._linkedBrokerManager!
+            precondition(TradeItSDK.sdkInstance._linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._linkedBrokerManager!
         }
     }
 
-    internal static var _symbolService: TradeItSymbolService?
+    private var _symbolService: TradeItSymbolService?
     public static var symbolService: TradeItSymbolService {
         get {
-            precondition(self._symbolService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
-            return self._symbolService!
+            precondition(TradeItSDK.sdkInstance._symbolService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._symbolService!
         }
     }
 
-    private static var _brokerCenterService: TradeItBrokerCenterService?
+    private var _brokerCenterService: TradeItBrokerCenterService?
     public static var brokerCenterService: TradeItBrokerCenterService {
         get {
-            precondition(self._brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
-            return self._brokerCenterService!
+            precondition(TradeItSDK.sdkInstance._brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._brokerCenterService!
         }
     }
 
@@ -64,27 +64,27 @@ import UIKit
     public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
     public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
 
-    internal static var _marketDataService: MarketDataService?
+    private var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {
         get {
-            precondition(self._marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before initializing!")
-            return self._marketDataService!
+            precondition(TradeItSDK.sdkInstance._marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before initializing!")
+            return TradeItSDK.sdkInstance._marketDataService!
         }
 
         set(new) {
-            self._marketDataService = new
+            TradeItSDK.sdkInstance._marketDataService = new
         }
     }
 
-    private static var _oAuthCallbackUrl: URL?
+    private var _oAuthCallbackUrl: URL?
     public static var oAuthCallbackUrl: URL {
         get {
-            precondition(self._oAuthCallbackUrl != nil, "ERROR: TradeItSDK.oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
-            return self._oAuthCallbackUrl!
+            precondition(TradeItSDK.sdkInstance._oAuthCallbackUrl != nil, "ERROR: TradeItSDK.oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
+            return TradeItSDK.sdkInstance._oAuthCallbackUrl!
         }
 
         set(new) {
-            self._oAuthCallbackUrl = new
+            TradeItSDK.sdkInstance._oAuthCallbackUrl = new
         }
     }
 
@@ -94,19 +94,19 @@ import UIKit
 
     // MARK: Initializers
 
+    fileprivate override init() {} // hide default constructor
+    
     public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv
-    ) {
+    ) -> TradeItSDK {
         // We need this version of the configure method because Obj-C does not generate methods that allow for  omitting optional arguments with defaults, e.g. marketDataService
-        self.configure(
+        return TradeItSDK.configure(
             apiKey: apiKey,
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
-            marketDataService: nil,
-            requestFactory: nil,
-            brokerLogoService: nil
+            marketDataService: nil
         )
     }
 
@@ -116,29 +116,48 @@ import UIKit
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
-        requestFactory: RequestFactory? = nil,
-        brokerLogoService: BrokerLogoService? = nil
-    ) {
-        guard !self.configured else {
+        requestFactory: RequestFactory = DefaultRequestFactory(),
+        brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
+    ) -> TradeItSDK {
+        guard !TradeItSDK.configured else {
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
-            return
+            return TradeItSDK.sdkInstance
         }
+        TradeItSDK.configured = true
 
-        self.configured = true
+        TradeItRequestResultFactory.requestFactory = requestFactory
 
-        // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
-        TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
+        TradeItSDK.brokerLogoService = brokerLogoService
 
-        self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
-
-        self._apiKey = apiKey
-        self._environment = environment
-        self._oAuthCallbackUrl = oAuthCallbackUrl
-        self.userCountryCode = userCountryCode
-        self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-        self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
-        self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
-        self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
+        TradeItSDK.sdkInstance._apiKey = apiKey
+        TradeItSDK.sdkInstance._environment = environment
+        TradeItSDK.sdkInstance._oAuthCallbackUrl = oAuthCallbackUrl
+        TradeItSDK.userCountryCode = userCountryCode
+        TradeItSDK.sdkInstance._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
+        TradeItSDK.sdkInstance._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
+        TradeItSDK.sdkInstance._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
+        TradeItSDK.sdkInstance._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
+        return TradeItSDK.sdkInstance
+    }
+    
+    public func with(userCountryCode: String) -> TradeItSDK {
+        TradeItSDK.userCountryCode = userCountryCode
+        return self;
+    }
+    
+    public func with(marketDataservice: MarketDataService) -> TradeItSDK {
+        TradeItSDK.sdkInstance._marketDataService = marketDataservice
+        return self;
+    }
+    
+    public func with(requestFactory: RequestFactory) -> TradeItSDK {
+        TradeItRequestResultFactory.requestFactory = requestFactory
+        return self;
+    }
+    
+    public func with(brokerLogoService: BrokerLogoService) -> TradeItSDK {
+        TradeItSDK.brokerLogoService = brokerLogoService
+        return self;
     }
 }
 

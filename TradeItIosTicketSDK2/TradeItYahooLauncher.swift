@@ -118,11 +118,10 @@ import SafariServices
     public func launchAuthentication(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         onViewController viewController: UIViewController,
-        onSuccess: @escaping () -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
+        onCompletion: @escaping () -> Void
     ) {
         linkedBroker.authenticate(
-            onSuccess: onSuccess,
+            onSuccess: { onCompletion() },
             onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelQuestion in
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -130,7 +129,16 @@ import SafariServices
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelQuestion)
             },
-            onFailure: onFailure
+            onFailure: { errorResult in
+                self.alertManager.showAlertWithAction(
+                    error: errorResult,
+                    withLinkedBroker: linkedBroker,
+                    onViewController: viewController,
+                    onFinished: {
+                        onCompletion()
+                    }
+                )
+            }
         )
     }
 }

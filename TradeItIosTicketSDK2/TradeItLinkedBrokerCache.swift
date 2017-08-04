@@ -47,16 +47,23 @@ class TradeItLinkedBrokerCache {
             else { return }
 
         if let serializedAccounts = serializedLinkedBroker[ACCOUNTS_KEY] as? [SerializedLinkedBrokerAccount] {
-            let accounts = deserialize(serializedAccounts: serializedAccounts,
-                                       forLinkedBroker: linkedBroker)
+            let accounts = deserialize(
+                serializedAccounts: serializedAccounts,
+                forLinkedBroker: linkedBroker
+            )
 
             linkedBroker.accounts = accounts
         }
 
         linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? Date
         linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] as? Bool ?? false
+
         if linkedBroker.isAccountLinkDelayedError {
-            linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) link is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
+            linkedBroker.error = TradeItErrorResult(
+                title: "Activation In Progress",
+                message: "Your \(linkedBroker.brokerName) link is being activated which can take up to two business days. Check back soon.",
+                code: TradeItErrorCode.accountNotAvailable
+            )
         }
     }
 

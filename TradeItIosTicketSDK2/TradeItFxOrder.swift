@@ -32,8 +32,8 @@
         guard let linkedBrokerAccount = linkedBrokerAccount else {
             return onFailure(
                 TradeItErrorResult(
-                    title: "Linked Broker Account",
-                    message: "A linked broker account must be selected before you place an order."
+                    title: "No linked broker account",
+                    message: "A linked broker account must be selected before you place an order. Please try again."
                 )
             )
         }

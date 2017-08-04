@@ -9,9 +9,9 @@
     if (errorResult) {
         errorResult.status = @"ERROR";
         errorResult.code = @100; // TODO: Move this convenience method into the swift extension so enums can be used
-        errorResult.shortMessage = @"Could not complete your request";
+        errorResult.shortMessage = @"Request failed";
         errorResult.systemMessage = systemMessage;
-        errorResult.longMessages = @[@"Service is temporarily unavailable. Please try again."];
+        errorResult.longMessages = @[@"Could not complete your request. Please try again."];
     }
 
     return errorResult;

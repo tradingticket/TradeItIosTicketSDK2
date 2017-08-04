@@ -26,7 +26,7 @@
                 } else if let errorResult = tradeItResult as? TradeItErrorResult {
                     onFailure(errorResult)
                 } else {
-                    onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching data for symbol lookup failed. Please try again later."))
+                    onFailure(TradeItErrorResult(title: "Symbol lookup failure", message: "Could not search for symbol. Please try again."))
                 }
             }
         )
@@ -90,7 +90,7 @@
                 } else if let errorResult = result as? TradeItErrorResult {
                     onFailure(errorResult)
                 } else {
-                    onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching the quote failed. Please try again later."))
+                    onFailure(TradeItErrorResult(title: "Market data failure", message: "Could not fetch quote. Please try again."))
                 }
             }
         )

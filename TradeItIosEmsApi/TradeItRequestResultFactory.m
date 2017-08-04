@@ -102,7 +102,7 @@ static id<RequestFactory> _requestFactory = nil;
 
     if (jsonModelError != nil) {
         NSLog(@"Response did not match expected JSONModel class=%@ from ems server error=%@ response=%@", [tradeItResult class], jsonModelError, jsonString);
-        return [TradeItParseErrorResult errorWithSystemMessage:@"error parsing json response"];
+        return [TradeItParseErrorResult errorWithSystemMessage:@"Error parsing json response."];
     }
 
     return resultFromJson;

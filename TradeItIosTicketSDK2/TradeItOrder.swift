@@ -80,7 +80,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         guard let linkedBrokerAccount = linkedBrokerAccount else {
             return onFailure(
                 TradeItErrorResult(
-                    title: "Linked Broker Account",
+                    title: "Missing Linked Broker Account",
                     message: "A linked broker account must be selected before you preview an order."
                 )
             )

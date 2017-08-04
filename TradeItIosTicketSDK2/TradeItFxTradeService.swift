@@ -1,10 +1,5 @@
 @objc public class TradeItFxTradeService: NSObject {
     private let session: TradeItSession
-    private let defaultError = TradeItErrorResult(
-        title: "Invalid response sent from the server",
-        message: "Please check your active orders and try again."
-    )
-
 
     init(session: TradeItSession) {
         self.session = session
@@ -30,7 +25,12 @@
             case let error as TradeItErrorResult:
                 onFailure(error)
             default:
-                onFailure(self.defaultError)
+                onFailure(
+                    TradeItErrorResult(
+                        title: "Received invalid response",
+                        message: "Please check your active orders and try again."
+                    )
+                )
             }
         })
     }

@@ -87,7 +87,7 @@ import PromiseKit
                 default:
                     handler(
                         TradeItErrorResult(
-                            title: "Authentication failed",
+                            title: "Could not authenticate",
                             code: .sessionError
                         )
                     )
@@ -174,7 +174,7 @@ import PromiseKit
     public func setUnauthenticated() {
         self.error = TradeItErrorResult(
             title: "Linked Broker initialized from keychain",
-            message: "This linked broker needs to authenticate.",
+            message: "Linked broker must to be authenticated before using.",
             code: .sessionError
         )
     }
@@ -206,8 +206,8 @@ import PromiseKit
                 } else {
                     onFailure(
                         TradeItErrorResult(
-                            title: "Market Data failed",
-                            message: "Fetching the quote failed. Please try again later."
+                            title: "Market data error",
+                            message: "Could not fetch quote. Please try again."
                         )
                     )
                 }

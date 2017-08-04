@@ -30,28 +30,12 @@
     if (errorResult) {
         errorResult.status = @"ERROR";
         errorResult.code = @100; // TODO: Move this convenience method into the swift extension so enums can be used
-        errorResult.shortMessage = @"Could not complete your request";
+        errorResult.shortMessage = @"Request failed";
         errorResult.systemMessage = systemMessage;
-        errorResult.longMessages = @[@"Service is temporarily unavailable. Please try again."];
+        errorResult.longMessages = @[@"Could not complete your request. Please try again."];
     }
 
     return errorResult;
 }
-
-+ (TradeItErrorResult *)tradeErrorWithSystemMessage:(NSString *)systemMessage {
-
-    TradeItErrorResult *errorResult = [[TradeItErrorResult alloc] init];
-
-    if (errorResult) {
-        errorResult.status = @"ERROR";
-        errorResult.code = @200; // TODO: Move this convenience method into the swift extension so enums can be used
-        errorResult.shortMessage = @"Could not place your order";
-        errorResult.systemMessage = systemMessage;
-        errorResult.longMessages = @[@"Trading is temporarily unavailable. Please try again later."];
-    }
-
-    return errorResult;
-}
-
 
 @end

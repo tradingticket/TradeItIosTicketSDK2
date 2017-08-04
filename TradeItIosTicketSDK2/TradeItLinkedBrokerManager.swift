@@ -53,7 +53,7 @@ import PromiseKit
                 guard let oAuthUrl = oAuthLoginPopupUrlForMobileResult.oAuthUrl() else {
                     onFailure(
                         TradeItErrorResult(
-                            title: "Received empty OAuth login popup URL"
+                            title: "Received empty URL for broker linking"
                         )
                     )
                     return
@@ -63,7 +63,11 @@ import PromiseKit
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "Failed to retrieve OAuth login popup URL"))
+                onFailure(
+                    TradeItErrorResult(
+                        title: "Could not retrieve URL for broker linking"
+                    )
+                )
             }
         }
     }
@@ -127,7 +131,7 @@ import PromiseKit
                     } else {
                         let error = TradeItErrorResult(
                             title: "Keychain error",
-                            message: "Failed to update linked login in the keychain"
+                            message: "Could not update linked broker on device. Please try again."
                         )
 
                         linkedBroker.error = error
@@ -136,8 +140,8 @@ import PromiseKit
                 } else {
                     guard let broker = oAuthAccessTokenResult.broker else {
                         let error = TradeItErrorResult(
-                            title: "Failed to complete OAuth",
-                            message: "Service did not return a broker"
+                            title: "Broker linking failed",
+                            message: "Service did not return a broker. Please try again."
                         )
 
                         onFailure(error)
@@ -163,15 +167,15 @@ import PromiseKit
                         onFailure(
                             TradeItErrorResult(
                                 title: "Keychain error",
-                                message: "Failed to save the linked login to the device keychain"
+                                message: "Could not save linked broker to device. Please try again."
                             )
                         )
                     }
                 }
             default:
                 onFailure(TradeItErrorResult(
-                    title: "OAuth Error",
-                    message: "Could not complete OAuth"
+                    title: "Broker linking failed",
+                    message: "Please try again."
                 ))
             }
         }
@@ -569,8 +573,8 @@ import PromiseKit
                         } else {
                             reject(
                                 TradeItErrorResult(
-                                    title: "Could not fetch brokers",
-                                    message: "Could not fetch the brokers list. Please try again later."
+                                    title: "Available brokers failure",
+                                    message: "Could not fetch the list of available brokers. Please try again later."
                                 )
                             )
 

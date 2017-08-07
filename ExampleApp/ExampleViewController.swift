@@ -685,7 +685,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 },
                 onFailure:  { errorResult in
-                    print("=====> error unlink login: \(errorResult.code), \(errorResult.shortMessage), \(errorResult.longMessages?.first) ")
+                    print("=====> error unlink login: \(errorResult.code), \(errorResult.shortMessage), \(errorResult.longMessages?.first ?? "")")
                 }
             )
         }

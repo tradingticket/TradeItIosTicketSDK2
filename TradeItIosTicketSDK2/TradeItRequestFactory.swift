@@ -37,7 +37,7 @@ import Foundation
         let requestJsonString = requestObject.toJSONString() ?? ""
         let baseURL = TradeItRequestFactory.getBaseUrl(forEnvironment: env)
         guard let url = URL(string: emsAction, relativeTo: baseURL) else {
-            preconditionFailure("TradeItIosTicketSDK ERROR building json request with url: \(baseURL), action: \(emsAction)")
+            preconditionFailure("TradeItIosTicketSDK ERROR building json request with url: \(baseURL?.absoluteString ?? ""), action: \(emsAction)")
         }
         let headers: [String: String] = ["Accept": "application/json", "Content-Type": "application/json", "User-Agent": userAgent]
         let request: URLRequest = TradeItRequestFactory.requestFactory.buildPostRequest(for: url, jsonPostBody: requestJsonString, headers: headers)

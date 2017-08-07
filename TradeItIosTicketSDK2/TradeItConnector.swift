@@ -1,5 +1,4 @@
-public extension TradeItConnector {
-    
+internal extension TradeItConnector {
     func userToken(fromKeychainId keychainId: String) -> String? {
         return TradeItKeychain.getStringForKey(keychainId)
     }
@@ -17,7 +16,7 @@ public extension TradeItConnector {
         withCompletionBlock completionBlock: @escaping (TradeItResult?) -> Void
     ) {
         self.send(request) { result, json in
-            if result.status != "ERROR" { // Try to cast to desired resultClass
+            if !result.isError() { // Try to cast to desired resultClass
                 completionBlock(TradeItResultTransformer.transform(targetClassType: targetClassType, json: json))
             } else {
                 completionBlock(result) // Error case
@@ -34,27 +33,34 @@ public extension TradeItConnector {
         DispatchQueue.global(qos: .userInitiated).async {
             let session = URLSession.shared
             session.dataTask(with: request, completionHandler: { data, response, error in
-                if let data = data,
-                    let json = String(data: data, encoding: .utf8),
-                    let httpResponse = response as? HTTPURLResponse,
-                    httpResponse.statusCode == 200 {
-                    var result = TradeItResultTransformer.transform(targetClassType: TradeItResult.self, json: json)
+                let (result, json) = self.processResponse(data, response, error)
 
-                    if result?.status == "ERROR" { // Server sent an ERROR response so try create a TradeItErrorResult
-                        let errorResult = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json)
-                        result = errorResult
-                    }
-
-                    let finalResult = result ?? TradeItErrorResult.error(withSystemMessage: "Server returned non TradeItResult")
-
-                    DispatchQueue.main.async {
-                        completionBlock(finalResult, json)
-                    }
-                } else {
-                    // TODO: Figure out what to do here? httpResponse failed or similar
-                    completionBlock(TradeItErrorResult.error(withSystemMessage: "Data Error"), nil)
-                }
+                DispatchQueue.main.async { completionBlock(result, json) }
             }).resume()
         }
+    }
+
+    private func processResponse(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> (TradeItResult, String?) {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return (TradeItErrorResult.error(withSystemMessage: "Unable to cast response to HTTPUrlResponse."), nil)
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            return (TradeItErrorResult.error(withSystemMessage: "Response status code: \(httpResponse.statusCode)."), nil)
+        }
+
+        guard let data = data, let json = String(data: data, encoding: .utf8) else {
+            return (TradeItErrorResult.error(withSystemMessage: "Unable to read JSON data."), nil)
+        }
+
+        var result = TradeItResultTransformer.transform(targetClassType: TradeItResult.self, json: json)
+
+        if result?.isError() == true { // Server sent an ERROR response so try create a TradeItErrorResult
+            result = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json)
+        }
+
+        let defaultedResult = result ?? TradeItErrorResult.error(withSystemMessage: "JSON from server does not match the TradeItResult format.")
+
+        return (defaultedResult, json)
     }
 }

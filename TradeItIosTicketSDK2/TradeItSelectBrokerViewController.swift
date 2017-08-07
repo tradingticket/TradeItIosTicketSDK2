@@ -6,6 +6,7 @@ import SDWebImage
 class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
     @IBOutlet weak var adContainer: UIView!
+    @IBOutlet weak var openNewAccountButton: UIButton!
 
     private var activityView: MBProgressHUD?
     private var alertManager = TradeItAlertManager()
@@ -14,6 +15,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
     public var oAuthCallbackUrl: URL?
+    public var showOpenAccountButton: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,10 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             instrumentType: nil,
             trackPageViewAsPageType: false
         )
+        
+        if !showOpenAccountButton {
+            self.openNewAccountButton.removeFromSuperview()
+        }
     }
     
     // MARK: IBAction
@@ -51,15 +57,15 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     }
     
     @IBAction func helpLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/faq")
+        self.showWebView(pageTitle: "Help", url: "https://www.trade.it/helpcenter")
     }
     
     @IBAction func privacyLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy")
+        self.showWebView(pageTitle: "Privacy", url: "https://www.trade.it/privacy-policy")
     }
     
     @IBAction func termsLinkWasTapped(_ sender: AnyObject) {
-        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms")
+        self.showWebView(pageTitle: "Terms", url: "https://www.trade.it/terms-of-service")
     }
 
     // MARK: private methods

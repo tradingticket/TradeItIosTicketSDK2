@@ -7,12 +7,14 @@ import SafariServices
         onNavigationController navController: UINavigationController,
         asRootViewController: Bool,
         showWelcomeScreen: Bool,
+        showOpenAccountButton: Bool,
         oAuthCallbackUrl: URL
     )
 
     func presentLinkBrokerFlow(
         fromViewController viewController: UIViewController,
         showWelcomeScreen: Bool,
+        showOpenAccountButton: Bool,
         oAuthCallbackUrl: URL
     )
 
@@ -37,7 +39,8 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
     }
 
     var oAuthCallbackUrl: URL?
-
+    var showOpenAccountButton: Bool = true
+    
     override internal init() {
         super.init()
     }
@@ -46,10 +49,12 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
         onNavigationController navController: UINavigationController,
         asRootViewController: Bool,
         showWelcomeScreen: Bool,
+        showOpenAccountButton: Bool = true,
         oAuthCallbackUrl: URL
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
-
+        self.showOpenAccountButton = showOpenAccountButton
+        
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
 
         if (asRootViewController) {
@@ -62,10 +67,12 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
     func presentLinkBrokerFlow(
         fromViewController viewController: UIViewController,
         showWelcomeScreen: Bool,
+        showOpenAccountButton: Bool = true,
         oAuthCallbackUrl: URL
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
-
+        self.showOpenAccountButton = showOpenAccountButton
+        
         let initialViewController = self.getInitialViewController(showWelcomeScreen: showWelcomeScreen)
 
         let navController = UINavigationController()
@@ -109,6 +116,7 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
             welcomeViewController.oAuthCallbackUrl = oAuthCallbackUrl
         } else if let selectBrokerViewController = initialViewController as? TradeItSelectBrokerViewController {
             selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
+            selectBrokerViewController.showOpenAccountButton = self.showOpenAccountButton
         }
         
         return initialViewController
@@ -120,6 +128,7 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
         let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.selectBrokerView) as! TradeItSelectBrokerViewController
 
         selectBrokerViewController.oAuthCallbackUrl = self.oAuthCallbackUrl
+        selectBrokerViewController.showOpenAccountButton = self.showOpenAccountButton
 
 //        fromWelcomeViewController.navigationController!.pushViewController(selectBrokerViewController, animated: true)
         fromWelcomeViewController.navigationController!.setViewControllers([selectBrokerViewController], animated: true)

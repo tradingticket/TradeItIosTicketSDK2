@@ -1,11 +1,6 @@
 import UIKit
 
 class TradeItBrokerManagementTableViewCell: UITableViewCell {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        TradeItThemeConfigurator.configure(view: self)
-    }
-
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         let presenter = TradeItLinkedBrokerPresenter(linkedBroker: linkedBroker)
         self.textLabel?.text = presenter.getFormattedBrokerLabel()

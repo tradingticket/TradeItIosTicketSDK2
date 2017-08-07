@@ -45,7 +45,7 @@ class TradeItQuotePresenter: NSObject {
     }
 
     static func getChangeLabelColor(changeValue: NSNumber?) -> UIColor {
-        guard let change = changeValue else { return TradeItSDK.theme.textColor }
+        guard let change = changeValue else { return UIColor.darkText }
         return TradeItPresenter.stockChangeColor(change.doubleValue)
     }
 }

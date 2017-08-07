@@ -77,9 +77,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     }
     
     func getFormattedDayChangeColor() -> UIColor {
-        guard let change = self.getQuote()?.change
-            else { return TradeItSDK.theme.textColor }
-        return TradeItPresenter.stockChangeColor(change.doubleValue)
+        return TradeItPresenter.stockChangeColor(self.getQuote()?.change?.doubleValue)
     }
     
     func getHoldingType() -> String? {

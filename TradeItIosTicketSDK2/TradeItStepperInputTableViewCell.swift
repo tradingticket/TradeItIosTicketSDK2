@@ -91,8 +91,6 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
             action: #selector(self.dismissKeyboard)
         )
 
-        TradeItThemeConfigurator.configureBarButtonItem(button: doneBarButtonItem)
-
         var barButtonItems = [UIBarButtonItem]()
         barButtonItems.append(flexSpace)
         barButtonItems.append(doneBarButtonItem)
@@ -115,6 +113,6 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
 
         button.layer.mask = maskLayer
         button.layer.borderWidth = 1
-        button.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.5).cgColor
+        button.layer.borderColor = UIButton().tintColor.withAlphaComponent(0.5).cgColor
     }
 }

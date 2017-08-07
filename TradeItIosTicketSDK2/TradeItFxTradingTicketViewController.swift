@@ -392,8 +392,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         cell.textLabel?.text = ticketRow.getTitle(forAction: .buy) // TODO FIX
         cell.selectionStyle = .none
 
-        TradeItThemeConfigurator.configure(view: cell)
-
         let quotePresenter = TradeItQuotePresenter(
             "",
             minimumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4,

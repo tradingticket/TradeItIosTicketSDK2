@@ -375,8 +375,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         cell.textLabel?.text = ticketRow.getTitle(forAction: self.order.action)
         cell.selectionStyle = .none
         
-        TradeItThemeConfigurator.configure(view: cell)
-        
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol

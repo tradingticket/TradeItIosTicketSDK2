@@ -1,11 +1,6 @@
 import UIKit
 
 class TradeItLinkedBrokerErrorTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
-    }
-    
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         guard let error = linkedBroker.error else {
             return

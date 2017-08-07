@@ -74,7 +74,6 @@ class TradeItBrokerManagementTableViewManager: NSObject, UITableViewDelegate, UI
         let createAddAccountCell: () -> UITableViewCell = {
             let brokerManagerCellIdentifier = "BROKER_MANAGER_ADD_ACCOUNT_CELL_ID"
             let cell = tableView.dequeueReusableCell(withIdentifier: brokerManagerCellIdentifier)
-            TradeItThemeConfigurator.configure(view: cell)
             return cell ?? UITableViewCell()
         }
 

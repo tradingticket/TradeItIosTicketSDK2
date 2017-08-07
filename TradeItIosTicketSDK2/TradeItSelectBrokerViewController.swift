@@ -31,8 +31,6 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
         self.populateBrokers()
 
-        TradeItThemeConfigurator.configure(view: self.view, groupedStyle: false)
-
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
@@ -179,8 +177,6 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
                 return nil
             }
         }
-
-        TradeItThemeConfigurator.configureTableHeader(header: header, groupedStyle: false)
         return header
     }
 
@@ -213,7 +209,6 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
         cell.textLabel?.text = broker?.brokerLongName
         cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
-        TradeItThemeConfigurator.configure(view: cell)
 
         return cell
     }

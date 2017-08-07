@@ -5,7 +5,6 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
     let accountSwitch = UISwitch()
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
         self.accessoryView = self.accountSwitch
         self.accountSwitch.addTarget(self, action: #selector(accountEnabledSwitchWasTapped(sender:)), for: UIControlEvents.valueChanged)
     }

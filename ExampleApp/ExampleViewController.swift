@@ -99,35 +99,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Themes",
-                actions: [
-                    Action(
-                        label: "Light theme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.light()
-                            self.handleThemeChange()
-                        }
-                    ),
-                    Action(
-                        label: "Dark theme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.dark()
-                            self.handleThemeChange()
-                        }
-                    ),
-                    Action(
-                        label: "Custom theme",
-                        action: {
-                            let customTheme = TradeItTheme()
-                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
-                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
-                            TradeItSDK.theme = customTheme
-                            self.handleThemeChange()
-                        }
-                    )
-                ]
-            ),
-            Section(
                 label: "Settings",
                 actions: [
                     Action(
@@ -269,35 +240,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 ]
             ),
             Section(
-                label: "Themes",
-                actions: [
-                    Action(
-                        label: "Light theme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.light()
-                            self.handleThemeChange()
-                        }
-                    ),
-                    Action(
-                        label: "Dark theme",
-                        action: {
-                            TradeItSDK.theme = TradeItTheme.dark()
-                            self.handleThemeChange()
-                        }
-                    ),
-                    Action(
-                        label: "Custom theme",
-                        action: {
-                            let customTheme = TradeItTheme()
-                            customTheme.backgroundColor = UIColor(red: 0.8275, green: 0.9176, blue: 1, alpha: 1.0)
-                            customTheme.tableHeaderBackgroundColor = UIColor(red: 0.4784, green: 0.7451, blue: 1, alpha: 1.0)
-                            TradeItSDK.theme = customTheme
-                            self.handleThemeChange()
-                        }
-                    )
-                ]
-            ),
-            Section(
                 label: "Custom Integration",
                 actions: [
                     Action(
@@ -406,8 +348,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         ]
 
         self.sections ??= self.defaultSections
-
-        TradeItThemeConfigurator.configure(view: self.view)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -447,8 +387,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
         let cell = UITableViewCell()
         cell.textLabel?.text = sections?[sectionIndex].label
-        TradeItThemeConfigurator.configureTableHeader(header: cell)
-
         return cell
     }
 
@@ -466,8 +404,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         cell?.textLabel?.text = sections?[indexPath.section].actions[indexPath.row].label
-
-        TradeItThemeConfigurator.configure(view: cell)
         
         return cell!
     }
@@ -692,10 +628,25 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         print("=====> Linked Broker count after clearing: \(updatedBrokerCount)")
     }
 
-    private func handleThemeChange() {
-        let controller = self.advancedViewController ?? self
-        TradeItThemeConfigurator.configure(view: controller.view)
-        self.table.reloadData()
+    private func registerLinkObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didLink), name: TradeItSDK.didLinkNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didUnlink), name: TradeItSDK.didUnlinkNotificationName, object: nil)
+    }
+
+    func didLink(notification: Notification) {
+        print("TradeItSDK: didLink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    func didUnlink(notification: Notification) {
+        print("TradeItSDK: didUnlink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
     }
 
     deinit {

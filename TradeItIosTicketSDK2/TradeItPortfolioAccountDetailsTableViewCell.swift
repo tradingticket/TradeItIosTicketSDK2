@@ -8,10 +8,6 @@ class TradeItPortfolioAccountDetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var availableCashLabel: UILabel!
     @IBOutlet weak var buyingPowerLabel: UILabel!
 
-    override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
-    }
-
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         self.accountNameLabel.text = account.getFormattedAccountName()
 

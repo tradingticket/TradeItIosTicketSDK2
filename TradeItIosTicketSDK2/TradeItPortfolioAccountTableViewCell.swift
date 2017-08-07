@@ -6,10 +6,6 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
     @IBOutlet weak var returnLabel: UILabel!
     @IBOutlet weak var view: UIView!
 
-    override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
-    }
-
     func populate(withAccount account: TradeItLinkedBrokerAccount) {
         let presenter = TradeItPortfolioBalanceEquityPresenter(account)
         self.accountNameLabel.text = account.getFormattedAccountName()

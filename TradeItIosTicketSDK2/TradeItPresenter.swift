@@ -5,7 +5,7 @@ class TradeItPresenter {
     static let MISSING_DATA_PLACEHOLDER = "N/A"
 
     static func stockChangeColor(_ value: Double?) -> UIColor {
-        guard let value = value else { return TradeItSDK.theme.textColor }
+        guard let value = value else { return UIColor.darkText }
         if value < 0.0 {
             return UIColor.tradeItDeepRoseColor
         } else {

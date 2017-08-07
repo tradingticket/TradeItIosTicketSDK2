@@ -48,10 +48,6 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             position: .bottom
         )
 
-        for bullet in bullets {
-            bullet.backgroundColor = TradeItSDK.theme.interactivePrimaryColor
-        }
-
         let gestureRecognizer = UITapGestureRecognizer(
             target: self,
             action: #selector(handleTap(gestureRecognizer:))

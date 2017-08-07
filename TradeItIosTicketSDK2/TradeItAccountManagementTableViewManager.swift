@@ -59,7 +59,6 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
         let cell = UITableViewCell()
         cell.textLabel?.text = headerLabelFor(sectionIndex)
-        TradeItThemeConfigurator.configureTableHeader(header: cell)
         return cell
     }
     
@@ -94,7 +93,6 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
                                  for: UIControlEvents.valueChanged)
-        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
@@ -112,14 +110,12 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
 
     private func provideActionCell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ACCOUNT_MANAGEMENT_ACTION_CELL_ID")!
-        TradeItThemeConfigurator.configure(view: cell)
         switch row {
         case 0:
             cell.textLabel?.text = "Relink"
-            cell.textLabel?.textColor = TradeItSDK.theme.textColor
         case 1:
             cell.textLabel?.text = "Unlink"
-            cell.textLabel?.textColor = TradeItSDK.theme.warningTextColor
+            cell.textLabel?.textColor = UIColor.tradeItDeepRoseColor
         default:
             return UITableViewCell()
         }

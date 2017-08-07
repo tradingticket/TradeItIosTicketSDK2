@@ -109,7 +109,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
             let header = cell?.contentView
-            TradeItThemeConfigurator.configureTableHeader(header: header)
             return header
         }
     }
@@ -197,7 +196,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             cell.textLabel?.text = "Positions"
             cell.detailTextLabel?.text = "Positions failed to load. Swipe down to retry."
             cell.accessoryView = UIImageView(image: warningImage)
-            TradeItThemeConfigurator.configure(view: cell)
             return cell
         }
     }
@@ -212,7 +210,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             cell.textLabel?.text = "Overview"
             cell.detailTextLabel?.text = "Overview failed to load. Swipe down to retry."
             cell.accessoryView = UIImageView(image: warningImage)
-            TradeItThemeConfigurator.configure(view: cell)
             return cell
         }
     }
@@ -225,7 +222,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
-        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }

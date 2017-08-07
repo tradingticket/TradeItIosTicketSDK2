@@ -33,7 +33,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
                                            compatibleWith: nil)
 
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
         self.initialPositionDetailsHeight = self.positionDetailsHeightConstraint.constant
     }
 
@@ -63,12 +62,10 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
             self.positionDetailsView.isHidden = false
             self.positionDetailsHeightConstraint.constant = initialPositionDetailsHeight
             self.chevron.image = chevronUpImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
         } else {
             self.positionDetailsView.isHidden = true
             self.positionDetailsHeightConstraint.constant = 0
             self.chevron.image = chevronDownImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
         }
         self.setNeedsUpdateConstraints()
         self.updateConstraintsIfNeeded()

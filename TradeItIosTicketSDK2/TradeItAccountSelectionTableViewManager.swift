@@ -76,16 +76,8 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         return self.linkedBrokerSectionPresenters.count
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
-        let cell = UITableViewCell()
-        let linkedBroker = self.linkedBrokerSectionPresenters[safe: sectionIndex]?.linkedBroker
-        cell.textLabel?.text = linkedBroker?.brokerName
-
-        return cell
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.linkedBrokerSectionPresenters[safe: section]?.linkedBroker.brokerName
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

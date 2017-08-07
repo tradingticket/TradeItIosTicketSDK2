@@ -162,26 +162,20 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         return numSections
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_SELECTION_HEADER_CELL_ID") ?? UITableViewCell()
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if self.featuredBrokers.isEmpty {
-            header.textLabel?.text = "AVAILABLE BROKERS"
+            return "AVAILABLE BROKERS"
         } else {
             switch section {
             case 0:
-                header.textLabel?.text = TradeItSDK.featuredBrokerLabelText
+                return TradeItSDK.featuredBrokerLabelText
             case 1:
-                header.textLabel?.text = "MORE BROKERS"
+                return "MORE BROKERS"
             default:
                 print("=====> TradeIt ERROR: More than 2 table sections in Broker Selection screen")
                 return nil
             }
         }
-        return header
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

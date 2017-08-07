@@ -78,18 +78,12 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         return 1 + self.linkedBrokerSectionPresenters.count
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") ?? UITableViewCell()
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            header.textLabel?.text = "Total Value"
+            return "Total Value"
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            return self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
         }
-        return header
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

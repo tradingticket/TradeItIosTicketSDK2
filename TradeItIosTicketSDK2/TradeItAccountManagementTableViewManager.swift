@@ -52,16 +52,10 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         return SECTIONS.count.rawValue
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerLabelFor(section)
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = headerLabelFor(sectionIndex)
-        return cell
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIndex: Int) -> Int {
         guard let section = SECTIONS.init(rawValue: sectionIndex) else { return 0 }
         switch section {

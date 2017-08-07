@@ -380,14 +380,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         return sections?.count ?? 0
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = sections?[sectionIndex].label
-        return cell
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.sections?[section].label
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

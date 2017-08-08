@@ -32,7 +32,7 @@
         }
     }
 
-    init(linkedBroker: TradeItLinkedBroker,
+    internal init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
          accountIndex: String,
@@ -55,6 +55,7 @@
         self.positions = positions
         self.orderCapabilities = orderCapabilities
         self._enabled = isEnabled
+        // TODO: Why do all of our accounts get their own services?
         self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
         self.tradeService = TradeItTradeService(session: linkedBroker.session)

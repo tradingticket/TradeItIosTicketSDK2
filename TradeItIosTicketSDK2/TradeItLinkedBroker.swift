@@ -14,8 +14,8 @@ import PromiseKit
 
             self._error = newError
 
-            if newError?.isAccountLinkDelayedError() ?? false {
-                self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+            self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+            if self.isAccountLinkDelayedError {
                 // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app
                 TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
             }

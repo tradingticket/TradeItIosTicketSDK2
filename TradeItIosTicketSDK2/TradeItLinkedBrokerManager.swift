@@ -507,7 +507,7 @@ import PromiseKit
 
     // MARK: Debugging
 
-    internal func printLinkedBrokers() {
+    public func printLinkedBrokers() {
         print("\n\n=====> LINKED BROKERS:")
 
         self.linkedBrokers.forEach { linkedBroker in

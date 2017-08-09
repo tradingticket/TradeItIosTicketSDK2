@@ -42,7 +42,7 @@ internal extension TradeItConnector {
 
     private func processResponse(_ data: Data?, _ response: URLResponse?, _ error: Error?) -> (TradeItResult, String?) {
         guard let httpResponse = response as? HTTPURLResponse else {
-            return (TradeItErrorResult.error(withSystemMessage: "Unable to cast response to HTTPUrlResponse."), nil)
+            return (TradeItErrorResult.error(withSystemMessage: "Unable to cast response to HTTPUrlResponse. Error description message: \(error?.localizedDescription ?? "nil")"), nil)
         }
 
         guard httpResponse.statusCode == 200 else {

@@ -32,7 +32,7 @@
         }
     }
 
-    init(linkedBroker: TradeItLinkedBroker,
+    internal init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
          accountIndex: String,
@@ -55,6 +55,7 @@
         self.positions = positions
         self.orderCapabilities = orderCapabilities
         self._enabled = isEnabled
+        // TODO: These services should be a reference to one held on the parent linkedBroker instead of duplicated for every account...
         self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
         self.tradeService = TradeItTradeService(session: linkedBroker.session)

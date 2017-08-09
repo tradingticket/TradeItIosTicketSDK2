@@ -229,12 +229,12 @@ import PromiseKit
     }
 
     public func injectBroker(
-        userIdUserTokenBroker: UserIdUserTokenBroker,
+        linkedBrokerData: LinkedBrokerData,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         self.saveLinkedBrokerToKeychain(
-            userIdUserTokenBroker: userIdUserTokenBroker,
+            linkedBrokerData: linkedBrokerData,
             onSuccess: onSuccess,
             onFailure: onFailure
         )
@@ -305,28 +305,27 @@ import PromiseKit
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
     
-    public func syncLocalLinkedBrokers(
-        userIdUserTokenBrokerList: [UserIdUserTokenBroker],
+    public func syncLocal(
+        withRemoteLinkedBrokers remoteLinkedBrokers: [LinkedBrokerData],
         onFailure: @escaping (TradeItErrorResult) -> Void,
         onFinished: @escaping () -> Void
     ) {
         // Add missing linkedBrokers
-        let userIdsFromlinkedBrokers = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
-        let userIdUserTokenBrokersToAdd = userIdUserTokenBrokerList.filter { !userIdsFromlinkedBrokers.contains($0.userId) }
+        let localUserIds = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
+        let remoteLinkedBrokersToAdd = remoteLinkedBrokers.filter { !localUserIds.contains($0.userId) }
         
-        userIdUserTokenBrokersToAdd.forEach { userIdUserTokenBroker in
+        remoteLinkedBrokersToAdd.forEach { remoteBrokerData in
             injectBroker(
-                userIdUserTokenBroker: userIdUserTokenBroker,
-                onSuccess: { (linkedBroker) in
-                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: linkedBroker)
-                },
+                linkedBrokerData: remoteBrokerData,
+                onSuccess: TradeItSDK.linkedBrokerCache.cache,
                 onFailure: onFailure
             )
         }
         
         // Remove non existing linkedBrokers
+        let remoteUserIds = remoteLinkedBrokers.flatMap { $0.userId }
         let linkedBrokersToRemove = self.linkedBrokers.filter {
-            !userIdUserTokenBrokerList.flatMap { $0.userId }.contains($0.linkedLogin.userId ?? "")
+            !remoteUserIds.contains($0.linkedLogin.userId ?? "")
         }
 
         linkedBrokersToRemove.forEach { linkedBrokerToRemove in
@@ -334,112 +333,6 @@ import PromiseKit
         }
         
         onFinished()
-    }
-
-    // MARK: Internal
-
-    @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
-    internal func linkBroker(
-        authInfo: TradeItAuthenticationInfo,
-        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-        onSecurityQuestion: @escaping (
-            TradeItSecurityQuestionResult,
-            _ submitAnswer: @escaping (String) -> Void,
-            _ onCancelSecurityQuestion: @escaping () -> Void
-        ) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    ) {
-        self.connector.linkBroker(with: authInfo) { authResult in
-            switch authResult {
-            case let errorResult as TradeItErrorResult:
-                onFailure(errorResult)
-            case let authResult as TradeItAuthLinkResult:
-                let userIdUserTokenBroker = UserIdUserTokenBroker(
-                    userId: authResult.userId,
-                    userToken: authResult.userToken,
-                    broker: authInfo.broker
-                )
-                self.saveLinkedBrokerToKeychain(
-                    userIdUserTokenBroker: userIdUserTokenBroker,
-                    onSuccess: { linkedBroker in
-                        linkedBroker.authenticateIfNeeded(
-                            onSuccess: {
-                                self.oAuthDelegate?.didLink?(
-                                    userId: userIdUserTokenBroker.userId,
-                                    userToken: userIdUserTokenBroker.userToken
-                                )
-                                onSuccess(linkedBroker)
-                            },
-                            onSecurityQuestion: onSecurityQuestion,
-                            onFailure: onFailure
-                        )
-                    },
-                    onFailure: onFailure
-                )
-            default:
-                onFailure(TradeItErrorResult(title: "Keychain error"))
-            }
-
-        }
-    }
-
-    @available(*, deprecated, message: "See documentation for supporting oAuth flow.")
-    internal func relinkBroker(
-        _ linkedBroker: TradeItLinkedBroker,
-        authInfo: TradeItAuthenticationInfo,
-        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-        onSecurityQuestion: @escaping (
-            TradeItSecurityQuestionResult,
-            _ submitAnswer: @escaping (String) -> Void,
-            _ onCancelSecurityQuestion: @escaping () -> Void
-        ) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    ) -> Void {
-        self.connector.updateUserToken(
-            linkedBroker.linkedLogin,
-            authInfo: authInfo,
-            andCompletionBlock: { result in
-                switch result {
-                case let errorResult as TradeItErrorResult:
-                    linkedBroker.error = errorResult
-                    onFailure(errorResult)
-                case let updateLinkResult as TradeItUpdateLinkResult:
-                    let linkedLogin = self.connector.updateKeychain(
-                        withLink: updateLinkResult,
-                        withBroker: linkedBroker.brokerName
-                    )
-
-                    if let linkedLogin = linkedLogin {
-                        linkedBroker.clearError()
-                        linkedBroker.linkedLogin = linkedLogin
-                        linkedBroker.authenticate(
-                            onSuccess: {
-                                self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
-                                onSuccess(linkedBroker)
-                            },
-                            onSecurityQuestion: onSecurityQuestion,
-                            onFailure: { error in
-                                // Consider a success because linking succeeded. Just not able to authenticate after.
-                                self.oAuthDelegate?.didLink?(userId: updateLinkResult.userId, userToken: updateLinkResult.userToken)
-                                onSuccess(linkedBroker)
-                            }
-                        )
-                    } else {
-                        let error = TradeItErrorResult(
-                            title: "Keychain error",
-                            message: "Failed to update linked login in the keychain"
-                        )
-
-                        linkedBroker.error = error
-                        onFailure(error)
-                    }
-                default:
-                    let error = TradeItErrorResult(title: "Keychain error")
-                    linkedBroker.error = error
-                    onFailure(error)
-                }
-            }
-        )
     }
 
     // MARK: Private
@@ -524,20 +417,33 @@ import PromiseKit
     }
 
     private func saveLinkedBrokerToKeychain(
-        userIdUserTokenBroker: UserIdUserTokenBroker,
+        linkedBrokerData: LinkedBrokerData,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         let linkedLogin = self.connector.saveToKeychain(
-            withUserId: userIdUserTokenBroker.userId,
-            andUserToken: userIdUserTokenBroker.userToken,
-            andBroker: userIdUserTokenBroker.broker,
-            andLabel: userIdUserTokenBroker.broker
+            withUserId: linkedBrokerData.userId,
+            andUserToken: linkedBrokerData.userToken,
+            andBroker: linkedBrokerData.broker,
+            andLabel: linkedBrokerData.broker
         )
 
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
-            if userIdUserTokenBroker.isLinkActivationPending {
+            linkedBroker.accounts = linkedBrokerData.accounts.map { accountData in
+                return TradeItLinkedBrokerAccount(
+                    linkedBroker: linkedBroker,
+                    accountName: accountData.name,
+                    accountNumber: accountData.number,
+                    accountIndex: "",
+                    accountBaseCurrency: accountData.baseCurrency,
+                    balance: nil,
+                    fxBalance: nil,
+                    positions: []
+                )
+            }
+
+            if linkedBrokerData.isLinkActivationPending {
                 linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) link is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
             }
             self.linkedBrokers.append(linkedBroker)
@@ -601,7 +507,7 @@ import PromiseKit
 
     // MARK: Debugging
 
-    internal func printLinkedBrokers() {
+    public func printLinkedBrokers() {
         print("\n\n=====> LINKED BROKERS:")
 
         self.linkedBrokers.forEach { linkedBroker in
@@ -622,25 +528,43 @@ import PromiseKit
     }
 }
 
-@objc public class UserIdUserTokenBroker: NSObject {
+@objc public class LinkedBrokerData: NSObject {
     let userId: String
     let userToken: String
     let broker: String
+    let accounts: [LinkedBrokerAccountData]
     let isLinkActivationPending: Bool
     
     public init(
         userId: String,
         userToken: String,
         broker: String,
+        accounts: [LinkedBrokerAccountData],
         isLinkActivationPending: Bool = false
     ) {
         self.userId = userId
         self.userToken = userToken
         self.broker = broker
+        self.accounts = accounts
         self.isLinkActivationPending = isLinkActivationPending
     }
 }
 
+@objc public class LinkedBrokerAccountData: NSObject {
+    let name: String
+    let number: String
+    let baseCurrency: String
+
+    public init(
+        name: String,
+        number: String,
+        baseCurrency: String
+    ) {
+        self.name = name
+        self.number = number
+        self.baseCurrency = baseCurrency
+    }
+}
 
 @objc public protocol TradeItOAuthDelegate {
     @objc optional func didLink(userId: String, userToken: String)

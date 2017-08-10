@@ -7,6 +7,8 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
     private let addAccountTableSectionIndex = 0
     internal weak var delegate: TradeItYahooAccountSelectionTableViewManagerDelegate?
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
+    private var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
+
     
     var accountsTable: UITableView? {
         get {
@@ -23,10 +25,17 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
         }
     }
     
-    func updateLinkedBrokers(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker]) {
+    func updateLinkedBrokers(
+        withLinkedBrokers linkedBrokers: [TradeItLinkedBroker],
+        withSelectedLinkedBrokerAccount selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
+    ) {
+        self.selectedLinkedBrokerAccount = selectedLinkedBrokerAccount
         self.linkedBrokers = linkedBrokers
         self.linkedBrokerSectionPresenters = linkedBrokers.map { linkedBroker in
-            return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker)
+            return LinkedBrokerSectionPresenter(
+                linkedBroker: linkedBroker,
+                selectedLinkedBrokerAccount: selectedLinkedBrokerAccount
+            )
         }
         self.accountsTable?.reloadData()
     }
@@ -39,7 +48,10 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
             fromAccountSelectionTableViewManager: self,
             onRefreshComplete: { linkedBrokers in
                 if let linkedBrokers = linkedBrokers  {
-                    self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
+                    self.updateLinkedBrokers(
+                        withLinkedBrokers: linkedBrokers,
+                        withSelectedLinkedBrokerAccount:  self.selectedLinkedBrokerAccount
+                    )
                 }
 
                 self.refreshControl?.endRefreshing()
@@ -135,7 +147,10 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
             fromAccountSelectionTableViewManager: self,
             onRefreshComplete: { linkedBrokers in
                 if let linkedBrokers = linkedBrokers {
-                    self.updateLinkedBrokers(withLinkedBrokers: linkedBrokers)
+                    self.updateLinkedBrokers(
+                        withLinkedBrokers: linkedBrokers,
+                        withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount
+                    )
                 }
                                             
                 self.refreshControl?.endRefreshing()
@@ -146,9 +161,14 @@ class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UIT
 
 fileprivate class LinkedBrokerSectionPresenter {
     let linkedBroker: TradeItLinkedBroker
+    let selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
     
-    init(linkedBroker: TradeItLinkedBroker) {
+    init(
+        linkedBroker: TradeItLinkedBroker,
+         selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
+    ) {
         self.linkedBroker = linkedBroker
+        self.selectedLinkedBrokerAccount = selectedLinkedBrokerAccount
     }
     
     func numberOfRows() -> Int {
@@ -177,6 +197,13 @@ fileprivate class LinkedBrokerSectionPresenter {
             
             if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
                 cell.detailTextLabel?.text = "Buying power: " + buyingPower
+            }
+            
+            if self.selectedLinkedBrokerAccount?.accountNumber == linkedBrokerAccount.accountNumber
+                && selectedLinkedBrokerAccount?.brokerName == linkedBrokerAccount.brokerName {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
             }
             return cell
         }

@@ -25,7 +25,10 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
     func updateLinkedBrokers(withLinkedBrokers linkedBrokers: [TradeItLinkedBroker], withSelectedLinkedBrokerAccount selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?) {
         self.selectedLinkedBrokerAccount = selectedLinkedBrokerAccount
         self.linkedBrokerSectionPresenters = linkedBrokers.map { linkedBroker in
-            return LinkedBrokerSectionPresenter(linkedBroker: linkedBroker, selectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
+            return LinkedBrokerSectionPresenter(
+                linkedBroker: linkedBroker,
+                selectedLinkedBrokerAccount: selectedLinkedBrokerAccount
+            )
         }
         self.accountsTable?.reloadData()
     }

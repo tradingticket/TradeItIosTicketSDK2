@@ -66,6 +66,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
         switch ticketRow {
         case .account:
+            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)

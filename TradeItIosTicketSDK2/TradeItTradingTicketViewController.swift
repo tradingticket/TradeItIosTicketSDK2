@@ -83,6 +83,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .symbol:
             self.navigationController?.pushViewController(self.symbolSearchViewController, animated: true)
         case .account:
+            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
             self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)

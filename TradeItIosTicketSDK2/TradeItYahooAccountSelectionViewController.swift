@@ -5,6 +5,7 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
 
     let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
     var alertManager: TradeItAlertManager?
+    var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
     var accountSelectionTableManager = TradeItYahooAccountSelectionTableViewManager()
     weak var delegate: TradeItYahooAccountSelectionViewControllerDelegate?
 
@@ -19,7 +20,10 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
         super.viewWillAppear(animated)
 
         let displayableBrokers = TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
-        self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: displayableBrokers)
+        self.accountSelectionTableManager.updateLinkedBrokers(
+            withLinkedBrokers: displayableBrokers,
+            withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount
+        )
     }
 
     // MARK: TradeItYahooAccounSelectionTableViewManagerDelegate
@@ -63,7 +67,8 @@ class TradeItYahooAccountSelectionViewController: CloseableViewController, Trade
                 linkedBroker.refreshAccountBalances(
                     onFinished: {
                         self.accountSelectionTableManager.updateLinkedBrokers(
-                            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers()
+                            withLinkedBrokers: TradeItSDK.linkedBrokerManager.getAllDisplayableLinkedBrokers(),
+                            withSelectedLinkedBrokerAccount: self.selectedLinkedBrokerAccount
                         )
                     }
                 )

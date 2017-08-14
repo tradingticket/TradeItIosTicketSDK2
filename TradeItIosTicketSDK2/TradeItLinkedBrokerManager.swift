@@ -228,18 +228,6 @@ import PromiseKit
         }
     }
 
-    public func injectBroker(
-        linkedBrokerData: LinkedBrokerData,
-        onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
-    ) {
-        self.saveLinkedBrokerToKeychain(
-            linkedBrokerData: linkedBrokerData,
-            onSuccess: onSuccess,
-            onFailure: onFailure
-        )
-    }
-
     public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.linkedBrokers.flatMap { $0.accounts }
     }
@@ -313,15 +301,15 @@ import PromiseKit
         // Add missing linkedBrokers
         let localUserIds = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
         let remoteLinkedBrokersToAdd = remoteLinkedBrokers.filter { !localUserIds.contains($0.userId) }
-        
+
         remoteLinkedBrokersToAdd.forEach { remoteBrokerData in
-            injectBroker(
+            self.saveLinkedBrokerToKeychain(
                 linkedBrokerData: remoteBrokerData,
                 onSuccess: TradeItSDK.linkedBrokerCache.cache,
                 onFailure: onFailure
             )
         }
-        
+
         // Remove non existing linkedBrokers
         let remoteUserIds = remoteLinkedBrokers.flatMap { $0.userId }
         let linkedBrokersToRemove = self.linkedBrokers.filter {
@@ -331,8 +319,36 @@ import PromiseKit
         linkedBrokersToRemove.forEach { linkedBrokerToRemove in
             self.removeBroker(linkedBroker: linkedBrokerToRemove)
         }
-        
+
+        // Sync accounts
+        self.linkedBrokers.forEach { localLinkedBroker in
+            remoteLinkedBrokers.first { remoteLinkedBroker in
+                localLinkedBroker.linkedLogin.userId == remoteLinkedBroker.userId
+            }.flatMap { remoteLinkedBroker in
+                syncAccounts(localLinkedBroker: localLinkedBroker, remoteLinkedBroker: remoteLinkedBroker)
+            }
+        }
+
         onFinished()
+    }
+
+    private func syncAccounts(localLinkedBroker: TradeItLinkedBroker, remoteLinkedBroker: LinkedBrokerData) {
+        // Add missing accounts
+        let localAccountNumbers = localLinkedBroker.accounts.map { $0.accountNumber }
+        let remoteAccountsToAdd = remoteLinkedBroker.accounts.filter { !localAccountNumbers.contains($0.number) }
+
+        remoteAccountsToAdd.forEach { remoteAccount in
+            let account = TradeItLinkedBrokerAccount(linkedBroker: localLinkedBroker, accountData: remoteAccount)
+            localLinkedBroker.accounts.append(account)
+        }
+
+        // Remove missing accounts
+        let remoteAccountNumbers = remoteLinkedBroker.accounts.flatMap { $0.number }
+        let localAccountsToRemove = localLinkedBroker.accounts.filter { !remoteAccountNumbers.contains($0.accountNumber) }
+
+        localAccountsToRemove.forEach { localAccountToRemove in
+            localLinkedBroker.accounts.remove(localAccountToRemove)
+        }
     }
 
     // MARK: Private
@@ -431,16 +447,7 @@ import PromiseKit
         if let linkedLogin = linkedLogin {
             let linkedBroker = self.loadLinkedBrokerFromLinkedLogin(linkedLogin)
             linkedBroker.accounts = linkedBrokerData.accounts.map { accountData in
-                return TradeItLinkedBrokerAccount(
-                    linkedBroker: linkedBroker,
-                    accountName: accountData.name,
-                    accountNumber: accountData.number,
-                    accountIndex: "",
-                    accountBaseCurrency: accountData.baseCurrency,
-                    balance: nil,
-                    fxBalance: nil,
-                    positions: []
-                )
+                TradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountData: accountData)
             }
 
             if linkedBrokerData.isLinkActivationPending {

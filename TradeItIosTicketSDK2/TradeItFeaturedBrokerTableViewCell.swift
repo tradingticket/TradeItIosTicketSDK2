@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItYahooFeaturedBrokerTableViewCell: UITableViewCell {
+class TradeItFeaturedBrokerTableViewCell: UITableViewCell {
     @IBOutlet weak var brokerLogoImageView: UIImageView!
     @IBOutlet weak var imageContainerView: UIView!
 

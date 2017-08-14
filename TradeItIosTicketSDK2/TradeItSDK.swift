@@ -60,7 +60,6 @@ import UIKit
     public static var isAdServiceEnabled = false
     public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
     public static var adService: AdService = DefaultAdService()
-    public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
     public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
     public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
 
@@ -105,8 +104,7 @@ import UIKit
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
-            requestFactory: nil,
-            brokerLogoService: nil
+            requestFactory: nil
         )
     }
 
@@ -116,8 +114,7 @@ import UIKit
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
-        requestFactory: RequestFactory? = nil,
-        brokerLogoService: BrokerLogoService? = nil
+        requestFactory: RequestFactory? = nil
     ) {
         guard !self.configured else {
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
@@ -129,8 +126,6 @@ import UIKit
         // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
         TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
 
-        self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
-
         self._apiKey = apiKey
         self._environment = environment
         self._oAuthCallbackUrl = oAuthCallbackUrl
@@ -139,16 +134,6 @@ import UIKit
         self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
         self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-    }
-}
-
-@objc public protocol BrokerLogoService {
-    func getLogo(forBroker broker: String) -> UIImage?
-}
-
-@objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
-    public func getLogo(forBroker broker: String) -> UIImage? {
-        return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
     }
 }
 

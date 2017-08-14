@@ -155,16 +155,13 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
-            if let broker = broker, let brokerShortName = broker.brokerShortName {
-                if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(
-                    forBroker: brokerShortName
-                ) {
-                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
-                        cell.brokerLogoImageView.image = brokerLogoImage
+            if let broker = broker {
+                let brokerLogoImageView = UIImageView()
+                if TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: brokerLogoImageView, withSize: .small) {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
+                        cell.brokerLogoImageView.image = brokerLogoImageView.image
                         return cell
                     }
-                } else {
-                    print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
                 }
             }
         } else {

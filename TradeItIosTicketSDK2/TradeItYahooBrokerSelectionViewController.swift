@@ -158,7 +158,7 @@ class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITabl
             if let broker = broker {
                 let brokerLogoImageView = UIImageView()
                 if TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: brokerLogoImageView, withSize: .small) {
-                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItYahooFeaturedBrokerTableViewCell {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
                         cell.brokerLogoImageView.image = brokerLogoImageView.image
                         return cell
                     }

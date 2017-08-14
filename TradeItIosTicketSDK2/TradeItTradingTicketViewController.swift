@@ -444,20 +444,21 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
         return cell
     }
-    
-    /*func getFormattedBid() -> String {
-        guard let bidPrice = getQuote()?.bidPrice
-            else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        return formatCurrency(bidPrice)
-    }*/
-    
+
     private func bidAskPriceText() -> String? {
-        guard let bidPrice = self.quote?.bidPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
-        guard let askPrice = self.quote?.askPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER}
+        guard let bidPrice = self.quote?.bidPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        guard let askPrice = self.quote?.askPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         
-        return "Bid: " + NumberFormatter.formatCurrency(bidPrice) + " Ask: " + NumberFormatter.formatCurrency(askPrice)
+        return "Bid: " + valueOrUnavailable(bidPrice) + " Ask: " + valueOrUnavailable(askPrice)
     }
 
+    private func valueOrUnavailable(_ value: NSNumber) -> String {
+        if (value == 0.0) {
+            return "Unavailable"
+        } else {
+            return NumberFormatter.formatCurrency(value)
+        }
+    }
 
     private func accountSecondaryText() -> String? {
         if self.order.action == .buy {

@@ -22,10 +22,10 @@
 @property (nullable, copy) NSString<Optional> *companyName;
 
 // Ask price
-@property (nullable, copy) NSNumber *askPrice;
+@property (nullable, copy) NSNumber<Optional> *askPrice;
 
 // Bid price
-@property (nullable, copy) NSNumber *bidPrice;
+@property (nullable, copy) NSNumber<Optional> *bidPrice;
 
 // Last trade price
 @property (nullable, copy) NSNumber<Optional> *lastPrice;

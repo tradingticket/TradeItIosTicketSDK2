@@ -412,8 +412,9 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
+            
             marketCell.configure(
-                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
+                subtitleLabel: bidAskPriceText(),
                 detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
@@ -442,6 +443,21 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             break
         }
         return cell
+    }
+
+    private func bidAskPriceText() -> String? {
+        guard let bidPrice = self.quote?.bidPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        guard let askPrice = self.quote?.askPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        
+        return "Bid: " + valueOrUnavailable(bidPrice) + " Ask: " + valueOrUnavailable(askPrice)
+    }
+
+    private func valueOrUnavailable(_ value: NSNumber) -> String {
+        if (value == 0.0) {
+            return "Unavailable"
+        } else {
+            return NumberFormatter.formatCurrency(value)
+        }
     }
 
     private func accountSecondaryText() -> String? {

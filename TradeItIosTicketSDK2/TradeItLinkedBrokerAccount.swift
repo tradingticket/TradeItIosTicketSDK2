@@ -62,6 +62,19 @@
         self.fxTradeService = TradeItFxTradeService(session: linkedBroker.session)
     }
 
+    internal convenience init(linkedBroker: TradeItLinkedBroker, accountData: LinkedBrokerAccountData) {
+        self.init(
+            linkedBroker: linkedBroker,
+            accountName: accountData.name,
+            accountNumber: accountData.number,
+            accountIndex: "",
+            accountBaseCurrency: accountData.baseCurrency,
+            balance: nil,
+            fxBalance: nil,
+            positions: []
+        )
+    }
+
     public func getAccountOverview(cacheResult: Bool = true,
                                    onSuccess: @escaping (TradeItAccountOverview?) -> Void,
                                    onFailure: @escaping (TradeItErrorResult) -> Void) {

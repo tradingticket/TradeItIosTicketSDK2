@@ -334,7 +334,7 @@ import PromiseKit
 
     private func syncAccounts(localLinkedBroker: TradeItLinkedBroker, remoteLinkedBroker: LinkedBrokerData) {
         // Add missing accounts
-        let localAccountNumbers = localLinkedBroker.accounts.map { $0.accountNumber }
+        let localAccountNumbers = localLinkedBroker.accounts.flatMap { $0.accountNumber }
         let remoteAccountsToAdd = remoteLinkedBroker.accounts.filter { !localAccountNumbers.contains($0.number) }
 
         remoteAccountsToAdd.forEach { remoteAccount in

@@ -4,7 +4,7 @@ import TradeItIosTicketSDK2
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    static let API_KEY = "tradeit-test-api-key" //"tradeit-test-api-key"
+    static let API_KEY = "1f1ad4166a0244b7927806517751149c" //"tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
 

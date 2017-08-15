@@ -7,7 +7,8 @@ import PromiseKit
     var error: TradeItErrorResult? {
         set(newError) {
             guard newError?.errorCode != .brokerExecutionError,
-                newError?.errorCode != .paramsError
+                newError?.errorCode != .paramsError,
+                newError?.errorCode != .systemError
             else {
                 return
             }

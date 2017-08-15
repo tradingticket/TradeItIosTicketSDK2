@@ -615,10 +615,10 @@
                             <constraint firstAttribute="trailing" secondItem="73G-qD-TFr" secondAttribute="trailing" id="IPs-sI-ihZ"/>
                             <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="HKj-um-Xr9" secondAttribute="bottom" constant="15" id="IhY-AA-Tra"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HKj-um-Xr9" secondAttribute="trailing" id="JOz-gr-x6f"/>
+                            <constraint firstItem="HKj-um-Xr9" firstAttribute="leading" secondItem="WmD-Ux-mLR" secondAttribute="trailing" constant="10" id="KX6-6f-aRr"/>
                             <constraint firstItem="73G-qD-TFr" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leading" id="TKy-wa-vrS"/>
                             <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="WmD-Ux-mLR" secondAttribute="bottom" constant="15" id="TWd-Fc-0ly"/>
                             <constraint firstItem="HKj-um-Xr9" firstAttribute="height" secondItem="WmD-Ux-mLR" secondAttribute="height" id="Vfh-ge-JA8"/>
-                            <constraint firstItem="WmD-Ux-mLR" firstAttribute="width" secondItem="Z9C-Gg-aUS" secondAttribute="width" multiplier="0.4" id="ZfI-en-FT9"/>
                             <constraint firstItem="PeI-Kt-6k1" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="a2s-cQ-A6E"/>
                             <constraint firstItem="PeI-Kt-6k1" firstAttribute="top" secondItem="vlR-AU-ay5" secondAttribute="bottom" constant="15" id="fbh-Dh-ILR"/>
                             <constraint firstItem="WmD-Ux-mLR" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="lqB-QB-QHN"/>
@@ -627,7 +627,7 @@
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="WmD-Ux-mLR" id="fVk-rk-im7"/>
-                        <outlet property="actionButtonWidthConstraint" destination="ZfI-en-FT9" id="ZX7-X7-jZ0"/>
+                        <outlet property="actionButtonWidthConstraint" destination="KX6-6f-aRr" id="BN3-wR-ZVH"/>
                         <outlet property="editOrderButton" destination="HKj-um-Xr9" id="TQ2-YH-naf"/>
                         <outlet property="orderDetailsTable" destination="73G-qD-TFr" id="cV8-bQ-8nV"/>
                         <outlet property="statusLabel" destination="PeI-Kt-6k1" id="mxl-0Y-XTI"/>

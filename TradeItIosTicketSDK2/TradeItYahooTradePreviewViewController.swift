@@ -64,8 +64,15 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                     { placeOrderResult in
                         //Remove the editOrderButton and expand the action button
                         self.editOrderButton.removeFromSuperview()
-                        self.actionButtonWidthConstraint.isActive = false
-                        self.actionButtonWidthConstraint = NSLayoutConstraint(item: self.actionButton, attribute: .width, relatedBy: .equal, toItem: self.actionButton.superview, attribute: .width, multiplier: 0.9, constant: 0)
+                        self.actionButtonWidthConstraint = NSLayoutConstraint(
+                            item: self.actionButton,
+                            attribute: .trailing,
+                            relatedBy: .equal,
+                            toItem: self.actionButton.superview,
+                            attribute: .trailingMargin,
+                            multiplier: 1.0,
+                            constant: 0
+                        )
                         NSLayoutConstraint.activate([self.actionButtonWidthConstraint])
                         
                         self.placeOrderResult = placeOrderResult

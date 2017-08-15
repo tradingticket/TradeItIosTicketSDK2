@@ -1515,10 +1515,10 @@
             </objects>
             <point key="canvasLocation" x="4028" y="-520"/>
         </scene>
-        <!--Accounts-->
+        <!--Brokers List-->
         <scene sceneID="huh-Y5-9RO">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="3LS-g1-9qu" customClass="TradeItBrokerManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="3LS-g1-9qu" userLabel="Brokers List" customClass="TradeItBrokerManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VIS-qd-YyE"/>
                         <viewControllerLayoutGuide type="bottom" id="2NZ-W2-FLd"/>
@@ -1617,7 +1617,7 @@
                             <constraint firstItem="IFA-fG-dFP" firstAttribute="top" secondItem="Ntd-kO-gOZ" secondAttribute="bottom" id="hCy-rF-ULH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Accounts" id="gxw-sG-v0u">
+                    <navigationItem key="navigationItem" title="Linked Brokers" id="gxw-sG-v0u" userLabel="Linked Brokers">
                         <barButtonItem key="backBarButtonItem" title="Back" id="aEE-pa-epW"/>
                     </navigationItem>
                     <connections>
@@ -1630,10 +1630,10 @@
             </objects>
             <point key="canvasLocation" x="1784.8" y="-1193.2533733133434"/>
         </scene>
-        <!--Accounts Management-->
+        <!--Broker Management-->
         <scene sceneID="CTf-ld-7e6">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="SR2-KL-ApC" customClass="TradeItAccountManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="SR2-KL-ApC" userLabel="Broker Management" customClass="TradeItAccountManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aVW-c4-HBo"/>
                         <viewControllerLayoutGuide type="bottom" id="sFl-4B-XPW"/>
@@ -1707,7 +1707,7 @@
                             <constraint firstItem="pIx-2Y-F4H" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leading" id="rr1-w8-pSU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Accounts Management" id="oXs-vk-dSI" userLabel="BrokerName">
+                    <navigationItem key="navigationItem" title="Broker Management" id="oXs-vk-dSI" userLabel="BrokerName">
                         <barButtonItem key="backBarButtonItem" title="Back" id="i5t-Bm-mDT"/>
                     </navigationItem>
                     <connections>

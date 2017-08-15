@@ -115,7 +115,7 @@ import UIKit
         self.activityIndicator.stopAnimating()
 
         self.statusLabel.text = "Success!"
-        self.detailsLabel.text = "You have linked \(broker). You can now trade from your accounts or view your portfolios to see performance, news, and edit settings."
+        self.detailsLabel.text = "You have linked your \(broker) account. You can now trade from your account or view your portfolio to see up to date performance and relevant news."
     }
 
     private func setPendingState(forBroker broker: String) {
@@ -126,8 +126,8 @@ import UIKit
 
         self.activityIndicator.stopAnimating()
 
-        self.statusLabel.text = "Activation in progress."
-        self.detailsLabel.text = "Your \(broker) link is being activated. Check back soon (up to two business days)."
+        self.statusLabel.text = "Success!"
+        self.detailsLabel.text = "You have linked your \(broker) account."
     }
 
     private func setFailureState(withMessage message: String) {

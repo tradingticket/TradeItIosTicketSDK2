@@ -70,15 +70,23 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         } else if self.selectedPositionIndex != -1 {
             let prevPath = IndexPath(row: self.selectedPositionIndex, section: SECTIONS.positions.rawValue)
             self.selectedPositionIndex = indexPath.row
-            self.positions?[safe: self.selectedPositionIndex]?.refreshQuote(onFinished: {
-                self.reloadTableViewAtIndexPath([prevPath, indexPath])
-            })
+            if let cell = self.table?.cellForRow(at: indexPath) as? TradeItPortfolioEquityPositionsTableViewCell {
+                cell.showSpinner()
+                self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
+                    cell.hideSpinner()
+                    self.reloadTableViewAtIndexPath([prevPath, indexPath])
+                })
+            }
         } else {
             self.selectedPositionIndex = indexPath.row
             self.reloadTableViewAtIndexPath([indexPath])
-            self.positions?[safe: self.selectedPositionIndex]?.refreshQuote(onFinished: {
-                self.reloadTableViewAtIndexPath([indexPath])
-            })
+            if let cell = self.table?.cellForRow(at: indexPath) as? TradeItPortfolioEquityPositionsTableViewCell {
+                cell.showSpinner()
+                self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
+                    cell.hideSpinner()
+                    self.reloadTableViewAtIndexPath([indexPath])
+                })
+            }
         }
     }
     

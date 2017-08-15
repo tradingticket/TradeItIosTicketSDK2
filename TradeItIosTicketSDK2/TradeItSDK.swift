@@ -123,7 +123,7 @@ import UIKit
 
         self.configured = true
 
-        TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory)
+        TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory ?? DefaultRequestFactory())
 
         self._apiKey = apiKey
         self._environment = environment
@@ -135,20 +135,5 @@ import UIKit
         self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
         self._symbolService = TradeItSymbolService(connector: connector)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-    }
-}
-
-@objc public class DefaultRequestFactory: NSObject, RequestFactory {
-    public func buildPostRequest(
-        for url: URL,
-        jsonPostBody: String,
-        headers: [String : String]
-    ) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpBody = jsonPostBody.data(using: .utf8)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers // TODO: Add Dictionary extension for merging dictionaries
-
-        return request;
     }
 }

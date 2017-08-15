@@ -88,7 +88,7 @@ import UIKit
     }
 
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
-        TradeItRequestResultFactory.setHost(host, forEnvironment: env)
+        TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
 
     // MARK: Initializers
@@ -123,16 +123,17 @@ import UIKit
 
         self.configured = true
 
-        // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
-        TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
+        TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory)
 
         self._apiKey = apiKey
         self._environment = environment
         self._oAuthCallbackUrl = oAuthCallbackUrl
         self.userCountryCode = userCountryCode
-        self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-        self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
-        self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
+
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self._linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
+        self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
+        self._symbolService = TradeItSymbolService(connector: connector)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
     }
 }
@@ -142,7 +143,7 @@ import UIKit
         for url: URL,
         jsonPostBody: String,
         headers: [String : String]
-    ) -> URLRequest? {
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpBody = jsonPostBody.data(using: .utf8)
         request.httpMethod = "POST"

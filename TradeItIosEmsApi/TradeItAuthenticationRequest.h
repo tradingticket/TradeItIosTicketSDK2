@@ -3,11 +3,11 @@
 
 @interface TradeItAuthenticationRequest : TradeItRequest
 
-@property NSString * userToken;
-@property NSString * userId;
-@property NSString * apiKey;
-@property NSString * advertisingId;
+@property (nonnull) NSString * userToken;
+@property (nonnull) NSString * userId;
+@property (nonnull) NSString * apiKey;
+@property (nullable) NSString * advertisingId;
 
--(id) initWithUserToken:(NSString *) userToken userId:(NSString *) userId andApiKey:(NSString *) apiKey andAdvertisingId:(NSString *) advertisingId;
+-(nonnull id) initWithUserToken:(NSString * _Nonnull) userToken userId:(NSString * _Nonnull) userId andApiKey:(NSString * _Nonnull) apiKey andAdvertisingId:(NSString * _Nullable) advertisingId;
 
 @end

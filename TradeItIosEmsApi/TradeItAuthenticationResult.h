@@ -11,6 +11,7 @@
 
 @interface TradeItAuthenticationResult : TradeItResult
 
-@property (nullable, copy) NSArray<TradeItBrokerAccount, Optional> *accounts;
+// TODO: Verify this change makes sense
+@property (nullable, copy) NSArray<TradeItBrokerAccount> *accounts;
 
 @end

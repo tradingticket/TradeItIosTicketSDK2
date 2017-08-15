@@ -28,7 +28,7 @@ import PromiseKit
     var linkedLogin: TradeItLinkedLogin
 
     public var brokerName: String {
-        return self.linkedLogin.broker ?? "Missing Broker Name"
+        return self.linkedLogin.broker
     }
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
@@ -188,15 +188,15 @@ import PromiseKit
         data.symbol = symbol
         data.token = self.session.token
 
-        let request = TradeItRequestResultFactory.buildJsonRequest(
+        let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
             emsAction: "brokermarketdata/getFxRate",
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(
+        self.session.connector.send(
             request,
-            forResultClass: TradeItQuotesResult.self,
+            targetClassType: TradeItQuotesResult.self,
             withCompletionBlock: { result in
                 if let quotesResult = result as? TradeItQuotesResult,
                     let quote = quotesResult.quotes?.first as? TradeItQuote {
@@ -206,7 +206,7 @@ import PromiseKit
                 } else {
                     onFailure(
                         TradeItErrorResult(
-                            title: "Market data error",
+                            title: "Market data failed",
                             message: "Could not fetch quote. Please try again."
                         )
                     )

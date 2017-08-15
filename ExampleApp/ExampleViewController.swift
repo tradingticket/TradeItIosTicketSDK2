@@ -672,14 +672,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         UserDefaults.standard.removePersistentDomain(forName: appDomain!)
 
         let connector = TradeItConnector(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT, version: TradeItEmsApiVersion_2)
-
+        let oAuthService = TradeItOAuthService(connector: connector)
+        
         let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
         for linkedLogin in linkedLogins {
-            connector.unlinkLogin(linkedLogin, localOnly: false) { result in
-                if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
-                    TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+            oAuthService.unlinkLogin(
+                login: linkedLogin,
+                localOnly: false,
+                onSuccess: { result in
+                    if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
+                            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
+                    }
+                },
+                onFailure:  { errorResult in
+                    print("=====> error unlink login: \(errorResult.code), \(errorResult.shortMessage), \(errorResult.longMessages?.first ?? "")")
                 }
-            }
+            )
         }
         TradeItSDK.linkedBrokerManager.linkedBrokers = []
 

@@ -89,13 +89,13 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         //unlink and test if portfolio view if reflect the change
         app.buttons["Manage"].tap()
         waitForElementToAppear(app.navigationBars["Accounts"])
-        app.tables.staticTexts["Dummy (5 accounts)"].tap()
+        app.tables.staticTexts["Dummy (6 accounts)"].tap()
         waitForElementToAppear(app.navigationBars["Dummy"])
         app.tables.switches.matching(predicateBeginsWith(label: "Joint 401k**0003")).element.tap()
         app.navigationBars["Dummy"].buttons.element(boundBy: 0).tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         XCTAssertFalse(app.tables.staticTexts["Joint 401k**003"].exists) // true: 401k acc is disabled
-        let totalValue = app.staticTexts["$305,956.91"]
+        let totalValue = app.staticTexts["$382,446.12"]
         waitForElementToAppear(totalValue)
 
         //log into dummy acc
@@ -110,7 +110,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
 
         //delete dummy broker
         app.buttons["Manage"].tap()
-        app.tables.staticTexts["Dummy (5 accounts)"].tap()
+        app.tables.staticTexts["Dummy (6 accounts)"].tap()
         waitForElementToAppear(app.navigationBars["Dummy"])
         let unlinkCell = app.tables.staticTexts["Unlink"]
         XCTAssert(unlinkCell.exists)

@@ -13,8 +13,6 @@
 #import "TradeItRequest.h"
 #import "TradeItResult.h"
 #import "TradeItErrorResult.h"
-#import "TradeItParseErrorResult.h"
-#import "TradeItRequestResultFactory.h"
 #import "TradeItKeychain.h"
 
 // Start with the connector, you'll set your API key and the environment
@@ -29,7 +27,7 @@
 #import "TradeItUpdateLinkRequest.h"
 #import "TradeItBroker.h"
 #import "TradeItBrokerAccount.h"
-#import "TradeItMarketDataService.h"
+#import "TradeItSymbolLookupRequest.h"
 #import "TradeItBrokerListRequest.h"
 #import "TradeItOAuthLoginPopupUrlForMobileRequest.h"
 #import "TradeItOAuthLoginPopupUrlForMobileResult.h"
@@ -38,9 +36,9 @@
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateRequest.h"
 #import "TradeItOAuthLoginPopupUrlForTokenUpdateResult.h"
 #import "TradeItUnlinkLoginResult.h"
+#import "TradeItOAuthDeleteLinkRequest.h"
 
 // Once you have a link you'll establish a session using the linkedLogin
-#import "TradeItSession.h"
 #import "TradeItSecurityQuestionRequest.h"
 #import "TradeItSecurityQuestionResult.h"
 #import "TradeItQuotesRequest.h"
@@ -48,7 +46,6 @@
 #import "TradeItQuote.h"
 
 // Use the TradeService to preview and place trades
-#import "TradeItTradeService.h"
 #import "TradeItPreviewTradeRequest.h"
 #import "TradeItPreviewTradeOrderDetails.h"
 #import "TradeItPreviewTradeResult.h"
@@ -69,14 +66,12 @@
 #import "TradeItFxQuoteRequest.h"
 
 // Use the BalanceService to get account balance information
-#import "TradeItBalanceService.h"
 #import "TradeItAccountOverviewRequest.h"
 #import "TradeItAccountOverviewResult.h"
 #import "TradeItAccountOverview.h"
 #import "TradeItFxAccountOverview.h"
 
 // Use the PositionSerview to get account position information
-#import "TradeItPositionService.h"
 #import "TradeItGetPositionsRequest.h"
 #import "TradeItGetPositionsResult.h"
 #import "TradeItPosition.h"

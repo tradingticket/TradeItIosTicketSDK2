@@ -8,6 +8,6 @@
     }
 
     public func getUrl() -> String {
-        return TradeItRequestResultFactory.getHostForEnvironment(environment) + "brokerCenter?apiKey=\(apiKey)"
+        return TradeItRequestFactory.getHostForEnvironment(environment) + "brokerCenter?apiKey=\(apiKey)"
     }
 }

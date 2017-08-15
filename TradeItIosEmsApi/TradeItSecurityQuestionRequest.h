@@ -10,9 +10,9 @@
 
 @interface TradeItSecurityQuestionRequest : TradeItRequest
 
-@property NSString* token;
-@property NSString* securityAnswer;
+@property (nullable) NSString* token;
+@property (nonnull) NSString* securityAnswer;
 
--(id) initWithToken:(NSString*) token andAnswer:(NSString*)securityAnswer;
+-(nonnull id) initWithToken:(NSString* _Nullable) token andAnswer:( NSString* _Nonnull )securityAnswer;
 
 @end

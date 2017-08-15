@@ -11,14 +11,14 @@
 
 @interface TradeItPlaceTradeRequest : TradeItRequest
 
-- (id)initWithOrderId:(NSString *) orderId;
+- (id _Nonnull)initWithOrderId:(NSString * _Nonnull) orderId;
 
 // The orderId as returned from the TradeItPreviewTradeRequest
-@property (copy) NSString * orderId;
+@property (copy) NSString * _Nullable orderId;
 
 
 // Session Token - Will be set by the session associated with the request
 // Setting this will be overriden
-@property (copy) NSString * token;
+@property (copy) NSString * _Nullable token;
 
 @end

@@ -41,4 +41,6 @@
 
 - (BOOL)isSuccessful;
 
+- (BOOL)isError;
+
 @end

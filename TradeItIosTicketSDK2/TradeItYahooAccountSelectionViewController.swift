@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItYahooAccountSelectionViewController: CloseableViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
+class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, TradeItYahooAccountSelectionTableViewManagerDelegate {
     @IBOutlet weak var accountsTableView: UITableView!
 
     let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()

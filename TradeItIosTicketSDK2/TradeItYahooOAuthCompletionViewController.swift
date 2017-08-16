@@ -1,6 +1,6 @@
 import UIKit
 
-@objc class TradeItYahooOAuthCompletionViewController: CloseableViewController {
+@objc class TradeItYahooOAuthCompletionViewController: TradeItYahooViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!

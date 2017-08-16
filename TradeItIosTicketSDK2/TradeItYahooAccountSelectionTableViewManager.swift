@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItYahooAccountSelectionTableViewManager: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
+class TradeItYahooAccountSelectionTableViewManager: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
     private var linkedBrokers: [TradeItLinkedBroker] = []
     private var refreshControl: UIRefreshControl?

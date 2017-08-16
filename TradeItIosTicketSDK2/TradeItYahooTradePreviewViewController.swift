@@ -2,7 +2,7 @@ import UIKit
 import MBProgressHUD
 import BEMCheckBox
 
-class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
+class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!

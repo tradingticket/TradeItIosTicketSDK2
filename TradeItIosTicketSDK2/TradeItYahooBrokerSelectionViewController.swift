@@ -2,7 +2,7 @@ import UIKit
 import MBProgressHUD
 import SafariServices
 
-class TradeItYahooBrokerSelectionViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
+class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
 
     private var activityView: MBProgressHUD?

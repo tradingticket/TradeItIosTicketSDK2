@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItYahooSelectionViewController: UIViewController {
+class TradeItYahooSelectionViewController: TradeItYahooViewController {
     @IBOutlet weak var tableView: UITableView!
 
     var initialSelection: String?

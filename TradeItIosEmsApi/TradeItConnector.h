@@ -37,6 +37,8 @@
  */
 @property TradeItEmsApiVersion version;
 
+@property NSURLSession * _Nonnull session;
+
 - (nonnull id)initWithApiKey:(nonnull NSString *)apiKey
                  environment:(TradeitEmsEnvironments)environment
                      version:(TradeItEmsApiVersion)version;

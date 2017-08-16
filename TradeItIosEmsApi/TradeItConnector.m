@@ -49,6 +49,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = environment;
         self.version = version;
         runAsyncCompletionBlockOnMainThread = true;
+        [self initSession];
     }
 
     return self;
@@ -62,6 +63,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = TradeItEmsProductionEnv;
         self.version = TradeItEmsApiVersion_2;
         runAsyncCompletionBlockOnMainThread = true;
+        [self initSession];
     }
 
     return self;
@@ -194,6 +196,13 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     }
 
     [self.userDefaults setObject:accounts forKey:BROKER_LIST_KEYNAME];
+}
+
+-(void) initSession {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    configuration.URLCache = nil;
+    self.session = [NSURLSession sessionWithConfiguration:configuration];
 }
 
 @end

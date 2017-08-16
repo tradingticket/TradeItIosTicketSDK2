@@ -61,6 +61,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = environment;
         self.version = version;
         runAsyncCompletionBlockOnMainThread = true;
+        [self initSession];
     }
 
     return self;
@@ -74,6 +75,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         self.environment = TradeItEmsProductionEnv;
         self.version = TradeItEmsApiVersion_2;
         runAsyncCompletionBlockOnMainThread = true;
+        [self initSession];
     }
 
     return self;
@@ -431,12 +433,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         NSArray<NSHTTPCookie *> *cookies = [TradeItSDK.cookieService getCookies];
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[request URL] mainDocumentURL:nil];
 
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-        configuration.URLCache = nil;
-        
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-        [[session dataTaskWithRequest:request
+        [[self.session dataTaskWithRequest:request
                     completionHandler:^(
                         NSData * _Nullable data,
                         NSURLResponse * _Nullable response,
@@ -477,6 +474,13 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
             dispatch_async(dispatch_get_main_queue(),^(void){completionBlock(tradeItResult, jsonResponse);});
         }] resume];
     });
+}
+
+-(void) initSession {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    configuration.URLCache = nil;
+    self.session = [NSURLSession sessionWithConfiguration:configuration];
 }
 
 @end

@@ -246,14 +246,12 @@ class TradeItLinkedBrokerCache {
     }
     
     private func getAesKey() -> AES? {
-        print("(computing key \(Date())")
         let uuid = getUUID()
         let index = uuid.index(uuid.startIndex, offsetBy: 16)
         let salt: Array<UInt8> = Array(uuid.substring(to: index).utf8)
         var aes: AES?
         do {
             let cryptoKey = try PKCS5.PBKDF2(password: Array(uuid.utf8), salt: salt, iterations: 4096, variant: .sha256).calculate()
-            print("(end computing key \(Date())")
             aes = try AES(key: cryptoKey)
         } catch {
             print("===> ERROR Creating cryptoKey: \(error)")

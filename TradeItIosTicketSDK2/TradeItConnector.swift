@@ -31,7 +31,11 @@ internal extension TradeItConnector {
         withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
     ) {
         DispatchQueue.global(qos: .userInitiated).async {
-            let session = URLSession.shared
+            let config = URLSessionConfiguration.default
+            config.requestCachePolicy = .reloadIgnoringLocalCacheData
+            config.urlCache = nil
+            let session = URLSession.init(configuration: config)
+            
             session.dataTask(with: request, completionHandler: { data, response, error in
                 let (result, json) = self.processResponse(data, response, error)
 

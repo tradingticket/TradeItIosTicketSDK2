@@ -1,4 +1,4 @@
-class NumberFormatter: NSObject {
+extension NumberFormatter {
     private static let currencyFormatter = Foundation.NumberFormatter()
     private static let quantityFormatter = Foundation.NumberFormatter()
     private static let percentageFormatter = Foundation.NumberFormatter()

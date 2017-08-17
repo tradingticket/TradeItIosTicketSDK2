@@ -336,9 +336,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             .symbol,
             .marketPrice,
             .orderAction,
-            .orderType,
-            .expiration,
             .quantity,
+            .orderType
         ]
 
         if self.order.requiresLimitPrice() {
@@ -348,7 +347,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         if self.order.requiresStopPrice() {
             ticketRows.append(.stopPrice)
         }
-
+        
+        ticketRows.append(.expiration)
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows

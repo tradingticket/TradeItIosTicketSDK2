@@ -19,5 +19,4 @@ class TradeItYahooPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
         cellData?.isAcknowledged = sender.on
         delegate?.acknowledgementWasChanged()
     }
-
 }

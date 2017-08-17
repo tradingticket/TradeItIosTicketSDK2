@@ -1,61 +1,43 @@
+import ObjectMapper
+
 class TradeItLinkedBrokerCache {
-    typealias UserId = String
-    typealias SerializedLinkedBroker = [String: Any]
-    typealias SerializedLinkedBrokers = [UserId: SerializedLinkedBroker]
-    typealias SerializedLinkedBrokerAccount = [String: Any]
 
-    private let LINKED_BROKER_CACHE_KEY = "LINKED_BROKER_CACHE"
-
-    private let ACCOUNTS_KEY = "ACCOUNTS"
-    private let ACCOUNTS_LAST_UPDATED_KEY = "ACCOUNTS_LAST_UPDATED"
-    private let ACCOUNT_NAME_KEY = "ACCOUNT_NAME"
-    private let ACCOUNT_NUMBER_KEY = "ACCOUNT_NUMBER"
-    private let ACCOUNT_INDEX_KEY = "ACCOUNT_INDEX"
-    private let ACCOUNT_BASE_CURRENCY_KEY = "ACCOUNT_BASE_CURRENCY"
-    private let ACCOUNT_ENABLED_KEY = "ACCOUNT_ENABLED"
-    private let ACCOUNTS_LINK_DELAY_ERROR_KEY = "ACCOUNTS_LINK_DELAY_ERROR"
-    private let BALANCE_LAST_UPDATED_KEY = "BALANCE_LAST_UPDATED"
-    private let BALANCE_BUYING_POWER_KEY = "BALANCE_BUYING_POWER"
-    private let FX_BALANCE_BUYING_POWER_KEY = "FX_BALANCE_BUYING_POWER"
-
-    private let ACCOUNT_ENABLED_VALUE = "ENABLED"
-    private let ACCOUNT_DISABLED_VALUE = "DISABLED"
-
-    internal static var _userDefaults = UserDefaults(suiteName: "it.trade")!
-    internal var userDefaults: UserDefaults {
-        get {
-            return TradeItLinkedBrokerCache._userDefaults
-        }
-    }
-
+    private let LINKED_BROKER_CACHE_KEY = "TRADE_IT_LINKED_BROKER_CACHE_"
+  
     func cache(linkedBroker: TradeItLinkedBroker?) {
         guard let linkedBroker = linkedBroker else { return }
-
-        var linkedBrokerCache = userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers ?? SerializedLinkedBrokers()
-
-        let serializedLinkedBroker = serialize(linkedBroker: linkedBroker)
-
-        linkedBrokerCache[linkedBroker.linkedLogin.userId] = serializedLinkedBroker
-
-        self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        
+        let serializedLinkedBroker = SerializedLinkedBroker(linkedBroker: linkedBroker)
+        TradeItKeychain.save(serializedLinkedBroker.toJSONString(), forKey: key)
+        
+        removeOldCache(linkedBroker: linkedBroker)
     }
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
-        guard let linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
-            , let serializedLinkedBroker = linkedBrokerCache[linkedBroker.linkedLogin.userId] as SerializedLinkedBroker?
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        guard let json = TradeItKeychain.getStringForKey(key)
+            , let serializedLinkedBroker = SerializedLinkedBroker(JSONString: json)
             else { return }
 
-        if let serializedAccounts = serializedLinkedBroker[ACCOUNTS_KEY] as? [SerializedLinkedBrokerAccount] {
-            let accounts = deserialize(
-                serializedAccounts: serializedAccounts,
-                forLinkedBroker: linkedBroker
-            )
-
-            linkedBroker.accounts = accounts
+        linkedBroker.accounts = serializedLinkedBroker.accounts.map { serializedAccount in
+            return TradeItLinkedBrokerAccount(
+                            linkedBroker: linkedBroker,
+                            accountName: serializedAccount.accountName,
+                            accountNumber: serializedAccount.accountNumber,
+                            accountIndex: serializedAccount.accountIndex,
+                            accountBaseCurrency: serializedAccount.accountBaseCurrency ,
+                            balanceLastUpdated: serializedAccount.balanceLastUpdated,
+                            balance: serializedAccount.balance,
+                            fxBalance: serializedAccount.fxBalance,
+                            positions: [],
+                            orderCapabilities: [],
+                            isEnabled: serializedAccount.isEnabled
+                        )
+            
         }
-
-        linkedBroker.accountsLastUpdated = serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] as? Date
-        linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] as? Bool ?? false
+        linkedBroker.accountsLastUpdated = serializedLinkedBroker.accountsLastUpdated
+        linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker.isAccountLinkDelayedError
 
         if linkedBroker.isAccountLinkDelayedError {
             linkedBroker.error = TradeItErrorResult(
@@ -67,112 +49,81 @@ class TradeItLinkedBrokerCache {
     }
 
     func remove(linkedBroker: TradeItLinkedBroker) {
-        guard var linkedBrokerCache = self.userDefaults.dictionary(forKey: LINKED_BROKER_CACHE_KEY) as? SerializedLinkedBrokers
-            else { return }
-
-        linkedBrokerCache[linkedBroker.linkedLogin.userId] = nil
-        self.userDefaults.set(linkedBrokerCache, forKey: LINKED_BROKER_CACHE_KEY)
-    }
-
-    // MARK: Debugging
-
-    internal static func printCache() {
-        print("=====> USER DEFAULTS VALUES: \(Array(UserDefaults(suiteName: "it.trade")!.dictionaryRepresentation().values))")
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        TradeItKeychain.deleteString(forKey: key)
     }
 
     // MARK: Private
-
-    private func deserialize(accountEnabled: String?) -> Bool {
-        return accountEnabled != ACCOUNT_DISABLED_VALUE
-    }
-
-    private func serializeAccountEnabled(isEnabled: Bool) -> String {
-        return isEnabled ? ACCOUNT_ENABLED_VALUE : ACCOUNT_DISABLED_VALUE
-    }
-
-    private func serialize(linkedBroker: TradeItLinkedBroker) -> SerializedLinkedBroker {
-        var serializedLinkedBroker: SerializedLinkedBroker = [
-            ACCOUNTS_KEY: serialize(accounts: linkedBroker.accounts)
-        ]
-
-        if let accountsLastUpdated = linkedBroker.accountsLastUpdated {
-            serializedLinkedBroker[ACCOUNTS_LAST_UPDATED_KEY] = accountsLastUpdated
+    
+    private func removeOldCache(linkedBroker: TradeItLinkedBroker) {
+        if let userDefault = UserDefaults(suiteName: "it.trade") {
+            userDefault.removeSuite(named: "it.trade")
+            userDefault.synchronize()
         }
-        
-        serializedLinkedBroker[ACCOUNTS_LINK_DELAY_ERROR_KEY] = linkedBroker.isAccountLinkDelayedError
-      
-        return serializedLinkedBroker
-    }
-
-    private func deserialize(serializedAccounts: [SerializedLinkedBrokerAccount],
-                             forLinkedBroker linkedBroker: TradeItLinkedBroker) -> [TradeItLinkedBrokerAccount] {
-
-        return serializedAccounts.map { serializedAccount in
-            let account = TradeItLinkedBrokerAccount(
-                linkedBroker: linkedBroker,
-                accountName: serializedAccount[ACCOUNT_NAME_KEY] as? String  ?? "",
-                accountNumber: serializedAccount[ACCOUNT_NUMBER_KEY]  as? String ?? "",
-                accountIndex: serializedAccount[ACCOUNT_INDEX_KEY] as? String ?? "",
-                accountBaseCurrency: serializedAccount[ACCOUNT_BASE_CURRENCY_KEY] as? String ?? "USD",
-                balanceLastUpdated: serializedAccount[BALANCE_LAST_UPDATED_KEY] as? Date,
-                balance: nil,
-                fxBalance: nil,
-                positions: [],
-                orderCapabilities: [],
-                isEnabled: deserialize(accountEnabled: serializedAccount[ACCOUNT_ENABLED_KEY] as? String)
-            )
-
-            if let buyingPower = serializedAccount[BALANCE_BUYING_POWER_KEY] as? NSNumber {
-                let balance = TradeItAccountOverview()
-                balance.buyingPower = buyingPower
-
-                account.balance = balance
-            }
-
-            if let fxBuyingPower = serializedAccount[FX_BALANCE_BUYING_POWER_KEY] as? NSNumber {
-                let fxBalance = TradeItFxAccountOverview()
-                fxBalance.buyingPowerBaseCurrency = fxBuyingPower
-
-                account.fxBalance = fxBalance
-            }
-
-            return account
-        }
-    }
-
-    private func serialize(accounts: [TradeItLinkedBrokerAccount]) -> [SerializedLinkedBrokerAccount] {
-        var serializeAccountsList: [SerializedLinkedBrokerAccount] = []
-        for account in accounts {
-            var serializedAccount = SerializedLinkedBrokerAccount()
-            serializedAccount[ACCOUNT_NAME_KEY] = account.accountName
-            serializedAccount[ACCOUNT_NUMBER_KEY] = account.accountNumber
-            serializedAccount[ACCOUNT_INDEX_KEY] = account.accountIndex
-            serializedAccount[ACCOUNT_BASE_CURRENCY_KEY] = account.accountBaseCurrency
-            serializedAccount[ACCOUNT_ENABLED_KEY] = account.isEnabled ? ACCOUNT_ENABLED_VALUE : ACCOUNT_DISABLED_VALUE
-
-            if let balance = account.balance,
-                let buyingPower = balance.buyingPower {
-
-                if let balanceLastUpdated = account.balanceLastUpdated {
-                    serializedAccount[BALANCE_LAST_UPDATED_KEY] = balanceLastUpdated
-                }
-
-                serializedAccount[BALANCE_BUYING_POWER_KEY] = buyingPower
-            }
-
-            if let fxBalance = account.fxBalance,
-                let buyingPowerBaseCurrency = fxBalance.buyingPowerBaseCurrency {
-
-                if let balanceLastUpdated = account.balanceLastUpdated {
-                    serializedAccount[BALANCE_LAST_UPDATED_KEY] = balanceLastUpdated
-                }
-
-                serializedAccount[FX_BALANCE_BUYING_POWER_KEY] = buyingPowerBaseCurrency
-            }
-
-            serializeAccountsList.append(serializedAccount)
-        }
-        
-        return serializeAccountsList
     }
 }
+
+private class SerializedLinkedBroker: Mappable {
+    
+    var accounts: [SerializedLinkedBrokerAccount] = []
+    var accountsLastUpdated: Date?
+    var isAccountLinkDelayedError: Bool = false
+    
+    init(linkedBroker: TradeItLinkedBroker) {
+        self.accounts = linkedBroker.accounts.map { account in
+            return SerializedLinkedBrokerAccount(linkedBrokerAccount: account)
+        }
+        self.accountsLastUpdated = linkedBroker.accountsLastUpdated
+        self.isAccountLinkDelayedError = linkedBroker.isAccountLinkDelayedError
+    }
+    
+    // MARK: implements Mappable protocol
+    
+    public required init?(map: Map) {
+    }
+    
+    public func mapping(map: Map) {
+        accounts <- map["accounts"]
+        accountsLastUpdated <- (map["accountsLastUpdated"], DateTransform())
+        isAccountLinkDelayedError <- map["isAccountLinkDelayedError"]
+    }
+}
+
+private class SerializedLinkedBrokerAccount: Mappable {
+
+    var accountName = ""
+    var accountNumber = ""
+    var accountIndex = ""
+    var accountBaseCurrency = ""
+    var balanceLastUpdated: Date?
+    var balance: TradeItAccountOverview?
+    var fxBalance: TradeItFxAccountOverview?
+    public var isEnabled: Bool = true
+    
+    init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.accountNumber = linkedBrokerAccount.accountNumber
+        self.accountName = linkedBrokerAccount.accountName
+        self.accountBaseCurrency = linkedBrokerAccount.accountBaseCurrency
+        self.isEnabled = linkedBrokerAccount.isEnabled
+        self.balance = linkedBrokerAccount.balance
+        self.fxBalance = linkedBrokerAccount.fxBalance
+        self.balanceLastUpdated = linkedBrokerAccount.balanceLastUpdated
+    }
+    
+    // MARK: implements Mappable protocol
+    
+    public required init?(map: Map) {
+    }
+    
+    public func mapping(map: Map) {
+        accountNumber <- map["accountNumber"]
+        accountName <- map["accountName"]
+        accountBaseCurrency <- map["accountBaseCurrency"]
+        isEnabled <- map["isEnabled"]
+        balance <- map["balance"]
+        fxBalance <- map["fxBalance"]
+        balanceLastUpdated <- (map["balanceLastUpdated"], DateTransform())
+    }
+
+}
+

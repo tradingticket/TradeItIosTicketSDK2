@@ -1,5 +1,4 @@
 github "Boris-Em/BEMCheckBox" "1.4.1"
-github "Hearst-DD/ObjectMapper" "2.2.8"
 github "JSONModel/JSONModel" "364f57ba9671af417b35762049d8aed482fcf075"
 github "jdg/MBProgressHUD" "1.0.0"
 github "mxcl/PromiseKit" "4.3.2"

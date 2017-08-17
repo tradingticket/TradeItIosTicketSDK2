@@ -3,7 +3,6 @@ PODS:
   - JSONModel (1.7.0)
   - MBProgressHUD (1.0.0)
   - Nimble (5.1.1)
-  - ObjectMapper (2.2.8)
   - PromiseKit (4.2.2):
     - PromiseKit/Foundation (= 4.2.2)
     - PromiseKit/QuartzCore (= 4.2.2)
@@ -25,7 +24,6 @@ DEPENDENCIES:
   - JSONModel (~> 1.7.0)
   - MBProgressHUD (~> 1.0.0)
   - Nimble (~> 5.1.1)
-  - ObjectMapper (~> 2.2.8)
   - PromiseKit (~> 4.0)
   - Quick (~> 0.10.0)
   - SDWebImage (~> 4.0.0)
@@ -35,11 +33,10 @@ SPEC CHECKSUMS:
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
-  ObjectMapper: 3d571bb5af471c779e1160828cd9ad5c4ef90958
   PromiseKit: 00e8886881f151c7e573d06b437915b0bb2970ec
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
-PODFILE CHECKSUM: dc8207f1c9124c7bcbf99597bab368fb84ce5078
+PODFILE CHECKSUM: 636a854bca8edcc3ecbbac9493914880903842fa
 
 COCOAPODS: 1.3.1

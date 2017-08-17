@@ -15,7 +15,6 @@ def app_pods
   pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'
   pod 'SDWebImage', '~> 4.0.0'
-  pod 'ObjectMapper', '~> 2.2.8'
 end
 
 target 'TradeItIosTicketSDK2Tests' do

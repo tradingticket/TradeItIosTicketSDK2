@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
-  s.version          = '1.1.21'
+  s.version          = '1.1.22'
   s.summary          = 'Trade It iOS Ticket SDK 2'
 
   s.description      = <<-DESC

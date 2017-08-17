@@ -19,13 +19,15 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
     ) {
         self.onOAuthCompletionSuccessHandler = onOAuthCompletionSuccessHandler
 
-        let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .yahooOAuthCompletionView)
+        let navController = TradeItYahooNavigationController()
 
-        if let oAuthCompletionViewController = navController.topViewController as? TradeItYahooOAuthCompletionViewController {
-            oAuthCompletionViewController.delegate = self
-            oAuthCompletionViewController.oAuthCallbackUrlParser = oAuthCallbackUrlParser
+        guard let oAuthCompletionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooOAuthCompletionView) as? TradeItYahooOAuthCompletionViewController else {
+            return print("TradeItSDK ERROR: Could not instantiate TradeItYahooOAuthCompletionViewController!")
         }
 
+        oAuthCompletionViewController.delegate = self
+        oAuthCompletionViewController.oAuthCallbackUrlParser = oAuthCallbackUrlParser
+        navController.pushViewController(oAuthCompletionViewController, animated: false)
         viewController.present(navController, animated: true, completion: nil)
     }
 

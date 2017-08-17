@@ -23,7 +23,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
 
         self.onViewPortfolioTappedHandler = onViewPortfolioTappedHandler
 
-        let navController = UINavigationController()
+        let navController = TradeItYahooNavigationController()
 
         let initialViewController = getInitialViewController(forOrder: order)
 

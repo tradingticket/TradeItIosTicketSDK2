@@ -1,12 +1,12 @@
 import Foundation
 
 @objc public protocol RequestFactory {
-    func buildPostRequest(for url: URL, jsonPostBody parameters: String, headers: [String : String]) -> URLRequest
+    func buildPostRequest(forUrl url: URL, jsonPostBody parameters: String, headers: [String : String]) -> URLRequest
 }
 
 @objc public class DefaultRequestFactory: NSObject, RequestFactory {
     public func buildPostRequest(
-        for url: URL,
+        forUrl url: URL,
         jsonPostBody: String,
         headers: [String : String]
         ) -> URLRequest {
@@ -19,7 +19,9 @@ import Foundation
     }
 }
 
-@objc public class TradeItRequestFactory: NSObject {
+// TODO: Why is this a RequestFactory when it does not implement
+// the RequestFactory protocol? Need to think of a better name.
+class TradeItRequestFactory: NSObject {
     static var requestFactory: RequestFactory = DefaultRequestFactory()
     
     static func setRequestFactory(requestFactory: RequestFactory) {
@@ -40,7 +42,7 @@ import Foundation
             preconditionFailure("TradeItIosTicketSDK ERROR building json request with url: \(baseURL?.absoluteString ?? ""), action: \(emsAction)")
         }
         let headers: [String: String] = ["Accept": "application/json", "Content-Type": "application/json", "User-Agent": userAgent]
-        let request: URLRequest = TradeItRequestFactory.requestFactory.buildPostRequest(for: url, jsonPostBody: requestJsonString, headers: headers)
+        let request: URLRequest = TradeItRequestFactory.requestFactory.buildPostRequest(forUrl: url, jsonPostBody: requestJsonString, headers: headers)
         return request
     }
     

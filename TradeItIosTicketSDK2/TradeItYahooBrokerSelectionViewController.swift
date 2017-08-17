@@ -155,14 +155,9 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
-            if let broker = broker {
-                let brokerLogoImageView = UIImageView()
-                if TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: brokerLogoImageView, withSize: .small) {
-                    if let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
-                        cell.brokerLogoImageView.image = brokerLogoImageView.image
-                        return cell
-                    }
-                }
+            if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
+                TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: cell.brokerLogoImageView, withSize: .small)
+                return cell
             }
         } else {
             broker = self.brokers[safe: indexPath.row]

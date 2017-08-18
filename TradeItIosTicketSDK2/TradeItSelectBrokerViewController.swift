@@ -1,7 +1,6 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
-import SDWebImage
 
 class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var brokerTable: UITableView!
@@ -204,7 +203,17 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
-                    TradeItBrokerLogoService.setLogo(forBroker: broker, onImageView: cell.brokerLogoImageView, withSize: .small)
+                cell.showSpinner()
+                TradeItSDK.brokerLogoService.loadLogo(
+                    forBroker: broker,
+                    withSize: .small,
+                    onSuccess: { image in
+                        cell.hideSpinner()
+                        cell.brokerLogoImageView.image = image
+                }, onFailure: {
+                    cell.hideSpinner()
+                    // TODO: Show broker name
+                })
                 return cell
             }
         } else {

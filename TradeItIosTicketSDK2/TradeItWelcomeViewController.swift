@@ -1,7 +1,6 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
-import SDWebImage
 
 class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bullets: [UIView]!
@@ -12,6 +11,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerImageView: UIImageView!
     @IBOutlet weak var getStartedButton: UIButton!
+    @IBOutlet weak var spinnerView: UIActivityIndicatorView!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
@@ -106,7 +106,19 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
         self.featuredBroker = featuredBroker
 
-        _ = TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
+        self.spinnerView.startAnimating()
+        self.spinnerView.isHidden = false
+        TradeItSDK.brokerLogoService.loadLogo(
+            forBroker: featuredBroker,
+            withSize: .large,
+            onSuccess: { image in
+                self.spinnerView.isHidden = true
+                self.featuredBrokerImageView.image = image
+            }, onFailure: {
+                self.spinnerView.isHidden = true
+                // TODO: Show broker name
+            }
+        )
 
         self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
 

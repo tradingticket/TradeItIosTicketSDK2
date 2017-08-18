@@ -14,7 +14,6 @@
 		521D2B4F1E551CDF00F7204B /* TradeItOAuthCompletionUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */; };
 		521D2B521E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */; };
 		521D2B531E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521D2B511E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift */; };
-		52333B2E1F1F1C9E00570104 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52333B2D1F1F1C9E00570104 /* SDWebImage.framework */; };
 		524116BA1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
 		524116BB1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
 		524116BC1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524116B91E81DABF00F9C27E /* UpdateTimestampFormatter.swift */; };
@@ -1108,7 +1107,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52333B2E1F1F1C9E00570104 /* SDWebImage.framework in Frameworks */,
 				FC6E7A7C1DCF9BC6005225CC /* UIKit.framework in Frameworks */,
 				FC6E7A211DCD1F8B005225CC /* LocalAuthentication.framework in Frameworks */,
 				FC6E7A781DCD2005005225CC /* MBProgressHUD.framework in Frameworks */,
@@ -2183,7 +2181,6 @@
 				"${BUILT_PRODUCTS_DIR}/JSONModel/JSONModel.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2191,7 +2188,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSONModel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2295,7 +2291,6 @@
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2305,7 +2300,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2341,7 +2335,6 @@
 				"${BUILT_PRODUCTS_DIR}/JSONModel/JSONModel.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2349,7 +2342,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSONModel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2367,7 +2359,6 @@
 				"${BUILT_PRODUCTS_DIR}/JSONModel/JSONModel.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2375,7 +2366,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSONModel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

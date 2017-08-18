@@ -14,57 +14,44 @@ class TradeItLinkedBrokerCache {
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
         let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
-        var error: JSONModelError? = nil;
         guard let json = TradeItKeychain.getStringForKey(key)
-            else { return }
+             ,let cachedLinkedBroker = TradeItResultTransformer.transform(targetClassType: CachedLinkedBroker.self, json: json)
+            else { return}
         
-        let cachedLinkedBroker = CachedLinkedBroker(string: json, error: &error)
-        if let error = error {
-            print("JSONModel conversion error")
-            print("- Expected class: \(CachedLinkedBroker.self)")
-            print("- json: \(json)")
-            print("- JSONModel error: \(error)")
-            return
-        } else if let cachedLinkedBroker = cachedLinkedBroker {
-            linkedBroker.accounts = cachedLinkedBroker.accounts.map { cachedAccount in
-                let account = TradeItLinkedBrokerAccount(
-                    linkedBroker: linkedBroker,
-                    accountName: cachedAccount.accountName,
-                    accountNumber: cachedAccount.accountNumber,
-                    accountIndex: cachedAccount.accountIndex,
-                    accountBaseCurrency: cachedAccount.accountBaseCurrency ,
-                    balanceLastUpdated: cachedAccount.balanceLastUpdated,
-                    balance: nil,
-                    fxBalance: nil,
-                    positions: [],
-                    orderCapabilities: [],
-                    isEnabled: cachedAccount.isEnabled
-                )
-                if let balance = cachedAccount.balance {
-                    account.balance = TradeItAccountOverview()
-                    account.balance?.buyingPower = balance.buyingPower
-                }
-                
-                if let fxBalance = cachedAccount.fxBalance {
-                    account.fxBalance = TradeItFxAccountOverview()
-                    account.fxBalance?.buyingPowerBaseCurrency = fxBalance.buyingPowerBaseCurrency
-                }
-                return account
+        linkedBroker.accounts = cachedLinkedBroker.accounts.map { cachedAccount in
+            let account = TradeItLinkedBrokerAccount(
+                linkedBroker: linkedBroker,
+                accountName: cachedAccount.accountName,
+                accountNumber: cachedAccount.accountNumber,
+                accountIndex: cachedAccount.accountIndex,
+                accountBaseCurrency: cachedAccount.accountBaseCurrency ,
+                balanceLastUpdated: cachedAccount.balanceLastUpdated,
+                balance: nil,
+                fxBalance: nil,
+                positions: [],
+                orderCapabilities: [],
+                isEnabled: cachedAccount.isEnabled
+            )
+            if let balance = cachedAccount.balance {
+                account.balance = TradeItAccountOverview()
+                account.balance?.buyingPower = balance.buyingPower
             }
-            linkedBroker.accountsLastUpdated = cachedLinkedBroker.accountsLastUpdated
-            linkedBroker.isAccountLinkDelayedError = cachedLinkedBroker.isAccountLinkDelayedError
             
-            if linkedBroker.isAccountLinkDelayedError {
-                linkedBroker.error = TradeItErrorResult(
-                    title: "Activation In Progress",
-                    message: "Your \(linkedBroker.brokerName) link is being activated which can take up to two business days. Check back soon.",
-                    code: TradeItErrorCode.accountNotAvailable
-                )
+            if let fxBalance = cachedAccount.fxBalance {
+                account.fxBalance = TradeItFxAccountOverview()
+                account.fxBalance?.buyingPowerBaseCurrency = fxBalance.buyingPowerBaseCurrency
             }
-        } else {
-            print("JSONModel unknown error")
-            print("- Expected class: \(CachedLinkedBroker.self)")
-            print("- json: \(json)")
+            return account
+        }
+        linkedBroker.accountsLastUpdated = cachedLinkedBroker.accountsLastUpdated
+        linkedBroker.isAccountLinkDelayedError = cachedLinkedBroker.isAccountLinkDelayedError
+        
+        if linkedBroker.isAccountLinkDelayedError {
+            linkedBroker.error = TradeItErrorResult(
+                title: "Activation In Progress",
+                message: "Your \(linkedBroker.brokerName) link is being activated which can take up to two business days. Check back soon.",
+                code: TradeItErrorCode.accountNotAvailable
+            )
         }
     }
 

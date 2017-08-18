@@ -6,4 +6,6 @@
 #import "YFLinearGradientView.h"
 #import "SerializedLinkedBroker.h"
 #import "SerializedLinkedBrokerAccount.h"
+#import "SerializedAccountOverview.h"
+#import "SerializedFxAccountOverview.h"
 #endif

@@ -1,5 +1,5 @@
 //
-//  SerializedLinkedBrokerAccount.h
+//  CachedLinkedBrokerAccount.h
 //  TradeItIosTicketSDK2
 //
 //  Created by Guillaume DEBAVELAERE on 17/08/2017.
@@ -7,13 +7,13 @@
 //
 
 #import <JSONModel/JSONModel.h>
-#import "SerializedAccountOverview.h"
-#import "SerializedFxAccountOverview.h"
+#import "CachedAccountOverview.h"
+#import "CachedFxAccountOverview.h"
 
-@protocol SerializedLinkedBrokerAccount
+@protocol CachedLinkedBrokerAccount
 @end
 
-@interface SerializedLinkedBrokerAccount : JSONModel
+@interface CachedLinkedBrokerAccount : JSONModel
 
 @property (nonatomic) NSString *accountName;
 
@@ -25,9 +25,9 @@
 
 @property (nonatomic) NSDate<Optional> *balanceLastUpdated;
 
-@property (nonatomic) SerializedAccountOverview<Optional> *balance;
+@property (nonatomic) CachedAccountOverview<Optional> *balance;
 
-@property (nonatomic) SerializedFxAccountOverview<Optional> *fxBalance;
+@property (nonatomic) CachedFxAccountOverview<Optional> *fxBalance;
 
 @property (nonatomic) BOOL isEnabled;
 

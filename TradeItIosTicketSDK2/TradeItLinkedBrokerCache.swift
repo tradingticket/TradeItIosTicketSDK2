@@ -6,8 +6,8 @@ class TradeItLinkedBrokerCache {
         guard let linkedBroker = linkedBroker else { return }
         let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
         
-        let serializedLinkedBroker = SerializedLinkedBroker(linkedBroker: linkedBroker)
-        TradeItKeychain.save(serializedLinkedBroker.toJSONString(), forKey: key)
+        let cachedLinkedBroker = CachedLinkedBroker(linkedBroker: linkedBroker)
+        TradeItKeychain.save(cachedLinkedBroker.toJSONString(), forKey: key)
         
         removeOldCache(linkedBroker: linkedBroker)
     }
@@ -18,41 +18,41 @@ class TradeItLinkedBrokerCache {
         guard let json = TradeItKeychain.getStringForKey(key)
             else { return }
         
-        let serializedLinkedBroker = SerializedLinkedBroker(string: json, error: &error)
+        let cachedLinkedBroker = CachedLinkedBroker(string: json, error: &error)
         if let error = error {
             print("JSONModel conversion error")
-            print("- Expected class: \(SerializedLinkedBroker.self)")
+            print("- Expected class: \(CachedLinkedBroker.self)")
             print("- json: \(json)")
             print("- JSONModel error: \(error)")
             return
-        } else if let serializedLinkedBroker = serializedLinkedBroker {
-            linkedBroker.accounts = serializedLinkedBroker.accounts.map { serializedAccount in
+        } else if let cachedLinkedBroker = cachedLinkedBroker {
+            linkedBroker.accounts = cachedLinkedBroker.accounts.map { cachedAccount in
                 let account = TradeItLinkedBrokerAccount(
                     linkedBroker: linkedBroker,
-                    accountName: serializedAccount.accountName,
-                    accountNumber: serializedAccount.accountNumber,
-                    accountIndex: serializedAccount.accountIndex,
-                    accountBaseCurrency: serializedAccount.accountBaseCurrency ,
-                    balanceLastUpdated: serializedAccount.balanceLastUpdated,
+                    accountName: cachedAccount.accountName,
+                    accountNumber: cachedAccount.accountNumber,
+                    accountIndex: cachedAccount.accountIndex,
+                    accountBaseCurrency: cachedAccount.accountBaseCurrency ,
+                    balanceLastUpdated: cachedAccount.balanceLastUpdated,
                     balance: nil,
                     fxBalance: nil,
                     positions: [],
                     orderCapabilities: [],
-                    isEnabled: serializedAccount.isEnabled
+                    isEnabled: cachedAccount.isEnabled
                 )
-                if let balance = serializedAccount.balance {
+                if let balance = cachedAccount.balance {
                     account.balance = TradeItAccountOverview()
                     account.balance?.buyingPower = balance.buyingPower
                 }
                 
-                if let fxBalance = serializedAccount.fxBalance {
+                if let fxBalance = cachedAccount.fxBalance {
                     account.fxBalance = TradeItFxAccountOverview()
                     account.fxBalance?.buyingPowerBaseCurrency = fxBalance.buyingPowerBaseCurrency
                 }
                 return account
             }
-            linkedBroker.accountsLastUpdated = serializedLinkedBroker.accountsLastUpdated
-            linkedBroker.isAccountLinkDelayedError = serializedLinkedBroker.isAccountLinkDelayedError
+            linkedBroker.accountsLastUpdated = cachedLinkedBroker.accountsLastUpdated
+            linkedBroker.isAccountLinkDelayedError = cachedLinkedBroker.isAccountLinkDelayedError
             
             if linkedBroker.isAccountLinkDelayedError {
                 linkedBroker.error = TradeItErrorResult(
@@ -63,7 +63,7 @@ class TradeItLinkedBrokerCache {
             }
         } else {
             print("JSONModel unknown error")
-            print("- Expected class: \(SerializedLinkedBroker.self)")
+            print("- Expected class: \(CachedLinkedBroker.self)")
             print("- json: \(json)")
         }
     }
@@ -83,19 +83,19 @@ class TradeItLinkedBrokerCache {
     }
 }
 
-extension SerializedLinkedBroker {
+extension CachedLinkedBroker {
     
     convenience init(linkedBroker: TradeItLinkedBroker) {
         self.init()
         self.accounts = linkedBroker.accounts.map { account in
-            return SerializedLinkedBrokerAccount(linkedBrokerAccount: account)
+            return CachedLinkedBrokerAccount(linkedBrokerAccount: account)
         }
         self.accountsLastUpdated = linkedBroker.accountsLastUpdated
         self.isAccountLinkDelayedError = linkedBroker.isAccountLinkDelayedError
     }
 }
 
-extension SerializedLinkedBrokerAccount {
+extension CachedLinkedBrokerAccount {
     convenience init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.init()
         self.accountNumber = linkedBrokerAccount.accountNumber
@@ -103,20 +103,20 @@ extension SerializedLinkedBrokerAccount {
         self.accountBaseCurrency = linkedBrokerAccount.accountBaseCurrency
         self.accountIndex = linkedBrokerAccount.accountIndex
         self.isEnabled = linkedBrokerAccount.isEnabled
-        self.balance = SerializedAccountOverview(balance: linkedBrokerAccount.balance)
-        self.fxBalance = SerializedFxAccountOverview(fxBalance: linkedBrokerAccount.fxBalance)
+        self.balance = CachedAccountOverview(balance: linkedBrokerAccount.balance)
+        self.fxBalance = CachedFxAccountOverview(fxBalance: linkedBrokerAccount.fxBalance)
         self.balanceLastUpdated = linkedBrokerAccount.balanceLastUpdated
     }
 }
 
-extension SerializedAccountOverview {
+extension CachedAccountOverview {
     convenience init(balance: TradeItAccountOverview?) {
         self.init()
         self.buyingPower = balance?.buyingPower
     }
 }
 
-extension SerializedFxAccountOverview {
+extension CachedFxAccountOverview {
     convenience init(fxBalance: TradeItFxAccountOverview?) {
         self.init()
         self.buyingPowerBaseCurrency = fxBalance?.buyingPowerBaseCurrency

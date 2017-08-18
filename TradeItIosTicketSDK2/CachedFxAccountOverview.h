@@ -1,5 +1,5 @@
 //
-//  SerializedAccountOverview.h
+//  CachedFxAccountOverview.h
 //  TradeItIosTicketSDK2
 //
 //  Created by Guillaume DEBAVELAERE on 17/08/2017.
@@ -8,8 +8,8 @@
 
 #import <JSONModel/JSONModel.h>
 
-@interface SerializedAccountOverview : JSONModel
+@interface CachedFxAccountOverview : JSONModel
 
-@property (nullable, copy) NSNumber<Optional> *buyingPower;
+@property (nullable, copy) NSNumber<Optional> *buyingPowerBaseCurrency;
 
 @end

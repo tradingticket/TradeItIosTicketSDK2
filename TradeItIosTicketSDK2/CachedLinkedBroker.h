@@ -1,5 +1,5 @@
 //
-//  SerializedLinkedBroker.h
+//  CachedLinkedBroker.h
 //  TradeItIosTicketSDK2
 //
 //  Created by Guillaume DEBAVELAERE on 17/08/2017.
@@ -7,12 +7,12 @@
 //
 
 #import <JSONModel/JSONModel.h>
-#import "SerializedLinkedBroker.h"
-#import "SerializedLinkedBrokerAccount.h"
+#import "CachedLinkedBroker.h"
+#import "CachedLinkedBrokerAccount.h"
 
-@interface SerializedLinkedBroker : JSONModel
+@interface CachedLinkedBroker : JSONModel
 
-@property (nonatomic) NSArray<SerializedLinkedBrokerAccount*> <SerializedLinkedBrokerAccount> *accounts;
+@property (nonatomic) NSArray<CachedLinkedBrokerAccount*> <CachedLinkedBrokerAccount> *accounts;
 
 @property (nonatomic) NSDate<Optional> *accountsLastUpdated;
 

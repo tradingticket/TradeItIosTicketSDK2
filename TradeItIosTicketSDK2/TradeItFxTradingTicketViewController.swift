@@ -355,14 +355,15 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             .symbol,
             .bid,
             .orderAction,
-            .priceType,
-            .amount
+            .priceType
         ]
 
         if self.order.requiresRate() {
             ticketRows.append(.rate)
         }
-
+        
+        ticketRows.append(.amount)
+        
         if let leverageOptions = self.orderCapabilities?.leverageOptions, leverageOptions.count > 0 {
             ticketRows.append(.leverage)
         }

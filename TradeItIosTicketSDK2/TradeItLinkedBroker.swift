@@ -23,6 +23,11 @@ import PromiseKit
         get { return self._error }
     }
     public var isAccountLinkDelayedError: Bool = false
+    public var userId: String {
+        get {
+            return linkedLogin.userId
+        }
+    }
     
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin

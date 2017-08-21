@@ -30,15 +30,14 @@ class TradeItBrokerLogoService {
         print("TradeIt Logo: Fetching remote logo for \(brokerName)")
 
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let imageData = NSData(contentsOf: logoUrl) else { // TODO: Test exception
-                return print("TradeIt Logo: Broker logo failed to load. \(logoUrl)") // TODO onFailure
+            guard let imageData = NSData(contentsOf: logoUrl),
+                let image = UIImage(data: imageData as Data) else {
+                print("TradeIt Logo: Broker logo failed to load. \(logoUrl)")
+                DispatchQueue.main.async(execute: onFailure)
+                return
             }
 
             DispatchQueue.main.async {
-                guard let image = UIImage(data: imageData as Data) else {
-                    // TODO: Log message
-                    return onFailure()
-                }
                 self.setCachedLogo(brokerName: brokerName, size: size, image: image)
                 onSuccess(image)
             }

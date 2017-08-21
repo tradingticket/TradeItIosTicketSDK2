@@ -49,6 +49,7 @@ class TradeItOrderPriceTypePresenter {
 class TradeItOrderActionPresenter {
     static let DEFAULT: TradeItOrderAction = .buy
     static let ACTIONS: [TradeItOrderAction] = [.buy, .sell, .buyToCover, .sellShort]
+    static let SELL_ACTIONS: [TradeItOrderAction] = [.sell, .sellShort]
 
     private static let buyDescription = "Buy"
     private static let sellDescription = "Sell"
@@ -71,10 +72,10 @@ class TradeItOrderActionPresenter {
     
     static func enumFor(_ type: String) -> TradeItOrderAction {
         switch(type) {
-        case buyDescription: return .buy
-        case sellDescription: return .sell
-        case buyToCoverDescription: return .buyToCover
-        case sellShortDescription: return .sellShort
+        case buyDescription, "buy": return .buy
+        case sellDescription, "sell": return .sell
+        case buyToCoverDescription, "buyToCover": return .buyToCover
+        case sellShortDescription, "sellShort": return .sellShort
         default: return .unknown
         }
     }

@@ -243,7 +243,9 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            cells.append(ValueCellData(label: "Estimated cost", value: self.formatCurrency(estimatedTotalValue)))
+            let action = TradeItOrderActionPresenter.enumFor(orderDetails.orderAction)
+            let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
+            cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
         }
         
         if withWarningsAndAcknowledgment {

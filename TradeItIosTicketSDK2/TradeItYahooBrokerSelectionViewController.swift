@@ -156,18 +156,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
-                cell.showSpinner()
-                TradeItSDK.brokerLogoService.loadLogo(
-                    forBroker: broker,
-                    withSize: .small,
-                    onSuccess: { image in
-                        cell.hideSpinner()
-                        cell.brokerLogoImageView.image = image
-                    }, onFailure: {
-                        cell.hideSpinner()
-                        // TODO: Show broker name
-                    }
-                )
+                cell.populate(withBroker: broker)
                 return cell
             }
         } else {

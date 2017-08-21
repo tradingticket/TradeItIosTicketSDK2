@@ -8,10 +8,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet var bulletListView: UIView!
     @IBOutlet weak var headlineTextLabel: UILabel!
     @IBOutlet weak var featuredBrokerContainerView: UIView!
-    @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerImageView: UIImageView!
     @IBOutlet weak var getStartedButton: UIButton!
     @IBOutlet weak var spinnerView: UIActivityIndicatorView!
+    @IBOutlet weak var featuredBrokerLabel: UILabel!
+    @IBOutlet weak var featuredBrokerFallbackLabel: UILabel!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
@@ -58,6 +59,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
         gestureRecognizer.delegate = self
         self.featuredBrokerContainerView.addGestureRecognizer(gestureRecognizer)
+
+        self.spinnerView.startAnimating()
+        self.spinnerView.isHidden = false
+        self.featuredBrokerFallbackLabel.isHidden = true
+        self.featuredBrokerImageView.isHidden = true
     }
 
     // MARK: UIGestureRecognizerDelegate
@@ -105,18 +111,21 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
         self.featuredBroker = featuredBroker
+        self.featuredBrokerFallbackLabel.text = featuredBroker.brokerLongName
 
-        self.spinnerView.startAnimating()
-        self.spinnerView.isHidden = false
         TradeItSDK.brokerLogoService.loadLogo(
             forBroker: featuredBroker,
             withSize: .large,
             onSuccess: { image in
-                self.spinnerView.isHidden = true
                 self.featuredBrokerImageView.image = image
+
+                self.spinnerView.isHidden = true
+                self.featuredBrokerFallbackLabel.isHidden = true
+                self.featuredBrokerImageView.isHidden = false
             }, onFailure: {
                 self.spinnerView.isHidden = true
-                // TODO: Show broker name
+                self.featuredBrokerFallbackLabel.isHidden = false
+                self.featuredBrokerImageView.isHidden = true
             }
         )
 

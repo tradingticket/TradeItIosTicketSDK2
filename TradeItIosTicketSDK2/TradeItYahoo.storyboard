@@ -703,14 +703,22 @@
                                                                 <constraint firstAttribute="width" secondItem="hsy-i8-voA" secondAttribute="height" multiplier="1:1" id="dgO-hd-HCh"/>
                                                             </constraints>
                                                         </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbv-ZE-stT">
+                                                            <rect key="frame" x="147" y="29.5" width="51.5" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="RX3-hp-UzE" secondAttribute="trailing" constant="20" id="05s-FL-Gha"/>
                                                         <constraint firstItem="hsy-i8-voA" firstAttribute="centerY" secondItem="8Ph-UK-9eS" secondAttribute="centerY" id="EBF-6B-Ccl"/>
                                                         <constraint firstItem="RX3-hp-UzE" firstAttribute="leading" secondItem="8Ph-UK-9eS" secondAttribute="leading" constant="20" id="Gwb-S9-jEr"/>
+                                                        <constraint firstItem="jbv-ZE-stT" firstAttribute="centerX" secondItem="8Ph-UK-9eS" secondAttribute="centerX" id="PlP-F5-IK7"/>
                                                         <constraint firstItem="RX3-hp-UzE" firstAttribute="top" secondItem="8Ph-UK-9eS" secondAttribute="top" constant="16" id="VXy-U2-UHS"/>
                                                         <constraint firstAttribute="bottom" secondItem="RX3-hp-UzE" secondAttribute="bottom" constant="16" id="dWk-gt-oED"/>
+                                                        <constraint firstItem="jbv-ZE-stT" firstAttribute="centerY" secondItem="8Ph-UK-9eS" secondAttribute="centerY" id="r0e-eR-GaZ"/>
                                                         <constraint firstItem="hsy-i8-voA" firstAttribute="centerX" secondItem="8Ph-UK-9eS" secondAttribute="centerX" id="uHc-OA-8Yn"/>
                                                     </constraints>
                                                 </view>
@@ -723,6 +731,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="brokerLabel" destination="jbv-ZE-stT" id="Upz-lc-56P"/>
                                             <outlet property="brokerLogoImageView" destination="RX3-hp-UzE" id="Jhy-Xm-Ixw"/>
                                             <outlet property="imageContainerView" destination="8Ph-UK-9eS" id="bG4-c8-eif"/>
                                             <outlet property="spinnerContainerView" destination="hsy-i8-voA" id="D4x-0N-5pX"/>

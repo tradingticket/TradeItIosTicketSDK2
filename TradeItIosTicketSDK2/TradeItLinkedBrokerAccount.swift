@@ -12,11 +12,21 @@
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
     public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
-    weak var linkedBroker: TradeItLinkedBroker?
     var tradeItBalanceService: TradeItBalanceService
     var tradeItPositionService: TradeItPositionService
     var tradeService: TradeItTradeService
     var fxTradeService: TradeItFxTradeService
+
+    private weak var _linkedBroker: TradeItLinkedBroker?
+    internal(set) public var linkedBroker: TradeItLinkedBroker? {
+        get {
+            return _linkedBroker
+        }
+
+        set(newValue) {
+            _linkedBroker = newValue
+        }
+    }
 
     private var _enabled = true
     public var isEnabled: Bool {
@@ -44,7 +54,7 @@
          orderCapabilities: [TradeItInstrumentOrderCapabilities] = [],
          isEnabled: Bool=true
     ) {
-        self.linkedBroker = linkedBroker
+        self._linkedBroker = linkedBroker
         self.accountName = accountName
         self.accountNumber = accountNumber
         self.accountIndex = accountIndex

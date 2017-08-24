@@ -245,6 +245,7 @@ import PromiseKit
                 if let index = self.linkedBrokers.index(of: linkedBroker) {
                     TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
                     self.linkedBrokers.remove(at: index)
+
                     self.oAuthDelegate?.didUnlink?(userId: linkedBroker.linkedLogin.userId)
                     NotificationCenter.default.post(
                         name: TradeItSDK.didUnlinkNotificationName,
@@ -288,7 +289,7 @@ import PromiseKit
         }
 
         linkedBrokersToRemove.forEach { linkedBrokerToRemove in
-            self.removeBroker(linkedBroker: linkedBrokerToRemove)
+            self.removeBrokerLocally(linkedBroker: linkedBrokerToRemove)
         }
 
         // Sync accounts
@@ -447,7 +448,7 @@ import PromiseKit
         }
     }
 
-    private func removeBroker(linkedBroker: TradeItLinkedBroker) {
+    private func removeBrokerLocally(linkedBroker: TradeItLinkedBroker) {
         self.oAuthService.unlinkLogin(
             login: linkedBroker.linkedLogin,
             localOnly: true,
@@ -458,7 +459,7 @@ import PromiseKit
                 }
             },
             onFailure: { errorResult in
-                print("\n\n=====> removeBroker error: \(String(describing: errorResult.errorCode)) - \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
+                print("\n\n=====> removeBrokerLocally error: \(String(describing: errorResult.errorCode)) - \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
             }
         )
     }

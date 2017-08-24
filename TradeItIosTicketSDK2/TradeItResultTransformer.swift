@@ -1,5 +1,5 @@
 class TradeItResultTransformer {
-    static func transform<T: TradeItResult>(targetClassType: T.Type, json: String?) -> T? {
+    static func transform<T: JSONModel>(targetClassType: T.Type, json: String?) -> T? {
         var error: JSONModelError? = nil
         let result = T.init(string: json, error: &error)
 

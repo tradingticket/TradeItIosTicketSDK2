@@ -665,40 +665,31 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func deleteLinkedBrokers() -> Void {
+        var brokersUnlinked = 0
         let originalBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
-        print("=====> Keychain Linked Login count before clearing: \(originalBrokerCount)")
+        print("=====> Linked Broker count before clearing: \(originalBrokerCount)")
 
-        let appDomain = Bundle.main.bundleIdentifier
-        UserDefaults.standard.removePersistentDomain(forName: appDomain!)
-
-        let connector = TradeItConnector(apiKey: AppDelegate.API_KEY, environment: AppDelegate.ENVIRONMENT, version: TradeItEmsApiVersion_2)
-        let oAuthService = TradeItOAuthService(connector: connector)
-        
-        let linkedLogins = connector.getLinkedLogins() as! [TradeItLinkedLogin]
-        for linkedLogin in linkedLogins {
-            oAuthService.unlinkLogin(
-                login: linkedLogin,
-                localOnly: false,
-                onSuccess: { result in
-                    if let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.filter({ $0.linkedLogin.userId == linkedLogin.userId }).first {
-                            TradeItSDK.linkedBrokerCache.remove(linkedBroker: linkedBroker)
-                    }
+        for linkedBroker in TradeItSDK.linkedBrokerManager.linkedBrokers {
+            TradeItSDK.linkedBrokerManager.unlinkBroker(
+                linkedBroker,
+                onSuccess: {
+                    brokersUnlinked += 1
                 },
-                onFailure:  { errorResult in
-                    print("=====> error unlink login: \(errorResult.code ?? 0), \(errorResult.shortMessage ?? ""), \(errorResult.longMessages?.first ?? "")")
+                onFailure: { errorResult in
+                    print("=====> Error unlinking broker(\(linkedBroker.userId)): \(errorResult.code ?? 0), \(errorResult.shortMessage ?? ""), \(errorResult.longMessages?.first ?? "")")
                 }
             )
         }
-        TradeItSDK.linkedBrokerManager.linkedBrokers = []
 
         let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
+
         self.alertManager.showAlertWithMessageOnly(
             onViewController: self.advancedViewController ?? self,
             withTitle: "Deletion complete.",
-            withMessage: "Deleted \(originalBrokerCount) linked brokers. \(updatedBrokerCount) brokers remaining.",
+            withMessage: "Attempted to delete \(originalBrokerCount) linked brokers. \(brokersUnlinked) attempts succeeded. \(updatedBrokerCount) linked brokers remaining.",
             withActionTitle: "OK")
 
-        print("=====> Keychain Linked Login count after clearing: \(updatedBrokerCount)")
+        print("=====> Linked Broker count after clearing: \(updatedBrokerCount)")
     }
 
     private func handleThemeChange() {

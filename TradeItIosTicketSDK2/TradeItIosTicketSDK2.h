@@ -4,5 +4,7 @@
 #import "TradeItIosEmsApiLib.h"
 #import "YFTopGradientView.h"
 #import "YFLinearGradientView.h"
+#import "CachedLinkedBroker.h"
+#import "CachedLinkedBrokerAccount.h"
 
 #endif

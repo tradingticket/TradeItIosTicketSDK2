@@ -19,29 +19,19 @@ class TradeItLinkedBrokerCache {
             else { return}
         
         linkedBroker.accounts = cachedLinkedBroker.accounts.map { cachedAccount in
-            let account = TradeItLinkedBrokerAccount(
+            return TradeItLinkedBrokerAccount(
                 linkedBroker: linkedBroker,
                 accountName: cachedAccount.accountName,
                 accountNumber: cachedAccount.accountNumber,
                 accountIndex: cachedAccount.accountIndex,
                 accountBaseCurrency: cachedAccount.accountBaseCurrency ,
                 balanceLastUpdated: cachedAccount.balanceLastUpdated,
-                balance: nil,
-                fxBalance: nil,
+                balance: cachedAccount.balance,
+                fxBalance: cachedAccount.fxBalance,
                 positions: [],
                 orderCapabilities: [],
                 isEnabled: cachedAccount.isEnabled
             )
-            if let balance = cachedAccount.balance {
-                account.balance = TradeItAccountOverview()
-                account.balance?.buyingPower = balance.buyingPower
-            }
-            
-            if let fxBalance = cachedAccount.fxBalance {
-                account.fxBalance = TradeItFxAccountOverview()
-                account.fxBalance?.buyingPowerBaseCurrency = fxBalance.buyingPowerBaseCurrency
-            }
-            return account
         }
         linkedBroker.accountsLastUpdated = cachedLinkedBroker.accountsLastUpdated
         linkedBroker.isAccountLinkDelayedError = cachedLinkedBroker.isAccountLinkDelayedError
@@ -71,7 +61,6 @@ class TradeItLinkedBrokerCache {
 }
 
 extension CachedLinkedBroker {
-    
     convenience init(linkedBroker: TradeItLinkedBroker) {
         self.init()
         self.accounts = linkedBroker.accounts.map { account in
@@ -90,23 +79,9 @@ extension CachedLinkedBrokerAccount {
         self.accountBaseCurrency = linkedBrokerAccount.accountBaseCurrency
         self.accountIndex = linkedBrokerAccount.accountIndex
         self.isEnabled = linkedBrokerAccount.isEnabled
-        self.balance = CachedAccountOverview(balance: linkedBrokerAccount.balance)
-        self.fxBalance = CachedFxAccountOverview(fxBalance: linkedBrokerAccount.fxBalance)
+        self.balance = linkedBrokerAccount.balance
+        self.fxBalance = linkedBrokerAccount.fxBalance
         self.balanceLastUpdated = linkedBrokerAccount.balanceLastUpdated
-    }
-}
-
-extension CachedAccountOverview {
-    convenience init(balance: TradeItAccountOverview?) {
-        self.init()
-        self.buyingPower = balance?.buyingPower
-    }
-}
-
-extension CachedFxAccountOverview {
-    convenience init(fxBalance: TradeItFxAccountOverview?) {
-        self.init()
-        self.buyingPowerBaseCurrency = fxBalance?.buyingPowerBaseCurrency
     }
 }
 

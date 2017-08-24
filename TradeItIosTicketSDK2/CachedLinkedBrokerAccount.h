@@ -7,8 +7,8 @@
 //
 
 #import <JSONModel/JSONModel.h>
-#import "CachedAccountOverview.h"
-#import "CachedFxAccountOverview.h"
+#import "TradeItAccountOverview.h"
+#import "TradeItFxAccountOverview.h"
 
 @protocol CachedLinkedBrokerAccount
 @end
@@ -25,9 +25,9 @@
 
 @property (nonatomic) NSDate<Optional> *balanceLastUpdated;
 
-@property (nonatomic) CachedAccountOverview<Optional> *balance;
+@property (nonatomic) TradeItAccountOverview<Optional> *balance;
 
-@property (nonatomic) CachedFxAccountOverview<Optional> *fxBalance;
+@property (nonatomic) TradeItFxAccountOverview<Optional> *fxBalance;
 
 @property (nonatomic) BOOL isEnabled;
 

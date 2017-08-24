@@ -1,3 +1,5 @@
+private let LOG_TRAFFIC = false // Set to true to log requests/responses
+
 internal extension TradeItConnector {
     func userToken(fromKeychainId keychainId: String) -> String? {
         return TradeItKeychain.getStringForKey(keychainId)
@@ -30,12 +32,28 @@ internal extension TradeItConnector {
         _ request: URLRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
     ) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.session.dataTask(with: request, completionHandler: { data, response, error in
-                let (result, json) = self.processResponse(data, response, error)
+        if LOG_TRAFFIC {
+            let requestBodyString = String(data: request.httpBody ?? Data(), encoding: String.Encoding.utf8)
+            print("\n===== REQUEST =====\n\(request.url?.absoluteString ?? "NO URL!")\n\(requestBodyString ?? "NO BODY!")\n")
+        }
 
-                DispatchQueue.main.async { completionBlock(result, json) }
-            }).resume()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.dataTask(
+                with: request,
+                completionHandler: { data, response, error in
+                    if LOG_TRAFFIC {
+                        let responseBodyString = String(data: data ?? Data(), encoding: String.Encoding.utf8)
+                        print("\n===== RESPONSE =====\n\(request.url?.absoluteString ?? "NO URL!")\n\(responseBodyString ?? "NO BODY!")\n")
+                        if let error = error {
+                            print("Error: \(error.localizedDescription)")
+                        }
+                    }
+
+                    let (result, json) = self.processResponse(data, response, error)
+
+                    DispatchQueue.main.async { completionBlock(result, json) }
+                }
+            ).resume()
         }
     }
 

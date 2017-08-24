@@ -4,7 +4,7 @@ class TradeItLinkedBrokerCache {
   
     func cache(linkedBroker: TradeItLinkedBroker?) {
         guard let linkedBroker = linkedBroker else { return }
-        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.userId
         
         let cachedLinkedBroker = CachedLinkedBroker(linkedBroker: linkedBroker)
         TradeItKeychain.save(cachedLinkedBroker.toJSONString(), forKey: key)
@@ -13,7 +13,7 @@ class TradeItLinkedBrokerCache {
     }
 
     func syncFromCache(linkedBroker: TradeItLinkedBroker) {
-        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.userId
         guard let json = TradeItKeychain.getStringForKey(key)
              ,let cachedLinkedBroker = TradeItResultTransformer.transform(targetClassType: CachedLinkedBroker.self, json: json)
             else { return}
@@ -56,7 +56,7 @@ class TradeItLinkedBrokerCache {
     }
 
     func remove(linkedBroker: TradeItLinkedBroker) {
-        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.linkedLogin.userId
+        let key = LINKED_BROKER_CACHE_KEY+linkedBroker.userId
         TradeItKeychain.deleteString(forKey: key)
     }
 

@@ -101,7 +101,7 @@
 
             onSuccess(result.accountOverview)
         }, onFailure: { error in
-            self.linkedBroker?.error = error
+            self.setError(error)
             onFailure(error)
         })
     }
@@ -128,7 +128,7 @@
             self.positions = portfolioEquityPositions + portfolioFxPositions
             onSuccess(self.positions)
         }, onFailure: { error in
-            self.linkedBroker?.error = error
+            self.setError(error)
             onFailure(error)
         })
     }
@@ -155,6 +155,14 @@
     internal func orderCapabilities(forInstrument instrument: TradeItTradeInstrumentType) -> TradeItInstrumentOrderCapabilities? {
         return self.orderCapabilities.first { instrumentCapabilities in
             return instrumentCapabilities.instrument == instrument.rawValue.lowercased()
+        }
+    }
+    
+    // MARK: private
+    
+    private func setError(_ error: TradeItErrorResult) {
+        if error.requiresRelink() || error.requiresAuthentication() {
+            linkedBroker?.error = error
         }
     }
 }

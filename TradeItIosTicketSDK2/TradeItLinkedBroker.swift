@@ -44,10 +44,6 @@ import PromiseKit
         self.setUnauthenticated()
     }
 
-    public func clearError() {
-        self.error = nil
-    }
-
     public func authenticate(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (
@@ -176,14 +172,6 @@ import PromiseKit
         return matchingAccounts.first
     }
 
-    public func setUnauthenticated() {
-        self.error = TradeItErrorResult(
-            title: "Linked Broker initialized from keychain",
-            message: "Linked broker must to be authenticated before using.",
-            code: .sessionError
-        )
-    }
-
     public func getFxQuote(
         symbol: String,
         onSuccess: @escaping (TradeItQuote) -> Void,
@@ -220,6 +208,19 @@ import PromiseKit
         )
     }
 
+    // MARK: Internal
+    internal func clearError() {
+        self.error = nil
+    }
+    
+    internal func setUnauthenticated() {
+        self.error = TradeItErrorResult(
+            title: "Linked Broker initialized from keychain",
+            message: "Linked broker must to be authenticated before using.",
+            code: .sessionError
+        )
+    }
+    
     // MARK: Private
 
     private func updateLinkedBrokerAccounts(fromBrokerAccounts accounts: [TradeItBrokerAccount]) {

@@ -20,6 +20,7 @@
         self.orderExpiration = @"";
         self.orderPrice = @"";
         self.orderValueLabel = @"";
+        self.orderCommissionLabel = @"";
         self.orderMessage =  @"";
         self.lastPrice = nil;
         self.bidPrice = nil;
@@ -38,7 +39,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat: @"TradeItStockOrEtfReviewOrderDetails: orderSymbol=%@ orderAction=%@ orderPrice=%@ orderExpiration=%@ longHoldings=%@ shortHoldings=%@ orderQuantity=%@ buyingPower=%@ availableCash=%@ estimatedOrderValue=%@ estimatedOrderCommission=%@ estimatedTotalValue=%@ orderMessage=%@ orderValueLabel=%@", self.orderSymbol,self.orderAction,self.orderPrice,self.orderExpiration,self.longHoldings,self.shortHoldings,self.orderQuantity,self.buyingPower,self.availableCash,self.estimatedOrderValue,self.estimatedOrderCommission,self.estimatedTotalValue,self.orderMessage, self.orderValueLabel];
+    return [NSString stringWithFormat: @"TradeItStockOrEtfReviewOrderDetails: orderSymbol=%@ orderAction=%@ orderPrice=%@ orderExpiration=%@ longHoldings=%@ shortHoldings=%@ orderQuantity=%@ buyingPower=%@ availableCash=%@ estimatedOrderValue=%@ estimatedOrderCommission=%@ estimatedTotalValue=%@ orderMessage=%@ orderValueLabel=%@ orderCommissionLabel=%@", self.orderSymbol,self.orderAction,self.orderPrice,self.orderExpiration,self.longHoldings,self.shortHoldings,self.orderQuantity,self.buyingPower,self.availableCash,self.estimatedOrderValue,self.estimatedOrderCommission,self.estimatedTotalValue,self.orderMessage, self.orderValueLabel, self.orderCommissionLabel];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -52,6 +53,7 @@
         copy.orderExpiration=[self.orderExpiration copyWithZone:zone];
         copy.orderPrice=[self.orderPrice copyWithZone:zone];
         copy.orderValueLabel=[self.orderValueLabel copyWithZone:zone];
+        copy.orderCommissionLabel=[self.orderCommissionLabel copyWithZone:zone];
         copy.orderMessage=[self.orderMessage copyWithZone:zone];
         copy.lastPrice=[self.lastPrice copyWithZone:zone];
         copy.bidPrice=[self.bidPrice copyWithZone:zone];

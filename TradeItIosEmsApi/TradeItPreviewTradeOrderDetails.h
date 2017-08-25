@@ -46,6 +46,8 @@
  */
 @property (nonnull, copy) NSString *orderValueLabel;
 
+@property (nonnull, copy) NSString *orderCommissionLabel;
+
 /**
  *  A user friendly description of the order. i.e "You are about to place a market order to buy AAPL" or "You are about to place a limit order to sell short AAPL"
  */

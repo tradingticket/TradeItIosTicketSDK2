@@ -179,7 +179,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: "Broker fee", value: formatCurrency(estimatedOrderCommission)))
+            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: formatCurrency(estimatedOrderCommission)))
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {

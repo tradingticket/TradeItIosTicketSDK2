@@ -21,7 +21,6 @@ class TradeItSelectionViewController: TradeItViewController {
             }
         )
 
-
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,

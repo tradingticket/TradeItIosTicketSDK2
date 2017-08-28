@@ -52,7 +52,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let logo = UIImage(named: "tradeit_logo.png")
         let logoView = UIImageView(image: logo)
         self.navigationItem.titleView = logoView
-        self.registerLinkObservers()
 
         defaultSections = [
             Section(
@@ -413,6 +412,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         TradeItSDK.oAuthCallbackUrl = URL(string: "tradeItExampleScheme://completeOAuth")!
         TradeItSDK.linkedBrokerManager.oAuthDelegate = self
         TradeItSDK.linkedBrokerManager.printLinkedBrokers()
@@ -428,7 +428,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         )
     }
 
-    // Mark: UITableViewDelegate
+    // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         sections?[indexPath.section].actions[indexPath.row].action()
@@ -696,27 +696,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         let controller = self.advancedViewController ?? self
         TradeItThemeConfigurator.configure(view: controller.view)
         self.table.reloadData()
-    }
-
-    private func registerLinkObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didLink), name: TradeItSDK.didLinkNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didUnlink), name: TradeItSDK.didUnlinkNotificationName, object: nil)
-    }
-
-    func didLink(notification: Notification) {
-        print("TradeItSDK: didLink notification")
-        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
-            return print("No linkedBroker passed with notification")
-        }
-        print(linkedBroker.brokerName)
-    }
-
-    func didUnlink(notification: Notification) {
-        print("TradeItSDK: didUnlink notification")
-        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
-            return print("No linkedBroker passed with notification")
-        }
-        print(linkedBroker.brokerName)
     }
 
     deinit {

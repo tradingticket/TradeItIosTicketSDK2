@@ -699,7 +699,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didLinkNotificationName, object: nil)
-        NotificationCenter.default.removeObserver(self, name: TradeItSDK.didUnlinkNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: TradeItNotification.Name.didLink, object: nil)
+        NotificationCenter.default.removeObserver(self, name: TradeItNotification.Name.didUnlink, object: nil)
     }
 }

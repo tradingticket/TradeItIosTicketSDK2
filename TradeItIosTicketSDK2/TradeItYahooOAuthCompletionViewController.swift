@@ -48,7 +48,7 @@ import UIKit
                         )
 
                         NotificationCenter.default.post(
-                            name: TradeItSDK.didLinkNotificationName,
+                            name: TradeItNotification.Name.didLink,
                             object: nil,
                             userInfo: [
                                 "linkedBroker": linkedBroker

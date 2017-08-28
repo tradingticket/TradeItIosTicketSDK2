@@ -73,14 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didLink),
-            name: TradeItSDK.didLinkNotificationName,
+            name: TradeItNotification.Name.didLink,
             object: nil
         )
 
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didUnlink),
-            name: TradeItSDK.didUnlinkNotificationName,
+            name: TradeItNotification.Name.didUnlink,
             object: nil
         )
 

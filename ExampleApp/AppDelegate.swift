@@ -108,7 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func onViewDidAppearNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
-        print("=====> VIEW APPEARED: \(view)")
+        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle] ?? "NO KEY FOR VIEW TITLE"
+        print("=====> VIEW APPEARED: \(view), TITLE: \(viewTitle)")
     }
 
     func didLink(notification: Notification) {

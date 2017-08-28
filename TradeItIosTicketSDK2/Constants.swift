@@ -21,6 +21,7 @@ public struct TradeItNotification {
 
     public struct UserInfoKey {
         public static let view = "view"
+        public static let viewTitle = "viewTitle"
         public static let errorTitle = "errorTitle"
         public static let errorMessage = "errorMessage"
     }

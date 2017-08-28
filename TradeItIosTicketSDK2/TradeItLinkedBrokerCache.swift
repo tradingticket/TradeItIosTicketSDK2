@@ -1,5 +1,9 @@
 class TradeItLinkedBrokerCache {
   
+    private static let LINKED_BROKER_CACHE_KEY = "TRADE_IT_LINKED_BROKER_CACHE_"
+    private static let OLD_LINKED_BROKER_CACHE_KEY = "LINKED_BROKER_CACHE"
+    private static let suiteName = "it.trade"
+    
     func cache(linkedBroker: TradeItLinkedBroker?) {
         guard let linkedBroker = linkedBroker else { return }
         let key = self.key(forLinkeBroker: linkedBroker)
@@ -52,13 +56,12 @@ class TradeItLinkedBrokerCache {
     // MARK: Private
 
     private func key(forLinkeBroker linkedBroker: TradeItLinkedBroker) -> String {
-        let LINKED_BROKER_CACHE_KEY = "TRADE_IT_LINKED_BROKER_CACHE_"
-        return LINKED_BROKER_CACHE_KEY + linkedBroker.userId
+        return TradeItLinkedBrokerCache.LINKED_BROKER_CACHE_KEY + linkedBroker.userId
     }
     
     private func removeOldCache(linkedBroker: TradeItLinkedBroker) {
-        if let userDefault = UserDefaults(suiteName: "it.trade") {
-            userDefault.removeSuite(named: "it.trade")
+        if let userDefault = UserDefaults(suiteName: TradeItLinkedBrokerCache.suiteName), let _ = userDefault.dictionary(forKey: TradeItLinkedBrokerCache.OLD_LINKED_BROKER_CACHE_KEY) {
+            userDefault.removeObject(forKey: TradeItLinkedBrokerCache.OLD_LINKED_BROKER_CACHE_KEY)
             userDefault.synchronize()
         }
     }

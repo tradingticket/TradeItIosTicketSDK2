@@ -19,6 +19,8 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
         }
 
         viewController.present(navController, animated: true, completion: nil)
+
+        TradeItSDK.brokerLogoService.clearCache()
     }
 
     // MARK: TradeItOAuthCompletionViewControllerDelegate

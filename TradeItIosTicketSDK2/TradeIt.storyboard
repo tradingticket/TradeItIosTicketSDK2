@@ -199,10 +199,23 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="88E-Tj-Ibb">
                                         <rect key="frame" x="60" y="0.0" width="215" height="255.5"/>
                                     </imageView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cwN-0e-ErD">
+                                        <rect key="frame" x="157" y="118" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahf-YI-TFz">
+                                        <rect key="frame" x="142" y="115" width="51.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="cwN-0e-ErD" firstAttribute="centerX" secondItem="uIk-yb-TE0" secondAttribute="centerX" id="HHj-nl-Sn2"/>
+                                    <constraint firstItem="Ahf-YI-TFz" firstAttribute="centerX" secondItem="uIk-yb-TE0" secondAttribute="centerX" id="P21-HP-Sni"/>
+                                    <constraint firstItem="Ahf-YI-TFz" firstAttribute="centerY" secondItem="uIk-yb-TE0" secondAttribute="centerY" id="PQF-li-fMi"/>
                                     <constraint firstAttribute="bottom" secondItem="88E-Tj-Ibb" secondAttribute="bottom" id="Tep-nM-fhT"/>
+                                    <constraint firstItem="cwN-0e-ErD" firstAttribute="centerY" secondItem="uIk-yb-TE0" secondAttribute="centerY" id="gCh-GM-4xr"/>
                                     <constraint firstItem="88E-Tj-Ibb" firstAttribute="leading" secondItem="uIk-yb-TE0" secondAttribute="leading" constant="60" id="lrM-fG-tzR"/>
                                     <constraint firstItem="88E-Tj-Ibb" firstAttribute="top" secondItem="uIk-yb-TE0" secondAttribute="top" id="pH8-LZ-8Vu"/>
                                     <constraint firstAttribute="trailing" secondItem="88E-Tj-Ibb" secondAttribute="trailing" constant="60" id="urm-Yv-KBI"/>
@@ -242,10 +255,12 @@
                         <outlet property="adContainer" destination="jg1-nr-Nnv" id="cVS-73-BVc"/>
                         <outlet property="bulletListView" destination="4T4-ZR-clB" id="qk5-9z-9dS"/>
                         <outlet property="featuredBrokerContainerView" destination="uIk-yb-TE0" id="zTR-ZZ-lp4"/>
+                        <outlet property="featuredBrokerFallbackLabel" destination="Ahf-YI-TFz" id="pWw-Pb-7hV"/>
                         <outlet property="featuredBrokerImageView" destination="88E-Tj-Ibb" id="EFy-4f-ILx"/>
-                        <outlet property="featuredBrokerLabel" destination="yuv-6z-Xo2" id="Dl7-hs-rqT"/>
+                        <outlet property="featuredBrokerLabel" destination="yuv-6z-Xo2" id="AGk-u0-Sd3"/>
                         <outlet property="getStartedButton" destination="Fri-XE-ZRO" id="rjI-4u-DNJ"/>
                         <outlet property="headlineTextLabel" destination="scP-dm-Rke" id="Sbj-vs-VhB"/>
+                        <outlet property="spinnerView" destination="cwN-0e-ErD" id="gSg-dK-eOD"/>
                         <outletCollection property="bullets" destination="w1u-jX-Oma" collectionClass="NSMutableArray" id="43W-Vs-U8S"/>
                         <outletCollection property="bullets" destination="Ixq-zv-ORG" collectionClass="NSMutableArray" id="OK4-YW-fFN"/>
                         <outletCollection property="bullets" destination="tsh-dM-C1d" collectionClass="NSMutableArray" id="dbJ-sI-jEA"/>
@@ -2249,10 +2264,28 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Co-j7-iXk">
                                                             <rect key="frame" x="20" y="16" width="305" height="50"/>
                                                         </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpV-Nv-BP4">
+                                                            <rect key="frame" x="140" y="9" width="64" height="64"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="64" id="CVr-Ee-cYA"/>
+                                                                <constraint firstAttribute="height" constant="64" id="bBq-b5-WQT"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONP-wb-AML">
+                                                            <rect key="frame" x="147" y="28.5" width="51.5" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstItem="ONP-wb-AML" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="NEj-sl-v2p"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="top" secondItem="jFx-M0-Top" secondAttribute="top" constant="16" id="T2R-8u-szU"/>
+                                                        <constraint firstItem="ONP-wb-AML" firstAttribute="centerX" secondItem="jFx-M0-Top" secondAttribute="centerX" id="ZeE-nB-Msb"/>
+                                                        <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerX" secondItem="jFx-M0-Top" secondAttribute="centerX" id="dHw-ln-u9x"/>
+                                                        <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="dMN-Qe-hEz"/>
                                                         <constraint firstAttribute="trailing" secondItem="9Co-j7-iXk" secondAttribute="trailing" constant="20" id="nWn-hi-GO0"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="leading" secondItem="jFx-M0-Top" secondAttribute="leading" constant="20" id="wi4-bN-vdr"/>
                                                         <constraint firstAttribute="bottom" secondItem="9Co-j7-iXk" secondAttribute="bottom" constant="16" id="wr2-7x-RMa"/>
@@ -2267,8 +2300,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="brokerLabel" destination="ONP-wb-AML" id="mcc-ZF-6xq"/>
                                             <outlet property="brokerLogoImageView" destination="9Co-j7-iXk" id="G7U-jj-1pR"/>
                                             <outlet property="imageContainerView" destination="jFx-M0-Top" id="pbr-So-Sxz"/>
+                                            <outlet property="spinnerContainerView" destination="qpV-Nv-BP4" id="tVQ-B8-rne"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_HEADER_CELL_ID" textLabel="9qM-5k-X4w" style="IBUITableViewCellStyleDefault" id="KOj-fH-n98">

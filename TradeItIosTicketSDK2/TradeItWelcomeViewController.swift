@@ -1,7 +1,6 @@
 import UIKit
 import MBProgressHUD
 import SafariServices
-import SDWebImage
 
 class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bullets: [UIView]!
@@ -9,9 +8,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet var bulletListView: UIView!
     @IBOutlet weak var headlineTextLabel: UILabel!
     @IBOutlet weak var featuredBrokerContainerView: UIView!
-    @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerImageView: UIImageView!
     @IBOutlet weak var getStartedButton: UIButton!
+    @IBOutlet weak var spinnerView: UIActivityIndicatorView!
+    @IBOutlet weak var featuredBrokerLabel: UILabel!
+    @IBOutlet weak var featuredBrokerFallbackLabel: UILabel!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()
@@ -58,6 +59,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
         gestureRecognizer.delegate = self
         self.featuredBrokerContainerView.addGestureRecognizer(gestureRecognizer)
+
+        self.spinnerView.startAnimating()
+        self.spinnerView.isHidden = false
+        self.featuredBrokerFallbackLabel.isHidden = true
+        self.featuredBrokerImageView.isHidden = true
     }
 
     // MARK: UIGestureRecognizerDelegate
@@ -105,8 +111,23 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     private func setFeaturedBroker(featuredBroker: TradeItBroker) {
         self.featuredBroker = featuredBroker
+        self.featuredBrokerFallbackLabel.text = featuredBroker.brokerLongName
 
-        _ = TradeItBrokerLogoService.setLogo(forBroker: featuredBroker, onImageView: self.featuredBrokerImageView, withSize: .large)
+        TradeItSDK.brokerLogoService.loadLogo(
+            forBroker: featuredBroker,
+            withSize: .large,
+            onSuccess: { image in
+                self.featuredBrokerImageView.image = image
+
+                self.spinnerView.isHidden = true
+                self.featuredBrokerFallbackLabel.isHidden = true
+                self.featuredBrokerImageView.isHidden = false
+            }, onFailure: {
+                self.spinnerView.isHidden = true
+                self.featuredBrokerFallbackLabel.isHidden = false
+                self.featuredBrokerImageView.isHidden = true
+            }
+        )
 
         self.featuredBrokerLabel.text = TradeItSDK.featuredBrokerLabelText
 

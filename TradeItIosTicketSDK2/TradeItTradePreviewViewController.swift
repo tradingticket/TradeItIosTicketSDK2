@@ -177,7 +177,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "Expiration", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
-
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: "Broker fee", value: formatCurrency(estimatedOrderCommission)))
         }

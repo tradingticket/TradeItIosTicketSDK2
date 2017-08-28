@@ -5,8 +5,8 @@ platform :ios, '8.0'
 use_frameworks!
 
 def testing_pods
-    pod 'Quick', '~> 0.10.0'
-    pod 'Nimble', '~> 5.1.1'
+  pod 'Quick', '~> 0.10.0'
+  pod 'Nimble', '~> 5.1.1'
 end
 
 def app_pods
@@ -14,7 +14,6 @@ def app_pods
   pod 'MBProgressHUD', '~> 1.0.0'
   pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'
-  pod 'SDWebImage', '~> 4.0.0'
 end
 
 target 'TradeItIosTicketSDK2Tests' do
@@ -23,7 +22,7 @@ target 'TradeItIosTicketSDK2Tests' do
 end
 
 target 'ExampleAppUITests' do
-    app_pods
+  app_pods
 end
 
 target 'TradeItIosTicketSDK2' do

@@ -78,7 +78,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             },
             onFailure:  { error, linkedBroker in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,
                     onFinished: {
@@ -119,7 +119,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             },
             onFailure:  { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self
                 )

@@ -83,14 +83,14 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             { error in
                 activityView.hide(animated: true)
                 guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
-                    return self.alertManager.showError(
-                        error,
+                    return self.alertManager.showAlert(
+                        forError: error,
                         onViewController: self
                     )
                 }
 
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self
                 )

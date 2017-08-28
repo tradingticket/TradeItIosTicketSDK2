@@ -167,7 +167,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     }, onFailure: { errorResult in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(
-                            error: errorResult,
+                            forError: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
                         )
@@ -186,7 +186,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
-                    error: errorResult,
+                    forError: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -236,7 +236,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -251,7 +251,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -266,7 +266,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )

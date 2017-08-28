@@ -67,8 +67,8 @@ import UIKit
                         if errorResult.isAccountLinkDelayedError() { // case IB linked account not available yet, don't show alert error
                             self.setPendingState(forBroker: linkedBroker.brokerName)
                         } else {
-                            self.alertManager.showError(
-                                errorResult,
+                            self.alertManager.showAlert(
+                                forError: errorResult,
                                 onViewController: self,
                                 onFinished : {
                                     if errorResult.requiresRelink() {
@@ -84,9 +84,15 @@ import UIKit
             },
             onFailure: { errorResult in
                 print("TradeItSDK ERROR: OAuth failed with code: \(String(describing: errorResult.errorCode)), message: \(String(describing: errorResult.shortMessage)) - \(String(describing: errorResult.longMessages?.first))")
-                self.alertManager.showError(errorResult, onViewController: self)
 
-                self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
+                self.alertManager.showAlert(
+                    forError: errorResult,
+                    onViewController: self
+                )
+
+                self.setFailureState(
+                    withMessage: "Could not complete broker linking. Please try again."
+                )
             }
         )
     }

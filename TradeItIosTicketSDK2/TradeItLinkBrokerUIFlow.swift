@@ -99,7 +99,10 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
                 viewController.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult, onViewController: viewController)
+                self.alertManager.showAlert(
+                    forError: errorResult,
+                    onViewController: viewController
+                )
             }
         )
     }

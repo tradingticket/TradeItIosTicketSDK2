@@ -42,7 +42,7 @@ class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, Tr
             },
             onFailure:  { error, linkedBroker in
                 self.alertManager?.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self,
                     onFinished: {
@@ -85,7 +85,7 @@ class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, Tr
             },
             onFailure:  { error in
                 self.alertManager?.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: linkedBroker,
                     onViewController: self
                 )

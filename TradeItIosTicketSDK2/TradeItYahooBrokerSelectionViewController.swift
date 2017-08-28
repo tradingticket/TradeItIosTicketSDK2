@@ -39,7 +39,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
                 self.brokerTable.reloadData()
             },
             onFailure: {
-                self.alertManager.showAlertWithMessageOnly(
+                self.alertManager.showAlert(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
                     withMessage: "Could not fetch the brokers list. Please try again later.",
@@ -68,8 +68,10 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
                 self.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
+                self.alertManager.showAlert(
+                    forError: errorResult,
+                    onViewController: self
+                )
             }
         )
     }

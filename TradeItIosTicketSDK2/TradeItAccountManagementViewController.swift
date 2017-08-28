@@ -50,7 +50,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
             },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.linkedBroker,
                     onViewController: self,
                     onFinished: {
@@ -70,7 +70,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     }
 
     func unlink() {
-        self.alertManager.showAlertWithMessageOnly(
+        self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Unlink \(self.linkedBroker.brokerName)",
             withMessage: "Are you sure you want to unlink your account and remove all the associated data?",
@@ -95,7 +95,10 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
                         }
                     },
                     onFailure: { error in
-                        self.alertManager.showError(error, onViewController: self)
+                        self.alertManager.showAlert(
+                            forError: error,
+                            onViewController: self
+                        )
                     }
                 )
             },

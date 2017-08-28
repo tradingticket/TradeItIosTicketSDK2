@@ -167,7 +167,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     onFailure: { errorResult in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(
-                            error: errorResult,
+                            forError: errorResult,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
                         )
@@ -186,7 +186,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
-                    error: errorResult,
+                    forError: errorResult,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -234,7 +234,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     onFailure: { error in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(
-                            error: error,
+                            forError: error,
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self,
                             onFinished: {
@@ -258,7 +258,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             onFailure: { error in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -273,7 +273,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
@@ -285,14 +285,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.order.linkedBrokerAccount?.getPositions(
             onSuccess: { positions in
                 self.reload(row: .account)
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -505,7 +505,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             onFailure: { error in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
-                    error: error,
+                    forError: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self,
                     onFinished: {

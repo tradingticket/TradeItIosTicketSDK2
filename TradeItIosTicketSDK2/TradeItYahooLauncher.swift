@@ -131,7 +131,7 @@ import SafariServices
             },
             onFailure: { errorResult in
                 self.alertManager.showAlertWithAction(
-                    error: errorResult,
+                    forError: errorResult,
                     withLinkedBroker: linkedBroker,
                     onViewController: viewController,
                     onFinished: {

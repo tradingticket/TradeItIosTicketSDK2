@@ -95,14 +95,14 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                         self.actionButton.enable()
 
                         guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
-                            return self.alertManager.showError(
-                                errorResult,
+                            return self.alertManager.showAlert(
+                                forError: errorResult,
                                 onViewController: self
                             )
                         }
 
                         self.alertManager.showAlertWithAction(
-                            error: errorResult,
+                            forError: errorResult,
                             withLinkedBroker: linkedBroker,
                             onViewController: self
                         )
@@ -123,14 +123,14 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                 self.actionButton.enable()
                 
                 guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
-                    return self.alertManager.showError(
-                        errorResult,
+                    return self.alertManager.showAlert(
+                        forError: errorResult,
                         onViewController: self
                     )
                 }
                 
                 self.alertManager.showAlertWithAction(
-                    error: errorResult,
+                    forError: errorResult,
                     withLinkedBroker: linkedBroker,
                     onViewController: self
                 )

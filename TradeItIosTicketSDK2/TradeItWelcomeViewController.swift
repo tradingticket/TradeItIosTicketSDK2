@@ -101,8 +101,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
                 )
             },
             onFailure: { errorResult in
-                self.alertManager.showError(
-                    errorResult,
+                self.alertManager.showAlert(
+                    forError: errorResult,
                     onViewController: self
                 )
             }

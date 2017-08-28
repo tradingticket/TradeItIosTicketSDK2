@@ -14,12 +14,12 @@ import UIKit
         super.init()
     }
 
-    public func showError(
-        _ error: TradeItErrorResult,
+    public func showAlert(
+        forError error: TradeItErrorResult,
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
     ) {
-        self.showAlertWithMessageOnly(
+        self.showAlert(
             onViewController: viewController,
             withTitle: error.title,
             withMessage: error.message,
@@ -29,13 +29,13 @@ import UIKit
     }
 
     public func showAlertWithAction(
-        error: TradeItErrorResult,
+        forError error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
     ) {
         self.showAlertWithAction(
-            error: error,
+            forError: error,
             withLinkedBroker: linkedBroker,
             onViewController: viewController,
             oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl,
@@ -45,15 +45,15 @@ import UIKit
 
 
     public func showAlertWithAction(
-        error: TradeItErrorResult,
+        forError error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
         oAuthCallbackUrl: URL,
         onFinished: @escaping () -> Void = {}
     ) {
         guard let linkedBroker = linkedBroker else {
-            return self.showError(
-                error,
+            return self.showAlert(
+                forError: error,
                 onViewController: viewController,
                 onFinished: onFinished
             )
@@ -88,7 +88,7 @@ import UIKit
 
         switch error.errorCode {
         case .brokerLinkError?:
-            self.showAlertWithMessageOnly(
+            self.showAlert(
                 onViewController: viewController,
                 withTitle: error.title,
                 withMessage: error.message,
@@ -98,7 +98,7 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         case .oauthError?:
-            self.showAlertWithMessageOnly(
+            self.showAlert(
                 onViewController: viewController,
                 withTitle: error.title,
                 withMessage: error.message,
@@ -108,7 +108,7 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         case .sessionError?:
-            self.showAlertWithMessageOnly(
+            self.showAlert(
                 onViewController: viewController,
                 withTitle: error.title,
                 withMessage: error.message,
@@ -118,8 +118,8 @@ import UIKit
                 onCancelActionTapped: onFinished
             )
         default:
-            self.showError(
-                error,
+            self.showAlert(
+                forError: error,
                 onViewController: viewController,
                 onFinished: onFinished
             )
@@ -149,7 +149,7 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlertWithMessageOnly(
+    public func showAlert(
         onViewController viewController: UIViewController,
         withTitle title: String,
         withMessage message: String,

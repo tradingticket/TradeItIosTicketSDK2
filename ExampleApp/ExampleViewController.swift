@@ -239,7 +239,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 onSelected: { selectedLinkedBrokerAccount in
                                     print("=====> Selected linked broker account: \(selectedLinkedBrokerAccount)")
 
-                                    self.alertManager.showAlertWithMessageOnly(
+                                    self.alertManager.showAlert(
                                         onViewController: self.advancedViewController,
                                         withTitle: "Selected Account!",
                                         withMessage: "Selected linked broker account: \(selectedLinkedBrokerAccount)",
@@ -420,7 +420,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func oAuthFlowCompleted(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         TradeItSDK.linkedBrokerManager.printLinkedBrokers()
-        self.alertManager.showAlertWithMessageOnly(
+        self.alertManager.showAlert(
             onViewController: self,
             withTitle: "Great Success!",
             withMessage: "Linked \(linkedBroker.brokerName) via OAuth",
@@ -530,7 +530,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             withBroker: broker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
-                self.alertManager.showAlertWithMessageOnly(
+                self.alertManager.showAlert(
                     onViewController: self.advancedViewController,
                     withTitle: "OAuthPopupUrl for Linking \(broker)",
                     withMessage: "URL: \(url)",
@@ -542,8 +542,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 )
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self.advancedViewController)
+                self.alertManager.showAlert(
+                    forError: errorResult,
+                    onViewController: self.advancedViewController
+                )
             }
         )
     }
@@ -552,7 +554,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else {
             print("=====> No linked brokers to relink!")
 
-            self.alertManager.showAlertWithMessageOnly(
+            self.alertManager.showAlert(
                 onViewController: self.advancedViewController,
                 withTitle: "ERROR",
                 withMessage: "No linked brokers to relink!",
@@ -566,7 +568,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             forLinkedBroker: linkedBroker,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://manualCompleteOAuth")!,
             onSuccess: { url in
-                self.alertManager.showAlertWithMessageOnly(
+                self.alertManager.showAlert(
                     onViewController: self.advancedViewController,
                     withTitle: "OAuthPopupUrl for Relinking \(linkedBroker.brokerName)",
                     withMessage: "URL: \(url)",
@@ -578,8 +580,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 )
             },
             onFailure: { errorResult in
-                self.alertManager.showError(
-                    errorResult,
+                self.alertManager.showAlert(
+                    forError: errorResult,
                     onViewController: self.advancedViewController
                 )
             }
@@ -596,7 +598,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     onCancelSecurityQuestion: cancelQuestion)
             },
             onFinished: {
-                self.alertManager.showAlertWithMessageOnly(
+                self.alertManager.showAlert(
                     onViewController: self.advancedViewController,
                     withTitle: "authenticateAll finished",
                     withMessage: "\(TradeItSDK.linkedBrokerManager.linkedBrokers.count) brokers authenticated.",
@@ -640,7 +642,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     private func launchAlertQueue() {
-        self.alertManager.showAlertWithMessageOnly(
+        self.alertManager.showAlert(
             onViewController: self.advancedViewController,
             withTitle: "Alert 1",
             withMessage: "Alert 1",
@@ -655,7 +657,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             securityQuestion, onViewController: self.advancedViewController, onAnswerSecurityQuestion: { _ in }, onCancelSecurityQuestion: {}
         )
 
-        self.alertManager.showAlertWithMessageOnly(
+        self.alertManager.showAlert(
             onViewController: self.advancedViewController,
             withTitle: "Alert 2",
             withMessage: "Alert 2",
@@ -683,7 +685,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
         let updatedBrokerCount = TradeItSDK.linkedBrokerManager.linkedBrokers.count
 
-        self.alertManager.showAlertWithMessageOnly(
+        self.alertManager.showAlert(
             onViewController: self.advancedViewController ?? self,
             withTitle: "Deletion complete.",
             withMessage: "Attempted to delete \(originalBrokerCount) linked brokers. \(brokersUnlinked) attempts succeeded. \(updatedBrokerCount) linked brokers remaining.",

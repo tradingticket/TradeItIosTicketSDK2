@@ -100,6 +100,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.order.expirationType = selection
             }
         case .leverage:
+            self.selectionViewController.title = "Select leverage"
             self.selectionViewController.initialSelection = self.order.leverage?.stringValue
             self.selectionViewController.selections = self.orderCapabilities?.leverageOptions?.map { $0.stringValue } ?? []
             self.selectionViewController.onSelected = { selection in
@@ -464,6 +465,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         onSelected: @escaping (String?) -> Void
     ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
+        self.selectionViewController.title = "Select order type"
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
         self.selectionViewController.onSelected = { selection in
@@ -491,6 +493,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             forBroker: broker,
             onSuccess: { symbols in
                 activityView.hide(animated: true)
+                self.selectionViewController.title = "Select currency"
                 self.selectionViewController.initialSelection = self.order.symbol
                 self.selectionViewController.selections = symbols
                 self.selectionViewController.onSelected = { selection in

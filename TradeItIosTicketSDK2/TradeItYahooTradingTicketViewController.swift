@@ -69,6 +69,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderType:
+            self.selectionViewController.title = "Select order type"
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
@@ -78,6 +79,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .expiration:
+            self.selectionViewController.title = "Select expiration type"
             self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
             self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in

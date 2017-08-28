@@ -158,6 +158,16 @@ import UIKit
         showCancelAction: Bool = false,
         onCancelActionTapped: (() -> Void)? = nil
     ) {
+        NotificationCenter.default.post(
+            name: TradeItNotification.Name.errorShown,
+            object: nil,
+            userInfo: [
+                TradeItNotification.UserInfoKey.view: viewController.classForCoder,
+                TradeItNotification.UserInfoKey.errorTitle: title,
+                TradeItNotification.UserInfoKey.errorMessage: message
+            ]
+        )
+
         let alert = TradeItAlertProvider.provideAlert(
             alertTitle: title,
             alertMessage: message,

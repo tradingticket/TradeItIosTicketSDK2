@@ -19,4 +19,16 @@ class TradeItYahooViewController: CloseableViewController {
             containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        NotificationCenter.default.post(
+            name: TradeItNotification.Name.viewDidAppear,
+            object: nil,
+            userInfo: [
+                TradeItNotification.UserInfoKey.view: self.classForCoder
+            ]
+        )
+    }
 }

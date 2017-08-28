@@ -1216,6 +1216,7 @@
 		756FAF861DB81C8400D5B112 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FA58527E1E413B2900078352 /* TradeItSelectionViewController.swift */,
 				B55933F71DB8F78400620A57 /* TradeItViewController.swift */,
 				75BAAA531DB7EEB400E5435C /* TradeItAccountManagementViewController.swift */,
 				75BAAA571DB7EEB400E5435C /* TradeItAccountSelectionViewController.swift */,
@@ -1591,7 +1592,6 @@
 			children = (
 				7570075B1F44C3F200B95044 /* TradeItYahooNavigationController.swift */,
 				FA103D471EE60B50004F0DBB /* TradeItYahooSelectionViewController.swift */,
-				FA58527E1E413B2900078352 /* TradeItSelectionViewController.swift */,
 				526E30FC1E29AA2300636640 /* TradeItYahooAccountSelectionViewController.swift */,
 				FA5046521E319B0000C98BAF /* TradeItYahooBrokerSelectionViewController.swift */,
 				FAE77F481EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift */,

@@ -86,6 +86,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
+            self.selectionViewController.title = "Select action type"
             self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
             self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
@@ -95,6 +96,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .orderType:
+            self.selectionViewController.title = "Select order type"
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
             self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in
@@ -104,6 +106,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .expiration:
+            self.selectionViewController.title = "Select expiration type"
             self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
             self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in

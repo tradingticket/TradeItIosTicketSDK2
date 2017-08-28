@@ -138,7 +138,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "Advanced options",
                         action: {
-                            if let advancedViewController = self.storyboard?.instantiateViewController(withIdentifier: "EXAMPLE_VIEW_ID") as? ExampleViewController {
+                            if let advancedViewController = self.storyboard?.instantiateViewController(withIdentifier: "EXAMPLE_VIEW_ADVANCED_ID") as? ExampleViewController {
                                 self.advancedViewController = advancedViewController
                                 advancedViewController.sections = self.advancedSections
                                 self.navigationController?.pushViewController(advancedViewController, animated: true)

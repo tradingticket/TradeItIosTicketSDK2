@@ -7,6 +7,7 @@
 
     // MARK: Notification UserInfo keys
     public static let userInfoKeyView = TradeItNotification.UserInfoKey.view
+    public static let userInfoKeyViewTitle = TradeItNotification.UserInfoKey.viewTitle
     public static let userInfoKeyAlertTitle = TradeItNotification.UserInfoKey.alertTitle
     public static let userInfoKeyAlertMessage = TradeItNotification.UserInfoKey.alertMessage
     public static let userInfoKeyError = TradeItNotification.UserInfoKey.error

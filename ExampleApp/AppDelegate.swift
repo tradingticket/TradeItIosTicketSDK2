@@ -93,17 +93,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(onErrorShownNotification),
-            name: TradeItNotification.Name.errorShown,
+            selector: #selector(onAlertShownNotification),
+            name: TradeItNotification.Name.alertShown,
             object: nil
         )
     }
 
-    func onErrorShownNotification(notification: Notification) {
+    func onAlertShownNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
-        let errorTitle = notification.userInfo?[TradeItNotification.UserInfoKey.errorTitle] ?? "NO KEY FOR ERROR CODE"
-        let errorMessage = notification.userInfo?[TradeItNotification.UserInfoKey.errorMessage] ?? "NO KEY FOR ERROR MESSAGE"
-        print("=====> ERROR SHOWN: VIEW: \(view), TITLE: \(errorTitle), MESSAGE: \(errorMessage)")
+        let alertTitle = notification.userInfo?[TradeItNotification.UserInfoKey.alertTitle] ?? "NO KEY FOR ALERT TITLE"
+        let alertMessage = notification.userInfo?[TradeItNotification.UserInfoKey.alertMessage] ?? "NO KEY FOR ALERT MESSAGE"
+        print("=====> ALERT SHOWN: VIEW: \(view), TITLE: \(alertTitle), MESSAGE: \(alertMessage)")
     }
 
     func onViewDidAppearNotification(notification: Notification) {

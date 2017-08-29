@@ -164,12 +164,12 @@ import UIKit
         onCancelActionTapped: (() -> Void)? = nil
     ) {
         NotificationCenter.default.post(
-            name: TradeItNotification.Name.errorShown,
+            name: TradeItNotification.Name.alertShown,
             object: nil,
             userInfo: [
                 TradeItNotification.UserInfoKey.view: viewController.classForCoder,
-                TradeItNotification.UserInfoKey.errorTitle: title,
-                TradeItNotification.UserInfoKey.errorMessage: message,
+                TradeItNotification.UserInfoKey.alertTitle: title,
+                TradeItNotification.UserInfoKey.alertMessage: message,
                 TradeItNotification.UserInfoKey.error: errorToReport as Any
             ]
         )

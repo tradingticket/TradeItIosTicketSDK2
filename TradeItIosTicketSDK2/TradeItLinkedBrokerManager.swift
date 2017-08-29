@@ -94,7 +94,8 @@ import PromiseKit
                     // userId already exists, this is a relink
                     let linkedLogin = self.connector.updateKeychain(
                         withLink: oAuthAccessTokenResult,
-                        withBroker: linkedBroker.brokerName
+                        withBroker: linkedBroker.brokerName,
+                        withBrokerLongName: linkedBroker.brokerLongName
                     )
                     
                     if let linkedLogin = linkedLogin {
@@ -115,7 +116,8 @@ import PromiseKit
                         onFailure(error)
                     }
                 } else {
-                    guard let broker = oAuthAccessTokenResult.broker else {
+                    guard let broker = oAuthAccessTokenResult.broker
+                        , let brokerLongName = oAuthAccessTokenResult.brokerLongName else {
                         let error = TradeItErrorResult(
                             title: "Broker linking failed",
                             message: "Service did not return a broker. Please try again."
@@ -127,7 +129,8 @@ import PromiseKit
                     
                     let linkedLogin = self.connector.saveToKeychain(
                         withLink: oAuthAccessTokenResult,
-                        withBroker: broker
+                        withBroker: broker,
+                        withBrokerLongName: brokerLongName
                     )
                     
                     if let linkedLogin = linkedLogin {
@@ -393,6 +396,7 @@ import PromiseKit
             withUserId: linkedBrokerData.userId,
             andUserToken: linkedBrokerData.userToken,
             andBroker: linkedBrokerData.broker,
+            andBrokerLongName: linkedBrokerData.brokerLongName,
             andLabel: linkedBrokerData.broker
         )
 
@@ -403,7 +407,7 @@ import PromiseKit
             }
 
             if linkedBrokerData.isLinkActivationPending {
-                linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerName) link is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
+                linkedBroker.error = TradeItErrorResult(title: "Activation In Progress", message: "Your \(linkedBroker.brokerLongName) link is being activated. Check back soon (up to two business days)", code: TradeItErrorCode.accountNotAvailable)
             }
             self.linkedBrokers.append(linkedBroker)
             onSuccess(linkedBroker)
@@ -491,6 +495,7 @@ import PromiseKit
     let userId: String
     let userToken: String
     let broker: String
+    let brokerLongName: String
     let accounts: [LinkedBrokerAccountData]
     let isLinkActivationPending: Bool
     
@@ -498,12 +503,14 @@ import PromiseKit
         userId: String,
         userToken: String,
         broker: String,
+        brokerLongName: String,
         accounts: [LinkedBrokerAccountData],
         isLinkActivationPending: Bool = false
     ) {
         self.userId = userId
         self.userToken = userToken
         self.broker = broker
+        self.brokerLongName = brokerLongName
         self.accounts = accounts
         self.isLinkActivationPending = isLinkActivationPending
     }

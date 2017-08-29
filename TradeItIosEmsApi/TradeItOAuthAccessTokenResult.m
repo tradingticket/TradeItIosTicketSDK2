@@ -3,7 +3,7 @@
 @implementation TradeItOAuthAccessTokenResult
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TradeItOAuthAccessTokenResult: %@ broker=%@ ",[super description], self.broker];
+    return [NSString stringWithFormat:@"TradeItOAuthAccessTokenResult: %@ broker=%@ brokerLongName=%@ ",[super description], self.broker, self.brokerLongName];
 }
 
 @end

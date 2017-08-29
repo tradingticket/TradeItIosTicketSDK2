@@ -87,7 +87,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         if section == 0 {
             header.textLabel?.text = "Total Value"
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerName
+            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerLongName
         }
         TradeItThemeConfigurator.configureTableHeader(header: header)
         return header
@@ -206,7 +206,7 @@ fileprivate class LinkedBrokerSectionPresenter {
             cell.detailTextLabel?.text = "Account link is being activated. Check back soon."
         } else if error.requiresRelink() {
             cell.textLabel?.text = "Relink Broker"
-            cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerName) failed. Tap to relink."
+            cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerLongName) failed. Tap to relink."
         } else if error.requiresAuthentication() {
             cell.textLabel?.text = "Authentication Failed"
             cell.detailTextLabel?.text = "Failed to create a session. Tap to retry."

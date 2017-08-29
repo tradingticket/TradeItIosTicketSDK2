@@ -42,7 +42,7 @@ class TradeItLinkedBrokerCache {
         if linkedBroker.isAccountLinkDelayedError {
             linkedBroker.error = TradeItErrorResult(
                 title: "Activation In Progress",
-                message: "Your \(linkedBroker.brokerName) link is being activated which can take up to two business days. Check back soon.",
+                message: "Your \(linkedBroker.brokerLongName) link is being activated which can take up to two business days. Check back soon.",
                 code: TradeItErrorCode.accountNotAvailable
             )
         }

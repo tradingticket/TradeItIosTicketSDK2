@@ -31,7 +31,7 @@ class TradeItRequestFactory: NSObject {
     private static var envToHostDict: [TradeitEmsEnvironments: String] = [
         TradeItEmsProductionEnv : "https://ems.tradingticket.com/",
         TradeItEmsTestEnv: "https://ems.qa.tradingticket.com/",
-        TradeItEmsLocalEnv: "https://localhost:8443/"
+        TradeItEmsLocalEnv: "http://localhost:8080/"
     ]
     
     static func buildJsonRequest(for requestObject: JSONModel, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {

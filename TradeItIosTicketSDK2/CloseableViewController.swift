@@ -15,6 +15,8 @@ class CloseableViewController: UIViewController {
         if viewControllers.count == 1 {
             self.createCloseButton()
         }
+
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
     }
 
     func createCloseButton() {

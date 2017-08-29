@@ -43,7 +43,7 @@
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     UIViewController *viewController = [self.window.rootViewController presentedViewController];
 
-    [TradeItSDK.launcher handleOAuthCallbackOnViewController:viewController oAuthCallbackUrl:url];
+    [TradeItSDK.launcher handleOAuthCallbackOnTopmostViewController:viewController oAuthCallbackUrl:url];
     return YES;
 }
 

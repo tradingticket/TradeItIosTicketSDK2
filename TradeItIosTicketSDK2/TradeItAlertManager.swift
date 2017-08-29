@@ -24,6 +24,7 @@ import UIKit
             withTitle: error.title,
             withMessage: error.message,
             withActionTitle: "OK",
+            errorToReport: error,
             onAlertActionTapped: onFinished
         )
     }
@@ -93,6 +94,7 @@ import UIKit
                 withTitle: error.title,
                 withMessage: error.message,
                 withActionTitle: "Update",
+                errorToReport: error,
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
                 onCancelActionTapped: onFinished
@@ -103,6 +105,7 @@ import UIKit
                 withTitle: error.title,
                 withMessage: error.message,
                 withActionTitle: "Update",
+                errorToReport: error,
                 onAlertActionTapped: onAlertActionRelinkAccount,
                 showCancelAction: true,
                 onCancelActionTapped: onFinished
@@ -113,6 +116,7 @@ import UIKit
                 withTitle: error.title,
                 withMessage: error.message,
                 withActionTitle: "Retry",
+                errorToReport: error,
                 onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,
                 onCancelActionTapped: onFinished
@@ -154,6 +158,7 @@ import UIKit
         withTitle title: String,
         withMessage message: String,
         withActionTitle actionTitle: String,
+        errorToReport: TradeItErrorResult? = nil,
         onAlertActionTapped: @escaping () -> Void = {},
         showCancelAction: Bool = false,
         onCancelActionTapped: (() -> Void)? = nil
@@ -164,7 +169,8 @@ import UIKit
             userInfo: [
                 TradeItNotification.UserInfoKey.view: viewController.classForCoder,
                 TradeItNotification.UserInfoKey.errorTitle: title,
-                TradeItNotification.UserInfoKey.errorMessage: message
+                TradeItNotification.UserInfoKey.errorMessage: message,
+                TradeItNotification.UserInfoKey.error: errorToReport as Any
             ]
         )
 

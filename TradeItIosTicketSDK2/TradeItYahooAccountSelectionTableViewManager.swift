@@ -196,7 +196,7 @@ fileprivate class LinkedBrokerSectionPresenter {
             cell.detailTextLabel?.text = ""
             
             if let buyingPower = presenter.getFormattedBuyingPowerLabelWithTimestamp() {
-                cell.detailTextLabel?.text = "Buying power: " + buyingPower
+                cell.detailTextLabel?.text = buyingPower
             }
             
             if self.selectedLinkedBrokerAccount?.accountNumber == linkedBrokerAccount.accountNumber

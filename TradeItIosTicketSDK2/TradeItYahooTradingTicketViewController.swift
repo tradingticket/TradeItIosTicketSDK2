@@ -415,9 +415,14 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        return "Buying power: " + NumberFormatter.formatCurrency(
-            buyingPower,
-            currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
+        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying Power"
+        return (
+            buyingPowerLabel
+                + ": "
+                + NumberFormatter.formatCurrency(
+                    buyingPower,
+                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
+                )
         )
     }
 

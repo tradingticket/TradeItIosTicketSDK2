@@ -622,27 +622,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         print("=====> Linked Broker count after clearing: \(updatedBrokerCount)")
     }
 
-    private func registerLinkObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didLink), name: TradeItSDK.didLinkNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didUnlink), name: TradeItSDK.didUnlinkNotificationName, object: nil)
-    }
-
-    func didLink(notification: Notification) {
-        print("TradeItSDK: didLink notification")
-        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
-            return print("No linkedBroker passed with notification")
-        }
-        print(linkedBroker.brokerName)
-    }
-
-    func didUnlink(notification: Notification) {
-        print("TradeItSDK: didUnlink notification")
-        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
-            return print("No linkedBroker passed with notification")
-        }
-        print(linkedBroker.brokerName)
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self, name: TradeItNotification.Name.didLink, object: nil)
         NotificationCenter.default.removeObserver(self, name: TradeItNotification.Name.didUnlink, object: nil)

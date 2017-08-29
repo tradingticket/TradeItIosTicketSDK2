@@ -88,6 +88,8 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                         self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
 
                         activityView.hide(animated: true)
+
+                        self.firePageEventNotification()
                     },
                     { errorResult in
                         activityView.hide(animated: true)
@@ -145,6 +147,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
             self.submitOrder()
         }
     }
+
     @IBAction func editOrderButtonTapped(_ sender: Any) {
         _ = navigationController?.popViewController(animated: true)
     }

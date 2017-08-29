@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIView.setAnimationsEnabled(false)
         }
 
+        self.registerNotificationCenterObservers()
+
         return true
     }
 
@@ -66,6 +68,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Private
+
+    private func registerNotificationCenterObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didLink),
+            name: TradeItNotification.Name.didLink,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didUnlink),
+            name: TradeItNotification.Name.didUnlink,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onViewDidAppearNotification),
+            name: TradeItNotification.Name.viewDidAppear,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onAlertShownNotification),
+            name: TradeItNotification.Name.alertShown,
+            object: nil
+        )
+    }
+
+    func onAlertShownNotification(notification: Notification) {
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
+        let alertTitle = notification.userInfo?[TradeItNotification.UserInfoKey.alertTitle] ?? "NO KEY FOR ALERT TITLE"
+        let alertMessage = notification.userInfo?[TradeItNotification.UserInfoKey.alertMessage] ?? "NO KEY FOR ALERT MESSAGE"
+        print("=====> ALERT SHOWN: VIEW: \(view), TITLE: \(alertTitle), MESSAGE: \(alertMessage)")
+    }
+
+    func onViewDidAppearNotification(notification: Notification) {
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
+        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle] ?? "NO KEY FOR VIEW TITLE"
+        print("=====> VIEW APPEARED: \(view), TITLE: \(viewTitle)")
+    }
+
+    func didLink(notification: Notification) {
+        print("TradeItSDK: didLink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
+
+    func didUnlink(notification: Notification) {
+        print("TradeItSDK: didUnlink notification")
+        guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
+            return print("No linkedBroker passed with notification")
+        }
+        print(linkedBroker.brokerName)
+    }
 
     private func completeManualOAuth(oAuthVerifier: String) {
         TradeItSDK.linkedBrokerManager.completeOAuth(

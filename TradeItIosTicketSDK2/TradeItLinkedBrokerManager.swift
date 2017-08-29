@@ -248,7 +248,7 @@ import PromiseKit
 
                     self.oAuthDelegate?.didUnlink?(userId: linkedBroker.linkedLogin.userId)
                     NotificationCenter.default.post(
-                        name: TradeItSDK.didUnlinkNotificationName,
+                        name: TradeItNotification.Name.didUnlink,
                         object: nil,
                         userInfo: [
                             "linkedBroker": linkedBroker

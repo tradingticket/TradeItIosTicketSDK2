@@ -8,8 +8,19 @@ import UIKit
 
     public static let launcher = TradeItLauncher()
     public static let yahooLauncher = TradeItYahooLauncher()
-    public static let didLinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidLink")
-    public static let didUnlinkNotificationName = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
+
+    @available(*, deprecated, message: "Use TradeItNotification.Name.didLink (Swift) or TradeItNotificationConstants.nameDidLink (Obj-C) instead.")
+    public static var didLinkNotificationName: NSNotification.Name {
+        get {
+            return TradeItNotification.Name.didLink
+        }
+    }
+    @available(*, deprecated, message: "Use TradeItNotification.Name.didUnlink (Swift) or TradeItNotificationConstants.nameDidUnlink (Obj-C) instead.")
+    public static var didUnlinkNotificationName: NSNotification.Name {
+        get {
+            return TradeItNotification.Name.didUnlink
+        }
+    }
 
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 

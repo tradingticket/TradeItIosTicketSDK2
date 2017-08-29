@@ -239,7 +239,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         ] as [PreviewCellData]
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: "Broker fee", value: self.formatCurrency(estimatedOrderCommission)))
+            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {

@@ -80,6 +80,14 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
                 activityView.hide(animated: true)
                 self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
             },
+            { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
             { error in
                 activityView.hide(animated: true)
                 guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {

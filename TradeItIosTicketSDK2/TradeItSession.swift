@@ -49,7 +49,7 @@ public class TradeItSession {
         })
     }
 
-    func parseAuthResponse(_ authenticationResult: TradeItResult, _ json: String?) -> TradeItResult {
+    private func parseAuthResponse(_ authenticationResult: TradeItResult, _ json: String?) -> TradeItResult {
         guard let json = json else { return TradeItErrorResult.error(withSystemMessage: "No data returned from server") }
 
         if let authenticationResult = TradeItResultTransformer.transform(targetClassType: TradeItAuthenticationResult.self, json: json) {

@@ -18,10 +18,10 @@ internal extension TradeItConnector {
         withCompletionBlock completionBlock: @escaping (TradeItResult?) -> Void
     ) {
         self.send(request) { result, json in
-            if !result.isError() { // Try to cast to desired resultClass
+            if result.isSuccessful() { // Try to cast to desired resultClass
                 completionBlock(TradeItResultTransformer.transform(targetClassType: targetClassType, json: json))
             } else {
-                completionBlock(result) // Error case
+                completionBlock(result) // Review order or Security question or Error case
             }
         }
     }
@@ -74,6 +74,10 @@ internal extension TradeItConnector {
 
         if result?.isError() == true { // Server sent an ERROR response so try create a TradeItErrorResult
             result = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json)
+        } else if result?.isSecurityQuestion() == true {
+            result = TradeItResultTransformer.transform(targetClassType: TradeItSecurityQuestionResult.self, json: json)
+        } else if result?.isReviewOrder() == true {
+            result = TradeItResultTransformer.transform(targetClassType: TradeItPreviewOrderResult.self, json: json)
         }
 
         let defaultedResult = result ?? TradeItErrorResult.error(withSystemMessage: "JSON from server does not match the TradeItResult format.")

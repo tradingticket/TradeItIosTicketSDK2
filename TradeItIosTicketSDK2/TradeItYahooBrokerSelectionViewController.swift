@@ -59,6 +59,11 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
 
+        self.firePageEventNotification(
+            klass: SFSafariViewController.classForCoder(),
+            title: "OAuth \(brokerShortName)"
+        )
+
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: brokerShortName,
             oAuthCallbackUrl: self.oAuthCallbackUrl!,

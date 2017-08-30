@@ -25,13 +25,15 @@ class TradeItYahooViewController: CloseableViewController {
         self.firePageEventNotification()
     }
 
-    func firePageEventNotification() {
+    func firePageEventNotification(klass: AnyClass? = nil, title: String? = nil) {
+        let klass: AnyClass = klass ?? self.classForCoder
+        let title = title ?? self.title ?? "NO TITLE"
         NotificationCenter.default.post(
             name: TradeItNotification.Name.viewDidAppear,
             object: nil,
             userInfo: [
-                TradeItNotification.UserInfoKey.view: self.classForCoder,
-                TradeItNotification.UserInfoKey.viewTitle: self.title ?? "NO TITLE"
+                TradeItNotification.UserInfoKey.view: klass,
+                TradeItNotification.UserInfoKey.viewTitle: title
             ]
         )
     }

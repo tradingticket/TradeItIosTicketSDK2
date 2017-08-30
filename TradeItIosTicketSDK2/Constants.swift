@@ -4,13 +4,23 @@
     public static let nameAlertShown = TradeItNotification.Name.alertShown
     public static let nameDidLink = TradeItNotification.Name.didLink
     public static let nameDidUnlink = TradeItNotification.Name.didUnlink
+    public static let nameButtonTapped = TradeItNotification.Name.buttonTapped
 
     // MARK: Notification UserInfo keys
-    public static let userInfoKeyView = TradeItNotification.UserInfoKey.view
-    public static let userInfoKeyViewTitle = TradeItNotification.UserInfoKey.viewTitle
-    public static let userInfoKeyAlertTitle = TradeItNotification.UserInfoKey.alertTitle
-    public static let userInfoKeyAlertMessage = TradeItNotification.UserInfoKey.alertMessage
-    public static let userInfoKeyError = TradeItNotification.UserInfoKey.error
+    public static let userInfoKeyView = TradeItNotification.UserInfoKey.view.rawValue
+    public static let userInfoKeyViewTitle = TradeItNotification.UserInfoKey.viewTitle.rawValue
+    public static let userInfoKeyAlertTitle = TradeItNotification.UserInfoKey.alertTitle.rawValue
+    public static let userInfoKeyAlertMessage = TradeItNotification.UserInfoKey.alertMessage.rawValue
+    public static let userInfoKeyError = TradeItNotification.UserInfoKey.error.rawValue
+    public static let userInfoKeyButton = TradeItNotification.UserInfoKey.button.rawValue
+
+    // MARK: Buttons
+    public static let buttonReviewOrder = TradeItNotification.Button.reviewOrder.rawValue
+    public static let buttonSubmitOrder = TradeItNotification.Button.submitOrder.rawValue
+    public static let buttonEditOrder = TradeItNotification.Button.editOrder.rawValue
+    public static let buttonViewPortfolio = TradeItNotification.Button.viewPortfolio.rawValue
+    public static let buttonLinkSucceeded = TradeItNotification.Button.linkSucceeded.rawValue
+    public static let buttonLinkFailed = TradeItNotification.Button.linkFailed.rawValue
 }
 
 public struct TradeItNotification {
@@ -19,13 +29,24 @@ public struct TradeItNotification {
         public static let viewDidAppear =  NSNotification.Name(rawValue: "viewDidAppear")
         public static let didLink = NSNotification.Name(rawValue: "TradeItSDKDidLink")
         public static let didUnlink = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
+        public static let buttonTapped = NSNotification.Name(rawValue: "buttonTapped")
     }
 
-    public struct UserInfoKey {
-        public static let view = "view"
-        public static let viewTitle = "viewTitle"
-        public static let alertTitle = "alertTitle"
-        public static let alertMessage = "alertMessage"
-        public static let error = "error"
+    public enum UserInfoKey: String {
+        case view
+        case viewTitle
+        case alertTitle
+        case alertMessage
+        case error
+        case button
+    }
+
+    public enum Button: String {
+        case reviewOrder
+        case submitOrder
+        case editOrder
+        case viewPortfolio
+        case linkSucceeded
+        case linkFailed
     }
 }

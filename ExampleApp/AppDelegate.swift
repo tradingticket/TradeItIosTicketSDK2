@@ -97,6 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             name: TradeItNotification.Name.alertShown,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onButtonTappedNotification),
+            name: TradeItNotification.Name.buttonTapped,
+            object: nil
+        )
     }
 
     func onAlertShownNotification(notification: Notification) {
@@ -126,6 +133,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return print("No linkedBroker passed with notification")
         }
         print(linkedBroker.brokerName)
+    }
+
+    func onButtonTappedNotification(notification: Notification) {
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
+        let button = notification.userInfo?[TradeItNotification.UserInfoKey.button] ?? "NO KEY FOR BUTTON"
+        print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
     }
 
     private func completeManualOAuth(oAuthVerifier: String) {

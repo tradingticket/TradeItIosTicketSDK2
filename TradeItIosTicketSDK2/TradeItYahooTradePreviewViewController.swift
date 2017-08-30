@@ -46,6 +46,8 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     // MARK: IBActions
 
     private func submitOrder() {
+        self.fireButtonTapEventNotification(button: .submitOrder)
+
         guard let placeOrderCallback = self.placeOrderCallback else {
             print("TradeItSDK ERROR: placeOrderCallback not set on TradeItYahooTradePreviewViewController")
             return
@@ -142,6 +144,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
         if self.placeOrderResult != nil {
+            self.fireButtonTapEventNotification(button: .viewPortfolio)
             self.delegate?.viewPortfolioTapped(onTradePreviewViewController: self, linkedBrokerAccount: self.linkedBrokerAccount)
         } else {
             self.submitOrder()
@@ -149,6 +152,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     }
 
     @IBAction func editOrderButtonTapped(_ sender: Any) {
+        self.fireButtonTapEventNotification(button: .editOrder)
         _ = navigationController?.popViewController(animated: true)
     }
 

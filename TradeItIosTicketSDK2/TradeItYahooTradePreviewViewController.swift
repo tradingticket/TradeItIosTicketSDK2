@@ -65,6 +65,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                 placeOrderCallback(
                     { placeOrderResult in
                         //Remove the editOrderButton and expand the action button
+                        self.navigationController?.viewControllers = [self]
                         self.editOrderButton.removeFromSuperview()
                         self.actionButtonWidthConstraint = NSLayoutConstraint(
                             item: self.actionButton,
@@ -79,7 +80,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                         
                         self.placeOrderResult = placeOrderResult
 
-                        self.title = "Order Confirmation"
+                        self.title = "Order confirmation"
 
                         self.statusLabel.text = "✓ Order Submitted"
                         self.statusLabel.textColor = UIColor.yahooGreenSuccessColor

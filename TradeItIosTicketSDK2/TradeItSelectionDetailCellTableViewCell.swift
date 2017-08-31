@@ -6,7 +6,7 @@ class TradeItSelectionDetailCellTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // TODO: color disclosure indicator chevron
+        self.accessoryView = DisclosureIndicator()
     }
 
     func configure(detailPrimaryText: String?, detailSecondaryText: String?) {

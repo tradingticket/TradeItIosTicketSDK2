@@ -49,24 +49,38 @@ enum TicketRow {
         return cellReuseId.rawValue
     }
 
-    func getTitle(forAction action: TradeItOrderAction) -> String {
+    func getTitle(forOrder order: TradeItFxOrder) -> String {
         switch self {
+        case .account: return "Account"
         case .symbol: return "Symbol"
+        case .bid: return "Bid"
         case .orderAction: return "Action"
-        case .estimatedCost:
-            return "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
+        case .priceType: return "Price type"
+        case .rate: return "Rate"
+        case .amount: return "Amount"
+        case .leverage: return "Leverage"
+        case .expiration: return "Time in force"
+        default:
+            return "Unknown"
+        }
+    }
+        
+    func getTitle(forOrder order: TradeItOrder) -> String {
+        switch self {
+        case .account: return "Account"
+        case .symbol: return "Symbol"
+        case .marketPrice: return "Market price"
+        case .orderAction: return "Action"
         case .quantity: return "Shares"
+        case .orderType: return "Order type"
         case .limitPrice: return "Limit"
         case .stopPrice: return "Stop"
-        case .orderType: return "Order type"
         case .expiration: return "Time in force"
-        case .marketPrice: return "Market price"
-        case .bid: return "Bid"
-        case .account: return "Account"
-        case .amount: return "Amount"
-        case .rate: return "Rate"
-        case .leverage: return "Leverage"
-        case .priceType: return "Price type"
+        case .estimatedCost:
+            let action = order.action ?? .unknown
+            return "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
+        default:
+            return "Unknown"
         }
     }
 

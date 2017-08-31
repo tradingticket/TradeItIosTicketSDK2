@@ -225,30 +225,27 @@ import PromiseKit
 
     private func updateLinkedBrokerAccounts(fromBrokerAccounts accounts: [TradeItBrokerAccount]) {
         let newLinkedBrokerAccounts = accounts.map { account -> TradeItLinkedBrokerAccount in
-            let accountEnabled = findAccount(byAccountNumber: account.accountNumber)?.isEnabled ?? true
-
-            let linkedBrokerAccount = TradeItLinkedBrokerAccount(
-                linkedBroker: self,
-                accountName: account.name,
-                accountNumber: account.accountNumber,
-                accountIndex: account.accountIndex,
-                accountBaseCurrency: account.accountBaseCurrency,
-                balance: nil,
-                fxBalance: nil,
-                positions: [],
-                orderCapabilities: account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? [],
-                isEnabled: accountEnabled
-            )
-
-            if let matchingExistingAccount = (self.accounts.filter { account in
-                return account.accountNumber == linkedBrokerAccount.accountNumber
-            }).first {
-                linkedBrokerAccount.balance = matchingExistingAccount.balance
-                linkedBrokerAccount.fxBalance = matchingExistingAccount.fxBalance
-                linkedBrokerAccount.balanceLastUpdated = matchingExistingAccount.balanceLastUpdated
+            if let existingAccount = findAccount(byAccountNumber: account.accountNumber) {
+                existingAccount.accountName = account.name
+                existingAccount.accountNumber = account.accountNumber
+                existingAccount.accountIndex = account.accountIndex
+                existingAccount.accountBaseCurrency = account.accountBaseCurrency
+                existingAccount.orderCapabilities = account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? []
+                return existingAccount
+            } else {
+                return TradeItLinkedBrokerAccount(
+                    linkedBroker: self,
+                    accountName: account.name,
+                    accountNumber: account.accountNumber,
+                    accountIndex: account.accountIndex,
+                    accountBaseCurrency: account.accountBaseCurrency,
+                    balance: nil,
+                    fxBalance: nil,
+                    positions: [],
+                    orderCapabilities: account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? [],
+                    isEnabled: true
+                )
             }
-
-            return linkedBrokerAccount
         }
 
         self.accounts = newLinkedBrokerAccounts

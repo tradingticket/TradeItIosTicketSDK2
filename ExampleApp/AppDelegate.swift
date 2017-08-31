@@ -138,7 +138,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func onButtonTappedNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
         let button = notification.userInfo?[TradeItNotification.UserInfoKey.button] ?? "NO KEY FOR BUTTON"
-        print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
+        let buttonTitle = notification.userInfo?[TradeItNotification.UserInfoKey.buttonTitle] ?? "NO KEY FOR BUTTON TITLE"
+        print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button), TITLE: \(buttonTitle)")
     }
 
     private func completeManualOAuth(oAuthVerifier: String) {

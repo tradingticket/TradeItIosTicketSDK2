@@ -95,10 +95,12 @@ class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, Tr
     }
 
     func linkedBrokerAccountWasSelected(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.fireButtonTapEventNotification(button: .linkedBrokerSelected, title: linkedBrokerAccount.linkedBroker?.brokerName)
         self.delegate?.accountSelectionViewController(self, didSelectLinkedBrokerAccount: linkedBrokerAccount)
     }
     
     func addBrokerageAccountWasSelected() {
+        self.fireButtonTapEventNotification(button: .linkBroker, title: "Add brokerage account")
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: self,
             showWelcomeScreen: false,

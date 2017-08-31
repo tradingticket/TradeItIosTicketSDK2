@@ -91,6 +91,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedBroker = self.getBroker(atIndexPath: indexPath)
+        self.fireButtonTapEventNotification(button: .linkBroker, title: selectedBroker.brokerShortName)
         self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.launchOAuth(forBroker: selectedBroker)
     }

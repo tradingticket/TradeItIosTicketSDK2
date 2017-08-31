@@ -38,13 +38,14 @@ class TradeItYahooViewController: CloseableViewController {
         )
     }
 
-    func fireButtonTapEventNotification(button: TradeItNotification.Button) {
+    func fireButtonTapEventNotification(button: TradeItNotification.Button, title: String?) {
         NotificationCenter.default.post(
             name: TradeItNotification.Name.buttonTapped,
             object: nil,
             userInfo: [
                 TradeItNotification.UserInfoKey.view: self.classForCoder,
-                TradeItNotification.UserInfoKey.button: button
+                TradeItNotification.UserInfoKey.button: button,
+                TradeItNotification.UserInfoKey.buttonTitle: title ?? ""
             ]
         )
     }

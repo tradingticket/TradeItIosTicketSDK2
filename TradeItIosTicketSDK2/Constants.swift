@@ -13,6 +13,7 @@
     public static let userInfoKeyAlertMessage = TradeItNotification.UserInfoKey.alertMessage.rawValue
     public static let userInfoKeyError = TradeItNotification.UserInfoKey.error.rawValue
     public static let userInfoKeyButton = TradeItNotification.UserInfoKey.button.rawValue
+    public static let userInfoKeyButtonTitle = TradeItNotification.UserInfoKey.buttonTitle.rawValue
 
     // MARK: Buttons
     public static let buttonReviewOrder = TradeItNotification.Button.reviewOrder.rawValue
@@ -39,6 +40,7 @@ public struct TradeItNotification {
         case alertMessage
         case error
         case button
+        case buttonTitle
     }
 
     public enum Button: String {
@@ -48,5 +50,7 @@ public struct TradeItNotification {
         case viewPortfolio
         case linkSucceeded
         case linkFailed
+        case linkBroker
+        case linkedBrokerSelected
     }
 }

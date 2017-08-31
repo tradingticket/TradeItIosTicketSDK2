@@ -26,7 +26,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
         precondition(self.linkedBrokerAccount != nil, "TradeItSDK ERROR: TradeItYahooTradingPreviewViewController loaded without setting linkedBrokerAccount.")
 
-        self.title = "Preview order"
+        self.title = "Review order"
         self.statusLabel.text = "Order details"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)

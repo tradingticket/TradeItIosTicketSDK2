@@ -1734,10 +1734,10 @@
             </objects>
             <point key="canvasLocation" x="2520.8000000000002" y="-1194.1529235382309"/>
         </scene>
-        <!--Broker linked-->
+        <!--Linking-->
         <scene sceneID="ulc-0P-huM">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_OAUTH_COMPLETION_VIEW" title="Broker linked" id="skT-vy-edq" customClass="TradeItOAuthCompletionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_OAUTH_COMPLETION_VIEW" title="Linking" id="skT-vy-edq" customClass="TradeItOAuthCompletionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Ij-CX-sLM"/>
                         <viewControllerLayoutGuide type="bottom" id="cdg-3S-hJI"/>
@@ -1807,7 +1807,7 @@
                             <constraint firstItem="NYB-Go-5fg" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="zYZ-Ov-XMX"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Broker linked" id="LsB-mb-k4V"/>
+                    <navigationItem key="navigationItem" title="Linking" id="LsB-mb-k4V"/>
                     <connections>
                         <outlet property="actionButton" destination="GBn-WM-6Tc" id="h2W-R1-gSF"/>
                         <outlet property="activityIndicator" destination="lwx-MP-KaO" id="XUK-MU-t27"/>

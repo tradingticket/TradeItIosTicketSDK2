@@ -1,4 +1,4 @@
-@objc public class TradeItBalanceService: NSObject {
+internal class TradeItBalanceService: NSObject {
     private let session: TradeItSession
 
     init(session: TradeItSession) {

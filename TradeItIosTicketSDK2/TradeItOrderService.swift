@@ -6,7 +6,7 @@ internal class TradeItOrderService: NSObject {
         self.session = session
     }
 
-    public func getAllOrderStatus(
+    func getAllOrderStatus(
         _ data: TradeItAllOrderStatusRequest,
         onSuccess: @escaping (TradeItAllOrderStatusResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void

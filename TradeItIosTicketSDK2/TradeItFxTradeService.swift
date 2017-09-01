@@ -1,4 +1,4 @@
-@objc public class TradeItFxTradeService: NSObject {
+internal class TradeItFxTradeService: NSObject {
     private let session: TradeItSession
 
     init(session: TradeItSession) {

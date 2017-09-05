@@ -19,6 +19,8 @@
 // The buying power of the account
 @property (nullable, copy) NSNumber<Optional> *buyingPower;
 
+@property (nullable, copy) NSString<Optional> *buyingPowerLabel;
+
 // The daily return of the account
 @property (nullable, copy) NSNumber<Optional> *dayAbsoluteReturn;
 

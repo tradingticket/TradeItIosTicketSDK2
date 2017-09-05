@@ -21,6 +21,17 @@
     public static let buttonViewPortfolio = TradeItNotification.Button.viewPortfolio.rawValue
     public static let buttonLinkSucceeded = TradeItNotification.Button.linkSucceeded.rawValue
     public static let buttonLinkFailed = TradeItNotification.Button.linkFailed.rawValue
+
+    // MARK: Views
+    public static let viewBrokerOAuth = TradeItNotification.View.brokerOAuth.rawValue
+    public static let viewLinkCompletion = TradeItNotification.View.linkCompletion.rawValue
+    public static let viewTrading = TradeItNotification.View.trading.rawValue
+    public static let viewPreview = TradeItNotification.View.preview.rawValue
+    public static let viewSubmitted = TradeItNotification.View.submitted.rawValue
+    public static let viewSelectOrderType = TradeItNotification.View.selectOrderType.rawValue
+    public static let viewSelectExpirationType = TradeItNotification.View.selectExpirationType.rawValue
+    public static let viewSelectAccount = TradeItNotification.View.selectAccount.rawValue
+    public static let viewSelectBroker = TradeItNotification.View.selectBroker.rawValue
 }
 
 public struct TradeItNotification {
@@ -48,5 +59,17 @@ public struct TradeItNotification {
         case viewPortfolio
         case linkSucceeded
         case linkFailed
+    }
+
+    public enum View: String {
+        case brokerOAuth
+        case linkCompletion
+        case trading
+        case preview
+        case submitted
+        case selectOrderType
+        case selectExpirationType
+        case selectAccount
+        case selectBroker
     }
 }

@@ -38,6 +38,12 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         updatePlaceOrderButtonStatus()
     }
 
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .preview, title: self.title)
+    }
+
     private func updateOrderDetailsTable(withWarningsAndAcknowledgment: Bool = true) {
         self.previewCellData = self.generatePreviewCellData(withWarningsAndAcknowledgment: withWarningsAndAcknowledgment)
         self.orderDetailsTable.reloadData()
@@ -92,7 +98,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
                         activityView.hide(animated: true)
 
-                        self.firePageEventNotification()
+                        self.fireViewEventNotification(view: .submitted)
                     },
                     { errorResult in
                         activityView.hide(animated: true)

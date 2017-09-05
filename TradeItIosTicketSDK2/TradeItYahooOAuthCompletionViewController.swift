@@ -23,7 +23,7 @@ import UIKit
 
     private var linkState: LinkState = .linking
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         precondition(self.oAuthCallbackUrlParser != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set before loading TradeItOAuthCompletionViewController")
@@ -89,6 +89,11 @@ import UIKit
                 self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
             }
         )
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .linkCompletion, title: self.title)
     }
 
     // MARK: Private

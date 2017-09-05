@@ -24,6 +24,12 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
         self.populateBrokers()
     }
 
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .selectBroker, title: self.title)
+    }
+
     // MARK: Private
 
     private func populateBrokers() {
@@ -59,10 +65,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
 
-        self.firePageEventNotification(
-            klass: SFSafariViewController.classForCoder(),
-            title: "OAuth \(brokerShortName)"
-        )
+        self.fireViewEventNotification(view: .brokerOAuth, title: "OAuth \(brokerShortName)")
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: brokerShortName,

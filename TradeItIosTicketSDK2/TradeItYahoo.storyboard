@@ -92,7 +92,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tha-iP-jo7">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75" id="Tha-iP-jo7">
                                                     <rect key="frame" x="15" y="30.5" width="44" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -150,8 +150,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="NeA-Wg-rlX"/>
-                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="Mb0-jz-TLF"/>
+                                    <action selector="previewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="Fyk-GE-chv"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EVW-mn-7L1" customClass="TradeItDismissableKeyboardTableView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
@@ -337,7 +336,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="reviewOrderButton" destination="ILU-Xz-Odq" id="8wz-eD-4NS"/>
+                        <outlet property="previewOrderButton" destination="ILU-Xz-Odq" id="AqD-7B-0Bt"/>
                         <outlet property="tableView" destination="EVW-mn-7L1" id="IBA-x5-Med"/>
                         <outlet property="tableViewBottomConstraint" destination="ZEc-tA-4Nx" id="PIZ-wU-OIz"/>
                     </connections>
@@ -778,10 +777,10 @@
             </objects>
             <point key="canvasLocation" x="285.60000000000002" y="-500.59970014992507"/>
         </scene>
-        <!--Broker linked-->
+        <!--Linking-->
         <scene sceneID="de4-Vp-dKK">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_YAHOO_OAUTH_COMPLETION_VIEW" title="Broker linked" id="RYJ-Wj-vSz" customClass="TradeItYahooOAuthCompletionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_YAHOO_OAUTH_COMPLETION_VIEW" title="Linking" id="RYJ-Wj-vSz" customClass="TradeItYahooOAuthCompletionViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hkx-9Y-dEt"/>
                         <viewControllerLayoutGuide type="bottom" id="B1L-en-oln"/>
@@ -841,7 +840,7 @@
                             <constraint firstItem="Kdx-Mj-pun" firstAttribute="top" secondItem="MYG-bO-NAL" secondAttribute="bottom" constant="20" id="yd2-Uu-YYW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Broker linked" id="KH4-0b-yDp"/>
+                    <navigationItem key="navigationItem" title="Linking" id="KH4-0b-yDp"/>
                     <connections>
                         <outlet property="actionButton" destination="gQ4-Vs-NfX" id="AM2-9C-O3F"/>
                         <outlet property="activityIndicator" destination="ZI3-FC-XTV" id="M7p-N8-DFK"/>

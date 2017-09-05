@@ -60,7 +60,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
         self.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Placing Order"
+                activityView.label.text = "Placing order"
 
                 placeOrderCallback(
                     { placeOrderResult in
@@ -82,7 +82,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
                         self.title = "Order confirmation"
 
-                        self.statusLabel.text = "✓ Order Submitted"
+                        self.statusLabel.text = "✓ Order submitted"
                         self.statusLabel.textColor = UIColor.yahooGreenSuccessColor
 
                         self.actionButton.enable()

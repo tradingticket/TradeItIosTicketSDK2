@@ -15,7 +15,7 @@
     public static let userInfoKeyButton = TradeItNotification.UserInfoKey.button.rawValue
 
     // MARK: Buttons
-    public static let buttonReviewOrder = TradeItNotification.Button.reviewOrder.rawValue
+    public static let buttonPreviewOrder = TradeItNotification.Button.previewOrder.rawValue
     public static let buttonSubmitOrder = TradeItNotification.Button.submitOrder.rawValue
     public static let buttonEditOrder = TradeItNotification.Button.editOrder.rawValue
     public static let buttonViewPortfolio = TradeItNotification.Button.viewPortfolio.rawValue
@@ -42,7 +42,7 @@ public struct TradeItNotification {
     }
 
     public enum Button: String {
-        case reviewOrder
+        case previewOrder
         case submitOrder
         case editOrder
         case viewPortfolio

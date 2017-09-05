@@ -459,7 +459,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         if (value == 0.0) {
             return "Unavailable"
         } else {
-            return NumberFormatter.formatCurrency(value)
+            return NumberFormatter.formatCurrency(value, currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
         }
     }
 

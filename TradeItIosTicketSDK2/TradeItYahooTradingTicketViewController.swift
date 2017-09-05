@@ -3,7 +3,7 @@ import MBProgressHUD
 
 class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
-    @IBOutlet weak var reviewOrderButton: UIButton!
+    @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
     public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
@@ -122,8 +122,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     // MARK: IBActions
 
-    @IBAction func reviewOrderButtonTapped(_ sender: UIButton) {
-        self.fireButtonTapEventNotification(button: .reviewOrder)
+    @IBAction func previewOrderButtonTapped(_ sender: UIButton) {
+        self.fireButtonTapEventNotification(button: .previewOrder)
 
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
             else { return }
@@ -133,7 +133,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Reviewing Order"
+                activityView.label.text = "Reviewing order"
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
@@ -267,9 +267,9 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     private func setReviewButtonEnablement() {
         if self.order.isValid() {
-            self.reviewOrderButton.enable()
+            self.previewOrderButton.enable()
         } else {
-            self.reviewOrderButton.disable()
+            self.previewOrderButton.disable()
         }
     }
 
@@ -415,7 +415,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        return "Buying Power: " + NumberFormatter.formatCurrency(
+        return "Buying power: " + NumberFormatter.formatCurrency(
             buyingPower,
             currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
         )
@@ -429,7 +429,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         }.first
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
-        return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
+        return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)
     }
 
     enum TicketRow {
@@ -473,7 +473,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             switch self {
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let title = "Estimated \(sellActions.contains(order.action) ? "Proceeds" : "Cost")"
+                let title = "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
                 return title
             case .quantity:
                 return "Shares"
@@ -482,7 +482,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .stopPrice:
                 return "Stop"
             case .orderType:
-                return "Order Type"
+                return "Order type"
             case .expiration:
                 return "Time in force"
             case .marketPrice:

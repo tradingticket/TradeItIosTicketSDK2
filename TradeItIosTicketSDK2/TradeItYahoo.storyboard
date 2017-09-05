@@ -150,8 +150,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="reviewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="NeA-Wg-rlX"/>
-                                    <action selector="viewPortfolioButtonTapped:" destination="RYJ-Wj-vSz" eventType="touchUpInside" id="Mb0-jz-TLF"/>
+                                    <action selector="previewOrderButtonTapped:" destination="jK8-b4-d6g" eventType="touchUpInside" id="Fyk-GE-chv"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" bounces="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EVW-mn-7L1" customClass="TradeItDismissableKeyboardTableView" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
@@ -337,7 +336,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="reviewOrderButton" destination="ILU-Xz-Odq" id="8wz-eD-4NS"/>
+                        <outlet property="previewOrderButton" destination="ILU-Xz-Odq" id="AqD-7B-0Bt"/>
                         <outlet property="tableView" destination="EVW-mn-7L1" id="IBA-x5-Med"/>
                         <outlet property="tableViewBottomConstraint" destination="ZEc-tA-4Nx" id="PIZ-wU-OIz"/>
                     </connections>

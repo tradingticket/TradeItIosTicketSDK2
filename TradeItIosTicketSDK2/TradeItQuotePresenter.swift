@@ -5,7 +5,7 @@ class TradeItQuotePresenter: NSObject {
     let minimumFractionDigits: Int
     let maximumFractionDigits: Int
 
-    init(_ currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE, minimumFractionDigits: Int = 2, maximumFractionDigits: Int = 2) {
+    init(_ currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE, minimumFractionDigits: Int = 2, maximumFractionDigits: Int = 3) {
         self.currencyCode = currencyCode ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
         self.minimumFractionDigits = minimumFractionDigits
         self.maximumFractionDigits = maximumFractionDigits
@@ -25,7 +25,12 @@ class TradeItQuotePresenter: NSObject {
         var result = ""
 
         if let change = change {
-            result = NumberFormatter.formatCurrency(change, currencyCode: self.currencyCode)
+            result = NumberFormatter.formatCurrency(
+                change,
+                minimumFractionDigits: minimumFractionDigits,
+                maximumFractionDigits: maximumFractionDigits,
+                currencyCode: self.currencyCode
+            )
         }
 
         if let percentChange = percentChange {

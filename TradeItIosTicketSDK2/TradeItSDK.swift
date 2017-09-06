@@ -1,9 +1,21 @@
 import UIKit
 
 @objc public class TradeItSDK: NSObject {
+    // MARK: Settable properties
+
+    public static var theme: TradeItTheme = TradeItTheme.light()
+    public static var isPortfolioEnabled = true
+    public static var isAdServiceEnabled = false
+    public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
+    public static var adService: AdService = DefaultAdService()
+    public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
+    public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
+    public static var activityViewFactory: ActivityIndicatorFactory = DefaultActivityIndicatorFactory()
+
 
     // MARK: Non-settable properties
 
+    internal static var brokerLogoService = TradeItBrokerLogoService()
     private static var configured = false
 
     public static let launcher = TradeItLauncher()
@@ -63,17 +75,6 @@ import UIKit
             return self._brokerCenterService!
         }
     }
-
-    // MARK: Settable properties
-
-    public static var theme: TradeItTheme = TradeItTheme.light()
-    public static var isPortfolioEnabled = true
-    public static var isAdServiceEnabled = false
-    public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
-    public static var adService: AdService = DefaultAdService()
-    public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
-    public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
-    internal static var brokerLogoService = TradeItBrokerLogoService()
 
     internal static var _marketDataService: MarketDataService?
     public static var marketDataService: MarketDataService {

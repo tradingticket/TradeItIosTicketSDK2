@@ -4,7 +4,7 @@ import UIKit
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicatorContainer: UIView!
 
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var linkedBroker: TradeItLinkedBroker?
@@ -104,8 +104,11 @@ import UIKit
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.disable()
 
-        self.activityIndicator.startAnimating()
-        self.activityIndicator.hidesWhenStopped = true
+        let frame = CGRect(origin: CGPoint(x: 0, y: 0), size: self.activityIndicatorContainer.frame.size)
+        let activityIndicator = TradeItSDK.activityViewFactory.build(frame: frame)
+        self.activityIndicatorContainer.addSubview(activityIndicator)
+
+        self.activityIndicatorContainer.isHidden = false
 
         self.statusLabel.text = "Linking..."
         self.detailsLabel.text = ""
@@ -117,7 +120,7 @@ import UIKit
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.enable()
 
-        self.activityIndicator.stopAnimating()
+        self.activityIndicatorContainer.isHidden = true
 
         self.statusLabel.text = "Success!"
         self.detailsLabel.text = "You have linked your \(broker) account. You can now trade from your account or view your portfolio to see up to date performance and relevant news."
@@ -129,7 +132,7 @@ import UIKit
         self.actionButton.setTitle(actionButtonTitleTextContinue, for: .normal)
         self.actionButton.enable()
 
-        self.activityIndicator.stopAnimating()
+        self.activityIndicatorContainer.isHidden = true
 
         self.statusLabel.text = "Success!"
         self.detailsLabel.text = "You have linked your \(broker) account."
@@ -139,7 +142,8 @@ import UIKit
         self.linkState = .failed
         self.actionButton.setTitle(actionButtonTitleTextTryAgain, for: .normal)
         self.actionButton.enable()
-        self.activityIndicator.stopAnimating()
+
+        self.activityIndicatorContainer.isHidden = true
 
         self.statusLabel.text = "Oops."
         self.detailsLabel.text = message

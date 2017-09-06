@@ -140,7 +140,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         linkedBroker.authenticateIfNeeded(
             onSuccess: {
-                activityView.label.text = "Reviewing order"
+                activityView.label.text = "Previewing order"
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)

@@ -95,7 +95,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
             )
         }
 
-        linkedBrokerAccount.tradeService.previewTrade(
+        linkedBrokerAccount.tradeService?.previewTrade(
             previewPresenter.generateRequest(),
             onSuccess: { result in
                 onSuccess(
@@ -154,10 +154,10 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 
-    private func generatePlaceOrderCallback(tradeService: TradeItTradeService, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
+    private func generatePlaceOrderCallback(tradeService: TradeItTradeService?, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onFailure in
             let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
-            tradeService.placeTrade(placeOrderRequest, onSuccess: onSuccess, onFailure: onFailure)
+            tradeService?.placeTrade(placeOrderRequest, onSuccess: onSuccess, onFailure: onFailure)
         }
     }
 }

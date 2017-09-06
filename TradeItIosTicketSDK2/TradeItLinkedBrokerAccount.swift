@@ -11,11 +11,8 @@
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
+    public var orders: [TradeItOrderStatusDetails] = []
     public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
-    var tradeItBalanceService: TradeItBalanceService
-    var tradeItPositionService: TradeItPositionService
-    var tradeService: TradeItTradeService
-    var fxTradeService: TradeItFxTradeService
 
     private weak var _linkedBroker: TradeItLinkedBroker?
     internal(set) public var linkedBroker: TradeItLinkedBroker? {
@@ -41,6 +38,26 @@
             }
         }
     }
+    
+    private var balanceService: TradeItBalanceService? {
+        return linkedBroker?.balanceService
+    }
+    
+    private var positionService: TradeItPositionService? {
+        return linkedBroker?.positionService
+    }
+    
+    internal var tradeService: TradeItTradeService? {
+        return linkedBroker?.tradeService
+    }
+    
+    internal var fxTradeService: TradeItFxTradeService? {
+        return linkedBroker?.fxTradeService
+    }
+    
+    private var orderService: TradeItOrderService? {
+        return linkedBroker?.orderService
+    }
 
     internal init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
@@ -65,11 +82,6 @@
         self.positions = positions
         self.orderCapabilities = orderCapabilities
         self._enabled = isEnabled
-        // TODO: These services should be a reference to one held on the parent linkedBroker instead of duplicated for every account...
-        self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
-        self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
-        self.tradeService = TradeItTradeService(session: linkedBroker.session)
-        self.fxTradeService = TradeItFxTradeService(session: linkedBroker.session)
     }
 
     internal convenience init(linkedBroker: TradeItLinkedBroker, accountData: LinkedBrokerAccountData) {
@@ -89,7 +101,7 @@
                                    onSuccess: @escaping (TradeItAccountOverview?) -> Void,
                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
-        self.tradeItBalanceService.getAccountOverview(request, onSuccess: { result in
+        self.balanceService?.getAccountOverview(request, onSuccess: { result in
             self.balanceLastUpdated = Date()
             self.balance = result.accountOverview
             self.fxBalance = result.fxAccountOverview
@@ -109,7 +121,7 @@
     public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
 
-        self.tradeItPositionService.getPositions(request, onSuccess: { result in
+        self.positionService?.getPositions(request, onSuccess: { result in
             guard let equityPositions = result.positions as? [TradeItPosition] else {
                 return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
@@ -133,6 +145,19 @@
         })
     }
 
+    public func getAllOrderStatus(onSuccess: @escaping ([TradeItOrderStatusDetails]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        let request = TradeItAllOrderStatusRequest()
+        request.accountNumber = self.accountNumber
+        
+        self.orderService?.getAllOrderStatus(request, onSuccess: { result in
+            self.orders = result.orderStatusDetailsList ?? []
+            onSuccess(self.orders)
+        }, onFailure: { error in
+            self.setError(error)
+            onFailure(error)
+        })
+    }
+    
     public func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName

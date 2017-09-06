@@ -47,7 +47,7 @@
             )
         }
 
-        linkedBrokerAccount.fxTradeService.place(
+        linkedBrokerAccount.fxTradeService?.place(
             order: placeOrderPresenter.generateRequest(),
             onSuccess: onSuccess,
             onFailure: onFailure

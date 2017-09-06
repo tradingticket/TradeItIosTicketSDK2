@@ -77,6 +77,14 @@
 #import "TradeItPosition.h"
 #import "TradeItFxPosition.h"
 
+// Order status
+#import "TradeItAllOrderStatusRequest.h"
+#import "TradeItAllOrderStatusResult.h"
+#import "TradeItOrderStatusDetails.h"
+#import "TradeItOrderLeg.h"
+#import "TradeItOrderFill.h"
+#import "TradeItPriceInfo.h"
+
 #import "TradeItBrokerListResult.h"
 
 // EMS API Util classes

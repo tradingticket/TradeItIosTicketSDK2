@@ -218,7 +218,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.label.text = "Fetching order capabilities"
-                self.order.linkedBrokerAccount?.fxTradeService.getOrderCapabilities(
+                self.order.linkedBrokerAccount?.fxTradeService?.getOrderCapabilities(
                     linkedBrokerAccount: linkedBrokerAccount,
                     symbol: symbol,
                     onSuccess: { orderCapabilities in

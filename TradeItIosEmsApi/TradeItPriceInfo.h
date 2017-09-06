@@ -2,12 +2,12 @@
 
 @interface TradeItPriceInfo : JSONModel
 
-@property (nonatomic, copy) NSString<Optional> * _Nullable type;
+@property (nonatomic, copy, nullable) NSString<Optional> * type;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable limitPrice;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * limitPrice;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable stopPrice;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * stopPrice;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable trailPrice;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * trailPrice;
 
 @end

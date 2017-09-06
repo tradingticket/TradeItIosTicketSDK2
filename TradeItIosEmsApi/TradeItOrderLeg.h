@@ -14,20 +14,20 @@
 
 @interface TradeItOrderLeg : JSONModel
 
-@property (nonatomic, copy) NSString<Optional> * _Nullable symbol;
+@property (nonatomic, copy, nullable) NSString<Optional> * symbol;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable orderedQuantity;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * orderedQuantity;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable filledQuantity;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * filledQuantity;
 
-@property (nonatomic, copy) NSString<Optional> * _Nullable action;
+@property (nonatomic, copy, nullable) NSString<Optional> * action;
 
-@property (nonatomic, copy) TradeItPriceInfo<Optional> * _Nullable priceInfo;
+@property (nonatomic, copy, nullable) TradeItPriceInfo<Optional> * priceInfo;
 
-@property (nonatomic, copy) NSArray<TradeItOrderFill*> <Optional, TradeItOrderFill> * _Nullable fills;
+@property (nonatomic, copy, nullable) NSArray<TradeItOrderFill*> <Optional, TradeItOrderFill> * fills;
 
-@property (nonatomic, copy) NSArray<TradeItOrderStatusDetails*> <Optional, TradeItOrderStatusDetails>  * _Nullable groupOrder;
+@property (nonatomic, copy, nullable) NSArray<TradeItOrderStatusDetails*> <Optional, TradeItOrderStatusDetails>  * groupOrder;
 
-@property (nonatomic, copy) NSString<Optional> * _Nullable groupOrderId;
+@property (nonatomic, copy, nullable) NSString<Optional> * groupOrderId;
 
 @end

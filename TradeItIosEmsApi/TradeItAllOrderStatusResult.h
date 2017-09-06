@@ -3,6 +3,6 @@
 
 @interface TradeItAllOrderStatusResult : TradeItResult
 
-@property (nonatomic, copy) NSArray<TradeItOrderStatusDetails*> <Optional, TradeItOrderStatusDetails>  * _Nullable orderStatusDetailsList;
+@property (nonatomic, copy, nullable) NSArray<TradeItOrderStatusDetails*> <Optional, TradeItOrderStatusDetails>  * orderStatusDetailsList;
 
 @end

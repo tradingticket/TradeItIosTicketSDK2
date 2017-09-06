@@ -3,15 +3,15 @@
 
 @interface TradeItOrderStatusDetails : JSONModel
 
-@property (nonatomic, copy) NSString<Optional>  * _Nullable orderNumber;
+@property (nonatomic, copy, nullable) NSString<Optional>  * orderNumber;
 
-@property (nonatomic, copy) NSString<Optional>  * _Nullable orderExpiration;
+@property (nonatomic, copy, nullable) NSString<Optional>  * orderExpiration;
 
-@property (nonatomic, copy) NSString<Optional>  * _Nullable orderType;
+@property (nonatomic, copy, nullable) NSString<Optional>  * orderType;
 
-@property (nonatomic, copy) NSString<Optional>  * _Nullable orderStatus;
+@property (nonatomic, copy, nullable) NSString<Optional>  * orderStatus;
 
-@property (nonatomic, copy) NSArray<TradeItOrderLeg*> <Optional, TradeItOrderLeg> * _Nullable orderLegs;
+@property (nonatomic, copy, nullable) NSArray<TradeItOrderLeg*> <Optional, TradeItOrderLeg> * orderLegs;
 
 
 @end

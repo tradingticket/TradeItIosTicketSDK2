@@ -6,10 +6,10 @@
 
 @interface TradeItOrderFill : JSONModel
 
-@property (nonatomic, copy) NSString<Optional> * _Nullable timestamp;
+@property (nonatomic, copy, nullable) NSString<Optional> * timestamp;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable price;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * price;
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nullable quantity;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * quantity;
 
 @end

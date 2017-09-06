@@ -151,10 +151,10 @@ protocol OAuthCompletionListener {
                     forKey: OAuthCallbackQueryParamKeys.tradeItOrderSymbol.rawValue,
                     value: order.symbol)
 
-                if let action = order.action, action != .unknown {
+                if order.action != .unknown {
                     urlComponents.addOrUpdateQueryStringValue(
                         forKey: OAuthCallbackQueryParamKeys.tradeItOrderAction.rawValue,
-                        value: action.rawValue)
+                        value: order.action.rawValue)
                 }
 
                 oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl

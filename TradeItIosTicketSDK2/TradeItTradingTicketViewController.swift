@@ -89,12 +89,12 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action?.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
             }
         case .orderType:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type?.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
                 let orderExpirationValue = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
@@ -247,7 +247,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action?.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -296,8 +296,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action?.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type?.rawValue))
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration?.rawValue))
     }
 
@@ -379,7 +379,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
-            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action?.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.quantity,
@@ -431,7 +431,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type?.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
             cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration?.rawValue)
         case .account:

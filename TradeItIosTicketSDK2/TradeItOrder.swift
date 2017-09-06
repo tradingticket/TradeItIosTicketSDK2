@@ -6,8 +6,8 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
 @objc public class TradeItOrder: NSObject {
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
-    public var action: TradeItOrderAction? = TradeItOrderActionPresenter.DEFAULT
-    public var type: TradeItOrderPriceType? = TradeItOrderPriceTypePresenter.DEFAULT {
+    public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT {
         didSet {
             if !requiresExpiration() {
                 expiration = TradeItOrderExpirationPresenter.DEFAULT
@@ -26,7 +26,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     public var stopPrice: NSDecimalNumber?
     public var quoteLastPrice: NSDecimalNumber?
 
-    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action?.rawValue))], type [\(String(describing:self.type?.rawValue))], expiration [\(String(describing: self.expiration?.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
+    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration?.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
 
     public override init() {
         super.init()
@@ -46,23 +46,23 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     public func requiresLimitPrice() -> Bool {
-        let type = self.type ?? .unknown
+        let type = self.type
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
     public func requiresStopPrice() -> Bool {
-        let type = self.type ?? .unknown
+        let type = self.type
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
     public func requiresExpiration() -> Bool {
-        let type = self.type ?? .unknown
+        let type = self.type
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
     public func estimatedChange() -> NSDecimalNumber? {
         var optionalPrice: NSDecimalNumber?
-        let type = self.type ?? .unknown
+        let type = self.type
         switch type {
         case .market: optionalPrice = quoteLastPrice
         case .limit: optionalPrice = limitPrice
@@ -131,7 +131,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     private func validateOrderPriceType() -> Bool {
-        let type = self.type ?? .unknown
+        let type = self.type
         switch type {
         case .market: return true
         case .limit: return validateLimit()

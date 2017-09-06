@@ -85,6 +85,21 @@ public typealias RawValue = String
     case sellShort
     case unknown
     
+    public func toString() -> String {
+        switch self {
+        case .buy:
+            return "buy"
+        case .sell:
+            return "sell"
+        case .buyToCover:
+            return "buyToCover"
+        case .sellShort:
+            return "sellShort"
+        default:
+            return "unknown"
+        }
+    }
+    
     public var rawValue: RawValue {
         switch self {
         case .buy:

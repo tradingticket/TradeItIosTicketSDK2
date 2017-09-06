@@ -86,7 +86,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type?.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
             }
 
@@ -234,7 +234,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action?.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -283,8 +283,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     }
     
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action?.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type?.rawValue))
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration?.rawValue))
     }
 
@@ -416,7 +416,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type?.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
             cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration?.rawValue)
         case .account:
@@ -515,7 +515,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .orderAction: return "Action"
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let action = order.action
+                let action = order.action 
                 let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
                 return title
             case .quantity: return "Shares"

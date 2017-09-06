@@ -20,19 +20,13 @@ class TradeItYahooViewController: CloseableViewController {
         ])
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.firePageEventNotification()
-    }
-
-    func firePageEventNotification(klass: AnyClass? = nil, title: String? = nil) {
-        let klass: AnyClass = klass ?? self.classForCoder
-        let title = title ?? self.title ?? "NO TITLE"
+    func fireViewEventNotification(view: TradeItNotification.View, title: String? = nil) {
+        let title = title ?? "NO TITLE"
         NotificationCenter.default.post(
             name: TradeItNotification.Name.viewDidAppear,
             object: nil,
             userInfo: [
-                TradeItNotification.UserInfoKey.view: klass,
+                TradeItNotification.UserInfoKey.view: view.rawValue,
                 TradeItNotification.UserInfoKey.viewTitle: title
             ]
         )

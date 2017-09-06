@@ -9,7 +9,6 @@ class TradeItYahooAccountSelectionTableViewManager: TradeItYahooViewController, 
     private var linkedBrokerSectionPresenters: [LinkedBrokerSectionPresenter] = []
     private var selectedLinkedBrokerAccount: TradeItLinkedBrokerAccount?
 
-    
     var accountsTable: UITableView? {
         get {
             return _table

@@ -59,6 +59,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.reloadTicket()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .trading, title: self.title)
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -78,6 +83,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             }
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
+            self.fireViewEventNotification(view: .selectOrderType, title: self.selectionViewController.title)
         case .expiration:
             self.selectionViewController.title = "Select expiration type"
             self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
@@ -88,6 +94,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             }
 
             self.navigationController?.pushViewController(selectionViewController, animated: true)
+            self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
         default:
             return
         }

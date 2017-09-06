@@ -26,6 +26,11 @@ class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, Tr
         )
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .selectAccount, title: self.title)
+    }
+
     // MARK: TradeItYahooAccounSelectionTableViewManagerDelegate
 
     func refreshRequested(fromAccountSelectionTableViewManager manager: TradeItYahooAccountSelectionTableViewManager,

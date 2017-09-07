@@ -73,6 +73,16 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         case .account:
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        case .orderAction:
+            self.selectionViewController.title = "Select order action"
+            self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
+            self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
+            self.selectionViewController.onSelected = { (selection: String) in
+                self.order.action = TradeItOrderActionPresenter.enumFor(selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.title = "Select order type"
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
@@ -307,6 +317,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         var ticketRows: [TicketRow] = [
             .account,
+            .orderAction,
             .orderType,
             .expiration,
             .quantity,
@@ -345,6 +356,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         cell.selectionStyle = .none
 
         switch ticketRow {
+        case .orderAction:
+            cell.detailTextLabel?.text = TradeItOrderActionPresenter.labelFor(self.order.action)
         case .quantity:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.quantity,
@@ -440,6 +453,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     enum TicketRow {
         case account
+        case orderAction
         case orderType
         case quantity
         case expiration
@@ -460,12 +474,12 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             var cellReuseId: CellReuseId
 
             switch self {
+            case .orderAction, .orderType, .expiration:
+                cellReuseId = .selection
             case .estimatedCost:
                 cellReuseId = .readOnly
             case .quantity, .limitPrice, .stopPrice:
                 cellReuseId = .numericInput
-            case .orderType, .expiration:
-                cellReuseId = .selection
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:
@@ -477,24 +491,17 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         func getTitle(forOrder order: TradeItOrder) -> String {
             switch self {
+            case .orderAction: return "Action"
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let title = "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
-                return title
-            case .quantity:
-                return "Shares"
-            case .limitPrice:
-                return "Limit"
-            case .stopPrice:
-                return "Stop"
-            case .orderType:
-                return "Order type"
-            case .expiration:
-                return "Time in force"
-            case .marketPrice:
-                return "Market price"
-            case .account:
-                return "Accounts"
+                return "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
+            case .quantity: return "Shares"
+            case .limitPrice: return "Limit"
+            case .stopPrice: return "Stop"
+            case .orderType: return "Order type"
+            case .expiration: return "Time in force"
+            case .marketPrice: return "Market price"
+            case .account: return "Accounts"
             }
         }
     }

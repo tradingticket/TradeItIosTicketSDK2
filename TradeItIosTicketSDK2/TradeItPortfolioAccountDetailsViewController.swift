@@ -5,6 +5,7 @@ import PromiseKit
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager: TradeItPortfolioAccountDetailsTableViewManager!
     var tradingUIFlow = TradeItTradingUIFlow()
+    let viewControllerProvider = TradeItViewControllerProvider()
     var alertManager = TradeItAlertManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
 
@@ -36,10 +37,18 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             trackPageViewAsPageType: true
         )
     }
-
-    @IBAction func tradeTapped(_ sender: Any) {
-        let order = provideOrder(forPortFolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    
+    @IBAction func activityTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
+        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(ordersAction)
+        alertController.addAction(tradeAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
@@ -135,6 +144,21 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }
     }
 
+    // MARK: Private
+
+    private func tradeActionWasTapped(alert: UIAlertAction!) {
+        let order = provideOrder(forPortFolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    private func orderActionWasTapped(alert: UIAlertAction!) {
+        guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .ordersView) as? TradeItOrdersViewController else {
+            return
+        }
+        ordersViewController.linkedBrokerAccount = self.linkedBrokerAccount
+        self.navigationController?.pushViewController(ordersViewController, animated: true)
+    }
+    
     private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,
                                                    orderAction: TradeItOrderAction?) -> TradeItOrder {

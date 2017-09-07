@@ -94,8 +94,8 @@ import PromiseKit
                     // userId already exists, this is a relink
                     let linkedLogin = self.connector.updateKeychain(
                         withLink: oAuthAccessTokenResult,
-                        withBroker: linkedBroker.brokerName,
-                        withBrokerLongName: linkedBroker.brokerLongName
+                        withBroker: oAuthAccessTokenResult.broker,
+                        withBrokerLongName: oAuthAccessTokenResult.brokerLongName
                     )
                     
                     if let linkedLogin = linkedLogin {

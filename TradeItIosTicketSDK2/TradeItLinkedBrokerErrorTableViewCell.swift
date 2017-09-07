@@ -9,12 +9,12 @@ class TradeItLinkedBrokerErrorTableViewCell: UITableViewCell {
     func populate(withLinkedBroker linkedBroker: TradeItLinkedBroker) {
         guard let error = linkedBroker.error else { return }
         if error.isAccountLinkDelayedError() {
-            self.textLabel?.text = linkedBroker.brokerName
+            self.textLabel?.text = linkedBroker.brokerLongName
             let shortMessage = error.shortMessage ?? "Activation in Progress"
             self.detailTextLabel?.text = shortMessage + ". Tap to refresh status."
         } else if error.requiresRelink() {
             self.textLabel?.text = "Relink Broker"
-            self.detailTextLabel?.text = "The link with \(linkedBroker.brokerName) failed. Tap to relink."
+            self.detailTextLabel?.text = "The link with \(linkedBroker.brokerLongName) failed. Tap to relink."
         } else if error.requiresAuthentication() {
             self.textLabel?.text = "Account Information"
             self.detailTextLabel?.text = "Could not get the latest data. Tap to retry."

@@ -333,7 +333,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             linkedBroker.getFxQuote(
                 symbol: symbol,
                 onSuccess: { quote in
-                    self.marketDataLabel.text = "Market data provided by \(linkedBroker.brokerName)."
+                    self.marketDataLabel.text = "Market data provided by \(linkedBroker.brokerLongName)."
                     self.quote = quote
                     self.order.rate = TradeItQuotePresenter.numberToDecimalNumber(quote.bidPrice)
                     self.reload(row: .bid)

@@ -2,6 +2,10 @@
     public var brokerName: String? {
         return self.linkedBroker?.brokerName
     }
+    public var brokerLongName: String? {
+        return self.linkedBroker?.brokerLongName
+    }
+    
 
     public var accountName = ""
     public var accountNumber = ""

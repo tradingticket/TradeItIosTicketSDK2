@@ -495,6 +495,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 userId: "2c215022213205844b7c",
                 userToken: "oEK4OYY8FLfLoloQWTbHufznKI5VSjJTKRz2vj%2B%2BPf6Adpf0xyJqdF%2BpmYP0VMm%2B3mfhBdJbuFNSjtk9uVfH9EmgfY1x%2Bdqtf0K70JCCnRqUye6QRczBt%2Bl8eHydsyWCVSWwKsKP24gpNHYL9L6afA%3D%3D",
                 broker: "Dummy",
+                brokerLongName: "Dummy Broker",
                 accounts: [],
                 isLinkActivationPending: true
             ),
@@ -502,6 +503,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 userId: "6ad15022323164871cf9",
                 userToken: "bA3VZKHdizvmaD%2B15pIXkBR44dqL3vhXkonPpm4NkXm9iJfc17JCj0fYAFCRIt25YdsADXPOfCWnpAqi4QZHrK8sogIvd2L418w95OVgRt0dGPJEixHDd1BVMWZ9BSYgDwDznrOXd5QYoNXMlMZWPQ%3D%3D",
                 broker: "Dummy",
+                brokerLongName: "Dummy Broker",
                 accounts: [
                     LinkedBrokerAccountData(
                         name: "Individual Account",
@@ -514,6 +516,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 userId: "3741499971984583d2f1",
                 userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
                 broker: "dummyFx",
+                brokerLongName: "Dummy Fx Broker",
                 accounts: []
             )
         ]

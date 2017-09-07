@@ -6,7 +6,7 @@ class TradeItLinkedBrokerPresenter: NSObject {
     }
     
     func getFormattedBrokerLabel() -> String {
-        var brokerLabel = self.linkedBroker.brokerName
+        var brokerLabel = self.linkedBroker.brokerLongName
         let numberOfAccounts = self.linkedBroker.accounts.count
 
         if numberOfAccounts > 1 {

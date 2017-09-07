@@ -41,6 +41,10 @@ import PromiseKit
     internal var tradeService: TradeItTradeService
     internal var fxTradeService: TradeItFxTradeService
     internal var orderService: TradeItOrderService
+    
+    public var brokerLongName: String {
+        return self.linkedLogin.brokerLongName
+    }
 
     public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session

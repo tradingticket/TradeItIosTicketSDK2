@@ -70,7 +70,8 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 }
 
 - (TradeItLinkedLogin *)updateKeychainWithLink:(TradeItAuthLinkResult *)link
-                                    withBroker:(NSString *)broker {
+                                    withBroker:(NSString *)broker
+                            withBrokerLongName:(NSString *)brokerLongName {
     NSDictionary *linkDict = [self getLinkedLoginDictByuserId:link.userId];
 
     if (linkDict) {
@@ -81,6 +82,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
         return [[TradeItLinkedLogin alloc] initWithLabel:linkDict[@"label"]
                                                   broker:broker
+                                                  brokerLongName:brokerLongName
                                                   userId:link.userId
                                               keyChainId:keychainId];
     } else {
@@ -90,30 +92,35 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
         authLinkResult.userToken = link.userToken;
 
         return [self saveToKeychainWithLink:authLinkResult
-                                 withBroker:broker];
+                                 withBroker:broker
+                         withBrokerLongName:brokerLongName];
     }
 }
 
 - (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
-                                    withBroker:(NSString *)broker {
-    return [self saveToKeychainWithLink:link withBroker:broker andLabel:broker];
+                                    withBroker:(NSString *)broker
+                                    withBrokerLongName:(NSString *)brokerLongName {
+    return [self saveToKeychainWithLink:link withBroker:broker withBrokerLongName:brokerLongName andLabel:broker];
 }
 
 - (TradeItLinkedLogin *)saveToKeychainWithLink:(TradeItAuthLinkResult *)link
                                     withBroker:(NSString *)broker
+                            withBrokerLongName:(NSString *)brokerLongName
                                       andLabel:(NSString *)label {
-    return [self saveToKeychainWithUserId:link.userId andUserToken:link.userToken andBroker:broker andLabel:label];
+    return [self saveToKeychainWithUserId:link.userId andUserToken:link.userToken andBroker:broker andBrokerLongName:brokerLongName andLabel:label];
 }
 
 - (TradeItLinkedLogin *)saveToKeychainWithUserId:(NSString *)userId
                                     andUserToken:(NSString *)userToken
                                        andBroker:(NSString *)broker
+                               andBrokerLongName:(NSString *)brokerLongName
                                         andLabel:(NSString *)label {
     NSMutableArray *accounts = [[NSMutableArray alloc] initWithArray:[self getLinkedLoginsRaw]];
     NSString *keychainId = [[NSUUID UUID] UUIDString];
 
     NSDictionary *newRecord = @{@"label":label,
                                 @"broker":broker,
+                                @"brokerLongName":brokerLongName,
                                 @"userId":userId,
                                 @"keychainId":keychainId};
 
@@ -125,6 +132,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
     return [[TradeItLinkedLogin alloc] initWithLabel:label
                                               broker:broker
+                                      brokerLongName: brokerLongName
                                               userId:userId
                                           keyChainId:keychainId];
 }
@@ -173,6 +181,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
     for (NSDictionary *account in linkedAccounts) {
         [accountsToReturn addObject:[[TradeItLinkedLogin alloc] initWithLabel:account[@"label"]
                                                                        broker:account[@"broker"]
+                                                                       brokerLongName:account[@"brokerLongName"] ?: account[@"broker"]
                                                                        userId:account[@"userId"]
                                                                    keyChainId:account[@"keychainId"]]];
     }

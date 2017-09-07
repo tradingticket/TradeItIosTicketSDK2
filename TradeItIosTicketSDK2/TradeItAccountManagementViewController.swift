@@ -23,7 +23,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
 
     override func viewWillAppear(_ animated: Bool) {
         if let linkedBroker = self.linkedBroker {
-            self.navigationItem.title = linkedBroker.brokerName
+            self.navigationItem.title = linkedBroker.brokerLongName
             self.accountManagementTableManager.updateAccounts(withAccounts: self.linkedBroker.accounts)
         }
     }
@@ -72,7 +72,7 @@ class TradeItAccountManagementViewController: TradeItViewController, TradeItAcco
     func unlink() {
         self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
-            withTitle: "Unlink \(self.linkedBroker.brokerName)",
+            withTitle: "Unlink \(self.linkedBroker.brokerLongName)",
             withMessage: "Are you sure you want to unlink your account and remove all the associated data?",
             withActionTitle: "Unlink",
             onAlertActionTapped: { () -> Void in

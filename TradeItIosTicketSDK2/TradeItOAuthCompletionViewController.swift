@@ -53,7 +53,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                             trackPageViewAsPageType: true
                         )
                         linkedBroker.refreshAccountBalances(onFinished: {
-                            self.setSuccessState(forBroker: linkedBroker.brokerName)
+                            self.setSuccessState(forBroker: linkedBroker.brokerLongName)
                         })
                         NotificationCenter.default.post(
                             name: TradeItNotification.Name.didLink,
@@ -73,7 +73,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                     },
                     onFailure: { errorResult in
                         if errorResult.isAccountLinkDelayedError() { // case IB linked account not available yet, don't show alert error
-                            self.setPendingState(forBroker: linkedBroker.brokerName)
+                            self.setPendingState(forBroker: linkedBroker.brokerLongName)
                        } else {
                             self.alertManager.showError(
                                 errorResult,
@@ -82,7 +82,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                                     if errorResult.requiresRelink() {
                                         self.setFailureState(withMessage: "Could not complete broker linking. Please try again.")
                                     } else {
-                                        self.setSuccessState(forBroker: linkedBroker.brokerName)
+                                        self.setSuccessState(forBroker: linkedBroker.brokerLongName)
                                     }
                                 }
                             )

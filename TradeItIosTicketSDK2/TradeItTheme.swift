@@ -11,7 +11,7 @@ import UIKit
     public var tableBackgroundPrimaryColor: UIColor = UIColor.white
     public var tableBackgroundSecondaryColor: UIColor = UIColor.groupTableViewBackground
 
-    public var interactivePrimaryColor: UIColor = UIColor.tradeItCoolBlueColor
+    public var interactivePrimaryColor: UIColor = UIButton().tintColor
     public var interactiveSecondaryColor: UIColor = UIColor.white
 
     public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor

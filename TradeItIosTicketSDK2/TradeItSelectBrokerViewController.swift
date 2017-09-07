@@ -24,14 +24,14 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             "TradeItSDK ERROR: TradeItSelectBrokerViewController loaded without setting oAuthCallbackUrl!"
         )
 
+        TradeItThemeConfigurator.configure(view: self.view, groupedStyle: false)
+
         self.activityView = MBProgressHUD.showAdded(
             to: self.view,
             animated: true
         )
 
         self.populateBrokers()
-
-        TradeItThemeConfigurator.configure(view: self.view, groupedStyle: false)
 
         TradeItSDK.adService.populate?(
             adContainer: adContainer,

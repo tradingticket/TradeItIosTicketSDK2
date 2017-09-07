@@ -174,8 +174,28 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "Portfolio for account #",
                         action: {
-                            // brkAcct1 is the account number of the Dummy login
-                            TradeItSDK.launcher.launchPortfolio(fromViewController: self.advancedViewController, forAccountNumber: "brkAcct1")
+                            // SINGLE-ACCT-0001 is the account number of the Dummy login
+                            TradeItSDK.launcher.launchPortfolio(fromViewController: self.advancedViewController, forAccountNumber: "SINGLE-ACCT-0001")
+                        }
+                    ),
+                    Action(
+                        label: "Orders for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+                            
+                            TradeItSDK.launcher.launchOrders(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
+                    Action(
+                        label: "Orders for account #",
+                        action: {
+                            // SINGLE-ACCT-0001 is the account number of the Dummy login
+                            TradeItSDK.launcher.launchOrders(fromViewController: self.advancedViewController, forAccountNumber: "SINGLE-ACCT-0001")
                         }
                     ),
                     Action(

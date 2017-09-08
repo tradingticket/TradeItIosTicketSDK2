@@ -121,14 +121,18 @@ fileprivate class OrderSectionPresenter {
     }
     
     func numberOfRows() -> Int {
-        return self.orders.flatMap { $0.orderLegs }.count
+        return self.orders.flatMap { $0.orderLegs ?? [] }.count
     }
     
     func cell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell
+            , let orderLeg = (self.orders.flatMap { $0.orderLegs ?? [] }) [safe: row]
+            , let order = (self.orders.filter { $0.orderLegs?.contains(orderLeg) ?? false }).first
+        else {
             return UITableViewCell()
         }
-        cell.populate(withOrder: self.orders[row])
+        
+        cell.populate(withOrder: order, andOrderLeg: orderLeg)
         return cell
     }
 }

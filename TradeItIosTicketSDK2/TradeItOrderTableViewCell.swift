@@ -12,8 +12,8 @@ class TradeItOrderTableViewCell: UITableViewCell {
         TradeItThemeConfigurator.configure(view: self)
     }
     
-    func populate(withOrder order: TradeItOrderStatusDetails) {
-        let orderPresenter = TradeItOrderStatusDetailsPresenter(order: order)
+    func populate(withOrder order: TradeItOrderStatusDetails, andOrderLeg orderLeg: TradeItOrderLeg) {
+        let orderPresenter = TradeItOrderStatusDetailsPresenter(order: order, orderLeg: orderLeg)
         self.symbolLabel?.text = orderPresenter.getSymbol()
         self.descriptionLabel?.text = orderPresenter.getFormattedDescription()
         self.expirationLabel.text = orderPresenter.getFormattedExpiration()

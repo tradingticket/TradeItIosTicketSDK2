@@ -32,28 +32,18 @@ enum TicketRow {
         var cellReuseId: CellReuseId
 
         switch self {
-        case .symbol:
-            cellReuseId = .selection
-        case .orderAction:
+        case .symbol, .orderAction, .leverage, .priceType, .orderType, .expiration:
             cellReuseId = .selection
         case .estimatedCost:
             cellReuseId = .readOnly
-        case .quantity, .limitPrice, .stopPrice:
+        case .quantity, .limitPrice, .stopPrice, .amount:
             cellReuseId = .numericInput
-        case .orderType, .expiration:
-            cellReuseId = .selection
         case .marketPrice, .bid:
             cellReuseId = .marketData
         case .account:
             cellReuseId = .selectionDetail
-        case .amount:
-            cellReuseId = .numericInput
         case .rate:
             cellReuseId = .stepperInput
-        case .leverage:
-            cellReuseId = .selection
-        case .priceType:
-            cellReuseId = .selection
         }
 
         return cellReuseId.rawValue

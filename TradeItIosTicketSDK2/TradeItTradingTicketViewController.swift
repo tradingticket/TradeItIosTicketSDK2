@@ -86,7 +86,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
-            self.selectionViewController.title = "Select action type"
+            self.selectionViewController.title = "Select order action"
             self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
             self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
             self.selectionViewController.onSelected = { (selection: String) in

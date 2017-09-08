@@ -35,7 +35,9 @@ import UIKit
     private static func configureTableHeaderTheme(view: UIView) {
         switch view {
         case let label as UILabel:
+            label.text = label.text?.uppercased()
             label.textColor = TradeItSDK.theme.tableHeaderTextColor
+            label.font = UIFont.systemFont(ofSize: 12)
         default:
             break
         }
@@ -134,7 +136,6 @@ import UIKit
         } else {
             tableView.superview?.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
             tableView.backgroundColor = TradeItSDK.theme.tableBackgroundPrimaryColor
-            tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0))
         }
 
         tableView.separatorColor = TradeItSDK.theme.tableHeaderBackgroundColor

@@ -15,7 +15,7 @@ typedef void (^ _Nonnull PlaceOrder)(
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [TradeItSDK configureWithApiKey:@"tradeit-test-api-key"
+    [TradeItSDK configureWithApiKey:@"exampleapp-test-api-key"
                    oAuthCallbackUrl:[NSURL URLWithString:@"tradeItExampleObjCScheme://completeOAuth"]
                         environment:TradeItEmsTestEnv];
 }

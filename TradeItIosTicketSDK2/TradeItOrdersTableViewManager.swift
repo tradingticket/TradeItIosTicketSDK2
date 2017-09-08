@@ -6,7 +6,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var refreshControl: UIRefreshControl?
     
     private static let ORDER_CELL_HEIGHT = 50
-    private static let SECTION_HEADER_HEIGHT = 36
+    private static let SECTION_HEADER_HEIGHT = 15
     private static let OPEN_ORDERS_SECTION = 0
     private static let FILLED_ORDERS_SECTION  = 1
     private static let OTHER_ORDERS_SECTION = 2

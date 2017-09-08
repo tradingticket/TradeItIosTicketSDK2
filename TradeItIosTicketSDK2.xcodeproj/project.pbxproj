@@ -166,6 +166,7 @@
 		75A3336B1E8AE0EC00716F4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75A333691E8AE0EC00716F4C /* Main.storyboard */; };
 		75A3336D1E8AE0EC00716F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A3336C1E8AE0EC00716F4C /* Assets.xcassets */; };
 		75A333701E8AE0EC00716F4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75A3336E1E8AE0EC00716F4C /* LaunchScreen.storyboard */; };
+		75A8A0091F63171300FB678A /* TradeItOrderStatusDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E4628D1F59AF8D00C8ABA8 /* TradeItOrderStatusDetails.m */; };
 		75AB473A1EFC63B700A8BEC6 /* TradeItStepperInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AB47391EFC63B700A8BEC6 /* TradeItStepperInputCell.xib */; };
 		75AB473B1EFC63B700A8BEC6 /* TradeItStepperInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AB47391EFC63B700A8BEC6 /* TradeItStepperInputCell.xib */; };
 		75AB473D1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB473C1EFC706900A8BEC6 /* TradeItStepperInputTableViewCell.swift */; };
@@ -2893,6 +2894,7 @@
 				B5E462711F58C24000C8ABA8 /* TradeItOrderLeg.m in Sources */,
 				B5749B551F46475300FCE1B5 /* CachedLinkedBrokerAccount.m in Sources */,
 				FC6E79B31DCD1F8B005225CC /* TradeItAuthenticationInfo.m in Sources */,
+				75A8A0091F63171300FB678A /* TradeItOrderStatusDetails.m in Sources */,
 				FA5046541E319B0000C98BAF /* TradeItYahooBrokerSelectionViewController.swift in Sources */,
 				750100691F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift in Sources */,
 				FC6E79B51DCD1F8B005225CC /* TradeItTradingConfirmationViewController.swift in Sources */,
@@ -3204,7 +3206,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.1.27;
+				CURRENT_PROJECT_VERSION = 1.1.28;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -3260,7 +3262,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.1.27;
+				CURRENT_PROJECT_VERSION = 1.1.28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3295,7 +3297,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.1.27;
+				DYLIB_CURRENT_VERSION = 1.1.28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = TradeItIosTicketSDK2/Info.plist;
@@ -3320,7 +3322,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.1.27;
+				DYLIB_CURRENT_VERSION = 1.1.28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_TESTABILITY = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -3407,7 +3409,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.1.27;
+				DYLIB_CURRENT_VERSION = 1.1.28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3440,7 +3442,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1.1.27;
+				DYLIB_CURRENT_VERSION = 1.1.28;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

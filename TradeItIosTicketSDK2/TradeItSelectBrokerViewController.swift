@@ -75,7 +75,11 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
                 for broker in availableBrokers {
-                    broker.isFeaturedForAnyInstrument() ? self.featuredBrokers.append(broker) : self.brokers.append(broker)
+                    if broker.isFeaturedForAnyInstrument() {
+                        self.featuredBrokers.append(broker)
+                    }
+
+                    self.brokers.append(broker)
                 }
 
                 self.activityView?.hide(animated: true)

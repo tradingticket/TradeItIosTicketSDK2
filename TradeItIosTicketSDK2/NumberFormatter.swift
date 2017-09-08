@@ -27,15 +27,21 @@ class NumberFormatter: NSObject {
     }
     
     static func formatPercentage(_ number: NSNumber) -> String {
-        percentageFormatter.numberStyle = .percent
         percentageFormatter.positivePrefix = "+"
         percentageFormatter.negativePrefix = "-"
+        
+        return formatSimplePercentage(number)
+    }
+    
+    static func formatSimplePercentage(_ number: NSNumber) -> String {
+        percentageFormatter.numberStyle = .percent
         percentageFormatter.minimumFractionDigits = 0
         percentageFormatter.maximumFractionDigits = 2
         let percentage = number.floatValue / 100
         return percentageFormatter.string(from: NSNumber(value: percentage)) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
+    
     private static func overrideCurrencySymbol(forCurrencyCode currencyCode: String?) -> String? {
         switch currencyCode {
         case "SGD"?: return "S$"

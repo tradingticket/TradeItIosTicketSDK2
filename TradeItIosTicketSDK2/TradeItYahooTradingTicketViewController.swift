@@ -75,30 +75,25 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
-            self.selectionViewController.title = "Select order action"
-            self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
-            self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.action = TradeItOrderActionPresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
+                self.order.action = TradeItOrderAction(value: selection)
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
+            
+            self.fireViewEventNotification(view: .selectActionType, title: self.selectionViewController.title)
         case .orderType:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
             }
 
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
             self.fireViewEventNotification(view: .selectOrderType, title: self.selectionViewController.title)
         case .expiration:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration?.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
+            
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
         default:
             return
@@ -362,7 +357,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         switch ticketRow {
         case .orderAction:
-            cell.detailTextLabel?.text = TradeItOrderActionPresenter.labelFor(self.order.action)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.quantity,

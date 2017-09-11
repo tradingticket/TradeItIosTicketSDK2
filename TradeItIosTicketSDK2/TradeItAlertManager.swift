@@ -115,7 +115,7 @@ import UIKit
                 onViewController: viewController,
                 withTitle: error.title,
                 withMessage: error.message,
-                withActionTitle: "Retry",
+                withActionTitle: "Refresh",
                 errorToReport: error,
                 onAlertActionTapped: onAlertRetryAuthentication,
                 showCancelAction: true,

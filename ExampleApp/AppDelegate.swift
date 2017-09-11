@@ -107,15 +107,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func onAlertShownNotification(notification: Notification) {
-        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
-        let alertTitle = notification.userInfo?[TradeItNotification.UserInfoKey.alertTitle] ?? "NO KEY FOR ALERT TITLE"
-        let alertMessage = notification.userInfo?[TradeItNotification.UserInfoKey.alertMessage] ?? "NO KEY FOR ALERT MESSAGE"
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
+        let alertTitle = notification.userInfo?[TradeItNotification.UserInfoKey.alertTitle.rawValue] ?? "NO KEY FOR ALERT TITLE"
+        let alertMessage = notification.userInfo?[TradeItNotification.UserInfoKey.alertMessage.rawValue] ?? "NO KEY FOR ALERT MESSAGE"
         print("=====> ALERT SHOWN: VIEW: \(view), TITLE: \(alertTitle), MESSAGE: \(alertMessage)")
     }
 
     func onViewDidAppearNotification(notification: Notification) {
-        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
-        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle] ?? "NO KEY FOR VIEW TITLE"
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
+        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
         print("=====> VIEW APPEARED: \(view), TITLE: \(viewTitle)")
     }
 
@@ -136,8 +136,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func onButtonTappedNotification(notification: Notification) {
-        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view] ?? "NO KEY FOR VIEW"
-        let button = notification.userInfo?[TradeItNotification.UserInfoKey.button] ?? "NO KEY FOR BUTTON"
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
+        let button = notification.userInfo?[TradeItNotification.UserInfoKey.button.rawValue] ?? "NO KEY FOR BUTTON"
         print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
     }
 

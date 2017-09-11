@@ -154,14 +154,14 @@ import UIKit
     @IBAction func actionButtonTapped(_ sender: UIButton) {
         switch self.linkState {
         case .succeeded, .pending:
-            self.fireButtonTapEventNotification(button: .linkSucceeded)
+            self.fireButtonTapEventNotification(view: .linkCompletion, button: .linkSucceeded)
             self.delegate?.onContinue(
                 fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,
                 linkedBroker: self.linkedBroker
             )
         case .failed:
-            self.fireButtonTapEventNotification(button: .linkFailed)
+            self.fireButtonTapEventNotification(view: .linkCompletion, button: .linkFailed)
             self.delegate?.onTryAgain(
                 fromOAuthCompletionViewController: self,
                 oAuthCallbackUrlParser: self.oAuthCallbackUrlParser,

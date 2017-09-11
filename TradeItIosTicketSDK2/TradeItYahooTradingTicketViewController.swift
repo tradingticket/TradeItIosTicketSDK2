@@ -140,7 +140,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     // MARK: IBActions
 
     @IBAction func previewOrderButtonTapped(_ sender: UIButton) {
-        self.fireButtonTapEventNotification(button: .previewOrder)
+        self.fireButtonTapEventNotification(view: .trading, button: .previewOrder)
 
         guard let linkedBroker = self.order.linkedBrokerAccount?.linkedBroker
             else { return }

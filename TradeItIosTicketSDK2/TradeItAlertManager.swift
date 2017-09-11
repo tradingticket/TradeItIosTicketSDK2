@@ -167,10 +167,10 @@ import UIKit
             name: TradeItNotification.Name.alertShown,
             object: nil,
             userInfo: [
-                TradeItNotification.UserInfoKey.view: viewController.classForCoder,
-                TradeItNotification.UserInfoKey.alertTitle: title,
-                TradeItNotification.UserInfoKey.alertMessage: message,
-                TradeItNotification.UserInfoKey.error: errorToReport as Any
+                TradeItNotification.UserInfoKey.view.rawValue: viewController.classForCoder,
+                TradeItNotification.UserInfoKey.alertTitle.rawValue: title,
+                TradeItNotification.UserInfoKey.alertMessage.rawValue: message,
+                TradeItNotification.UserInfoKey.error.rawValue: errorToReport as Any
             ]
         )
 

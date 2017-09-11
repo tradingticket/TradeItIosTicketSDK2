@@ -26,19 +26,19 @@ class TradeItYahooViewController: CloseableViewController {
             name: TradeItNotification.Name.viewDidAppear,
             object: nil,
             userInfo: [
-                TradeItNotification.UserInfoKey.view: view.rawValue,
-                TradeItNotification.UserInfoKey.viewTitle: title
+                TradeItNotification.UserInfoKey.view.rawValue: view.rawValue,
+                TradeItNotification.UserInfoKey.viewTitle.rawValue: title
             ]
         )
     }
 
-    func fireButtonTapEventNotification(button: TradeItNotification.Button) {
+    func fireButtonTapEventNotification(view: TradeItNotification.View, button: TradeItNotification.Button) {
         NotificationCenter.default.post(
             name: TradeItNotification.Name.buttonTapped,
             object: nil,
             userInfo: [
-                TradeItNotification.UserInfoKey.view: self.classForCoder,
-                TradeItNotification.UserInfoKey.button: button
+                TradeItNotification.UserInfoKey.view.rawValue: view.rawValue,
+                TradeItNotification.UserInfoKey.button.rawValue: button
             ]
         )
     }

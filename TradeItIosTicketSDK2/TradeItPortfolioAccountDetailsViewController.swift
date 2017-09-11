@@ -94,7 +94,9 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }.then { _ in
             return when(fulfilled: accountOverviewPromise, positionsPromise)
         }.catch { error in
-            print(error)
+            if let tradeItError = linkedBroker.error {
+                self.alertManager.showAlertWithAction(error: tradeItError, withLinkedBroker: linkedBroker, onViewController: self)
+            }
         }.always {
             onRefreshComplete()
         }

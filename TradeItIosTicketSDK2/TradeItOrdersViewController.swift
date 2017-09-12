@@ -5,10 +5,12 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     
     let ordersTableViewManager = TradeItOrdersTableViewManager()
     let alertManager = TradeItAlertManager()
+    let tradingUIFlow = TradeItTradingUIFlow()
     
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
     @IBOutlet weak var ordersTable: UITableView!
+    @IBOutlet var orderTableBackgroundView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         }
         
         self.ordersTableViewManager.delegate = self
+        self.ordersTable.backgroundView = self.orderTableBackgroundView
         self.ordersTableViewManager.ordersTable = self.ordersTable
         
     }
@@ -26,6 +29,13 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         super.viewWillAppear(animated)
         
         self.ordersTableViewManager.initiateRefresh()
+    }
+    
+    //MARK: IBAction
+    
+    @IBAction func tradeButtonWasTapped(_ sender: Any) {
+        let order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount)
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: TradeItOrdersTableDelegate

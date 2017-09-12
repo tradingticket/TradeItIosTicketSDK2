@@ -829,7 +829,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_CELL_ID" rowHeight="50" id="04m-be-k3p" customClass="TradeItOrderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="04m-be-k3p" id="OuN-Rt-oCX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -890,12 +890,61 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="orderTableBackgroundView" destination="oXo-0g-ZwI" id="7pv-hI-KwV"/>
                         <outlet property="ordersTable" destination="2f0-C2-nAp" id="rWd-q5-tP9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c2p-m3-rJK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="oXo-0g-ZwI">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="170"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open orders and today's filled and cancelled orders will be displayed here." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7q-vq-fOz">
+                            <rect key="frame" x="10" y="77.5" width="220" height="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGy-W4-ZtK">
+                            <rect key="frame" x="10" y="107" width="220" height="40"/>
+                            <color key="backgroundColor" red="0.017085177823901176" green="0.56712824106216431" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="2uS-2H-V9D"/>
+                            </constraints>
+                            <state key="normal" title="Trade">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="tradeButtonWasTapped:" destination="76Z-J7-sWb" eventType="touchUpInside" id="fLF-pj-lgH"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No recent orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VO0-C1-KrF">
+                            <rect key="frame" x="53" y="48.5" width="134.5" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="8N4-6I-Cwe"/>
+                        <constraint firstItem="V7q-vq-fOz" firstAttribute="top" secondItem="VO0-C1-KrF" secondAttribute="bottom" constant="8" id="AtZ-RI-p05"/>
+                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="top" secondItem="V7q-vq-fOz" secondAttribute="bottom" constant="15" id="BMN-mj-PPn"/>
+                        <constraint firstItem="VO0-C1-KrF" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="Fya-It-mkq"/>
+                        <constraint firstAttribute="trailing" secondItem="aGy-W4-ZtK" secondAttribute="trailing" constant="10" id="Ggb-qI-sk5"/>
+                        <constraint firstAttribute="trailing" secondItem="V7q-vq-fOz" secondAttribute="trailing" constant="10" id="cYY-Uq-H48"/>
+                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="dH5-Er-lZU"/>
+                        <constraint firstItem="V7q-vq-fOz" firstAttribute="centerY" secondItem="oXo-0g-ZwI" secondAttribute="centerY" id="iJa-rf-SxE"/>
+                        <constraint firstItem="V7q-vq-fOz" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="rUb-VB-bnW"/>
+                    </constraints>
+                </view>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1260"/>
+            <point key="canvasLocation" x="1049" y="-1077"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
@@ -1193,7 +1242,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1049" y="149"/>
+            <point key="canvasLocation" x="1049" y="332"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="BKV-zf-p3m">
@@ -1317,7 +1366,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ZW-iV-p9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-591"/>
+            <point key="canvasLocation" x="1049" y="-408"/>
         </scene>
         <!--Preview-->
         <scene sceneID="Uej-tc-O6r">
@@ -1479,7 +1528,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OjB-sb-nh8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3266" y="149"/>
+            <point key="canvasLocation" x="3265" y="332"/>
         </scene>
         <!--Confirmation-->
         <scene sceneID="xD8-IT-zP1">
@@ -1613,7 +1662,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTB-II-sfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4028" y="-520"/>
+            <point key="canvasLocation" x="4028" y="-337"/>
         </scene>
         <!--Brokers List-->
         <scene sceneID="huh-Y5-9RO">
@@ -1728,7 +1777,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xqD-uk-BmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785" y="-590"/>
+            <point key="canvasLocation" x="1785" y="-407"/>
         </scene>
         <!--Broker Management-->
         <scene sceneID="CTf-ld-7e6">
@@ -1817,7 +1866,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ore-0F-Ogj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2521" y="-591"/>
+            <point key="canvasLocation" x="2521" y="-408"/>
         </scene>
         <!--Linking-->
         <scene sceneID="ulc-0P-huM">
@@ -2153,7 +2202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Fm-Da-TOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="149"/>
+            <point key="canvasLocation" x="1777" y="332"/>
         </scene>
         <!--FX Trade-->
         <scene sceneID="JG2-72-QEe">
@@ -2233,7 +2282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wqp-Ta-loE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="833"/>
+            <point key="canvasLocation" x="1777" y="1016"/>
         </scene>
         <!--Trade It Selection View Controller-->
         <scene sceneID="lpX-LQ-hbW">
@@ -2296,7 +2345,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gb7-rb-jch" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2550" y="149"/>
+            <point key="canvasLocation" x="2550" y="332"/>
         </scene>
         <!--Select your broker-->
         <scene sceneID="Pjp-cE-Mgf">

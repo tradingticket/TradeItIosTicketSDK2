@@ -3,7 +3,7 @@ import PromiseKit
 
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     
-    let ordersTableViewManager = TradeItOrdersTableViewManager()
+    var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
     let tradingUIFlow = TradeItTradingUIFlow()
     
@@ -18,17 +18,16 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         guard let _ = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
         }
-        
-        self.ordersTableViewManager.delegate = self
-        self.ordersTable.backgroundView = self.orderTableBackgroundView
-        self.ordersTableViewManager.ordersTable = self.ordersTable
+        self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
+        self.ordersTableViewManager?.delegate = self
+        self.ordersTableViewManager?.ordersTable = self.ordersTable
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.ordersTableViewManager.initiateRefresh()
+        self.ordersTableViewManager?.initiateRefresh()
     }
     
     //MARK: IBAction
@@ -66,7 +65,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             return Promise<Void> { fulfill, reject in
                 linkedBrokerAccount.getAllOrderStatus(
                     onSuccess: { orders in
-                        self.ordersTableViewManager.updateOrders(orders)
+                        self.ordersTableViewManager?.updateOrders(orders)
                         fulfill()
                     },
                     onFailure: { error in

@@ -2,6 +2,7 @@ import UIKit
 
 class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
 
+    private var noResultsBackgroundView: UIView
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?
     
@@ -31,6 +32,10 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     weak var delegate: TradeItOrdersTableDelegate?
     
+    init(noResultsBackgroundView: UIView) {
+        self.noResultsBackgroundView = noResultsBackgroundView
+    }
+    
     func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
@@ -42,13 +47,23 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     func updateOrders(_ orders: [TradeItOrderStatusDetails]) {
         let openOrders = orders.filter { ["PENDING", "OPEN", "PART_FILLED", "PENDING_CANCEL"].contains($0.orderStatus ?? "") }
+        if openOrders.count > 0 {
+            self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Open Orders (Past 60 Days)"))
+            let splitedOpenOrdersArray = getSplittedOrdersArray(orders: openOrders)
+            buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOpenOrdersArray)
+        }
         let filledOrders = orders.filter { ["FILLED"].contains($0.orderStatus ?? "") }
+        if filledOrders.count > 0 {
+            self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Filled Orders (Today)"))
+            let splitedFilledOrdersArray = getSplittedOrdersArray(orders: filledOrders)
+            buildOrderSectionPresentersFrom(splitedOrdersArray: splitedFilledOrdersArray)
+        }
         let otherOrders = orders.filter { ["CANCELED", "REJECTED", "NOT_FOUND", "EXPIRED"].contains($0.orderStatus ?? "") }
-        self.orderSectionPresenters = [
-            OrderSectionPresenter(orders: openOrders),
-            OrderSectionPresenter(orders: filledOrders),
-            OrderSectionPresenter(orders: otherOrders)
-        ]
+        if otherOrders.count > 0 {
+            self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Other Orders (Today)"))
+            let splitedOtherOrdersArray = getSplittedOrdersArray(orders: otherOrders)
+            buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOtherOrdersArray)
+        }
         self.ordersTable?.reloadData()
     }
     
@@ -81,6 +96,11 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if self.orderSectionPresenters.isEmpty {
+            self.ordersTable?.backgroundView = noResultsBackgroundView
+        } else {
+            self.ordersTable?.backgroundView = nil
+        }
         return self.orderSectionPresenters.count
     }
     
@@ -93,7 +113,11 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat(TradeItOrdersTableViewManager.SECTION_HEADER_HEIGHT)
+        if self.orderSectionPresenters[section].title == "" {
+            return 0
+        } else {
+            return CGFloat(TradeItOrdersTableViewManager.SECTION_HEADER_HEIGHT)
+        }
     }
     
     // MARK: Private
@@ -115,6 +139,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
 
 fileprivate class OrderSectionPresenter {
     let orders: [TradeItOrderStatusDetails]
+    var title: String
     
     init(orders: [TradeItOrderStatusDetails]) {
         self.orders = orders

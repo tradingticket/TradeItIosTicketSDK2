@@ -829,7 +829,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_CELL_ID" rowHeight="50" id="04m-be-k3p" customClass="TradeItOrderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="04m-be-k3p" id="OuN-Rt-oCX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -890,7 +890,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="orderTableBackgroundView" destination="oXo-0g-ZwI" id="7pv-hI-KwV"/>
+                        <outlet property="orderTableBackgroundView" destination="oXo-0g-ZwI" id="LH7-lf-2hd"/>
                         <outlet property="ordersTable" destination="2f0-C2-nAp" id="rWd-q5-tP9"/>
                     </connections>
                 </viewController>

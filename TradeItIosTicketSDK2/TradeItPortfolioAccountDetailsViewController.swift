@@ -76,31 +76,58 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             )
         }
 
-        let positionsPromise = Promise<Void> { fulfill, reject in
+        let positionsPromise = Promise<[TradeItPortfolioPosition]> { fulfill, reject in
             linkedBrokerAccount.getPositions(
                 onSuccess: { positions in
-                    self.tableViewManager.updatePositions(withPositions: positions)
-                    fulfill()
+                    //self.tableViewManager.updatePositions(withPositions: positions)
+                    fulfill(positions)
                 },
                 onFailure: { error in
-                    self.tableViewManager.updateAccount(withAccount: nil)
+                    self.tableViewManager.updatePositions(withPositions: nil)
                     reject(error)
                 }
             )
         }
 
-        firstly {
-            authenticatePromise
-        }.then { _ in
+        authenticatePromise.then { _ in
             return when(fulfilled: accountOverviewPromise, positionsPromise)
-        }.catch { error in
-            print(error)
+        }.then { _, positions in
+            return self.updateQuotes(positions: positions)
+        }.then { positions in
+            self.tableViewManager.updatePositions(withPositions: positions)
         }.always {
             onRefreshComplete()
+        }.catch { error in
+            print(error)
         }
     }
 
     // MARK: Private
+
+    private func updateQuotes(positions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
+        let symbols = positions
+            .filter { $0.position?.lastPrice == nil }
+            .map { $0.position?.symbol }
+            .flatMap { $0 }
+        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+            guard let getQuotes = TradeItSDK.marketDataService.getQuotes else { return fulfill(positions) }
+            getQuotes(
+                symbols,
+                { quotes in
+                    let positionsWithQuotes: [TradeItPortfolioPosition] = positions.map { position in
+                        if let quote = quotes.first(where: { $0.symbol == position.position?.symbol }) {
+                            position.quote = quote
+                            position.position?.lastPrice = quote.lastPrice
+                        }
+                        return position
+                    }
+
+                    fulfill(positionsWithQuotes)
+                },
+                reject
+            )
+        }
+    }
 
     private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,

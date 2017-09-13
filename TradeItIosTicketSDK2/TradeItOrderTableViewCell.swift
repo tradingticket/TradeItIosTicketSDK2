@@ -11,6 +11,8 @@ class TradeItOrderTableViewCell: UITableViewCell {
     @IBOutlet weak var symbolLeadingSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionLeadingSpaceConstraint: NSLayoutConstraint!
     
+    private static let LEADING_SPACE_ORDER_CELL = CGFloat(5.0)
+    private static let LEADING_SPACE_GROUP_ORDER_CELL = CGFloat(15.0)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,11 +27,11 @@ class TradeItOrderTableViewCell: UITableViewCell {
         self.orderTypeDescriptionLabel.text = orderPresenter.getFormattededOrderTypeDescription()
         self.statusLabel.text = orderPresenter.getFormattedStatus()
         if isGroupOrder {
-            self.symbolLeadingSpaceConstraint.constant = CGFloat(10.0)
-            self.descriptionLeadingSpaceConstraint.constant = CGFloat(10.0)
+            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
+            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
         } else {
-            self.symbolLeadingSpaceConstraint.constant = CGFloat(0.0)
-            self.descriptionLeadingSpaceConstraint.constant = CGFloat(0.0)
+            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
+            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
         }
     }
     

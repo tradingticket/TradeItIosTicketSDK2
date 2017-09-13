@@ -83,10 +83,18 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         switch orderStatus  {
         case "FILLED":
             return "Filled at \(getFormattedTimestamp(timestamp: self.orderLeg.fills?[0].timestamp))"
-        case "CANCELED", "REJECTED", "NOT_FOUND", "EXPIRED":
-            return formatEnum(string: self.order.orderStatus)
         default:
             return formatEnum(string: self.order.orderExpiration)
+        }
+    }
+    
+    func getFormattedStatus() -> String {
+        let orderStatus = self.order.orderStatus ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        switch orderStatus  {
+        case "FILLED":
+            return ""
+        default:
+            return formatEnum(string: self.order.orderStatus)
         }
     }
     
@@ -94,7 +102,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         guard let string = string else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
-        return string.lowercased().capitalized.replacingOccurrences(of: "_", with: " ")
+        return string.lowercased().replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter()
     }
     
     private func getFormattedQuantity(quantity: NSNumber) -> String {

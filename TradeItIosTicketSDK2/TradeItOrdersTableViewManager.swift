@@ -7,10 +7,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var refreshControl: UIRefreshControl?
     
     private static let ORDER_CELL_HEIGHT = 50
-    private static let SECTION_HEADER_HEIGHT = 15
-    private static let OPEN_ORDERS_SECTION = 0
-    private static let FILLED_ORDERS_SECTION  = 1
-    private static let OTHER_ORDERS_SECTION = 2
+    
     
     var ordersTable: UITableView? {
         get {
@@ -46,24 +43,28 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func updateOrders(_ orders: [TradeItOrderStatusDetails]) {
-        let openOrders = orders.filter { ["PENDING", "OPEN", "PART_FILLED", "PENDING_CANCEL"].contains($0.orderStatus ?? "") }
+        self.orderSectionPresenters = []
+        
+        let openOrders = orders.filter { $0.containsOpenStatus()}
         if openOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Open Orders (Past 60 Days)"))
             let splitedOpenOrdersArray = getSplittedOrdersArray(orders: openOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOpenOrdersArray)
         }
-        let filledOrders = orders.filter { ["FILLED"].contains($0.orderStatus ?? "") }
+        
+        let filledOrders = orders.filter { $0.containsFilledStatus() }
         if filledOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Filled Orders (Today)"))
             let splitedFilledOrdersArray = getSplittedOrdersArray(orders: filledOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedFilledOrdersArray)
         }
-        let otherOrders = orders.filter { ["CANCELED", "REJECTED", "NOT_FOUND", "EXPIRED"].contains($0.orderStatus ?? "") }
+        let otherOrders = orders.filter { $0.containsOtherOrderStatus() }
         if otherOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Other Orders (Today)"))
             let splitedOtherOrdersArray = getSplittedOrdersArray(orders: otherOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOtherOrdersArray)
         }
+        
         self.ordersTable?.reloadData()
     }
     
@@ -73,16 +74,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case TradeItOrdersTableViewManager.OPEN_ORDERS_SECTION:
-            return "Open Orders (Past 60 Days)"
-        case TradeItOrdersTableViewManager.FILLED_ORDERS_SECTION:
-            return "Filled Orders (Today)"
-        case TradeItOrdersTableViewManager.OTHER_ORDERS_SECTION:
-            return "Other Orders (Today)"
-        default:
-            return "Unknown"
-        }
+        return self.orderSectionPresenters[section].title
     }
     
     // MARK: UITableViewDataSource
@@ -112,17 +104,21 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         return CGFloat(TradeItOrdersTableViewManager.ORDER_CELL_HEIGHT)
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.orderSectionPresenters[section].header(forTableView: tableView)
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.orderSectionPresenters[section].title == "" {
-            return 0
-        } else {
-            return CGFloat(TradeItOrdersTableViewManager.SECTION_HEADER_HEIGHT)
-        }
+        return self.orderSectionPresenters[section].heightForHeaderInSection()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
     
     // MARK: Private
     
-    func addRefreshControl(toTableView tableView: UITableView) {
+    private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(
@@ -134,15 +130,67 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
+    
+    /**
+     * This is to split orders in order to have a specific section for group orders
+    **/
+    private func getSplittedOrdersArray(orders: [TradeItOrderStatusDetails]) -> [[TradeItOrderStatusDetails]]{
+        return orders.reduce([[]], { splittedArrays, order in
+            var splittedArraysTmp = splittedArrays
+            let lastResult: [TradeItOrderStatusDetails] = splittedArrays[(splittedArrays.endIndex - 1)]
+            
+            let groupOrderType = order.groupOrderType ?? ""
+            
+            if groupOrderType.isEmpty && !lastResult.contains(order) { // this is not a group order, we can append the order
+                splittedArraysTmp[(splittedArraysTmp.endIndex - 1)].append(order)
+                return splittedArraysTmp
+            } else { // This is a group order or the begining of a new array
+                splittedArraysTmp.append([order])
+                return splittedArraysTmp
+            }
+        })
+    }
+    
+    private func buildOrderSectionPresentersFrom(splitedOrdersArray: [[TradeItOrderStatusDetails]]) {
+        splitedOrdersArray.forEach { splittedOrders in
+            var orders = splittedOrders
+            var title = ""
+            var isGroupOrder = false
+            if let groupOrder = (splittedOrders.filter { $0.isGroupOrder()}).first
+                , let groupOrderType = groupOrder.groupOrderType {
+                title = groupOrderType.lowercased().replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter()
+                orders = splittedOrders.flatMap { $0.groupOrders ?? [] }
+                isGroupOrder = true
+            }
+            self.orderSectionPresenters.append(
+                OrderSectionPresenter(
+                    orders: orders,
+                    title: title,
+                    isGroupOrder: isGroupOrder
+                )
+            )
+        }
+    }
+    
+    private func isOpenOrder() {
+        
+    }
 
 }
 
 fileprivate class OrderSectionPresenter {
+    
+    private static let SECTION_HEADER_HEIGHT = 30
+    private static let SECTION_GROUP_HEADER_HEIGHT = 20
+    
     let orders: [TradeItOrderStatusDetails]
     var title: String
+    var isGroupOrder: Bool
     
-    init(orders: [TradeItOrderStatusDetails]) {
+    init(orders: [TradeItOrderStatusDetails], title: String, isGroupOrder: Bool = false) {
         self.orders = orders
+        self.title = title
+        self.isGroupOrder = isGroupOrder
     }
     
     func numberOfRows() -> Int {
@@ -157,9 +205,35 @@ fileprivate class OrderSectionPresenter {
             return UITableViewCell()
         }
         
-        cell.populate(withOrder: order, andOrderLeg: orderLeg)
+        cell.populate(withOrder: order, andOrderLeg: orderLeg, isGroupOrder: self.isGroupOrder)
         return cell
     }
+    
+    func header(forTableView tableView: UITableView) -> UITableViewCell? {
+        if self.title == "" {
+            return nil
+        } else {
+            let header = UITableViewCell()
+            header.textLabel?.text = self.title
+            if self.isGroupOrder {
+                TradeItThemeConfigurator.configureTableHeader(header: header, groupedStyle: false)
+            } else {
+                TradeItThemeConfigurator.configureTableHeader(header: header)
+            }
+            return header
+        }
+    }
+    
+    func heightForHeaderInSection() -> CGFloat {
+        if self.title == "" {
+            return CGFloat.leastNormalMagnitude
+        } else if self.isGroupOrder{
+            return CGFloat(OrderSectionPresenter.SECTION_GROUP_HEADER_HEIGHT)
+        } else {
+            return CGFloat(OrderSectionPresenter.SECTION_HEADER_HEIGHT)
+        }
+    }
+
 }
 
 

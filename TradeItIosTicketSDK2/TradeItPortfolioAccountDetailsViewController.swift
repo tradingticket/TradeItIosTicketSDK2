@@ -76,23 +76,13 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             )
         }
 
-        let positionsPromise = Promise<[TradeItPortfolioPosition]> { fulfill, reject in
-            linkedBrokerAccount.getPositions(
-                onSuccess: { positions in
-                    fulfill(positions)
-                },
-                onFailure: { error in
-                    self.tableViewManager.updatePositions(withPositions: nil)
-                    reject(error)
-                }
-            )
+        let positionsAndQuotesPromise = self.positionsPromise(linkedBrokerAccount: linkedBrokerAccount).then { portfolioPositions in
+            return self.quotesPromise(portfolioPositions: portfolioPositions)
         }
 
         authenticatePromise.then { _ in
-            return when(fulfilled: accountOverviewPromise, positionsPromise)
-        }.then { _, portfolioPositions in
-            return self.updateQuotes(portfolioPositions: portfolioPositions)
-        }.then { positions in
+            return when(fulfilled: accountOverviewPromise, positionsAndQuotesPromise)
+        }.then { _, positions in
             self.tableViewManager.updatePositions(withPositions: positions)
         }.always {
             onRefreshComplete()
@@ -103,7 +93,21 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     // MARK: Private
 
-    private func updateQuotes(portfolioPositions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
+    private func positionsPromise(linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Promise<[TradeItPortfolioPosition]> {
+        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+            linkedBrokerAccount.getPositions(
+                onSuccess: { positions in
+                    fulfill(positions)
+                },
+                onFailure: { error in
+                    self.tableViewManager.updatePositions(withPositions: nil)
+                    reject(error)
+                }
+            )
+        }
+    }
+
+    private func quotesPromise(portfolioPositions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
         let symbols = portfolioPositions
             .filter { $0.position?.lastPrice == nil }
             .map { $0.position?.symbol }

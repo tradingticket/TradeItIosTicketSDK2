@@ -70,11 +70,22 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     
     func getFormattedDayReturn() -> String? {
         let quotePresenter = TradeItQuotePresenter(getCurrencyCode())
-        return quotePresenter.formatChange(change: position?.todayGainLossDollar, percentChange: position?.todayGainLossPercentage)
+        return quotePresenter.formatChange(change: getDayReturn(), percentChange: position?.todayGainLossPercentage)
     }
     
     func getFormattedDayChangeColor() -> UIColor {
-        return TradeItPresenter.stockChangeColor(position?.todayGainLossDollar?.doubleValue)
+        return TradeItPresenter.stockChangeColor(getDayReturn()?.doubleValue)
+    }
+
+    private func getDayReturn() -> NSNumber? {
+        if position?.todayGainLossDollar != nil {
+            return position?.todayGainLossDollar
+        } else {
+            guard let dayChange = getQuote()?.change,
+                let quantity = position?.quantity
+                else { return nil }
+            return NSNumber(value: dayChange.doubleValue * quantity.doubleValue)
+        }
     }
     
     func getHoldingType() -> String? {

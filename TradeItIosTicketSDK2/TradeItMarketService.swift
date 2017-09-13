@@ -12,8 +12,7 @@
     )
 }
 
-// TODO: Make sure this is fine being `internal`
-class TradeItMarketService: NSObject, MarketDataService {
+class TradeItMarketService: MarketDataService {
     let connector: TradeItConnector
 
     init(connector: TradeItConnector) {

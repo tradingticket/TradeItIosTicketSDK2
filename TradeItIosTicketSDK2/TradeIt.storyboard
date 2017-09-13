@@ -829,7 +829,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_CELL_ID" rowHeight="50" id="04m-be-k3p" customClass="TradeItOrderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="04m-be-k3p" id="OuN-Rt-oCX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -859,12 +859,20 @@
                                                     <color key="textColor" red="0.61966383457183838" green="0.61965179443359375" blue="0.61965996026992798" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i39-h1-Syk">
+                                                    <rect key="frame" x="332" y="11.5" width="35" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.61966383459999996" green="0.61965179439999996" blue="0.61965996030000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="KKl-JZ-QLu" firstAttribute="leading" secondItem="OuN-Rt-oCX" secondAttribute="leadingMargin" id="0Ki-Ke-HE4"/>
                                                 <constraint firstItem="VwA-ec-Ula" firstAttribute="leading" secondItem="oBT-9f-WeX" secondAttribute="trailing" constant="10" id="0bg-sS-w00"/>
                                                 <constraint firstItem="oBT-9f-WeX" firstAttribute="top" secondItem="OuN-Rt-oCX" secondAttribute="topMargin" id="8w7-0B-hsj"/>
                                                 <constraint firstItem="oBT-9f-WeX" firstAttribute="leading" secondItem="OuN-Rt-oCX" secondAttribute="leadingMargin" id="Jy1-hd-icB"/>
+                                                <constraint firstItem="i39-h1-Syk" firstAttribute="centerY" secondItem="VwA-ec-Ula" secondAttribute="centerY" id="Os1-L9-oa6"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="i39-h1-Syk" secondAttribute="trailing" id="YuI-4I-Tub"/>
                                                 <constraint firstItem="VwA-ec-Ula" firstAttribute="centerY" secondItem="oBT-9f-WeX" secondAttribute="centerY" id="pms-b0-Xl3"/>
                                                 <constraint firstItem="4IA-T7-JOV" firstAttribute="centerY" secondItem="KKl-JZ-QLu" secondAttribute="centerY" id="s6h-4h-sds"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="4IA-T7-JOV" secondAttribute="trailing" id="uDj-r2-mHT"/>
@@ -873,9 +881,12 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="KKl-JZ-QLu" id="k0p-UA-Wbw"/>
+                                            <outlet property="descriptionLeadingSpaceConstraint" destination="0Ki-Ke-HE4" id="Nad-VI-4m5"/>
                                             <outlet property="expirationLabel" destination="4IA-T7-JOV" id="187-cT-xbb"/>
                                             <outlet property="orderTypeDescriptionLabel" destination="VwA-ec-Ula" id="n2H-YG-qu0"/>
+                                            <outlet property="statusLabel" destination="i39-h1-Syk" id="cjK-XZ-dd4"/>
                                             <outlet property="symbolLabel" destination="oBT-9f-WeX" id="j47-dy-loN"/>
+                                            <outlet property="symbolLeadingSpaceConstraint" destination="Jy1-hd-icB" id="AnE-MW-5sk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

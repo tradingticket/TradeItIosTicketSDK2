@@ -31,6 +31,31 @@ internal class TradeItOrderService: NSObject {
                 ))
             }
         }
-
+    }
+    
+    func cancelOrder(
+        _ data: TradeItCancelOrderRequest,
+        onSuccess: @escaping () -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+        ) {
+        data.token = self.session.token
+        
+        let request = TradeItRequestFactory.buildJsonRequest(
+            for: data,
+            emsAction: "order/cancelOrder",
+            environment: self.session.connector.environment
+        )
+        
+        self.session.connector.send(request, targetClassType: TradeItAllOrderStatusResult.self) { result in
+            switch (result) {
+            case _ as TradeItAllOrderStatusResult: onSuccess()
+            case let error as TradeItErrorResult: onFailure(error)
+            default:
+                onFailure(TradeItErrorResult(
+                    title: "Cancelling order failed",
+                    message: "There was a problem cancelling order. Please try again."
+                ))
+            }
+        }
     }
 }

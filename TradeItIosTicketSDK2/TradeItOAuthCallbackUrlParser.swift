@@ -48,7 +48,7 @@ class TradeItOAuthCallbackUrlParser {
             var action = TradeItOrderActionPresenter.DEFAULT
 
             if let actionString = urlComponents?.queryStringValue(forKey: OAuthCallbackQueryParamKeys.tradeItOrderAction.rawValue) {
-                action = TradeItOrderActionPresenter.enumFor(actionString)
+                action = TradeItOrderAction(value: actionString)
             }
 
             self.order = TradeItOrder(symbol: symbol, action: action)

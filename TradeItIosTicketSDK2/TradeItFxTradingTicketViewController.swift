@@ -84,10 +84,12 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .account:
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.actionType) { selection in
                 self.order.actionType = selection
             }
         case .priceType:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
                 self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
@@ -96,6 +98,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 }
             }
         case .expiration:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expirationType) { selection in
                 self.order.expirationType = selection
             }
@@ -389,7 +392,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         let ticketRow = self.ticketRows[rowIndex]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId) ?? UITableViewCell()
-        cell.textLabel?.text = ticketRow.getTitle(forAction: .buy) // TODO FIX
+        cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
 
         TradeItThemeConfigurator.configure(view: cell)
@@ -465,7 +468,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         onSelected: @escaping (String?) -> Void
     ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
-        self.selectionViewController.title = "Select order type"
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
         self.selectionViewController.onSelected = { selection in

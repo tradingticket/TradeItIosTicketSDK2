@@ -154,7 +154,7 @@ protocol OAuthCompletionListener {
                 if order.action != .unknown {
                     urlComponents.addOrUpdateQueryStringValue(
                         forKey: OAuthCallbackQueryParamKeys.tradeItOrderAction.rawValue,
-                        value: TradeItOrderActionPresenter.labelFor(order.action))
+                        value: order.action.rawValue)
                 }
 
                 oAuthCallbackUrl = urlComponents.url ?? oAuthCallbackUrl

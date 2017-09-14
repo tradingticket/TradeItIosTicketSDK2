@@ -84,6 +84,7 @@
 #import "TradeItOrderLeg.h"
 #import "TradeItOrderFill.h"
 #import "TradeItPriceInfo.h"
+#import "TradeItCancelOrderRequest.h"
 
 #import "TradeItBrokerListResult.h"
 

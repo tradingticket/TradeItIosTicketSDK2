@@ -102,6 +102,14 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
                         self.fireViewEventNotification(view: .submitted)
                     },
+                    { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: self,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelSecurityQuestion
+                        )
+                    },
                     { errorResult in
                         activityView.hide(animated: true)
 

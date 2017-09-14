@@ -33,8 +33,7 @@ internal class TradeItTradeService: NSObject {
 
     func placeTrade(
         _ data: TradeItPlaceTradeRequest,
-        onSuccess: @escaping (TradeItPlaceTradeResult) -> Void,
-        onFailure: @escaping (TradeItErrorResult) -> Void
+        withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
     ) {
         data.token = self.session.token
 
@@ -43,17 +42,37 @@ internal class TradeItTradeService: NSObject {
             emsAction: "order/placeStockOrEtfOrder",
             environment: self.session.connector.environment
         )
-
-        self.session.connector.send(request, targetClassType: TradeItPlaceTradeResult.self) { result in
-            switch (result) {
-            case let result as TradeItPlaceTradeResult: onSuccess(result)
-            case let error as TradeItErrorResult: onFailure(error)
-            default:
-                onFailure(TradeItErrorResult(
-                    title: "Invalid response sent from the server",
-                    message: "Please check your active orders and try again."
-                ))
-            }
+        self.session.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
+            completionBlock(self.parsePlaceTradeResponse(result, jsonResponse))
+        })
+    }
+    
+    func answerSecurityQuestionPlaceOrder(_ answer: String, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
+        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, andAnswer: answer)
+        let request = TradeItRequestFactory.buildJsonRequest(
+            for: secRequest,
+            emsAction: "user/answerSecurityQuestion",
+            environment: self.session.connector.environment
+        )
+        self.session.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
+            completionBlock(self.parsePlaceTradeResponse(result, jsonResponse))
+        })
+    }
+    
+    private func parsePlaceTradeResponse(_ placeTradeResult: TradeItResult, _ json: String?) -> TradeItResult {
+        guard let json = json else { return TradeItErrorResult.error(withSystemMessage: "No data returned from server") }
+        
+        if let securityQuestionResult = placeTradeResult as? TradeItSecurityQuestionResult {
+            return securityQuestionResult
+        } else if let error = placeTradeResult as? TradeItErrorResult {
+            return error
+        } else if let placeTradeResult = TradeItResultTransformer.transform(targetClassType: TradeItPlaceTradeResult.self, json: json) {
+            return placeTradeResult
+        } else {
+            return TradeItErrorResult(
+                title: "Place failed",
+                message: "There was a problem placinging your order. Please try again."
+            )
         }
     }
 }

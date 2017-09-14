@@ -21,6 +21,14 @@
     return [@"SUCCESS" isEqualToString:self.status];
 }
 
+- (BOOL)isSecurityQuestion {
+    return [@"INFORMATION_NEEDED" isEqualToString:self.status];
+}
+
+- (BOOL)isReviewOrder {
+    return [@"REVIEW_ORDER" isEqualToString:self.status];
+}
+
 - (BOOL)isError {
     return [@"ERROR" isEqualToString:self.status];
 }

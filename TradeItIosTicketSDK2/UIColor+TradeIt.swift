@@ -36,4 +36,8 @@ extension UIColor {
     static var tradeItSellRedColor: UIColor {
         return UIColor(red: 205.0 / 255.0, green: 28.0 / 255.0, blue: 41.0 / 255.0, alpha: 0.81)
     }
+    
+    static var tradeItCancelRedColor: UIColor {
+        return UIColor(red: 205.0 / 255.0, green: 28.0 / 255.0, blue: 41.0 / 255.0, alpha: 0.81)
+    }
 }

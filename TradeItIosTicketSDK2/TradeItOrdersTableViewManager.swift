@@ -120,6 +120,30 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         return CGFloat.leastNormalMagnitude
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
+            guard let order = self.orderSectionPresenters[indexPath.section].getOrder(forRow: indexPath.row)
+                , let orderNumber = order.isGroupOrder() ? order.groupOrderId : order.orderNumber else {
+                    return
+            }
+            self.delegate?.cancelActionWasTapped(forOrderNumber: orderNumber)
+        }
+        cancelAction.backgroundColor = UIColor.tradeItCancelRedColor
+        return [cancelAction]
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard let order = self.orderSectionPresenters[indexPath.section].getOrder(forRow: indexPath.row) else {
+            return false
+        }
+        return order.isCancellable()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        // nothing to do but need to be defined to display the actions
+    }
+    
     // MARK: Private
     
     private func addRefreshControl(toTableView tableView: UITableView) {
@@ -235,4 +259,5 @@ fileprivate class OrderSectionPresenter {
 
 protocol TradeItOrdersTableDelegate: class {
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
+    func cancelActionWasTapped(forOrderNumber orderNumber:String)
 }

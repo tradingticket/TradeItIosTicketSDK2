@@ -88,4 +88,9 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             onRefreshComplete()
         }
     }
+    
+    func cancelActionWasTapped(forOrderNumber orderNumber: String) {
+        // TODO
+        print("cancelActionWasTapped!: \(orderNumber)")
+    }
 }

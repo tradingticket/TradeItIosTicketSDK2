@@ -110,8 +110,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     private func quotesPromise(portfolioPositions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
         let symbols = portfolioPositions
             .filter { $0.position?.lastPrice == nil }
-            .map { $0.position?.symbol }
-            .flatMap { $0 }
+            .flatMap { $0.position?.symbol }
 
         return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
             guard !symbols.isEmpty,

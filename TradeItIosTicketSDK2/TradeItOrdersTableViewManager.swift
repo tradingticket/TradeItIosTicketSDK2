@@ -45,20 +45,27 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     func updateOrders(_ orders: [TradeItOrderStatusDetails]) {
         self.orderSectionPresenters = []
         
-        let openOrders = orders.filter { $0.containsOpenStatus()}
+        let openOrders = orders.filter { $0.belongsToOpenCategory()}
         if openOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Open Orders (Past 60 Days)"))
             let splitedOpenOrdersArray = getSplittedOrdersArray(orders: openOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOpenOrdersArray)
         }
         
-        let filledOrders = orders.filter { $0.containsFilledStatus() }
+        let partiallyFilledOrders = orders.filter { $0.belongsToPartiallyFilledCategory() }
+        if partiallyFilledOrders.count > 0 {
+            self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Partially Filled Orders (Today)"))
+            let splitedPartiallyFilledOrdersArray = getSplittedOrdersArray(orders: partiallyFilledOrders)
+            buildOrderSectionPresentersFrom(splitedOrdersArray: splitedPartiallyFilledOrdersArray)
+        }
+        
+        let filledOrders = orders.filter { $0.belongsToFilledCategory() }
         if filledOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Filled Orders (Today)"))
             let splitedFilledOrdersArray = getSplittedOrdersArray(orders: filledOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedFilledOrdersArray)
         }
-        let otherOrders = orders.filter { $0.containsOtherOrderStatus() }
+        let otherOrders = orders.filter { $0.belongsToOtherCategory() }
         if otherOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Other Orders (Today)"))
             let splitedOtherOrdersArray = getSplittedOrdersArray(orders: otherOrders)
@@ -69,9 +76,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     // MARK: UITableViewDelegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.orderSectionPresenters[section].title
@@ -139,9 +143,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             var splittedArraysTmp = splittedArrays
             let lastResult: [TradeItOrderStatusDetails] = splittedArrays[(splittedArrays.endIndex - 1)]
             
-            let groupOrderType = order.groupOrderType ?? ""
-            
-            if groupOrderType.isEmpty && !lastResult.contains(order) { // this is not a group order, we can append the order
+            if !order.isGroupOrder() && !lastResult.contains(order) { // this is not a group order, we can append the order
                 splittedArraysTmp[(splittedArraysTmp.endIndex - 1)].append(order)
                 return splittedArraysTmp
             } else { // This is a group order or the begining of a new array
@@ -171,17 +173,12 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             )
         }
     }
-    
-    private func isOpenOrder() {
-        
-    }
 
 }
 
 fileprivate class OrderSectionPresenter {
     
     private static let SECTION_HEADER_HEIGHT = 30
-    private static let SECTION_GROUP_HEADER_HEIGHT = 20
     
     let orders: [TradeItOrderStatusDetails]
     var title: String
@@ -197,11 +194,18 @@ fileprivate class OrderSectionPresenter {
         return self.orders.flatMap { $0.orderLegs ?? [] }.count
     }
     
+    func getOrder(forRow row: Int) -> TradeItOrderStatusDetails? {
+        guard let orderLeg =  (self.orders.flatMap { $0.orderLegs ?? [] })[safe: row]
+        , let order = (self.orders.filter { $0.orderLegs?.contains(orderLeg) ?? false }).first else {
+            return nil
+        }
+        return order
+    }
+    
     func cell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell
             , let orderLeg = (self.orders.flatMap { $0.orderLegs ?? [] }) [safe: row]
-            , let order = (self.orders.filter { $0.orderLegs?.contains(orderLeg) ?? false }).first
-        else {
+            , let order = (self.orders.filter { $0.orderLegs?.contains(orderLeg) ?? false }).first else {
             return UITableViewCell()
         }
         
@@ -209,29 +213,23 @@ fileprivate class OrderSectionPresenter {
         return cell
     }
     
-    func header(forTableView tableView: UITableView) -> UITableViewCell? {
-        if self.title == "" {
+    func header(forTableView tableView: UITableView) -> UIView? {
+        guard self.title != "" else {
             return nil
-        } else {
-            let header = UITableViewCell()
-            header.textLabel?.text = self.title
-            if self.isGroupOrder {
-                TradeItThemeConfigurator.configureTableHeader(header: header, groupedStyle: false)
-            } else {
-                TradeItThemeConfigurator.configureTableHeader(header: header)
-            }
-            return header
         }
+        let header = UITableViewHeaderFooterView()
+        header.textLabel?.text = self.title
+        if self.isGroupOrder {
+            TradeItThemeConfigurator.configure(view: header.contentView, groupedStyle: false)
+        }
+        return header
     }
     
     func heightForHeaderInSection() -> CGFloat {
-        if self.title == "" {
+        guard self.title != "" else {
             return CGFloat.leastNormalMagnitude
-        } else if self.isGroupOrder{
-            return CGFloat(OrderSectionPresenter.SECTION_GROUP_HEADER_HEIGHT)
-        } else {
-            return CGFloat(OrderSectionPresenter.SECTION_HEADER_HEIGHT)
         }
+        return CGFloat(OrderSectionPresenter.SECTION_HEADER_HEIGHT)
     }
 
 }

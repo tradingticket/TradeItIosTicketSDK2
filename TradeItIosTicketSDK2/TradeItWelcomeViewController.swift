@@ -68,7 +68,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     // MARK: UIGestureRecognizerDelegate
 
-    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
         if let featuredBroker = featuredBroker {
             self.launchOAuth(forBroker: featuredBroker)
         }

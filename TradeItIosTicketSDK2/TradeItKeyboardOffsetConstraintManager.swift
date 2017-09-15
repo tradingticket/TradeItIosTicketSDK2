@@ -26,7 +26,7 @@ class TradeItKeyboardOffsetConstraintManager: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func keyboardNotification(_ notification: Notification) {
+    @objc func keyboardNotification(_ notification: Notification) {
         if let userInfo = (notification as NSNotification).userInfo {
             let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect()
             let duration:TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSDecimalNumber)?.doubleValue ?? 0

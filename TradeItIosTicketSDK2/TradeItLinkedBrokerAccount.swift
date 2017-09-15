@@ -162,6 +162,20 @@
         })
     }
     
+    public func cancelOrder(orderNumber: String, onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        let request = TradeItCancelOrderRequest()
+        request.accountNumber = self.accountNumber
+        request.orderNumber = orderNumber
+        self.orderService?.cancelOrder(
+            request,
+            onSuccess: onSuccess,
+            onFailure: { error in
+                self.setError(error)
+                onFailure(error)
+            }
+        )
+    }
+    
     public func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName

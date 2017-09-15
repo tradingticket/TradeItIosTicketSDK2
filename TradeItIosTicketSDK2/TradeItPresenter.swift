@@ -8,8 +8,10 @@ class TradeItPresenter {
         guard let value = value else { return TradeItSDK.theme.textColor }
         if value < 0.0 {
             return UIColor.tradeItDeepRoseColor
-        } else {
+        } else if value > 0.0 {
             return UIColor.tradeItMoneyGreenColor
+        } else {
+            return TradeItSDK.theme.textColor
         }
     }
 }

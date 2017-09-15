@@ -16,6 +16,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     var previewCellData = [PreviewCellData]()
     var acknowledgementCellData: [AcknowledgementCellData] = []
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
+    var orderCapabilities: TradeItInstrumentOrderCapabilities?
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
@@ -30,8 +31,9 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         self.statusLabel.text = "Order details"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)
+        self.orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
         self.previewCellData = self.generatePreviewCellData()
-
+        
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
         
@@ -99,6 +101,14 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                         activityView.hide(animated: true)
 
                         self.fireViewEventNotification(view: .submitted)
+                    },
+                    { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                        self.alertManager.promptUserToAnswerSecurityQuestion(
+                            securityQuestion,
+                            onViewController: self,
+                            onAnswerSecurityQuestion: answerSecurityQuestion,
+                            onCancelSecurityQuestion: cancelSecurityQuestion
+                        )
                     },
                     { errorResult in
                         activityView.hide(animated: true)
@@ -236,7 +246,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
             ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
         ] as [PreviewCellData]
 
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails)
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
 
         if let orderNumber = self.placeOrderResult?.orderNumber {
             cells += [
@@ -257,7 +267,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            let action = TradeItOrderActionPresenter.enumFor(orderDetails.orderAction)
+            let action = TradeItOrderAction(value: orderDetails.orderAction)
             let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
             cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
         }

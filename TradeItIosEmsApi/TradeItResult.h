@@ -41,6 +41,10 @@
 
 - (BOOL)isSuccessful;
 
+- (BOOL)isSecurityQuestion;
+
+- (BOOL)isReviewOrder;
+
 - (BOOL)isError;
 
 @end

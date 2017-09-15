@@ -41,17 +41,20 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     var previewCellData: [PreviewCellData] = []
     var acknowledgementCellData: [AcknowledgementCellData] = []
     var alertManager = TradeItAlertManager()
-
+    var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    
     weak var delegate: TradeItTradePreviewViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         precondition(self.linkedBrokerAccount != nil, "TradeItIosTicketSDK ERROR: TradeItTradingPreviewViewController loaded without setting linkedBrokerAccount.")
-
+        
+        self.orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
         previewCellData = generatePreviewCellData()
 
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
+        
         updatePlaceOrderButtonStatus()
 
         TradeItSDK.adService.populate?(
@@ -79,6 +82,14 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             { result in
                 activityView.hide(animated: true)
                 self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
+            },
+            { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
             },
             { error in
                 activityView.hide(animated: true)
@@ -168,7 +179,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         acknowledgementCellData = generateAcknowledgementCellData()
         cells += acknowledgementCellData as [PreviewCellData]
 
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails)
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Quantity", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
@@ -182,7 +193,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            let action = TradeItOrderActionPresenter.enumFor(orderDetails.orderAction)
+            let action = TradeItOrderAction(value: orderDetails.orderAction)
             let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
             cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
         }

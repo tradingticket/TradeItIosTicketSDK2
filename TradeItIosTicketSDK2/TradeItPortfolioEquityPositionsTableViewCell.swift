@@ -18,6 +18,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
     private var selectedPosition: TradeItPortfolioPosition?
@@ -74,6 +75,14 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.updateConstraintsIfNeeded()
     }
 
+    internal func showSpinner() {
+        self.activityIndicator.startAnimating()
+    }
+    
+    internal func hideSpinner() {
+        self.activityIndicator.stopAnimating()
+    }
+    
     // MARK: IBAction
     
     @IBAction func buyButtonWasTapped(_ sender: AnyObject) {

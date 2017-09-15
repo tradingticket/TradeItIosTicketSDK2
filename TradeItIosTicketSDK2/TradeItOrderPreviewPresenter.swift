@@ -13,43 +13,15 @@ class TradeItOrderPreviewPresenter {
         let request = TradeItPreviewTradeRequest()
 
         request.accountNumber = order.linkedBrokerAccount?.accountNumber
-        request.orderAction = action()
-        request.orderPriceType = priceType()
-        request.orderExpiration = expiration()
+        request.orderAction = order.action.rawValue
+        request.orderPriceType = order.type.rawValue
+        request.orderExpiration = order.expiration?.rawValue
         request.orderQuantity = quantity()
         request.orderSymbol = symbol()
         request.orderLimitPrice = order.limitPrice
         request.orderStopPrice = order.stopPrice
 
         return request
-    }
-
-    private func action() -> String {
-        switch order.action {
-        case .buy: return "buy"
-        case .sell: return "sell"
-        case .buyToCover: return "buyToCover"
-        case .sellShort: return "sellShort"
-        case .unknown: return "unknown"
-        }
-    }
-
-    private func priceType() -> String {
-        switch order.type {
-        case .market: return "market"
-        case .limit: return "limit"
-        case .stopLimit: return "stopLimit"
-        case .stopMarket: return "stopMarket"
-        case .unknown: return "unknown"
-        }
-    }
-
-    private func expiration() -> String {
-        switch order.expiration {
-        case .goodForDay: return "day"
-        case .goodUntilCanceled: return "gtc"
-        case .unknown: return "unknown"
-        }
     }
 
     private func quantity() -> NSDecimalNumber {

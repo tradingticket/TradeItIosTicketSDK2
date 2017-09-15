@@ -76,33 +76,66 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             )
         }
 
-        let positionsPromise = Promise<Void> { fulfill, reject in
-            linkedBrokerAccount.getPositions(
-                onSuccess: { positions in
-                    self.tableViewManager.updatePositions(withPositions: positions)
-                    fulfill()
-                },
-                onFailure: { error in
-                    self.tableViewManager.updateAccount(withAccount: nil)
-                    reject(error)
-                }
-            )
+        let positionsAndQuotesPromise = self.positionsPromise(linkedBrokerAccount: linkedBrokerAccount).then { portfolioPositions in
+            return self.quotesPromise(portfolioPositions: portfolioPositions)
         }
 
-        firstly {
-            authenticatePromise
-        }.then { _ in
-            return when(fulfilled: accountOverviewPromise, positionsPromise)
+        authenticatePromise.then { _ in
+            return when(fulfilled: accountOverviewPromise, positionsAndQuotesPromise)
+        }.then { _, positions in
+            self.tableViewManager.updatePositions(withPositions: positions)
+        }.always {
+            onRefreshComplete()
         }.catch { error in
             if let tradeItError = linkedBroker.error {
                 self.alertManager.showAlertWithAction(error: tradeItError, withLinkedBroker: linkedBroker, onViewController: self)
             }
-        }.always {
-            onRefreshComplete()
         }
     }
 
     // MARK: Private
+
+    private func positionsPromise(linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Promise<[TradeItPortfolioPosition]> {
+        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+            linkedBrokerAccount.getPositions(
+                onSuccess: { positions in
+                    fulfill(positions)
+                },
+                onFailure: { error in
+                    self.tableViewManager.updatePositions(withPositions: nil)
+                    reject(error)
+                }
+            )
+        }
+    }
+  
+    private func quotesPromise(portfolioPositions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
+        let symbols = portfolioPositions
+            .filter { $0.position?.lastPrice == nil }
+            .flatMap { $0.position?.symbol }
+
+        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+            guard !symbols.isEmpty,
+                let getQuotes = TradeItSDK.marketDataService.getQuotes
+                else { return fulfill(portfolioPositions) }
+
+            getQuotes(
+                symbols,
+                { quotes in
+                    let portfolioPositionsWithQuotes: [TradeItPortfolioPosition] = portfolioPositions.map { portfolioPosition in
+                        if let quote = quotes.first(where: { $0.symbol == portfolioPosition.position?.symbol }) {
+                            portfolioPosition.quote = quote
+                            portfolioPosition.position?.lastPrice = quote.lastPrice
+                        }
+                        return portfolioPosition
+                    }
+
+                    fulfill(portfolioPositionsWithQuotes)
+                },
+                reject
+            )
+        }
+    }
 
     private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,

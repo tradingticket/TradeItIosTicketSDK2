@@ -4,22 +4,46 @@
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     )
+
+    @objc optional func getQuotes(
+        symbols: [String],
+        onSuccess: @escaping ([TradeItQuote]) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    )
 }
 
-@objc public class TradeItMarketService: NSObject, MarketDataService {
+class TradeItMarketService: MarketDataService {
     let connector: TradeItConnector
 
     init(connector: TradeItConnector) {
         self.connector = connector
     }
 
-    public func getQuote(
+    func getQuote(
         symbol: String,
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
+        self.getQuotes(
+            symbols: [symbol],
+            onSuccess: { quotes in
+                if let quote = quotes.first(where: { $0.symbol == symbol }) {
+                    onSuccess(quote)
+                } else {
+                    onFailure(TradeItErrorResult(title: "Symbol not found", message: "Could not fetch quote. Please try again."))
+                }
+            },
+            onFailure: onFailure
+        )
+    }
+
+    func getQuotes(
+        symbols: [String],
+        onSuccess: @escaping ([TradeItQuote]) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let quoteRequest = TradeItQuotesRequest(
-            symbol: symbol,
+            symbols: symbols,
             andApiKey: self.connector.apiKey
         )
 
@@ -31,14 +55,15 @@
 
         self.connector.send(request, targetClassType: TradeItQuotesResult.self, withCompletionBlock: { result in
             if let quotesResult = result as? TradeItQuotesResult,
-                let quote = quotesResult.quotes?.first as? TradeItQuote {
-                onSuccess(quote)
+                let quotes = quotesResult.quotes as? [TradeItQuote] {
+                onSuccess(quotes)
             } else if let errorResult = result as? TradeItErrorResult {
                 onFailure(errorResult)
             } else {
-                onFailure(TradeItErrorResult(title: "Market data failure", message: "Could not fetch quote. Please try again."))
+                onFailure(TradeItErrorResult(title: "Market data failure", message: "Could not fetch quotes. Please try again."))
             }
         })
+
     }
 
     private func getEndpoint(forRequest request: TradeItQuotesRequest) -> String? {

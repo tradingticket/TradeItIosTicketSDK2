@@ -1,6 +1,10 @@
 public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
 public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+                                              _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+                                                _ submitAnswer: @escaping (String) -> Void,
+                                                _ onCancelSecurityQuestion: @escaping () -> Void
+                                              ) -> Void,
                                               _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
 
 @objc public class TradeItOrder: NSObject {
@@ -20,13 +24,13 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
             }
         }
     }
-    public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
+    public var expiration: TradeItOrderExpiration? = TradeItOrderExpirationPresenter.DEFAULT
     public var quantity: NSDecimalNumber?
     public var limitPrice: NSDecimalNumber?
     public var stopPrice: NSDecimalNumber?
     public var quoteLastPrice: NSDecimalNumber?
 
-    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(self.action.rawValue)], type [\(self.type.rawValue)], expiration [\(self.expiration.rawValue)], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
+    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration?.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))]" }
 
     public override init() {
         super.init()
@@ -46,19 +50,23 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     public func requiresLimitPrice() -> Bool {
+        let type = self.type
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
     public func requiresStopPrice() -> Bool {
+        let type = self.type
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
     public func requiresExpiration() -> Bool {
+        let type = self.type
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
     public func estimatedChange() -> NSDecimalNumber? {
         var optionalPrice: NSDecimalNumber?
+        let type = self.type
         switch type {
         case .market: optionalPrice = quoteLastPrice
         case .limit: optionalPrice = limitPrice
@@ -127,6 +135,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     private func validateOrderPriceType() -> Bool {
+        let type = self.type
         switch type {
         case .market: return true
         case .limit: return validateLimit()
@@ -155,9 +164,37 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     }
 
     private func generatePlaceOrderCallback(tradeService: TradeItTradeService?, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
-        return { onSuccess, onFailure in
+        return { onSuccess, onSecurityQuestion, onFailure in
             let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
-            tradeService?.placeTrade(placeOrderRequest, onSuccess: onSuccess, onFailure: onFailure)
+            let placeResponseHandler = YCombinator { handler in
+                { (result: TradeItResult?) in
+                    switch result {
+                    case let placeOrderResult as TradeItPlaceOrderResult:
+                        onSuccess(placeOrderResult)
+                    case let securityQuestion as TradeItSecurityQuestionResult:
+                        onSecurityQuestion(
+                            securityQuestion,
+                            { securityQuestionAnswer in
+                                tradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
+                            },
+                            {
+                                handler(
+                                    TradeItErrorResult(
+                                        title: "Authentication failed",
+                                        message: "The security question was canceled.",
+                                        code: .sessionError
+                                    )
+                                )
+                            }
+                        )
+                    case let errorResult as TradeItErrorResult:
+                        onFailure(errorResult)
+                    default:
+                        onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order."))
+                    }
+                }
+            }
+            tradeService?.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
         }
     }
 }

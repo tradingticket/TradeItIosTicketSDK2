@@ -28,6 +28,7 @@
     public static let viewTrading = TradeItNotification.View.trading.rawValue
     public static let viewPreview = TradeItNotification.View.preview.rawValue
     public static let viewSubmitted = TradeItNotification.View.submitted.rawValue
+    public static let viewSelectActionType = TradeItNotification.View.selectActionType.rawValue
     public static let viewSelectOrderType = TradeItNotification.View.selectOrderType.rawValue
     public static let viewSelectExpirationType = TradeItNotification.View.selectExpirationType.rawValue
     public static let viewSelectAccount = TradeItNotification.View.selectAccount.rawValue
@@ -67,6 +68,7 @@ public struct TradeItNotification {
         case trading
         case preview
         case submitted
+        case selectActionType
         case selectOrderType
         case selectExpirationType
         case selectAccount

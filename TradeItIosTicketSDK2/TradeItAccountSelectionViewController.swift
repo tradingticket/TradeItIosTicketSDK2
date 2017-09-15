@@ -28,20 +28,10 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         self.accountSelectionTableManager.updateLinkedBrokers(withLinkedBrokers: linkedBrokers, withSelectedLinkedBrokerAccount: selectedLinkedBrokerAccount)
 
         self.title = promptText ?? "Select account for trading"
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 250, height: 40))
-        titleLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 18.0)
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.textAlignment = .center
-        titleLabel.text = self.title
-
 
         if linkedBrokers.isEmpty {
             editAccountsButton.setTitle("Link Account", for: .normal)
-            titleLabel.text = "NO ACCOUNTS LINKED"
         }
-
-        self.navigationItem.titleView = titleLabel
-
     }
     
     override func configureNavigationItem() {

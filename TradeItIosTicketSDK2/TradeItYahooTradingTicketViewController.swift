@@ -17,7 +17,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
-
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    
     private var ticketRows = [TicketRow]()
 
     override func viewDidLoad() {
@@ -47,11 +48,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             viewController: self
         )
 
-        self.setOrderDefaults()
-
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+        
+        self.updateOrderCapabilities()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,36 +75,25 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderAction:
-            self.selectionViewController.title = "Select order action"
-            self.selectionViewController.initialSelection = TradeItOrderActionPresenter.labelFor(self.order.action)
-            self.selectionViewController.selections = TradeItOrderActionPresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.action = TradeItOrderActionPresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
+                self.order.action = TradeItOrderAction(value: selection)
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
+            
+            self.fireViewEventNotification(view: .selectActionType, title: self.selectionViewController.title)
         case .orderType:
-            self.selectionViewController.title = "Select order type"
-            self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
-            self.selectionViewController.selections = TradeItOrderPriceTypePresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.type = TradeItOrderPriceTypePresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
+                self.order.type = TradeItOrderPriceType(value: selection)
             }
 
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
             self.fireViewEventNotification(view: .selectOrderType, title: self.selectionViewController.title)
         case .expiration:
-            self.selectionViewController.title = "Select expiration type"
-            self.selectionViewController.initialSelection = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
-            self.selectionViewController.selections = TradeItOrderExpirationPresenter.labels()
-            self.selectionViewController.onSelected = { (selection: String) in
-                self.order.expiration = TradeItOrderExpirationPresenter.enumFor(selection)
-                _ = self.navigationController?.popViewController(animated: true)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration?.rawValue) { selection in
+                self.order.expiration = TradeItOrderExpiration(value: selection)
             }
-
-            self.navigationController?.pushViewController(selectionViewController, animated: true)
+            
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
         default:
             return
@@ -202,30 +192,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     // MARK: Private
 
     private func selectedAccountChanged() {
-        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
-            onSuccess: {
-                if self.order.action == .buy {
-                    self.updateAccountOverview()
-                } else {
-                    self.updateSharesOwned()
-                }
-            },
-            onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: onAnswerSecurityQuestion,
-                    onCancelSecurityQuestion: onCancelSecurityQuestion
-                )
-            },
-            onFailure: { error in
-                self.alertManager.showAlertWithAction(
-                    error: error,
-                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self
-                )
-            }
-        )
+        self.updateOrderCapabilities()
     }
     
     private func updateAccountOverview() {
@@ -261,8 +228,9 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     private func setTitle() {
         var title = "Trade"
 
-        if self.order.action != TradeItOrderAction.unknown {
-            title = TradeItOrderActionPresenter.labelFor(self.order.action)
+        if self.order.action != TradeItOrderAction.unknown
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            title = actionType
         }
 
         if let symbol = self.order.symbol {
@@ -271,16 +239,50 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         self.title = title
     }
-
-    private func setOrderDefaults() {
-        if self.order.action == .unknown {
-            self.order.action = .buy
+    
+    private func updateOrderCapabilities() {
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Authenticating"
+        
+        self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
+            onSuccess: {
+                activityView.hide(animated: true)
+                self.orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first
+                self.setOrderDefaults()
+                if self.order.action == .buy {
+                    self.updateAccountOverview()
+                } else {
+                    self.updateSharesOwned()
+                }
+                self.updateMarketData()
+                self.reloadTicket()
+        },
+            onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: onAnswerSecurityQuestion,
+                    onCancelSecurityQuestion: onCancelSecurityQuestion
+                )
+        },
+            onFailure: { error in
+                activityView.hide(animated: true)
+                self.alertManager.showAlertWithAction(
+                    error: error,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self
+                )
         }
-
-        if self.order.expiration == .unknown {
-            self.order.expiration = .goodForDay
-        }
+        )
     }
+    
+    private func setOrderDefaults() {
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
+        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration?.rawValue))
+    }
+
 
     private func setReviewButtonEnablement() {
         if self.order.isValid() {
@@ -312,8 +314,6 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     private func reloadTicket() {
         self.setTitle()
         self.setReviewButtonEnablement()
-        self.selectedAccountChanged()
-        self.updateMarketData()
 
         var ticketRows: [TicketRow] = [
             .account,
@@ -357,7 +357,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         switch ticketRow {
         case .orderAction:
-            cell.detailTextLabel?.text = TradeItOrderActionPresenter.labelFor(self.order.action)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.quantity,
@@ -411,9 +411,9 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = TradeItOrderPriceTypePresenter.labelFor(self.order.type)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = TradeItOrderExpirationPresenter.labelFor(self.order.expiration)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration?.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
@@ -449,6 +449,22 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
         return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)
+    }
+    
+    private func pushOrderCapabilitiesSelection(
+        field: TradeItInstrumentOrderCapabilityField,
+        value: String?,
+        onSelected: @escaping (String?) -> Void
+        ) {
+        guard let orderCapabilities = self.orderCapabilities else { return }
+        self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
+        self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
+        self.selectionViewController.onSelected = { selection in
+            onSelected(orderCapabilities.valueFor(field: field, label: selection))
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        self.navigationController?.pushViewController(selectionViewController, animated: true)
     }
 
     enum TicketRow {
@@ -494,7 +510,9 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .orderAction: return "Action"
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                return "Estimated \(sellActions.contains(order.action) ? "proceeds" : "cost")"
+                let action = order.action 
+                let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
+                return title
             case .quantity: return "Shares"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"

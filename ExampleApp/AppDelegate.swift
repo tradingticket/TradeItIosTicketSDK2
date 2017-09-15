@@ -224,9 +224,9 @@ class DummyMarketDataService: MarketDataService {
         // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = 1337.42
-        quote.change = 42.1337
-        quote.pctChange = -123.456
+        quote.lastPrice = 1337.42 as NSNumber
+        quote.change = 42.1337 as NSNumber
+        quote.pctChange = -123.456 as NSNumber
         quote.dateTime = "12:34:56"
         onSuccess(quote)
 

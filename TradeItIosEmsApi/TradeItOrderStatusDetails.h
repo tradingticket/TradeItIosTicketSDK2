@@ -13,5 +13,10 @@
 
 @property (nonatomic, copy, nullable) NSArray<TradeItOrderLeg*> <Optional, TradeItOrderLeg> * orderLegs;
 
+@property (nonatomic, copy, nullable) NSString<Optional>  * groupOrderId;
+
+@property (nonatomic, copy, nullable) NSString<Optional>  * groupOrderType;
+
+@property (nonatomic, copy, nullable) NSArray<TradeItOrderStatusDetails*> <Optional, TradeItOrderStatusDetails>  * groupOrders;
 
 @end

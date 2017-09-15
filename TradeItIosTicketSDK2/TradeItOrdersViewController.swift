@@ -100,7 +100,16 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                     activityView.hide(animated: true)
                     self.ordersTableViewManager?.initiateRefresh()
                 },
+                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                    self.alertManager.promptUserToAnswerSecurityQuestion(
+                        securityQuestion,
+                        onViewController: self,
+                        onAnswerSecurityQuestion: answerSecurityQuestion,
+                        onCancelSecurityQuestion: cancelSecurityQuestion
+                    )
+                },
                 onFailure: { error in
+                    activityView.hide(animated: true)
                     self.alertManager.showError(error, onViewController: self)
                 }
             )

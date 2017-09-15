@@ -161,13 +161,21 @@
         })
     }
     
-    public func cancelOrder(orderNumber: String, onSuccess: @escaping () -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func cancelOrder(orderNumber: String,
+                            onSuccess: @escaping () -> Void,
+                            onSecurityQuestion: @escaping (
+                                TradeItSecurityQuestionResult,
+                                _ submitAnswer: @escaping (String) -> Void,
+                                _ onCancelSecurityQuestion: @escaping () -> Void
+                            ) -> Void,
+                            onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItCancelOrderRequest()
         request.accountNumber = self.accountNumber
         request.orderNumber = orderNumber
         self.orderService?.cancelOrder(
             request,
             onSuccess: onSuccess,
+            onSecurityQuestion: onSecurityQuestion,
             onFailure: { error in
                 self.setError(error)
                 onFailure(error)

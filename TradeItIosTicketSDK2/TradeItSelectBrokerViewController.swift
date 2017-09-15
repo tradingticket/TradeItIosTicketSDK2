@@ -198,15 +198,15 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_SELECT_BROKER_CELL_ID") as? TradeItSelectBrokerTableViewCell ?? TradeItSelectBrokerTableViewCell()
-        
+
         guard let broker = getBroker(cellForRowAt: indexPath) else { return UITableViewCell() }
-        
+
         cell.populate(withBroker: broker)
         TradeItThemeConfigurator.configure(view: cell)
 
         return cell
     }
-    
+
     private func getBroker(cellForRowAt indexPath: IndexPath) -> TradeItBroker? {
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             return self.featuredBrokers[safe: indexPath.row]

@@ -69,7 +69,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
                 cacheResult: true,
                 onSuccess: { _ in
                     self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
-                    fulfill()
+                    fulfill(())
                 },
                 onFailure: { error in
                     self.tableViewManager.updateAccount(withAccount: nil)

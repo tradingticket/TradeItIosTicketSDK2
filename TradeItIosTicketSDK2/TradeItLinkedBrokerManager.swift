@@ -164,7 +164,7 @@ import PromiseKit
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
-        onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+        onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_,_  in },
         onFinished: @escaping () -> Void
     ) {
         let promises = self.getAllDisplayableLinkedBrokers().map { linkedBroker in
@@ -174,7 +174,7 @@ import PromiseKit
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { tradeItErrorResult in
                         onFailure(tradeItErrorResult, linkedBroker)
-                        fulfill()
+                        fulfill(())
                     }
                 )
             }
@@ -280,7 +280,8 @@ import PromiseKit
         onFinished: @escaping () -> Void
     ) {
         // Add missing linkedBrokers
-        let localUserIds = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
+        // TODO: remove nils
+        let localUserIds = self.linkedBrokers.map { $0.linkedLogin.userId }
         let remoteLinkedBrokersToAdd = remoteLinkedBrokers.filter { !localUserIds.contains($0.userId) }
 
         remoteLinkedBrokersToAdd.forEach { remoteBrokerData in
@@ -292,7 +293,7 @@ import PromiseKit
         }
 
         // Remove non existing linkedBrokers
-        let remoteUserIds = remoteLinkedBrokers.flatMap { $0.userId }
+        let remoteUserIds = remoteLinkedBrokers.map { $0.userId }
         let linkedBrokersToRemove = self.linkedBrokers.filter {
             !remoteUserIds.contains($0.linkedLogin.userId)
         }
@@ -339,7 +340,8 @@ import PromiseKit
 
     private func syncAccounts(localLinkedBroker: TradeItLinkedBroker, remoteLinkedBroker: LinkedBrokerData) {
         // Add missing accounts
-        let localAccountNumbers = localLinkedBroker.accounts.flatMap { $0.accountNumber }
+        // TODO: Remove nils
+        let localAccountNumbers = localLinkedBroker.accounts.map { $0.accountNumber }
         let remoteAccountsToAdd = remoteLinkedBroker.accounts.filter { !localAccountNumbers.contains($0.number) }
 
         remoteAccountsToAdd.forEach { remoteAccount in
@@ -348,7 +350,7 @@ import PromiseKit
         }
 
         // Remove missing accounts
-        let remoteAccountNumbers = remoteLinkedBroker.accounts.flatMap { $0.number }
+        let remoteAccountNumbers = remoteLinkedBroker.accounts.map { $0.number }
         let localAccountsToRemove = localLinkedBroker.accounts.filter { !remoteAccountNumbers.contains($0.accountNumber) }
 
         localAccountsToRemove.forEach { localAccountToRemove in

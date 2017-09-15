@@ -123,7 +123,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
             guard let order = self.orderSectionPresenters[indexPath.section].getOrder(forRow: indexPath.row)
-                , let orderNumber = order.isGroupOrder() ? order.groupOrderId : order.orderNumber else {
+                , let orderNumber = self.orderSectionPresenters[indexPath.section].grouOrderId ?? order.orderNumber else {
                     return
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: orderNumber)
@@ -181,17 +181,17 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         self.orderSectionPresenters.append(contentsOf: splitedOrdersArray.map { splittedOrders in
             var orders = splittedOrders
             var title = ""
-            var isGroupOrder = false
+            var groupOrderId: String? = nil
             if let groupOrder = (splittedOrders.filter { $0.isGroupOrder()}).first
                 , let groupOrderType = groupOrder.groupOrderType {
                 title = groupOrderType.lowercased().replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter()
                 orders = splittedOrders.flatMap { $0.groupOrders ?? [] }
-                isGroupOrder = true
+                groupOrderId = groupOrder.groupOrderId
             }
             return OrderSectionPresenter(
                 orders: orders,
                 title: title,
-                isGroupOrder: isGroupOrder
+                groupOrderId: groupOrderId
             )
         })
     }
@@ -204,12 +204,12 @@ fileprivate class OrderSectionPresenter {
     
     let orders: [TradeItOrderStatusDetails]
     var title: String
-    var isGroupOrder: Bool
+    var grouOrderId: String?
     
-    init(orders: [TradeItOrderStatusDetails], title: String, isGroupOrder: Bool = false) {
+    init(orders: [TradeItOrderStatusDetails], title: String, groupOrderId: String? = nil) {
         self.orders = orders
         self.title = title
-        self.isGroupOrder = isGroupOrder
+        self.grouOrderId = groupOrderId
     }
     
     func numberOfRows() -> Int {
@@ -231,7 +231,7 @@ fileprivate class OrderSectionPresenter {
             return UITableViewCell()
         }
         
-        cell.populate(withOrder: order, andOrderLeg: orderLeg, isGroupOrder: self.isGroupOrder)
+        cell.populate(withOrder: order, andOrderLeg: orderLeg, isGroupOrder: self.isGroupOrder())
         return cell
     }
     
@@ -241,7 +241,7 @@ fileprivate class OrderSectionPresenter {
         }
         let header = UITableViewHeaderFooterView()
         header.textLabel?.text = self.title
-        if self.isGroupOrder {
+        if self.isGroupOrder() {
             TradeItThemeConfigurator.configure(view: header.contentView, groupedStyle: false)
         }
         return header
@@ -252,6 +252,10 @@ fileprivate class OrderSectionPresenter {
             return CGFloat.leastNormalMagnitude
         }
         return CGFloat(OrderSectionPresenter.SECTION_HEADER_HEIGHT)
+    }
+    
+    func isGroupOrder() -> Bool {
+        return self.grouOrderId != nil
     }
 
 }

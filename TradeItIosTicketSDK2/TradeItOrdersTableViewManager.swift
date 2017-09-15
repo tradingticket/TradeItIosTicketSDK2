@@ -141,7 +141,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private func getSplittedOrdersArray(orders: [TradeItOrderStatusDetails]) -> [[TradeItOrderStatusDetails]]{
         return orders.reduce([[]], { splittedArrays, order in
             var splittedArraysTmp = splittedArrays
-            let lastResult: [TradeItOrderStatusDetails] = splittedArrays[(splittedArrays.endIndex - 1)]
+            let lastResult: [TradeItOrderStatusDetails] = splittedArrays.last ?? []
             
             if !order.isGroupOrder() && !lastResult.contains(order) { // this is not a group order, we can append the order
                 splittedArraysTmp[(splittedArraysTmp.endIndex - 1)].append(order)

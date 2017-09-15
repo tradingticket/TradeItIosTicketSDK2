@@ -2,17 +2,17 @@ PODS:
   - BEMCheckBox (1.4.1)
   - JSONModel (1.7.0)
   - MBProgressHUD (1.0.0)
-  - Nimble (5.1.1)
-  - PromiseKit (4.5.2):
-    - PromiseKit/Foundation (= 4.5.2)
-    - PromiseKit/QuartzCore (= 4.5.2)
-    - PromiseKit/UIKit (= 4.5.2)
-  - PromiseKit/CorePromise (4.5.2)
-  - PromiseKit/Foundation (4.5.2):
+  - Nimble (7.0.1)
+  - PromiseKit (4.4.0):
+    - PromiseKit/Foundation (= 4.4.0)
+    - PromiseKit/QuartzCore (= 4.4.0)
+    - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/CorePromise (4.4.0)
+  - PromiseKit/Foundation (4.4.0):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.2):
+  - PromiseKit/QuartzCore (4.4.0):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.2):
+  - PromiseKit/UIKit (4.4.0):
     - PromiseKit/CorePromise
   - Quick (0.10.0)
 
@@ -20,8 +20,8 @@ DEPENDENCIES:
   - BEMCheckBox (~> 1.4.1)
   - JSONModel (~> 1.7.0)
   - MBProgressHUD (~> 1.0.0)
-  - Nimble (~> 5.1.1)
-  - PromiseKit (~> 4.0)
+  - Nimble (~> 7.0.1)
+  - PromiseKit (~> 4.4)
   - Quick (~> 0.10.0)
 
 SPEC REPOS:
@@ -37,10 +37,10 @@ SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
-  PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
+  Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
+  PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: 8de6c042a9db9777f64178e4995be9fd85814f2f
+PODFILE CHECKSUM: f0c5fdef85088f03a1751354253d340d0025ede0
 
 COCOAPODS: 1.5.0

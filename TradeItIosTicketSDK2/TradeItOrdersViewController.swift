@@ -1,5 +1,6 @@
 import UIKit
 import PromiseKit
+import MBProgressHUD
 
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     
@@ -90,7 +91,31 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     }
     
     func cancelActionWasTapped(forOrderNumber orderNumber: String) {
-        // TODO
-        print("cancelActionWasTapped!: \(orderNumber)")
+        let proceedCancellation: () -> Void = {
+            let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+            activityView.label.text = "Cancelling order"
+            self.linkedBrokerAccount?.cancelOrder(
+                orderNumber: orderNumber,
+                onSuccess: {
+                    activityView.hide(animated: true)
+                    self.ordersTableViewManager?.initiateRefresh()
+                },
+                onFailure: { error in
+                    self.alertManager.showError(error, onViewController: self)
+                }
+            )
+        }
+        
+        self.alertManager.showAlertWithMessageOnly(
+            onViewController: self,
+            withTitle: "Are you sure",
+            withMessage: "Please confirm you are cancelling this order",
+            withActionTitle: "Proceed",
+            withCancelTitle: "Back",
+            errorToReport: nil,
+            onAlertActionTapped: proceedCancellation,
+            showCancelAction: true,
+            onCancelActionTapped: {}
+        )
     }
 }

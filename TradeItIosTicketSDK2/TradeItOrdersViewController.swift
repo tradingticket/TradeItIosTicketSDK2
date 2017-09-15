@@ -61,22 +61,19 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             }
         }
         
-        func ordersPromise() -> Promise<Void> {
-            return Promise<Void> { fulfill, reject in
+        func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {
+            return Promise<[TradeItOrderStatusDetails]> { fulfill, reject in
                 linkedBrokerAccount.getAllOrderStatus(
-                    onSuccess: { orders in
-                        self.ordersTableViewManager?.updateOrders(orders)
-                        fulfill()
-                    },
-                    onFailure: { error in
-                        reject(error)
-                    }
+                    onSuccess: fulfill,
+                    onFailure: reject
                 )
             }
         }
         
         authenticatePromise().then { _ in
             return ordersPromise()
+        }.then { orders in
+            self.ordersTableViewManager?.updateOrders(orders)
         }.catch { error in
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(

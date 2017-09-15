@@ -99,7 +99,7 @@ class TradeItAccountManagementTableViewManager: NSObject, UITableViewDelegate, U
         self.refreshControl = refreshControl
     }
 
-    func refreshControlActivated() {
+    @objc func refreshControlActivated() {
         self.delegate?.refreshRequested(fromAccountManagementTableViewManager: self,
                                         onRefreshComplete: { (accounts: [TradeItLinkedBrokerAccount]?) in
                                             if let accounts = accounts {

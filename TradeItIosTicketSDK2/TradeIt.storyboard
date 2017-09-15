@@ -682,6 +682,9 @@
                                                                 <action selector="sellButtonWasTapped:" destination="fFn-NS-Mba" eventType="touchUpInside" id="dOc-Kc-am7"/>
                                                             </connections>
                                                         </button>
+                                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Xny-cT-2N7">
+                                                            <rect key="frame" x="177" y="47" width="20" height="20"/>
+                                                        </activityIndicatorView>
                                                     </subviews>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" selected="YES"/>
@@ -725,7 +728,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="9cx-9D-ndX" secondAttribute="trailing" id="2Qx-7r-QV8"/>
                                                 <constraint firstItem="7zC-4B-2dQ" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="topMargin" id="A6q-g4-0ec"/>
+                                                <constraint firstItem="Xny-cT-2N7" firstAttribute="centerX" secondItem="CV5-G3-nqA" secondAttribute="centerX" id="Qay-N0-AV6"/>
                                                 <constraint firstItem="9cx-9D-ndX" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leading" id="SVe-SL-bjx"/>
+                                                <constraint firstItem="Xny-cT-2N7" firstAttribute="centerY" secondItem="CV5-G3-nqA" secondAttribute="centerY" id="dti-ep-3Lg"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="7zC-4B-2dQ" secondAttribute="trailing" id="lkC-1h-Kn0"/>
                                                 <constraint firstItem="9cx-9D-ndX" firstAttribute="top" secondItem="7zC-4B-2dQ" secondAttribute="bottom" constant="5" id="tfk-An-HmI"/>
                                                 <constraint firstItem="7zC-4B-2dQ" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leadingMargin" id="utx-Dh-eoM"/>
@@ -734,6 +739,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="Xny-cT-2N7" id="Ujg-4A-Flg"/>
                                             <outlet property="avgCostLabelValue" destination="lAR-ee-oMb" id="ewa-zl-DLr"/>
                                             <outlet property="bidAskLabel" destination="7g3-cj-mxh" id="Q3b-P7-JST"/>
                                             <outlet property="buttonBuyHeight" destination="qRg-7a-XMt" id="MCl-Gq-Bgh"/>

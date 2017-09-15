@@ -154,7 +154,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     private func buildOrderSectionPresentersFrom(splitedOrdersArray: [[TradeItOrderStatusDetails]]) {
-        splitedOrdersArray.forEach { splittedOrders in
+        self.orderSectionPresenters.append(contentsOf: splitedOrdersArray.map { splittedOrders in
             var orders = splittedOrders
             var title = ""
             var isGroupOrder = false
@@ -164,14 +164,12 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 orders = splittedOrders.flatMap { $0.groupOrders ?? [] }
                 isGroupOrder = true
             }
-            self.orderSectionPresenters.append(
-                OrderSectionPresenter(
-                    orders: orders,
-                    title: title,
-                    isGroupOrder: isGroupOrder
-                )
+            return OrderSectionPresenter(
+                orders: orders,
+                title: title,
+                isGroupOrder: isGroupOrder
             )
-        }
+        })
     }
 
 }

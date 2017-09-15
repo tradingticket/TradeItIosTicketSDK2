@@ -123,7 +123,7 @@ import UIKit
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",
-            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.8)]
+            attributes: [NSAttributedStringKey.foregroundColor: TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.8)]
         )
         input.setNeedsLayout()
         input.layoutIfNeeded()

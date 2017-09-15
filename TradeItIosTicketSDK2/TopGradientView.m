@@ -1,6 +1,6 @@
-#import "YFTopGradientView.h"
+#import "TopGradientView.h"
 
-@implementation YFTopGradientView
+@implementation TopGradientView
 
 + (Class)layerClass
 {

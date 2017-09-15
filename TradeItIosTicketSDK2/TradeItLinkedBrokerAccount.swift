@@ -6,7 +6,6 @@
         return self.linkedBroker?.brokerLongName
     }
     
-
     public var accountName = ""
     public var accountNumber = ""
     public var accountIndex = ""

@@ -12,7 +12,6 @@ import UIKit
     public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
     public static var activityViewFactory: ActivityIndicatorFactory = DefaultActivityIndicatorFactory()
 
-
     // MARK: Non-settable properties
 
     internal static var brokerLogoService = TradeItBrokerLogoService()

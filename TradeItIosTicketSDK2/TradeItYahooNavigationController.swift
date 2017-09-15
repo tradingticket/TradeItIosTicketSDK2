@@ -1,7 +1,7 @@
 import UIKit
 
 class TradeItYahooNavigationController: UINavigationController {
-    static let NAVIGATION_BAR_HEIGHT: CGFloat = 64.0
+    static let NAVIGATION_BAR_HEIGHT: CGFloat = 128.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -11,10 +11,10 @@ class TradeItYahooNavigationController: UINavigationController {
         self.navigationBar.setBackgroundImage(blankImage, for: .default)
         self.navigationBar.shadowImage = blankImage
 
-        let gradientView = YFTopGradientView(frame: self.view.frame)
+        let gradientView = TopGradientView(frame: self.view.frame)
         addNavigationGradientView(gradientView)
 
-        let colorGradientView = YFLinearGradientView()
+        let colorGradientView = LinearGradientView()
         addNavigationGradientView(colorGradientView)
     }
 

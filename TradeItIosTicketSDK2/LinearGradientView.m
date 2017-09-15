@@ -1,6 +1,6 @@
-#import "YFLinearGradientView.h"
+#import "LinearGradientView.h"
 
-@implementation YFLinearGradientView
+@implementation LinearGradientView
 
 + (Class)layerClass
 {

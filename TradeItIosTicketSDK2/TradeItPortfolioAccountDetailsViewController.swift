@@ -87,7 +87,9 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }.always {
             onRefreshComplete()
         }.catch { error in
-            print(error)
+            if let tradeItError = linkedBroker.error {
+                self.alertManager.showAlertWithAction(error: tradeItError, withLinkedBroker: linkedBroker, onViewController: self)
+            }
         }
     }
 
@@ -106,7 +108,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             )
         }
     }
-
+  
     private func quotesPromise(portfolioPositions: [TradeItPortfolioPosition]) -> Promise<[TradeItPortfolioPosition]> {
         let symbols = portfolioPositions
             .filter { $0.position?.lastPrice == nil }

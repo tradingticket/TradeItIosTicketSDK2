@@ -51,7 +51,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         self.table?.reloadData()
     }
 
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: {

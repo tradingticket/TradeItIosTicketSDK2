@@ -141,7 +141,7 @@ class TradeItYahooAccountSelectionTableViewManager: TradeItYahooViewController, 
         self.refreshControl = refreshControl
     }
     
-    func refreshControlActivated() {
+    @objc func refreshControlActivated() {
         self.delegate?.refreshRequested(
             fromAccountSelectionTableViewManager: self,
             onRefreshComplete: { linkedBrokers in

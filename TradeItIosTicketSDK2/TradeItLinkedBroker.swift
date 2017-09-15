@@ -153,10 +153,10 @@ import PromiseKit
                 account.getAccountOverview(
                     cacheResult: false, // Cache at the end so we don't cache the entire linked broker multiple times
                     onSuccess: { _ in
-                        fulfill()
+                        fulfill(())
                     },
                     onFailure: { errorResult in
-                        fulfill()
+                        fulfill(())
                     }
                 )
             }

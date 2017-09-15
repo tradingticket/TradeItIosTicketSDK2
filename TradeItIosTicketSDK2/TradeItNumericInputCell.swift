@@ -25,7 +25,7 @@ class TradeItNumericInputCell: UITableViewCell {
         }
     }
 
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         self.textField.resignFirstResponder()
     }
 

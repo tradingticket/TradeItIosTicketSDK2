@@ -30,7 +30,7 @@ class CloseableViewController: UIViewController {
         return "Close"
     }
 
-    func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+    @objc func closeButtonWasTapped(_ sender: UIBarButtonItem) {
         if let viewControllers = self.navigationController?.viewControllers , viewControllers.count > 1 {
             _ = self.navigationController?.popViewController(animated: true)
         } else {

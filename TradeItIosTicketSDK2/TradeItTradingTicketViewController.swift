@@ -496,7 +496,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
             }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
+        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
         return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
     }
     

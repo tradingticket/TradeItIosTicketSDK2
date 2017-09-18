@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TradeItResult.h"
 #import "TradeItPreviewTradeOrderDetails.h"
+#import "TradeItPreviewDocument.h"
 
 @interface TradeItPreviewTradeResult : TradeItResult
 
@@ -21,6 +22,8 @@
  *  An array containing all the warnings that need to be acknowledged by the user. Should be displayed to the user with a checkbox asking him to review and acknowledge the following warnings before placing the order.
  */
 @property (nullable, copy) NSArray<Optional> *ackWarningsList;
+
+@property (nonatomic, copy, nullable) NSArray<TradeItPreviewDocument*> <Optional, TradeItPreviewDocument> * documentList;
 
 /**
  *  A TradeIt internal orderId used to reference the preview order, needed to place the order

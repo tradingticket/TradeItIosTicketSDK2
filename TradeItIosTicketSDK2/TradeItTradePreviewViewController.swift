@@ -1,5 +1,6 @@
 import UIKit
 import MBProgressHUD
+import SafariServices
 
 @objc internal protocol PreviewCellData {}
 
@@ -17,6 +18,16 @@ internal class AcknowledgementCellData: PreviewCellData {
 
     init(acknowledgement: String) {
         self.acknowledgement = acknowledgement
+    }
+}
+
+internal class DocumentCellData: PreviewCellData {
+    let label: String
+    let url: String
+
+    init(document: TradeItPreviewDocument) {
+        self.label = document.label
+        self.url = document.url
     }
 }
 
@@ -112,16 +123,27 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellData = self.previewCellData[indexPath.row]
+
+        switch cellData {
+        case let documentCellData as DocumentCellData:
+            guard let url = URL(string: documentCellData.url) else { return }
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true, completion: nil)
+            tableView.deselectRow(at: indexPath, animated: true)
+        default:
+            return
+        }
     }
 
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return previewCellData.count
+        return self.previewCellData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = previewCellData[indexPath.row]
+        let cellData = self.previewCellData[indexPath.row]
 
         switch cellData {
         case let warningCellData as WarningCellData:
@@ -131,6 +153,15 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         case let acknowledgementCellData as AcknowledgementCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
             cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
+            return cell
+        case let documentCellData as DocumentCellData:
+            let cell = UITableViewCell()
+            cell.accessoryView = DisclosureIndicator()
+            cell.backgroundColor = UIColor(red: 1, green: 0.9765, blue: 0.898, alpha: 1.0)
+            cell.textLabel?.text = documentCellData.label
+            cell.textLabel?.lineBreakMode = .byWordWrapping
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.font = cell.textLabel?.font.withSize(12)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
@@ -175,9 +206,8 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         var cells: [PreviewCellData] = []
 
         cells += generateWarningCellData()
-
-        acknowledgementCellData = generateAcknowledgementCellData()
-        cells += acknowledgementCellData as [PreviewCellData]
+        cells += generateAcknowledgementCellData()
+        cells += generateDocumentCellData()
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
         cells += [
@@ -204,17 +234,19 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     private func generateWarningCellData() -> [PreviewCellData] {
         guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
 
-        return warnings.map({ warning in
-            return WarningCellData(warning: warning)
-        })
+        return warnings.map(WarningCellData.init)
     }
 
-    private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
+    private func generateAcknowledgementCellData() -> [PreviewCellData] {
         guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
 
-        return acknowledgements.map({ acknowledgement in
-            return AcknowledgementCellData(acknowledgement: acknowledgement)
-        })
+        return acknowledgements.map(AcknowledgementCellData.init)
+    }
+
+    private func generateDocumentCellData() -> [PreviewCellData] {
+        guard let documents = previewOrderResult?.documentList else { return [] }
+
+        return documents.map(DocumentCellData.init)
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {

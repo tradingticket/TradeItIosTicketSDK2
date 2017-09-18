@@ -51,7 +51,7 @@ import UIKit
         switch view {
         case let button as UIButton: styleButton(button)
         case let input as UITextField: styleTextField(input)
-        case let input as UISwitch: styleSwitch(input)
+//        case let input as UISwitch: styleSwitch(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel: styleLabel(label)
         case let tableView as UITableView: styleTableView(tableView, groupedStyle: groupedStyle)

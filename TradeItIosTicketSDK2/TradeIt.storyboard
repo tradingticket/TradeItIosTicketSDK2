@@ -1411,8 +1411,8 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Warning" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMN-Eq-Zhi">
                                                     <rect key="frame" x="8" y="8" width="359" height="27"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.81960784310000001" green="0.21960784310000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1424,7 +1424,7 @@
                                                 <constraint firstItem="hMN-Eq-Zhi" firstAttribute="top" secondItem="g9X-NU-5lh" secondAttribute="topMargin" id="ohS-Gf-tdY"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.96771890862944165" green="0.9671955550762531" blue="0.92871326748329974" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="warning" destination="hMN-Eq-Zhi" id="qIA-iB-eaf"/>
                                         </connections>
@@ -1444,8 +1444,8 @@
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acknowledgement" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k25-g8-dRs">
                                                     <rect key="frame" x="68" y="8" width="299" height="27"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.81960784310000001" green="0.21960784310000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1464,8 +1464,28 @@
                                             <outlet property="acknowledgementSwitch" destination="enf-B2-1nF" id="iyt-Mm-2hc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_VALUE_CELL_ID" textLabel="muL-68-ITG" detailTextLabel="TMI-Ot-iKA" style="IBUITableViewCellStyleValue1" id="8Tu-aU-Kos" customClass="TradeItPreviewOrderValueTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_DOCUMENT_CELL_ID" id="6hE-cC-gM4">
                                         <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6hE-cC-gM4" id="d0F-GW-InR">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMR-ah-Ldj">
+                                                    <rect key="frame" x="8" y="15" width="58.5" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="tMR-ah-Ldj" firstAttribute="centerY" secondItem="6hE-cC-gM4" secondAttribute="centerY" id="I2Q-tP-dnp"/>
+                                            <constraint firstItem="tMR-ah-Ldj" firstAttribute="leading" secondItem="6hE-cC-gM4" secondAttribute="leading" constant="8" id="mYr-gJ-Azy"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_VALUE_CELL_ID" textLabel="muL-68-ITG" detailTextLabel="TMI-Ot-iKA" style="IBUITableViewCellStyleValue1" id="8Tu-aU-Kos" customClass="TradeItPreviewOrderValueTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="160" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Tu-aU-Kos" id="pM8-dD-TE2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

@@ -32,7 +32,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         self.noResultsBackgroundView = noResultsBackgroundView
     }
     
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: {

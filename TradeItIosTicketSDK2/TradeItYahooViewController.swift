@@ -3,6 +3,7 @@ import UIKit
 class TradeItYahooViewController: CloseableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let yahooNavigationController = self.navigationController as? TradeItYahooNavigationController else { return }
         self.view.backgroundColor = .clear
 
         // Add a white background behind everything below the navigation bar.
@@ -13,7 +14,7 @@ class TradeItYahooViewController: CloseableViewController {
         self.view.addSubview(containerView)
         self.view.sendSubview(toBack: containerView)
         self.view.addConstraints([
-            containerView.heightAnchor.constraint(equalToConstant: self.view.frame.height - TradeItYahooNavigationController.NAVIGATION_BAR_HEIGHT),
+            containerView.heightAnchor.constraint(equalToConstant: self.view.frame.height - yahooNavigationController.navigationBarHeight),
             containerView.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)

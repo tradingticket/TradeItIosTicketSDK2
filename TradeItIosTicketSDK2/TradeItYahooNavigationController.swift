@@ -1,7 +1,11 @@
 import UIKit
 
 class TradeItYahooNavigationController: UINavigationController {
-    static let NAVIGATION_BAR_HEIGHT: CGFloat = 128.0
+    var navigationBarHeight: CGFloat {
+        get {
+            return self.navigationBar.frame.height + UIApplication.shared.statusBarFrame.height
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +30,7 @@ class TradeItYahooNavigationController: UINavigationController {
             subview.topAnchor.constraint(equalTo: self.view.topAnchor),
             subview.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             subview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            subview.heightAnchor.constraint(equalToConstant: TradeItYahooNavigationController.NAVIGATION_BAR_HEIGHT)
+            subview.heightAnchor.constraint(equalToConstant: self.navigationBarHeight)
         ])
     }
 }

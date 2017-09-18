@@ -157,11 +157,8 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         case let documentCellData as DocumentCellData:
             let cell = UITableViewCell()
             cell.accessoryView = DisclosureIndicator()
-            cell.backgroundColor = UIColor(red: 1, green: 0.9765, blue: 0.898, alpha: 1.0)
             cell.textLabel?.text = documentCellData.label
-            cell.textLabel?.lineBreakMode = .byWordWrapping
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.font = cell.textLabel?.font.withSize(12)
+            TradeItThemeConfigurator.configureWarningCell(cell: cell)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell

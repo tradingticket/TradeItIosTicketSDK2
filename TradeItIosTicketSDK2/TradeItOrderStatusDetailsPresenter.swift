@@ -1,5 +1,4 @@
 class TradeItOrderStatusDetailsPresenter: NSObject {
-
     private var order:TradeItOrderStatusDetails
     private var orderLeg:TradeItOrderLeg
     
@@ -22,22 +21,22 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         
         var description: String = "\(action)"
         if (orderStatus == "FILLED") {
-            let filledQuantity = self.orderLeg.filledQuantity ?? 0
-            let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0
+            let filledQuantity = self.orderLeg.filledQuantity ?? 0 as NSNumber
+            let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0 as NSNumber
             description += " \(getFormattedQuantity(quantity: filledQuantity)) shares at \(getFormattedPrice(price:filledPrice))"
         } else {
-            let orderedQuantity = self.orderLeg.orderedQuantity ?? 0
+            let orderedQuantity = self.orderLeg.orderedQuantity ?? 0 as NSNumber
             description += " \(getFormattedQuantity(quantity: orderedQuantity))"
             switch orderType {
             case "MARKET", "TRAILING_STOP_DOLLAR", "TRAILING_STOP_PRCT", "STOP":
                 description += " shares at market price"
                 break
             case "LIMIT":
-                let limitPrice = self.orderLeg.priceInfo?.limitPrice ?? 0
+                let limitPrice = self.orderLeg.priceInfo?.limitPrice ?? 0 as NSNumber
                 description += " shares at \(getFormattedPrice(price:limitPrice))"
                 break
             case "STOP_LIMIT":
-                let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
+                let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0 as NSNumber
                 description += " shares at \(getFormattedPrice(price:stopPrice))"
                 break
             default: break
@@ -52,11 +51,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         var description: String = ""
         switch orderType {
         case "STOP_LIMIT", "STOP":
-            let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
-            description = "Trigger: \(stopPrice == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
+            let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0 as NSNumber
+            description = "Trigger: \(stopPrice == 0 as NSNumber ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
             break
         case "TRAILING_STOP_DOLLAR":
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPriceDollars = getFormattedPrice(price: trailPrice)
             if (action == "BUY") {
                 description = "If price rises by \(trailPriceDollars)"
@@ -65,7 +64,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             }
             break
         case "TRAILING_STOP_PRCT":
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPricePercentage = getFormattedPercentage(percentage: trailPrice)
             if (action == "BUY") {
                 description = "If price rises by \(trailPricePercentage)"

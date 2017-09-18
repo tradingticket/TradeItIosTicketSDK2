@@ -33,7 +33,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         self.noResultsBackgroundView = noResultsBackgroundView
     }
     
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: {
@@ -196,7 +196,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
 }
 
 fileprivate class OrderSectionPresenter {
-    
     private static let SECTION_HEADER_HEIGHT = 30
     
     let orders: [TradeItOrderStatusDetails]
@@ -254,7 +253,6 @@ fileprivate class OrderSectionPresenter {
     func isGroupOrder() -> Bool {
         return self.grouOrderId != nil
     }
-
 }
 
 

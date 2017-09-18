@@ -36,6 +36,10 @@ extension TradeItOrderStatusDetails {
         return groupOrders.count > 0
     }
     
+    func isCancellable() -> Bool {
+        return self.belongsToOpenCategory()
+    }
+    
     // MARK: private
     
     private func belongsToCategory(orderCategory: Category) -> Bool {

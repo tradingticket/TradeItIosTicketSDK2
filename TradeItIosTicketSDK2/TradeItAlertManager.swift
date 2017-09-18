@@ -158,6 +158,7 @@ import UIKit
         withTitle title: String,
         withMessage message: String,
         withActionTitle actionTitle: String,
+        withCancelTitle cancelTitle: String = "Cancel",
         errorToReport: TradeItErrorResult? = nil,
         onAlertActionTapped: @escaping () -> Void = {},
         showCancelAction: Bool = false,
@@ -178,6 +179,7 @@ import UIKit
             alertTitle: title,
             alertMessage: message,
             alertActionTitle: actionTitle,
+            alertCancelTitle: cancelTitle,
             onAlertActionTapped: {
                 onAlertActionTapped()
                 self.alertQueue.alertFinished()

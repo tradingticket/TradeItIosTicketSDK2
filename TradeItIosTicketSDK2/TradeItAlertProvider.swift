@@ -6,6 +6,7 @@ class TradeItAlertProvider {
         alertTitle: String,
         alertMessage: String,
         alertActionTitle: String,
+        alertCancelTitle: String,
         onAlertActionTapped: @escaping () -> Void,
         showCancelAction: Bool = false,
         onCanceledActionTapped: (() -> Void)? = nil
@@ -18,7 +19,7 @@ class TradeItAlertProvider {
 
         if showCancelAction, let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
-                title: "Cancel",
+                title: alertCancelTitle,
                 style: UIAlertActionStyle.default) { action in
                     onCanceledActionTapped()
             }

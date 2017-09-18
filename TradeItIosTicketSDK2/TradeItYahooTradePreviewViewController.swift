@@ -1,6 +1,7 @@
 import UIKit
 import MBProgressHUD
 import BEMCheckBox
+import SafariServices
 
 class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
@@ -176,6 +177,17 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellData = self.previewCellData[indexPath.row]
+
+        switch cellData {
+        case let documentCellData as DocumentCellData:
+            guard let url = URL(string: documentCellData.url) else { return }
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true, completion: nil)
+            tableView.deselectRow(at: indexPath, animated: true)
+        default:
+            return
+        }
     }
 
     // MARK: UITableViewDataSource
@@ -276,6 +288,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
             cells += generateWarningCellData()
             acknowledgementCellData = generateAcknowledgementCellData()
             cells += acknowledgementCellData as [PreviewCellData]
+            cells += generateDocumentCellData()
         }
 
         
@@ -284,18 +297,17 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     
     private func generateWarningCellData() -> [PreviewCellData] {
         guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
-        
-        return warnings.map({ warning in
-            return WarningCellData(warning: warning)
-        })
+        return warnings.map(WarningCellData.init)
     }
     
     private func generateAcknowledgementCellData() -> [AcknowledgementCellData] {
         guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
-        
-        return acknowledgements.map({ acknowledgement in
-            return AcknowledgementCellData(acknowledgement: acknowledgement)
-        })
+        return acknowledgements.map(AcknowledgementCellData.init)
+    }
+
+    private func generateDocumentCellData() -> [PreviewCellData] {
+        guard let documents = previewOrderResult?.documentList else { return [] }
+        return documents.map(DocumentCellData.init)
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {

@@ -230,19 +230,16 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     private func generateWarningCellData() -> [PreviewCellData] {
         guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
-
         return warnings.map(WarningCellData.init)
     }
 
     private func generateAcknowledgementCellData() -> [PreviewCellData] {
         guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
-
         return acknowledgements.map(AcknowledgementCellData.init)
     }
 
     private func generateDocumentCellData() -> [PreviewCellData] {
         guard let documents = previewOrderResult?.documentList else { return [] }
-
         return documents.map(DocumentCellData.init)
     }
 

@@ -9,6 +9,10 @@ class TradeItYahooNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupFuji()
+    }
+
+    private func setupFuji() {
         self.navigationBar.barStyle = .black
         self.navigationBar.tintColor = .white
         let blankImage = UIImage()
@@ -21,7 +25,7 @@ class TradeItYahooNavigationController: UINavigationController {
         let colorGradientView = LinearGradientView()
         addNavigationGradientView(colorGradientView)
     }
-
+    
     private func addNavigationGradientView(_ subview: UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(subview)

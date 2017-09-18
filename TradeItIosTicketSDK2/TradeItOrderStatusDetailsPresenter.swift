@@ -36,15 +36,15 @@ internal extension TradeItOrderLeg {
 }
 
 class TradeItOrderStatusDetailsPresenter: NSObject {
-    private var orderStatusDetails: TradeItOrderStatusDetails
+    private var order: TradeItOrderStatusDetails
     private var orderLeg: TradeItOrderLeg
 
     public var orderIsCancelable: Bool {
-        return orderStatusDetails.orderStatusEnum.cancelable
+        return order.orderStatusEnum.cancelable
     }
 
-    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
-        self.orderStatusDetails = orderStatusDetails
+    init(order: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
+        self.order = order
         self.orderLeg = orderLeg
     }
 
@@ -62,12 +62,12 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
         var description: String = "\(action)"
 
-        if (self.orderStatusDetails.orderStatusEnum == .filled) {
-            let filledQuantity = self.orderLeg.filledQuantity ?? 0
-            let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0
+        if (self.order.orderStatusEnum == .filled) {
+            let filledQuantity = self.orderLeg.filledQuantity ?? 0 as NSNumber
+            let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0 as NSNumber
             description += " \(getFormattedQuantity(quantity: filledQuantity)) shares at \(getFormattedPrice(price:filledPrice))"
         } else {
-            let orderedQuantity = self.orderLeg.orderedQuantity ?? 0
+            let orderedQuantity = self.orderLeg.orderedQuantity ?? 0 as NSNumber
             description += " \(getFormattedQuantity(quantity: orderedQuantity))"
 
             switch orderPriceType {
@@ -75,11 +75,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
                 description += " shares at market price"
                 break
             case .limit:
-                let limitPrice = self.orderLeg.priceInfo?.limitPrice ?? 0
+                let limitPrice = self.orderLeg.priceInfo?.limitPrice ?? 0 as NSNumber
                 description += " shares at \(getFormattedPrice(price:limitPrice))"
                 break
             case .stopLimit:
-                let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
+                let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0 as NSNumber
                 description += " shares at \(getFormattedPrice(price:stopPrice))"
                 break
             default: break
@@ -96,11 +96,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
         switch orderPriceType {
         case .stopLimit, .stop:
-            let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
-            description = "Trigger: \(stopPrice == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
+            let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0 as NSNumber
+            description = "Trigger: \(stopPrice == 0 as NSNumber ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
             break
-        case .trailingStopDollar:
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+        case trailingStopDollar:
+            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPriceDollars = getFormattedPrice(price: trailPrice)
 
             if (action == .buy) {
@@ -111,7 +111,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
             break
         case .trailingStopPercent:
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPricePercentage = getFormattedPercentage(percentage: trailPrice)
 
             if (action == .buy) {

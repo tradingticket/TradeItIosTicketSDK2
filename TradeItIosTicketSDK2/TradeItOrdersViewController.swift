@@ -81,8 +81,9 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                     title: "Fetching orders failed",
                     message: "Could not fetch orders. Please try again."
             )
-            self.alertManager.showError(
-                error,
+            self.alertManager.showAlertWithAction(
+                error: error,
+                withLinkedBroker: self.linkedBrokerAccount?.linkedBroker,
                 onViewController: self
             )
         }.always {
@@ -110,7 +111,11 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                 },
                 onFailure: { error in
                     activityView.hide(animated: true)
-                    self.alertManager.showError(error, onViewController: self)
+                    self.alertManager.showAlertWithAction(
+                        error: error,
+                        withLinkedBroker: self.linkedBrokerAccount?.linkedBroker,
+                        onViewController: self
+                    )
                 }
             )
         }

@@ -2,15 +2,16 @@ import UIKit
 
 @objc class TradeItTradingConfirmationViewController: TradeItViewController {
     @IBOutlet weak var confirmationTextLabel: UILabel!
-    @IBOutlet weak var viewPortfolioButton: UIButton!
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var orderNumberLabel: UILabel!
+    @IBOutlet weak var viewOrderStatusButton: UIButton!
     @IBOutlet weak var tradeAgainButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
 
     var timestamp: String?
     var confirmationMessage: String?
     var orderNumber: String?
+    var order: TradeItOrder?
     var viewControllerProvider = TradeItViewControllerProvider()
     var tradingUIFlow = TradeItTradingUIFlow()
 
@@ -24,7 +25,7 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewPortfolioButton.isHidden = !TradeItSDK.isPortfolioEnabled
+        self.viewOrderStatusButton.isHidden = !TradeItSDK.isOrderStatusEnabled
 
         self.timeStampLabel.text = self.timestamp
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"
@@ -47,12 +48,18 @@ import UIKit
         self.delegate?.tradeButtonWasTapped(self)
     }
     
-    @IBAction func portfolioButtonWasTapped(_ sender: AnyObject) {
+    @IBAction func orderStatusButtonWasTapped(_ sender: Any) {
+        guard let order = self.order
+            , let linkedBrokerAccount = order.linkedBrokerAccount else {
+            return
+        }
         if let navigationController = self.navigationController {
-            let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioAccountsView)
-            navigationController.setViewControllers([portfolioViewController], animated: true)
+            guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
+            ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+            navigationController.setViewControllers([ordersViewController], animated: true)
         }
     }
+
 }
 
 protocol TradeItTradingConfirmationViewControllerDelegate: class {

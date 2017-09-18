@@ -1572,15 +1572,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-hO-aBt" userLabel="Trade Again">
-                                <rect key="frame" x="16" y="346.5" width="343" height="40"/>
-                                <color key="backgroundColor" red="0.31764706970000001" green="0.53333336109999996" blue="0.72156864399999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-hO-aBt">
+                                <rect key="frame" x="16" y="406.5" width="343" height="40"/>
+                                <color key="backgroundColor" red="0.017085177819999998" green="0.56712824110000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="c4s-E2-Mlt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" title="Trade Again">
+                                <state key="normal" title="Place Another Trade">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -1592,12 +1592,12 @@
                                     <action selector="tradeButtonWasTapped:" destination="AUL-pz-v3k" eventType="touchUpInside" id="aAF-ze-di7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiz-kG-4ho" userLabel="View Portfolio">
-                                <rect key="frame" x="16" y="406.5" width="343" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiz-kG-4ho">
+                                <rect key="frame" x="16" y="346.5" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" title="View Portfolio">
+                                <state key="normal" title="View Order Status">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -1606,7 +1606,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="portfolioButtonWasTapped:" destination="AUL-pz-v3k" eventType="touchUpInside" id="HqI-e7-tsA"/>
+                                    <action selector="orderStatusButtonWasTapped:" destination="AUL-pz-v3k" eventType="touchUpInside" id="e60-2z-A7P"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your order to buy 1 share of AAPL at $137.22 has been successfully transmitted to your broker" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOi-0I-Iyh">
@@ -1643,6 +1643,7 @@
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="centerX" secondItem="GcE-nB-46a" secondAttribute="centerX" id="0U2-aT-UUU"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="2Du-f7-LKH"/>
                             <constraint firstItem="vZj-L5-5fP" firstAttribute="centerX" secondItem="GcE-nB-46a" secondAttribute="centerX" id="5C0-ns-eqC"/>
+                            <constraint firstItem="Tiz-kG-4ho" firstAttribute="top" secondItem="Uvq-24-htU" secondAttribute="bottom" constant="35" id="6TD-0c-U5h"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="height" secondItem="dPH-hO-aBt" secondAttribute="height" id="7zS-ta-Ore"/>
                             <constraint firstItem="dPH-hO-aBt" firstAttribute="centerX" secondItem="GcE-nB-46a" secondAttribute="centerX" id="9xh-KN-KKC"/>
                             <constraint firstItem="aOi-0I-Iyh" firstAttribute="top" secondItem="8df-lV-kgX" secondAttribute="bottom" constant="24" id="Bf5-zO-1fI"/>
@@ -1651,7 +1652,7 @@
                             <constraint firstItem="Uvq-24-htU" firstAttribute="top" secondItem="sXe-hs-Myj" secondAttribute="bottom" constant="5" id="GEm-4p-Djj"/>
                             <constraint firstItem="8df-lV-kgX" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="GV7-zI-cdf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Tiz-kG-4ho" secondAttribute="trailing" id="JKf-dZ-uxe"/>
-                            <constraint firstItem="Tiz-kG-4ho" firstAttribute="top" secondItem="dPH-hO-aBt" secondAttribute="bottom" constant="20" id="JzW-9e-56S"/>
+                            <constraint firstItem="dPH-hO-aBt" firstAttribute="top" secondItem="Tiz-kG-4ho" secondAttribute="bottom" constant="20" id="L2S-P0-nw9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ug6-ZR-aFE" secondAttribute="trailing" id="MJ9-n8-yHP"/>
                             <constraint firstItem="aOi-0I-Iyh" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" constant="10" id="PI3-eb-nhA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8df-lV-kgX" secondAttribute="trailing" id="QKI-rB-CdZ"/>
@@ -1663,7 +1664,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="dPH-hO-aBt" secondAttribute="trailing" id="hfZ-Tt-yky"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sXe-hs-Myj" secondAttribute="trailing" constant="10" id="nyp-C4-j7g"/>
                             <constraint firstItem="Ug6-ZR-aFE" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="oOY-O6-23d"/>
-                            <constraint firstItem="dPH-hO-aBt" firstAttribute="top" secondItem="Uvq-24-htU" secondAttribute="bottom" constant="35" id="oeD-Xm-kG6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Uvq-24-htU" secondAttribute="trailing" constant="10" id="sOa-nl-CKu"/>
                             <constraint firstItem="Tiz-kG-4ho" firstAttribute="leading" secondItem="GcE-nB-46a" secondAttribute="leadingMargin" id="uMi-kL-tP4"/>
                         </constraints>
@@ -1674,7 +1674,7 @@
                         <outlet property="orderNumberLabel" destination="Uvq-24-htU" id="RWL-mN-tIZ"/>
                         <outlet property="timeStampLabel" destination="sXe-hs-Myj" id="Qf6-1y-7GQ"/>
                         <outlet property="tradeAgainButton" destination="dPH-hO-aBt" id="Mxu-zZ-7uE"/>
-                        <outlet property="viewPortfolioButton" destination="Tiz-kG-4ho" id="8Ep-7S-lZC"/>
+                        <outlet property="viewOrderStatusButton" destination="Tiz-kG-4ho" id="6IX-pj-4UE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTB-II-sfA" userLabel="First Responder" sceneMemberID="firstResponder"/>

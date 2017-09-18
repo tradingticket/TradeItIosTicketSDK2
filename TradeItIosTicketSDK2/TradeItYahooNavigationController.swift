@@ -1,10 +1,18 @@
 import UIKit
 
 class TradeItYahooNavigationController: UINavigationController {
-    static let NAVIGATION_BAR_HEIGHT: CGFloat = 128.0
+    var navigationBarHeight: CGFloat {
+        get {
+            return self.navigationBar.frame.height + UIApplication.shared.statusBarFrame.height
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupFuji()
+    }
+
+    private func setupFuji() {
         self.navigationBar.barStyle = .black
         self.navigationBar.tintColor = .white
         let blankImage = UIImage()
@@ -17,7 +25,7 @@ class TradeItYahooNavigationController: UINavigationController {
         let colorGradientView = LinearGradientView()
         addNavigationGradientView(colorGradientView)
     }
-
+    
     private func addNavigationGradientView(_ subview: UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(subview)
@@ -26,7 +34,7 @@ class TradeItYahooNavigationController: UINavigationController {
             subview.topAnchor.constraint(equalTo: self.view.topAnchor),
             subview.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             subview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            subview.heightAnchor.constraint(equalToConstant: TradeItYahooNavigationController.NAVIGATION_BAR_HEIGHT)
+            subview.heightAnchor.constraint(equalToConstant: self.navigationBarHeight)
         ])
     }
 }

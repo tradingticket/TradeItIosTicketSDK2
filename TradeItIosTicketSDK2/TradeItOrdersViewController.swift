@@ -28,7 +28,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.ordersTableViewManager?.initiateRefresh()
+        self.loadOrders()
     }
     
     //MARK: IBAction
@@ -98,7 +98,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                 orderNumber: orderNumber,
                 onSuccess: {
                     activityView.hide(animated: true)
-                    self.ordersTableViewManager?.initiateRefresh()
+                    self.loadOrders()
                 },
                 onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                     self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -126,5 +126,14 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             showCancelAction: true,
             onCancelActionTapped: {}
         )
+    }
+    
+    // MARK: private
+    private func loadOrders() {
+        let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
+        activityView.label.text = "Loading orders"
+        self.refreshRequested {
+            activityView.hide(animated: true)
+        }
     }
 }

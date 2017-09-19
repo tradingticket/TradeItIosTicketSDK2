@@ -65,6 +65,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             let splitedFilledOrdersArray = getSplittedOrdersArray(orders: filledOrders)
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedFilledOrdersArray)
         }
+        
         let otherOrders = orders.filter { $0.belongsToOtherCategory() }
         if otherOrders.count > 0 {
             self.orderSectionPresenters.append(OrderSectionPresenter(orders: [], title: "Other Orders (Today)"))
@@ -72,6 +73,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             buildOrderSectionPresentersFrom(splitedOrdersArray: splitedOtherOrdersArray)
         }
         
+        self.ordersTable?.backgroundView = self.orderSectionPresenters.isEmpty ? noResultsBackgroundView : nil
         self.ordersTable?.reloadData()
     }
     
@@ -92,11 +94,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.orderSectionPresenters.isEmpty {
-            self.ordersTable?.backgroundView = noResultsBackgroundView
-        } else {
-            self.ordersTable?.backgroundView = nil
-        }
         return self.orderSectionPresenters.count
     }
     

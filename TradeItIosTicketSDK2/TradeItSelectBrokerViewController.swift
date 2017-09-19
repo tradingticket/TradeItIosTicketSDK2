@@ -30,6 +30,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             to: self.view,
             animated: true
         )
+        self.activityView?.removeFromSuperViewOnHide = false
 
         self.populateBrokers()
 

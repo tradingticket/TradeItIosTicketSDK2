@@ -220,6 +220,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
+                        label: "Trading with singapore symbol",
+                        action: {
+                            let order = TradeItOrder()
+                            // Any order fields that are set will pre-populate the ticket.
+                            order.symbol = "T39"
+                            order.quantity = 100
+                            order.action = .buy
+                            order.type = .limit
+                            order.limitPrice = 0.5
+                            order.expiration = .goodForDay
+                            TradeItSDK.launcher.launchTrading(fromViewController: self, withOrder: order)
+                        }
+                    ),
+                    Action(
                         label: "Manage Accounts",
                         action: {
                             TradeItSDK.launcher.launchAccountManagement(fromViewController: self.advancedViewController)

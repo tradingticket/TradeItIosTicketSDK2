@@ -204,6 +204,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol
+        self.clearMarketData()
         self.updateMarketData()
         _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
@@ -325,12 +326,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.reload(row: .estimatedCost)
                 },
                 onFailure: { error in
-                    self.order.quoteLastPrice = nil
+                    self.clearMarketData()
                 }
             )
         } else {
-            self.order.quoteLastPrice = nil
+            self.clearMarketData()
         }
+    }
+
+    private func clearMarketData() {
+        self.quote = nil
+        self.order.quoteLastPrice = nil
+        self.reload(row: .marketPrice)
+        self.reload(row: .estimatedCost)
     }
 
     private func reloadTicket() {

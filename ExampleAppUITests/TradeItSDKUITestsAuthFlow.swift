@@ -25,10 +25,10 @@ class TradeItSDKUITestsAuthFlow: XCTestCase {
         //Test with wrong security answer first, then the correct one
         waitForElementToAppear(app.alerts["Security Question"])
         let securityQuestionAlert = app.alerts["Security Question"]
-        securityQuestionAlert.textFields[""].typeText("123")
+        securityQuestionAlert.secureTextFields[""].typeText("123")
         securityQuestionAlert.buttons["Submit"].tap()
         waitForElementToAppear(securityQuestionAlert)
-        securityQuestionAlert.textFields[""].typeText("tradingticket")
+        securityQuestionAlert.secureTextFields[""].typeText("tradingticket")
         securityQuestionAlert.buttons["Submit"].tap()
         completeOauthScreen(app)
         waitForElementToAppear(app.navigationBars["Portfolio"])

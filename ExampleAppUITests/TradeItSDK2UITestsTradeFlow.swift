@@ -32,7 +32,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         //Trade Screen
         waitForElementToAppear(app.navigationBars["Buy GE"])
         waitForElementNotToBeHittable(activityIndicator, withinSeconds: 10)
-        XCTAssert(app.buttons["Individual**0001"].exists)
+        XCTAssert(app.buttons["Individual***001"].exists)
         XCTAssert(app.tables.staticTexts["Buying Power: $2,408.12"].exists)
         XCTAssert(app.buttons["GE"].exists)
         testTradeScreenValues(app)
@@ -59,7 +59,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         completeOauthScreen(app)
         waitForElementToAppear(app.navigationBars["Portfolio"])
         selectAccountOnPortfolioScreen(app, rowNum: 3)
-        let username = "Individual**0001"
+        let username = "Individual***001"
         XCTAssert(app.staticTexts[username].exists)
         XCTAssert(app.buttons["Trade"].exists)
         app.buttons["Trade"].tap()
@@ -107,7 +107,7 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         completeOauthScreen(app)
         waitForElementToAppear(app.navigationBars["Portfolio"])
         selectAccountOnPortfolioScreen(app, rowNum: 3)
-        let username = "Individual**0001"
+        let username = "Individual***001"
         XCTAssert(app.staticTexts[username].exists)
         waitForElementToAppear(app.tables.staticTexts["AAPL"])
         app.tables.staticTexts["AAPL"].tap()

@@ -110,8 +110,10 @@ extension XCTestCase {
     
     func fillOrder(_ app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, quantity: String, expiration: String){
         //Shares
-        app.textFields["Enter shares"].tap()
-        waitForElementToHaveKeyboardFocus(app.textFields["Enter shares"])
+        let quantityTextField = app.textFields["Enter shares"]
+        waitForElementToAppear(quantityTextField)
+        quantityTextField.tap()
+        waitForElementToHaveKeyboardFocus(quantityTextField)
         app.textFields["Enter shares"].typeText("\(quantity)")
         //Limit Price
         app.textFields["Enter limit price"].tap()
@@ -130,10 +132,10 @@ extension XCTestCase {
         app.buttons["Buy"].tap()
         XCTAssert(app.tables.staticTexts["Buy"].exists)
         XCTAssert(app.tables.staticTexts["Sell"].exists)
-        XCTAssert(app.tables.staticTexts["Buy to Cover"].exists)
-        XCTAssert(app.tables.staticTexts["Sell Short"].exists)
-        XCTAssert(app.buttons["Back"].exists)
-        app.buttons["Back"].tap()
+        XCTAssert(app.tables.staticTexts["Buy to cover"].exists)
+        XCTAssert(app.tables.staticTexts["Sell short"].exists)
+        XCTAssert(app.navigationBars["Select Action"].buttons["Buy GE"].exists)
+        app.navigationBars["Select Action"].buttons["Buy GE"].tap()
         app.buttons["Market"].tap()
         XCTAssert(app.tables.staticTexts["Market"].exists)
         XCTAssert(app.tables.staticTexts["Limit"].exists)
@@ -147,9 +149,8 @@ extension XCTestCase {
         
         app.buttons["Good for day"].tap()
         XCTAssert(app.tables.staticTexts["Good for day"].exists)
-        XCTAssert(app.tables.staticTexts["Good until canceled"].exists)
-        XCTAssert(app.buttons["Back"].exists)
-        app.tables.staticTexts["Good until canceled"].tap()
+        XCTAssert(app.tables.staticTexts["Good until cancelled"].exists)
+        app.tables.staticTexts["Good until cancelled"].tap()
     }
     
     func clearData(_ app: XCUIApplication) {
@@ -190,7 +191,7 @@ extension XCTestCase {
         scrollUpTo(app, element: launchPortfolioText)
         launchPortfolioText.tap()
         waitForElementToAppear(app.navigationBars["Welcome"])
-        app.buttons["Get started"].tap()
+        app.buttons["More"].tap()
     }
     
     func selectBrokerFromTheBrokerSelectionScreen(_ app: XCUIApplication, longBrokerName: String) {
@@ -245,32 +246,32 @@ extension XCTestCase {
     func testPortfolioValues(_ app: XCUIApplication, brokerName: String){
         if(brokerName == "Dummy"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Individual**0001"].exists)
+            XCTAssert(app.tables.staticTexts["Individual***001"].exists)
             testPortfolioValues(app)
         }
         else if(brokerName == "dummyMultipleAcct1"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Individual**0001"].exists)
+            XCTAssert(app.tables.staticTexts["Individual***001"].exists)
             testPortfolioValues(app)
         }
         else if(brokerName == "jointIRA"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Joint IRA **0002"].exists)
+            XCTAssert(app.tables.staticTexts["Joint IRA ***002"].exists)
             testPortfolioValues(app)
         }
         else if(brokerName == "Joint401k"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Joint 401k**0003"].exists)
+            XCTAssert(app.tables.staticTexts["Joint 401k***003"].exists)
             testPortfolioValues(app)
         }
         else if(brokerName == "MargicAcct"){
             //Balances
-            XCTAssert(app.tables.staticTexts["Margin Acc**0004"].exists)
+            XCTAssert(app.tables.staticTexts["Margin Acc***004"].exists)
             testPortfolioValues(app)
         }
         else if(brokerName == "OptionAcct"){
             //Balances
-            XCTAssert(app.tables.staticTexts["OPTIONS SU**0005"].exists)
+            XCTAssert(app.tables.staticTexts["OPTIONS SU***005"].exists)
             testPortfolioValues(app)
         }
     }

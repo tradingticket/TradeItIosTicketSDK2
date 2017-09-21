@@ -19,7 +19,7 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
     //test different error messages without authenticating
     func testAuthErrorFlow() {
         //testDummyAppCompleteFlow
-        var expectMessage = "Your broker needs you to complete your account application before you can trade. Please visit your broker to answer a few more questions and finalize your account."
+        var expectMessage = "Your broker needs you to complete your account application before you can trade. Please visit your broker website for more information."
         genericErrorFlow("dummyCompleteApplication", errorMessage: expectMessage)
         
         
@@ -29,7 +29,7 @@ class TradeItSDK2UITestsAuthErrorFlow: XCTestCase {
         
         
         //testDummyNoAccountFlow
-        expectMessage = "Your broker requires an active account before you can trade. It's possible your funds have yet to clear or an agreement needs signed, please visit your brokers for more information."
+        expectMessage = "Your broker requires an active account before you can trade. It's possible your funds have yet to clear or an agreement needs to be signed. Please visit your brokers for more information."
         genericErrorFlow("dummyNoAccount", errorMessage: expectMessage)
         
         

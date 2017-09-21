@@ -39,7 +39,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         waitForElementToBeHittable(app.tables.staticTexts["Portfolio"])
         app.tables.staticTexts["Portfolio"].tap()
         waitForElementToAppear(app.navigationBars["Portfolio"])
-        waitForElementToAppear(app.tables.staticTexts["Individual**0001"])
+        waitForElementToAppear(app.tables.staticTexts["Individual***001"])
     }
     
     func testPortfolioWithWelcomeMultiAcc(){
@@ -50,7 +50,6 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         selectBrokerFromTheBrokerSelectionScreen(app, longBrokerName: "Dummy Broker")
         submitValidCredentialsOnTheLoginScreen(app, longBrokerName: "Dummy Broker", username: "dummyMultiple")
         completeOauthScreen(app)
-        selectAccountOnPortfolioScreen(app, rowNum: 1)
         
         //log into dummy acc
         app.buttons["Manage"].tap()
@@ -60,7 +59,7 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         completeOauthScreen(app)
         
         //back to portfolio view
-        app.navigationBars["Accounts"].buttons["Portfolio"].tap()
+        app.navigationBars["Linked Brokers"].buttons["Portfolio"].tap()
         selectAccountOnPortfolioScreen(app, rowNum: 3)
         testPortfolioValues(app, brokerName: "dummyMultipleAcct1")
         waitForElementToAppear(app.navigationBars["Portfolio"])
@@ -89,12 +88,13 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         //unlink and test if portfolio view if reflect the change
         app.buttons["Manage"].tap()
         waitForElementToAppear(app.navigationBars["Accounts"])
-        app.tables.staticTexts["Dummy (6 accounts)"].tap()
-        waitForElementToAppear(app.navigationBars["Dummy"])
-        app.tables.switches.matching(predicateBeginsWith(label: "Joint 401k**0003")).element.tap()
-        app.navigationBars["Dummy"].buttons.element(boundBy: 0).tap()
+        app.tables.staticTexts["Dummy Broker (6 accounts)"].tap()
+        waitForElementToAppear(app.navigationBars["Dummy Broker"])
+        app.tables.switches.matching(predicateBeginsWith(label: "Joint 401k**003")).element.tap()
+        app.navigationBars["Dummy Broker"].buttons.element(boundBy: 0).tap()
         app.navigationBars["Accounts"].buttons["Portfolio"].tap()
         XCTAssertFalse(app.tables.staticTexts["Joint 401k**003"].exists) // true: 401k acc is disabled
+
         let totalValue = app.staticTexts["$382,446.12"]
         waitForElementToAppear(totalValue)
 
@@ -131,9 +131,9 @@ class TradeItSDK2UITestsPortfolioFlow: XCTestCase {
         //test if data is persistent
         selectAccountOnPortfolioScreen(app, rowNum: 2)
         testPortfolioValues(app, brokerName: "Dummy")
-        XCTAssertFalse(app.tables.staticTexts["Joint IRA **0002"].exists)
-        XCTAssertFalse(app.tables.staticTexts["Joint 401k**0003"].exists)
-        XCTAssertFalse(app.tables.staticTexts["Margin Acc**0004"].exists)
-        XCTAssertFalse(app.tables.staticTexts["OPTIONS SU**0005"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Joint IRA **002"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Joint 401k**003"].exists)
+        XCTAssertFalse(app.tables.staticTexts["Margin Acc**004"].exists)
+        XCTAssertFalse(app.tables.staticTexts["OPTIONS SU**005"].exists)
     }
 }

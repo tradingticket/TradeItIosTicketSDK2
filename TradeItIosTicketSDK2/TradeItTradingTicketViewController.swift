@@ -204,6 +204,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol
+        self.updateMarketData()
         _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
@@ -310,6 +311,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func updateMarketData() {
+        self.quote = nil
+        self.reload(row: .marketPrice)
+        self.reload(row: .estimatedCost)
+
         if let symbol = self.order.symbol {
             self.marketDataService.getQuote(
                 symbol: symbol,
@@ -491,7 +496,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
-        ) {
+    ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)

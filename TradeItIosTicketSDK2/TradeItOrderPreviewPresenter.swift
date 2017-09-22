@@ -15,7 +15,7 @@ class TradeItOrderPreviewPresenter {
         request.accountNumber = order.linkedBrokerAccount?.accountNumber
         request.orderAction = order.action.rawValue
         request.orderPriceType = order.type.rawValue
-        request.orderExpiration = order.expiration?.rawValue
+        request.orderExpiration = order.expiration.rawValue
         request.orderQuantity = quantity()
         request.orderSymbol = symbol()
         request.orderLimitPrice = order.limitPrice

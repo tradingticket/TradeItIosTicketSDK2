@@ -10,6 +10,7 @@
 
 typedef void (^ _Nonnull PlaceOrder)(
     void (^ _Nonnull)(TradeItPlaceTradeResult * _Nonnull),
+    void (^ _Nonnull)(TradeItSecurityQuestionResult * _Nonnull, void (^ _Nonnull) (NSString* _Nonnull), void (^ _Nonnull) ()),
     void (^ _Nonnull)(TradeItErrorResult * _Nonnull)
 );
 
@@ -32,13 +33,16 @@ typedef void (^ _Nonnull PlaceOrder)(
         order.symbol = @"CMG";
         order.action = TradeItOrderActionBuy;
         order.type = TradeItOrderPriceTypeMarket;
+        
         order.quantity = [NSDecimalNumber decimalNumberWithString:@"1.0"];
-
-        [order previewOnSuccess:^(TradeItPreviewTradeResult * _Nonnull previewResult, PlaceOrder placeOrder) {
+        
+        [order previewOnSuccess:^ (TradeItPreviewTradeResult * _Nonnull previewResult, PlaceOrder placeOrder) {
             NSLog(@"%@", previewResult);
 
             placeOrder(^(TradeItPlaceTradeResult * _Nonnull placeTradeResult) {
                 NSLog(@"%@", placeTradeResult);
+            }, ^(TradeItSecurityQuestionResult * _Nonnull securityQuestion, void (^ _Nonnull onAnswer)(NSString * _Nonnull), void (^ _Nonnull onCancel)(void)) {
+                
             }, ^(TradeItErrorResult * _Nonnull error) {
                 NSLog(@"%@", error);
             });

@@ -75,6 +75,8 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             return ordersPromise()
         }.then { orders in
             self.ordersTableViewManager?.updateOrders(orders)
+        }.always {
+            onRefreshComplete()
         }.catch { error in
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(
@@ -86,8 +88,6 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                 withLinkedBroker: self.linkedBrokerAccount?.linkedBroker,
                 onViewController: self
             )
-        }.always {
-            onRefreshComplete()
         }
     }
     

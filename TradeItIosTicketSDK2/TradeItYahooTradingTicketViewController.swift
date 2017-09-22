@@ -292,6 +292,13 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         }
     }
 
+    private func clearMarketData() {
+        self.quote = nil
+        self.order.quoteLastPrice = nil
+        self.reload(row: .marketPrice)
+        self.reload(row: .estimatedCost)
+    }
+
     private func updateMarketData() {
         if let symbol = self.order.symbol {
             self.marketDataService.getQuote(
@@ -303,11 +310,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     self.reload(row: .estimatedCost)
                 },
                 onFailure: { error in
-                    self.order.quoteLastPrice = nil
+                    self.clearMarketData()
                 }
             )
         } else {
-            self.order.quoteLastPrice = nil
+            self.clearMarketData()
         }
     }
 

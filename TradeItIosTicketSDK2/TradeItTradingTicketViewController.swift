@@ -101,7 +101,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             }
         case .expiration:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration?.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
         default:
@@ -298,7 +298,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private func setOrderDefaults() {
         self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration?.rawValue))
+        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
     }
 
     private func setPreviewButtonEnablement() {
@@ -433,7 +433,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .orderType:
             cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration?.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(

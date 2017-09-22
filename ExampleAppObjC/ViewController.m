@@ -33,7 +33,7 @@ typedef void (^ _Nonnull PlaceOrder)(
         order.symbol = @"CMG";
         order.action = TradeItOrderActionBuy;
         order.type = TradeItOrderPriceTypeMarket;
-        
+        order.expiration = TradeItOrderExpirationGoodForDay;
         order.quantity = [NSDecimalNumber decimalNumberWithString:@"1.0"];
         
         [order previewOnSuccess:^ (TradeItPreviewTradeResult * _Nonnull previewResult, PlaceOrder placeOrder) {

@@ -146,6 +146,7 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
             )
             tradingConfirmationViewController.timestamp = placeOrderResult.timestamp
             tradingConfirmationViewController.orderNumber = placeOrderResult.orderNumber
+            tradingConfirmationViewController.order = self.order
 
             // Analytics tracking only
             tradingConfirmationViewController.broker = order.linkedBrokerAccount?.linkedBroker?.brokerName

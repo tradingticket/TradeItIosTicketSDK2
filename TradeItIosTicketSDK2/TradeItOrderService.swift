@@ -75,7 +75,7 @@ internal class TradeItOrderService: NSObject {
                 case let errorResult as TradeItErrorResult:
                     onFailure(errorResult)
                 default:
-                    onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error cancelling order."))
+                    onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error canceling order."))
                 }
             }
         }
@@ -94,7 +94,7 @@ internal class TradeItOrderService: NSObject {
         )
         self.session.connector.send(request, targetClassType: TradeItAllOrderStatusResult.self) { result in
             completionBlock(
-                result ?? TradeItErrorResult.tradeError(withSystemMessage: "Error cancelling order.")
+                result ?? TradeItErrorResult.tradeError(withSystemMessage: "Error canceling order.")
             )
         }
     }

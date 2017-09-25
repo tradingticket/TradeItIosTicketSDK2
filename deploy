@@ -6,7 +6,7 @@ git fetch --tags -p
 # Check if there are uncommitted changes
 git diff-index --quiet HEAD -- || { echo "ERROR: You have uncommitted local changes. Commit or clean up before proceeding."; exit; }
 
-LATEST_GIT_TAG=`git tag -l --points-at HEAD`
+LATEST_GIT_TAG=`git describe --tags --abbrev=0`
 BUNDLE_VERSION=`xcrun agvtool what-version`
 POD_VERSION=`grep "s.version[ ]\+=" TradeItIosTicketSDK2.podspec | grep -Eo "\d+\.\d+\.\d+"`
 
@@ -39,6 +39,7 @@ carthage build --no-skip-current --platform iOS
 
 git tag $NEW_VERSION
 git push origin $NEW_VERSION
+git push origin HEAD
 
 pod repo push tradingticket TradeItIosTicketSDK2.podspec --verbose --allow-warnings
 

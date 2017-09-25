@@ -7,7 +7,7 @@ git fetch --tags -p
 git diff-index --quiet HEAD -- || { echo "ERROR: You have uncommitted local changes. Commit or clean up before proceeding."; exit; }
 
 LATEST_GIT_TAG=`git describe --tags --abbrev=0`
-BUNDLE_VERSION=`xcrun agvtool what-version`
+BUNDLE_VERSION=`xcrun agvtool what-version | grep -Eo "\d+\.\d+\.\d+"`
 POD_VERSION=`grep "s.version[ ]\+=" TradeItIosTicketSDK2.podspec | grep -Eo "\d+\.\d+\.\d+"`
 
 if  [[ "$BUNDLE_VERSION" != "$POD_VERSION" && "$BUNDLE_VERSION" != "$LATEST_GIT_TAG" ]]; then

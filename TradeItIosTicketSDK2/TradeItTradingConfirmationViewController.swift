@@ -25,7 +25,7 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewOrderStatusButton.isHidden = !TradeItSDK.isOrderStatusEnabled
+        self.viewOrderStatusButton.isHidden = !TradeItSDK.isPortfolioEnabled
 
         self.timeStampLabel.text = self.timestamp
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"

@@ -5,11 +5,11 @@ internal protocol PreviewMessageDelegate: class {
     func acknowledgementWasChanged()
 }
 
-class TradeItPreviewMessageTableViewCell: UITableViewCell {
-    @IBOutlet weak var checkbox: BEMCheckBox!
+class TradeItPreviewMessageTableViewCell: UITableViewCell, BEMCheckBoxDelegate {
     @IBOutlet weak var message: UILabel!
 
     var cellData: MessageCellData?
+    var checkbox: BEMCheckBox?
     internal weak var delegate: PreviewMessageDelegate?
 
     override func awakeFromNib() {
@@ -20,27 +20,17 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
         self.cellData = cellData
         self.message.text = cellData.message.message
         if cellData.message.requiresAcknowledgement {
-            showCheckbox()
+            self.checkbox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            self.checkbox?.delegate = self
         } else {
-            hideCheckbox()
+            self.checkbox = nil
         }
+        self.accessoryView = self.checkbox
         self.delegate = delegate
-        self.setNeedsUpdateConstraints()
-        self.updateConstraintsIfNeeded()
     }
 
-    @IBAction func checkboxChanged(_ sender: BEMCheckBox) {
-        self.cellData?.isAcknowledged = sender.on
+    func didTap(_ checkBox: BEMCheckBox) {
+        self.cellData?.isAcknowledged = checkBox.on
         self.delegate?.acknowledgementWasChanged()
-    }
-
-    private func showCheckbox() {
-        self.checkbox.isHidden = false
-        self.message.leadingAnchor.constraint(equalTo: self.checkbox.layoutMarginsGuide.trailingAnchor).isActive = true
-    }
-
-    private func hideCheckbox() {
-        self.checkbox.isHidden = true
-        self.message.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor).isActive = true
     }
 }

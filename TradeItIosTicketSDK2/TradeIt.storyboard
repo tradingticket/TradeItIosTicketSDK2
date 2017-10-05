@@ -1410,34 +1410,20 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMR-ah-Ldj">
-                                                    <rect key="frame" x="43" y="8" width="324" height="27.5"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="27.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KWZ-mJ-SHU" customClass="BEMCheckBox">
-                                                    <rect key="frame" x="8" y="8" width="25" height="25"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="2eE-MQ-FN5"/>
-                                                        <constraint firstAttribute="width" constant="25" id="6TJ-3l-laV"/>
-                                                    </constraints>
-                                                    <connections>
-                                                        <action selector="checkboxChanged:" destination="6hE-cC-gM4" eventType="valueChanged" id="zh6-rf-EOf"/>
-                                                    </connections>
-                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="KWZ-mJ-SHU" firstAttribute="top" secondItem="d0F-GW-InR" secondAttribute="topMargin" id="08W-bv-sQp"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="tMR-ah-Ldj" secondAttribute="bottom" id="62F-CR-HtK"/>
-                                                <constraint firstItem="KWZ-mJ-SHU" firstAttribute="leading" secondItem="d0F-GW-InR" secondAttribute="leadingMargin" id="CyD-Bb-moF"/>
-                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="leading" secondItem="KWZ-mJ-SHU" secondAttribute="trailing" constant="10" id="OYm-2d-Xwn"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="tMR-ah-Ldj" secondAttribute="trailing" id="mw7-x1-sqw"/>
+                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="leading" secondItem="d0F-GW-InR" secondAttribute="leadingMargin" id="qDU-zx-urB"/>
                                                 <constraint firstItem="tMR-ah-Ldj" firstAttribute="top" secondItem="d0F-GW-InR" secondAttribute="topMargin" id="xpW-ZT-V6r"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="checkbox" destination="KWZ-mJ-SHU" id="Tzw-Sb-Q5a"/>
                                             <outlet property="message" destination="tMR-ah-Ldj" id="wMX-Fq-Uuh"/>
                                         </connections>
                                     </tableViewCell>

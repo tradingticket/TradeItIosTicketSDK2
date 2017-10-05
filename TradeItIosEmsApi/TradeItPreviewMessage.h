@@ -9,6 +9,6 @@
 
 @property (nonatomic, nullable, copy) NSString<Optional> *message;
 @property (nonatomic) BOOL requiresAcknowledgement;
-@property (nonatomic, nullable, copy) NSArray<TradeItPreviewMessageLink *> <Optional, TradeItPreviewMessageLink> *links;
+@property (nonatomic, nonnull, copy) NSArray<TradeItPreviewMessageLink *> <Optional, TradeItPreviewMessageLink> *links;
 
 @end

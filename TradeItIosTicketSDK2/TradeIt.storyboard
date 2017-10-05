@@ -1422,6 +1422,9 @@
                                                         <constraint firstAttribute="height" constant="25" id="2eE-MQ-FN5"/>
                                                         <constraint firstAttribute="width" constant="25" id="6TJ-3l-laV"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <action selector="checkboxChanged:" destination="6hE-cC-gM4" eventType="valueChanged" id="zh6-rf-EOf"/>
+                                                    </connections>
                                                 </view>
                                             </subviews>
                                             <constraints>

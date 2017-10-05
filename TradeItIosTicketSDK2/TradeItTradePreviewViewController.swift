@@ -155,7 +155,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         case let linkCellData as LinkCellData:
             let cell = UITableViewCell()
             cell.textLabel?.text = linkCellData.link.label
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryView = DisclosureIndicator()
             TradeItThemeConfigurator.configureWarningCell(cell: cell)
             return cell
         case let valueCellData as ValueCellData:

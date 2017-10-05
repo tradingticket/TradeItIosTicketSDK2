@@ -7,8 +7,8 @@ class TradeItYahooPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
     @IBOutlet weak var acknowledgementLabel: UILabel!
     
     var cellData: PreviewCellData?//AcknowledgementCellData?
-    internal weak var delegate: AcknowledgementDelegate?
-    
+//    internal weak var delegate: AcknowledgementDelegate?
+
 //    func populate(withCellData cellData: AcknowledgementCellData, andDelegate delegate: AcknowledgementDelegate) {
 //        self.cellData = cellData
 //        self.acknowledgementLabel.text = cellData.acknowledgement
@@ -17,6 +17,6 @@ class TradeItYahooPreviewOrderAcknowledgementTableViewCell: UITableViewCell {
     
     @IBAction func didCheckboxValueChanged(_ sender: BEMCheckBox) {
 //        cellData?.isAcknowledged = sender.on
-        delegate?.acknowledgementWasChanged()
+//        delegate?.acknowledgementWasChanged()
     }
 }

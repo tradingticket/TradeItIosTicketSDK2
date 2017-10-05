@@ -4,30 +4,20 @@ import SafariServices
 
 @objc internal protocol PreviewCellData {}
 
-internal class WarningCellData: PreviewCellData {
-    let warning: String
+internal class MessageCellData: PreviewCellData {
+    let message: TradeItPreviewMessage
+    var isAcknowledged = false // TODO: Implement
 
-    init(warning: String) {
-        self.warning = warning
+    init(message: TradeItPreviewMessage) {
+        self.message = message
     }
 }
 
-internal class AcknowledgementCellData: PreviewCellData {
-    let acknowledgement: String
-    var isAcknowledged = false
+internal class LinkCellData: PreviewCellData {
+    let link: TradeItPreviewMessageLink
 
-    init(acknowledgement: String) {
-        self.acknowledgement = acknowledgement
-    }
-}
-
-internal class DocumentCellData: PreviewCellData {
-    let label: String
-    let url: String
-
-    init(document: TradeItPreviewDocument) {
-        self.label = document.label
-        self.url = document.url
+    init(link: TradeItPreviewMessageLink) {
+        self.link = link
     }
 }
 
@@ -50,7 +40,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     var previewOrderResult: TradeItPreviewOrderResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     var previewCellData: [PreviewCellData] = []
-    var acknowledgementCellData: [AcknowledgementCellData] = []
+    var messageCellData: [MessageCellData] = []
     var alertManager = TradeItAlertManager()
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
     
@@ -126,11 +116,11 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         let cellData = self.previewCellData[indexPath.row]
 
         switch cellData {
-        case let documentCellData as DocumentCellData:
-            guard let url = URL(string: documentCellData.url) else { return }
-            let safariViewController = SFSafariViewController(url: url)
-            self.present(safariViewController, animated: true, completion: nil)
-            tableView.deselectRow(at: indexPath, animated: true)
+//        case let documentCellData as DocumentCellData:
+//            guard let url = URL(string: documentCellData.url) else { return }
+//            let safariViewController = SFSafariViewController(url: url)
+//            self.present(safariViewController, animated: true, completion: nil)
+//            tableView.deselectRow(at: indexPath, animated: true)
         default:
             return
         }
@@ -146,20 +136,24 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         let cellData = self.previewCellData[indexPath.row]
 
         switch cellData {
-        case let warningCellData as WarningCellData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
-            cell.populate(withWarning: warningCellData.warning)
+        case let messageCellData as MessageCellData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_MESSAGE_CELL_ID") as! TradeItPreviewMessageTableViewCell
+            cell.populate(withCellData: messageCellData)
             return cell
-        case let acknowledgementCellData as AcknowledgementCellData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
-            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
-            return cell
-        case let documentCellData as DocumentCellData:
-            let cell = UITableViewCell()
-            cell.accessoryView = DisclosureIndicator()
-            cell.textLabel?.text = documentCellData.label
-            TradeItThemeConfigurator.configureWarningCell(cell: cell)
-            return cell
+//        case let warningCellData as WarningCellData:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_WARNING_CELL_ID") as! TradeItPreviewOrderWarningTableViewCell
+//            cell.populate(withWarning: warningCellData.warning)
+//            return cell
+//        case let messageCellData as MessageCellData:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_ACKNOWLEDGEMENT_CELL_ID") as! TradeItPreviewOrderAcknowledgementTableViewCell
+//            cell.populate(withCellData: messageCellData, andDelegate: self)
+//            return cell
+//        case let documentCellData as DocumentCellData:
+//            let cell = UITableViewCell()
+//            cell.accessoryView = DisclosureIndicator()
+//            cell.textLabel?.text = documentCellData.label
+//            TradeItThemeConfigurator.configureWarningCell(cell: cell)
+//            return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
             cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
@@ -194,17 +188,13 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func allAcknowledgementsAccepted() -> Bool {
-        return acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
+        return false//acknowledgementCellData.filter{ !$0.isAcknowledged }.count == 0
     }
 
     private func generatePreviewCellData() -> [PreviewCellData] {
         guard let orderDetails = previewOrderResult?.orderDetails else { return [] }
 
-        var cells: [PreviewCellData] = []
-
-        cells += generateWarningCellData()
-        cells += generateAcknowledgementCellData()
-        cells += generateDocumentCellData()
+        var cells: [PreviewCellData] = generateMessageCellData()
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
         cells += [
@@ -228,19 +218,16 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         return cells
     }
 
-    private func generateWarningCellData() -> [PreviewCellData] {
-        guard let warnings = previewOrderResult?.warningsList as? [String] else { return [] }
-        return warnings.map(WarningCellData.init)
-    }
-
-    private func generateAcknowledgementCellData() -> [PreviewCellData] {
-        guard let acknowledgements = previewOrderResult?.ackWarningsList as? [String] else { return [] }
-        return acknowledgements.map(AcknowledgementCellData.init)
-    }
-
-    private func generateDocumentCellData() -> [PreviewCellData] {
-        guard let documents = previewOrderResult?.documentList else { return [] }
-        return documents.map(DocumentCellData.init)
+    private func generateMessageCellData() -> [PreviewCellData] {
+        guard let messages = previewOrderResult?.messages else { return [] }
+        var cellData: [PreviewCellData] = []
+        messages.forEach { message in
+            cellData.append(MessageCellData(message: message))
+            message.links?.forEach { link in
+                cellData.append(LinkCellData(link: link))
+            }
+        }
+        return cellData
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {

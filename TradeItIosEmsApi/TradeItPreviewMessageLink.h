@@ -1,10 +1,10 @@
 #import <JSONModel/JSONModel.h>
 
-@protocol TradeItPreviewDocument
+@protocol TradeItPreviewMessageLink
 
 @end
 
-@interface TradeItPreviewDocument : JSONModel
+@interface TradeItPreviewMessageLink : JSONModel
 
 @property (nonatomic, copy, nonnull) NSString *label;
 @property (nonatomic, copy, nonnull) NSString *url;

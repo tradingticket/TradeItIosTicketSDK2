@@ -78,6 +78,7 @@ import SafariServices
             },
             onFailure: { errorResult in
                 self.alertManager.showError(errorResult, onViewController: viewController)
+                activityView.hide(animated: true)
             }
         )
     }

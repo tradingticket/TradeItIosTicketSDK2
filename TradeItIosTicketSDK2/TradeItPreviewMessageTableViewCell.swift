@@ -28,14 +28,14 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell, BEMCheckBoxDelegate {
         } else {
             self.checkbox = nil
         }
-        self.accessoryView?.heightAnchor.constraint(equalToConstant: 20)
+
         self.accessoryView = self.checkbox
 
         self.links.arrangedSubviews.forEach { $0.removeFromSuperview() }
         cellData.message.links.forEach { link in
             let linkButton = LinkButton()
-            let title = link.label ?? "View link"
-            linkButton.setTitle(title + " >", for: .normal)
+            let title = link.label
+            linkButton.setTitle(title + " ›", for: .normal)
             linkButton.url = link.url
             linkButton.addTarget(self, action: #selector(didTapLink), for: .touchUpInside)
             TradeItThemeConfigurator.configurePreviewMessageCellLink(link: linkButton)

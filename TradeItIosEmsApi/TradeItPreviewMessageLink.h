@@ -6,7 +6,7 @@
 
 @interface TradeItPreviewMessageLink : JSONModel
 
-@property (nonatomic, copy, nonnull) NSString *label;
+@property (nonatomic, copy, nullable) NSString<Optional> *label;
 @property (nonatomic, copy, nonnull) NSString *url;
 
 @end

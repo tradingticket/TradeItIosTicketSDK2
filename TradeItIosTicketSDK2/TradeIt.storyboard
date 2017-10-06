@@ -1402,33 +1402,40 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="525"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_MESSAGE_CELL_ID" id="6hE-cC-gM4" userLabel="PREVIEW_MESSAGE_CELL_ID" customClass="TradeItPreviewMessageTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_MESSAGE_CELL_ID" rowHeight="88" id="6hE-cC-gM4" userLabel="PREVIEW_MESSAGE_CELL_ID" customClass="TradeItPreviewMessageTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6hE-cC-gM4" id="d0F-GW-InR">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="87.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMR-ah-Ldj">
-                                                    <rect key="frame" x="8" y="8" width="359" height="27.5"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="AgE-op-zbQ">
+                                                    <rect key="frame" x="8" y="30.5" width="359" height="49"/>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="tMR-ah-Ldj" secondAttribute="bottom" id="62F-CR-HtK"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="tMR-ah-Ldj" secondAttribute="trailing" id="mw7-x1-sqw"/>
-                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="leading" secondItem="d0F-GW-InR" secondAttribute="leadingMargin" id="qDU-zx-urB"/>
-                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="top" secondItem="d0F-GW-InR" secondAttribute="topMargin" id="xpW-ZT-V6r"/>
+                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="top" secondItem="d0F-GW-InR" secondAttribute="topMargin" id="5d7-2q-ofS"/>
+                                                <constraint firstItem="tMR-ah-Ldj" firstAttribute="leading" secondItem="d0F-GW-InR" secondAttribute="leadingMargin" id="8s9-Ee-dV8"/>
+                                                <constraint firstItem="AgE-op-zbQ" firstAttribute="top" secondItem="tMR-ah-Ldj" secondAttribute="bottom" constant="8" id="Q1U-Rr-t8z"/>
+                                                <constraint firstItem="AgE-op-zbQ" firstAttribute="leading" secondItem="d0F-GW-InR" secondAttribute="leadingMargin" id="Wql-gS-oMT"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="AgE-op-zbQ" secondAttribute="trailing" id="ggq-N9-A72"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="tMR-ah-Ldj" secondAttribute="trailing" id="h4w-Tr-q5f"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="AgE-op-zbQ" secondAttribute="bottom" id="mYU-wQ-4Y1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="links" destination="AgE-op-zbQ" id="chJ-nG-h5r"/>
                                             <outlet property="message" destination="tMR-ah-Ldj" id="wMX-Fq-Uuh"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PREVIEW_ORDER_VALUE_CELL_ID" textLabel="muL-68-ITG" detailTextLabel="TMI-Ot-iKA" style="IBUITableViewCellStyleValue1" id="8Tu-aU-Kos" customClass="TradeItPreviewOrderValueTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Tu-aU-Kos" id="pM8-dD-TE2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

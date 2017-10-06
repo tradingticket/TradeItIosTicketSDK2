@@ -17,14 +17,6 @@ internal class MessageCellData: PreviewCellData {
     }
 }
 
-internal class LinkCellData: PreviewCellData {
-    let link: TradeItPreviewMessageLink
-
-    init(link: TradeItPreviewMessageLink) {
-        self.link = link
-    }
-}
-
 internal class ValueCellData: PreviewCellData {
     let label: String
     let value: String
@@ -114,30 +106,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         )
     }
 
-    // MARK: UITableViewDelegate
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellData = self.previewCellData[indexPath.row]
-
-        switch cellData {
-        case let linkCellData as LinkCellData:
-            guard let url = URL(string: linkCellData.link.url) else { return }
-            if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
-                let safariViewController = SFSafariViewController(url: url)
-                self.present(safariViewController, animated: true, completion: nil)
-            } else {
-                if #available(iOS 10, *) {
-                    UIApplication.shared.open(url)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
-            }
-            tableView.deselectRow(at: indexPath, animated: true)
-        default:
-            return
-        }
-    }
-
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,12 +119,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         case let messageCellData as MessageCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_MESSAGE_CELL_ID") as! TradeItPreviewMessageTableViewCell
             cell.populate(withCellData: messageCellData, andDelegate: self)
-            return cell
-        case let linkCellData as LinkCellData:
-            let cell = UITableViewCell()
-            cell.textLabel?.text = linkCellData.link.label
-            cell.accessoryView = DisclosureIndicator()
-            TradeItThemeConfigurator.configureWarningCell(cell: cell)
             return cell
         case let valueCellData as ValueCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
@@ -175,10 +137,24 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         return UITableViewAutomaticDimension
     }
 
-    // MARK: AcknowledgementDelegate
+    // MARK: PreviewMessageDelegate
 
     func acknowledgementWasChanged() {
         updatePlaceOrderButtonStatus()
+    }
+
+    func launchLink(url: String) {
+        guard let url = URL(string: url) else { return }
+        if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+            let safariViewController = SFSafariViewController(url: url)
+            self.present(safariViewController, animated: true, completion: nil)
+        } else {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
     }
 
     // MARK: Private
@@ -224,14 +200,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
 
     private func generateMessageCellData() -> [PreviewCellData] {
         guard let messages = previewOrderResult?.messages else { return [] }
-        var cellData: [PreviewCellData] = []
-        messages.filter { $0.links.count > 0 }.forEach { message in
-            cellData.append(MessageCellData(message: message))
-            message.links.forEach { link in
-                cellData.append(LinkCellData(link: link))
-            }
-        }
-        return cellData
+        return messages.map(MessageCellData.init)
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {

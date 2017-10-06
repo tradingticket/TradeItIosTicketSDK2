@@ -19,8 +19,12 @@
     return self;
 }
 
-- (NSString*) description{
-    return [NSString stringWithFormat:@"TradeItErrorResult: %@ errorFields=%@ systemMessage=%@",[super description], self.errorFields, self.systemMessage];
+- (NSString*) description {
+    return [NSString stringWithFormat:@"TradeItErrorResult: %@ code=%@ errorFields=%@ systemMessage=%@",
+            [super description],
+            self.code,
+            self.errorFields,
+            self.systemMessage];
 }
 
 @end

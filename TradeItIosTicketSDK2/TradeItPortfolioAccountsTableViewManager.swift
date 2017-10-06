@@ -202,17 +202,17 @@ fileprivate class LinkedBrokerSectionPresenter {
         guard let error = error else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_LINKED_BROKER_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         if error.isAccountLinkDelayedError() {
-            cell.textLabel?.text = "Activation in Progress"
+            cell.textLabel?.text = "Activation in progress"
             cell.detailTextLabel?.text = "Account link is being activated. Check back soon."
         } else if error.requiresRelink() {
-            cell.textLabel?.text = "Relink Broker"
-            cell.detailTextLabel?.text = "The link with \(linkedBroker.brokerLongName) failed. Tap to relink."
+            cell.textLabel?.text = "Relink broker"
+            cell.detailTextLabel?.text = "\(linkedBroker.brokerLongName) link requires update. Tap to relink."
         } else if error.requiresAuthentication() {
-            cell.textLabel?.text = "Authentication Failed"
-            cell.detailTextLabel?.text = "Failed to create a session. Tap to retry."
+            cell.textLabel?.text = "Refresh data"
+            cell.detailTextLabel?.text = "\(linkedBroker.brokerLongName) requires refresh. Tap to refresh."
         } else {
-            cell.textLabel?.text = "Unknown Failure"
-            cell.detailTextLabel?.text = "Failed to fetch accounts. Tap to retry."
+            cell.textLabel?.text = "Couldn't refresh data"
+            cell.detailTextLabel?.text = "Failed to update accounts. Tap to retry."
         }
         let warningImage = UIImage(
             named: "warning",

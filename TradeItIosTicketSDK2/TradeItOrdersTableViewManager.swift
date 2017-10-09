@@ -80,12 +80,12 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.orderSectionPresenters[section].title
+        return self.orderSectionPresenters[safe: section]?.title
     }
     
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return self.orderSectionPresenters[indexPath.section].cell(forTableView: tableView, andRow: indexPath.row)
+        return self.orderSectionPresenters[safe: indexPath.section]?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,11 +106,11 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.orderSectionPresenters[section].header(forTableView: tableView)
+        return self.orderSectionPresenters[safe: section]?.header(forTableView: tableView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.orderSectionPresenters[section].heightForHeaderInSection()
+        return self.orderSectionPresenters[safe: section]?.heightForHeaderInSection() ?? CGFloat.leastNormalMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -119,8 +119,8 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
-            guard let order = self.orderSectionPresenters[indexPath.section].getOrder(forRow: indexPath.row)
-                , let orderNumber = self.orderSectionPresenters[indexPath.section].grouOrderId ?? order.orderNumber else {
+            guard let order = self.orderSectionPresenters[safe: indexPath.section]?.getOrder(forRow: indexPath.row)
+                , let orderNumber = self.orderSectionPresenters[safe: indexPath.section]?.grouOrderId ?? order.orderNumber else {
                     return
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: orderNumber)
@@ -131,7 +131,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard let order = self.orderSectionPresenters[indexPath.section].getOrder(forRow: indexPath.row) else {
+        guard let order = self.orderSectionPresenters[safe: indexPath.section]?.getOrder(forRow: indexPath.row) else {
             return false
         }
         return order.isCancellable()

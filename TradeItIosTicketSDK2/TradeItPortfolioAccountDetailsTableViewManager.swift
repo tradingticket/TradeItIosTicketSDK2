@@ -150,13 +150,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { (action, indexPath: IndexPath) in
             let position = self.positions?[indexPath.row]
-            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .buy)
+            self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .buy)
         }
         buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
         let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { (action, indexPath: IndexPath) in
             let position = self.positions?[indexPath.row]
-            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .sell)
+            self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .sell)
         }
         sellAction.backgroundColor = UIColor.tradeItSellRedColor
         
@@ -186,7 +186,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
     
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: portfolioPosition, orderAction: orderAction)
+        self.delegate?.tradeButtonWasTapped(forPortfolioPosition: portfolioPosition, orderAction: orderAction)
     }
 
     // MARK: Private
@@ -243,6 +243,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 }
 
 protocol TradeItPortfolioAccountDetailsTableDelegate: class {
-    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
+    func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
 }

@@ -15,6 +15,8 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         case availableCash
     }
 
+    private let ACCOUNT_DETAIL_ROW_HEIGHT: CGFloat = 32
+
     private var account: TradeItLinkedBrokerAccount?
     private var accountDetails: [ACCOUNT_DETAIL_ROWS] = []
     private var positions: [TradeItPortfolioPosition]? = []
@@ -201,13 +203,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { (action, indexPath: IndexPath) in
-            let position = self.positions?[indexPath.row]
+            let position = self.positions?[safe: indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .buy)
         }
         buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
         let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { (action, indexPath: IndexPath) in
-            let position = self.positions?[indexPath.row]
+            let position = self.positions?[safe: indexPath.row]
             self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .sell)
         }
         sellAction.backgroundColor = UIColor.tradeItSellRedColor
@@ -229,16 +231,16 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-            return 32
+            return self.ACCOUNT_DETAIL_ROW_HEIGHT
         }
         return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-            return 32
+            return self.ACCOUNT_DETAIL_ROW_HEIGHT
         }
-        return 44
+        return UITableViewAutomaticDimension
     }
     
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate

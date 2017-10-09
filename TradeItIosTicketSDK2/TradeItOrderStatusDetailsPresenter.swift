@@ -82,7 +82,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         let orderStatus = self.order.orderStatus ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
         switch orderStatus  {
         case "FILLED":
-            return "Filled at \(getFormattedTimestamp(timestamp: self.orderLeg.fills?[0].timestamp))"
+            return "Filled at \(getFormattedTimestamp(timestamp: self.orderLeg.fills?[safe: 0]?.timestamp ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER))"
         default:
             return formatEnum(string: self.order.orderExpiration)
         }

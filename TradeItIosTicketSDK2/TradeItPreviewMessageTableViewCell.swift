@@ -16,10 +16,6 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
     var cellData: MessageCellData?
     internal weak var delegate: PreviewMessageDelegate?
 
-    override func awakeFromNib() {
-        TradeItThemeConfigurator.configurePreviewMessageCell(cell: self)
-    }
-
     func populate(withCellData cellData: MessageCellData, andDelegate delegate: PreviewMessageDelegate) {
         self.cellData = cellData
         self.message.text = cellData.message.message

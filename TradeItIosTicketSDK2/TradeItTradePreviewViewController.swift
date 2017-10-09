@@ -54,6 +54,12 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         
         updatePlaceOrderButtonStatus()
 
+        let bundle = TradeItBundleProvider.provide()
+        orderDetailsTable.register(
+            UINib(nibName: "TradeItPreviewMessageTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
+        )
+
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,

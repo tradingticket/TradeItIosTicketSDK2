@@ -36,6 +36,11 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         
         orderDetailsTable.dataSource = self
         orderDetailsTable.delegate = self
+        let bundle = TradeItBundleProvider.provide()
+        orderDetailsTable.register(
+            UINib(nibName: "TradeItPreviewMessageTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
+        )
         
         updatePlaceOrderButtonStatus()
     }
@@ -173,22 +178,6 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         _ = navigationController?.popViewController(animated: true)
     }
 
-    // MARK: UITableViewDelegate
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellData = self.previewCellData[indexPath.row]
-
-        switch cellData {
-//        case let documentCellData as DocumentCellData:
-//            guard let url = URL(string: documentCellData.url) else { return }
-//            let safariViewController = SFSafariViewController(url: url)
-//            self.present(safariViewController, animated: true, completion: nil)
-//            tableView.deselectRow(at: indexPath, animated: true)
-        default:
-            return
-        }
-    }
-
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -199,14 +188,6 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         let cellData = previewCellData[indexPath.row]
 
         switch cellData {
-//        case let warningCellData as WarningCellData:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_WARNING_CELL_ID") as! TradeItYahooPreviewOrderWarningTableViewCell
-//            cell.populate(withWarning: warningCellData.warning)
-//            return cell
-//        case let acknowledgementCellData as AcknowledgementCellData:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_ACKNOWLEDGEMENT_CELL_ID") as! TradeItYahooPreviewOrderAcknowledgementTableViewCell
-//            cell.populate(withCellData: acknowledgementCellData, andDelegate: self)
-//            return cell
         case let messageCellData as MessageCellData:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_MESSAGE_CELL_ID") as! TradeItPreviewMessageTableViewCell
             cell.populate(withCellData: messageCellData, andDelegate: self)

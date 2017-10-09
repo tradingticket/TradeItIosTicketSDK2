@@ -100,6 +100,10 @@ class TradeItPortfolioBalanceEquityPresenter {
         return UpdateTimestampFormatter.displayString(forUpdateTimestamp: timestamp)
     }
 
+    func getFormattedBuyingPowerLabel() -> String {
+        return self.balance?.buyingPowerLabel ?? "Buying power"
+    }
+
     func getFormattedBuyingPowerLabelWithTimestamp() -> String? {
         guard var label = self.getFormattedBuyingPower() else {
             return nil
@@ -109,7 +113,7 @@ class TradeItPortfolioBalanceEquityPresenter {
             label += " as of \(timestamp)"
         }
 
-        let buyingPowerLabel = self.balance?.buyingPowerLabel?.uppercased() ?? "BUYING POWER"
+        let buyingPowerLabel = getFormattedBuyingPowerLabel().uppercased()
         
         return (buyingPowerLabel + ": " + label)
     }

@@ -180,7 +180,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             case .buyingPower:
                 return self.accountDetailCell(
                     forTableView: tableView,
-                    title: "Buying power",
+                    title: presenter.getFormattedBuyingPowerLabel(),
                     value: presenter.getFormattedBuyingPower()
                 )
             case .availableCash:

@@ -17,7 +17,7 @@ import UIKit
         view.layoutIfNeeded()
     }
 
-    static func configurePreviewMessageCell(cell: UITableViewCell) {
+    static func configurePreviewMessageCell(cell: TradeItPreviewMessageTableViewCell) {
         cell.backgroundColor = UIColor(red: 1, green: 0.9765, blue: 0.898, alpha: 1.0)
         cell.textLabel?.lineBreakMode = .byWordWrapping
         cell.textLabel?.numberOfLines = 0

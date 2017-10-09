@@ -6,12 +6,14 @@ internal protocol PreviewMessageDelegate: class {
     func launchLink(url: String)
 }
 
-class TradeItPreviewMessageTableViewCell: UITableViewCell, BEMCheckBoxDelegate {
+class TradeItPreviewMessageTableViewCell: UITableViewCell {
     @IBOutlet weak var message: UILabel!
     @IBOutlet weak var links: UIStackView!
+    @IBOutlet weak var acknowledgementContainer: UIView!
+    @IBOutlet weak var acknowledgementCheckBox: BEMCheckBox!
+    @IBOutlet weak var acknowledgementContainerHeightConstraint: NSLayoutConstraint!
 
     var cellData: MessageCellData?
-    var checkbox: BEMCheckBox?
     internal weak var delegate: PreviewMessageDelegate?
 
     override func awakeFromNib() {
@@ -22,14 +24,13 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell, BEMCheckBoxDelegate {
         self.cellData = cellData
         self.message.text = cellData.message.message
         if cellData.message.requiresAcknowledgement {
-            self.checkbox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-            self.checkbox?.on = cellData.isAcknowledged
-            self.checkbox?.delegate = self
+            self.acknowledgementCheckBox.on = cellData.isAcknowledged
+            self.acknowledgementContainer.isHidden = false
+            self.acknowledgementContainerHeightConstraint.constant = 40
         } else {
-            self.checkbox = nil
+            self.acknowledgementContainer.isHidden = true
+            self.acknowledgementContainerHeightConstraint.constant = 0
         }
-
-        self.accessoryView = self.checkbox
 
         self.links.arrangedSubviews.forEach { $0.removeFromSuperview() }
         cellData.message.links.forEach { link in
@@ -49,7 +50,7 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell, BEMCheckBoxDelegate {
         self.delegate?.launchLink(url: url)
     }
 
-    func didTap(_ checkBox: BEMCheckBox) {
+    @IBAction func didTap(_ checkBox: BEMCheckBox) {
         self.cellData?.isAcknowledged = checkBox.on
         self.delegate?.acknowledgementWasChanged()
     }

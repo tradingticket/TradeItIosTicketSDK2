@@ -290,7 +290,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     }
 
     private func generateMessageCellData() -> [PreviewCellData] {
-        guard let messages = previewOrderResult?.messages else { return [] }
+        guard let messages = previewOrderResult?.orderDetails?.warnings else { return [] }
         return messages.map(MessageCellData.init)
     }
 

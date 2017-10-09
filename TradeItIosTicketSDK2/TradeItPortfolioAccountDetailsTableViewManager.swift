@@ -191,7 +191,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
                 )
             }
         } else {
-            let position = self.positions?[indexPath.row]
+            let position = self.positions?[safe: indexPath.row]
             let cell = self.positionCell(
                 forTableView: tableView,
                 forPortfolioPosition: position,

@@ -149,7 +149,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     // MARK: Private
 
     private func tradeActionWasTapped(alert: UIAlertAction!) {
-        let order = provideOrder(forPortFolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
+        let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
@@ -161,7 +161,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         self.navigationController?.pushViewController(ordersViewController, animated: true)
     }
     
-    private func provideOrder(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?,
+    private func provideOrder(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?,
                                                    account: TradeItLinkedBrokerAccount?,
                                                    orderAction: TradeItOrderAction?) -> TradeItOrder {
         let order = TradeItOrder()
@@ -175,8 +175,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     // MARK: TradeItPortfolioAccountDetailsTableDelegate
 
-    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
-        let order = self.provideOrder(forPortFolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
+    func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
+        let order = self.provideOrder(forPortfolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
 }

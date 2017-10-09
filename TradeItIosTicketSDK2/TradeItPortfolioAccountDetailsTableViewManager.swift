@@ -7,7 +7,18 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         case count
     }
 
+    private enum ACCOUNT_DETAIL_ROWS: Int {
+        case totalValue = 0
+        case totalReturn
+        case dayReturn
+        case buyingPower
+        case availableCash
+    }
+
+    private let ACCOUNT_DETAIL_ROW_HEIGHT: CGFloat = 32
+
     private var account: TradeItLinkedBrokerAccount?
+    private var accountDetails: [ACCOUNT_DETAIL_ROWS] = []
     private var positions: [TradeItPortfolioPosition]? = []
 
     private var selectedPositionIndex = -1
@@ -43,6 +54,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func updateAccount(withAccount account: TradeItLinkedBrokerAccount?) {
         self.account = account
+        guard let account = account else { return }
+        let presenter = TradeItPortfolioBalanceEquityPresenter(account)
+        self.accountDetails = [.totalValue]
+        if presenter.hasTotalReturn() { self.accountDetails += [.totalReturn] }
+        if presenter.hasDayReturn() { self.accountDetails += [.dayReturn] }
+        if presenter.hasBuyingPower() { self.accountDetails += [.buyingPower] }
+        if presenter.hasAvailableCash() { self.accountDetails += [.availableCash] }
     }
 
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]?) {
@@ -107,7 +125,9 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == SECTIONS.accountDetails.rawValue {
-            return 1
+            guard let account = self.account else { return 0 }
+            let presenter = TradeItPortfolioBalanceEquityPresenter(account)
+            return presenter.numberOfRows()
         } else {
             guard let positions = self.positions else { return 1 }
             return positions.count
@@ -135,9 +155,43 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTIONS.accountDetails.rawValue {
-            return accountDetailsCell(forTableView: tableView)
+            guard let account = self.account,
+                let accountDetail = self.accountDetails[safe: indexPath.row]
+                else { return UITableViewCell() }
+            let presenter = TradeItPortfolioBalanceEquityPresenter(account)
+
+            switch accountDetail {
+            case .totalValue:
+                return self.totalValueCell(forTableView: tableView)
+            case .totalReturn:
+                return self.accountDetailCell(
+                    forTableView: tableView,
+                    title: "Total return",
+                    value: presenter.getFormattedTotalReturnValueWithPercentage(),
+                    valueColor: presenter.getTotalReturnChangeColor()
+                )
+            case .dayReturn:
+                return self.accountDetailCell(
+                    forTableView: tableView,
+                    title: "Day return",
+                    value: presenter.getFormattedDayReturnWithPercentage(),
+                    valueColor: presenter.getDayReturnChangeColor()
+                )
+            case .buyingPower:
+                return self.accountDetailCell(
+                    forTableView: tableView,
+                    title: presenter.getFormattedBuyingPowerLabel(),
+                    value: presenter.getFormattedBuyingPower()
+                )
+            case .availableCash:
+                return self.accountDetailCell(
+                    forTableView: tableView,
+                    title: "Available cash",
+                    value: presenter.getFormattedAvailableCash()
+                )
+            }
         } else {
-            let position = self.positions?[indexPath.row]
+            let position = self.positions?[safe: indexPath.row]
             let cell = self.positionCell(
                 forTableView: tableView,
                 forPortfolioPosition: position,
@@ -149,14 +203,14 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let buyAction = UITableViewRowAction(style: .normal, title: "BUY") { (action, indexPath: IndexPath) in
-            let position = self.positions?[indexPath.row]
-            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .buy)
+            let position = self.positions?[safe: indexPath.row]
+            self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .buy)
         }
         buyAction.backgroundColor = UIColor.tradeItBuyGreenColor
         
         let sellAction = UITableViewRowAction(style: .normal, title: "SELL") { (action, indexPath: IndexPath) in
-            let position = self.positions?[indexPath.row]
-            self.delegate?.tradeButtonWasTapped(forPortFolioPosition: position, orderAction: .sell)
+            let position = self.positions?[safe: indexPath.row]
+            self.delegate?.tradeButtonWasTapped(forPortfolioPosition: position, orderAction: .sell)
         }
         sellAction.backgroundColor = UIColor.tradeItSellRedColor
         
@@ -176,22 +230,28 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
+            return self.ACCOUNT_DETAIL_ROW_HEIGHT
+        }
         return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
+            return self.ACCOUNT_DETAIL_ROW_HEIGHT
+        }
+        return UITableViewAutomaticDimension
     }
     
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
     
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
-        self.delegate?.tradeButtonWasTapped(forPortFolioPosition: portfolioPosition, orderAction: orderAction)
+        self.delegate?.tradeButtonWasTapped(forPortfolioPosition: portfolioPosition, orderAction: orderAction)
     }
 
     // MARK: Private
 
-    func positionCell(
+    private func positionCell(
         forTableView tableView: UITableView,
         forPortfolioPosition position: TradeItPortfolioPosition?,
         selected: Bool = false) -> UITableViewCell {
@@ -213,7 +273,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         }
     }
 
-    private func accountDetailsCell(forTableView tableView: UITableView) -> UITableViewCell {
+    private func totalValueCell(forTableView tableView: UITableView) -> UITableViewCell {
         if let account = self.account {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS") as! TradeItPortfolioAccountDetailsTableViewCell
             cell.populate(withAccount: account)
@@ -226,6 +286,15 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             TradeItThemeConfigurator.configure(view: cell)
             return cell
         }
+    }
+
+    private func accountDetailCell(forTableView tableView: UITableView, title: String, value: String?, valueColor: UIColor = TradeItSDK.theme.textColor) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_VALUE_ID") ?? UITableViewCell()
+        TradeItThemeConfigurator.configure(view: cell)
+        cell.textLabel?.text = title
+        cell.detailTextLabel?.text = value
+        cell.detailTextLabel?.textColor = valueColor
+        return cell
     }
 
     func addRefreshControl(toTableView tableView: UITableView) {
@@ -243,6 +312,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 }
 
 protocol TradeItPortfolioAccountDetailsTableDelegate: class {
-    func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
+    func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
 }

@@ -8,13 +8,39 @@ class TradeItPortfolioBalanceEquityPresenter {
         self.account = linkedBrokerAccount
     }
 
+    func numberOfRows() -> Int {
+        return [
+            self.balance?.totalValue != nil,
+            self.hasTotalReturn(),
+            self.hasDayReturn(),
+            self.hasBuyingPower(),
+            self.hasAvailableCash()
+        ].filter { $0 == true }.count
+    }
+
+    func hasTotalReturn() -> Bool {
+        return self.balance?.totalAbsoluteReturn != nil || self.balance?.totalPercentReturn != nil
+    }
+
+    func hasDayReturn() -> Bool {
+        return self.balance?.dayAbsoluteReturn != nil || self.balance?.dayPercentReturn != nil
+    }
+
+    func hasAvailableCash() -> Bool {
+        return self.balance?.availableCash != nil
+    }
+
+    func hasBuyingPower() -> Bool {
+        return self.balance?.buyingPower != nil
+    }
+
     func getFormattedTotalValue() -> String? {
         guard let totalValue = self.balance?.totalValue else { return nil }
 
         return NumberFormatter.formatCurrency(totalValue, currencyCode: balance?.accountBaseCurrency)
     }
 
-   func getFormattedDayReturnWithPercentage() -> String? {
+    func getFormattedDayReturnWithPercentage() -> String? {
         var dayReturnString = ""
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
@@ -26,6 +52,16 @@ class TradeItPortfolioBalanceEquityPresenter {
         }
 
         return dayReturnString.isEmpty ? nil : dayReturnString
+    }
+
+    func getDayReturnChangeColor() -> UIColor {
+        let value = self.balance?.dayAbsoluteReturn ?? self.balance?.dayPercentReturn
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
+    }
+
+    func getTotalReturnChangeColor() -> UIColor {
+        let value = self.balance?.totalAbsoluteReturn ?? self.balance?.totalPercentReturn
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
     }
 
     func getFormattedAvailableCash() -> String? {
@@ -64,6 +100,10 @@ class TradeItPortfolioBalanceEquityPresenter {
         return UpdateTimestampFormatter.displayString(forUpdateTimestamp: timestamp)
     }
 
+    func getFormattedBuyingPowerLabel() -> String {
+        return self.balance?.buyingPowerLabel ?? "Buying power"
+    }
+
     func getFormattedBuyingPowerLabelWithTimestamp() -> String? {
         guard var label = self.getFormattedBuyingPower() else {
             return nil
@@ -73,7 +113,7 @@ class TradeItPortfolioBalanceEquityPresenter {
             label += " as of \(timestamp)"
         }
 
-        let buyingPowerLabel = self.balance?.buyingPowerLabel?.uppercased() ?? "BUYING POWER"
+        let buyingPowerLabel = getFormattedBuyingPowerLabel().uppercased()
         
         return (buyingPowerLabel + ": " + label)
     }

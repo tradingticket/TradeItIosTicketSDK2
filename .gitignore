@@ -27,3 +27,5 @@ Pods
 Carthage/
 
 .idea/
+*.lock
+_site/

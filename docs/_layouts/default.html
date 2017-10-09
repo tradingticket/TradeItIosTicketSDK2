@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Explore TradeIt’s full API documentation.">
+    <title>TradeIt - Documentation</title>
+
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="/css/normalize.min.css">
+    <!--<link rel="stylesheet" href="/css/uikit.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/css/uikit.min.css" />
+    <link rel="stylesheet" href="/css/main.css?ver1.4">
+    <link href="/css/documentation.css?ver1.4.1" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/js/uikit.min.js"></script>
+</head>
+
+<body class="documentation">
+    <header id="header" class="small-header">
+        <article class="container header">
+            <a href="index.html" class="logo"></a>
+            <nav class="desktop-nav">
+                <div class="uikit-2-nav" data-uk-dropdown>
+                    <!-- This is the element toggling the dropdown -->
+                    <a href="https://www.trade.it/solutions">Our Solutions</a>
+                    <!-- This is the dropdown -->
+                    <div class="uk-dropdown">
+                        <a href="https://www.trade.it/solutions-tradingticket">TradingTicket</a>
+                        <a href="https://www.trade.it/solutions-portfolioview">PortfolioView</a>
+                        <a href="https://www.trade.it/solutions-smartads">SmartAds</a>
+                    </div>
+                </div>
+                <div class="uikit-2-nav" data-uk-dropdown>
+                    <!-- This is the element toggling the dropdown -->
+                    <a href="https://www.trade.it/developers" class="active dev-link">For Developers</a>
+                    <!-- This is the dropdown -->
+                    <div class="uk-dropdown">
+                        <a href="https://www.trade.it/quickstart">Quickstart</a>
+                        <a href="https://www.trade.it/documentation">Documentation</a>
+                        <a href="https://www.trade.it/helpcenter">Help Center</a>
+                    </div>
+                </div>
+                <div class="uikit-2-nav" data-uk-dropdown>
+                    <!-- This is the element toggling the dropdown -->
+                    <a href="https://www.trade.it/about">About Us</a>
+                    <!-- This is the dropdown -->
+                    <div class="uk-dropdown">
+                        <a href="https://blog.trade.it/" target="_blank">Our Blog</a>
+                        <a href="https://www.trade.it/press">Our Press</a>
+                    </div>
+                </div>
+                <a class="btn darkgrey" href="https://www.trade.it/contact">Get Started</a>
+            </nav>
+            <!-- Mobile Menu -->
+            <button id="off-canvas-btn" class="uk-button uk-button-default" type="button"><span class="line-mobile-menu"></span><span class="line-mobile-menu"></span><span class="line-mobile-menu"></span></button>
+            <div id="offcanvas-slide" class="uk-offcanvas">
+                <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+                    <!--<button class="uk-offcanvas-close" type="button" uk-close></button>-->
+                    <ul class="uk-nav uk-nav-primary uk-margin-auto-vertical">
+                        <li class="uk-parent uk-active">
+                            <ul class="uk-nav-sub">
+                                <a href="https://www.trade.it/solutions" class="link-submenu">Our Solutions</a>
+                                <a href="https://www.trade.it/solutions-tradingticket" class="link-submenu">TradingTicket</a>
+                                <a href="https://www.trade.it/solutions-portfolioview" class="link-submenu">PortfolioView</a>
+                                <a href="https://www.trade.it/solutions-smartads" class="link-submenu">SmartAds</a>
+                            </ul>
+                        </li>
+                        <li class="uk-parent uk-active">
+                            <ul class="uk-nav-sub">
+                                <a href="https://www.trade.it/developers" class="link-submenu">For Developers</a>
+                                <a href="https://www.trade.it/quickstart" class="link-submenu">Quickstart</a>
+                                <a href="https://www.trade.it/documentation" class="link-submenu">Documentation</a>
+                                <a href="https://www.trade.it/helpcenter" class="link-submenu">Help Center</a>
+                            </ul>
+                        </li>
+                        <li class="uk-parent uk-active">
+                            <ul class="uk-nav-sub">
+                                <a href="https://www.trade.it/about" class="link-submenu">About Us</a>
+
+                                <a href="https://blog.trade.it/" class="link-submenu">Our Blog</a>
+                                <a href="https://www.trade.it/press" class="link-submenu">Our Press</a>
+                            </ul>
+                        </li>
+                        <a class="nav-get-started-btn btn green" href="https://www.trade.it/contact">Get Started</a>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Mobile Menu -->
+        </article>
+    </header>
+    <a id="target" href="#header" class="totop-btn" uk-scroll="">Go to top &#8593;</a>
+    <article class="solutions-wrapper-navigation">
+        <section class="container solutions-nav-tabs">
+            <ul class="solutions-links">
+                <li class="solution-link-item">
+                    <a href="/quickstart">Quickstart</a></li>
+                <li class="solution-linki-tem">
+                    <a class="active-link" href="/documentation">Documentation</a></li>
+                <li class="solution-link-item">
+                    <a href="/helpcenter">Help Center</a></li>
+            </ul>
+        </section>
+    </article>
+    <div class="documentation-wrapper">
+        <a href="#/" id="nav-button-beta" class="mobile-menu-btn"><span>Menu<img src="img/navbar-icon.svg"></span></a>
+        <div id="fix-wrapper" class="fix-wrapper">
+            <div class="tocify-wrapper" id="tocify-wrapper" uk-sticky>
+                <p class="nav-heading">Table of contents</p>
+                {% include _Sidebar.html %}
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <section class="small-tabs">
+                <a href="/documentation">JSON API</a>
+                <a href="#" class="selected">iOS SDK</a>
+                <a href="https://github.com/tradingticket/AndroidSDK" target="_blank">Android SDK &#8599;</a>
+            </section>
+            <div class="content ios">
+                <h1 class="title">{{ page.title }}</h1>
+                {{ content }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -286,8 +286,9 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         }
     }
 
-    private func accountDetailCell(forTableView tableView: UITableView, title: String, value: String?, valueColor: UIColor = .black) -> UITableViewCell {
+    private func accountDetailCell(forTableView tableView: UITableView, title: String, value: String?, valueColor: UIColor = TradeItSDK.theme.textColor) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_VALUE_ID") ?? UITableViewCell()
+        TradeItThemeConfigurator.configure(view: cell)
         cell.textLabel?.text = title
         cell.detailTextLabel?.text = value
         cell.detailTextLabel?.textColor = valueColor

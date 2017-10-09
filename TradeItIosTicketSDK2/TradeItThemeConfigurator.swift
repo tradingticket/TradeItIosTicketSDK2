@@ -17,6 +17,11 @@ import UIKit
         view.layoutIfNeeded()
     }
 
+    static func configurePreviewMessageCellLink(link: UIButton) {
+        link.setTitleColor(TradeItSDK.theme.interactivePrimaryColor, for: .normal)
+        link.titleLabel?.font = link.titleLabel?.font.withSize(12)
+    }
+
     static func configureTableHeader(header: UIView?, groupedStyle: Bool = true) {
         guard let header = header else { return }
         if groupedStyle {
@@ -51,7 +56,6 @@ import UIKit
         switch view {
         case let button as UIButton: styleButton(button)
         case let input as UITextField: styleTextField(input)
-        case let input as UISwitch: styleSwitch(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel: styleLabel(label)
         case let tableView as UITableView: styleTableView(tableView, groupedStyle: groupedStyle)

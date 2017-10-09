@@ -49,6 +49,8 @@
 #import "TradeItPreviewTradeRequest.h"
 #import "TradeItPreviewTradeOrderDetails.h"
 #import "TradeItPreviewTradeResult.h"
+#import "TradeItPreviewMessage.h"
+#import "TradeItPreviewMessageLink.h"
 #import "TradeItPlaceTradeRequest.h"
 #import "TradeItPlaceTradeResult.h"
 #import "TradeItPlaceTradeOrderInfo.h"

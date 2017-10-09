@@ -81,8 +81,11 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
                 self.present(safariViewController, animated: true, completion: nil)
             },
             onFailure: { errorResult in
-                self.alertManager.showError(errorResult,
-                                            onViewController: self)
+                self.alertManager.showError(
+                    errorResult,
+                    onViewController: self
+                )
+                self.activityView?.hide(animated: true)
             }
         )
     }

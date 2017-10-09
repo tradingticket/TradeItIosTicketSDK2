@@ -105,6 +105,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
                     errorResult,
                     onViewController: self
                 )
+                self.activityView?.hide(animated: true)
             }
         )
     }

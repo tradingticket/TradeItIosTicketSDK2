@@ -124,6 +124,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
                     errorResult,
                     onViewController: self
                 )
+                self.activityView?.hide(animated: true)
             }
         )
     }

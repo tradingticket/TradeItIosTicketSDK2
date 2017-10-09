@@ -109,11 +109,6 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         )
     }
 
-    // MARK: UITableViewDelegate
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    }
-
     // MARK: UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

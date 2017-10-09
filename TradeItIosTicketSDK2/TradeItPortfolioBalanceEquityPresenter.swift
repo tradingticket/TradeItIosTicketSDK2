@@ -8,13 +8,23 @@ class TradeItPortfolioBalanceEquityPresenter {
         self.account = linkedBrokerAccount
     }
 
+    func numberOfRows() -> Int {
+        return [
+            self.balance?.totalValue != nil,
+            self.balance?.totalAbsoluteReturn != nil || self.balance?.totalPercentReturn != nil,
+            self.balance?.dayAbsoluteReturn != nil || self.balance?.dayPercentReturn != nil,
+            self.balance?.availableCash != nil,
+            self.balance?.buyingPower != nil
+        ].filter { $0 == true }.count
+    }
+
     func getFormattedTotalValue() -> String? {
         guard let totalValue = self.balance?.totalValue else { return nil }
 
         return NumberFormatter.formatCurrency(totalValue, currencyCode: balance?.accountBaseCurrency)
     }
 
-   func getFormattedDayReturnWithPercentage() -> String? {
+    func getFormattedDayReturnWithPercentage() -> String? {
         var dayReturnString = ""
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
@@ -26,6 +36,16 @@ class TradeItPortfolioBalanceEquityPresenter {
         }
 
         return dayReturnString.isEmpty ? nil : dayReturnString
+    }
+
+    func getDayReturnChangeColor() -> UIColor {
+        let value = self.balance?.dayAbsoluteReturn ?? self.balance?.dayPercentReturn
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
+    }
+
+    func getTotalReturnChangeColor() -> UIColor {
+        let value = self.balance?.totalAbsoluteReturn ?? self.balance?.totalPercentReturn
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
     }
 
     func getFormattedAvailableCash() -> String? {

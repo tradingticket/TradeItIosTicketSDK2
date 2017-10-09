@@ -39,6 +39,8 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
             self.links.addArrangedSubview(linkButton)
         }
         self.delegate = delegate
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 
     @objc func didTapLink(_ button: LinkButton) {

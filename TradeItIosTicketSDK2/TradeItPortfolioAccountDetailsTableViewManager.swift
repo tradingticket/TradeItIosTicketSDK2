@@ -7,7 +7,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         case count
     }
 
-    private enum ACCOUNT_DETAILS_ROWS: Int {
+    private enum ACCOUNT_DETAIL_ROWS: Int {
         case totalValue = 0
         case totalReturn
         case dayReturn
@@ -16,6 +16,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     private var account: TradeItLinkedBrokerAccount?
+    private var accountDetails: [ACCOUNT_DETAIL_ROWS] = []
     private var positions: [TradeItPortfolioPosition]? = []
 
     private var selectedPositionIndex = -1
@@ -51,6 +52,13 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 
     func updateAccount(withAccount account: TradeItLinkedBrokerAccount?) {
         self.account = account
+        guard let account = account else { return }
+        let presenter = TradeItPortfolioBalanceEquityPresenter(account)
+        self.accountDetails = [.totalValue]
+        if presenter.hasTotalReturn() { self.accountDetails += [.totalReturn] }
+        if presenter.hasDayReturn() { self.accountDetails += [.dayReturn] }
+        if presenter.hasBuyingPower() { self.accountDetails += [.buyingPower] }
+        if presenter.hasAvailableCash() { self.accountDetails += [.availableCash] }
     }
 
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]?) {
@@ -145,40 +153,40 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SECTIONS.accountDetails.rawValue {
-            guard let account = self.account else { return UITableViewCell() }
+            guard let account = self.account,
+                let accountDetail = self.accountDetails[safe: indexPath.row]
+                else { return UITableViewCell() }
             let presenter = TradeItPortfolioBalanceEquityPresenter(account)
 
-            switch indexPath.row {
-            case ACCOUNT_DETAILS_ROWS.totalValue.rawValue:
+            switch accountDetail {
+            case .totalValue:
                 return self.totalValueCell(forTableView: tableView)
-            case ACCOUNT_DETAILS_ROWS.totalReturn.rawValue:
+            case .totalReturn:
                 return self.accountDetailCell(
                     forTableView: tableView,
                     title: "Total return",
                     value: presenter.getFormattedTotalReturnValueWithPercentage(),
                     valueColor: presenter.getTotalReturnChangeColor()
                 )
-            case ACCOUNT_DETAILS_ROWS.dayReturn.rawValue:
+            case .dayReturn:
                 return self.accountDetailCell(
                     forTableView: tableView,
                     title: "Day return",
                     value: presenter.getFormattedDayReturnWithPercentage(),
                     valueColor: presenter.getDayReturnChangeColor()
                 )
-            case ACCOUNT_DETAILS_ROWS.buyingPower.rawValue:
+            case .buyingPower:
                 return self.accountDetailCell(
                     forTableView: tableView,
                     title: "Buying power",
                     value: presenter.getFormattedBuyingPower()
                 )
-            case ACCOUNT_DETAILS_ROWS.availableCash.rawValue:
+            case .availableCash:
                 return self.accountDetailCell(
                     forTableView: tableView,
                     title: "Available cash",
                     value: presenter.getFormattedAvailableCash()
                 )
-            default:
-                return UITableViewCell()
             }
         } else {
             let position = self.positions?[indexPath.row]
@@ -220,14 +228,14 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAILS_ROWS.totalValue.rawValue {
+        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
             return 32
         }
         return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAILS_ROWS.totalValue.rawValue {
+        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
             return 32
         }
         return 44

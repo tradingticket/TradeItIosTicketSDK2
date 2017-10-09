@@ -11,11 +11,27 @@ class TradeItPortfolioBalanceEquityPresenter {
     func numberOfRows() -> Int {
         return [
             self.balance?.totalValue != nil,
-            self.balance?.totalAbsoluteReturn != nil || self.balance?.totalPercentReturn != nil,
-            self.balance?.dayAbsoluteReturn != nil || self.balance?.dayPercentReturn != nil,
-            self.balance?.availableCash != nil,
-            self.balance?.buyingPower != nil
+            self.hasTotalReturn(),
+            self.hasDayReturn(),
+            self.hasBuyingPower(),
+            self.hasAvailableCash()
         ].filter { $0 == true }.count
+    }
+
+    func hasTotalReturn() -> Bool {
+        return self.balance?.totalAbsoluteReturn != nil || self.balance?.totalPercentReturn != nil
+    }
+
+    func hasDayReturn() -> Bool {
+        return self.balance?.dayAbsoluteReturn != nil || self.balance?.dayPercentReturn != nil
+    }
+
+    func hasAvailableCash() -> Bool {
+        return self.balance?.availableCash != nil
+    }
+
+    func hasBuyingPower() -> Bool {
+        return self.balance?.buyingPower != nil
     }
 
     func getFormattedTotalValue() -> String? {

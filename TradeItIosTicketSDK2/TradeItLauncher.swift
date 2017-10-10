@@ -331,22 +331,5 @@ protocol OAuthCompletionListener {
             }
         )
     }
-    
-    public func launchOrders(
-        fromViewController viewController: UIViewController,
-        forAccountNumber accountNumber: String
-        ) {
-        let accounts = TradeItSDK.linkedBrokerManager.linkedBrokers.flatMap { $0.accounts }.filter { $0.accountNumber == accountNumber }
-        
-        if accounts.isEmpty {
-            print("WARNING: No linked broker accounts found matching the account number " + accountNumber)
-        } else {
-            if accounts.count > 1 {
-                print("WARNING: there are several linked broker accounts with the same account number... taking the first one")
-            }
-            
-            self.launchOrders(fromViewController: viewController, forLinkedBrokerAccount: accounts[0])
-        }
-    }
 
 }

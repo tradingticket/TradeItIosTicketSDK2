@@ -192,13 +192,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "Orders for account #",
-                        action: {
-                            // SINGLE-ACCT-0001 is the account number of the Dummy login
-                            TradeItSDK.launcher.launchOrders(fromViewController: self.advancedViewController, forAccountNumber: "SINGLE-ACCT-0001")
-                        }
-                    ),
-                    Action(
                         label: "Trading",
                         action: {
                             TradeItSDK.launcher.launchTrading(fromViewController: self.advancedViewController, withOrder: TradeItOrder())

@@ -315,7 +315,7 @@ protocol OAuthCompletionListener {
     
     public func launchOrders(
         fromViewController viewController: UIViewController,
-        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
         ) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {

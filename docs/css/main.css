@@ -2322,16 +2322,14 @@ header.small-header::before {
     clear: right;
     padding: 25px;
     max-width: 65%; }
-    .documentation-wrapper .content pre.intotextfix, .documentation-wrapper .content pre.highlight,
-    .documentation-wrapper .content blockquote.intotextfix,
-    .documentation-wrapper .content blockquote.highlight {
+    .documentation-wrapper .content pre.intotextfix,
+    .documentation-wrapper .content blockquote.intotextfix {
       float: left;
       width: 46%;
       margin-right: 54%;
       margin-bottom: 46px; }
-      .documentation-wrapper .content pre.intotextfix:after, .documentation-wrapper .content pre.highlight:after,
-      .documentation-wrapper .content blockquote.intotextfix:after,
-      .documentation-wrapper .content blockquote.highlight:after {
+      .documentation-wrapper .content pre.intotextfix:after,
+      .documentation-wrapper .content blockquote.intotextfix:after {
         content: "";
         clear: both;
         display: table; } }
@@ -2352,6 +2350,38 @@ header.small-header::before {
   margin: 0 0 25px;
   padding-top: 20px; }
 .documentation-wrapper .content #BalanceService {
+  font-size: 32px;
+  margin: 0; }
+@media screen {
+  .documentation-wrapper .ios pre,
+  .documentation-wrapper .ios blockquote, .documentation-wrapper .android pre,
+  .documentation-wrapper .android blockquote {
+    display: block;
+    float: none;
+    width: inherit;
+    padding: 25px;
+    max-width: 100%; }
+    .documentation-wrapper .ios pre.exampleConsole,
+    .documentation-wrapper .ios blockquote.exampleConsole, .documentation-wrapper .android pre.exampleConsole,
+    .documentation-wrapper .android blockquote.exampleConsole {
+      display: none;
+      padding-top: 0; } }
+@media screen and (min-width: 600px) {
+  .documentation-wrapper .ios pre,
+  .documentation-wrapper .ios blockquote, .documentation-wrapper .android pre,
+  .documentation-wrapper .android blockquote {
+    width: 80%;
+    background: none;
+    color: #d0d0d0;
+    background-color: #272b2d;
+    float: left;
+    clear: right;
+    padding: 25px;
+    margin-bottom: 46px; } }
+.documentation-wrapper .ios h4, .documentation-wrapper .android h4 {
+  margin: 0 0 25px;
+  padding-top: 20px; }
+.documentation-wrapper .ios #BalanceService, .documentation-wrapper .android #BalanceService {
   font-size: 32px;
   margin: 0; }
 @media screen {

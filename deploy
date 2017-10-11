@@ -6,6 +6,10 @@ git fetch --tags -p
 # Check if there are uncommitted changes
 git diff-index --quiet HEAD -- || { echo "ERROR: You have uncommitted local changes. Commit or clean up before proceeding."; exit; }
 
+git co fetch -p
+git co master
+git pull -r
+
 LATEST_GIT_TAG=`git describe --tags --abbrev=0`
 BUNDLE_VERSION=`xcrun agvtool what-version | grep -Eo "\d+\.\d+\.\d+"`
 POD_VERSION=`grep "s.version[ ]\+=" TradeItIosTicketSDK2.podspec | grep -Eo "\d+\.\d+\.\d+"`

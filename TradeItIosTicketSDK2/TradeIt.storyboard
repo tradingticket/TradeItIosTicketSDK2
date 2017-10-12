@@ -270,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fFP-9k-GYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048.8" y="-2640.6296851574216"/>
+            <point key="canvasLocation" x="1049" y="-2499"/>
         </scene>
         <!--Trade It Web View Controller-->
         <scene sceneID="Q2p-Af-rp9">
@@ -306,7 +306,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCl-7M-W7F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="-3295"/>
+            <point key="canvasLocation" x="1777" y="-3196"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="NcV-Ai-op4">
@@ -744,7 +744,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nA7-zR-8XD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1784.8" y="-1914.6926536731635"/>
+            <point key="canvasLocation" x="1785" y="-1791"/>
         </scene>
         <!--Orders-->
         <scene sceneID="V3l-A4-gut">
@@ -889,7 +889,7 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1077"/>
+            <point key="canvasLocation" x="1049" y="-1096"/>
         </scene>
         <!--Portfolio-->
         <scene sceneID="U2E-Rt-uec">
@@ -1055,7 +1055,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048.8" y="-1913.793103448276"/>
+            <point key="canvasLocation" x="1049" y="-1791"/>
         </scene>
         <!--Search-->
         <scene sceneID="dDx-g0-3EY">
@@ -1835,7 +1835,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Bc-5Q-QsG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2513" y="-2641"/>
+            <point key="canvasLocation" x="2521" y="-2499"/>
         </scene>
         <!--Trade-->
         <scene sceneID="cZD-MG-chY">
@@ -2446,7 +2446,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vbh-N1-MVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1776.8" y="-2641.5292353823093"/>
+            <point key="canvasLocation" x="1777" y="-2499"/>
         </scene>
     </scenes>
     <resources>

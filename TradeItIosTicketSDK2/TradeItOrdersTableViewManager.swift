@@ -1,7 +1,6 @@
 import UIKit
 
 class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
-
     private var noResultsBackgroundView: UIView
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?

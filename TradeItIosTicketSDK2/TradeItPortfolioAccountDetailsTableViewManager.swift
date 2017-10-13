@@ -260,8 +260,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             cell.delegate = self
             cell.populate(withPosition: position)
             cell.showPositionDetails(selected)
-            cell.setNeedsUpdateConstraints()
-            cell.updateConstraintsIfNeeded()
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNT_DETAILS_ERROR") ?? UITableViewCell(style: .subtitle, reuseIdentifier: nil)

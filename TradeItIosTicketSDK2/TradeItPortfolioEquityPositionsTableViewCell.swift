@@ -16,7 +16,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var positionDetailsView: UIView!
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
@@ -71,8 +70,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
             self.chevron.image = chevronDownImage
             TradeItThemeConfigurator.configure(view: self.chevron)
         }
-        self.setNeedsUpdateConstraints()
-        self.updateConstraintsIfNeeded()
     }
 
     internal func showSpinner() {

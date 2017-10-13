@@ -12,6 +12,7 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
     @IBOutlet weak var acknowledgementContainer: UIView!
     @IBOutlet weak var acknowledgementCheckBox: BEMCheckBox!
     @IBOutlet weak var acknowledgementContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stackView: UIStackView!
 
     var cellData: MessageCellData?
     internal weak var delegate: PreviewMessageDelegate?
@@ -20,12 +21,10 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
         self.cellData = cellData
         self.message.text = cellData.message.message
         if cellData.message.requiresAcknowledgement {
-            self.acknowledgementCheckBox.on = cellData.isAcknowledged
+            self.acknowledgementCheckBox.setOn(cellData.isAcknowledged, animated: false)
             self.acknowledgementContainer.isHidden = false
-            self.acknowledgementContainerHeightConstraint.constant = 40
         } else {
             self.acknowledgementContainer.isHidden = true
-            self.acknowledgementContainerHeightConstraint.constant = 0
         }
 
         self.links.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -39,11 +38,7 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
             self.links.addArrangedSubview(linkButton)
         }
         self.delegate = delegate
-        self.setNeedsLayout()
-        self.setNeedsUpdateConstraints()
-        self.acknowledgementCheckBox.setNeedsLayout()
-        self.acknowledgementCheckBox.layoutIfNeeded()
-        self.layoutIfNeeded()
+        self.stackView.layoutIfNeeded()
     }
 
     @objc func didTapLink(_ button: LinkButton) {

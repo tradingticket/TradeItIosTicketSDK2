@@ -11,7 +11,6 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
     @IBOutlet weak var links: UIStackView!
     @IBOutlet weak var acknowledgementContainer: UIView!
     @IBOutlet weak var acknowledgementCheckBox: BEMCheckBox!
-    @IBOutlet weak var acknowledgementContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var stackView: UIStackView!
 
     var cellData: MessageCellData?

@@ -92,7 +92,6 @@
             <connections>
                 <outlet property="acknowledgementCheckBox" destination="fdz-mR-Yna" id="W85-lm-4AC"/>
                 <outlet property="acknowledgementContainer" destination="j9v-pL-uX4" id="TUN-o4-fRL"/>
-                <outlet property="acknowledgementContainerHeightConstraint" destination="iLU-vg-O8F" id="YoF-Ms-pS9"/>
                 <outlet property="links" destination="Xdc-qt-fKa" id="SkO-Yl-sAM"/>
                 <outlet property="message" destination="Qti-B0-1ap" id="enZ-wv-mXF"/>
                 <outlet property="stackView" destination="xOb-OE-xLl" id="JYo-KB-0gM"/>

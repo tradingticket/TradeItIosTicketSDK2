@@ -40,6 +40,9 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
         }
         self.delegate = delegate
         self.setNeedsLayout()
+        self.setNeedsUpdateConstraints()
+        self.acknowledgementCheckBox.setNeedsLayout()
+        self.acknowledgementCheckBox.layoutIfNeeded()
         self.layoutIfNeeded()
     }
 

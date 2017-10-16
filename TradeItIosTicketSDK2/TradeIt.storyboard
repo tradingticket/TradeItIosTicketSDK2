@@ -718,6 +718,7 @@
                                             <outlet property="buyButton" destination="Gtl-8c-b2X" id="8i4-SO-f7d"/>
                                             <outlet property="chevron" destination="XJJ-3P-SG7" id="fpz-II-DWZ"/>
                                             <outlet property="dayReturnLabel" destination="xBj-WJ-uJ0" id="wDO-C3-NpK"/>
+                                            <outlet property="dayReturnView" destination="Jx1-Vi-7Tm" id="Kcf-Ib-YC8"/>
                                             <outlet property="lastPriceLabelValue" destination="P8T-6D-oUm" id="6vF-JO-XHc"/>
                                             <outlet property="positionDetailsHeightConstraint" destination="use-xA-zrO" id="IwO-cl-fyj"/>
                                             <outlet property="positionDetailsView" destination="du9-1o-Iof" id="Gm5-XZ-wxy"/>
@@ -725,6 +726,7 @@
                                             <outlet property="sellButton" destination="25w-rU-iGD" id="ZN6-UN-uPT"/>
                                             <outlet property="symbolLabelValue" destination="UUg-Fr-NXz" id="P3t-Tp-Beb"/>
                                             <outlet property="totalReturnLabel" destination="NLF-hr-WvM" id="crU-jD-xLB"/>
+                                            <outlet property="totalReturnView" destination="90n-lB-HSc" id="qXc-63-L9i"/>
                                             <outlet property="totalValueLabel" destination="W6R-eE-pfr" id="hhb-Gf-Ybh"/>
                                         </connections>
                                     </tableViewCell>

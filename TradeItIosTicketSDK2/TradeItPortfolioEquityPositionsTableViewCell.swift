@@ -17,6 +17,9 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var positionDetailsView: UIView!
     @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var dayReturnView: UIView!
+    @IBOutlet weak var totalReturnView: UIView!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
@@ -45,12 +48,23 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
 
-        self.dayReturnLabel.text = presenter.getFormattedDayReturn()
-        self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+        if let dayReturn = presenter.getFormattedDayReturn(), dayReturn != "" {
+            self.dayReturnLabel.text = dayReturn
+            self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+            self.dayReturnView.isHidden = false
+        } else {
+            self.dayReturnView.isHidden = true
+        }
+        
+        if presenter.getFormattedTotalReturn() != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
+            self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
+            self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
+            self.totalReturnView.isHidden = false
+        } else {
+            self.totalReturnView.isHidden = true
+        }
 
-        self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
-        self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
-
+        
         self.totalValueLabel.text = presenter.getFormattedTotalValue()
 
         self.bidAskLabel.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"

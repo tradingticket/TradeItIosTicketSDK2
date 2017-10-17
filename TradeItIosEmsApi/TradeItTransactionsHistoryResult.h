@@ -8,6 +8,6 @@
 
 @interface TradeItTransactionsHistoryResult : TradeItResult
 
-@property(nonatomic, copy, nullable) NSArray<TradeItTransaction*> <Optional, TradeItTransaction>  * transactionHistoryDetailsList;
+@property(nonatomic, copy, nullable) NSArray<TradeItTransaction*> <Optional, TradeItTransaction>  *transactionHistoryDetailsList;
 
 @end

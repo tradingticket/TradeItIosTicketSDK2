@@ -12,8 +12,7 @@ internal class TradeItTransactionService: NSObject {
         _ data: TradeItTransactionsHistoryRequest,
         onSuccess: @escaping (TradeItTransactionsHistoryResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) {
-        
+    ) {
         data.token = self.session.token
         
         let request = TradeItRequestFactory.buildJsonRequest(

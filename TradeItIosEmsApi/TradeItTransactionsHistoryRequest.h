@@ -2,7 +2,7 @@
 
 @interface TradeItTransactionsHistoryRequest : TradeItRequest
 
-    @property (nonatomic, copy, nullable) NSString * token;
-    @property (nonatomic, copy, nullable) NSString * accountNumber;
+@property (nonatomic, copy, nullable) NSString *token;
+@property (nonatomic, copy, nullable) NSString *accountNumber;
 
 @end

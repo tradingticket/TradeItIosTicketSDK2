@@ -1,13 +1,13 @@
 #import "TradeItResult.h"
 
-@class TradeItTransactionHistory;
+@class TradeItTransaction;
 
-@protocol TradeItTransactionHistory
+@protocol TradeItTransaction
 
 @end
 
 @interface TradeItTransactionsHistoryResult : TradeItResult
 
-@property(nonatomic, copy, nullable) NSArray<TradeItTransactionHistory*> <Optional, TradeItTransactionHistory>  * transactionHistoryDetailsList;
+@property(nonatomic, copy, nullable) NSArray<TradeItTransaction*> <Optional, TradeItTransaction>  * transactionHistoryDetailsList;
 
 @end

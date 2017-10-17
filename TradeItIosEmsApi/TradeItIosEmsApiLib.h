@@ -91,7 +91,7 @@
 // Transactions
 #import "TradeItTransactionsHistoryRequest.h"
 #import "TradeItTransactionsHistoryResult.h"
-#import "TradeItTransactionHistory.h"
+#import "TradeItTransaction.h"
 
 #import "TradeItBrokerListResult.h"
 

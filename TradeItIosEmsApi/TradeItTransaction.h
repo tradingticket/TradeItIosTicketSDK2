@@ -1,6 +1,6 @@
 #import <JSONModel/JSONModel.h>
 
-@interface TradeItTransactionHistory : JSONModel
+@interface TradeItTransaction : JSONModel
 
 @property (nonatomic, copy, nullable) NSString<Optional>  * date;
 

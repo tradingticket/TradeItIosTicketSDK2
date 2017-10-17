@@ -41,6 +41,7 @@ import PromiseKit
     internal var tradeService: TradeItTradeService
     internal var fxTradeService: TradeItFxTradeService
     internal var orderService: TradeItOrderService
+    internal var transactionService: TradeItTransactionService
     
     public var brokerLongName: String {
         return self.linkedLogin.brokerLongName
@@ -54,6 +55,7 @@ import PromiseKit
         self.tradeService = TradeItTradeService(session: session)
         self.fxTradeService = TradeItFxTradeService(session: session)
         self.orderService = TradeItOrderService(session: session)
+        self.transactionService = TradeItTransactionService(session: session)
         super.init()
         
         self.setUnauthenticated()

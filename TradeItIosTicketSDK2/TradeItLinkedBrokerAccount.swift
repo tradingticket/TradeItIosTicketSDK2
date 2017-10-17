@@ -15,6 +15,7 @@
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
     public var orders: [TradeItOrderStatusDetails] = []
+    public var transactions: [TradeItTransactionHistory] = []
     public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
 
     private weak var _linkedBroker: TradeItLinkedBroker?
@@ -60,6 +61,10 @@
     
     private var orderService: TradeItOrderService? {
         return linkedBroker?.orderService
+    }
+    
+    private var transactionService: TradeItTransactionService? {
+        return linkedBroker?.transactionService
     }
 
     internal init(linkedBroker: TradeItLinkedBroker,
@@ -181,6 +186,19 @@
                 onFailure(error)
             }
         )
+    }
+    
+    public func getTransactionsHistory(onSuccess: @escaping ([TradeItTransactionHistory]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+        let request = TradeItTransactionsHistoryRequest()
+        request.accountNumber = self.accountNumber
+        
+        self.transactionService?.getTransactionsHistory(request, onSuccess: { result in
+            self.transactions = result.transactionHistoryDetailsList ?? []
+            onSuccess(self.transactions)
+        }, onFailure: { error in
+            self.setError(error)
+            onFailure(error)
+        })
     }
     
     public func getFormattedAccountName() -> String {

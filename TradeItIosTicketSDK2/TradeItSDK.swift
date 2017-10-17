@@ -133,6 +133,8 @@ import UIKit
             return
         }
 
+        precondition(!TradeItDeviceManager.isDeviceJailBroken(), "ERROR: the device is jailbroken, couldn't load the TradeItSDK !")
+        
         self.configured = true
 
         TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory ?? DefaultRequestFactory())

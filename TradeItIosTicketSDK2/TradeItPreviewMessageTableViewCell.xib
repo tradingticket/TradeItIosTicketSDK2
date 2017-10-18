@@ -19,61 +19,61 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7S-eO-lJM">
-                        <rect key="frame" x="8" y="4" width="359" height="151.5"/>
+                        <rect key="frame" x="0.0" y="4" width="0.0" height="151.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qti-B0-1ap">
-                                <rect key="frame" x="8" y="8" width="343" height="14.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Xdc-qt-fKa">
-                                <rect key="frame" x="8" y="30.5" width="343" height="78"/>
-                            </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j9v-pL-uX4">
-                                <rect key="frame" x="8" y="114.5" width="343" height="37"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xOb-OE-xLl">
+                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="151.5"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdz-mR-Yna" customClass="BEMCheckBox">
-                                        <rect key="frame" x="0.0" y="6" width="25" height="25"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="25" id="MFG-9T-eQc"/>
-                                        </constraints>
-                                        <connections>
-                                            <action selector="didTap:" destination="qdn-Zg-UMr" eventType="valueChanged" id="NrW-bj-71i"/>
-                                        </connections>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I understand" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Pv-vv-OYv">
-                                        <rect key="frame" x="37" y="12" width="306" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qti-B0-1ap">
+                                        <rect key="frame" x="0.0" y="8" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Xdc-qt-fKa">
+                                        <rect key="frame" x="0.0" y="8" width="0.0" height="98.5"/>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j9v-pL-uX4">
+                                        <rect key="frame" x="0.0" y="106.5" width="0.0" height="37"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdz-mR-Yna" customClass="BEMCheckBox">
+                                                <rect key="frame" x="0.0" y="6" width="25" height="25"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="MFG-9T-eQc"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="didTap:" destination="qdn-Zg-UMr" eventType="valueChanged" id="NrW-bj-71i"/>
+                                                </connections>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I understand" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Pv-vv-OYv">
+                                                <rect key="frame" x="0.0" y="12" width="0.0" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="fdz-mR-Yna" firstAttribute="leading" secondItem="j9v-pL-uX4" secondAttribute="leading" id="1mM-FQ-QHk"/>
+                                            <constraint firstItem="7Pv-vv-OYv" firstAttribute="centerY" secondItem="fdz-mR-Yna" secondAttribute="centerY" id="Nvx-ei-eQ2"/>
+                                            <constraint firstAttribute="trailing" secondItem="7Pv-vv-OYv" secondAttribute="trailing" id="R6i-3M-0gw"/>
+                                            <constraint firstItem="fdz-mR-Yna" firstAttribute="top" secondItem="j9v-pL-uX4" secondAttribute="top" priority="998" constant="6" id="UCG-nm-G2Q"/>
+                                            <constraint firstAttribute="height" constant="37" id="iLU-vg-O8F"/>
+                                            <constraint firstItem="7Pv-vv-OYv" firstAttribute="leading" secondItem="fdz-mR-Yna" secondAttribute="trailing" constant="12" id="xbZ-g8-PRP"/>
+                                            <constraint firstAttribute="bottom" secondItem="fdz-mR-Yna" secondAttribute="bottom" priority="999" constant="6" id="zUz-MK-mrc"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="fdz-mR-Yna" firstAttribute="leading" secondItem="j9v-pL-uX4" secondAttribute="leading" id="1mM-FQ-QHk"/>
-                                    <constraint firstItem="7Pv-vv-OYv" firstAttribute="centerY" secondItem="fdz-mR-Yna" secondAttribute="centerY" id="Nvx-ei-eQ2"/>
-                                    <constraint firstAttribute="trailing" secondItem="7Pv-vv-OYv" secondAttribute="trailing" id="R6i-3M-0gw"/>
-                                    <constraint firstItem="fdz-mR-Yna" firstAttribute="top" secondItem="j9v-pL-uX4" secondAttribute="top" priority="999" constant="6" id="UCG-nm-G2Q"/>
-                                    <constraint firstAttribute="height" constant="37" id="iLU-vg-O8F"/>
-                                    <constraint firstItem="7Pv-vv-OYv" firstAttribute="leading" secondItem="fdz-mR-Yna" secondAttribute="trailing" constant="12" id="xbZ-g8-PRP"/>
-                                    <constraint firstAttribute="bottom" secondItem="fdz-mR-Yna" secondAttribute="bottom" priority="999" constant="6" id="zUz-MK-mrc"/>
-                                </constraints>
-                            </view>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.97647058823529409" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Xdc-qt-fKa" firstAttribute="top" secondItem="Qti-B0-1ap" secondAttribute="bottom" constant="8" id="EhI-TH-AsO"/>
-                            <constraint firstAttribute="trailing" secondItem="j9v-pL-uX4" secondAttribute="trailing" constant="8" id="J8x-g1-KZa"/>
-                            <constraint firstAttribute="trailing" secondItem="Qti-B0-1ap" secondAttribute="trailing" constant="8" id="Sof-Ot-pXQ"/>
-                            <constraint firstItem="Qti-B0-1ap" firstAttribute="top" secondItem="k7S-eO-lJM" secondAttribute="top" constant="8" id="dQP-0i-nZI"/>
-                            <constraint firstItem="j9v-pL-uX4" firstAttribute="leading" secondItem="k7S-eO-lJM" secondAttribute="leading" constant="8" id="k0e-eQ-OBx"/>
-                            <constraint firstAttribute="bottom" secondItem="j9v-pL-uX4" secondAttribute="bottom" id="l23-mI-UWk"/>
-                            <constraint firstItem="Qti-B0-1ap" firstAttribute="leading" secondItem="k7S-eO-lJM" secondAttribute="leading" constant="8" id="usW-FP-CJx"/>
-                            <constraint firstItem="Xdc-qt-fKa" firstAttribute="leading" secondItem="k7S-eO-lJM" secondAttribute="leading" constant="8" id="vW0-VL-gzh"/>
-                            <constraint firstItem="j9v-pL-uX4" firstAttribute="top" secondItem="Xdc-qt-fKa" secondAttribute="bottom" constant="6" id="zOW-Y8-Equ"/>
-                            <constraint firstAttribute="trailing" secondItem="Xdc-qt-fKa" secondAttribute="trailing" constant="8" id="zaI-zz-mCk"/>
+                            <constraint firstAttribute="trailing" secondItem="xOb-OE-xLl" secondAttribute="trailing" id="7pT-NN-CMX"/>
+                            <constraint firstAttribute="bottom" secondItem="xOb-OE-xLl" secondAttribute="bottom" id="MTv-yI-8RH"/>
+                            <constraint firstItem="xOb-OE-xLl" firstAttribute="leading" secondItem="k7S-eO-lJM" secondAttribute="leading" id="aid-vy-L2n"/>
+                            <constraint firstItem="xOb-OE-xLl" firstAttribute="top" secondItem="k7S-eO-lJM" secondAttribute="top" id="osy-3s-YGp"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -92,9 +92,9 @@
             <connections>
                 <outlet property="acknowledgementCheckBox" destination="fdz-mR-Yna" id="W85-lm-4AC"/>
                 <outlet property="acknowledgementContainer" destination="j9v-pL-uX4" id="TUN-o4-fRL"/>
-                <outlet property="acknowledgementContainerHeightConstraint" destination="iLU-vg-O8F" id="YoF-Ms-pS9"/>
                 <outlet property="links" destination="Xdc-qt-fKa" id="SkO-Yl-sAM"/>
                 <outlet property="message" destination="Qti-B0-1ap" id="enZ-wv-mXF"/>
+                <outlet property="stackView" destination="xOb-OE-xLl" id="JYo-KB-0gM"/>
             </connections>
             <point key="canvasLocation" x="138" y="33"/>
         </tableViewCell>

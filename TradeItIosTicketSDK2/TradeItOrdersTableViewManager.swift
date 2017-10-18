@@ -119,12 +119,14 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
             guard let order = self.orderSectionPresenters[safe: indexPath.section]?.getOrder(forRow: indexPath.row)
-                , let orderNumber = self.orderSectionPresenters[safe: indexPath.section]?.grouOrderId ?? order.orderNumber else {
+                , let orderNumber = self.orderSectionPresenters[safe: indexPath.section]?.groupOrderId ?? order.orderNumber else {
                     return
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: orderNumber)
         }
+
         cancelAction.backgroundColor = UIColor.tradeItCancelRedColor
+
         return [cancelAction]
         
     }
@@ -195,17 +197,16 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
 }
 
 fileprivate class OrderSectionPresenter {
-    
     private static let SECTION_HEADER_HEIGHT = 30
     
     let orders: [TradeItOrderStatusDetails]
     var title: String
-    var grouOrderId: String?
+    var groupOrderId: String?
     
     init(orders: [TradeItOrderStatusDetails], title: String, groupOrderId: String? = nil) {
         self.orders = orders
         self.title = title
-        self.grouOrderId = groupOrderId
+        self.groupOrderId = groupOrderId
     }
     
     func numberOfRows() -> Int {
@@ -213,7 +214,7 @@ fileprivate class OrderSectionPresenter {
     }
     
     func getOrder(forRow row: Int) -> TradeItOrderStatusDetails? {
-        guard let orderLeg =  (self.orders.flatMap { $0.orderLegs ?? [] })[safe: row]
+        guard let orderLeg = (self.orders.flatMap { $0.orderLegs ?? [] })[safe: row]
         , let order = (self.orders.filter { $0.orderLegs?.contains(orderLeg) ?? false }).first else {
             return nil
         }
@@ -251,7 +252,7 @@ fileprivate class OrderSectionPresenter {
     }
     
     func isGroupOrder() -> Bool {
-        return self.grouOrderId != nil
+        return self.groupOrderId != nil
     }
 
 }

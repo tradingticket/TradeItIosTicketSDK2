@@ -1,20 +1,59 @@
 extension TradeItOrderStatusDetails {
-    private typealias Category = [String]
+    var orderStatusEnum: OrderStatus {
+        return OrderStatus(rawValue: self.orderStatus ?? "") ?? .unknown
+    }
+
+    var orderTypeEnum: OrderType {
+        return OrderType(rawValue: self.orderType ?? "") ?? .unknown
+    }
+
+    enum OrderStatus: String {
+        case pending = "PENDING"
+        case open = "OPEN"
+        case filled = "FILLED"
+        case partFilled = "PART_FILLED"
+        case cancelled = "CANCELED"
+        case rejected = "REJECTED"
+        case notFound = "NOT_FOUND"
+        case pendingCancel = "PENDING_CANCEL"
+        case expired = "EXPIRED"
+        case unknown
+
+        public var cancelable: Bool {
+            return [.pending, .open, .partFilled, .pendingCancel, .unknown].contains(self)
+        }
+    }
+
+    enum OrderType: String {
+        case option = "OPTION"
+        case equityOrEtf = "EQUITY_OR_ETF"
+        case buyWrites = "BUY_WRITES"
+        case spreads = "SPREADS"
+        case combo = "COMBO"
+        case multiLeg = "MULTILEG"
+        case mutualFunds = "MUTUAL_FUNDS"
+        case fixedIncome = "FIXED_INCOME"
+        case cash = "CASH"
+        case fx = "FX"
+        case unknown = "UNKNOWN"
+    }
+
+    private typealias Category = [OrderStatus]
     private var openOrderCategory: Category {
-        return  ["PENDING", "OPEN", "PENDING_CANCEL"]
+        return  [.pending, .open, .pendingCancel]
     }
     
     private var partiallyFilledCategory: Category {
-        return ["PART_FILLED"]
+        return [.partFilled]
     }
     
     private var filledOrderCategory: Category {
-        return ["FILLED"]
+        return [.filled]
     }
     private var otherOrderCategory: Category {
-        return ["CANCELED", "REJECTED", "NOT_FOUND", "EXPIRED"]
+        return [.cancelled, .rejected, .notFound, .expired]
     }
-    
+
     func belongsToOpenCategory() -> Bool {
         return belongsToCategory(orderCategory: openOrderCategory)
     }
@@ -44,10 +83,10 @@ extension TradeItOrderStatusDetails {
     
     private func belongsToCategory(orderCategory: Category) -> Bool {
         guard let groupOrders = self.groupOrders, groupOrders.count > 0 else {
-            return orderCategory.contains(self.orderStatus ?? "")
+            return orderCategory.contains(self.orderStatusEnum)
         }
         
-        //Group orders specificity
+        // Group orders specificity
         if orderCategory == partiallyFilledCategory { // Group orders belong to partially filled category if at least one order is filled and one other is different than filled
             let belongsToFilledOrder = groupOrders.filter { $0.belongsToFilledCategory() }.count > 0
             let belongsToOtherThanFilledOrders = groupOrders.filter { !$0.belongsToFilledCategory() }.count > 0

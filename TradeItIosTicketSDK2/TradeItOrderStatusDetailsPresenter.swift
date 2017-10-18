@@ -1,6 +1,6 @@
 // TODO: Make these extensions public eventually...
 
-fileprivate extension TradeItPriceInfo {
+internal extension TradeItPriceInfo {
     var priceTypeEnum: PriceType {
         return PriceType(rawValue: self.type ?? "") ?? .unknown
     }
@@ -17,7 +17,7 @@ fileprivate extension TradeItPriceInfo {
     }
 }
 
-fileprivate extension TradeItOrderLeg {
+internal extension TradeItOrderLeg {
     var actionEnum: Action {
         return Action(rawValue: self.action ?? "") ?? .unknown
     }
@@ -31,47 +31,6 @@ fileprivate extension TradeItOrderLeg {
         case sellOpen = "SELL_OPEN"
         case sellClose = "SELL_CLOSE"
         case sellShort = "SELL_SHORT"
-        case unknown = "UNKNOWN"
-    }
-}
-
-fileprivate extension TradeItOrderStatusDetails {
-    var orderStatusEnum: OrderStatus {
-        return OrderStatus(rawValue: self.orderStatus ?? "") ?? .unknown
-    }
-
-    var orderTypeEnum: OrderType {
-        return OrderType(rawValue: self.orderType ?? "") ?? .unknown
-    }
-
-    enum OrderStatus: String {
-        case pending = "PENDING"
-        case open = "OPEN"
-        case filled = "FILLED"
-        case partFilled = "PART_FILLED"
-        case cancelled = "CANCELED"
-        case rejected = "REJECTED"
-        case notFound = "NOT_FOUND"
-        case pendingCancel = "PENDING_CANCEL"
-        case expired = "EXPIRED"
-        case unknown
-
-        public var cancelable: Bool {
-            return [.pending, .open, .partFilled, .pendingCancel, .unknown].contains(self)
-        }
-    }
-
-    enum OrderType: String {
-        case option = "OPTION"
-        case equityOrEtf = "EQUITY_OR_ETF"
-        case buyWrites = "BUY_WRITES"
-        case spreads = "SPREADS"
-        case combo = "COMBO"
-        case multiLeg = "MULTILEG"
-        case mutualFunds = "MUTUAL_FUNDS"
-        case fixedIncome = "FIXED_INCOME"
-        case cash = "CASH"
-        case fx = "FX"
         case unknown = "UNKNOWN"
     }
 }

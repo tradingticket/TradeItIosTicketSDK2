@@ -86,11 +86,11 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
                 self.activityView?.hide(animated: true)
                 self.brokerTable.reloadData()
             },
-            onFailure: {
+            onFailure: { error in
                 self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
-                    withMessage: "Could not fetch the brokers list. Please try again later.",
+                    withMessage: error.message,
                     withActionTitle: "OK"
                 )
 

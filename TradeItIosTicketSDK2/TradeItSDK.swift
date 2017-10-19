@@ -99,6 +99,13 @@ import UIKit
         }
     }
 
+    private static var _isDeviceJailbroken = false
+    public static var isDeviceJailbroken: Bool {
+        get {
+            return self._isDeviceJailbroken
+        }
+    }
+    
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
         TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
@@ -133,7 +140,7 @@ import UIKit
             return
         }
 
-        precondition(!TradeItDeviceManager.isDeviceJailBroken(), "ERROR: the device is jailbroken, couldn't load the TradeItSDK !")
+        self._isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
         
         self.configured = true
 

@@ -3,11 +3,10 @@ import PromiseKit
 import MBProgressHUD
 
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
-    
     var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
     let tradingUIFlow = TradeItTradingUIFlow()
-    
+
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
     @IBOutlet weak var ordersTable: UITableView!
@@ -134,6 +133,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     }
     
     // MARK: private
+
     private func loadOrders() {
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading orders"

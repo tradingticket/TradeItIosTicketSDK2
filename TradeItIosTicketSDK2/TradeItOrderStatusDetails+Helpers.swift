@@ -50,8 +50,13 @@ extension TradeItOrderStatusDetails {
     private var filledOrderCategory: Category {
         return [.filled]
     }
+
     private var otherOrderCategory: Category {
-        return [.cancelled, .rejected, .notFound, .expired]
+        return [.cancelled, .rejected, .notFound, .expired, .unknown]
+    }
+
+    private var cancellableCategory: Category {
+        return openOrderCategory + partiallyFilledCategory + [.unknown]
     }
 
     func belongsToOpenCategory() -> Bool {
@@ -76,7 +81,7 @@ extension TradeItOrderStatusDetails {
     }
     
     func isCancellable() -> Bool {
-        return self.belongsToOpenCategory()
+        return belongsToCategory(orderCategory: cancellableCategory)
     }
     
     // MARK: private

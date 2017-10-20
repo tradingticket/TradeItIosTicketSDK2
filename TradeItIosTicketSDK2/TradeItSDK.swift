@@ -99,10 +99,10 @@ import UIKit
         }
     }
 
-    private static var _isDeviceJailbroken = false
+    private static var _isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
     public static var isDeviceJailbroken: Bool {
         get {
-            return self._isDeviceJailbroken
+            return _isDeviceJailbroken
         }
     }
     
@@ -139,8 +139,6 @@ import UIKit
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
             return
         }
-
-        self._isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
         
         self.configured = true
 

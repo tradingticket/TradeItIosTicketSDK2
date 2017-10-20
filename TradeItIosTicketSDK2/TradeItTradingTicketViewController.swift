@@ -73,6 +73,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+
+        let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
+        if (!isChosenAccountEnabled) {
+            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            return
+        }
+
         self.reloadTicket()
     }
 
@@ -193,8 +201,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
-        self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)
+        self.selectedAccountChanged()
     }
 
     // MARK: TradeItSymbolSearchViewControllerDelegate

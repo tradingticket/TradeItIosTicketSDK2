@@ -36,7 +36,7 @@ internal extension TradeItConnector {
             completionBlock(
                 TradeItErrorResult(
                     title: "This device is jailbroken",
-                    message: "This action is not allowed on a jailbroken device !"
+                    message: "This action is not allowed on a jailbroken device"
                 ), ""
             )
             return

@@ -1,6 +1,34 @@
 import LocalAuthentication
 
 class TradeItDeviceManager {
+    
+    private static let JAIL_BREAK_FILES = [
+        "/Applications/Cydia.app",
+        "/Applications/blackra1n.app",
+        "/Applications/FakeCarrier.app",
+        "/Applications/Icy.app",
+        "/Applications/IntelliScreen.app",
+        "/Applications/MxTube.app",
+        "/Applications/RockApp.app",
+        "/Applications/SBSettings.app",
+        "/Applications/WinterBoard.app",
+        "/Library/MobileSubstrate/MobileSubstrate.dylib",
+        "/Library/MobileSubstrate/DynamicLibraries/LiveClock.plist",
+        "/Library/MobileSubstrate/DynamicLibraries/Veency.plist",
+        "/private/var/lib/apt",
+        "/private/var/lib/cydia",
+        "/private/var/mobile/Library/SBSettings/Themes",
+        "/private/var/stash",
+        "/private/var/tmp/cydia.log",
+        "/System/Library/LaunchDaemons/com.ikey.bbot.plist",
+        "/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist",
+        "/bin/bash",
+        "/usr/bin/sshd",
+        "/etc/apt",
+        "/usr/libexec/sftp-server",
+        "/usr/sbin/sshd"
+    ]
+    
     func authenticateUserWithTouchId(onSuccess: @escaping () -> Void, onFailure: @escaping () -> Void) {
         var error: NSError?
         
@@ -85,34 +113,10 @@ class TradeItDeviceManager {
         }
         
         // Check 1 : existence of files that are common for jailbroken devices
-        if FileManager.default.fileExists(atPath: "/Applications/Cydia.app")
-            || FileManager.default.fileExists(atPath: "/Applications/Cydia.app")
-            || FileManager.default.fileExists(atPath: "/Applications/blackra1n.app")
-            || FileManager.default.fileExists(atPath: "/Applications/FakeCarrier.app")
-            || FileManager.default.fileExists(atPath: "/Applications/Icy.app")
-            || FileManager.default.fileExists(atPath: "/Applications/IntelliScreen.app")
-            || FileManager.default.fileExists(atPath: "/Applications/MxTube.app")
-            || FileManager.default.fileExists(atPath: "/Applications/RockApp.app")
-            || FileManager.default.fileExists(atPath: "/Applications/SBSettings.app")
-            || FileManager.default.fileExists(atPath: "/Applications/WinterBoard.app")
-            || FileManager.default.fileExists(atPath: "/Library/MobileSubstrate/MobileSubstrate.dylib")
-            || FileManager.default.fileExists(atPath: "/Library/MobileSubstrate/DynamicLibraries/LiveClock.plist")
-            || FileManager.default.fileExists(atPath: "/Library/MobileSubstrate/DynamicLibraries/Veency.plist")
-            || FileManager.default.fileExists(atPath: "/private/var/lib/apt")
-            || FileManager.default.fileExists(atPath: "/private/var/lib/cydia")
-            || FileManager.default.fileExists(atPath: "/private/var/mobile/Library/SBSettings/Themes")
-            || FileManager.default.fileExists(atPath: "/private/var/stash")
-            || FileManager.default.fileExists(atPath: "/private/var/tmp/cydia.log")
-            || FileManager.default.fileExists(atPath: "/System/Library/LaunchDaemons/com.ikey.bbot.plist")
-            || FileManager.default.fileExists(atPath: "/System/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist")
-            || FileManager.default.fileExists(atPath: "/bin/bash")
-            || FileManager.default.fileExists(atPath: "/usr/bin/sshd")
-            || FileManager.default.fileExists(atPath: "/etc/apt")
-            || FileManager.default.fileExists(atPath: "/usr/libexec/sftp-server")
-            || FileManager.default.fileExists(atPath: "/usr/sbin/sshd")
-            || UIApplication.shared.canOpenURL(URL(string:"cydia://package/com.example.package")!) {
+        if !JAIL_BREAK_FILES.filter(FileManager.default.fileExists).isEmpty || UIApplication.shared.canOpenURL(URL(string:"cydia://package/com.example.package")!) {
             return true
         }
+        
         // Check 2 : Reading and writing in system directories (sandbox violation)
         let stringToWrite = "Jailbreak Test"
         do {

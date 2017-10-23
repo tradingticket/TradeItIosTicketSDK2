@@ -230,16 +230,16 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-            return self.ACCOUNT_DETAIL_ROW_HEIGHT
-        }
+//        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
+//            return self.ACCOUNT_DETAIL_ROW_HEIGHT
+//        }
         return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-            return self.ACCOUNT_DETAIL_ROW_HEIGHT
-        }
+//        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
+//            return self.ACCOUNT_DETAIL_ROW_HEIGHT
+//        }
         return UITableViewAutomaticDimension
     }
     

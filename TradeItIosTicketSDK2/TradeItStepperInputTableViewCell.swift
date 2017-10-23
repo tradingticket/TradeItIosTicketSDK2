@@ -15,10 +15,12 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         self.addDoneButtonToKeyboard()
     }
 
-    func configure(initialValue: String?,
-                   placeholderText: String,
-                   maxDecimalPlaces: Int?,
-                   onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void) {
+    func configure(
+        initialValue: String?,
+        placeholderText: String,
+        maxDecimalPlaces: Int?,
+        onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void
+    ) {
         self.onValueUpdated = onValueUpdated
         self.textField.placeholder = placeholderText
         self.maxDecimalPlaces = maxDecimalPlaces ?? 4

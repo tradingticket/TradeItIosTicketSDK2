@@ -387,6 +387,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.limitPrice,
                 placeholderText: "Enter limit price",
+                isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
@@ -397,6 +398,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.stopPrice,
                 placeholderText: "Enter stop price",
+                isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)

@@ -10,7 +10,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         #selector(cut(_:))
     ]
 
-    var maxDecimalPlaces = 4
+    public var maxDecimalPlaces = 4
+    public var isPrice = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,15 +47,32 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
 
         let currentText: NSString = textField.text as NSString? ?? ""
         let resultText = currentText.replacingCharacters(in: range, with: string)
-
-
-        let hasOnlyValidCharacters = resultText.rangeOfCharacter(from: TradeItNumberField.invalidCharacters) == nil
-        let hasOnlyOneDecimalPoint = resultText.components(separatedBy: CharacterSet(charactersIn: ",.")).count <= 2
-
         let components = resultText.components(separatedBy: CharacterSet(charactersIn: ",."))
-        let decimalPlaces = components.last?.lengthOfBytes(using: .utf8) ?? 0
-        let hasValidNumberOfDecimalPlaces = components.count <= 1 || decimalPlaces <= maxDecimalPlaces
+        let numericValue = NSDecimalNumber.init(string: resultText)
 
-        return hasOnlyValidCharacters && hasOnlyOneDecimalPoint && hasValidNumberOfDecimalPlaces
+        // Has at most one decimal point
+        guard components.count <= 2 else { return false }
+
+        // Has only valid characters
+        let numericCharacters: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", ","]
+        guard Set(resultText.characters).isSubset(of: numericCharacters) else { return false }
+
+        let decimalPlaces = (components.count > 1) ?
+            components.last?.lengthOfBytes(using: .utf8) ?? 0 :
+            0
+
+        var calculatedMaxDecimalPlaces = self.maxDecimalPlaces
+
+        if (self.isPrice
+            && numericValue != NSDecimalNumber.notANumber
+            && numericValue.doubleValue >= 1
+        ) {
+            calculatedMaxDecimalPlaces = 2
+        }
+
+        // Doesn't have too many decimal places
+        guard decimalPlaces <= calculatedMaxDecimalPlaces else { return false }
+
+        return true
     }
 }

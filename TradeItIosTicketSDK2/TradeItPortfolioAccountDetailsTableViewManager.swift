@@ -15,8 +15,6 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         case availableCash
     }
 
-    private let ACCOUNT_DETAIL_ROW_HEIGHT: CGFloat = 32
-
     private var account: TradeItLinkedBrokerAccount?
     private var accountDetails: [ACCOUNT_DETAIL_ROWS] = []
     private var positions: [TradeItPortfolioPosition]? = []
@@ -230,16 +228,10 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-//            return self.ACCOUNT_DETAIL_ROW_HEIGHT
-//        }
         return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if indexPath.section == SECTIONS.accountDetails.rawValue && indexPath.row > ACCOUNT_DETAIL_ROWS.totalValue.rawValue {
-//            return self.ACCOUNT_DETAIL_ROW_HEIGHT
-//        }
         return UITableViewAutomaticDimension
     }
     

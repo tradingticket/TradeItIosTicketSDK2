@@ -14,8 +14,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var bidAskLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
-    @IBOutlet weak var positionDetailsView: UIView!
-    @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var positionDetailsStackView: UIView!
 
     @IBOutlet weak var dayReturnView: UIView!
     @IBOutlet weak var totalReturnView: UIView!
@@ -24,7 +23,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
     private var selectedPosition: TradeItPortfolioPosition?
-    private var initialPositionDetailsHeight = CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
     private let chevronUpImage = UIImage(named: "chevron_up",
@@ -37,7 +35,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configure(view: self)
-        self.initialPositionDetailsHeight = self.positionDetailsHeightConstraint.constant
     }
 
     internal func populate(withPosition position: TradeItPortfolioPosition) {
@@ -73,17 +70,9 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     }
 
     internal func showPositionDetails(_ show: Bool) {
-        if show {
-            self.positionDetailsView.isHidden = false
-            self.positionDetailsHeightConstraint.constant = initialPositionDetailsHeight
-            self.chevron.image = chevronUpImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
-        } else {
-            self.positionDetailsView.isHidden = true
-            self.positionDetailsHeightConstraint.constant = 0
-            self.chevron.image = chevronDownImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
-        }
+        self.positionDetailsStackView.isHidden = !show
+        self.chevron.image = show ? chevronUpImage : chevronDownImage
+        TradeItThemeConfigurator.configure(view: self.chevron)
     }
 
     internal func showSpinner() {

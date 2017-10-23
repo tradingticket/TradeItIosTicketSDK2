@@ -13,10 +13,12 @@ class TradeItNumericInputCell: UITableViewCell {
     func configure(
         initialValue: NSDecimalNumber?,
         placeholderText: String,
+        isPrice: Bool = false,
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void
     ) {
         self.onValueUpdated = onValueUpdated
         self.textField.placeholder = placeholderText
+        self.textField.isPrice = isPrice
 
         if let initialValue = initialValue {
             self.textField.text = "\(initialValue)"

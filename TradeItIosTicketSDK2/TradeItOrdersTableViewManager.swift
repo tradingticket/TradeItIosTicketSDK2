@@ -22,7 +22,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 _table = newTable
             }
         }
-
     }
     
     private var orderSectionPresenters: [OrderSectionPresenter] = []

@@ -1305,7 +1305,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1049" y="332"/>
+            <point key="canvasLocation" x="1049" y="907"/>
         </scene>
         <!--Accounts-->
         <scene sceneID="BKV-zf-p3m">
@@ -1429,7 +1429,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ZW-iV-p9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-408"/>
+            <point key="canvasLocation" x="1049" y="220"/>
         </scene>
         <!--Preview-->
         <scene sceneID="Uej-tc-O6r">
@@ -1529,7 +1529,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OjB-sb-nh8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3264.8000000000002" y="331.48425787106447"/>
+            <point key="canvasLocation" x="3300" y="907"/>
         </scene>
         <!--Confirmation-->
         <scene sceneID="xD8-IT-zP1">
@@ -1663,7 +1663,120 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTB-II-sfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4028" y="-337"/>
+            <point key="canvasLocation" x="4071" y="220"/>
+        </scene>
+        <!--Transactions-->
+        <scene sceneID="PDf-Yy-5zu">
+            <objects>
+                <viewController storyboardIdentifier="TRADE_IT_TRANSACTIONS_VIEW" title="Transactions" automaticallyAdjustsScrollViewInsets="NO" id="QgU-yd-LDE" customClass="TradeItTransactionsViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xLv-Ab-HoG"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Sh-bV-NBJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GbT-1G-rZc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6e1-Po-iTX" userLabel="Transactions Table">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_TRANSACTION_HEADER_ID" id="3Ac-h4-NPU">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Ac-h4-NPU" id="HEN-N8-rKp">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5L9-cg-HHZ">
+                                                    <rect key="frame" x="307" y="13" width="53" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                    <color key="textColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Past 60 days" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNM-0r-nG8" userLabel="Past 60 days">
+                                                    <rect key="frame" x="10" y="13" width="87" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                    <color key="textColor" red="0.81625092029571533" green="0.81622648239135742" blue="0.81624031066894531" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5L9-cg-HHZ" firstAttribute="centerY" secondItem="ZNM-0r-nG8" secondAttribute="centerY" id="QmY-ys-dcI"/>
+                                                <constraint firstAttribute="trailing" secondItem="5L9-cg-HHZ" secondAttribute="trailing" constant="15" id="Xla-Uo-eWk"/>
+                                                <constraint firstItem="ZNM-0r-nG8" firstAttribute="leading" secondItem="HEN-N8-rKp" secondAttribute="leading" constant="10" id="cJp-yh-Qwn"/>
+                                                <constraint firstItem="ZNM-0r-nG8" firstAttribute="centerY" secondItem="HEN-N8-rKp" secondAttribute="centerY" id="eW4-1i-2FQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRADE_IT_TRANSACTION_CELL_ID" id="Nvg-9V-Zvx" customClass="TradeItTransactionTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nvg-9V-Zvx" id="U2a-dF-wME">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EAn-E8-eca">
+                                                    <rect key="frame" x="10" y="5" width="138" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQQ-VR-30w">
+                                                    <rect key="frame" x="10" y="26" width="68.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.61966383459999996" green="0.61965179439999996" blue="0.61965996030000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrC-hB-m5t">
+                                                    <rect key="frame" x="259.5" y="26" width="72.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.61966383459999996" green="0.61965179439999996" blue="0.61965996030000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ru-1v-C1e">
+                                                    <rect key="frame" x="283" y="7" width="49" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="VrC-hB-m5t" firstAttribute="trailing" secondItem="0ru-1v-C1e" secondAttribute="trailing" id="3ve-NR-fSb"/>
+                                                <constraint firstAttribute="trailing" secondItem="0ru-1v-C1e" secondAttribute="trailing" constant="10" id="3xj-mI-0z6"/>
+                                                <constraint firstItem="EAn-E8-eca" firstAttribute="leading" secondItem="U2a-dF-wME" secondAttribute="leading" constant="10" id="5hD-xq-jsY"/>
+                                                <constraint firstItem="tQQ-VR-30w" firstAttribute="top" secondItem="EAn-E8-eca" secondAttribute="bottom" id="DXx-xG-9l0"/>
+                                                <constraint firstItem="VrC-hB-m5t" firstAttribute="centerY" secondItem="tQQ-VR-30w" secondAttribute="centerY" id="T6I-Pr-Qbw"/>
+                                                <constraint firstItem="0ru-1v-C1e" firstAttribute="centerY" secondItem="EAn-E8-eca" secondAttribute="centerY" id="VHZ-qO-OuV"/>
+                                                <constraint firstItem="tQQ-VR-30w" firstAttribute="leading" secondItem="EAn-E8-eca" secondAttribute="leading" id="X7Q-N5-sJW"/>
+                                                <constraint firstItem="EAn-E8-eca" firstAttribute="top" secondItem="U2a-dF-wME" secondAttribute="top" constant="5" id="gpG-hA-12Y"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="amountLabel" destination="0ru-1v-C1e" id="OsB-kZ-k8j"/>
+                                            <outlet property="descriptionLabel" destination="VrC-hB-m5t" id="qke-yX-Csw"/>
+                                            <outlet property="timestampLabel" destination="tQQ-VR-30w" id="Llo-xe-swr"/>
+                                            <outlet property="transactionTypeLabel" destination="EAn-E8-eca" id="NlJ-si-929"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3Sh-bV-NBJ" firstAttribute="top" secondItem="6e1-Po-iTX" secondAttribute="bottom" id="DAn-5p-dhc"/>
+                            <constraint firstItem="6e1-Po-iTX" firstAttribute="leading" secondItem="GbT-1G-rZc" secondAttribute="leading" id="lDL-Kf-GKy"/>
+                            <constraint firstItem="6e1-Po-iTX" firstAttribute="top" secondItem="xLv-Ab-HoG" secondAttribute="bottom" id="lkJ-1j-MHT"/>
+                            <constraint firstAttribute="trailing" secondItem="6e1-Po-iTX" secondAttribute="trailing" id="rvL-Xc-4tc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="transactionsTable" destination="6e1-Po-iTX" id="kXM-aq-at8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yM7-Yf-SSo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1048.8" y="-439.43028485757122"/>
         </scene>
         <!--Brokers List-->
         <scene sceneID="huh-Y5-9RO">
@@ -1778,7 +1891,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xqD-uk-BmD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785" y="-407"/>
+            <point key="canvasLocation" x="1777" y="220"/>
         </scene>
         <!--Broker Management-->
         <scene sceneID="CTf-ld-7e6">
@@ -1867,7 +1980,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ore-0F-Ogj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2521" y="-408"/>
+            <point key="canvasLocation" x="2521" y="220"/>
         </scene>
         <!--Linking-->
         <scene sceneID="ulc-0P-huM">
@@ -2203,7 +2316,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Fm-Da-TOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="332"/>
+            <point key="canvasLocation" x="1777" y="908"/>
         </scene>
         <!--FX Trade-->
         <scene sceneID="JG2-72-QEe">
@@ -2283,7 +2396,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wqp-Ta-loE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="1016"/>
+            <point key="canvasLocation" x="1785" y="1567"/>
         </scene>
         <!--Trade It Selection View Controller-->
         <scene sceneID="lpX-LQ-hbW">
@@ -2346,7 +2459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gb7-rb-jch" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2550" y="332"/>
+            <point key="canvasLocation" x="2521" y="906"/>
         </scene>
         <!--Select your broker-->
         <scene sceneID="Pjp-cE-Mgf">

@@ -20,10 +20,13 @@ class TradeItNumericInputCell: UITableViewCell {
         self.textField.placeholder = placeholderText
         self.textField.isPrice = isPrice
 
-        if let initialValue = initialValue {
+        if let initialValue = initialValue,
+            initialValue != NSDecimalNumber.notANumber,
+            initialValue.compare(NSDecimalNumber.zero) != ComparisonResult.orderedSame
+        {
             self.textField.text = "\(initialValue)"
         } else {
-            self.textField.text = nil
+            self.textField.text = ""
         }
     }
 

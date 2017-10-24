@@ -38,6 +38,23 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
 
     // MARK: UITextFieldDelegate
 
+    @available(iOS 10.0, *)
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        self.textFieldDidEndEditing(textField)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let numericValue = NSDecimalNumber.init(string: textField.text)
+
+        if (numericValue == NSDecimalNumber.notANumber ||
+            numericValue.compare(NSDecimalNumber.zero) == ComparisonResult.orderedSame
+        ) {
+            textField.text = ""
+        } else {
+            textField.text = numericValue.description
+        }
+    }
+
     func textField(
         _ textField: UITextField,
         shouldChangeCharactersIn range: NSRange,

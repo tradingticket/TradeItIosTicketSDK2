@@ -2,4 +2,10 @@
 
 @implementation TradeItTransaction
 
++ (JSONKeyMapper *)keyMapper
+{
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{
+                                                                  @"transactionDescription": @"description"
+                                                                  }];
+}
 @end

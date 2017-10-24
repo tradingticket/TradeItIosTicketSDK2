@@ -4,7 +4,7 @@
 
 @property (nonatomic, copy, nullable) NSString<Optional>  *date;
 
-@property (nonatomic, copy, nullable) NSString<Optional>  *description;
+@property (nonatomic, copy, nullable) NSString<Optional>  *transactionDescription;
 
 @property (nonatomic, copy, nullable) NSNumber<Optional>  *price;
 

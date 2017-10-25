@@ -5,7 +5,7 @@ import PromiseKit
 class TradeItTransactionsViewController: TradeItViewController, TradeItTransactionsTableDelegate {
     
     let alertManager = TradeItAlertManager()
-    var transactionsTableViewManager = TradeItTransactionsTableViewManager()
+    var transactionsTableViewManager: TradeItTransactionsTableViewManager?
     
     @IBOutlet weak var transactionsTable: UITableView!
     
@@ -13,7 +13,13 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        transactionsTableViewManager.transactionsTable = transactionsTable
+        
+        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
+            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
+        }
+        self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount)
+//        self.transactionsTableViewManager?.delegate = self
+        self.transactionsTableViewManager?.transactionsTable = transactionsTable
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,7 +62,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         authenticatePromise().then { _ in
             return transactionsPromise()
             }.then { transactions in
-                self.transactionsTableViewManager.updateTransactions(transactions)
+                self.transactionsTableViewManager?.updateTransactions(transactions) // TODO order by date desc or check the server order
             }.always {
                 onRefreshComplete()
             }.catch { error in

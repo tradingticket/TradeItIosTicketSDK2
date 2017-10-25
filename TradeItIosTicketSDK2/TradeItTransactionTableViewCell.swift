@@ -11,11 +11,12 @@ class TradeItTransactionTableViewCell: UITableViewCell {
         TradeItThemeConfigurator.configure(view: self)
     }
 
-    func populate(withTransaction transaction: TradeItTransaction) {
-        // TODO
-        self.transactionTypeLabel.text = transaction.type
+    func populate(withTransaction transaction: TradeItTransaction, andAccountBasecurrency accountBaseCurrency: String) {
+        let presenter = TradeItTransactionPresenter(transaction, currencyCode: accountBaseCurrency)
+        self.transactionTypeLabel.text = presenter.getTransactionTypeLabel()
         self.timestampLabel.text = transaction.date
-        self.descriptionLabel.text = transaction.transactionDescription
-        self.amountLabel.text = NumberFormatter.formatCurrency(transaction.price ?? 0)
+        self.descriptionLabel.text = presenter.getDescriptionLabel()
+        self.amountLabel.text = presenter.getAmountLabel()
+        self.amountLabel.textColor = presenter.getAmountLabelColor()
     }
 }

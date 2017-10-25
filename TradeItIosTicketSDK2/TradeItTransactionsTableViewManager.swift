@@ -12,12 +12,14 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
                 _table = newTable
             }
         }
-        
     }
-    
-    private var transactions: [TradeItTransaction] = []
-    
     private let HEADER_HEIGHT = 36
+    private var transactions: [TradeItTransaction] = []
+    private var linkedBrokerAccount: TradeItLinkedBrokerAccount
+    
+    init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+        self.linkedBrokerAccount = linkedBrokerAccount
+    }
     
     func updateTransactions(_ transactions: [TradeItTransaction]) {
         self.transactions = transactions
@@ -51,7 +53,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
                 return UITableViewCell()
         }
         
-        cell.populate(withTransaction: transaction)
+        cell.populate(withTransaction: transaction, andAccountBasecurrency: self.linkedBrokerAccount.accountBaseCurrency)
         return cell
     }
     

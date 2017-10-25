@@ -42,9 +42,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
+        let transactionsAction = UIAlertAction(title: "Transactions", style: .default, handler: transactionActionWasTapped)
         let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(ordersAction)
+        alertController.addAction(transactionsAction)
         alertController.addAction(tradeAction)
         alertController.addAction(cancelAction)
         
@@ -156,6 +158,14 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     private func tradeActionWasTapped(alert: UIAlertAction!) {
         let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+    
+    private func transactionActionWasTapped(alert: UIAlertAction!) {
+        guard let transactionsViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .transactionsView) as? TradeItTransactionsViewController else {
+            return
+        }
+        transactionsViewController.linkedBrokerAccount = self.linkedBrokerAccount
+        self.navigationController?.pushViewController(transactionsViewController, animated: true)
     }
     
     private func orderActionWasTapped(alert: UIAlertAction!) {

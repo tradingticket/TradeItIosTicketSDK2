@@ -36,14 +36,13 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
     
     override func configureNavigationItem() {
         let authenticatedEnabledBrokers = TradeItSDK.linkedBrokerManager.getAllAuthenticatedAndEnabledAccounts()
-
         var isRootScreen = true
 
         if let navStackCount = self.navigationController?.viewControllers.count {
             isRootScreen = (navStackCount == 1)
         }
 
-        if authenticatedEnabledBrokers.isEmpty || isRootScreen {
+        if authenticatedEnabledBrokers.isEmpty || isRootScreen || self.selectedLinkedBrokerAccount == nil {
             self.createCloseButton()
         }
     }

@@ -232,14 +232,16 @@ fileprivate class OrderSectionPresenter {
         return cell
     }
     
-    func header(forTableView tableView: UITableView) -> UIView? {
+    func header(forTableView tableView: UITableView) -> UITableViewCell? {
         guard self.title != "" else {
             return nil
         }
-        let header = UITableViewHeaderFooterView()
+        let header = UITableViewCell()
         header.textLabel?.text = self.title
         if self.isGroupOrder() {
-            TradeItThemeConfigurator.configure(view: header.contentView, groupedStyle: false)
+            TradeItThemeConfigurator.configureTableHeader(header: header.contentView, groupedStyle: false)
+        } else {
+            TradeItThemeConfigurator.configureTableHeader(header: header)
         }
         return header
     }

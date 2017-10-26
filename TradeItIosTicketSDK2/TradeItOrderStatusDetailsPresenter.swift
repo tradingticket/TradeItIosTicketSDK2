@@ -39,10 +39,6 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     private var orderStatusDetails: TradeItOrderStatusDetails
     private var orderLeg: TradeItOrderLeg
 
-    public var orderIsCancelable: Bool {
-        return orderStatusDetails.orderStatusEnum.cancelable
-    }
-
     init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
         self.orderStatusDetails = orderStatusDetails
         self.orderLeg = orderLeg
@@ -149,6 +145,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         }
     }
     
+    // MARK: private
     private func formatEnum(string: String?) -> String {
         guard let string = string else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER

@@ -90,7 +90,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
                 return
             }
             cell.showSpinner()
-            self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
+            self.positions?[safe:self.selectedPositionIndex]?.refreshQuote(onFinished: {
                 cell.hideSpinner()
                 self.reloadTableViewAtIndexPath([prevPath, indexPath])
             })
@@ -101,7 +101,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
                 return
             }
             cell.showSpinner()
-            self.positions?[self.selectedPositionIndex].refreshQuote(onFinished: {
+            self.positions?[safe: self.selectedPositionIndex]?.refreshQuote(onFinished: {
                 cell.hideSpinner()
                 self.reloadTableViewAtIndexPath([indexPath])
             })

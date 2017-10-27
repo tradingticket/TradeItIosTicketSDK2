@@ -12,7 +12,7 @@ class TradeItQuotePresenter: NSObject {
     }
 
     func formatCurrency(_ value: NSNumber?) -> String? {
-        guard let value = value else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
+        guard let value = value, value != 0 else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         return NumberFormatter.formatCurrency(
             value,
             minimumFractionDigits: minimumFractionDigits,
@@ -24,7 +24,7 @@ class TradeItQuotePresenter: NSObject {
     func formatChange(change: NSNumber?, percentChange: NSNumber?) -> String? {
         var result = ""
 
-        if let change = change {
+        if let change = change, change != 0 {
             result = NumberFormatter.formatCurrency(
                 change,
                 minimumFractionDigits: minimumFractionDigits,
@@ -33,7 +33,7 @@ class TradeItQuotePresenter: NSObject {
             )
         }
 
-        if let percentChange = percentChange {
+        if let percentChange = percentChange, percentChange != 0 {
             result += " (" + NumberFormatter.formatPercentage(percentChange) + ")"
         }
 

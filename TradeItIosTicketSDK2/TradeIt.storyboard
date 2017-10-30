@@ -1770,6 +1770,13 @@
                             <constraint firstAttribute="trailing" secondItem="6e1-Po-iTX" secondAttribute="trailing" id="rvL-Xc-4tc"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Transactions" id="iLE-tJ-qQ3">
+                        <barButtonItem key="rightBarButtonItem" title="Filter" id="Bgh-x5-xGq" userLabel="Filter">
+                            <connections>
+                                <action selector="filterButtonWasTapped:" destination="QgU-yd-LDE" id="pjy-Uj-OTb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="transactionsTable" destination="6e1-Po-iTX" id="kXM-aq-at8"/>
                     </connections>

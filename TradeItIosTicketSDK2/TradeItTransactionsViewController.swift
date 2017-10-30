@@ -27,6 +27,11 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         self.loadTransactions()
     }
     
+    // MARK: IBAction
+    
+    @IBAction func filterButtonWasTapped(_ sender: Any) {
+        //TODO: https://www.pivotaltracker.com/story/show/148168413
+    }
     // MARK: TradeItTransactionsTableDelegate
     
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {

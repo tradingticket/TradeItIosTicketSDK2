@@ -2,12 +2,16 @@ import UIKit
 import TradeItIosTicketSDK2
 
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "exampleapp-test-api-key" // "tradeit-test-api-key"
     static let ENVIRONMENT = TradeItEmsTestEnv
     var window: UIWindow?
 
+    private let TRADE_IT_TRACKING_ID = "UA-53437641-3"
+    private var tradeItTracker: GAITracker?
+    
     override init() {
         TradeItSDK.configure(
             apiKey: AppDelegate.API_KEY,
@@ -34,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.registerNotificationCenterObservers()
 
+        self.setupGoogleAnalytics()
+        
         return true
     }
 
@@ -105,6 +111,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             object: nil
         )
     }
+    
+    private func setupGoogleAnalytics() {
+        guard let gai = GAI.sharedInstance() else {
+            assert(false, "Google Analytics not configured correctly")
+        }
+        
+        guard let tradeItTracker = gai.tracker(withTrackingId: TRADE_IT_TRACKING_ID) else {
+            return
+        }
+        self.tradeItTracker = tradeItTracker
+        
+        #if DEBUG
+            gai.dispatchInterval = 1
+            gai.logger.logLevel = .verbose
+            
+            // disable sending data to Google.
+            gai.dryRun = true
+        #endif
+    }
 
     func onAlertShownNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
@@ -114,9 +139,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func onViewDidAppearNotification(notification: Notification) {
-        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
-        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
-        print("=====> VIEW APPEARED: \(view), TITLE: \(viewTitle)")
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] as? String ?? "NO KEY FOR VIEW"
+        
+        self.tradeItTracker?.set(kGAIScreenName, value: view)
+        
+        guard let builder = GAIDictionaryBuilder.createScreenView() else {
+            return
+        }
+        self.tradeItTracker?.send(builder.build() as [NSObject : AnyObject])
     }
 
     func didLink(notification: Notification) {
@@ -134,11 +164,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print(linkedBroker.brokerName)
     }
-
+    
     func onButtonTappedNotification(notification: Notification) {
-        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
-        let button = notification.userInfo?[TradeItNotification.UserInfoKey.button.rawValue] ?? "NO KEY FOR BUTTON"
-        print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] as? String ?? "NO KEY FOR VIEW"
+        let button = notification.userInfo?[TradeItNotification.UserInfoKey.button.rawValue] as? String ?? "NO KEY FOR BUTTON"
+        
+        guard let builder = GAIDictionaryBuilder.createEvent(withCategory: view, action: "buttonTapped", label: button, value: nil) else {
+            return
+        }
+        
+        self.tradeItTracker?.send(builder.build() as [NSObject : AnyObject])
     }
 
     private func completeManualOAuth(oAuthVerifier: String) {

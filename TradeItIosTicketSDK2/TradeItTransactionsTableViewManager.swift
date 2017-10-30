@@ -1,5 +1,6 @@
 class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     private var _table: UITableView?
+    private var refreshControl: UIRefreshControl?
     var transactionsTable: UITableView? {
         get {
             return _table
@@ -9,6 +10,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
         }
@@ -17,6 +19,8 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     private var transactions: [TradeItTransaction] = []
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
     
+    weak var delegate: TradeItTransactionsTableDelegate?
+    
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.linkedBrokerAccount = linkedBrokerAccount
     }
@@ -24,6 +28,15 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     func updateTransactions(_ transactions: [TradeItTransaction]) {
         self.transactions = transactions
         self.transactionsTable?.reloadData()
+    }
+    
+    func initiateRefresh() {
+        self.refreshControl?.beginRefreshing()
+        self.delegate?.refreshRequested(
+            onRefreshComplete: {
+                self.refreshControl?.endRefreshing()
+            }
+        )
     }
     
     // MARK: UITableViewDataSource
@@ -57,6 +70,19 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         return cell
     }
     
+    // MARK: private
+    private func addRefreshControl(toTableView tableView: UITableView) {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.addTarget(
+            self,
+            action: #selector(initiateRefresh),
+            for: UIControlEvents.valueChanged
+        )
+        TradeItThemeConfigurator.configure(view: refreshControl)
+        tableView.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
 
 }
 

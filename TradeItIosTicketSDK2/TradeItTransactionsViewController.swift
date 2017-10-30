@@ -18,7 +18,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
         }
         self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount)
-//        self.transactionsTableViewManager?.delegate = self
+        self.transactionsTableViewManager?.delegate = self
         self.transactionsTableViewManager?.transactionsTable = transactionsTable
     }
     
@@ -28,6 +28,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     }
     
     // MARK: TradeItTransactionsTableDelegate
+    
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {

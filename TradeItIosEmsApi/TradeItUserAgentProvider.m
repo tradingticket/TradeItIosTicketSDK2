@@ -31,7 +31,7 @@
         NSDictionary<NSString *, id> *sdkBundleInfoDictionary = [[TradeItBundleProvider provide] infoDictionary];
 
         NSString *sdkName = [sdkBundleInfoDictionary valueForKey:@"CFBundleName"];
-        NSString *sdkVersion = [sdkBundleInfoDictionary valueForKey:@"CFBundleVersion"];
+        NSString *sdkVersion = [sdkBundleInfoDictionary valueForKey:@"CFBundleShortVersionString"];
 
         userAgent = [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
     });

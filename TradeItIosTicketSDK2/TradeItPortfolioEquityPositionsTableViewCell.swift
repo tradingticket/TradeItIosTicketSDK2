@@ -14,15 +14,15 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var bidAskLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
-    @IBOutlet weak var positionDetailsView: UIView!
-    @IBOutlet weak var positionDetailsHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonBuyHeight: NSLayoutConstraint!
+    @IBOutlet weak var positionDetailsStackView: UIView!
 
+    @IBOutlet weak var dayReturnView: UIView!
+    @IBOutlet weak var totalReturnView: UIView!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     weak var delegate: TradeItPortfolioPositionsTableViewCellDelegate?
 
     private var selectedPosition: TradeItPortfolioPosition?
-    private var initialPositionDetailsHeight = CGFloat(0.0)
 
     // TODO: These should be extracted to some kind of bundle asset provider
     private let chevronUpImage = UIImage(named: "chevron_up",
@@ -35,7 +35,6 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         TradeItThemeConfigurator.configure(view: self)
-        self.initialPositionDetailsHeight = self.positionDetailsHeightConstraint.constant
     }
 
     internal func populate(withPosition position: TradeItPortfolioPosition) {
@@ -46,12 +45,23 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
 
-        self.dayReturnLabel.text = presenter.getFormattedDayReturn()
-        self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+        if let dayReturn = presenter.getFormattedDayReturn(), dayReturn != "" {
+            self.dayReturnLabel.text = dayReturn
+            self.dayReturnLabel.textColor = presenter.getFormattedDayChangeColor()
+            self.dayReturnView.isHidden = false
+        } else {
+            self.dayReturnView.isHidden = true
+        }
+        
+        if presenter.getFormattedTotalReturn() != TradeItPresenter.MISSING_DATA_PLACEHOLDER {
+            self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
+            self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
+            self.totalReturnView.isHidden = false
+        } else {
+            self.totalReturnView.isHidden = true
+        }
 
-        self.totalReturnLabel.text = presenter.getFormattedTotalReturn()
-        self.totalReturnLabel.textColor = presenter.getFormattedTotalReturnColor()
-
+        
         self.totalValueLabel.text = presenter.getFormattedTotalValue()
 
         self.bidAskLabel.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"
@@ -60,19 +70,9 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     }
 
     internal func showPositionDetails(_ show: Bool) {
-        if show {
-            self.positionDetailsView.isHidden = false
-            self.positionDetailsHeightConstraint.constant = initialPositionDetailsHeight
-            self.chevron.image = chevronUpImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
-        } else {
-            self.positionDetailsView.isHidden = true
-            self.positionDetailsHeightConstraint.constant = 0
-            self.chevron.image = chevronDownImage
-            TradeItThemeConfigurator.configure(view: self.chevron)
-        }
-        self.setNeedsUpdateConstraints()
-        self.updateConstraintsIfNeeded()
+        self.positionDetailsStackView.isHidden = !show
+        self.chevron.image = show ? chevronUpImage : chevronDownImage
+        TradeItThemeConfigurator.configure(view: self.chevron)
     }
 
     internal func showSpinner() {

@@ -311,6 +311,10 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: self.manualOrders
                     ),
                     Action(
+                        label: "manualTransactions",
+                        action: self.manualTransactions
+                    ),
+                    Action(
                         label: "manualSyncLinkedBrokers",
                         action: self.manualSyncLinkedBrokers
                     )
@@ -637,6 +641,18 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         account.getAllOrderStatus(
             onSuccess: { orders in
                 print("orders: \(orders)")
+        }, onFailure: { error in
+            print("error: \(error)")
+        })
+    }
+    
+    private func manualTransactions() {
+        guard let broker = TradeItSDK.linkedBrokerManager.linkedBrokers.first else { return print("=====> You must link a broker first.") }
+        guard let account = broker.accounts.first else { return print("=====> Accounts list is empty. Call authenticate on the broker first.") }
+        
+        account.getTransactionsHistory(
+            onSuccess: { transactions in
+                print("transactions: \(transactions)")
         }, onFailure: { error in
             print("error: \(error)")
         })

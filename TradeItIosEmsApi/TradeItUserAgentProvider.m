@@ -28,10 +28,10 @@
 
         NSString *hardwareString = [self getSysInfoByName:"hw.model"];
 
-        NSDictionary<NSString *, id> *bundleProviderSDK2 = [[TradeItBundleProvider provide] infoDictionary];
+        NSDictionary<NSString *, id> *sdkBundleInfoDictionary = [[TradeItBundleProvider provide] infoDictionary];
 
-        NSString *sdkName = [bundleProviderSDK2 valueForKey:@"CFBundleName"];
-        NSString *sdkVersion = [bundleProviderSDK2 valueForKey:@"CFBundleVersion"];
+        NSString *sdkName = [sdkBundleInfoDictionary valueForKey:@"CFBundleName"];
+        NSString *sdkVersion = [sdkBundleInfoDictionary valueForKey:@"CFBundleShortVersionString"];
 
         userAgent = [NSString stringWithFormat:@"%@/%@ (%@) / %@/%@", appDescriptor,  osDescriptor, hardwareString, sdkName, sdkVersion];
     });

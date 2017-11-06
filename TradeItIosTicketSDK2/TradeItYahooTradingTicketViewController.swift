@@ -57,6 +57,14 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+
+        let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
+        if (!isChosenAccountEnabled) {
+            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
+            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            return
+        }
+
         self.reloadTicket()
     }
 
@@ -185,8 +193,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
-        self.selectedAccountChanged()
         _ = self.navigationController?.popViewController(animated: true)
+        self.selectedAccountChanged()
     }
 
     // MARK: Private
@@ -379,6 +387,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.limitPrice,
                 placeholderText: "Enter limit price",
+                isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
@@ -389,6 +398,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.stopPrice,
                 placeholderText: "Enter stop price",
+                isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
@@ -462,7 +472,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
-        ) {
+    ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)

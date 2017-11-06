@@ -88,6 +88,11 @@
 #import "TradeItPriceInfo.h"
 #import "TradeItCancelOrderRequest.h"
 
+// Transactions
+#import "TradeItTransactionsHistoryRequest.h"
+#import "TradeItTransactionsHistoryResult.h"
+#import "TradeItTransaction.h"
+
 #import "TradeItBrokerListResult.h"
 
 // EMS API Util classes

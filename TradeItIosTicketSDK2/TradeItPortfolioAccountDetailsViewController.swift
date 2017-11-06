@@ -41,10 +41,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     @IBAction func activityTapped(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
+//        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
         let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(ordersAction)
+//        Remove link to order screen waiting to fix remaining issues
+//        alertController.addAction(ordersAction)
         alertController.addAction(tradeAction)
         alertController.addAction(cancelAction)
         

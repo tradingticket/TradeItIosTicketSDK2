@@ -19,22 +19,15 @@ class TradeItOrderTableViewCell: UITableViewCell {
     }
     
     func populate(
-        withOrder orderStatusDetails: TradeItOrderStatusDetails,
-        andOrderLeg orderLeg: TradeItOrderLeg,
-        isGroupOrder: Bool = false
+        withOrderStatusDetailsPresenter orderStatusPresenter: TradeItOrderStatusDetailsPresenter
     ) {
-        let orderStatusPresenter = TradeItOrderStatusDetailsPresenter(
-            orderStatusDetails: orderStatusDetails,
-            orderLeg: orderLeg
-        )
-
         self.symbolLabel?.text = orderStatusPresenter.getSymbol()
         self.descriptionLabel?.text = orderStatusPresenter.getFormattedDescription()
         self.expirationLabel.text = orderStatusPresenter.getFormattedExpiration()
         self.orderTypeDescriptionLabel.text = orderStatusPresenter.getFormattededOrderTypeDescription()
         self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
 
-        if isGroupOrder {
+        if orderStatusPresenter.isGroupOrderChild {
             self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
             self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
         } else {

@@ -34,6 +34,12 @@ class TradeItOrderTableViewCell: UITableViewCell {
             self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
             self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
         }
+        
+        if orderStatusPresenter.isCancelable() {
+            self.contentView.alpha = 1.0
+        } else {
+            self.contentView.alpha = 0.6
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

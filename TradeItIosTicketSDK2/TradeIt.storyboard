@@ -769,7 +769,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Portfolio" id="VmJ-el-i3D">
-                        <barButtonItem key="rightBarButtonItem" title="Trade" id="o23-hs-X7Y">
+                        <barButtonItem key="rightBarButtonItem" title="Activity" id="o23-hs-X7Y">
                             <connections>
                                 <action selector="activityTapped:" destination="RrX-jG-hg3" id="r6L-qG-lFR"/>
                             </connections>

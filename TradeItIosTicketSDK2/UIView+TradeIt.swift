@@ -1,8 +1,8 @@
 import UIKit
 
 extension UIView {
-    
-    @IBInspectable var cornerRadius: CGFloat {
+
+    @IBInspectable var TradeItCornerRadius: CGFloat {
         get {
             return layer.cornerRadius
         }
@@ -11,8 +11,8 @@ extension UIView {
             layer.masksToBounds = newValue > 0
         }
     }
-    
-    @IBInspectable var borderWidth: CGFloat {
+
+    @IBInspectable var TradeItBorderWidth: CGFloat {
         get {
             return layer.borderWidth
         }
@@ -20,8 +20,8 @@ extension UIView {
             layer.borderWidth = newValue
         }
     }
-    
-    @IBInspectable var borderColor: UIColor? {
+
+    @IBInspectable var TradeItBorderColor: UIColor? {
         get {
             return UIColor(cgColor: layer.borderColor!)
         }

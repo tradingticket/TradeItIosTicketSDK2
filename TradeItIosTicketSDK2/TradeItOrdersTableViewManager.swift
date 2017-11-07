@@ -50,7 +50,8 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
                     ordersPresenter: openOrdersPresenter,
-                    title: "Open Orders (Past 60 Days)"
+                    title: "Open Orders (Past 60 Days)",
+                    isCancelable: true
                 )
             )
         }
@@ -61,7 +62,8 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
                     ordersPresenter: partiallyFilledOrdersPresenter,
-                    title: "Partially Filled Orders (Today)"
+                    title: "Partially Filled Orders (Today)",
+                    isCancelable: true
                 )
             )
         }
@@ -96,6 +98,10 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.orderSectionPresenters[safe: section]?.title
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.orderSectionPresenters[safe: section]?.header(forTableView: tableView)
     }
     
     // MARK: UITableViewDataSource
@@ -148,7 +154,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: ordernumber, message: message)
         }
-        cancelAction.backgroundColor = UIColor.tradeItCancelRedColor
+        cancelAction.backgroundColor = UIColor.red
         return [cancelAction]
     }
     
@@ -215,11 +221,12 @@ fileprivate class OrderSectionPresenter {
     
     let ordersPresenter: [TradeItOrderStatusDetailsPresenter]
     var title: String
-    var groupOrderId: String?
+    var isCancelable: Bool = false
     
-    init(ordersPresenter: [TradeItOrderStatusDetailsPresenter], title: String) {
+    init(ordersPresenter: [TradeItOrderStatusDetailsPresenter], title: String, isCancelable: Bool = false) {
         self.ordersPresenter = ordersPresenter
         self.title = title
+        self.isCancelable = isCancelable
     }
     
     func numberOfRows() -> Int {
@@ -242,6 +249,22 @@ fileprivate class OrderSectionPresenter {
             cell.populate(withOrderStatusDetailsPresenter: orderPresenter)
             return cell
         }
+    }
+    
+    func header(forTableView tableView: UITableView) -> UIView? {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_HEADER_ID") else {
+            return  UITableViewCell()
+        }
+        let header = cell.contentView
+        cell.textLabel?.text = self.title
+        TradeItThemeConfigurator.configureTableHeader(header: header)
+        if self.isCancelable {
+            cell.detailTextLabel?.text = "Swipe to cancel"
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 9)
+        } else {
+            cell.detailTextLabel?.text = ""
+        }
+        return cell
     }
 }
 

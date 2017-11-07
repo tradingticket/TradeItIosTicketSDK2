@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -436,14 +436,14 @@
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Edit Order"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <userDefinedRuntimeAttribute type="color" keyPath="TradeItBorderColor">
+                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="TradeItCornerRadius">
                                         <real key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <userDefinedRuntimeAttribute type="number" keyPath="TradeItBorderWidth">
                                         <real key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>

@@ -217,20 +217,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self.advancedViewController, forAccountNumber: "SINGLE-ACCT-0001")
                         }
                     ),
-//                    Temporary remove order screen waitin remaining issues to be fixed
-//                    Action(
-//                        label: "Orders for first linked broker account",
-//                        action: {
-//                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
-//                                return print("=====> You must link a broker with an account first")
-//                            }
-//
-//                            TradeItSDK.launcher.launchOrders(
-//                                fromViewController: self.advancedViewController,
-//                                forLinkedBrokerAccount: linkedBrokerAccount
-//                            )
-//                        }
-//                    ),
+                    Action(
+                        label: "Orders for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+                            
+                            TradeItSDK.launcher.launchOrders(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
                     Action(
                         label: "Trading",
                         action: {

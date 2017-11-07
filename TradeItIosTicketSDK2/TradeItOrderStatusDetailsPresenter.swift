@@ -36,15 +36,15 @@ internal extension TradeItOrderLeg {
 }
 
 class TradeItOrderStatusDetailsPresenter: NSObject {
-    private var order: TradeItOrderStatusDetails
+    private var orderStatusDetails: TradeItOrderStatusDetails
     private var orderLeg: TradeItOrderLeg
 
     public var orderIsCancelable: Bool {
-        return order.orderStatusEnum.cancelable
+        return self.orderStatusDetails.orderStatusEnum.cancelable
     }
 
-    init(order: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
-        self.order = order
+    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
+        self.orderStatusDetails = orderStatusDetails
         self.orderLeg = orderLeg
     }
 
@@ -62,7 +62,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
         var description: String = "\(action)"
 
-        if (self.order.orderStatusEnum == .filled) {
+        if (self.orderStatusDetails.orderStatusEnum == .filled) {
             let filledQuantity = self.orderLeg.filledQuantity ?? 0 as NSNumber
             let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0 as NSNumber
             description += " \(getFormattedQuantity(quantity: filledQuantity)) shares at \(getFormattedPrice(price:filledPrice))"
@@ -99,7 +99,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0 as NSNumber
             description = "Trigger: \(stopPrice == 0 as NSNumber ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
             break
-        case trailingStopDollar:
+        case .trailingStopDollar:
             let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPriceDollars = getFormattedPrice(price: trailPrice)
 

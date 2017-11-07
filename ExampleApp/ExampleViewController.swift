@@ -347,7 +347,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         action: {
                             let order = TradeItOrder()
 
-                            order.symbol = "YHOO"
+                            order.symbol = "EDIT"
                             order.action = .buy
                             TradeItSDK.yahooLauncher.launchTrading(
                                 fromViewController: self.advancedViewController,

@@ -39,17 +39,20 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     }
     
     @IBAction func activityTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+//        Remove link to order screen waiting to fix remaining issues
+//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
 //        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
-        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        Remove link to order screen waiting to fix remaining issues
+//        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 //        alertController.addAction(ordersAction)
-        alertController.addAction(tradeAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+//        alertController.addAction(tradeAction)
+//        alertController.addAction(cancelAction)
+//
+//        self.present(alertController, animated: true, completion: nil)
+        //Just put back the trade action
+        let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
+        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {

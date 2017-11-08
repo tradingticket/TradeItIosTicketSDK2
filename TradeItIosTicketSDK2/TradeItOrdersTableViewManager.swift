@@ -253,19 +253,11 @@ fileprivate class OrderSectionPresenter {
     }
     
     func header(forTableView tableView: UITableView) -> UIView? {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_HEADER_ID") else {
-            return  UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_HEADER_ID") as? TradeItOrderTableViewHeader else {
+            return  UITableViewHeaderFooterView()
         }
-        let header = cell.contentView
-        cell.textLabel?.text = self.title
-        TradeItThemeConfigurator.configureTableHeader(header: header)
-        if self.isCancelable {
-            cell.detailTextLabel?.text = "Swipe to cancel"
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 9)
-        } else {
-            cell.detailTextLabel?.text = ""
-        }
-        return cell
+        cell.populate(title: self.title, isCancelable: self.isCancelable)
+        return cell.contentView
     }
 }
 

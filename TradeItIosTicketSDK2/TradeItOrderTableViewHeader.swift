@@ -13,7 +13,6 @@ class TradeItOrderTableViewHeader: UITableViewCell {
     func populate(title: String, titleDate: String, isCancelable: Bool = false) {
         self.titleLabel?.text = title
         self.titleDateLabel?.text = titleDate
-        self.contentView.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
         if isCancelable {
             self.detailLabel?.text = "Swipe to cancel"
         } else {

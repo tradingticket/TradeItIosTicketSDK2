@@ -6,7 +6,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var refreshControl: UIRefreshControl?
     
     private static let ORDER_CELL_HEIGHT = CGFloat(55)
-    private static let SECTION_HEADER_HEIGHT = CGFloat(60)
+    private static let SECTION_HEADER_HEIGHT = CGFloat(50)
     private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(35)
     
     var ordersTable: UITableView? {
@@ -143,10 +143,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         return TradeItOrdersTableViewManager.SECTION_HEADER_HEIGHT
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
-    }
-    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
             guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row]
@@ -246,7 +242,7 @@ fileprivate class OrderSectionPresenter {
         }
         if orderPresenter.isGroupOrderHeader {
             let cell = UITableViewCell()
-            cell.contentView.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
+            cell.contentView.backgroundColor = UIColor.tradeItlightGreyBackgroundColor
             cell.textLabel?.text = orderPresenter.getGroupOrderHeaderTitle()
             cell.textLabel?.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightLight)
             return cell

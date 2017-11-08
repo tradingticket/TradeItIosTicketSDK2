@@ -4,10 +4,6 @@ extension UIColor {
     static var tradeItlightGreyBorderColor: UIColor {
         return UIColor(red: 216.0 / 255.0, green: 218.0 / 255.0, blue: 222.0 / 255.0, alpha: 1.0)
     }
-    
-    static var tradeItlightGreyHeaderBackgroundColor: UIColor {
-        return UIColor(red: 250 / 255.0, green: 250.0 / 255.0, blue: 250.0 / 255.0, alpha: 1.0)
-    }
 
     static var tradeItlightGreyBackgroundColor: UIColor {
         return UIColor(red: 235.0 / 255.0, green: 235.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)

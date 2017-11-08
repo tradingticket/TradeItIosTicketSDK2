@@ -797,12 +797,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2f0-C2-nAp">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2f0-C2-nAp">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_HEADER_ID" rowHeight="60" id="GBV-Lt-5Lf" userLabel="TRADE_IT_ORDER_HEADER_ID" customClass="TradeItOrderTableViewHeader" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GBV-Lt-5Lf" id="5tY-hS-spJ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
@@ -826,27 +826,17 @@
                                                     <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joe-Pl-4U5">
-                                                    <rect key="frame" x="15" y="59.5" width="360" height="0.0"/>
-                                                    <color key="backgroundColor" red="0.78443360328674316" green="0.78000199794769287" blue="0.80000323057174683" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="0.29999999999999999" id="HkH-SS-xKy"/>
-                                                    </constraints>
-                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="joe-Pl-4U5" secondAttribute="bottom" id="3ej-Bf-zRy"/>
                                                 <constraint firstItem="oRT-gT-eb4" firstAttribute="leading" secondItem="5tY-hS-spJ" secondAttribute="leading" constant="15" id="Eid-jn-YnD"/>
                                                 <constraint firstItem="Ash-St-Fp7" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="Gcu-Vz-U5A"/>
                                                 <constraint firstItem="efb-5O-xi0" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="RIP-Th-NXZ"/>
-                                                <constraint firstItem="joe-Pl-4U5" firstAttribute="leading" secondItem="5tY-hS-spJ" secondAttribute="leading" constant="15" id="dGL-as-x48"/>
                                                 <constraint firstItem="efb-5O-xi0" firstAttribute="leading" secondItem="oRT-gT-eb4" secondAttribute="trailing" constant="5" id="nFt-lv-g2l"/>
-                                                <constraint firstAttribute="trailing" secondItem="joe-Pl-4U5" secondAttribute="trailing" id="v45-gI-GzG"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ash-St-Fp7" secondAttribute="trailing" constant="10" id="z8m-cU-TDm"/>
                                                 <constraint firstAttribute="bottom" secondItem="oRT-gT-eb4" secondAttribute="bottom" constant="10" id="zmJ-3v-Tgg"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.98039871454238892" green="0.9803803563117981" blue="0.98039287328720093" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                         <connections>
                                             <outlet property="detailLabel" destination="Ash-St-Fp7" id="Gud-8t-ftf"/>
                                             <outlet property="titleDateLabel" destination="efb-5O-xi0" id="swY-vI-J7d"/>
@@ -854,7 +844,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_CELL_ID" rowHeight="55" id="04m-be-k3p" customClass="TradeItOrderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="55"/>
+                                        <rect key="frame" x="0.0" y="115.5" width="375" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="04m-be-k3p" id="OuN-Rt-oCX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>

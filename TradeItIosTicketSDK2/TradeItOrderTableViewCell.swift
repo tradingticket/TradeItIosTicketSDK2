@@ -8,12 +8,9 @@ class TradeItOrderTableViewCell: UITableViewCell {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var indentationIconView: UIView!
     
-    private static let LEADING_SPACE_ORDER_CELL = CGFloat(5.0)
-    private static let LEADING_SPACE_GROUP_ORDER_CELL = CGFloat(15.0)
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        TradeItThemeConfigurator.configure(view: self)
+        //TradeItThemeConfigurator.configure(view: self)
     }
     
     func populate(

@@ -4,17 +4,19 @@ class TradeItOrderTableViewHeader: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet weak var titleDateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func populate(title: String, isCancelable: Bool = false) {
+    func populate(title: String, titleDate: String, isCancelable: Bool = false) {
         self.titleLabel?.text = title
-        TradeItThemeConfigurator.configureTableHeader(header: self.contentView)
+        self.titleDateLabel?.text = titleDate
+        self.contentView.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
+//        TradeItThemeConfigurator.configureTableHeader(header: self.contentView)
         if isCancelable {
             self.detailLabel?.text = "Swipe to cancel"
-            self.detailLabel?.font = UIFont.systemFont(ofSize: 9)
         } else {
             self.detailLabel?.text = ""
         }

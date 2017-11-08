@@ -68,7 +68,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         guard let groupOrderType = self.orderStatusDetails.groupOrderType, isGroupOrderHeader else {
             return ""
         }
-        return formatEnum(string: groupOrderType)
+        return "Group order: \(formatEnum(string: groupOrderType))"
     }
     
     func isCancelable() -> Bool {

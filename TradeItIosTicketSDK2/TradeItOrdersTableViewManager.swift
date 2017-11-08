@@ -240,7 +240,8 @@ fileprivate class OrderSectionPresenter {
         if orderPresenter.isGroupOrderHeader {
             let cell = UITableViewCell()
             cell.textLabel?.text = orderPresenter.getGroupOrderHeaderTitle()
-            TradeItThemeConfigurator.configureTableHeader(header: cell.contentView, groupedStyle: false)
+            TradeItThemeConfigurator.configure(view: cell)
+            TradeItThemeConfigurator.configureTableHeaderTheme(view: cell.contentView)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell else {

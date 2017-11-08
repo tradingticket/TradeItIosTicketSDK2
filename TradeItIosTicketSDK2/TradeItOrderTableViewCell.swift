@@ -6,9 +6,7 @@ class TradeItOrderTableViewCell: UITableViewCell {
     @IBOutlet weak var expirationLabel: UILabel!
     @IBOutlet weak var orderTypeDescriptionLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
-
-    @IBOutlet weak var symbolLeadingSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var descriptionLeadingSpaceConstraint: NSLayoutConstraint!
+    @IBOutlet weak var indentationIconView: UIView!
     
     private static let LEADING_SPACE_ORDER_CELL = CGFloat(5.0)
     private static let LEADING_SPACE_GROUP_ORDER_CELL = CGFloat(15.0)
@@ -28,11 +26,9 @@ class TradeItOrderTableViewCell: UITableViewCell {
         self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
 
         if orderStatusPresenter.isGroupOrderChild {
-            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
-            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
+            self.indentationIconView.isHidden = false
         } else {
-            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
-            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
+            self.indentationIconView.isHidden = true
         }
         
         if orderStatusPresenter.isCancelable() {

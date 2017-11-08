@@ -38,7 +38,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         )
     }
     
-    @IBAction func activityTapped(_ sender: Any) {
+    @IBAction func activityTapped(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
@@ -47,6 +47,13 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         alertController.addAction(ordersAction)
         alertController.addAction(tradeAction)
         alertController.addAction(cancelAction)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad,
+            let popoverPresentationController = alertController.popoverPresentationController
+             {
+            popoverPresentationController.sourceRect = sender.frame
+            popoverPresentationController.sourceView = self.view
+        }
         
         self.present(alertController, animated: true, completion: nil)
     }

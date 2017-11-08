@@ -10,7 +10,6 @@ class TradeItOrderTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        //TradeItThemeConfigurator.configure(view: self)
     }
     
     func populate(
@@ -20,7 +19,11 @@ class TradeItOrderTableViewCell: UITableViewCell {
         self.descriptionLabel?.text = orderStatusPresenter.getFormattedDescription()
         self.expirationLabel.text = orderStatusPresenter.getFormattedExpiration()
         self.orderTypeDescriptionLabel.text = orderStatusPresenter.getFormattededOrderTypeDescription()
-        self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
+        if !orderStatusPresenter.belongsToOpenCategory() {
+            self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
+        } else {
+            self.statusLabel.text = ""
+        }
 
         if orderStatusPresenter.isGroupOrderChild {
             self.indentationIconView.isHidden = false

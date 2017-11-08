@@ -75,6 +75,10 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         return self.orderStatusDetails.isCancellable() && !self.isGroupOrderChild
     }
     
+    func belongsToOpenCategory() -> Bool {
+        return self.orderStatusDetails.belongsToOpenCategory()
+    }
+    
     func getSymbol() -> String {
         guard let symbol = self.orderLeg?.symbol else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER

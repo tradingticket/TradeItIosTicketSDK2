@@ -249,8 +249,6 @@ fileprivate class OrderSectionPresenter {
             cell.contentView.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
             cell.textLabel?.text = orderPresenter.getGroupOrderHeaderTitle()
             cell.textLabel?.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightLight)
-//            TradeItThemeConfigurator.configure(view: cell)
-//            TradeItThemeConfigurator.configureTableHeaderTheme(view: cell.contentView)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell else {

@@ -14,7 +14,6 @@ class TradeItOrderTableViewHeader: UITableViewCell {
         self.titleLabel?.text = title
         self.titleDateLabel?.text = titleDate
         self.contentView.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
-//        TradeItThemeConfigurator.configureTableHeader(header: self.contentView)
         if isCancelable {
             self.detailLabel?.text = "Swipe to cancel"
         } else {

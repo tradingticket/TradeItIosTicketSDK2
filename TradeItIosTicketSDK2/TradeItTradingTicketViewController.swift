@@ -151,6 +151,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
+        case .marginType:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.initialSelection = self.order.marginType.label
+            self.selectionViewController.selections = [TradeItMarginType.margin.label, TradeItMarginType.cash.label]
+            self.selectionViewController.onSelected = { selection in
+                self.order.marginType = TradeItMarginType.valueFor(label: selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
         default:
             return
         }
@@ -368,6 +377,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 value: self.order.expiration.rawValue
             )
         )
+        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .null
     }
 
     private func setPreviewButtonEnablement() {
@@ -430,6 +440,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
         
         ticketRows.append(.expiration)
+        
+        if self.order.requireMarginType() {
+            ticketRows.append(.marginType)
+        }
+        
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -502,6 +517,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
+        case .marginType:
+            cell.detailTextLabel?.text = self.order.marginType.label
         case .estimatedCost:
             var estimateChangeText = "N/A"
 

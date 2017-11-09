@@ -525,15 +525,18 @@ import PromiseKit
     let name: String
     let number: String
     let baseCurrency: String
-
+    let marginType: TradeItMarginType
+    
     public init(
         name: String,
         number: String,
-        baseCurrency: String
+        baseCurrency: String,
+        marginType: TradeItMarginType
     ) {
         self.name = name
         self.number = number
         self.baseCurrency = baseCurrency
+        self.marginType = marginType
     }
 }
 

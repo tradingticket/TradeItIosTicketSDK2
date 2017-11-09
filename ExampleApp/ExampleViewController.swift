@@ -37,6 +37,45 @@ class YahooAction: Action {
     }
 }
 
+@objc public class ExampleAdService: NSObject, AdService {
+    public func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition
+    ) {
+        let viewControllerName = String(describing: type(of: rootViewController))
+        print("=====> ExampleAdService.populate(_,_,_,_) called on \(viewControllerName)")
+
+        self.populate(
+            adContainer: adContainer,
+            rootViewController: rootViewController,
+            pageType: pageType,
+            position: position,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil
+        )
+    }
+
+    public func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition,
+        broker: String?,
+        symbol: String?,
+        instrumentType: String?,
+        trackPageViewAsPageType: Bool = true
+    ) {
+        let viewControllerName = String(describing: type(of: rootViewController))
+        print("=====> ExampleAdService.populate(_,_,_,_,_,_,_,_) called on \(viewControllerName)")
+
+        adContainer.isHidden = false
+        adContainer.backgroundColor = UIColor.magenta
+    }
+}
+
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 
@@ -266,6 +305,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "Alert Queue",
                         action: self.launchAlertQueue
+                    ),
+                    Action(
+                        label: "Toggle Ads",
+                        action: {
+                            TradeItSDK.isAdServiceEnabled = !TradeItSDK.isAdServiceEnabled
+
+                            TradeItSDK.adService =
+                                TradeItSDK.isAdServiceEnabled ? ExampleAdService() : DefaultAdService()
+
+                            self.alertManager.showAlertWithMessageOnly(
+                                onViewController: self.advancedViewController,
+                                withTitle: "Toggle Ads",
+                                withMessage: "Ads are now: \(TradeItSDK.isAdServiceEnabled ? "on" : "off")",
+                                withActionTitle: "OK"
+                            )
+                        }
                     )
                 ]
             ),

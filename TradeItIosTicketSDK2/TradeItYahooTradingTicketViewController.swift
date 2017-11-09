@@ -142,6 +142,15 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             }
             
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
+        case .marginType:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.initialSelection = self.order.marginType.label
+            self.selectionViewController.selections = [TradeItMarginType.margin.label, TradeItMarginType.cash.label]
+            self.selectionViewController.onSelected = { selection in
+                self.order.marginType = TradeItMarginType.valueFor(label: selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
         default:
             return
         }
@@ -333,6 +342,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .null
     }
 
 
@@ -391,6 +401,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         }
 
         ticketRows.append(.marketPrice)
+        
+        if self.order.requireMarginType() {
+            ticketRows.append(.marginType)
+        }
+        
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -461,6 +476,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 ),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
+        case .marginType:
+            cell.detailTextLabel?.text = self.order.marginType.label
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -537,6 +554,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         case limitPrice
         case stopPrice
         case marketPrice
+        case marginType
         case estimatedCost
 
         private enum CellReuseId: String {
@@ -551,7 +569,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             var cellReuseId: CellReuseId
 
             switch self {
-            case .orderAction, .orderType, .expiration:
+            case .orderAction, .orderType, .expiration, .marginType:
                 cellReuseId = .selection
             case .estimatedCost:
                 cellReuseId = .readOnly
@@ -581,6 +599,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .expiration: return "Time in force"
             case .marketPrice: return "Market price"
             case .account: return "Accounts"
+            case .marginType: return "Type"
             }
         }
     }

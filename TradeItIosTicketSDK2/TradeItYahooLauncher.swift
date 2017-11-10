@@ -2,7 +2,8 @@ import UIKit
 import SafariServices
 
 @objc public class TradeItYahooLauncher: NSObject {
-    private let viewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private let yahooViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
+    private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
     private var deviceManager = TradeItDeviceManager()
     private let tradingUIFlow = TradeItYahooTradingUIFlow()
     private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
@@ -10,7 +11,7 @@ import SafariServices
     private let alertManager = TradeItAlertManager()
     
     override internal init() {}
-
+    
     public func launchOAuth(fromViewController viewController: UIViewController) {
         self.launchOAuth(
             fromViewController: viewController,
@@ -138,6 +139,25 @@ import SafariServices
                         onCompletion()
                     }
                 )
+            }
+        )
+    }
+
+    public func launchOrders(
+        fromViewController viewController: UIViewController,
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                let navController = TradeItYahooNavigationController()
+                guard let ordersViewController = self.tradeItViewControllerProvider.provideViewController(forStoryboardId: .ordersView) as? TradeItOrdersViewController else { return }
+                ordersViewController.enableThemeOnLoad = false
+                ordersViewController.enableCustomNavController()
+                ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+                navController.pushViewController(ordersViewController, animated: false)
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("TouchId access denied")
             }
         )
     }

@@ -60,7 +60,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
         )
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .trading,

@@ -42,7 +42,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(
                     onSuccess: {
-                        TradeItSDK.adService.populate?(
+                        TradeItSDK.adService.populate(
                             adContainer: self.adContainer,
                             rootViewController: self,
                             pageType: .link,

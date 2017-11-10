@@ -52,7 +52,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         self.updateOrderCapabilities()
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .trading,

@@ -5,14 +5,6 @@ import UIKit
         adContainer: UIView,
         rootViewController: UIViewController,
         pageType: TradeItAdPageType,
-        position: TradeItAdPosition
-    )
-
-    // Obj-C compatibility helper
-    @objc optional func populate(
-        adContainer: UIView,
-        rootViewController: UIViewController,
-        pageType: TradeItAdPageType,
         position: TradeItAdPosition,
         broker: String?,
         symbol: String?,

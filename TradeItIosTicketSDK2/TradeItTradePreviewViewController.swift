@@ -63,12 +63,12 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
-            pageType: .trading,
+            pageType: .review,
             position: .bottom,
-            broker: nil,
-            symbol: nil,
-            instrumentType: nil,
-            trackPageViewAsPageType: false
+            broker: linkedBrokerAccount?.brokerName,
+            symbol: previewOrderResult?.orderDetails?.orderSymbol,
+            instrumentType: TradeItTradeInstrumentType.equities.rawValue,
+            trackPageViewAsPageType: true
         )
     }
 

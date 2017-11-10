@@ -37,12 +37,12 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
-            pageType: .link,
+            pageType: .brokerlist,
             position: .bottom,
             broker: nil,
             symbol: nil,
             instrumentType: nil,
-            trackPageViewAsPageType: false
+            trackPageViewAsPageType: true
         )
         
         if !showOpenAccountButton {

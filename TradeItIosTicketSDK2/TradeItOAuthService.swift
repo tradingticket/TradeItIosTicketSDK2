@@ -46,6 +46,7 @@
     func getOAuthLoginPopupURLForTokenUpdate(
         withBroker broker: String,
         userId: String,
+        userToken: String,
         oAuthCallbackUrl: URL,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -55,6 +56,7 @@
             apiKey: self.connector.apiKey,
             broker: broker,
             userId: userId,
+            userToken: userToken,
             interAppAddressCallback: oAuthCallbackUrl.absoluteString
         )
         

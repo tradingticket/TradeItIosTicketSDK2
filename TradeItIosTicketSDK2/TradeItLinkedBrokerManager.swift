@@ -73,6 +73,7 @@ import PromiseKit
         self.getOAuthLoginPopupForTokenUpdateUrl(
             withBroker: linkedBroker.brokerName,
             userId: linkedBroker.linkedLogin.userId,
+            userToken: self.connector.userToken(fromKeychainId: linkedBroker.linkedLogin.keychainId) ?? "",
             oAuthCallbackUrl: oAuthCallbackUrl,
             onSuccess: onSuccess,
             onFailure: onFailure
@@ -331,6 +332,7 @@ import PromiseKit
     private func getOAuthLoginPopupForTokenUpdateUrl(
         withBroker broker: String? = nil,
         userId: String,
+        userToken: String,
         oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -364,6 +366,7 @@ import PromiseKit
         self.oAuthService.getOAuthLoginPopupURLForTokenUpdate(
             withBroker: brokerName,
             userId: userId,
+            userToken: userToken,
             oAuthCallbackUrl: relinkOAuthCallbackUrl,
             onSuccess: onSuccess,
             onFailure: onFailure

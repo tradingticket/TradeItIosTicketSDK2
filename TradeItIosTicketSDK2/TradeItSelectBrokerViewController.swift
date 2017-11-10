@@ -37,7 +37,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         TradeItSDK.adService.populate?(
             adContainer: adContainer,
             rootViewController: self,
-            pageType: .brokerlist,
+            pageType: .brokerList,
             position: .bottom,
             broker: nil,
             symbol: nil,

@@ -30,8 +30,8 @@ import UIKit
     case welcome
     case link
     case general
-    case brokerlist
-    case review
+    case brokerList
+    case preview
 
     // Woe is me - Obj-C backwards compatibility
     public static func labelFor(_ pageType: TradeItAdPageType) -> String {
@@ -44,8 +44,8 @@ import UIKit
         case .trading: return "trading"
         case .watchlist: return "watchlist"
         case .welcome: return "welcome"
-        case .brokerlist: return "brokerlist"
-        case .review: return "review"
+        case .brokerList: return "brokerList"
+        case .preview: return "preview"
         }
     }
 }

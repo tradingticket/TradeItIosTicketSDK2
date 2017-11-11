@@ -60,10 +60,42 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
         if (!isChosenAccountEnabled) {
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            self.showAccountSelection()
             return
         }
+
+        // Check if selected account supports trading equities
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == self.order.linkedBrokerAccount?.linkedBroker?.brokerName
+                    }
+                ), broker.equityServices()?.supportsTrading == true else {
+                    self.alertManager.showAlertWithMessageOnly(
+                        onViewController: self,
+                        withTitle: "Unsupported Account",
+                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
+                        withActionTitle: "OK",
+                        onAlertActionTapped: {
+                            self.showAccountSelection()
+                        }
+                    )
+                    return
+                }
+            },
+            onFailure: {
+                self.alertManager.showAlertWithMessageOnly(
+                    onViewController: self,
+                    withTitle: "Error",
+                    withMessage: "Could not determine if this account can trade stocks. Please try again.",
+                    withActionTitle: "OK",
+                    onAlertActionTapped: {
+                        self.showAccountSelection()
+                    }
+                )
+            }
+        )
 
         self.reloadTicket()
     }
@@ -80,8 +112,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         switch ticketRow {
         case .account:
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            self.showAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
@@ -198,6 +229,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     }
 
     // MARK: Private
+
+    private func showAccountSelection() {
+        self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
+        self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+    }
 
     private func selectedAccountChanged() {
         self.updateOrderCapabilities()

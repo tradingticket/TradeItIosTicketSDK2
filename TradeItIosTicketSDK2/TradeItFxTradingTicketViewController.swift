@@ -67,8 +67,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
-        if (!isChosenAccountEnabled) {
+        guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
             self.showAccountSelection()
             return
         }

@@ -6,9 +6,9 @@
     public var rawValue: RawValue {
         switch self {
         case .margin:
-            return "MARGIN"
+            return "margin"
         case .cash:
-            return "CASH"
+            return "cash"
         default:
             return ""
         }
@@ -32,9 +32,9 @@
     public init(value: RawValue?) {
         let rawValue = value ?? ""
         switch rawValue {
-        case "MARGIN":
+        case "margin":
             self = .margin
-        case "CASH":
+        case "cash":
             self = .cash
         default:
             self = .null

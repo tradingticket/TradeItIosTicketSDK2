@@ -5,6 +5,7 @@
 - (id)initWithApiKey:(NSString *)apiKey
               broker:(NSString *)broker
               userId:(NSString *)userId
+           userToken:(NSString *)userToken
 interAppAddressCallback:(NSString *)interAppAddressCallback {
     self = [super init];
 
@@ -12,6 +13,7 @@ interAppAddressCallback:(NSString *)interAppAddressCallback {
         self.apiKey = apiKey;
         self.broker = broker;
         self.userId = userId;
+        self.userToken = userToken;
         self.interAppAddressCallback = interAppAddressCallback;
     }
 

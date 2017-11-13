@@ -443,9 +443,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="229.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xIc-5K-FIq">
-                                                    <rect key="frame" x="0.0" y="50" width="375" height="179.5"/>
-                                                </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0EV-dC-NOL">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="229.5"/>
                                                     <subviews>
@@ -631,8 +628,11 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sZG-a0-D4B" userLabel="Buy Sell View">
                                                                     <rect key="frame" x="0.0" y="143.5" width="375" height="36"/>
                                                                     <subviews>
+                                                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xIc-5K-FIq">
+                                                                            <rect key="frame" x="20" y="7.5" width="20" height="20"/>
+                                                                        </activityIndicatorView>
                                                                         <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gtl-8c-b2X" userLabel="Buy">
-                                                                            <rect key="frame" x="60" y="2.5" width="120" height="30"/>
+                                                                            <rect key="frame" x="65" y="2.5" width="117.5" height="30"/>
                                                                             <color key="backgroundColor" red="0.43413115860000001" green="0.70186484260000004" blue="0.24602658599999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <accessibility key="accessibilityConfiguration" identifier="BUY_BUTTON"/>
                                                                             <constraints>
@@ -653,7 +653,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="25w-rU-iGD" userLabel="Sell">
-                                                                            <rect key="frame" x="190" y="2.5" width="120" height="30"/>
+                                                                            <rect key="frame" x="192.5" y="2.5" width="117.5" height="30"/>
                                                                             <color key="backgroundColor" red="0.80336724640000001" green="0.1110295822" blue="0.1589897062" alpha="0.80926724139999995" colorSpace="calibratedRGB"/>
                                                                             <accessibility key="accessibilityConfiguration" identifier="SELL_BUTTON"/>
                                                                             <constraints>
@@ -674,11 +674,13 @@
                                                                         </button>
                                                                     </subviews>
                                                                     <constraints>
+                                                                        <constraint firstItem="xIc-5K-FIq" firstAttribute="leading" secondItem="sZG-a0-D4B" secondAttribute="leading" constant="20" id="37B-Y1-OPB"/>
                                                                         <constraint firstItem="Gtl-8c-b2X" firstAttribute="centerY" secondItem="sZG-a0-D4B" secondAttribute="centerY" id="4HK-aM-TjS"/>
                                                                         <constraint firstItem="25w-rU-iGD" firstAttribute="width" secondItem="Gtl-8c-b2X" secondAttribute="width" id="79O-Nt-ABr"/>
+                                                                        <constraint firstItem="xIc-5K-FIq" firstAttribute="centerY" secondItem="sZG-a0-D4B" secondAttribute="centerY" id="E50-dM-Ksx"/>
                                                                         <constraint firstItem="25w-rU-iGD" firstAttribute="leading" secondItem="Gtl-8c-b2X" secondAttribute="trailing" constant="10" id="TwQ-Sk-vzk"/>
                                                                         <constraint firstAttribute="trailing" secondItem="25w-rU-iGD" secondAttribute="trailing" constant="65" id="foo-ro-fEO"/>
-                                                                        <constraint firstItem="Gtl-8c-b2X" firstAttribute="leading" secondItem="sZG-a0-D4B" secondAttribute="leading" constant="60" id="gDS-Ox-ELX"/>
+                                                                        <constraint firstItem="Gtl-8c-b2X" firstAttribute="leading" secondItem="sZG-a0-D4B" secondAttribute="leading" constant="65" id="rMN-aj-wBD"/>
                                                                         <constraint firstItem="25w-rU-iGD" firstAttribute="centerY" secondItem="sZG-a0-D4B" secondAttribute="centerY" id="vxI-9q-NLr"/>
                                                                     </constraints>
                                                                 </view>
@@ -691,17 +693,11 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="centerY" secondItem="9qU-Xv-Teu" secondAttribute="centerY" id="6ru-TT-eUr"/>
                                                 <constraint firstItem="0EV-dC-NOL" firstAttribute="top" secondItem="CV5-G3-nqA" secondAttribute="top" id="E61-f3-pPN"/>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="trailing" secondItem="9qU-Xv-Teu" secondAttribute="trailing" id="G3H-me-eh2"/>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="centerX" secondItem="9qU-Xv-Teu" secondAttribute="centerX" id="MHq-iz-Xsb"/>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="bottom" secondItem="9qU-Xv-Teu" secondAttribute="bottom" id="SoE-T4-5Rq"/>
                                                 <constraint firstAttribute="bottom" secondItem="0EV-dC-NOL" secondAttribute="bottom" id="ajd-ZM-3do"/>
                                                 <constraint firstItem="0EV-dC-NOL" firstAttribute="leading" secondItem="CV5-G3-nqA" secondAttribute="leading" id="f69-QZ-5ny"/>
                                                 <constraint firstItem="0EV-dC-NOL" firstAttribute="height" secondItem="CV5-G3-nqA" secondAttribute="height" id="j6Z-0M-3bd"/>
                                                 <constraint firstAttribute="trailing" secondItem="0EV-dC-NOL" secondAttribute="trailing" id="n0y-4e-vI4"/>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="leading" secondItem="9qU-Xv-Teu" secondAttribute="leading" id="qZc-xQ-Tzg"/>
-                                                <constraint firstItem="xIc-5K-FIq" firstAttribute="top" secondItem="9qU-Xv-Teu" secondAttribute="top" id="zqZ-xJ-EUq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1088,7 +1084,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$2,312.92 (1.2%)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxo-Cp-xWg">
-                                                    <rect key="frame" x="18" y="37" width="316" height="56.5"/>
+                                                    <rect key="frame" x="25" y="40" width="309" height="51"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>

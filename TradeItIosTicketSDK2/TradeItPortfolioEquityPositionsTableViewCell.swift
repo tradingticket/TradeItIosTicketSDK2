@@ -37,11 +37,11 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         TradeItThemeConfigurator.configure(view: self)
     }
 
-    internal func populate(withPosition position: TradeItPortfolioPosition) {
+    internal func populate(withPosition position: TradeItPortfolioPosition, showAverageCost: Bool) {
         self.selectedPosition = position
         let presenter = TradeItPortfolioEquityPositionPresenter(position)
         self.symbolLabelValue.text = presenter.getFormattedSymbol()
-        self.avgCostLabelValue.text = presenter.getAvgCost()
+        self.avgCostLabelValue.text = showAverageCost ? presenter.getAvgCost() : ""
         self.lastPriceLabelValue.text = presenter.getLastPrice()
         self.quantityLabelValue.text = presenter.getFormattedQuantity()
 

@@ -193,6 +193,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             let cell = self.positionCell(
                 forTableView: tableView,
                 forPortfolioPosition: position,
+                showAverageCost: showAverageCost(),
                 selected: self.selectedPositionIndex == indexPath.row
             )
             return cell
@@ -246,11 +247,12 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     private func positionCell(
         forTableView tableView: UITableView,
         forPortfolioPosition position: TradeItPortfolioPosition?,
+        showAverageCost: Bool,
         selected: Bool = false) -> UITableViewCell {
         if let position = position {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             cell.delegate = self
-            cell.populate(withPosition: position)
+            cell.populate(withPosition: position, showAverageCost: showAverageCost)
             cell.showPositionDetails(selected)
             return cell
         } else {
@@ -285,6 +287,11 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         cell.detailTextLabel?.text = value
         cell.detailTextLabel?.textColor = valueColor
         return cell
+    }
+
+    private func showAverageCost() -> Bool {
+        //We don't show average cost if all of the positions costbasis are not provided
+        return (self.positions?.filter { $0.position?.costbasis == nil }.count != self.positions?.count)
     }
 
     func addRefreshControl(toTableView tableView: UITableView) {

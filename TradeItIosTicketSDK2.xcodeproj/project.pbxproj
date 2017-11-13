@@ -401,6 +401,8 @@
 		B55CA8AB1FB37099001F563B /* TradeItOrderTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55CA8A91FB37099001F563B /* TradeItOrderTableViewHeader.swift */; };
 		B55CFDC41DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55CFDC31DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift */; };
 		B55CFDC61DB9156800DA2928 /* TradeItOrderDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55CFDC51DB9156800DA2928 /* TradeItOrderDetailsPresenter.swift */; };
+		B55DD3091FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55DD3081FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift */; };
+		B55DD30A1FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55DD3081FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift */; };
 		B55E70E91F9659E6005BF07D /* TradeItTransactionsHistoryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E70E71F9659E6005BF07D /* TradeItTransactionsHistoryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E70EA1F9659E6005BF07D /* TradeItTransactionsHistoryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B55E70E71F9659E6005BF07D /* TradeItTransactionsHistoryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B55E70EB1F9659E6005BF07D /* TradeItTransactionsHistoryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = B55E70E81F9659E6005BF07D /* TradeItTransactionsHistoryResult.m */; };
@@ -1073,6 +1075,7 @@
 		B55CA8A91FB37099001F563B /* TradeItOrderTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItOrderTableViewHeader.swift; sourceTree = "<group>"; };
 		B55CFDC31DB8FC9000DA2928 /* TradeItPreviewTradeOrderDetails+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TradeItPreviewTradeOrderDetails+Helpers.swift"; sourceTree = "<group>"; };
 		B55CFDC51DB9156800DA2928 /* TradeItOrderDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItOrderDetailsPresenter.swift; sourceTree = "<group>"; };
+		B55DD3081FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioEquityPositionsHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		B55E70E71F9659E6005BF07D /* TradeItTransactionsHistoryResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItTransactionsHistoryResult.h; sourceTree = "<group>"; };
 		B55E70E81F9659E6005BF07D /* TradeItTransactionsHistoryResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItTransactionsHistoryResult.m; sourceTree = "<group>"; };
 		B55E70ED1F965A93005BF07D /* TradeItTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItTransaction.h; sourceTree = "<group>"; };
@@ -1461,6 +1464,7 @@
 				B5C379FD1F60547600D1EE83 /* TradeItOrderTableViewCell.swift */,
 				7580B7511F867EBF006F306A /* TradeItPreviewMessageTableViewCell.swift */,
 				B55CA8A91FB37099001F563B /* TradeItOrderTableViewHeader.swift */,
+				B55DD3081FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2837,6 +2841,7 @@
 				7591A9071EFAC56E008EB943 /* TradeItFxOrderLeg.m in Sources */,
 				B5B33F441F967A0600DD9038 /* TradeItTransactionService.swift in Sources */,
 				75CCE34D1F043AF300E1061E /* TradeItFxQuoteRequest.m in Sources */,
+				B55DD3091FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift in Sources */,
 				75BAAA9B1DB7EEB400E5435C /* DateTimeFormatter.swift in Sources */,
 				FAC00F971E26A0B70037130A /* TradeItYahooTradingTicketViewController.swift in Sources */,
 				75BAAB9C1DB7EF2F00E5435C /* TradeItAuthLinkResult.m in Sources */,
@@ -3082,6 +3087,7 @@
 				7591A9081EFAC56E008EB943 /* TradeItFxOrderLeg.m in Sources */,
 				B5B33F451F967A0600DD9038 /* TradeItTransactionService.swift in Sources */,
 				75CCE34E1F043AF300E1061E /* TradeItFxQuoteRequest.m in Sources */,
+				B55DD30A1FBA345F0013FB63 /* TradeItPortfolioEquityPositionsHeaderTableViewCell.swift in Sources */,
 				FAC00F981E26A0B70037130A /* TradeItYahooTradingTicketViewController.swift in Sources */,
 				FC6E79E91DCD1F8B005225CC /* TradeItBrokerListResult.m in Sources */,
 				FC6E79EA1DCD1F8B005225CC /* TradeItMarketService.swift in Sources */,

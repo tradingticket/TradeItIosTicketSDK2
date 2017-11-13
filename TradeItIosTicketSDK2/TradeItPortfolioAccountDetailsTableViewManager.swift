@@ -136,8 +136,9 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         if section == SECTIONS.accountDetails.rawValue {
             return nil
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID") as? TradeItPortfolioEquityPositionsHeaderTableViewCell
             let header = cell?.contentView
+            cell?.avgCostLabel.isHidden = !showAverageCost()
             TradeItThemeConfigurator.configureTableHeader(header: header)
             return header
         }

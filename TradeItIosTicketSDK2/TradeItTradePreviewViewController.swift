@@ -191,6 +191,10 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
+        if orderDetailsPresenter.marginType != .null {
+            cells.append(ValueCellData(label: "Type", value: orderDetailsPresenter.marginType.label))
+        }
+
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: formatCurrency(estimatedOrderCommission)))
         }

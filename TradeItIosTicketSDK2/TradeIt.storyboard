@@ -946,7 +946,6 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="7v4-qk-Mdw" firstAttribute="top" secondItem="2f0-C2-nAp" secondAttribute="bottom" id="gN6-gv-ju4"/>
                             <constraint firstAttribute="trailing" secondItem="2f0-C2-nAp" secondAttribute="trailing" id="hSF-3H-InY"/>

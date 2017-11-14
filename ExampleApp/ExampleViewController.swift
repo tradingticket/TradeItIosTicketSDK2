@@ -428,7 +428,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 }
                             )
                         }
-                    )
+                    ),
+                    YahooAction(
+                        label: "Launch Orders for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+
+                            TradeItSDK.yahooLauncher.launchOrders(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
                 ]
             )
         ]

@@ -38,25 +38,6 @@ class YahooAction: Action {
 }
 
 @objc public class ExampleAdService: NSObject, AdService {
-    public func populate(
-        adContainer: UIView,
-        rootViewController: UIViewController,
-        pageType: TradeItAdPageType,
-        position: TradeItAdPosition
-    ) {
-        let viewControllerName = String(describing: type(of: rootViewController))
-        print("=====> ExampleAdService.populate(_,_,_,_) called on \(viewControllerName)")
-
-        self.populate(
-            adContainer: adContainer,
-            rootViewController: rootViewController,
-            pageType: pageType,
-            position: position,
-            broker: nil,
-            symbol: nil,
-            instrumentType: nil
-        )
-    }
 
     public func populate(
         adContainer: UIView,
@@ -66,7 +47,7 @@ class YahooAction: Action {
         broker: String?,
         symbol: String?,
         instrumentType: String?,
-        trackPageViewAsPageType: Bool = true
+        trackPageViewAsPageType: Bool
     ) {
         let viewControllerName = String(describing: type(of: rootViewController))
         print("=====> ExampleAdService.populate(_,_,_,_,_,_,_,_) called on \(viewControllerName)")

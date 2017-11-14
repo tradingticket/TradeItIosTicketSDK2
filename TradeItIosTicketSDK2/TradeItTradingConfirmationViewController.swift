@@ -32,7 +32,7 @@ import UIKit
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"
         self.confirmationTextLabel.text = confirmationMessage
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .confirmation,

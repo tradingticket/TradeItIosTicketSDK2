@@ -26,7 +26,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
         self.tableViewManager.initiateRefresh()
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: self.adContainer,
             rootViewController: self,
             pageType: .portfolio,

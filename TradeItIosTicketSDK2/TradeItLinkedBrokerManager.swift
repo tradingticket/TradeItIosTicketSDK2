@@ -194,13 +194,18 @@ import PromiseKit
 
     public func getAvailableBrokers(
         onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
-        onFailure: @escaping () -> Void
+        onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         getAvailableBrokersPromise().then { availableBrokers -> Void in
             onSuccess(availableBrokers)
         }.catch { error in
             self.availableBrokersPromise = nil
-            onFailure()
+            let error = error as? TradeItErrorResult ??
+                TradeItErrorResult(
+                    title: "Could not fetch brokers",
+                    message: "Could not fetch the brokers list. Please try again later."
+                )
+            onFailure(error)
         }
     }
 

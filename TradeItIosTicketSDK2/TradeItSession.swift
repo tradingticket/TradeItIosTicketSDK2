@@ -55,10 +55,10 @@ public class TradeItSession {
         if let authenticationResult = TradeItResultTransformer.transform(targetClassType: TradeItAuthenticationResult.self, json: json) {
             self.token = authenticationResult.token
             return authenticationResult
-        } else if let securityQuestionResult = TradeItResultTransformer.transform(targetClassType: TradeItSecurityQuestionResult.self, json: json) {
+        } else if let securityQuestionResult = authenticationResult as? TradeItSecurityQuestionResult {
             self.token = securityQuestionResult.token
             return securityQuestionResult
-        } else if let error = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json) {
+        } else if let error = authenticationResult as? TradeItErrorResult {
             return error
         } else {
             // TODO: Figure out what to do here

@@ -167,7 +167,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
                     self.getStartedButton.setTitle("More", for: .normal)
                 }
             },
-            onFailure: {
+            onFailure: { _ in
                 self.activityView?.hide(animated: true)
             }
         )

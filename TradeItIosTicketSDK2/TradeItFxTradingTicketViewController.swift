@@ -72,39 +72,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             return
         }
 
-        // Check if selected account supports trading FX
-        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
-            onSuccess: { brokers in
-                guard let broker = brokers.first(
-                    where: { broker in
-                        return broker.shortName == self.order.linkedBrokerAccount?.linkedBroker?.brokerName
-                    }
-                ), broker.equityServices()?.supportsTrading == true else {
-                    self.alertManager.showAlertWithMessageOnly(
-                        onViewController: self,
-                        withTitle: "Unsupported Account",
-                        withMessage: "The selected account does not support trading FX. Please choose another account.",
-                        withActionTitle: "OK",
-                        onAlertActionTapped: {
-                            self.showAccountSelection()
-                        }
-                    )
-                    return
-                }
-            },
-            onFailure: {
-                self.alertManager.showAlertWithMessageOnly(
-                    onViewController: self,
-                    withTitle: "Error",
-                    withMessage: "Could not determine if this account can trade FX. Please try again.",
-                    withActionTitle: "OK",
-                    onAlertActionTapped: {
-                        self.showAccountSelection()
-                    }
-                )
-            }
-        )
-
         self.reloadTicket()
         self.marketDataLabel.text = nil
         if self.order.symbol == nil {
@@ -558,7 +525,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self,
                     onFinished: {
-                        self.handleValidationError(error)
+                        self.handleValidationError(error) // TODO: This calls pushSymbolSelection() and could therefore cause infinite loop if error is symbol related
                     }
                 )
             }
@@ -567,7 +534,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
     private func handleValidationError(_ error: TradeItErrorResult) {
         guard let errorFields = error.errorFields as? [String] else { return }
-        // TODO: Shouldn't we alert users as to why we are prompting them to select a symbol/account?
+
         if (errorFields.contains("symbol")) {
             self.order.symbol = nil
             self.pushSymbolSelection()

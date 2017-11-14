@@ -341,9 +341,24 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.action = TradeItOrderAction(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .actions,
+                value: self.order.action.rawValue
+            )
+        )
+        self.order.type = TradeItOrderPriceType(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .priceTypes,
+                value: self.order.type.rawValue
+            )
+        )
+        self.order.expiration = TradeItOrderExpiration(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .expirationTypes,
+                value: self.order.expiration.rawValue
+            )
+        )
     }
 
     private func setPreviewButtonEnablement() {

@@ -37,7 +37,7 @@ import UIKit
         button.tintColor = TradeItSDK.theme.interactivePrimaryColor
     }
 
-    private static func configureTableHeaderTheme(view: UIView) {
+    static func configureTableHeaderTheme(view: UIView) {
         switch view {
         case let label as UILabel:
             label.text = label.text?.uppercased()
@@ -78,7 +78,9 @@ import UIKit
     }
 
     private static func styleImage(_ imageView: UIImageView) {
-        if imageView.superview is UIButton || imageView.accessibilityIdentifier == "LOGO" {
+        if imageView.superview is UIButton
+            || imageView.accessibilityIdentifier == "LOGO"
+            || imageView.accessibilityIdentifier == "INDENTATION_ICON" {
             // Do nothing
         } else {
             let image = imageView.image?.withRenderingMode(.alwaysTemplate)

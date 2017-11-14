@@ -312,24 +312,24 @@ protocol OAuthCompletionListener {
             )
         }
     }
-// Remove order screen waiting remaining issues to be fixed
-//    public func launchOrders(
-//        fromViewController viewController: UIViewController,
-//        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
-//        ) {
-//        deviceManager.authenticateUserWithTouchId(
-//            onSuccess: {
-//                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .ordersView)
-//
-//                guard let ordersViewController = navController.viewControllers.last as? TradeItOrdersViewController else { return }
-//
-//                ordersViewController.linkedBrokerAccount = linkedBrokerAccount
-//
-//                viewController.present(navController, animated: true, completion: nil)
-//            }, onFailure: {
-//                print("TouchId access denied")
-//            }
-//        )
-//    }
+    
+    public func launchOrders(
+        fromViewController viewController: UIViewController,
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+        ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .ordersView)
+                
+                guard let ordersViewController = navController.viewControllers.last as? TradeItOrdersViewController else { return }
+                
+                ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+                
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("TouchId access denied")
+            }
+        )
+    }
 
 }

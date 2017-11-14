@@ -45,7 +45,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             adContainer: adContainer,
             rootViewController: self,
             pageType: .welcome,
-            position: .bottom
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil,
+            trackPageViewAsPageType: true
         )
 
         for bullet in bullets {

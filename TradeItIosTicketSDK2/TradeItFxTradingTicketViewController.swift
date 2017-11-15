@@ -66,7 +66,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         super.viewWillAppear(animated)
 
         guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
-            self.pushAccountSelection()
+            self.delegate?.invalidAccountSelected(
+                onFxTradingTicketViewController: self,
+                withFxOrder: self.order
+            )
             return
         }
 
@@ -541,7 +544,10 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.pushSymbolSelection()
         }
         if (errorFields.contains("account")) {
-            self.pushAccountSelection()
+            self.delegate?.invalidAccountSelected(
+                onFxTradingTicketViewController: self,
+                withFxOrder: self.order
+            )
         }
     }
 }
@@ -550,5 +556,10 @@ protocol TradeItFxTradingTicketViewControllerDelegate: class {
     func orderSuccessfullyPlaced(
         onFxTradingTicketViewController fxTradingTicketViewController: TradeItFxTradingTicketViewController,
         withPlaceOrderResult placeOrderResult: TradeItFxPlaceOrderResult
+    )
+
+    func invalidAccountSelected(
+        onFxTradingTicketViewController fxTradingTicketViewController: TradeItFxTradingTicketViewController,
+        withFxOrder order: TradeItFxOrder
     )
 }

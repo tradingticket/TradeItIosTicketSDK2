@@ -140,6 +140,27 @@ class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDeleg
 
         tradingTicketViewController.navigationController?.pushViewController(nextViewController, animated: true)
     }
+
+    internal func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
+        withOrder order: TradeItOrder
+    ) {
+        guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
+            forStoryboardId: TradeItStoryboardID.accountSelectionView
+        ) as? TradeItAccountSelectionViewController else {
+                print("TradeItSDK ERROR: Could not instantiate TradeItAccountSelectionViewController!")
+                return
+        }
+
+        guard let navigationController = tradingTicketViewController.navigationController else {
+            print("TradeItSDK ERROR: Could not get UINavigationController from TradeItTradingTicketViewController!")
+            return
+        }
+
+        self.order = order
+        accountSelectionViewController.delegate = self
+        navigationController.setViewControllers([accountSelectionViewController], animated: true)
+    }
     
     // MARK: TradeItTradePreviewViewControllerDelegate
 

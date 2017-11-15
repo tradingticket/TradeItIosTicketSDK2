@@ -107,6 +107,27 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
         fxTradingTicketViewController.navigationController?.setViewControllers([nextViewController], animated: true)
     }
 
+    internal func invalidAccountSelected(
+        onFxTradingTicketViewController fxTradingTicketViewController: TradeItFxTradingTicketViewController,
+        withFxOrder order: TradeItFxOrder
+    ) {
+        guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
+            forStoryboardId: TradeItStoryboardID.accountSelectionView
+        ) as? TradeItAccountSelectionViewController else {
+                print("TradeItSDK ERROR: Could not instantiate TradeItAccountSelectionViewController!")
+                return
+        }
+
+        guard let navigationController = fxTradingTicketViewController.navigationController else {
+            print("TradeItSDK ERROR: Could not get UINavigationController from TradeItFxTradingTicketViewController!")
+            return
+        }
+
+        self.order = order
+        accountSelectionViewController.delegate = self
+        navigationController.setViewControllers([accountSelectionViewController], animated: true)
+    }
+
     // MARK: TradeItTradingConfirmationViewControllerDelegate
 
     internal func tradeButtonWasTapped(_ tradeItTradingConfirmationViewController: TradeItTradingConfirmationViewController) {

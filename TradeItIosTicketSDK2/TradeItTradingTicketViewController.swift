@@ -75,7 +75,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         super.viewWillAppear(true)
 
         guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
-            self.showAccountSelection()
+            self.delegate?.invalidAccountSelected(
+                onTradingTicketViewController: self,
+                withOrder: self.order
+            )
             return
         }
 
@@ -93,7 +96,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                         withMessage: "The selected account does not support trading stocks. Please choose another account.",
                         withActionTitle: "OK",
                         onAlertActionTapped: {
-                            self.showAccountSelection()
+                            self.delegate?.invalidAccountSelected(
+                                onTradingTicketViewController: self,
+                                withOrder: self.order
+                            )
                         }
                     )
                     return
@@ -106,7 +112,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     withMessage: "Could not determine if this account can trade stocks. Please try again.",
                     withActionTitle: "OK",
                     onAlertActionTapped: {
-                        self.showAccountSelection()
+                        self.delegate?.invalidAccountSelected(
+                            onTradingTicketViewController: self,
+                            withOrder: self.order
+                        )
                     }
                 )
             }
@@ -124,7 +133,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .symbol:
             self.navigationController?.pushViewController(self.symbolSearchViewController, animated: true)
         case .account:
-            self.showAccountSelection()
+            self.pushAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
@@ -249,7 +258,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: Private
 
-    private func showAccountSelection() {
+    private func pushAccountSelection() {
         self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
         self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
     }
@@ -582,5 +591,10 @@ protocol TradeItTradingTicketViewControllerDelegate: class {
         onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
+
+    func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
+        withOrder order: TradeItOrder
     )
 }

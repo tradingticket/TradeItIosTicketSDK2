@@ -19,6 +19,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     private var accountDetails: [ACCOUNT_DETAIL_ROWS] = []
     private var positions: [TradeItPortfolioPosition]? = []
 
+    private var showAverageCost = true
     private var selectedPositionIndex = -1
     private var refreshControl: UIRefreshControl?
 
@@ -64,6 +65,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     func updatePositions(withPositions positions: [TradeItPortfolioPosition]?) {
         self.selectedPositionIndex = -1
         self.positions = positions
+        self.showAverageCost = (self.positions?.filter { $0.position?.costbasis == nil }.count != self.positions?.count)
         self.table?.reloadData()
     }
 
@@ -136,8 +138,9 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         if section == SECTIONS.accountDetails.rawValue {
             return nil
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_HEADER_ID") as? TradeItPortfolioEquityPositionsHeaderTableViewCell
             let header = cell?.contentView
+            cell?.avgCostLabel.isHidden = !self.showAverageCost
             TradeItThemeConfigurator.configureTableHeader(header: header)
             return header
         }
@@ -250,7 +253,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         if let position = position {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             cell.delegate = self
-            cell.populate(withPosition: position)
+            cell.populate(withPosition: position, showAverageCost: self.showAverageCost)
             cell.showPositionDetails(selected)
             return cell
         } else {

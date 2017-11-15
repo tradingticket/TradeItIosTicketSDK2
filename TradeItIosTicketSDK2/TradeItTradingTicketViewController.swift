@@ -99,7 +99,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     return
                 }
             },
-            onFailure: {
+            onFailure: { _ in
                 self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Error",

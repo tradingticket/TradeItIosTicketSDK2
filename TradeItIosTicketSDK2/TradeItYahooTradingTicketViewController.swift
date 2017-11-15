@@ -83,7 +83,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     return
                 }
             },
-            onFailure: {
+            onFailure: { _ in
                 self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Error",

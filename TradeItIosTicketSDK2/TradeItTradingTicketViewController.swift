@@ -377,7 +377,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 value: self.order.expiration.rawValue
             )
         )
-        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .null
+        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .unknown
     }
 
     private func setPreviewButtonEnablement() {

@@ -1,7 +1,7 @@
 @objc public enum TradeItMarginType: Int, RawRepresentable {
     case margin
     case cash
-    case null
+    case unknown
     
     public var rawValue: RawValue {
         switch self {
@@ -37,7 +37,7 @@
         case "cash":
             self = .cash
         default:
-            self = .null
+            self = .unknown
         }
     }
     
@@ -48,7 +48,7 @@
         case "Cash":
             return .cash
         default:
-            return .null
+            return .unknown
         }
     }
 }

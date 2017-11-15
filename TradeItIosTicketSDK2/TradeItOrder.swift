@@ -25,7 +25,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         }
     }
     public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    public var marginType: TradeItMarginType = TradeItMarginType.null
+    public var marginType: TradeItMarginType = TradeItMarginType.unknown
     public var quantity: NSDecimalNumber?
     public var limitPrice: NSDecimalNumber?
     public var stopPrice: NSDecimalNumber?

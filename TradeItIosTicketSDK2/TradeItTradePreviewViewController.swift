@@ -191,7 +191,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
-        if orderDetailsPresenter.marginType != .null {
+        if orderDetailsPresenter.marginType != .unknown {
             cells.append(ValueCellData(label: "Type", value: orderDetailsPresenter.marginType.label))
         }
 

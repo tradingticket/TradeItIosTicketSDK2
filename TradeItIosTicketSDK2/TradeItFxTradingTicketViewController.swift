@@ -50,8 +50,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         TicketRow.registerNibCells(forTableView: self.tableView)
 
-        self.updateOrderCapabilities()
-
         TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
@@ -68,15 +66,20 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         super.viewWillAppear(animated)
 
         guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
-            self.showAccountSelection()
+            self.pushAccountSelection()
+            return
+        }
+
+        guard self.order.symbol != nil else {
+            self.pushSymbolSelection()
             return
         }
 
         self.reloadTicket()
+
         self.marketDataLabel.text = nil
-        if self.order.symbol == nil {
-            self.pushSymbolSelection()
-        }
+
+        self.updateOrderCapabilities()
     }
 
     // MARK: UITableViewDelegate
@@ -88,7 +91,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .symbol:
             self.pushSymbolSelection()
         case .account:
-            self.showAccountSelection()
+            self.pushAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.actionType) { selection in
@@ -211,14 +214,13 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
-        self.updateOrderCapabilities()
         self.updateMarketData()
         _ = self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Private
 
-    private func showAccountSelection() {
+    private func pushAccountSelection() {
         self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
         self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
     }
@@ -300,14 +302,14 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.order.linkedBrokerAccount?.getPositions(
             onSuccess: { positions in
                 self.reload(row: .account)
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -512,7 +514,6 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 self.selectionViewController.onSelected = { selection in
                     self.setSymbol(selection)
                     _ = self.navigationController?.popViewController(animated: true)
-                    self.updateOrderCapabilities()
                     self.updateMarketData()
                 }
 
@@ -540,7 +541,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             self.pushSymbolSelection()
         }
         if (errorFields.contains("account")) {
-            self.showAccountSelection()
+            self.pushAccountSelection()
         }
     }
 }

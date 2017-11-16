@@ -7,17 +7,18 @@
 
 @interface TradeItBrokerAccount :  JSONModel<NSCopying>
 
-@property (nonatomic) NSString *accountBaseCurrency;
-@property (nonatomic) NSString *accountNumber;
-@property (nonatomic) NSString *accountIndex;
-@property (nonatomic) NSString *name;
+@property (nonatomic, nonnull) NSString *accountBaseCurrency;
+@property (nonatomic, nonnull) NSString *accountNumber;
+@property (nonatomic, nonnull) NSString *accountIndex;
+@property (nonatomic, nonnull) NSString *name;
 @property (nonatomic) BOOL tradable;
+@property (nonatomic, nullable) NSString<Optional> *marginType;
 
-@property (nonatomic, copy) NSArray<TradeItInstrumentOrderCapabilities> *orderCapabilities;
+@property (nonatomic, copy, nonnull) NSArray<TradeItInstrumentOrderCapabilities> *orderCapabilities;
 
-- (id)initWithAccountBaseCurrency:(NSString *)accountBaseCurrency
-                    accountNumber:(NSString *)accountNumber
-                             name:(NSString *)name
+- (id _Nonnull)initWithAccountBaseCurrency:(NSString *_Nonnull)accountBaseCurrency
+                    accountNumber:(NSString *_Nonnull)accountNumber
+                             name:(NSString *_Nonnull)name
                          tradable:(BOOL)tradable;
 
 @end

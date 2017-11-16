@@ -545,7 +545,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     LinkedBrokerAccountData(
                         name: "Individual Account",
                         number: "SINGLE-ACCT-0001",
-                        baseCurrency: "USD"
+                        baseCurrency: "USD",
+                        marginType: .unknown
                     )
                 ]
             ),

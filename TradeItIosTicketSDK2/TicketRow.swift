@@ -10,6 +10,7 @@ enum TicketRow {
     case stopPrice
     case symbol
     case marketPrice
+    case marginType
     case estimatedCost
 
     // FX
@@ -32,7 +33,7 @@ enum TicketRow {
         var cellReuseId: CellReuseId
 
         switch self {
-        case .symbol, .orderAction, .leverage, .priceType, .orderType, .expiration:
+        case .symbol, .orderAction, .leverage, .priceType, .orderType, .expiration, .marginType:
             cellReuseId = .selection
         case .estimatedCost:
             cellReuseId = .readOnly
@@ -76,6 +77,7 @@ enum TicketRow {
         case .limitPrice: return "Limit"
         case .stopPrice: return "Stop"
         case .expiration: return "Time in force"
+        case .marginType: return "Type"
         case .estimatedCost:
             let action = order.action 
             return "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"

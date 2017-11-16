@@ -39,4 +39,7 @@
 // Setting this here will be overriden
 @property (copy) NSString * token;
 
+// set the margin type to use, possible values are CASH or MARGIN or empty string if it does not apply
+@property (copy) NSString * marginType;
+
 @end

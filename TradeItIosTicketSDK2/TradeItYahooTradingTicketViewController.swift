@@ -27,7 +27,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let selectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooSelectionView
         ) as? TradeItYahooSelectionViewController else {
-            assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
+            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooSelectionViewController from storyboard")
             return
         }
 
@@ -36,7 +36,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let accountSelectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooAccountSelectionView
         ) as? TradeItYahooAccountSelectionViewController else {
-            assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
+            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
             return
         }
 
@@ -59,7 +59,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         super.viewWillAppear(true)
 
         guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
-            self.showAccountSelection()
+            self.delegate?.invalidAccountSelected(
+                onTradingTicketViewController: self,
+                withOrder: self.order
+            )
             return
         }
 
@@ -77,7 +80,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                         withMessage: "The selected account does not support trading stocks. Please choose another account.",
                         withActionTitle: "OK",
                         onAlertActionTapped: {
-                            self.showAccountSelection()
+                            self.delegate?.invalidAccountSelected(
+                                onTradingTicketViewController: self,
+                                withOrder: self.order
+                            )
                         }
                     )
                     return
@@ -90,7 +96,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     withMessage: "Could not determine if this account can trade stocks. Please try again.",
                     withActionTitle: "OK",
                     onAlertActionTapped: {
-                        self.showAccountSelection()
+                        self.delegate?.invalidAccountSelected(
+                            onTradingTicketViewController: self,
+                            withOrder: self.order
+                        )
                     }
                 )
             }
@@ -111,7 +120,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         switch ticketRow {
         case .account:
-            self.showAccountSelection()
+            self.pushAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
@@ -229,7 +238,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     // MARK: Private
 
-    private func showAccountSelection() {
+    private func pushAccountSelection() {
         self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
         self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
     }
@@ -299,7 +308,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 }
                 self.updateMarketData()
                 self.reloadTicket()
-        },
+            },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -308,7 +317,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
-        },
+            },
             onFailure: { error in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
@@ -316,7 +325,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
     
@@ -582,5 +591,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
+
+    func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        withOrder order: TradeItOrder
     )
 }

@@ -74,12 +74,52 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
-        if (!isChosenAccountEnabled) {
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
+            self.delegate?.invalidAccountSelected(
+                onTradingTicketViewController: self,
+                withOrder: self.order
+            )
             return
         }
+
+        // Check if selected account supports trading equities
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == self.order.linkedBrokerAccount?.linkedBroker?.brokerName
+                    }
+                ), broker.equityServices()?.supportsTrading == true else {
+                    self.alertManager.showAlertWithMessageOnly(
+                        onViewController: self,
+                        withTitle: "Unsupported Account",
+                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
+                        withActionTitle: "OK",
+                        onAlertActionTapped: {
+                            self.delegate?.invalidAccountSelected(
+                                onTradingTicketViewController: self,
+                                withOrder: self.order
+                            )
+                        }
+                    )
+                    return
+                }
+            },
+            onFailure: { _ in
+                self.alertManager.showAlertWithMessageOnly(
+                    onViewController: self,
+                    withTitle: "Error",
+                    withMessage: "Could not determine if this account can trade stocks. Please try again.",
+                    withActionTitle: "OK",
+                    onAlertActionTapped: {
+                        self.delegate?.invalidAccountSelected(
+                            onTradingTicketViewController: self,
+                            withOrder: self.order
+                        )
+                    }
+                )
+            }
+        )
 
         self.reloadTicket()
     }
@@ -93,8 +133,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .symbol:
             self.navigationController?.pushViewController(self.symbolSearchViewController, animated: true)
         case .account:
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            self.pushAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
@@ -219,6 +258,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: Private
 
+    private func pushAccountSelection() {
+        self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
+        self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+    }
+
     private func selectedAccountChanged() {
         self.updateOrderCapabilities()
     }
@@ -306,9 +350,24 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
 
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.action = TradeItOrderAction(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .actions,
+                value: self.order.action.rawValue
+            )
+        )
+        self.order.type = TradeItOrderPriceType(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .priceTypes,
+                value: self.order.type.rawValue
+            )
+        )
+        self.order.expiration = TradeItOrderExpiration(
+            value: self.orderCapabilities?.defaultValueFor(
+                field: .expirationTypes,
+                value: self.order.expiration.rawValue
+            )
+        )
     }
 
     private func setPreviewButtonEnablement() {
@@ -532,5 +591,10 @@ protocol TradeItTradingTicketViewControllerDelegate: class {
         onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
+
+    func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
+        withOrder order: TradeItOrder
     )
 }

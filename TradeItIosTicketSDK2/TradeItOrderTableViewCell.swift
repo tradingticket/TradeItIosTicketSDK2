@@ -6,40 +6,35 @@ class TradeItOrderTableViewCell: UITableViewCell {
     @IBOutlet weak var expirationLabel: UILabel!
     @IBOutlet weak var orderTypeDescriptionLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
-
-    @IBOutlet weak var symbolLeadingSpaceConstraint: NSLayoutConstraint!
-    @IBOutlet weak var descriptionLeadingSpaceConstraint: NSLayoutConstraint!
-    
-    private static let LEADING_SPACE_ORDER_CELL = CGFloat(5.0)
-    private static let LEADING_SPACE_GROUP_ORDER_CELL = CGFloat(15.0)
+    @IBOutlet weak var indentationIconView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        TradeItThemeConfigurator.configure(view: self)
     }
     
     func populate(
-        withOrder orderStatusDetails: TradeItOrderStatusDetails,
-        andOrderLeg orderLeg: TradeItOrderLeg,
-        isGroupOrder: Bool = false
+        withOrderStatusDetailsPresenter orderStatusPresenter: TradeItOrderStatusDetailsPresenter
     ) {
-        let orderStatusPresenter = TradeItOrderStatusDetailsPresenter(
-            orderStatusDetails: orderStatusDetails,
-            orderLeg: orderLeg
-        )
-
         self.symbolLabel?.text = orderStatusPresenter.getSymbol()
         self.descriptionLabel?.text = orderStatusPresenter.getFormattedDescription()
         self.expirationLabel.text = orderStatusPresenter.getFormattedExpiration()
         self.orderTypeDescriptionLabel.text = orderStatusPresenter.getFormattededOrderTypeDescription()
-        self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
-
-        if isGroupOrder {
-            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
-            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_GROUP_ORDER_CELL
+        if !orderStatusPresenter.belongsToOpenCategory() {
+            self.statusLabel.text = orderStatusPresenter.getFormattedStatus()
         } else {
-            self.symbolLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
-            self.descriptionLeadingSpaceConstraint.constant = TradeItOrderTableViewCell.LEADING_SPACE_ORDER_CELL
+            self.statusLabel.text = ""
+        }
+
+        if orderStatusPresenter.isGroupOrderChild {
+            self.indentationIconView.isHidden = false
+        } else {
+            self.indentationIconView.isHidden = true
+        }
+        
+        if orderStatusPresenter.isCancelable() {
+            self.contentView.alpha = 1.0
+        } else {
+            self.contentView.alpha = 0.6
         }
     }
     

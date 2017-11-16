@@ -22,7 +22,7 @@ class TradeItYahooOAuthCompletionUIFlow: NSObject, TradeItYahooOAuthCompletionVi
         let navController = TradeItYahooNavigationController()
 
         guard let oAuthCompletionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooOAuthCompletionView) as? TradeItYahooOAuthCompletionViewController else {
-            return print("TradeItSDK ERROR: Could not instantiate TradeItYahooOAuthCompletionViewController!")
+            return print("TradeItSDK ERROR: Could not instantiate TradeItYahooOAuthCompletionViewController from storyboard!")
         }
 
         oAuthCompletionViewController.delegate = self

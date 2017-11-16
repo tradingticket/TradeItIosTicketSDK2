@@ -99,6 +99,13 @@ import UIKit
         }
     }
 
+    private static var _isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
+    public static var isDeviceJailbroken: Bool {
+        get {
+            return _isDeviceJailbroken
+        }
+    }
+    
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
         TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
@@ -132,7 +139,7 @@ import UIKit
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
             return
         }
-
+        
         self.configured = true
 
         TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory ?? DefaultRequestFactory())

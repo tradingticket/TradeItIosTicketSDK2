@@ -37,19 +37,50 @@ internal extension TradeItOrderLeg {
 
 class TradeItOrderStatusDetailsPresenter: NSObject {
     private var orderStatusDetails: TradeItOrderStatusDetails
-    private var orderLeg: TradeItOrderLeg
-
-    public var orderIsCancelable: Bool {
-        return orderStatusDetails.orderStatusEnum.cancelable
+    private var orderLeg: TradeItOrderLeg?
+    private var _isGroupOrderHeader: Bool
+    private var _isGroupOrderChild: Bool
+    
+    public var isGroupOrderHeader: Bool {
+            return self._isGroupOrderHeader
     }
-
-    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg) {
+    
+    public var isGroupOrderChild: Bool {
+        return self._isGroupOrderChild
+    }
+    
+    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg?, isGroupOrderHeader: Bool = false, isGroupOrderChild: Bool = false) {
         self.orderStatusDetails = orderStatusDetails
         self.orderLeg = orderLeg
+        self._isGroupOrderHeader = isGroupOrderHeader
+        self._isGroupOrderChild = isGroupOrderChild
     }
-
+    
+    func getOrderNumber() -> String? {
+        if self.isGroupOrderHeader {
+            return self.orderStatusDetails.groupOrderId
+        } else {
+            return self.orderStatusDetails.orderNumber
+        }
+    }
+    
+    func getGroupOrderHeaderTitle() -> String {
+        guard let groupOrderType = self.orderStatusDetails.groupOrderType, isGroupOrderHeader else {
+            return ""
+        }
+        return "Group order: \(formatEnum(string: groupOrderType))"
+    }
+    
+    func isCancelable() -> Bool {
+        return self.orderStatusDetails.isCancellable() && !self.isGroupOrderChild
+    }
+    
+    func belongsToOpenCategory() -> Bool {
+        return self.orderStatusDetails.belongsToOpenCategory()
+    }
+    
     func getSymbol() -> String {
-        guard let symbol = self.orderLeg.symbol else {
+        guard let symbol = self.orderLeg?.symbol else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER
         }
 
@@ -57,17 +88,17 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     }
     
     func getFormattedDescription() -> String {
-        let action = formatEnum(string: self.orderLeg.action)
-        let orderPriceType = self.orderLeg.priceInfo?.priceTypeEnum ?? .unknown
+        let action = formatEnum(string: self.orderLeg?.action)
+        let orderPriceType = self.orderLeg?.priceInfo?.priceTypeEnum ?? .unknown
 
         var description: String = "\(action)"
 
         if (self.orderStatusDetails.orderStatusEnum == .filled) {
-            let filledQuantity = self.orderLeg.filledQuantity ?? 0
-            let filledPrice = self.orderLeg.fills?[safe: 0]?.price ?? 0
+            let filledQuantity = self.orderLeg?.filledQuantity ?? 0
+            let filledPrice = self.orderLeg?.fills?[safe: 0]?.price ?? 0
             description += " \(getFormattedQuantity(quantity: filledQuantity)) shares at \(getFormattedPrice(price:filledPrice))"
         } else {
-            let orderedQuantity = self.orderLeg.orderedQuantity ?? 0
+            let orderedQuantity = self.orderLeg?.orderedQuantity ?? 0
             description += " \(getFormattedQuantity(quantity: orderedQuantity))"
 
             switch orderPriceType {
@@ -75,11 +106,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
                 description += " shares at market price"
                 break
             case .limit:
-                let limitPrice = self.orderLeg.priceInfo?.limitPrice ?? 0
+                let limitPrice = self.orderLeg?.priceInfo?.limitPrice ?? 0
                 description += " shares at \(getFormattedPrice(price:limitPrice))"
                 break
             case .stopLimit:
-                let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
+                let stopPrice = self.orderLeg?.priceInfo?.stopPrice ?? 0
                 description += " shares at \(getFormattedPrice(price:stopPrice))"
                 break
             default: break
@@ -90,17 +121,17 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     }
     
     func getFormattededOrderTypeDescription() -> String {
-        let action = self.orderLeg.actionEnum
-        let orderPriceType = self.orderLeg.priceInfo?.priceTypeEnum ?? .unknown
+        let action = self.orderLeg?.actionEnum
+        let orderPriceType = self.orderLeg?.priceInfo?.priceTypeEnum ?? .unknown
         var description: String = ""
 
         switch orderPriceType {
         case .stopLimit, .stop:
-            let stopPrice = self.orderLeg.priceInfo?.stopPrice ?? 0
+            let stopPrice = self.orderLeg?.priceInfo?.stopPrice ?? 0
             description = "Trigger: \(stopPrice == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
             break
         case .trailingStopDollar:
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0
             let trailPriceDollars = getFormattedPrice(price: trailPrice)
 
             if (action == .buy) {
@@ -108,10 +139,9 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             } else {
                 description = "If price drops by \(trailPriceDollars)"
             }
-
             break
         case .trailingStopPercent:
-            let trailPrice = self.orderLeg.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0
             let trailPricePercentage = getFormattedPercentage(percentage: trailPrice)
 
             if (action == .buy) {
@@ -131,7 +161,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
         switch orderStatus  {
         case .filled:
-            let timestamp = getFormattedTimestamp(timestamp: self.orderLeg.fills?[safe: 0]?.timestamp ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER)
+            let timestamp = getFormattedTimestamp(timestamp: self.orderLeg?.fills?[safe: 0]?.timestamp ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER)
             return "Filled at \(timestamp)"
         default:
             return formatEnum(string: self.orderStatusDetails.orderExpiration)
@@ -149,6 +179,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         }
     }
     
+    // MARK: private
     private func formatEnum(string: String?) -> String {
         guard let string = string else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER

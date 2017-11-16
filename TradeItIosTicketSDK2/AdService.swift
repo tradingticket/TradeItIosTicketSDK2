@@ -5,14 +5,6 @@ import UIKit
         adContainer: UIView,
         rootViewController: UIViewController,
         pageType: TradeItAdPageType,
-        position: TradeItAdPosition
-    )
-
-    // Obj-C compatibility helper
-    @objc optional func populate(
-        adContainer: UIView,
-        rootViewController: UIViewController,
-        pageType: TradeItAdPageType,
         position: TradeItAdPosition,
         broker: String?,
         symbol: String?,
@@ -30,6 +22,8 @@ import UIKit
     case welcome
     case link
     case general
+    case brokerList
+    case preview
 
     // Woe is me - Obj-C backwards compatibility
     public static func labelFor(_ pageType: TradeItAdPageType) -> String {
@@ -42,6 +36,8 @@ import UIKit
         case .trading: return "trading"
         case .watchlist: return "watchlist"
         case .welcome: return "welcome"
+        case .brokerList: return "brokerList"
+        case .preview: return "preview"
         }
     }
 }
@@ -64,22 +60,6 @@ import UIKit
 }
 
 @objc public class DefaultAdService: NSObject, AdService {
-    public func populate(
-        adContainer: UIView,
-        rootViewController: UIViewController,
-        pageType: TradeItAdPageType,
-        position: TradeItAdPosition
-    ) {
-        self.populate(
-            adContainer: adContainer,
-            rootViewController: rootViewController,
-            pageType: pageType,
-            position: position,
-            broker: nil,
-            symbol: nil,
-            instrumentType: nil
-        )
-    }
 
     public func populate(
         adContainer: UIView,
@@ -89,7 +69,7 @@ import UIKit
         broker: String?,
         symbol: String?,
         instrumentType: String?,
-        trackPageViewAsPageType: Bool = true
+        trackPageViewAsPageType: Bool
     ) {
         adContainer.isHidden = true
         guard let constraint = (adContainer.constraints.filter { $0.firstAttribute == .height }.first) else { return }

@@ -26,7 +26,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
         self.tableViewManager.initiateRefresh()
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: self.adContainer,
             rootViewController: self,
             pageType: .portfolio,
@@ -38,21 +38,24 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         )
     }
     
-    @IBAction func activityTapped(_ sender: Any) {
-//        Remove link to order screen waiting to fix remaining issues
-//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+    @IBAction func activityTapped(_ sender: UIButton) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-//        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
-//        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        alertController.addAction(ordersAction)
-//        alertController.addAction(tradeAction)
-//        alertController.addAction(cancelAction)
-//
-//        self.present(alertController, animated: true, completion: nil)
-        //Just put back the trade action
-        let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
+        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(ordersAction)
+        alertController.addAction(tradeAction)
+        alertController.addAction(cancelAction)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad,
+            let popoverPresentationController = alertController.popoverPresentationController
+             {
+            popoverPresentationController.sourceRect = sender.frame
+            popoverPresentationController.sourceView = self.view
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {

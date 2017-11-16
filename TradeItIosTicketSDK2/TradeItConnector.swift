@@ -32,6 +32,16 @@ internal extension TradeItConnector {
         _ request: URLRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult, String?) -> Void
     ) {
+        guard !TradeItSDK.isDeviceJailbroken else {
+            completionBlock(
+                TradeItErrorResult(
+                    title: "This device is jailbroken",
+                    message: "This action is not allowed on a jailbroken device"
+                ), ""
+            )
+            return
+        }
+        
         if LOG_TRAFFIC {
             let requestBodyString = String(data: request.httpBody ?? Data(), encoding: String.Encoding.utf8)
             print("\n===== REQUEST =====\n\(request.url?.absoluteString ?? "NO URL!")\n\(requestBodyString ?? "NO BODY!")\n")

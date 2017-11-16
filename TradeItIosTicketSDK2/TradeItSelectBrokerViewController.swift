@@ -34,15 +34,15 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
         self.populateBrokers()
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
-            pageType: .link,
+            pageType: .brokerList,
             position: .bottom,
             broker: nil,
             symbol: nil,
             instrumentType: nil,
-            trackPageViewAsPageType: false
+            trackPageViewAsPageType: true
         )
         
         if !showOpenAccountButton {
@@ -86,11 +86,11 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
                 self.activityView?.hide(animated: true)
                 self.brokerTable.reloadData()
             },
-            onFailure: {
+            onFailure: { error in
                 self.alertManager.showAlertWithMessageOnly(
                     onViewController: self,
                     withTitle: "Could not fetch brokers",
-                    withMessage: "Could not fetch the brokers list. Please try again later.",
+                    withMessage: error.message,
                     withActionTitle: "OK"
                 )
 

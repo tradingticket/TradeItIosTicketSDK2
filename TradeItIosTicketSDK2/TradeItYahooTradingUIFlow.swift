@@ -100,6 +100,27 @@ TradeItYahooTradePreviewViewControllerDelegate {
         }
     }
 
+    internal func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        withOrder order: TradeItOrder
+    ) {
+        guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
+            forStoryboardId: TradeItStoryboardID.yahooAccountSelectionView
+        ) as? TradeItYahooAccountSelectionViewController else {
+                print("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard!")
+                return
+        }
+
+        guard let navigationController = tradingTicketViewController.navigationController else {
+            print("TradeItSDK ERROR: Could not get UINavigationController from TradeItYahooTradingTicketViewController!")
+            return
+        }
+
+        self.order = order
+        accountSelectionViewController.delegate = self
+        navigationController.setViewControllers([accountSelectionViewController], animated: true)
+    }
+
     // MARK: TradeItYahooTradingConfirmationViewControllerDelegate
 
     internal func viewPortfolioTapped(

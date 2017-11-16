@@ -90,10 +90,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         }
     }
     
-    func cancelActionWasTapped(forOrderNumber orderNumber: String) {
+    func cancelActionWasTapped(forOrderNumber orderNumber: String, message: String) {
         let proceedCancellation: () -> Void = {
             let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
-            activityView.label.text = "Canceling order"
+            activityView.label.text = "Canceling"
             self.linkedBrokerAccount?.cancelOrder(
                 orderNumber: orderNumber,
                 onSuccess: {
@@ -122,7 +122,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.alertManager.showAlertWithMessageOnly(
             onViewController: self,
             withTitle: "Are you sure?",
-            withMessage: "Please confirm you are canceling this order.",
+            withMessage: message,
             withActionTitle: "Proceed",
             withCancelTitle: "Back",
             errorToReport: nil,

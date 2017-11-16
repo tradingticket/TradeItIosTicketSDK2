@@ -114,7 +114,7 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
         guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
             forStoryboardId: TradeItStoryboardID.accountSelectionView
         ) as? TradeItAccountSelectionViewController else {
-                print("TradeItSDK ERROR: Could not instantiate TradeItAccountSelectionViewController!")
+                print("TradeItSDK ERROR: Could not instantiate TradeItAccountSelectionViewController from storyboard!")
                 return
         }
 

@@ -27,7 +27,7 @@ import SafariServices
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
         guard let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .yahooBrokerSelectionView) as? TradeItYahooBrokerSelectionViewController else {
-            print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController!")
+            print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController from storyboard!")
             return
         }
 
@@ -51,7 +51,7 @@ import SafariServices
         let navController = TradeItYahooNavigationController()
 
         guard let brokerSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooBrokerSelectionView) as? TradeItYahooBrokerSelectionViewController else {
-            return print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController!")
+            return print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController from storyboard!")
         }
 
         brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl

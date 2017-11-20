@@ -37,6 +37,26 @@ class YahooAction: Action {
     }
 }
 
+@objc public class ExampleAdService: NSObject, AdService {
+
+    public func populate(
+        adContainer: UIView,
+        rootViewController: UIViewController,
+        pageType: TradeItAdPageType,
+        position: TradeItAdPosition,
+        broker: String?,
+        symbol: String?,
+        instrumentType: String?,
+        trackPageViewAsPageType: Bool
+    ) {
+        let viewControllerName = String(describing: type(of: rootViewController))
+        print("=====> ExampleAdService.populate(_,_,_,_,_,_,_,_) called on \(viewControllerName)")
+
+        adContainer.isHidden = false
+        adContainer.backgroundColor = UIColor.magenta
+    }
+}
+
 class ExampleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TradeItOAuthDelegate {
     @IBOutlet weak var table: UITableView!
 
@@ -178,20 +198,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             TradeItSDK.launcher.launchPortfolio(fromViewController: self.advancedViewController, forAccountNumber: "SINGLE-ACCT-0001")
                         }
                     ),
-//                    Temporary remove order screen waitin remaining issues to be fixed
-//                    Action(
-//                        label: "Orders for first linked broker account",
-//                        action: {
-//                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
-//                                return print("=====> You must link a broker with an account first")
-//                            }
-//
-//                            TradeItSDK.launcher.launchOrders(
-//                                fromViewController: self.advancedViewController,
-//                                forLinkedBrokerAccount: linkedBrokerAccount
-//                            )
-//                        }
-//                    ),
+                    Action(
+                        label: "Orders for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+                            
+                            TradeItSDK.launcher.launchOrders(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
                     Action(
                         label: "Trading",
                         action: {
@@ -266,6 +285,22 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "Alert Queue",
                         action: self.launchAlertQueue
+                    ),
+                    Action(
+                        label: "Toggle Ads",
+                        action: {
+                            TradeItSDK.isAdServiceEnabled = !TradeItSDK.isAdServiceEnabled
+
+                            TradeItSDK.adService =
+                                TradeItSDK.isAdServiceEnabled ? ExampleAdService() : DefaultAdService()
+
+                            self.alertManager.showAlertWithMessageOnly(
+                                onViewController: self.advancedViewController,
+                                withTitle: "Toggle Ads",
+                                withMessage: "Ads are now: \(TradeItSDK.isAdServiceEnabled ? "on" : "off")",
+                                withActionTitle: "OK"
+                            )
+                        }
                     )
                 ]
             ),
@@ -393,7 +428,20 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 }
                             )
                         }
-                    )
+                    ),
+                    YahooAction(
+                        label: "Launch Orders for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+
+                            TradeItSDK.yahooLauncher.launchOrders(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    ),
                 ]
             )
         ]
@@ -497,7 +545,8 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     LinkedBrokerAccountData(
                         name: "Individual Account",
                         number: "SINGLE-ACCT-0001",
-                        baseCurrency: "USD"
+                        baseCurrency: "USD",
+                        marginType: .unknown
                     )
                 ]
             ),

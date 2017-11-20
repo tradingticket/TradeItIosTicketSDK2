@@ -2,6 +2,10 @@ class TradeItOrderDetailsPresenter {
     private var orderDetails: TradeItPreviewTradeOrderDetails
     private var orderCapabilities: TradeItInstrumentOrderCapabilities?
 
+    var marginType: TradeItMarginType {
+        return TradeItMarginType(value: self.orderDetails.marginType)
+    }
+
     init(orderDetails: TradeItPreviewTradeOrderDetails, orderCapabilities: TradeItInstrumentOrderCapabilities?) {
         self.orderDetails = orderDetails
         self.orderCapabilities = orderCapabilities
@@ -14,6 +18,7 @@ class TradeItOrderDetailsPresenter {
     func getOrderActionLabel() -> String {
         return self.orderCapabilities?.labelFor(field: .actions, value: self.orderDetails.orderAction) ?? "Unknown"
     }
+    
 }
 
 class TradeItOrderPriceTypePresenter {

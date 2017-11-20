@@ -20,7 +20,7 @@ class TradeItOrderPreviewPresenter {
         request.orderSymbol = symbol()
         request.orderLimitPrice = order.limitPrice
         request.orderStopPrice = order.stopPrice
-
+        request.marginType = order.marginType.rawValue
         return request
     }
 

@@ -27,7 +27,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let selectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooSelectionView
         ) as? TradeItYahooSelectionViewController else {
-            assertionFailure("ERROR: Could not instantiate TradeItSelectionViewController from storyboard")
+            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooSelectionViewController from storyboard")
             return
         }
 
@@ -36,7 +36,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let accountSelectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooAccountSelectionView
         ) as? TradeItYahooAccountSelectionViewController else {
-            assertionFailure("ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
+            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
             return
         }
 
@@ -58,12 +58,52 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        let isChosenAccountEnabled = self.order.linkedBrokerAccount?.isEnabled ?? false
-        if (!isChosenAccountEnabled) {
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+        guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
+            self.delegate?.invalidAccountSelected(
+                onTradingTicketViewController: self,
+                withOrder: self.order
+            )
             return
         }
+
+        // Check if selected account supports trading equities
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == self.order.linkedBrokerAccount?.linkedBroker?.brokerName
+                    }
+                ), broker.equityServices()?.supportsTrading == true else {
+                    self.alertManager.showAlertWithMessageOnly(
+                        onViewController: self,
+                        withTitle: "Unsupported Account",
+                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
+                        withActionTitle: "OK",
+                        onAlertActionTapped: {
+                            self.delegate?.invalidAccountSelected(
+                                onTradingTicketViewController: self,
+                                withOrder: self.order
+                            )
+                        }
+                    )
+                    return
+                }
+            },
+            onFailure: { _ in
+                self.alertManager.showAlertWithMessageOnly(
+                    onViewController: self,
+                    withTitle: "Error",
+                    withMessage: "Could not determine if this account can trade stocks. Please try again.",
+                    withActionTitle: "OK",
+                    onAlertActionTapped: {
+                        self.delegate?.invalidAccountSelected(
+                            onTradingTicketViewController: self,
+                            withOrder: self.order
+                        )
+                    }
+                )
+            }
+        )
 
         self.reloadTicket()
     }
@@ -80,8 +120,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         switch ticketRow {
         case .account:
-            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
-            self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+            self.pushAccountSelection()
         case .orderAction:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
@@ -103,6 +142,15 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             }
             
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
+        case .marginType:
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.initialSelection = self.order.marginType.label
+            self.selectionViewController.selections = [TradeItMarginType.margin.label, TradeItMarginType.cash.label]
+            self.selectionViewController.onSelected = { selection in
+                self.order.marginType = TradeItMarginType.valueFor(label: selection)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            self.navigationController?.pushViewController(selectionViewController, animated: true)
         default:
             return
         }
@@ -199,6 +247,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     // MARK: Private
 
+    private func pushAccountSelection() {
+        self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
+        self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
+    }
+
     private func selectedAccountChanged() {
         self.updateOrderCapabilities()
     }
@@ -264,7 +317,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 }
                 self.updateMarketData()
                 self.reloadTicket()
-        },
+            },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -273,7 +326,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
-        },
+            },
             onFailure: { error in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
@@ -281,7 +334,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
     
@@ -289,6 +342,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .unknown
     }
 
 
@@ -347,6 +401,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         }
 
         ticketRows.append(.marketPrice)
+        
+        if self.order.requireMarginType() {
+            ticketRows.append(.marginType)
+        }
+        
         ticketRows.append(.estimatedCost)
 
         self.ticketRows = ticketRows
@@ -417,6 +476,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 ),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
+        case .marginType:
+            cell.detailTextLabel?.text = self.order.marginType.label
         case .estimatedCost:
             var estimateChangeText = "N/A"
 
@@ -493,6 +554,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         case limitPrice
         case stopPrice
         case marketPrice
+        case marginType
         case estimatedCost
 
         private enum CellReuseId: String {
@@ -507,7 +569,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             var cellReuseId: CellReuseId
 
             switch self {
-            case .orderAction, .orderType, .expiration:
+            case .orderAction, .orderType, .expiration, .marginType:
                 cellReuseId = .selection
             case .estimatedCost:
                 cellReuseId = .readOnly
@@ -537,6 +599,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .expiration: return "Time in force"
             case .marketPrice: return "Market price"
             case .account: return "Accounts"
+            case .marginType: return "Type"
             }
         }
     }
@@ -547,5 +610,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
+    )
+
+    func invalidAccountSelected(
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        withOrder order: TradeItOrder
     )
 }

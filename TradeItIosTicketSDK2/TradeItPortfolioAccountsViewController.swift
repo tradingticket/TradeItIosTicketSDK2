@@ -15,7 +15,16 @@ class TradeItPortfolioAccountsViewController: TradeItViewController, TradeItPort
 
         self.accountsTableViewManager.delegate = self
         self.accountsTableViewManager.accountsTable = self.accountsTable
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .portfolio, position: .bottom)
+        TradeItSDK.adService.populate(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .portfolio,
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil,
+            trackPageViewAsPageType: true
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -112,6 +112,8 @@
  */
 @property (nonatomic, nullable, copy) NSNumber<Optional> *estimatedTotalValue;
 
+@property (nonatomic, nullable, copy) NSString<Optional> *marginType;
+
 @property (nonatomic, nullable, copy) NSArray<TradeItPreviewMessage *> <Optional, TradeItPreviewMessage> *warnings;
 
 @end

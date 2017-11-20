@@ -24,15 +24,14 @@ import UIKit
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Tmp: remove order status button : replaced by portfolio
-        self.viewOrderStatusButton.setTitle("View Portfolio", for: .normal)
+
         self.viewOrderStatusButton.isHidden = !TradeItSDK.isPortfolioEnabled
 
         self.timeStampLabel.text = self.timestamp
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"
         self.confirmationTextLabel.text = confirmationMessage
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
             pageType: .confirmation,
@@ -50,19 +49,14 @@ import UIKit
     }
     
     @IBAction func orderStatusButtonWasTapped(_ sender: Any) {
-//        Temporary remove order screen and put back portfolio
-//        guard let order = self.order
-//            , let linkedBrokerAccount = order.linkedBrokerAccount else {
-//            return
-//        }
-//        if let navigationController = self.navigationController {
-//            guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
-//            ordersViewController.linkedBrokerAccount = linkedBrokerAccount
-//            navigationController.setViewControllers([ordersViewController], animated: true)
-//        }
+        guard let order = self.order
+            , let linkedBrokerAccount = order.linkedBrokerAccount else {
+            return
+        }
         if let navigationController = self.navigationController {
-            let portfolioViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.portfolioAccountsView)
-            navigationController.setViewControllers([portfolioViewController], animated: true)
+            guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
+            ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+            navigationController.setViewControllers([ordersViewController], animated: true)
         }
     }
 

@@ -60,15 +60,15 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
         )
 
-        TradeItSDK.adService.populate?(
+        TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,
-            pageType: .trading,
+            pageType: .preview,
             position: .bottom,
-            broker: nil,
-            symbol: nil,
-            instrumentType: nil,
-            trackPageViewAsPageType: false
+            broker: linkedBrokerAccount?.brokerName,
+            symbol: previewOrderResult?.orderDetails?.orderSymbol,
+            instrumentType: TradeItTradeInstrumentType.equities.rawValue,
+            trackPageViewAsPageType: true
         )
     }
 
@@ -190,6 +190,10 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
+
+        if orderDetailsPresenter.marginType != .unknown {
+            cells.append(ValueCellData(label: "Type", value: orderDetailsPresenter.marginType.label))
+        }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: formatCurrency(estimatedOrderCommission)))

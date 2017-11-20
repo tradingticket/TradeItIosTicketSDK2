@@ -27,6 +27,7 @@ class TradeItLinkedBrokerCache {
                 accountNumber: cachedAccount.accountNumber,
                 accountIndex: cachedAccount.accountIndex,
                 accountBaseCurrency: cachedAccount.accountBaseCurrency,
+                marginType: TradeItMarginType(value: cachedAccount.marginType),
                 balanceLastUpdated: cachedAccount.balanceLastUpdated,
                 balance: cachedAccount.balance,
                 fxBalance: cachedAccount.fxBalance,

@@ -18,7 +18,16 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         self.accountSelectionTableManager.delegate = self
         self.accountSelectionTableManager.accountsTable = self.accountsTableView
 
-        TradeItSDK.adService.populate(adContainer: adContainer, rootViewController: self, pageType: .general, position: .bottom)
+        TradeItSDK.adService.populate(
+            adContainer: adContainer,
+            rootViewController: self,
+            pageType: .general,
+            position: .bottom,
+            broker: nil,
+            symbol: nil,
+            instrumentType: nil,
+            trackPageViewAsPageType: true
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

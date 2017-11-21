@@ -968,24 +968,6 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGy-W4-ZtK">
-                            <rect key="frame" x="10" y="122" width="220" height="40"/>
-                            <color key="backgroundColor" red="0.017085177823901176" green="0.56712824106216431" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="2uS-2H-V9D"/>
-                            </constraints>
-                            <state key="normal" title="Trade">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="4"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="tradeButtonWasTapped:" destination="76Z-J7-sWb" eventType="touchUpInside" id="fLF-pj-lgH"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No recent orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VO0-C1-KrF">
                             <rect key="frame" x="53" y="35" width="135" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -995,13 +977,9 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="8N4-6I-Cwe"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="top" secondItem="VO0-C1-KrF" secondAttribute="bottom" constant="8" id="AtZ-RI-p05"/>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="top" secondItem="V7q-vq-fOz" secondAttribute="bottom" constant="15" id="BMN-mj-PPn"/>
                         <constraint firstItem="VO0-C1-KrF" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="Fya-It-mkq"/>
-                        <constraint firstAttribute="trailing" secondItem="aGy-W4-ZtK" secondAttribute="trailing" constant="10" id="Ggb-qI-sk5"/>
                         <constraint firstAttribute="trailing" secondItem="V7q-vq-fOz" secondAttribute="trailing" constant="10" id="cYY-Uq-H48"/>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="dH5-Er-lZU"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="centerY" secondItem="oXo-0g-ZwI" secondAttribute="centerY" id="iJa-rf-SxE"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="rUb-VB-bnW"/>
                     </constraints>

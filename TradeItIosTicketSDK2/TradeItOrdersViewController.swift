@@ -5,7 +5,6 @@ import MBProgressHUD
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
-    let tradingUIFlow = TradeItTradingUIFlow()
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
@@ -28,13 +27,6 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         super.viewWillAppear(animated)
         
         self.loadOrders()
-    }
-    
-    //MARK: IBAction
-    
-    @IBAction func tradeButtonWasTapped(_ sender: Any) {
-        let order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: TradeItOrdersTableDelegate

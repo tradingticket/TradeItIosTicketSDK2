@@ -51,12 +51,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
-        
-        self.updateOrderCapabilities()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fireViewEventNotification(view: .trading, title: self.title)
 
         guard self.order.linkedBrokerAccount?.isEnabled ?? false else {
             self.delegate?.invalidAccountSelected(
@@ -66,51 +65,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             return
         }
 
-        // Check if selected account supports trading equities
-        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
-            onSuccess: { brokers in
-                guard let broker = brokers.first(
-                    where: { broker in
-                        return broker.shortName == self.order.linkedBrokerAccount?.linkedBroker?.brokerName
-                    }
-                ), broker.equityServices()?.supportsTrading == true else {
-                    self.alertManager.showAlertWithMessageOnly(
-                        onViewController: self,
-                        withTitle: "Unsupported Account",
-                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
-                        withActionTitle: "OK",
-                        onAlertActionTapped: {
-                            self.delegate?.invalidAccountSelected(
-                                onTradingTicketViewController: self,
-                                withOrder: self.order
-                            )
-                        }
-                    )
-                    return
-                }
-            },
-            onFailure: { _ in
-                self.alertManager.showAlertWithMessageOnly(
-                    onViewController: self,
-                    withTitle: "Error",
-                    withMessage: "Could not determine if this account can trade stocks. Please try again.",
-                    withActionTitle: "OK",
-                    onAlertActionTapped: {
-                        self.delegate?.invalidAccountSelected(
-                            onTradingTicketViewController: self,
-                            withOrder: self.order
-                        )
-                    }
-                )
-            }
-        )
-
-        self.reloadTicket()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.fireViewEventNotification(view: .trading, title: self.title)
+        self.updateOrderCapabilities()
     }
 
     // MARK: UITableViewDelegate
@@ -239,7 +194,6 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         _ = self.navigationController?.popViewController(animated: true)
-        self.selectedAccountChanged()
     }
 
     // MARK: Private
@@ -247,10 +201,6 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     private func pushAccountSelection() {
         self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
         self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
-    }
-
-    private func selectedAccountChanged() {
-        self.updateOrderCapabilities()
     }
     
     private func updateAccountOverview() {
@@ -305,7 +255,22 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                self.orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first
+                guard let orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                    self.alertManager.showAlertWithMessageOnly(
+                        onViewController: self,
+                        withTitle: "Unsupported Account",
+                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
+                        withActionTitle: "OK",
+                        onAlertActionTapped: {
+                            self.delegate?.invalidAccountSelected(
+                                onTradingTicketViewController: self,
+                                withOrder: self.order
+                            )
+                        }
+                    )
+                    return
+                }
+                self.orderCapabilities = orderCapabilities
                 self.setOrderDefaults()
                 if self.order.action == .buy {
                     self.updateAccountOverview()

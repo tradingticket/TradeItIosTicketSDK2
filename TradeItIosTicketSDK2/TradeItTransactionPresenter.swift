@@ -41,7 +41,14 @@ class TradeItTransactionPresenter: NSObject {
         
         return "\(formatLabel(action)) \(quantity) \(symbol) @ \(price)"
     }
-    
+
+    func getTransactionDescriptionLabel() -> String {
+        guard self.transaction.typeEnum != .trade else {
+            return getDescriptionLabel()
+        }
+        return self.transaction.transactionDescription ?? ""
+    }
+
     func getTransactionTypeLabel() -> String {
         var label = formatLabel(self.transaction.type ?? "")
         if self.transaction.typeEnum == .corp_action {
@@ -51,6 +58,43 @@ class TradeItTransactionPresenter: NSObject {
             return label
         }
         return "\(label) \(self.transaction.symbol ?? "")"
+    }
+
+    func getTransactionActionLabel() -> String {
+        return formatLabel(self.transaction.action ?? "")
+    }
+
+    func getTransactionQuantityLabel() -> String {
+        guard let quantity = self.transaction.quantity, quantity != 0 else {
+            return ""
+        }
+        return  NumberFormatter.formatQuantity(quantity)
+    }
+
+    func getTransactionSymbolLabel() -> String {
+        return self.transaction.symbol ?? ""
+    }
+
+    func getTransactionPriceLabel() -> String {
+        guard let price = transaction.price, price != 0 else {
+            return ""
+        }
+        return NumberFormatter.formatCurrency(price, currencyCode: self.currencyCode)
+    }
+
+    func getTransactionIdLabel() -> String {
+        return self.transaction.id ?? ""
+    }
+
+    func getTransactionDateLabel() -> String {
+        return self.transaction.date ?? ""
+    }
+
+    func getTransactionCommissionLabel() -> String {
+        guard let commission = transaction.commission, commission != 0 else {
+            return ""
+        }
+        return NumberFormatter.formatCurrency(commission, currencyCode: self.currencyCode)
     }
     
     // MARK: private

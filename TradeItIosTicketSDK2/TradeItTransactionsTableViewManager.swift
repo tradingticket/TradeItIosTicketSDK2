@@ -92,7 +92,7 @@ fileprivate class TransactionHistoryResultPresenter {
     private var accountBaseCurrency: String
 
     init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, accountBaseCurrency: String) {
-        self.transactions = transactionHistoryResult.transactionHistoryDetailsList ?? []
+        self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
         self.accountBaseCurrency = accountBaseCurrency
         self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
     }

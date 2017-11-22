@@ -4,6 +4,9 @@ import BEMCheckBox
 import SafariServices
 
 class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, PreviewMessageDelegate {
+
+    private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
+
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
@@ -20,7 +23,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
-    private let actionButtonTitleTextGoToPortolio = "Go to portfolio"
+    private let actionButtonTitleTextGoToOrders = "View order status"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +102,7 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
                         self.statusLabel.textColor = UIColor.yahooGreenSuccessColor
 
                         self.actionButton.enable()
-                        self.actionButton.setTitle(self.actionButtonTitleTextGoToPortolio, for: .normal)
+                        self.actionButton.setTitle(self.actionButtonTitleTextGoToOrders, for: .normal)
 
                         self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
 
@@ -166,8 +169,14 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
         if self.placeOrderResult != nil {
-            self.fireButtonTapEventNotification(view: .submitted, button: .viewPortfolio)
-            self.delegate?.viewPortfolioTapped(onTradePreviewViewController: self, linkedBrokerAccount: self.linkedBrokerAccount)
+            self.fireButtonTapEventNotification(view: .submitted, button: .viewOrderStatus)
+            if let navigationController = self.navigationController {
+                guard let ordersViewController = self.tradeItViewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
+                ordersViewController.enableThemeOnLoad = false
+                ordersViewController.enableCustomNavController()
+                ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+                navigationController.setViewControllers([ordersViewController], animated: true)
+            }
         } else {
             self.submitOrder()
         }

@@ -39,7 +39,16 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
             }
         )
     }
-    
+
+    // MARK: UITableViewDelegate
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let transaction = self.transactionHistoryResultPresenter?.transactions[safe: indexPath.row] else {
+            return
+        }
+        self.delegate?.transactionWasSelected(transaction)
+    }
+
     // MARK: UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,7 +96,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
 
 fileprivate class TransactionHistoryResultPresenter {
 
-    private var transactions: [TradeItTransaction]
+    var transactions: [TradeItTransaction]
     private var numberOfDays: Int
     private var accountBaseCurrency: String
 
@@ -128,4 +137,5 @@ fileprivate class TransactionHistoryResultPresenter {
 
 protocol TradeItTransactionsTableDelegate: class {
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
+    func transactionWasSelected(_ transaction: TradeItTransaction)
 }

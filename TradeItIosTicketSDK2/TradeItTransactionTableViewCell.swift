@@ -8,7 +8,7 @@ class TradeItTransactionTableViewCell: UITableViewCell {
     @IBOutlet weak var amountLabel: UILabel!
     
     override func awakeFromNib() {
-        TradeItThemeConfigurator.configure(view: self)
+        super.awakeFromNib()
     }
 
     func populate(withTransaction transaction: TradeItTransaction, andAccountBasecurrency accountBaseCurrency: String) {

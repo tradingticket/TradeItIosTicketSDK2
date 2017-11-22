@@ -15,7 +15,8 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
             }
         }
     }
-    private let HEADER_HEIGHT = 36
+    private static let HEADER_HEIGHT = CGFloat(30)
+    private static let CELL_HEIGHT = CGFloat(65)
     private var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
     
@@ -44,13 +45,21 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return TradeItTransactionsTableViewManager.CELL_HEIGHT
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return TradeItTransactionsTableViewManager.CELL_HEIGHT
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return self.transactionHistoryResultPresenter?.header(forTableView: tableView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat(HEADER_HEIGHT)
+        return TradeItTransactionsTableViewManager.HEADER_HEIGHT
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,7 +79,6 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
-        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
@@ -108,9 +116,7 @@ fileprivate class TransactionHistoryResultPresenter {
             return UITableViewCell()
         }
         cell.populate(numberOfDays: self.numberOfDays)
-        let header = cell.contentView
-        TradeItThemeConfigurator.configureTableHeader(header: header)
-        return header
+        return cell
     }
 }
 

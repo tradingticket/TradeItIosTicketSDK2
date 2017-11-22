@@ -43,7 +43,14 @@ class TradeItTransactionPresenter: NSObject {
     }
     
     func getTransactionTypeLabel() -> String {
-        return formatLabel(self.transaction.type ?? "")
+        var label = formatLabel(self.transaction.type ?? "")
+        if self.transaction.typeEnum == .corp_action {
+            label = "Corporate Action"
+        }
+        guard [.trade, .reinvestment, .dividend].contains(self.transaction.typeEnum) else {
+            return label
+        }
+        return "\(label) \(self.transaction.symbol ?? "")"
     }
     
     // MARK: private

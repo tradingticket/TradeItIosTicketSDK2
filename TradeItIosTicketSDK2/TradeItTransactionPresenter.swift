@@ -7,7 +7,7 @@ class TradeItTransactionPresenter: NSObject {
     
     private let DEBIT_CATEGORY: [TradeItTransaction.Action] = [.buy, .buyOpen, .buyClose, .debit, .cover]
     private let CREDIT_CATEGORY: [TradeItTransaction.Action] = [.sell, .credit, .sellOpen, .sellClose, .short, .rebate, .restructure]
-    
+
     init(_ transaction: TradeItTransaction, currencyCode: String) {
         self.transaction = transaction
         self.currencyCode = currencyCode
@@ -95,6 +95,17 @@ class TradeItTransactionPresenter: NSObject {
             return ""
         }
         return NumberFormatter.formatCurrency(commission, currencyCode: self.currencyCode)
+    }
+
+    func belongsToFilter(filter: TransactionFilterType) -> Bool {
+        switch filter {
+        case .ALL_TRANSACTIONS: return true
+        case .TRADES: return self.transaction.typeEnum == .trade
+        case .DIVIDENDS_AND_INTEREST: return [.dividend, .interest].contains(self.transaction.typeEnum)
+        case .TRANSFERS: return self.transaction.typeEnum == .transfer
+        case .FEES: return self.transaction.typeEnum == .fee
+        case .OTHER: return [.conversion, .corp_action, .journaled, .reinvestment, .unknown].contains(self.transaction.typeEnum)
+        }
     }
     
     // MARK: private

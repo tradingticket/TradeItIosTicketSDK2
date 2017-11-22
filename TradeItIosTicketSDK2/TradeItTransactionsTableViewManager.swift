@@ -19,21 +19,23 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     private static let CELL_HEIGHT = CGFloat(65)
     private var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
-    
+    private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
     weak var delegate: TradeItTransactionsTableDelegate?
     
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.linkedBrokerAccount = linkedBrokerAccount
     }
     
-    func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult) {
-        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
+    func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult, andFilterType filterType: TransactionFilterType) {
+        self.filterType = filterType
+        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, filterType: filterType, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
         self.transactionsTable?.reloadData()
     }
     
     func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
+            filterType: self.filterType,
             onRefreshComplete: {
                 self.refreshControl?.endRefreshing()
             }
@@ -99,9 +101,13 @@ fileprivate class TransactionHistoryResultPresenter {
     var transactions: [TradeItTransaction]
     private var numberOfDays: Int
     private var accountBaseCurrency: String
+    private var filterType: TransactionFilterType
 
-    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, accountBaseCurrency: String) {
-        self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
+    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, filterType: TransactionFilterType, accountBaseCurrency: String) {
+        self.filterType = filterType
+        self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.filter {
+            TradeItTransactionPresenter($0, currencyCode: accountBaseCurrency).belongsToFilter(filter: filterType)
+            }.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
         self.accountBaseCurrency = accountBaseCurrency
         self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
     }
@@ -125,13 +131,13 @@ fileprivate class TransactionHistoryResultPresenter {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_HEADER_ID") as? TradeItTransactionTableViewHeader else {
             return UITableViewCell()
         }
-        cell.populate(numberOfDays: self.numberOfDays)
+        cell.populate(numberOfDays: self.numberOfDays, filterType: filterType)
         return cell
     }
 }
 
 
 protocol TradeItTransactionsTableDelegate: class {
-    func refreshRequested(onRefreshComplete: @escaping () -> Void)
+    func refreshRequested(filterType: TransactionFilterType, onRefreshComplete: @escaping () -> Void)
     func transactionWasSelected(_ transaction: TradeItTransaction)
 }

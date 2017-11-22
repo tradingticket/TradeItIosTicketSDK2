@@ -25,8 +25,30 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     
     // MARK: IBAction
     
-    @IBAction func filterButtonWasTapped(_ sender: Any) {
-        //TODO: https://www.pivotaltracker.com/story/show/148168413
+    @IBAction func filterButtonWasTapped(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+
+        let allTransactionsAction = provideTransactionsUIAlertAction(title: "All Transactions", filterType: .ALL_TRANSACTIONS)
+        let tradesAction = provideTransactionsUIAlertAction(title: "Trades", filterType: .TRADES)
+        let dividendsAndInterestAction = provideTransactionsUIAlertAction(title: "Dividends and Interest", filterType: .DIVIDENDS_AND_INTEREST)
+        let transfersAction = provideTransactionsUIAlertAction(title: "Transfers", filterType: .TRANSFERS)
+        let feesAction = provideTransactionsUIAlertAction(title: "Fees", filterType: .FEES)
+        let otherAction = provideTransactionsUIAlertAction(title: "Other", filterType: .OTHER)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(allTransactionsAction)
+        alertController.addAction(tradesAction)
+        alertController.addAction(dividendsAndInterestAction)
+        alertController.addAction(transfersAction)
+        alertController.addAction(feesAction)
+        alertController.addAction(otherAction)
+        alertController.addAction(cancelAction)
+
+        if UIDevice.current.userInterfaceIdiom == .pad,
+            let popoverPresentationController = alertController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = sender
+        }
+
+        self.present(alertController, animated: true, completion: nil)
     }
     // MARK: TradeItTransactionsTableDelegate
     
@@ -92,4 +114,25 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             activityView.hide(animated: true)
         }
     }
+
+    // MARK: Private
+
+    private func provideTransactionsUIAlertAction(title: String, filterType: TransactionFilterType) -> UIAlertAction {
+        return UIAlertAction(title: title, style: .default, handler: filterActionWasTapped(filterType: filterType))
+    }
+
+    private func filterActionWasTapped(filterType: TransactionFilterType) -> (_ alertAction:UIAlertAction) -> () {
+        return { alertAction in
+            //TODO  https://www.pivotaltracker.com/story/show/148170489
+        }
+    }
+}
+
+enum TransactionFilterType {
+    case ALL_TRANSACTIONS
+    case TRADES
+    case DIVIDENDS_AND_INTEREST
+    case TRANSFERS
+    case FEES
+    case OTHER
 }

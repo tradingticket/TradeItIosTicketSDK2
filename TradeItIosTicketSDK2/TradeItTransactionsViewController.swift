@@ -28,12 +28,12 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     @IBAction func filterButtonWasTapped(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
 
-        let allTransactionsAction = provideTransactionsUIAlertAction(title: "All Transactions", filterType: .ALL_TRANSACTIONS)
-        let tradesAction = provideTransactionsUIAlertAction(title: "Trades", filterType: .TRADES)
-        let dividendsAndInterestAction = provideTransactionsUIAlertAction(title: "Dividends and Interest", filterType: .DIVIDENDS_AND_INTEREST)
-        let transfersAction = provideTransactionsUIAlertAction(title: "Transfers", filterType: .TRANSFERS)
-        let feesAction = provideTransactionsUIAlertAction(title: "Fees", filterType: .FEES)
-        let otherAction = provideTransactionsUIAlertAction(title: "Other", filterType: .OTHER)
+        let allTransactionsAction = provideTransactionsUIAlertAction(filterType: .ALL_TRANSACTIONS)
+        let tradesAction = provideTransactionsUIAlertAction(filterType: .TRADES)
+        let dividendsAndInterestAction = provideTransactionsUIAlertAction(filterType: .DIVIDENDS_AND_INTEREST)
+        let transfersAction = provideTransactionsUIAlertAction(filterType: .TRANSFERS)
+        let feesAction = provideTransactionsUIAlertAction(filterType: .FEES)
+        let otherAction = provideTransactionsUIAlertAction(filterType: .OTHER)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(allTransactionsAction)
         alertController.addAction(tradesAction)
@@ -52,7 +52,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     }
     // MARK: TradeItTransactionsTableDelegate
     
-    func refreshRequested(onRefreshComplete: @escaping () -> Void) {
+    func refreshRequested(filterType: TransactionFilterType, onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
                 preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
@@ -107,32 +107,32 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
 
     // MARK: private
     
-    private func loadTransactions() {
+    private func loadTransactions(filterType: TransactionFilterType = .ALL_TRANSACTIONS) {
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading transactions"
-        self.refreshRequested {
+        self.refreshRequested(filterType: filterType, onRefreshComplete: {
             activityView.hide(animated: true)
-        }
+        })
     }
 
     // MARK: Private
 
-    private func provideTransactionsUIAlertAction(title: String, filterType: TransactionFilterType) -> UIAlertAction {
-        return UIAlertAction(title: title, style: .default, handler: filterActionWasTapped(filterType: filterType))
+    private func provideTransactionsUIAlertAction(filterType: TransactionFilterType) -> UIAlertAction {
+        return UIAlertAction(title: filterType.rawValue, style: .default, handler: filterActionWasTapped(filterType: filterType))
     }
 
     private func filterActionWasTapped(filterType: TransactionFilterType) -> (_ alertAction:UIAlertAction) -> () {
         return { alertAction in
-            //TODO  https://www.pivotaltracker.com/story/show/148170489
+            self.loadTransactions(filterType: filterType)
         }
     }
 }
 
-enum TransactionFilterType {
-    case ALL_TRANSACTIONS
-    case TRADES
-    case DIVIDENDS_AND_INTEREST
-    case TRANSFERS
-    case FEES
-    case OTHER
+enum TransactionFilterType: String {
+    case ALL_TRANSACTIONS = "All Transactions"
+    case TRADES = "Trades"
+    case DIVIDENDS_AND_INTEREST = "Dividends and Interest"
+    case TRANSFERS = "Transfers"
+    case FEES = "Fees"
+    case OTHER = "Other"
 }

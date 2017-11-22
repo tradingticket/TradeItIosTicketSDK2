@@ -1681,7 +1681,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_TRANSACTION_HEADER_ID" id="3Ac-h4-NPU">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_TRANSACTION_HEADER_ID" id="3Ac-h4-NPU" customClass="TradeItTransactionTableViewHeader" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Ac-h4-NPU" id="HEN-N8-rKp">
@@ -1708,6 +1708,9 @@
                                                 <constraint firstItem="ZNM-0r-nG8" firstAttribute="centerY" secondItem="HEN-N8-rKp" secondAttribute="centerY" id="eW4-1i-2FQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="numberOfDaysHistoryLabel" destination="ZNM-0r-nG8" id="Zfd-bs-buj"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRADE_IT_TRANSACTION_CELL_ID" id="Nvg-9V-Zvx" customClass="TradeItTransactionTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>

@@ -56,8 +56,8 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             }
         }
         
-        func transactionsPromise() -> Promise<[TradeItTransaction]> {
-            return Promise<[TradeItTransaction]> { fulfill, reject in
+        func transactionsPromise() -> Promise<TradeItTransactionsHistoryResult> {
+            return Promise<TradeItTransactionsHistoryResult> { fulfill, reject in
                 linkedBrokerAccount.getTransactionsHistory(
                     onSuccess: fulfill,
                     onFailure: reject
@@ -67,8 +67,8 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         
         authenticatePromise().then { _ in
             return transactionsPromise()
-            }.then { transactions in
-                self.transactionsTableViewManager?.updateTransactions(transactions) // TODO order by date desc or check the server order
+            }.then { transactionsHistoryResult in
+                self.transactionsTableViewManager?.updateTransactionHistoryResult(transactionsHistoryResult) // TODO order by date desc or check the server order
             }.always {
                 onRefreshComplete()
             }.catch { error in

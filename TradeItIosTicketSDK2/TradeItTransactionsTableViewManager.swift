@@ -16,7 +16,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         }
     }
     private let HEADER_HEIGHT = 36
-    private var transactions: [TradeItTransaction] = []
+    private var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
     
     weak var delegate: TradeItTransactionsTableDelegate?
@@ -25,8 +25,8 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         self.linkedBrokerAccount = linkedBrokerAccount
     }
     
-    func updateTransactions(_ transactions: [TradeItTransaction]) {
-        self.transactions = transactions
+    func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult) {
+        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
         self.transactionsTable?.reloadData()
     }
     
@@ -46,10 +46,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_HEADER_ID") ?? UITableViewCell()
-        let header = cell.contentView
-        TradeItThemeConfigurator.configureTableHeader(header: header)
-        return header
+        return self.transactionHistoryResultPresenter?.header(forTableView: tableView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -57,17 +54,11 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.transactions.count
+        return self.transactionHistoryResultPresenter?.numberOfRows() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_CELL_ID") as? TradeItTransactionTableViewCell
-            , let transaction = self.transactions[safe: indexPath.row] else {
-                return UITableViewCell()
-        }
-        
-        cell.populate(withTransaction: transaction, andAccountBasecurrency: self.linkedBrokerAccount.accountBaseCurrency)
-        return cell
+        return self.transactionHistoryResultPresenter?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
     }
     
     // MARK: private
@@ -85,6 +76,44 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
 
 }
+
+fileprivate class TransactionHistoryResultPresenter {
+
+    private var transactions: [TradeItTransaction]
+    private var numberOfDays: Int
+    private var accountBaseCurrency: String
+
+    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, accountBaseCurrency: String) {
+        self.transactions = transactionHistoryResult.transactionHistoryDetailsList ?? []
+        self.accountBaseCurrency = accountBaseCurrency
+        self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
+    }
+
+    func numberOfRows() -> Int {
+        return self.transactions.count
+    }
+
+    func cell(forTableView tableView: UITableView, andRow row: Int) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_CELL_ID") as? TradeItTransactionTableViewCell
+            , let transaction = self.transactions[safe: row] else {
+                return UITableViewCell()
+        }
+
+        cell.populate(withTransaction: transaction, andAccountBasecurrency: self.accountBaseCurrency)
+        return cell
+    }
+
+    func header(forTableView tableView: UITableView) -> UIView? {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_HEADER_ID") as? TradeItTransactionTableViewHeader else {
+            return UITableViewCell()
+        }
+        cell.populate(numberOfDays: self.numberOfDays)
+        let header = cell.contentView
+        TradeItThemeConfigurator.configureTableHeader(header: header)
+        return header
+    }
+}
+
 
 protocol TradeItTransactionsTableDelegate: class {
     func refreshRequested(onRefreshComplete: @escaping () -> Void)

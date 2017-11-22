@@ -16,7 +16,7 @@
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
     public var orders: [TradeItOrderStatusDetails] = []
-    public var transactions: [TradeItTransaction] = []
+    public var transactionsHistoryResult: TradeItTransactionsHistoryResult?
     public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
 
     private weak var _linkedBroker: TradeItLinkedBroker?
@@ -192,13 +192,13 @@
         )
     }
     
-    public func getTransactionsHistory(onSuccess: @escaping ([TradeItTransaction]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getTransactionsHistory(onSuccess: @escaping (TradeItTransactionsHistoryResult) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItTransactionsHistoryRequest()
         request.accountNumber = self.accountNumber
         
         self.transactionService?.getTransactionsHistory(request, onSuccess: { result in
-            self.transactions = result.transactionHistoryDetailsList ?? []
-            onSuccess(self.transactions)
+            self.transactionsHistoryResult = result
+            onSuccess(result)
         }, onFailure: { error in
             self.setError(error)
             onFailure(error)

@@ -488,7 +488,7 @@ import PromiseKit
 
             linkedBroker.accounts.forEach { account in
                 print("        [\(account.accountNumber)][\(account.accountName)]")
-                print("            balancesUpdated: \(String(describing: account.balanceLastUpdated)), buyingPower: \(String(describing: account.balance?.buyingPower))")
+                print("            balancesUpdated: \(String(describing: account.balanceLastUpdated)), buyingPower: \(String(describing: account.balance?.buyingPower)), userCanDisableMargin: \(String(describing: account.userCanDisableMargin))")
             }
         }
 

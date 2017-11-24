@@ -92,6 +92,7 @@ extension CachedLinkedBrokerAccount {
         self.balance = linkedBrokerAccount.balance
         self.fxBalance = linkedBrokerAccount.fxBalance
         self.balanceLastUpdated = linkedBrokerAccount.balanceLastUpdated
+        self.userCanDisableMargin = linkedBrokerAccount.userCanDisableMargin
     }
 }
 

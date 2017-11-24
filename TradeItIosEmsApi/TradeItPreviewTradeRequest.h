@@ -1,45 +1,36 @@
-//
-//  TradeItPreviewTradeRequest.h
-//  TradeItIosEmsApi
-//
-//  Created by Antonio Reyes on 1/30/16.
-//  Copyright © 2016 TradeIt. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "TradeItRequest.h"
 
 @interface TradeItPreviewTradeRequest : TradeItRequest
 
 // Set the accountNumber to trade in
-@property (copy) NSString * accountNumber;
+@property (nonatomic, copy) NSString * accountNumber;
 
 // Set the order symbol
-@property (copy) NSString * orderSymbol;
+@property (nonatomic, copy) NSString * orderSymbol;
 
 // Set the type of the order, possible values are market, limit, stopMarket or stopLimit
-@property (copy) NSString * orderPriceType;
+@property (nonatomic, copy) NSString * orderPriceType;
 
 // Set the order action, possible values are buy, sell, buyToCover, sellShort
-@property (copy) NSString * orderAction;
+@property (nonatomic, copy) NSString * orderAction;
 
 // Set the order quantity
-@property (copy) NSNumber * orderQuantity;
+@property (nonatomic, copy) NSNumber * orderQuantity;
 
 // Set the order expiration, possible values day, gtc
-@property (copy) NSString * orderExpiration;
+@property (nonatomic, copy) NSString * orderExpiration;
 
 // Set limit price for limit, and stopLimit orders
-@property (copy) NSNumber<Optional> * orderLimitPrice;
+@property (nonatomic, copy) NSNumber<Optional> * orderLimitPrice;
 
 // Set stop price for stopLimit and and stopMarket
-@property (copy) NSNumber<Optional> * orderStopPrice;
+@property (nonatomic, copy) NSNumber<Optional> * orderStopPrice;
 
 // Session Token - Will be set by the session associated with the request
 // Setting this here will be overriden
-@property (copy) NSString * token;
+@property (nonatomic, copy) NSString * token;
 
-// set the margin type to use, possible values are CASH or MARGIN or empty string if it does not apply
-@property (copy) NSString * marginType;
+@property (nonatomic) BOOL userDisabledMargin;
 
 @end

@@ -525,18 +525,18 @@ import PromiseKit
     let name: String
     let number: String
     let baseCurrency: String
-    let marginType: TradeItMarginType
+    let userCanDisableMargin: Bool
     
     public init(
         name: String,
         number: String,
         baseCurrency: String,
-        marginType: TradeItMarginType
+        userCanDisableMargin: Bool
     ) {
         self.name = name
         self.number = number
         self.baseCurrency = baseCurrency
-        self.marginType = marginType
+        self.userCanDisableMargin = userCanDisableMargin
     }
 }
 

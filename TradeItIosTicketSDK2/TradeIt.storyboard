@@ -1782,10 +1782,28 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="transactionsBackgroundView" destination="8sh-RT-bFo" id="TeF-8p-AFq"/>
                         <outlet property="transactionsTable" destination="6e1-Po-iTX" id="kXM-aq-at8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yM7-Yf-SSo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="8sh-RT-bFo">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No recent transactions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Njx-ff-DPT">
+                            <rect key="frame" x="29" y="53.5" width="182" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Njx-ff-DPT" firstAttribute="centerY" secondItem="8sh-RT-bFo" secondAttribute="centerY" id="L4V-bC-DHn"/>
+                        <constraint firstItem="Njx-ff-DPT" firstAttribute="centerX" secondItem="8sh-RT-bFo" secondAttribute="centerX" id="Ljk-jF-3w4"/>
+                    </constraints>
+                </view>
             </objects>
             <point key="canvasLocation" x="1048.8" y="-439.43028485757122"/>
         </scene>

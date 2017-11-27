@@ -8,6 +8,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     private var transactionsTableViewManager: TradeItTransactionsTableViewManager?
     
     @IBOutlet weak var transactionsTable: UITableView!
+    @IBOutlet var transactionsBackgroundView: UIView!
     
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
@@ -17,7 +18,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
         }
-        self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount)
+        self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount, noResultsBackgroundView: transactionsBackgroundView )
         self.transactionsTableViewManager?.delegate = self
         self.transactionsTableViewManager?.transactionsTable = transactionsTable
         self.loadTransactions()

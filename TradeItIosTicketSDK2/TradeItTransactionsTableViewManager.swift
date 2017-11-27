@@ -19,16 +19,23 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     private static let CELL_HEIGHT = CGFloat(65)
     private var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
+    private var noResultsBackgroundView: UIView
     private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
     weak var delegate: TradeItTransactionsTableDelegate?
     
-    init(linkedBrokerAccount: TradeItLinkedBrokerAccount) {
+    init(linkedBrokerAccount: TradeItLinkedBrokerAccount, noResultsBackgroundView: UIView) {
         self.linkedBrokerAccount = linkedBrokerAccount
+        self.noResultsBackgroundView = noResultsBackgroundView
     }
     
     func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult, andFilterType filterType: TransactionFilterType) {
         self.filterType = filterType
         self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, filterType: filterType, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
+        if let transactions = transactionHistoryResult.transactionHistoryDetailsList, !transactions.isEmpty {
+            self.transactionsTable?.backgroundView =  nil
+        } else {
+            self.transactionsTable?.backgroundView = noResultsBackgroundView
+        }
         self.transactionsTable?.reloadData()
     }
     
@@ -54,6 +61,9 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     // MARK: UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        guard let transactions = self.transactionHistoryResultPresenter?.transactions, transactions.count > 0 else {
+            return 0
+        }
         return 1
     }
 

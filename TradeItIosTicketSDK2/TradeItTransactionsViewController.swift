@@ -30,18 +30,32 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
 
         let allTransactionsAction = provideTransactionsUIAlertAction(filterType: .ALL_TRANSACTIONS)
-        let tradesAction = provideTransactionsUIAlertAction(filterType: .TRADES)
-        let dividendsAndInterestAction = provideTransactionsUIAlertAction(filterType: .DIVIDENDS_AND_INTEREST)
-        let transfersAction = provideTransactionsUIAlertAction(filterType: .TRANSFERS)
-        let feesAction = provideTransactionsUIAlertAction(filterType: .FEES)
-        let otherAction = provideTransactionsUIAlertAction(filterType: .OTHER)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(allTransactionsAction)
-        alertController.addAction(tradesAction)
-        alertController.addAction(dividendsAndInterestAction)
-        alertController.addAction(transfersAction)
-        alertController.addAction(feesAction)
-        alertController.addAction(otherAction)
+
+        if let transactionsPresenter = transactionsTableViewManager?.transactionHistoryResultPresenter {
+            if transactionsPresenter.numberOfTransactions(forFilterType: .TRADES) > 0 {
+                let tradesAction = provideTransactionsUIAlertAction(filterType: .TRADES)
+                alertController.addAction(tradesAction)
+            }
+            if transactionsPresenter.numberOfTransactions(forFilterType: .DIVIDENDS_AND_INTEREST) > 0 {
+                let dividendsAndInterestAction = provideTransactionsUIAlertAction(filterType: .DIVIDENDS_AND_INTEREST)
+                alertController.addAction(dividendsAndInterestAction)
+            }
+            if transactionsPresenter.numberOfTransactions(forFilterType: .TRANSFERS) > 0 {
+                let transfersAction = provideTransactionsUIAlertAction(filterType: .TRANSFERS)
+                alertController.addAction(transfersAction)
+            }
+            if transactionsPresenter.numberOfTransactions(forFilterType: .FEES) > 0 {
+                let feesAction = provideTransactionsUIAlertAction(filterType: .FEES)
+                alertController.addAction(feesAction)
+            }
+            if transactionsPresenter.numberOfTransactions(forFilterType: .OTHER) > 0 {
+                let otherAction = provideTransactionsUIAlertAction(filterType: .OTHER)
+                alertController.addAction(otherAction)
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
 
         if UIDevice.current.userInterfaceIdiom == .pad,
@@ -53,7 +67,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     }
     // MARK: TradeItTransactionsTableDelegate
     
-    func refreshRequested(filterType: TransactionFilterType, onRefreshComplete: @escaping () -> Void) {
+    func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
                 preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
@@ -108,10 +122,10 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
 
     // MARK: private
     
-    private func loadTransactions(filterType: TransactionFilterType = .ALL_TRANSACTIONS) {
+    private func loadTransactions() {
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading transactions"
-        self.refreshRequested(filterType: filterType, onRefreshComplete: {
+        self.refreshRequested( onRefreshComplete: {
             activityView.hide(animated: true)
         })
     }
@@ -124,7 +138,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
 
     private func filterActionWasTapped(filterType: TransactionFilterType) -> (_ alertAction:UIAlertAction) -> () {
         return { alertAction in
-            self.loadTransactions(filterType: filterType)
+            self.transactionsTableViewManager?.filterTransactionHistoryResult(filterType: filterType)
         }
     }
 }

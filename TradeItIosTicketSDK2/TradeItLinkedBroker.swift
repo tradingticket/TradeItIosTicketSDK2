@@ -247,7 +247,7 @@ import PromiseKit
                 existingAccount.accountNumber = account.accountNumber
                 existingAccount.accountIndex = account.accountIndex
                 existingAccount.accountBaseCurrency = account.accountBaseCurrency
-                existingAccount.marginType = account.marginTypeEnum
+                existingAccount.userCanDisableMargin = account.userCanDisableMargin
                 existingAccount.orderCapabilities = account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? []
                 return existingAccount
             } else {
@@ -257,7 +257,7 @@ import PromiseKit
                     accountNumber: account.accountNumber,
                     accountIndex: account.accountIndex,
                     accountBaseCurrency: account.accountBaseCurrency,
-                    marginType: account.marginTypeEnum,
+                    userCanDisableMargin: account.userCanDisableMargin,
                     balance: nil,
                     fxBalance: nil,
                     positions: [],

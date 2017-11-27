@@ -546,7 +546,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         name: "Individual Account",
                         number: "SINGLE-ACCT-0001",
                         baseCurrency: "USD",
-                        marginType: .unknown
+                        userCanDisableMargin: false
                     )
                 ]
             ),

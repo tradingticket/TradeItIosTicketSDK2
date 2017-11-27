@@ -10,7 +10,7 @@
     public var accountNumber = ""
     public var accountIndex = ""
     public var accountBaseCurrency = ""
-    public var marginType: TradeItMarginType
+    public var userCanDisableMargin: Bool
     public var balanceLastUpdated: Date?
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
@@ -73,7 +73,7 @@
          accountNumber: String,
          accountIndex: String,
          accountBaseCurrency: String,
-         marginType: TradeItMarginType,
+         userCanDisableMargin: Bool,
          balanceLastUpdated: Date? = nil,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
@@ -86,7 +86,7 @@
         self.accountNumber = accountNumber
         self.accountIndex = accountIndex
         self.accountBaseCurrency = accountBaseCurrency
-        self.marginType = marginType
+        self.userCanDisableMargin = userCanDisableMargin
         self.balanceLastUpdated = balanceLastUpdated
         self.balance = balance
         self.fxBalance = fxBalance
@@ -102,7 +102,7 @@
             accountNumber: accountData.number,
             accountIndex: "",
             accountBaseCurrency: accountData.baseCurrency,
-            marginType: accountData.marginType,
+            userCanDisableMargin: accountData.userCanDisableMargin,
             balance: nil,
             fxBalance: nil,
             positions: []

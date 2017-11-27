@@ -144,10 +144,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
         case .marginType:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.selectionViewController.initialSelection = self.order.marginType.label
-            self.selectionViewController.selections = [TradeItMarginType.margin.label, TradeItMarginType.cash.label]
+            self.selectionViewController.initialSelection = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
+            self.selectionViewController.selections = MarginPresenter.LABELS
             self.selectionViewController.onSelected = { selection in
-                self.order.marginType = TradeItMarginType.valueFor(label: selection)
+                self.order.userDisabledMargin = MarginPresenter.valueFor(label: selection)
                 _ = self.navigationController?.popViewController(animated: true)
             }
             self.navigationController?.pushViewController(selectionViewController, animated: true)
@@ -342,7 +342,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
-        self.order.marginType = self.order.linkedBrokerAccount?.marginType ?? .unknown
+        self.order.userDisabledMargin = false
     }
 
 
@@ -402,7 +402,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         ticketRows.append(.marketPrice)
         
-        if self.order.requireMarginType() {
+        if self.order.userCanDisableMargin() {
             ticketRows.append(.marginType)
         }
         
@@ -477,7 +477,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
         case .marginType:
-            cell.detailTextLabel?.text = self.order.marginType.label
+            cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
         case .estimatedCost:
             var estimateChangeText = "N/A"
 

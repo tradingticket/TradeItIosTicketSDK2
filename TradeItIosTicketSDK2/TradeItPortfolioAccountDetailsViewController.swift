@@ -63,21 +63,6 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
         }
 
-        let authenticatePromise = Promise { fulfill, reject in
-            linkedBroker.authenticateIfNeeded(
-                onSuccess: fulfill,
-                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                    self.alertManager.promptUserToAnswerSecurityQuestion(
-                        securityQuestion,
-                        onViewController: self,
-                        onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: cancelSecurityQuestion
-                    )
-                },
-                onFailure: reject
-            )
-        }
-
         let accountOverviewPromise = Promise<Void> { fulfill, reject in
             linkedBrokerAccount.getAccountOverview(
                 cacheResult: true,
@@ -96,7 +81,16 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             return self.quotesPromise(portfolioPositions: portfolioPositions)
         }
 
-        authenticatePromise.then { _ in
+        linkedBroker.authenticatePromise(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }
+        ).then { _ in
             return when(fulfilled: accountOverviewPromise, positionsAndQuotesPromise)
         }.then { _, positions in
             self.tableViewManager.updatePositions(withPositions: positions)

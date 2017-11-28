@@ -237,6 +237,21 @@ import PromiseKit
             code: .sessionError
         )
     }
+
+    internal func authenticatePromise(
+        onSecurityQuestion: @escaping (
+        TradeItSecurityQuestionResult,
+        _ submitAnswer: @escaping (String) -> Void,
+        _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void) -> Promise<Void>{
+        return Promise<Void> { fulfill, reject in
+            self.authenticateIfNeeded(
+                onSuccess: fulfill,
+                onSecurityQuestion: onSecurityQuestion,
+                onFailure: reject
+            )
+        }
+    }
     
     // MARK: Private
 

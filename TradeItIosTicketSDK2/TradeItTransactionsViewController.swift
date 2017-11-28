@@ -39,22 +39,6 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
                 preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
         }
-        func authenticatePromise() -> Promise<Void>{
-            return Promise<Void> { fulfill, reject in
-                linkedBroker.authenticateIfNeeded(
-                    onSuccess: fulfill,
-                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                        self.alertManager.promptUserToAnswerSecurityQuestion(
-                            securityQuestion,
-                            onViewController: self,
-                            onAnswerSecurityQuestion: answerSecurityQuestion,
-                            onCancelSecurityQuestion: cancelSecurityQuestion
-                        )
-                },
-                    onFailure: reject
-                )
-            }
-        }
         
         func transactionsPromise() -> Promise<TradeItTransactionsHistoryResult> {
             return Promise<TradeItTransactionsHistoryResult> { fulfill, reject in
@@ -65,23 +49,32 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             }
         }
         
-        authenticatePromise().then { _ in
+        linkedBroker.authenticatePromise(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }
+        ).then { _ in
             return transactionsPromise()
-            }.then { transactionsHistoryResult in
-                self.transactionsTableViewManager?.updateTransactionHistoryResult(transactionsHistoryResult) // TODO order by date desc or check the server order
-            }.always {
-                onRefreshComplete()
-            }.catch { error in
-                let error = error as? TradeItErrorResult ??
-                    TradeItErrorResult(
-                        title: "Fetching transactions failed",
-                        message: "Could not fetch transactions. Please try again."
-                )
-                self.alertManager.showAlertWithAction(
-                    error: error,
-                    withLinkedBroker: self.linkedBrokerAccount?.linkedBroker,
-                    onViewController: self
-                )
+        }.then { transactionsHistoryResult in
+            self.transactionsTableViewManager?.updateTransactionHistoryResult(transactionsHistoryResult) // TODO order by date desc or check the server order
+        }.always {
+            onRefreshComplete()
+        }.catch { error in
+            let error = error as? TradeItErrorResult ??
+                TradeItErrorResult(
+                    title: "Fetching transactions failed",
+                    message: "Could not fetch transactions. Please try again."
+            )
+            self.alertManager.showAlertWithAction(
+                error: error,
+                withLinkedBroker: self.linkedBrokerAccount?.linkedBroker,
+                onViewController: self
+            )
         }
     }
 

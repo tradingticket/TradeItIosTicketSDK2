@@ -44,22 +44,6 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
                 preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
         }
-        func authenticatePromise() -> Promise<Void>{
-            return Promise<Void> { fulfill, reject in
-                linkedBroker.authenticateIfNeeded(
-                    onSuccess: fulfill,
-                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                        self.alertManager.promptUserToAnswerSecurityQuestion(
-                            securityQuestion,
-                            onViewController: self,
-                            onAnswerSecurityQuestion: answerSecurityQuestion,
-                            onCancelSecurityQuestion: cancelSecurityQuestion
-                        )
-                    },
-                    onFailure: reject
-                )
-            }
-        }
         
         func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {
             return Promise<[TradeItOrderStatusDetails]> { fulfill, reject in
@@ -70,7 +54,16 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             }
         }
         
-        authenticatePromise().then { _ in
+        linkedBroker.authenticatePromise(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }
+        ).then { _ in
             return ordersPromise()
         }.then { orders in
             self.ordersTableViewManager?.updateOrders(orders)

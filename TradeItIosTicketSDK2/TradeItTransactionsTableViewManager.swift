@@ -115,13 +115,9 @@ fileprivate class TransactionHistoryResultPresenter {
             , let transaction = self.transactions[safe: row] else {
                 return UITableViewCell()
         }
-<<<<<<< HEAD
 
         cell.populate(withTransaction: transaction, andAccountBasecurrency: self.accountBaseCurrency)
-=======
-        
-        cell.populate(withTransaction: transaction, andAccountBasecurrency: self.linkedBrokerAccount.accountBaseCurrency)
->>>>>>> Add TradeItTransactionPresenter
+
         return cell
     }
 

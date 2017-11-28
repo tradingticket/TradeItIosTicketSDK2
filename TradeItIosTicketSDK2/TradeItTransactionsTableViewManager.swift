@@ -20,7 +20,6 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
     private var noResultsBackgroundView: UIView
-    private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
     weak var delegate: TradeItTransactionsTableDelegate?
     
     init(linkedBrokerAccount: TradeItLinkedBrokerAccount, noResultsBackgroundView: UIView) {
@@ -29,7 +28,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult) {
-        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, filterType: filterType, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
+        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
         if let transactions = transactionHistoryResult.transactionHistoryDetailsList, !transactions.isEmpty {
             self.transactionsTable?.backgroundView =  nil
         } else {
@@ -39,7 +38,6 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
 
     func filterTransactionHistoryResult(filterType: TransactionFilterType) {
-        self.filterType = filterType
         self.transactionHistoryResultPresenter?.filterTransactions(filterType: filterType)
         self.transactionsTable?.reloadData()
     }
@@ -116,14 +114,11 @@ class TransactionHistoryResultPresenter {
     var transactionsFiltered: [TradeItTransaction]
     private var numberOfDays: Int
     private var accountBaseCurrency: String
-    private var filterType: TransactionFilterType
+    private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
 
-    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, filterType: TransactionFilterType, accountBaseCurrency: String) {
-        self.filterType = filterType
+    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, accountBaseCurrency: String) {
         self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
-        self.transactionsFiltered = self.transactions.filter {
-            TradeItTransactionPresenter($0, currencyCode: accountBaseCurrency).belongsToFilter(filter: filterType)
-        }
+        self.transactionsFiltered = self.transactions
         self.accountBaseCurrency = accountBaseCurrency
         self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
     }
@@ -137,9 +132,7 @@ class TransactionHistoryResultPresenter {
             , let transaction = self.transactionsFiltered[safe: row] else {
                 return UITableViewCell()
         }
-
         cell.populate(withTransaction: transaction, andAccountBasecurrency: self.accountBaseCurrency)
-
         return cell
     }
 

@@ -146,14 +146,16 @@ class TransactionHistoryResultPresenter {
 
     func filterTransactions(filterType: TransactionFilterType) {
         self.filterType = filterType
-        self.transactionsFiltered = self.transactions.filter {
-            TradeItTransactionPresenter($0, currencyCode: accountBaseCurrency).belongsToFilter(filter: filterType)
-        }
+        self.transactionsFiltered = getTransactions(forFilterType: filterType)
     }
     func numberOfTransactions(forFilterType filterType: TransactionFilterType) -> Int {
+        return getTransactions(forFilterType: filterType).count
+    }
+
+    private func getTransactions(forFilterType filterType: TransactionFilterType) -> [TradeItTransaction]{
         return self.transactions.filter {
             TradeItTransactionPresenter($0, currencyCode: accountBaseCurrency).belongsToFilter(filter: filterType)
-        }.count
+        }
     }
 }
 

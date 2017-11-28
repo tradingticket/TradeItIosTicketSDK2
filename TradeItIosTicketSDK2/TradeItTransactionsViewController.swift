@@ -3,9 +3,9 @@ import MBProgressHUD
 import PromiseKit
 
 class TradeItTransactionsViewController: TradeItViewController, TradeItTransactionsTableDelegate {
-    
-    let alertManager = TradeItAlertManager()
-    var transactionsTableViewManager: TradeItTransactionsTableViewManager?
+    private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
+    private let alertManager = TradeItAlertManager()
+    private var transactionsTableViewManager: TradeItTransactionsTableViewManager?
     
     @IBOutlet weak var transactionsTable: UITableView!
     
@@ -20,10 +20,6 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount)
         self.transactionsTableViewManager?.delegate = self
         self.transactionsTableViewManager?.transactionsTable = transactionsTable
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         self.loadTransactions()
     }
     
@@ -76,6 +72,15 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
                 onViewController: self
             )
         }
+    }
+
+    func transactionWasSelected(_ transaction: TradeItTransaction) {
+        guard let transactionDetailsController = self.viewControllerProvider.provideViewController(forStoryboardId: .transactionDetailsView) as? TradeItTransactionDetailsViewController else {
+            return
+        }
+        transactionDetailsController.transaction = transaction
+        transactionDetailsController.accountBaseCurrency = self.linkedBrokerAccount?.accountBaseCurrency ?? TradeItPresenter.DEFAULT_CURRENCY_CODE
+        self.navigationController?.pushViewController(transactionDetailsController, animated: true)
     }
 
     // MARK: private

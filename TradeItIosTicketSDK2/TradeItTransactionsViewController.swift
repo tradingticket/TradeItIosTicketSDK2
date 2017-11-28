@@ -33,25 +33,15 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         alertController.addAction(allTransactionsAction)
 
         if let transactionsPresenter = transactionsTableViewManager?.transactionHistoryResultPresenter {
-            if transactionsPresenter.numberOfTransactions(forFilterType: .TRADES) > 0 {
-                let tradesAction = provideTransactionsUIAlertAction(filterType: .TRADES)
-                alertController.addAction(tradesAction)
-            }
-            if transactionsPresenter.numberOfTransactions(forFilterType: .DIVIDENDS_AND_INTEREST) > 0 {
-                let dividendsAndInterestAction = provideTransactionsUIAlertAction(filterType: .DIVIDENDS_AND_INTEREST)
-                alertController.addAction(dividendsAndInterestAction)
-            }
-            if transactionsPresenter.numberOfTransactions(forFilterType: .TRANSFERS) > 0 {
-                let transfersAction = provideTransactionsUIAlertAction(filterType: .TRANSFERS)
-                alertController.addAction(transfersAction)
-            }
-            if transactionsPresenter.numberOfTransactions(forFilterType: .FEES) > 0 {
-                let feesAction = provideTransactionsUIAlertAction(filterType: .FEES)
-                alertController.addAction(feesAction)
-            }
-            if transactionsPresenter.numberOfTransactions(forFilterType: .OTHER) > 0 {
-                let otherAction = provideTransactionsUIAlertAction(filterType: .OTHER)
-                alertController.addAction(otherAction)
+            [
+                .TRADES,
+                .DIVIDENDS_AND_INTEREST,
+                .TRANSFERS,
+                .FEES,
+                .OTHER
+            ].filter { transactionsPresenter.numberOfTransactions(forFilterType: $0) > 0 }.forEach { filterType in
+                let action = provideTransactionsUIAlertAction(filterType: filterType)
+                alertController.addAction(action)
             }
         }
 

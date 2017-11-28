@@ -20,35 +20,22 @@ class TradeItTransactionDetailsViewController: TradeItViewController, UITableVie
         }
         self.transactionDetailTableView.delegate = self
         self.transactionDetailTableView.dataSource = self
-        self.presenter = TradeItTransactionPresenter(transaction, currencyCode: accountBaseCurrency)
-        self.title = self.presenter?.getTransactionTypeLabel()
-        if self.presenter?.getTransactionDescriptionLabel() != "" {
-            self.transactionDetailsRows.append(.description)
-        }
-        if self.presenter?.getTransactionActionLabel() != "" {
-            self.transactionDetailsRows.append(.action)
-        }
-        if self.presenter?.getTransactionQuantityLabel() != "" {
-            self.transactionDetailsRows.append(.quantity)
-        }
-        if self.presenter?.getTransactionSymbolLabel() != "" {
-            self.transactionDetailsRows.append(.symbol)
-        }
-        if self.presenter?.getTransactionPriceLabel() != "" {
-            self.transactionDetailsRows.append(.price)
-        }
-        if self.presenter?.getTransactionCommissionLabel() != "" {
-            self.transactionDetailsRows.append(.commission)
-        }
-        if self.presenter?.getAmountLabel() != "" {
-            self.transactionDetailsRows.append(.amount)
-        }
-        if self.presenter?.getTransactionDateLabel() != "" {
-            self.transactionDetailsRows.append(.date)
-        }
-        if self.presenter?.getTransactionIdLabel() != "" {
-            self.transactionDetailsRows.append(.id)
-        }
+        let presenter = TradeItTransactionPresenter(transaction, currencyCode: accountBaseCurrency)
+        self.presenter = presenter
+        self.title = presenter.getTransactionTypeLabel()
+
+        self.transactionDetailsRows = [
+            .description,
+            .action,
+            .quantity,
+            .symbol,
+            .price,
+            .commission,
+            .amount,
+            .date,
+            .id
+        ].filter { $0.getValue(presenter: presenter) != "" }
+
         self.transactionDetailTableView.reloadData()
     }
 

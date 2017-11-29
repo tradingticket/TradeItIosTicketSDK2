@@ -5,7 +5,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?
     
-    private static let ORDER_CELL_HEIGHT = CGFloat(55)
+    private static let ORDER_CELL_HEIGHT = CGFloat(50)
     private static let SECTION_HEADER_HEIGHT = CGFloat(40)
     private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(59)
     
@@ -155,7 +155,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: ordernumber, message: message)
         }
-        cancelAction.backgroundColor = UIColor.red
+        cancelAction.backgroundColor = UIColor.tradeItCancelRoseColor
         return [cancelAction]
     }
     

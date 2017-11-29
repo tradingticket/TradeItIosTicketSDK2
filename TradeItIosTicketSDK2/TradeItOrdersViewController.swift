@@ -14,9 +14,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let _ = self.linkedBrokerAccount else {
+        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
         }
+        self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
         self.ordersTableViewManager?.delegate = self
         self.ordersTableViewManager?.ordersTable = self.ordersTable

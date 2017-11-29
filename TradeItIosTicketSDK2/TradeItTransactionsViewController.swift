@@ -8,6 +8,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     private var transactionsTableViewManager: TradeItTransactionsTableViewManager?
     
     @IBOutlet weak var transactionsTable: UITableView!
+    @IBOutlet var transactionsBackgroundView: UIView!
     
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
@@ -17,7 +18,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
         }
-        self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount)
+        self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount, noResultsBackgroundView: transactionsBackgroundView )
         self.transactionsTableViewManager?.delegate = self
         self.transactionsTableViewManager?.transactionsTable = transactionsTable
         self.loadTransactions()
@@ -25,8 +26,34 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     
     // MARK: IBAction
     
-    @IBAction func filterButtonWasTapped(_ sender: Any) {
-        //TODO: https://www.pivotaltracker.com/story/show/148168413
+    @IBAction func filterButtonWasTapped(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+
+        let allTransactionsAction = provideTransactionsUIAlertAction(filterType: .ALL_TRANSACTIONS)
+        alertController.addAction(allTransactionsAction)
+
+        if let transactionsPresenter = transactionsTableViewManager?.transactionHistoryResultPresenter {
+            [
+                .TRADES,
+                .DIVIDENDS_AND_INTEREST,
+                .TRANSFERS,
+                .FEES,
+                .OTHER
+            ].filter { transactionsPresenter.numberOfTransactions(forFilterType: $0) > 0 }.forEach { filterType in
+                let action = provideTransactionsUIAlertAction(filterType: filterType)
+                alertController.addAction(action)
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+
+        if UIDevice.current.userInterfaceIdiom == .pad,
+            let popoverPresentationController = alertController.popoverPresentationController {
+            popoverPresentationController.barButtonItem = sender
+        }
+
+        self.present(alertController, animated: true, completion: nil)
     }
     // MARK: TradeItTransactionsTableDelegate
     
@@ -88,8 +115,29 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     private func loadTransactions() {
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Loading transactions"
-        self.refreshRequested {
+        self.refreshRequested( onRefreshComplete: {
             activityView.hide(animated: true)
+        })
+    }
+
+    // MARK: Private
+
+    private func provideTransactionsUIAlertAction(filterType: TransactionFilterType) -> UIAlertAction {
+        return UIAlertAction(title: filterType.rawValue, style: .default, handler: filterActionWasTapped(filterType: filterType))
+    }
+
+    private func filterActionWasTapped(filterType: TransactionFilterType) -> (_ alertAction:UIAlertAction) -> () {
+        return { alertAction in
+            self.transactionsTableViewManager?.filterTransactionHistoryResult(filterType: filterType)
         }
     }
+}
+
+enum TransactionFilterType: String {
+    case ALL_TRANSACTIONS = "All Transactions"
+    case TRADES = "Trades"
+    case DIVIDENDS_AND_INTEREST = "Dividends and Interest"
+    case TRANSFERS = "Transfers"
+    case FEES = "Fees"
+    case OTHER = "Other"
 }

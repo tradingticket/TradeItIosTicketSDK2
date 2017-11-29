@@ -8,8 +8,12 @@ class TradeItTransactionTableViewHeader: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func populate(numberOfDays: Int) {
-        self.numberOfDaysHistoryLabel.text = "Past \(numberOfDays) days"
+    func populate(numberOfDays: Int, filterType: TransactionFilterType) {
+        if filterType != .ALL_TRANSACTIONS {
+            self.numberOfDaysHistoryLabel.text = "\(filterType.rawValue) past \(numberOfDays) days"
+        } else {
+            self.numberOfDaysHistoryLabel.text = "Past \(numberOfDays) days"
+        }
     }
 
 }

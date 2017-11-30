@@ -7,7 +7,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     private static let ORDER_CELL_HEIGHT = CGFloat(50)
     private static let SECTION_HEADER_HEIGHT = CGFloat(40)
-    private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(59)
+    private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(30)
     
     var ordersTable: UITableView? {
         get {

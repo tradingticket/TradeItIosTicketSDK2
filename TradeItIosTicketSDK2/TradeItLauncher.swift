@@ -322,9 +322,9 @@ protocol OAuthCompletionListener {
                 let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .ordersView)
                 
                 guard let ordersViewController = navController.viewControllers.last as? TradeItOrdersViewController else { return }
-                
                 ordersViewController.linkedBrokerAccount = linkedBrokerAccount
-                
+                ordersViewController.enableThemeOnLoad = false
+                ordersViewController.view.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
                 viewController.present(navController, animated: true, completion: nil)
             }, onFailure: {
                 print("TouchId access denied")

@@ -5,7 +5,6 @@ import MBProgressHUD
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
-    let tradingUIFlow = TradeItTradingUIFlow()
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
@@ -15,9 +14,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let _ = self.linkedBrokerAccount else {
+        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
         }
+        self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
         self.ordersTableViewManager?.delegate = self
         self.ordersTableViewManager?.ordersTable = self.ordersTable
@@ -30,35 +30,12 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.loadOrders()
     }
     
-    //MARK: IBAction
-    
-    @IBAction func tradeButtonWasTapped(_ sender: Any) {
-        let order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
-    }
-    
     // MARK: TradeItOrdersTableDelegate
     
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
                 preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
-        }
-        func authenticatePromise() -> Promise<Void>{
-            return Promise<Void> { fulfill, reject in
-                linkedBroker.authenticateIfNeeded(
-                    onSuccess: fulfill,
-                    onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                        self.alertManager.promptUserToAnswerSecurityQuestion(
-                            securityQuestion,
-                            onViewController: self,
-                            onAnswerSecurityQuestion: answerSecurityQuestion,
-                            onCancelSecurityQuestion: cancelSecurityQuestion
-                        )
-                    },
-                    onFailure: reject
-                )
-            }
         }
         
         func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {
@@ -70,7 +47,16 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             }
         }
         
-        authenticatePromise().then { _ in
+        linkedBroker.authenticatePromise(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }
+        ).then { _ in
             return ordersPromise()
         }.then { orders in
             self.ordersTableViewManager?.updateOrders(orders)

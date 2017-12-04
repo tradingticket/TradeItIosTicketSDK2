@@ -42,9 +42,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
+        let transactionsAction = UIAlertAction(title: "Transactions", style: .default, handler: transactionActionWasTapped)
         let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(ordersAction)
+        alertController.addAction(transactionsAction)
         alertController.addAction(tradeAction)
         alertController.addAction(cancelAction)
         
@@ -59,21 +61,6 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount, let linkedBroker = linkedBrokerAccount.linkedBroker else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
-        }
-
-        let authenticatePromise = Promise { fulfill, reject in
-            linkedBroker.authenticateIfNeeded(
-                onSuccess: fulfill,
-                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                    self.alertManager.promptUserToAnswerSecurityQuestion(
-                        securityQuestion,
-                        onViewController: self,
-                        onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: cancelSecurityQuestion
-                    )
-                },
-                onFailure: reject
-            )
         }
 
         let accountOverviewPromise = Promise<Void> { fulfill, reject in
@@ -94,7 +81,16 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             return self.quotesPromise(portfolioPositions: portfolioPositions)
         }
 
-        authenticatePromise.then { _ in
+        linkedBroker.authenticatePromise(
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            }
+        ).then { _ in
             return when(fulfilled: accountOverviewPromise, positionsAndQuotesPromise)
         }.then { _, positions in
             self.tableViewManager.updatePositions(withPositions: positions)
@@ -158,11 +154,21 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
+    private func transactionActionWasTapped(alert: UIAlertAction!) {
+        guard let transactionsViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .transactionsView) as? TradeItTransactionsViewController else {
+            return
+        }
+        transactionsViewController.linkedBrokerAccount = self.linkedBrokerAccount
+        self.navigationController?.pushViewController(transactionsViewController, animated: true)
+    }
+    
     private func orderActionWasTapped(alert: UIAlertAction!) {
         guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .ordersView) as? TradeItOrdersViewController else {
             return
         }
         ordersViewController.linkedBrokerAccount = self.linkedBrokerAccount
+        ordersViewController.enableThemeOnLoad = false
+        ordersViewController.view.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
         self.navigationController?.pushViewController(ordersViewController, animated: true)
     }
     

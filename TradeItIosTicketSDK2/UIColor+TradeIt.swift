@@ -9,8 +9,16 @@ extension UIColor {
         return UIColor(red: 235.0 / 255.0, green: 235.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
     }
 
+    static var tradeItlightGreyHeaderBackgroundColor: UIColor {
+        return UIColor(red: 241.0 / 255.0, green: 241.0 / 255.0, blue: 241.0 / 255.0, alpha: 1.0)
+    }
+
     static var tradeItlightGreyTextColor: UIColor {
         return UIColor(red: 160.0 / 255.0, green: 160.0 / 255.0, blue: 160.0 / 255.0, alpha: 1.0)
+    }
+
+    static var tradeItDarkGreytextColor: UIColor {
+        return UIColor(red: 137.0 / 255.0, green: 137.0 / 255.0, blue: 137.0 / 255.0, alpha: 1.0)
     }
 
     static var tradeItCoolBlueColor: UIColor {
@@ -39,5 +47,9 @@ extension UIColor {
     
     static var tradeItCancelRedColor: UIColor {
         return UIColor(red: 205.0 / 255.0, green: 28.0 / 255.0, blue: 41.0 / 255.0, alpha: 0.81)
+    }
+
+    static var tradeItCancelRoseColor: UIColor {
+        return UIColor(red: 223.0 / 255.0, green: 76.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0)
     }
 }

@@ -10,13 +10,13 @@
     public var accountNumber = ""
     public var accountIndex = ""
     public var accountBaseCurrency = ""
-    public var marginType: TradeItMarginType
+    public var userCanDisableMargin: Bool
     public var balanceLastUpdated: Date?
     public var balance: TradeItAccountOverview?
     public var fxBalance: TradeItFxAccountOverview?
     public var positions: [TradeItPortfolioPosition] = []
     public var orders: [TradeItOrderStatusDetails] = []
-    public var transactions: [TradeItTransaction] = []
+    public var transactionsHistoryResult: TradeItTransactionsHistoryResult?
     public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
 
     private weak var _linkedBroker: TradeItLinkedBroker?
@@ -73,7 +73,7 @@
          accountNumber: String,
          accountIndex: String,
          accountBaseCurrency: String,
-         marginType: TradeItMarginType,
+         userCanDisableMargin: Bool,
          balanceLastUpdated: Date? = nil,
          balance: TradeItAccountOverview?,
          fxBalance: TradeItFxAccountOverview?,
@@ -86,7 +86,7 @@
         self.accountNumber = accountNumber
         self.accountIndex = accountIndex
         self.accountBaseCurrency = accountBaseCurrency
-        self.marginType = marginType
+        self.userCanDisableMargin = userCanDisableMargin
         self.balanceLastUpdated = balanceLastUpdated
         self.balance = balance
         self.fxBalance = fxBalance
@@ -102,7 +102,7 @@
             accountNumber: accountData.number,
             accountIndex: "",
             accountBaseCurrency: accountData.baseCurrency,
-            marginType: accountData.marginType,
+            userCanDisableMargin: accountData.userCanDisableMargin,
             balance: nil,
             fxBalance: nil,
             positions: []
@@ -192,13 +192,13 @@
         )
     }
     
-    public func getTransactionsHistory(onSuccess: @escaping ([TradeItTransaction]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func getTransactionsHistory(onSuccess: @escaping (TradeItTransactionsHistoryResult) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItTransactionsHistoryRequest()
         request.accountNumber = self.accountNumber
         
         self.transactionService?.getTransactionsHistory(request, onSuccess: { result in
-            self.transactions = result.transactionHistoryDetailsList ?? []
-            onSuccess(self.transactions)
+            self.transactionsHistoryResult = result
+            onSuccess(result)
         }, onFailure: { error in
             self.setError(error)
             onFailure(error)

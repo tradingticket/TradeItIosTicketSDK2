@@ -237,6 +237,21 @@ import PromiseKit
             code: .sessionError
         )
     }
+
+    internal func authenticatePromise(
+        onSecurityQuestion: @escaping (
+        TradeItSecurityQuestionResult,
+        _ submitAnswer: @escaping (String) -> Void,
+        _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void) -> Promise<Void>{
+        return Promise<Void> { fulfill, reject in
+            self.authenticateIfNeeded(
+                onSuccess: fulfill,
+                onSecurityQuestion: onSecurityQuestion,
+                onFailure: reject
+            )
+        }
+    }
     
     // MARK: Private
 
@@ -247,7 +262,7 @@ import PromiseKit
                 existingAccount.accountNumber = account.accountNumber
                 existingAccount.accountIndex = account.accountIndex
                 existingAccount.accountBaseCurrency = account.accountBaseCurrency
-                existingAccount.marginType = account.marginTypeEnum
+                existingAccount.userCanDisableMargin = account.userCanDisableMargin
                 existingAccount.orderCapabilities = account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? []
                 return existingAccount
             } else {
@@ -257,7 +272,7 @@ import PromiseKit
                     accountNumber: account.accountNumber,
                     accountIndex: account.accountIndex,
                     accountBaseCurrency: account.accountBaseCurrency,
-                    marginType: account.marginTypeEnum,
+                    userCanDisableMargin: account.userCanDisableMargin,
                     balance: nil,
                     fxBalance: nil,
                     positions: [],

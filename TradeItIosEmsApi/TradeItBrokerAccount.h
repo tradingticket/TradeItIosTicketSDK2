@@ -12,7 +12,7 @@
 @property (nonatomic, nonnull) NSString *accountIndex;
 @property (nonatomic, nonnull) NSString *name;
 @property (nonatomic) BOOL tradable;
-@property (nonatomic, nullable) NSString<Optional> *marginType;
+@property (nonatomic) BOOL userCanDisableMargin;
 
 @property (nonatomic, copy, nonnull) NSArray<TradeItInstrumentOrderCapabilities> *orderCapabilities;
 

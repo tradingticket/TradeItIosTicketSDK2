@@ -5,9 +5,9 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?
     
-    private static let ORDER_CELL_HEIGHT = CGFloat(55)
-    private static let SECTION_HEADER_HEIGHT = CGFloat(50)
-    private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(35)
+    private static let ORDER_CELL_HEIGHT = CGFloat(50)
+    private static let SECTION_HEADER_HEIGHT = CGFloat(40)
+    private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(30)
     
     var ordersTable: UITableView? {
         get {
@@ -18,6 +18,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                newTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: newTable.bounds.size.width, height: 16))
                 addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
@@ -51,7 +52,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 OrderSectionPresenter(
                     ordersPresenter: openOrdersPresenter,
                     title: "Open Orders",
-                    titleDate: "Past 60 days",
+                    titleDate: "(Past 60 days)",
                     isCancelable: true
                 )
             )
@@ -64,7 +65,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 OrderSectionPresenter(
                     ordersPresenter: partiallyFilledOrdersPresenter,
                     title: "Partially Filled Orders",
-                    titleDate: "Today",
+                    titleDate: "(Today)",
                     isCancelable: true
                 )
             )
@@ -77,7 +78,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 OrderSectionPresenter(
                     ordersPresenter: filledOrdersPresenter,
                     title: "Filled Orders",
-                    titleDate: "Today"
+                    titleDate: "(Today)"
                 )
             )
         }
@@ -89,7 +90,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 OrderSectionPresenter(
                     ordersPresenter: otherOrdersPresenter,
                     title: "Other Orders",
-                    titleDate: "Today"
+                    titleDate: "(Today)"
                 )
             )
         }
@@ -129,7 +130,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         }
         return TradeItOrdersTableViewManager.ORDER_CELL_HEIGHT
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row]
             , !orderPresenter.isGroupOrderHeader else {
@@ -154,7 +155,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             }
             self.delegate?.cancelActionWasTapped(forOrderNumber: ordernumber, message: message)
         }
-        cancelAction.backgroundColor = UIColor.red
+        cancelAction.backgroundColor = UIColor.tradeItCancelRoseColor
         return [cancelAction]
     }
     
@@ -179,7 +180,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             action: #selector(initiateRefresh),
             for: UIControlEvents.valueChanged
         )
-//        TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
@@ -240,10 +240,10 @@ fileprivate class OrderSectionPresenter {
             return UITableViewCell()
         }
         if orderPresenter.isGroupOrderHeader {
-            let cell = UITableViewCell()
-            cell.contentView.backgroundColor = UIColor.tradeItlightGreyBackgroundColor
-            cell.textLabel?.text = orderPresenter.getGroupOrderHeaderTitle()
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightLight)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_GROUP_ORDER_HEADER_CELL_ID") as? TradeItGroupOrderHeaderTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.populate(withOrderStatusDetailsPresenter: orderPresenter)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_ORDER_CELL_ID") as? TradeItOrderTableViewCell else {
@@ -259,7 +259,8 @@ fileprivate class OrderSectionPresenter {
             return  UITableViewHeaderFooterView()
         }
         cell.populate(title: self.title, titleDate: self.titleDate, isCancelable: self.isCancelable)
-        return cell.contentView
+        let header = cell.contentView
+        return header
     }
 }
 

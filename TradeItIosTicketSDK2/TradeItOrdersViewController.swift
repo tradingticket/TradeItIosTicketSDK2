@@ -5,7 +5,6 @@ import MBProgressHUD
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
-    let tradingUIFlow = TradeItTradingUIFlow()
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
@@ -15,9 +14,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let _ = self.linkedBrokerAccount else {
+        guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
         }
+        self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
         self.ordersTableViewManager?.delegate = self
         self.ordersTableViewManager?.ordersTable = self.ordersTable
@@ -28,13 +28,6 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         super.viewWillAppear(animated)
         
         self.loadOrders()
-    }
-    
-    //MARK: IBAction
-    
-    @IBAction func tradeButtonWasTapped(_ sender: Any) {
-        let order = TradeItOrder(linkedBrokerAccount: linkedBrokerAccount)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     // MARK: TradeItOrdersTableDelegate

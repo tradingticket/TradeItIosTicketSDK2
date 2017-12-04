@@ -56,6 +56,8 @@ import UIKit
         if let navigationController = self.navigationController {
             guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
             ordersViewController.linkedBrokerAccount = linkedBrokerAccount
+            ordersViewController.enableThemeOnLoad = false
+            ordersViewController.view.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
             navigationController.setViewControllers([ordersViewController], animated: true)
         }
     }

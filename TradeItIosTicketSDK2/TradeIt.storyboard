@@ -798,7 +798,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2f0-C2-nAp">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_ORDER_HEADER_ID" rowHeight="60" id="GBV-Lt-5Lf" userLabel="TRADE_IT_ORDER_HEADER_ID" customClass="TradeItOrderTableViewHeader" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
@@ -808,34 +808,34 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oRT-gT-eb4">
-                                                    <rect key="frame" x="15" y="31.5" width="32.5" height="18"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <rect key="frame" x="15" y="23" width="25.5" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                                    <color key="textColor" red="0.53725868460000004" green="0.53724819420000003" blue="0.53725534679999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efb-5O-xi0" userLabel="Title Date">
-                                                    <rect key="frame" x="52.5" y="33.5" width="24.5" height="14.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                    <rect key="frame" x="45.5" y="23" width="25.5" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                     <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ash-St-Fp7">
-                                                    <rect key="frame" x="333" y="34" width="32" height="14.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                    <rect key="frame" x="337" y="24.5" width="28" height="12"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="oRT-gT-eb4" firstAttribute="leading" secondItem="5tY-hS-spJ" secondAttribute="leading" constant="15" id="Eid-jn-YnD"/>
-                                                <constraint firstItem="Ash-St-Fp7" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="Gcu-Vz-U5A"/>
-                                                <constraint firstItem="efb-5O-xi0" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="RIP-Th-NXZ"/>
+                                                <constraint firstItem="Ash-St-Fp7" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="d1X-nz-21J"/>
+                                                <constraint firstItem="oRT-gT-eb4" firstAttribute="centerY" secondItem="5tY-hS-spJ" secondAttribute="centerY" id="h3M-LB-CpP"/>
                                                 <constraint firstItem="efb-5O-xi0" firstAttribute="leading" secondItem="oRT-gT-eb4" secondAttribute="trailing" constant="5" id="nFt-lv-g2l"/>
+                                                <constraint firstItem="efb-5O-xi0" firstAttribute="centerY" secondItem="oRT-gT-eb4" secondAttribute="centerY" id="yda-uo-fSZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ash-St-Fp7" secondAttribute="trailing" constant="10" id="z8m-cU-TDm"/>
-                                                <constraint firstAttribute="bottom" secondItem="oRT-gT-eb4" secondAttribute="bottom" constant="10" id="zmJ-3v-Tgg"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <outlet property="detailLabel" destination="Ash-St-Fp7" id="Gud-8t-ftf"/>
                                             <outlet property="titleDateLabel" destination="efb-5O-xi0" id="swY-vI-J7d"/>
@@ -876,36 +876,36 @@
                                                             <rect key="frame" x="25" y="0.0" width="350" height="54.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oBT-9f-WeX">
-                                                                    <rect key="frame" x="15" y="10" width="53" height="18"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                                    <rect key="frame" x="15" y="10" width="48.5" height="17"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="action description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKl-JZ-QLu">
-                                                                    <rect key="frame" x="15" y="31" width="93.5" height="13.5"/>
+                                                                    <rect key="frame" x="15" y="27" width="116" height="17"/>
                                                                     <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="order type description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwA-ec-Ula">
-                                                                    <rect key="frame" x="78" y="12.5" width="115.5" height="13.5"/>
+                                                                    <rect key="frame" x="73.5" y="12" width="117" height="13.5"/>
                                                                     <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
-                                                                    <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="expiration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4IA-T7-JOV">
-                                                                    <rect key="frame" x="288.5" y="31" width="51.5" height="13.5"/>
+                                                                    <rect key="frame" x="288" y="29" width="52" height="13.5"/>
                                                                     <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i39-h1-Syk">
-                                                                    <rect key="frame" x="308" y="12.5" width="32" height="13.5"/>
+                                                                    <rect key="frame" x="307.5" y="12" width="32.5" height="13.5"/>
                                                                     <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
-                                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="0.53725868463516235" green="0.53724819421768188" blue="0.53725534677505493" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -914,7 +914,7 @@
                                                                 <constraint firstItem="4IA-T7-JOV" firstAttribute="trailing" secondItem="i39-h1-Syk" secondAttribute="trailing" id="2G8-5r-KOc"/>
                                                                 <constraint firstItem="KKl-JZ-QLu" firstAttribute="leading" secondItem="oBT-9f-WeX" secondAttribute="leading" id="2tJ-ib-hV2"/>
                                                                 <constraint firstAttribute="trailing" secondItem="i39-h1-Syk" secondAttribute="trailing" constant="10" id="Aqg-ZP-ocV"/>
-                                                                <constraint firstItem="KKl-JZ-QLu" firstAttribute="top" secondItem="oBT-9f-WeX" secondAttribute="bottom" constant="3" id="Mnf-xu-ck6"/>
+                                                                <constraint firstItem="KKl-JZ-QLu" firstAttribute="top" secondItem="oBT-9f-WeX" secondAttribute="bottom" id="Mnf-xu-ck6"/>
                                                                 <constraint firstItem="oBT-9f-WeX" firstAttribute="top" secondItem="g1X-ZB-e93" secondAttribute="top" constant="10" id="P9O-wJ-BxE"/>
                                                                 <constraint firstItem="4IA-T7-JOV" firstAttribute="centerY" secondItem="KKl-JZ-QLu" secondAttribute="centerY" id="QWN-7w-eXB"/>
                                                                 <constraint firstItem="VwA-ec-Ula" firstAttribute="leading" secondItem="oBT-9f-WeX" secondAttribute="trailing" constant="10" id="SNQ-PO-gUJ"/>
@@ -942,6 +942,24 @@
                                             <outlet property="symbolLabel" destination="oBT-9f-WeX" id="j47-dy-loN"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_GROUP_ORDER_HEADER_CELL_ID" textLabel="hv0-I2-36J" rowHeight="55" style="IBUITableViewCellStyleDefault" id="hnj-oZ-f6I" customClass="TradeItGroupOrderHeaderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="170.5" width="375" height="55"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hnj-oZ-f6I" id="Pmn-Jm-bGo">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hv0-I2-36J">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="54.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                                    <color key="textColor" red="0.53725868460000004" green="0.53724819420000003" blue="0.53725534679999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -968,24 +986,6 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aGy-W4-ZtK">
-                            <rect key="frame" x="10" y="122" width="220" height="40"/>
-                            <color key="backgroundColor" red="0.017085177823901176" green="0.56712824106216431" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="2uS-2H-V9D"/>
-                            </constraints>
-                            <state key="normal" title="Trade">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                    <integer key="value" value="4"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="tradeButtonWasTapped:" destination="76Z-J7-sWb" eventType="touchUpInside" id="fLF-pj-lgH"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No recent orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VO0-C1-KrF">
                             <rect key="frame" x="53" y="35" width="135" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -995,13 +995,9 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="8N4-6I-Cwe"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="top" secondItem="VO0-C1-KrF" secondAttribute="bottom" constant="8" id="AtZ-RI-p05"/>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="top" secondItem="V7q-vq-fOz" secondAttribute="bottom" constant="15" id="BMN-mj-PPn"/>
                         <constraint firstItem="VO0-C1-KrF" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="Fya-It-mkq"/>
-                        <constraint firstAttribute="trailing" secondItem="aGy-W4-ZtK" secondAttribute="trailing" constant="10" id="Ggb-qI-sk5"/>
                         <constraint firstAttribute="trailing" secondItem="V7q-vq-fOz" secondAttribute="trailing" constant="10" id="cYY-Uq-H48"/>
-                        <constraint firstItem="aGy-W4-ZtK" firstAttribute="centerX" secondItem="oXo-0g-ZwI" secondAttribute="centerX" id="dH5-Er-lZU"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="centerY" secondItem="oXo-0g-ZwI" secondAttribute="centerY" id="iJa-rf-SxE"/>
                         <constraint firstItem="V7q-vq-fOz" firstAttribute="leading" secondItem="oXo-0g-ZwI" secondAttribute="leading" constant="10" id="rUb-VB-bnW"/>
                     </constraints>

@@ -58,6 +58,7 @@ public struct TradeItNotification {
         case submitOrder
         case editOrder
         case viewPortfolio
+        case viewOrderStatus
         case linkSucceeded
         case linkFailed
     }

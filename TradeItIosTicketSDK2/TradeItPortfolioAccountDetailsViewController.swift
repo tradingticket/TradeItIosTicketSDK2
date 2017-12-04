@@ -167,6 +167,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             return
         }
         ordersViewController.linkedBrokerAccount = self.linkedBrokerAccount
+        ordersViewController.enableThemeOnLoad = false
+        ordersViewController.view.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
         self.navigationController?.pushViewController(ordersViewController, animated: true)
     }
     

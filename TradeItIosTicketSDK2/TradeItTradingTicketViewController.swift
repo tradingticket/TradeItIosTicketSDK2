@@ -24,7 +24,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
 
-    private var accountChanged: Bool = true
+    private var selectedAccountChanged: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,10 +82,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             return
         }
 
-        if self.accountChanged {
+        if self.selectedAccountChanged {
             self.initializeTicket()
         } else {
-            self.reloadTicket()
+            self.reloadTicketRows()
         }
     }
 
@@ -211,7 +211,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
-        self.accountChanged = true
+        self.selectedAccountChanged = true
         _ = self.navigationController?.popViewController(animated: true)
     }
 
@@ -229,12 +229,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     // MARK: Private
 
-    private func selectedAccountChanged() {
+    private func handleSelectedAccountChange() {
         if self.order.action == .buy {
             self.updateAccountOverview()
         } else {
             self.updateSharesOwned()
         }
+
+        self.selectedAccountChanged = false
     }
 
     private func pushAccountSelection() {
@@ -312,9 +314,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 self.equityOrderCapabilities = equityOrderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
-                self.selectedAccountChanged()
-                self.accountChanged = false
-                self.reloadTicket()
+                self.handleSelectedAccountChange()
+                self.reloadTicketRows()
             },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 activityView.hide(animated: true)
@@ -396,7 +397,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .estimatedCost)
     }
 
-    private func reloadTicket() {
+    private func reloadTicketRows() {
         self.setTitle()
         self.setPreviewButtonEnablement()
 

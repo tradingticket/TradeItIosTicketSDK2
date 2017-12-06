@@ -149,11 +149,10 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 , let ordernumber = orderPresenter.getOrderNumber() else {
                     return
             }
-            var message = "Please confirm you are canceling this order."
-            if orderPresenter.isGroupOrderHeader {
-                message = "All orders in this group will be canceled."
-            }
-            self.delegate?.cancelActionWasTapped(forOrderNumber: ordernumber, message: message)
+            self.delegate?.cancelActionWasTapped(
+                forOrderNumber: ordernumber,
+                title: orderPresenter.getCancelOrderPopupTitle(),
+                message: orderPresenter.getCancelOrderPopupMessage())
         }
         cancelAction.backgroundColor = UIColor.tradeItCancelRoseColor
         return [cancelAction]
@@ -267,5 +266,5 @@ fileprivate class OrderSectionPresenter {
 
 protocol TradeItOrdersTableDelegate: class {
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
-    func cancelActionWasTapped(forOrderNumber orderNumber:String, message:String)
+    func cancelActionWasTapped(forOrderNumber orderNumber: String, title: String, message: String)
 }

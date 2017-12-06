@@ -178,8 +178,41 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             return formatEnum(string: orderStatus.rawValue)
         }
     }
+
+    func getCancelOrderPopupTitle() -> String {
+        return self.isGroupOrderHeader ? "Cancel grouped orders?" : "Cancel order?"
+    }
+
+    func getCancelOrderPopupMessage() -> String {
+        if self.isGroupOrderHeader {
+            return "Cancel all orders in this group \"\(formatEnum(string: self.orderStatusDetails.groupOrderType))\"?"
+        } else {
+            return "Cancel your order to \(getFormattedCancelMessageDescription())?"
+        }
+    }
     
     // MARK: private
+
+    private func getFormattedCancelMessageDescription() -> String {
+        var description: String = ""
+        if (self.orderStatusDetails.orderStatusEnum == .filled) {
+            let action = formatEnum(string: self.orderLeg?.action)
+            let filledQuantity = self.orderLeg?.filledQuantity ?? 0
+            let filledPrice = self.orderLeg?.fills?[safe: 0]?.price ?? 0
+            description = "\(action) \(getFormattedQuantity(quantity: filledQuantity)) shares of \(getSymbol()) at \(getFormattedPrice(price:filledPrice))"
+        } else {
+            let orderPriceType = self.orderLeg?.priceInfo?.priceTypeEnum ?? .unknown
+            description = getFormattedDescription()
+            switch orderPriceType {
+            case .limit:
+                description += " limit"
+                break
+            default: break
+            }
+        }
+        return description
+    }
+
     private func formatEnum(string: String?) -> String {
         guard let string = string else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER

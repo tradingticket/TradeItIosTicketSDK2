@@ -88,36 +88,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     }
     
     func getFormattedDescription() -> String {
-        let action = formatEnum(string: self.orderLeg?.action)
-        let orderPriceType = self.orderLeg?.priceInfo?.priceTypeEnum ?? .unknown
-
-        var description: String = "\(action)"
-
-        if (self.orderStatusDetails.orderStatusEnum == .filled) {
-            let filledQuantity = self.orderLeg?.filledQuantity ?? 0
-            let filledPrice = self.orderLeg?.fills?[safe: 0]?.price ?? 0
-            description += " \(getFormattedQuantity(quantity: filledQuantity)) shares at \(getFormattedPrice(price:filledPrice))"
-        } else {
-            let orderedQuantity = self.orderLeg?.orderedQuantity ?? 0
-            description += " \(getFormattedQuantity(quantity: orderedQuantity))"
-
-            switch orderPriceType {
-            case .market, .trailingStopDollar, .trailingStopPercent, .stop:
-                description += " shares at market price"
-                break
-            case .limit:
-                let limitPrice = self.orderLeg?.priceInfo?.limitPrice ?? 0
-                description += " shares at \(getFormattedPrice(price:limitPrice))"
-                break
-            case .stopLimit:
-                let stopPrice = self.orderLeg?.priceInfo?.stopPrice ?? 0
-                description += " shares at \(getFormattedPrice(price:stopPrice))"
-                break
-            default: break
-            }
-        }
-
-        return description
+        return "\(actionDescription())\(quantityDescription())\(priceTypeDescription())"
     }
     
     func getFormattededOrderTypeDescription() -> String {
@@ -178,8 +149,88 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             return formatEnum(string: orderStatus.rawValue)
         }
     }
+
+    func getCancelOrderPopupTitle() -> String {
+        return self.isGroupOrderHeader ? "Cancel grouped orders?" : "Cancel order?"
+    }
+
+    func getCancelOrderPopupMessage() -> String {
+        if self.isGroupOrderHeader {
+            return "Cancel all orders in this group: \"\(formatEnum(string: self.orderStatusDetails.groupOrderType))\"?"
+        } else {
+            return "Cancel your order to \(getFormattedCancelMessageDescription())?"
+        }
+    }
     
     // MARK: private
+
+    private func priceTypeDescription() -> String {
+        let priceType = self.orderLeg?.priceInfo?.priceTypeEnum ?? .unknown
+
+        switch priceType {
+        case .market, .trailingStopDollar, .trailingStopPercent:
+            return " at market price"
+        case .limit:
+            let limitPrice = getFormattedPrice(price: self.orderLeg?.priceInfo?.limitPrice ?? 0)
+            return " at a limit of \(limitPrice)"
+        case .stop:
+            let stopPrice = getFormattedPrice(price: self.orderLeg?.priceInfo?.stopPrice ?? 0)
+            return " at market price with a stop at \(stopPrice)"
+        case .stopLimit:
+            let limitPrice = getFormattedPrice(price: self.orderLeg?.priceInfo?.limitPrice ?? 0)
+            let stopPrice = getFormattedPrice(price: self.orderLeg?.priceInfo?.stopPrice ?? 0)
+            return " at a limit of \(limitPrice) with a stop at \(stopPrice)"
+        default:
+            return ""
+        }
+    }
+
+    private func actionDescription() -> String {
+        guard self.orderStatusDetails.orderStatusEnum == .filled else {
+            return formatEnum(string: self.orderLeg?.action)
+        }
+
+        switch self.orderLeg?.actionEnum ?? .unknown {
+        case .buy:
+            return "Bought"
+        case .buyOpen:
+            return "Bought to open"
+        case .buyClose:
+            return "Bought to close"
+        case .buyToCover:
+            return "Bought to cover"
+        case .sell:
+            return "Sold"
+        case .sellOpen:
+            return "Sold to open"
+        case .sellClose:
+            return "Sold to close"
+        case .sellShort:
+            return "Sold short"
+        case .unknown:
+            return ""
+        }
+    }
+
+    private func quantityDescription() -> String {
+        var description = ""
+        let orderedQuantity = self.orderLeg?.orderedQuantity ?? 0
+
+        if (self.orderStatusDetails.orderStatusEnum == .partFilled) {
+            let filledQuantity = self.orderLeg?.filledQuantity ?? 0
+            let remainingShares = NSNumber(value: orderedQuantity.floatValue - filledQuantity.floatValue)
+            description += " \(getFormattedQuantity(quantity: remainingShares)) remaining of"
+        }
+
+        description += " \(getFormattedQuantity(quantity: orderedQuantity)) shares"
+
+        return description
+    }
+
+    private func getFormattedCancelMessageDescription() -> String {
+        return "\(actionDescription())\(quantityDescription()) of \(getSymbol())\(priceTypeDescription())"
+    }
+
     private func formatEnum(string: String?) -> String {
         guard let string = string else {
             return TradeItPresenter.MISSING_DATA_PLACEHOLDER

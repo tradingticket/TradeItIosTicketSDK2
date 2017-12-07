@@ -105,7 +105,7 @@ extension XCTestCase {
         XCTAssert(app.staticTexts["\(symbol)"].exists)
         XCTAssert(app.staticTexts["\(quantity)"].exists)
         XCTAssert(app.staticTexts["$\(limitPrice).00 (trigger: $\(stopPrice).00)"].exists)
-        XCTAssert(app.buttons["Place Order"].exists)
+        XCTAssert(app.buttons["Place order"].exists)
     }
     
     func fillOrder(_ app: XCUIApplication, orderAction: String, orderType: String, limitPrice: String, stopPrice: String, quantity: String, expiration: String){

@@ -44,8 +44,8 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         //Review screen
         waitForElementToAppear(app.navigationBars["Preview"])
         testPreviewValues(app, symbol: "GE", limitPrice: "25", stopPrice: "30", quantity: "1")
-        waitForElementToBeHittable(app.buttons["Place Order"])
-        app.buttons["Place Order"].tap()
+        waitForElementToBeHittable(app.buttons["Place order"])
+        app.buttons["Place order"].tap()
         //Confirmation screen
         waitForElementToAppear(app.navigationBars["Confirmation"])
         testConfirmation(app)
@@ -84,8 +84,8 @@ class TradeItSDK2UITestsTradeFlow: XCTestCase {
         // Preview screen
         waitForElementToAppear(app.navigationBars["Preview"])
         testPreviewValues(app, symbol: "GE", limitPrice: "25", stopPrice: "30", quantity: "1")
-        waitForElementToBeHittable(app.buttons["Place Order"])
-        app.buttons["Place Order"].tap()
+        waitForElementToBeHittable(app.buttons["Place order"])
+        app.buttons["Place order"].tap()
         //Confirmation screen
         waitForElementToAppear(app.navigationBars["Confirmation"])
         testConfirmation(app)

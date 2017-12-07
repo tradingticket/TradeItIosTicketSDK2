@@ -30,12 +30,6 @@ class TradeItOrderTableViewCell: UITableViewCell {
         } else {
             self.indentationIconView.isHidden = true
         }
-        
-        if orderStatusPresenter.isCancelable() {
-            self.contentView.alpha = 1.0
-        } else {
-            self.contentView.alpha = 0.5
-        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

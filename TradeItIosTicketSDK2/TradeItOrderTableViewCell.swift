@@ -34,7 +34,7 @@ class TradeItOrderTableViewCell: UITableViewCell {
         if orderStatusPresenter.isCancelable() {
             self.contentView.alpha = 1.0
         } else {
-            self.contentView.alpha = 0.6
+            self.contentView.alpha = 0.5
         }
     }
     

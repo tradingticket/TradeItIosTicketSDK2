@@ -5,7 +5,6 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?
     
-    private static let ORDER_CELL_HEIGHT = CGFloat(50)
     private static let SECTION_HEADER_HEIGHT = CGFloat(40)
     private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(30)
     
@@ -128,7 +127,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             , !orderPresenter.isGroupOrderHeader else {
             return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
-        return TradeItOrdersTableViewManager.ORDER_CELL_HEIGHT
+        return UITableViewAutomaticDimension
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -136,7 +135,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             , !orderPresenter.isGroupOrderHeader else {
                 return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
-        return TradeItOrdersTableViewManager.ORDER_CELL_HEIGHT
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -149,11 +148,10 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                 , let ordernumber = orderPresenter.getOrderNumber() else {
                     return
             }
-            var message = "Please confirm you are canceling this order."
-            if orderPresenter.isGroupOrderHeader {
-                message = "All orders in this group will be canceled."
-            }
-            self.delegate?.cancelActionWasTapped(forOrderNumber: ordernumber, message: message)
+            self.delegate?.cancelActionWasTapped(
+                forOrderNumber: ordernumber,
+                title: orderPresenter.getCancelOrderPopupTitle(),
+                message: orderPresenter.getCancelOrderPopupMessage())
         }
         cancelAction.backgroundColor = UIColor.tradeItCancelRoseColor
         return [cancelAction]
@@ -267,5 +265,5 @@ fileprivate class OrderSectionPresenter {
 
 protocol TradeItOrdersTableDelegate: class {
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
-    func cancelActionWasTapped(forOrderNumber orderNumber:String, message:String)
+    func cancelActionWasTapped(forOrderNumber orderNumber: String, title: String, message: String)
 }

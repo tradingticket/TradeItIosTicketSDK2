@@ -287,9 +287,9 @@ extension XCTestCase {
         //Positions details
         app.tables.staticTexts["AAPL"].tap()
         waitForElementToAppear(app.tables.staticTexts["Bid / Ask"])
-        XCTAssert(app.tables.staticTexts["Total Value"].exists)
-        XCTAssert(app.tables.staticTexts["Total Return"].exists)
-        XCTAssert(app.tables.staticTexts["Day Return"].exists)
+        XCTAssert(app.tables.staticTexts["Total value"].exists)
+        XCTAssert(app.tables.staticTexts["Total return"].exists)
+        XCTAssert(app.tables.staticTexts["Day return"].exists)
         waitForElementToDisappear(app.tables.staticTexts["N/A"])
         app.tables.staticTexts["AAPL"].tap()
         let portfolioBackButton = app.buttons["Portfolio"]

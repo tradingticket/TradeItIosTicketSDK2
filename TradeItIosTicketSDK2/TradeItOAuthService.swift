@@ -16,7 +16,7 @@
         
         let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
-            emsAction: "user/getOAuthLoginPopupUrlForMobile",
+            emsAction: "user/getOAuthLoginPopupUrlForMobile?fidelityPilot=true",
             environment: self.connector.environment
         )
         
@@ -60,7 +60,7 @@
         
         let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
-            emsAction: "user/getOAuthLoginPopupURLForTokenUpdate",
+            emsAction: "user/getOAuthLoginPopupURLForTokenUpdate?fidelityPilot=true",
             environment: self.connector.environment
         )
         

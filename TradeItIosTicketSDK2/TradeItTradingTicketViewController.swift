@@ -135,24 +135,24 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .account:
             self.pushAccountSelection()
         case .orderAction:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
             self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
             }
         case .orderType:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
             self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
                 let orderExpirationValue = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
             }
         case .expiration:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
             self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
         case .marginType:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
+            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
             self.selectionViewController.initialSelection = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
             self.selectionViewController.selections = MarginPresenter.LABELS
             self.selectionViewController.onSelected = { selection in

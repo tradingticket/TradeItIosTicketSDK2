@@ -156,7 +156,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
     func getCancelOrderPopupMessage() -> String {
         if self.isGroupOrderHeader {
-            return "Cancel all orders in this group: \"\(formatEnum(string: self.orderStatusDetails.groupOrderType))\"?"
+            return "Cancel all orders in this group \"\(formatEnum(string: self.orderStatusDetails.groupOrderType))\"?"
         } else {
             return "Cancel your order to \(getFormattedCancelMessageDescription())?"
         }

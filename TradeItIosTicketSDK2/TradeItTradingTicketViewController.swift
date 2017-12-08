@@ -135,20 +135,17 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .account:
             self.pushAccountSelection()
         case .orderAction:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
-            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.action.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
             }
         case .orderType:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
-            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.type.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
                 let orderExpirationValue = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
             }
         case .expiration:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
-            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
         case .marginType:
@@ -587,11 +584,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
     
     private func pushOrderCapabilitiesSelection(
+        ticketRow: TicketRow,
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
+        self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
         self.selectionViewController.onSelected = { selection in

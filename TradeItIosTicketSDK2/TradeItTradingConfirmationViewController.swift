@@ -25,7 +25,20 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.viewOrderStatusButton.isHidden = !TradeItSDK.isPortfolioEnabled
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == self.order?.linkedBrokerAccount?.brokerName
+                    }
+                ) else {
+                    return
+                }
+                self.viewOrderStatusButton.isHidden = (!TradeItSDK.isPortfolioEnabled || !broker.supportsOrderStatus())
+            }, onFailure: { _ in
+                self.viewOrderStatusButton.isHidden = true
+            }
+        )
 
         self.timeStampLabel.text = self.timestamp
         self.orderNumberLabel.text = "Order #\(self.orderNumber ?? "")"

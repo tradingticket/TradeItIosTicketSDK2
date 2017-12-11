@@ -8,9 +8,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     let viewControllerProvider = TradeItViewControllerProvider()
     var alertManager = TradeItAlertManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    private var brokerSupportedService: [(supportedService: SupportedService, handler: ((_ alert: UIAlertAction) -> ()))] = []
 
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var adContainer: UIView!
+    @IBOutlet weak var activityButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +26,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         self.tableViewManager.delegate = self
         self.tableViewManager.table = self.table
 
+        self.fetchBrokerSupportedServices()
         self.tableViewManager.initiateRefresh()
 
         TradeItSDK.adService.populate(
@@ -40,14 +43,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     
     @IBAction func activityTapped(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        
-        let ordersAction = UIAlertAction(title: "Orders", style: .default, handler: orderActionWasTapped)
-        let transactionsAction = UIAlertAction(title: "Transactions", style: .default, handler: transactionActionWasTapped)
-        let tradeAction = UIAlertAction(title: "Trade", style: .default, handler: tradeActionWasTapped)
+        self.brokerSupportedService.forEach { (supportedService, handler) in
+            let action = UIAlertAction(title: supportedService.getActionTitle(), style: .default, handler: handler)
+            alertController.addAction(action)
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(ordersAction)
-        alertController.addAction(transactionsAction)
-        alertController.addAction(tradeAction)
         alertController.addAction(cancelAction)
         
         if UIDevice.current.userInterfaceIdiom == .pad,
@@ -147,14 +147,34 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }
     }
 
-    // MARK: Private
+    private func fetchBrokerSupportedServices() {
+        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == self.linkedBrokerAccount?.brokerName
+                }
+                    ) else {
+                        return
+                }
 
-    private func tradeActionWasTapped(alert: UIAlertAction!) {
+                self.brokerSupportedService = [
+                    (supportedService: SupportedService.orders, handler: self.orderActionWasTapped),
+                    (supportedService: SupportedService.transactions, handler: self.transactionActionWasTapped),
+                    (supportedService: SupportedService.trading, handler: self.tradeActionWasTapped)
+                ].filter {$0.supportedService.supportsService(broker: broker) }
+                self.brokerSupportedService.count > 0 ? (self.activityButton.isEnabled = true) : (self.activityButton.isEnabled = false)
+            },
+            onFailure: {_ in}
+        )
+    }
+
+    private func tradeActionWasTapped(alert: UIAlertAction) {
         let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
-    private func transactionActionWasTapped(alert: UIAlertAction!) {
+    private func transactionActionWasTapped(alert: UIAlertAction) {
         guard let transactionsViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .transactionsView) as? TradeItTransactionsViewController else {
             return
         }
@@ -162,7 +182,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         self.navigationController?.pushViewController(transactionsViewController, animated: true)
     }
     
-    private func orderActionWasTapped(alert: UIAlertAction!) {
+    private func orderActionWasTapped(alert: UIAlertAction) {
         guard let ordersViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .ordersView) as? TradeItOrdersViewController else {
             return
         }
@@ -189,5 +209,27 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
         let order = self.provideOrder(forPortfolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+    }
+}
+
+fileprivate enum SupportedService: String {
+    case orders
+    case transactions
+    case trading
+
+    func getActionTitle() -> String {
+        switch self {
+        case .orders: return "Orders"
+        case .trading: return "Trade"
+        case .transactions: return "Transactions"
+        }
+    }
+
+    func supportsService(broker: TradeItBroker) -> Bool {
+        switch self {
+        case .orders: return broker.supportsOrderStatus()
+        case .trading: return broker.supportsTrading()
+        case .transactions: return broker.supportsTransactionsHistory()
+        }
     }
 }

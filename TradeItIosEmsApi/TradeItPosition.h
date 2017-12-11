@@ -46,4 +46,6 @@
 
 @property (nullable, copy) NSString<Optional> *currencyCode;
 
+@property (nullable, copy) NSString<Optional>  *positionDescription;
+
 @end

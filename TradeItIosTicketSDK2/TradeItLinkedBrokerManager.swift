@@ -312,6 +312,30 @@ import PromiseKit
         onFinished()
     }
 
+    // MARK: Internal
+    internal func getBroker(
+        shortName: String,
+        onSuccess: @escaping (TradeItBroker) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        self.getAvailableBrokers(
+            onSuccess: { brokers in
+                guard let broker = brokers.first(
+                    where: { broker in
+                        return broker.shortName == shortName
+                    }
+                ) else {
+                    onFailure(TradeItErrorResult.error(withSystemMessage: "This broker short name doesn't exist"))
+                    return
+                }
+                onSuccess(broker)
+            },
+            onFailure:onFailure
+        )
+    }
+
+    // MARK: Private
+
     private func syncAccounts(localLinkedBroker: TradeItLinkedBroker, remoteLinkedBroker: LinkedBrokerData) {
         // Add missing accounts
         let localAccountNumbers = localLinkedBroker.accounts.flatMap { $0.accountNumber }
@@ -330,8 +354,6 @@ import PromiseKit
             localLinkedBroker.accounts.remove(localAccountToRemove)
         }
     }
-
-    // MARK: Private
 
     private func getOAuthLoginPopupForTokenUpdateUrl(
         withBroker broker: String? = nil,

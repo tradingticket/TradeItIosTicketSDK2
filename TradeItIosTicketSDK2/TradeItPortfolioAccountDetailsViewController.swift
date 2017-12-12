@@ -148,16 +148,12 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     }
 
     private func fetchBrokerSupportedServices() {
-        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
-            onSuccess: { brokers in
-                guard let broker = brokers.first(
-                    where: { broker in
-                        return broker.shortName == self.linkedBrokerAccount?.brokerName
-                }
-                    ) else {
-                        return
-                }
-
+        guard let brokerShortName = self.linkedBrokerAccount?.brokerName else {
+            return
+        }
+        TradeItSDK.linkedBrokerManager.getBroker(
+            shortName: brokerShortName,
+            onSuccess: { broker in
                 self.brokerSupportedService = [
                     (supportedService: SupportedService.orders, handler: self.orderActionWasTapped),
                     (supportedService: SupportedService.transactions, handler: self.transactionActionWasTapped),

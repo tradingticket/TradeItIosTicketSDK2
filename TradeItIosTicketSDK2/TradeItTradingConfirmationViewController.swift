@@ -25,15 +25,12 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        TradeItSDK.linkedBrokerManager.getAvailableBrokers(
-            onSuccess: { brokers in
-                guard let broker = brokers.first(
-                    where: { broker in
-                        return broker.shortName == self.order?.linkedBrokerAccount?.brokerName
-                    }
-                ) else {
-                    return
-                }
+        guard let brokerShortName = self.order?.linkedBrokerAccount?.brokerName else {
+            return
+        }
+        TradeItSDK.linkedBrokerManager.getBroker(
+            shortName: brokerShortName,
+            onSuccess: { broker in
                 self.viewOrderStatusButton.isHidden = (!TradeItSDK.isPortfolioEnabled || !broker.supportsOrderStatus())
             }, onFailure: { _ in
                 self.viewOrderStatusButton.isHidden = true

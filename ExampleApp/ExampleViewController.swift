@@ -212,6 +212,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
+                        label: "Transactions for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+
+                            TradeItSDK.launcher.launchTransactions(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                    }
+                    ),
+                    Action(
                         label: "Trading",
                         action: {
                             TradeItSDK.launcher.launchTrading(fromViewController: self.advancedViewController, withOrder: TradeItOrder())
@@ -442,6 +455,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                             )
                         }
                     ),
+                    YahooAction(
+                        label: "Launch Transactions for first linked broker account",
+                        action: {
+                            guard let linkedBrokerAccount = TradeItSDK.linkedBrokerManager.linkedBrokers.first?.accounts.first else {
+                                return print("=====> You must link a broker with an account first")
+                            }
+
+                            TradeItSDK.yahooLauncher.launchTransactions(
+                                fromViewController: self.advancedViewController,
+                                forLinkedBrokerAccount: linkedBrokerAccount
+                            )
+                        }
+                    )
                 ]
             )
         ]

@@ -159,7 +159,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
                     (supportedService: SupportedService.transactions, handler: self.transactionActionWasTapped),
                     (supportedService: SupportedService.trading, handler: self.tradeActionWasTapped)
                 ].filter {$0.supportedService.supportsService(broker: broker) }
-                self.brokerSupportedService.count > 0 ? (self.activityButton.isEnabled = true) : (self.activityButton.isEnabled = false)
+                self.activityButton.isEnabled = self.brokerSupportedService.count > 0
             },
             onFailure: {_ in}
         )

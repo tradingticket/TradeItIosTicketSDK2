@@ -161,4 +161,23 @@ import SafariServices
             }
         )
     }
+
+    public func launchTransactions(
+        fromViewController viewController: UIViewController,
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                let navController = TradeItYahooNavigationController()
+                guard let transactionsViewController = self.tradeItViewControllerProvider.provideViewController(forStoryboardId: .transactionsView) as? TradeItTransactionsViewController else { return }
+                transactionsViewController.enableThemeOnLoad = false
+                transactionsViewController.enableCustomNavController()
+                transactionsViewController.linkedBrokerAccount = linkedBrokerAccount
+                navController.pushViewController(transactionsViewController, animated: false)
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("TouchId access denied")
+            }
+        )
+    }
 }

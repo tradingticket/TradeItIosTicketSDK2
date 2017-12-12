@@ -332,4 +332,23 @@ protocol OAuthCompletionListener {
         )
     }
 
+    public func launchTransactions(
+        fromViewController viewController: UIViewController,
+        forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+        ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: .transactionsView)
+
+                guard let transactionsViewController = navController.viewControllers.last as? TradeItTransactionsViewController else { return }
+                transactionsViewController.linkedBrokerAccount = linkedBrokerAccount
+                transactionsViewController.enableThemeOnLoad = false
+                transactionsViewController.view.backgroundColor = UIColor.tradeItlightGreyHeaderBackgroundColor
+                viewController.present(navController, animated: true, completion: nil)
+            }, onFailure: {
+                print("TouchId access denied")
+            }
+        )
+    }
+
 }

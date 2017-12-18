@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.39]
+### Added
+- Transactions screen
+- Flag to handle Fidelity migration
+
+### Changed
+- Improved trading ticket, using order capabilities
+- Fixed content casing consistency
+
+### Removed
+
 ## [1.1.38]
 ### Added
 - Order screens

@@ -1765,7 +1765,6 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="3Sh-bV-NBJ" firstAttribute="top" secondItem="6e1-Po-iTX" secondAttribute="bottom" id="DAn-5p-dhc"/>
                             <constraint firstItem="6e1-Po-iTX" firstAttribute="leading" secondItem="GbT-1G-rZc" secondAttribute="leading" id="lDL-Kf-GKy"/>

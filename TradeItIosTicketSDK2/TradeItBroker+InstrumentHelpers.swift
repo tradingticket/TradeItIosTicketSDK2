@@ -37,4 +37,22 @@ extension TradeItBroker {
             instrument in instrument.isFeatured
         } != nil
     }
+
+    func supportsTransactionsHistory() -> Bool {
+        return brokerInstrumentsSwiftArray?.contains { instrument in
+            return instrument.supportsTransactionHistory == true
+        } ?? false
+    }
+
+    func supportsOrderStatus() -> Bool {
+        return brokerInstrumentsSwiftArray?.contains { instrument in
+            return instrument.supportsOrderStatus == true
+        } ?? false
+    }
+
+    func supportsTrading() -> Bool {
+        return brokerInstrumentsSwiftArray?.contains { instrument in
+            return instrument.supportsTrading == true
+        } ?? false
+    }
 }

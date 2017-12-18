@@ -14,7 +14,7 @@ class TradeItBrokerService {
 
         let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
-            emsAction: "preference/getBrokerList",
+            emsAction: "preference/getBrokerList?fidelityPilot=true",
             environment: self.connector.environment
         )
 

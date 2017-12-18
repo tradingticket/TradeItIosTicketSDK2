@@ -96,13 +96,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .account:
             self.pushAccountSelection()
         case .orderAction:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .actions, value: self.order.actionType) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.actionType) { selection in
                 self.order.actionType = selection
             }
         case .priceType:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .priceTypes, value: self.order.priceType) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.priceType) { selection in
                 self.order.priceType = selection
                 self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil)
                 if self.order.requiresRate() {
@@ -110,8 +108,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 }
             }
         case .expiration:
-            self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
-            self.pushOrderCapabilitiesSelection(field: .expirationTypes, value: self.order.expirationType) { selection in
+            self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .expirationTypes, value: self.order.expirationType) { selection in
                 self.order.expirationType = selection
             }
         case .leverage:
@@ -479,11 +476,13 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func pushOrderCapabilitiesSelection(
+        ticketRow: TicketRow,
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
         guard let orderCapabilities = self.orderCapabilities else { return }
+        self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
         self.selectionViewController.onSelected = { selection in

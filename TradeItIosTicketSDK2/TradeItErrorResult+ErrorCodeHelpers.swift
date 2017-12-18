@@ -31,7 +31,7 @@ extension TradeItErrorResult: Error {
     public var message: String {
         get {
             let messages = (self.longMessages as? [String]) ?? []
-            return messages.joined(separator: ".\n\n")
+            return messages.joined(separator: "\n\n")
         }
     }
 

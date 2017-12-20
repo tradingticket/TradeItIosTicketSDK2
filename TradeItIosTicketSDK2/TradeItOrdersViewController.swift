@@ -21,12 +21,6 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
         self.ordersTableViewManager?.delegate = self
         self.ordersTableViewManager?.ordersTable = self.ordersTable
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         self.loadOrders()
     }
     

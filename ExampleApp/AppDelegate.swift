@@ -104,6 +104,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             name: TradeItNotification.Name.buttonTapped,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onDidSelectRowNotification),
+            name: TradeItNotification.Name.didSelectRow,
+            object: nil
+        )
     }
 
     func onAlertShownNotification(notification: Notification) {
@@ -139,6 +146,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let button = notification.userInfo?[TradeItNotification.UserInfoKey.button.rawValue] ?? "NO KEY FOR BUTTON"
         print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
+    }
+
+    func onDidSelectRowNotification(notification: Notification) {
+        let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
+        let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
+        let rowType = notification.userInfo?[TradeItNotification.UserInfoKey.rowType.rawValue] ?? "NO KEY FOR ROWTYPE"
+        let rowLabel = notification.userInfo?[TradeItNotification.UserInfoKey.rowLabel.rawValue] ?? "NO KEY FOR ROWLABEL"
+        print("=====> ROW TAPPED: VIEW: \(view), TITLE: \(viewTitle), ROWTYPE: \(rowType), ROWLABEL: \(rowLabel)")
     }
 
     private func completeManualOAuth(oAuthVerifier: String) {

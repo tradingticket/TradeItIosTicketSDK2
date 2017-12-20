@@ -42,15 +42,18 @@ public struct TradeItNotification {
         public static let didLink = NSNotification.Name(rawValue: "TradeItSDKDidLink")
         public static let didUnlink = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
         public static let buttonTapped = NSNotification.Name(rawValue: "buttonTapped")
+        public static let didSelectRow = NSNotification.Name(rawValue: "didSelectRow")
     }
 
     public enum UserInfoKey: String {
         case view
         case viewTitle
         case alertTitle
-        case alertMessage
+        case alertMessage   
         case error
         case button
+        case rowType
+        case rowLabel
     }
 
     public enum Button: String {
@@ -74,5 +77,10 @@ public struct TradeItNotification {
         case selectExpirationType
         case selectAccount
         case selectBroker
+    }
+
+    public enum RowType: String {
+        case broker
+        case featuredBroker
     }
 }

@@ -107,8 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(onDidSelectRowNotification),
-            name: TradeItNotification.Name.didSelectRow,
+            selector: #selector(onLabelTappedNotification),
+            name: TradeItNotification.Name.labelTapped,
             object: nil
         )
     }
@@ -148,12 +148,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
     }
 
-    func onDidSelectRowNotification(notification: Notification) {
+    func onLabelTappedNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
-        let rowType = notification.userInfo?[TradeItNotification.UserInfoKey.rowType.rawValue] ?? "NO KEY FOR ROWTYPE"
-        let rowLabel = notification.userInfo?[TradeItNotification.UserInfoKey.rowLabel.rawValue] ?? "NO KEY FOR ROWLABEL"
-        print("=====> ROW TAPPED: VIEW: \(view), TITLE: \(viewTitle), ROWTYPE: \(rowType), ROWLABEL: \(rowLabel)")
+        let label = notification.userInfo?[TradeItNotification.UserInfoKey.label.rawValue] ?? "NO KEY FOR LABEL"
+        let labelText = notification.userInfo?[TradeItNotification.UserInfoKey.labelText.rawValue] ?? "NO KEY FOR LABELTEXT"
+        print("=====> LABEL TAPPED: VIEW: \(view), TITLE: \(viewTitle), LABEL: \(label), LABELTEXT: \(labelText)")
     }
 
     private func completeManualOAuth(oAuthVerifier: String) {

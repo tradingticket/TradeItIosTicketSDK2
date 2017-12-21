@@ -70,21 +70,10 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         self.featuredBrokerImageView.isHidden = true
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.fireViewEventNotification(view: .welcome, title: self.title)
-    }
-
     // MARK: UIGestureRecognizerDelegate
 
     func handleTap(gestureRecognizer: UIGestureRecognizer) {
         if let featuredBroker = featuredBroker {
-            self.fireLabelTappedEventNotification(
-                view: TradeItNotification.View.welcome,
-                title: self.title,
-                labelText: featuredBroker.brokerShortName,
-                label: TradeItNotification.Label.featuredBroker
-            )
             self.launchOAuth(forBroker: featuredBroker)
         }
     }
@@ -102,8 +91,6 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
-
-        self.fireViewEventNotification(view: .brokerOAuth, title: "OAuth \(brokerShortName)")
 
         TradeItSDK.linkedBrokerManager.getOAuthLoginPopupUrl(
             withBroker: brokerShortName,

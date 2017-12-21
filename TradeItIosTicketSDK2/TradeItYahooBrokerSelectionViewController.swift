@@ -107,18 +107,18 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let isFeaturedBrokerSelected = self.isFeaturedBrokerSelected(indexPath: indexPath)
         let selectedBroker = self.getBroker(atIndexPath: indexPath)
-        self.fireLabelTappedEventNotification(
+        self.fireDidSelectRowEventNotification(
             view: TradeItNotification.View.selectBroker,
             title: self.title,
-            labelText: selectedBroker.brokerShortName,
-            label: isFeaturedBrokerSelected ? TradeItNotification.Label.featuredBroker : TradeItNotification.Label.broker
+            label: selectedBroker.brokerShortName,
+            rowType: isFeaturedBrokerSelected ? TradeItNotification.RowType.featuredBroker : TradeItNotification.RowType.broker
         )
         self.brokerTable.deselectRow(at: indexPath, animated: true)
         self.launchOAuth(forBroker: selectedBroker)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if self.isFeaturedBrokerSelected(indexPath: indexPath) {
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             return 88
         }
 
@@ -179,7 +179,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var broker: TradeItBroker?
 
-        if self.isFeaturedBrokerSelected(indexPath: indexPath) {
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
             if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {

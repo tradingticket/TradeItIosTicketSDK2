@@ -91,21 +91,21 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     }
 
     private func getBroker(atIndexPath indexPath: IndexPath) -> TradeItBroker {
-        if self.isFeaturedBrokerSelected(indexPath: indexPath) {
+        if self.isFeaturedCell(indexPath: indexPath) {
             return self.featuredBrokers[indexPath.row]
         } else {
             return self.brokers[indexPath.row]
         }
     }
 
-    private func isFeaturedBrokerSelected(indexPath: IndexPath) -> Bool {
+    private func isFeaturedCell(indexPath: IndexPath) -> Bool {
         return !self.featuredBrokers.isEmpty && indexPath.section == 0
     }
 
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let isFeaturedBrokerSelected = self.isFeaturedBrokerSelected(indexPath: indexPath)
+        let isFeaturedBrokerSelected = self.isFeaturedCell(indexPath: indexPath)
         let selectedBroker = self.getBroker(atIndexPath: indexPath)
         self.fireDidSelectRowEventNotification(
             view: TradeItNotification.View.selectBroker,

@@ -49,7 +49,7 @@ public struct TradeItNotification {
         case view
         case viewTitle
         case alertTitle
-        case alertMessage   
+        case alertMessage
         case error
         case button
         case rowType

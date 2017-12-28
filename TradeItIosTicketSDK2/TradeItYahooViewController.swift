@@ -29,4 +29,19 @@ class TradeItYahooViewController: TradeItViewController {
             ]
         )
     }
+
+    func fireDidSelectRowEventNotification(view: TradeItNotification.View, title: String? = nil, label: String? = nil, rowType: TradeItNotification.RowType) {
+        let title = title ?? "NO TITLE"
+        let label = label ?? "NO LABEL"
+        NotificationCenter.default.post(
+            name: TradeItNotification.Name.didSelectRow,
+            object: nil,
+            userInfo: [
+                TradeItNotification.UserInfoKey.view.rawValue: view.rawValue,
+                TradeItNotification.UserInfoKey.viewTitle.rawValue: title,
+                TradeItNotification.UserInfoKey.rowType.rawValue: rowType,
+                TradeItNotification.UserInfoKey.rowLabel.rawValue: label
+            ]
+        )
+    }
 }

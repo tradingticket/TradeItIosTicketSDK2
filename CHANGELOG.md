@@ -1,5 +1,14 @@
 # Changelog
 
+
+## [1.1.40]
+### Added
+- Instrument Yahoo broker selection
+
+### Changed
+
+### Removed
+
 ## [1.1.39]
 ### Added
 - Transactions screen

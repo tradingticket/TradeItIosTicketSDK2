@@ -5,6 +5,7 @@
     public static let nameDidLink = TradeItNotification.Name.didLink
     public static let nameDidUnlink = TradeItNotification.Name.didUnlink
     public static let nameButtonTapped = TradeItNotification.Name.buttonTapped
+    public static let nameDidSelectRow = TradeItNotification.Name.didSelectRow
 
     // MARK: Notification UserInfo keys
     public static let userInfoKeyView = TradeItNotification.UserInfoKey.view.rawValue
@@ -33,12 +34,17 @@
     public static let viewSelectExpirationType = TradeItNotification.View.selectExpirationType.rawValue
     public static let viewSelectAccount = TradeItNotification.View.selectAccount.rawValue
     public static let viewSelectBroker = TradeItNotification.View.selectBroker.rawValue
+
+    // MARK: Row Types
+    public static let rowTypeBroker = TradeItNotification.RowType.broker.rawValue
+    public static let rowTypeFeaturedBroker = TradeItNotification.RowType.featuredBroker.rawValue
 }
 
+// NOTE: If you are adding anything to TradeItNotification you must also add it to TradeItNotificationConstants which provides Obj-C helpers
 public struct TradeItNotification {
     public struct Name {
-        public static let alertShown =  NSNotification.Name(rawValue: "alertShown")
-        public static let viewDidAppear =  NSNotification.Name(rawValue: "viewDidAppear")
+        public static let alertShown = NSNotification.Name(rawValue: "alertShown")
+        public static let viewDidAppear = NSNotification.Name(rawValue: "viewDidAppear")
         public static let didLink = NSNotification.Name(rawValue: "TradeItSDKDidLink")
         public static let didUnlink = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
         public static let buttonTapped = NSNotification.Name(rawValue: "buttonTapped")

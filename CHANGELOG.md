@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.41]
+### Added
+- Add missing notification constants for row selection instrumentation
+
+### Changed
+
+### Removed
+
 
 ## [1.1.40]
 ### Added

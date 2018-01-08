@@ -14,6 +14,8 @@
     public static let userInfoKeyAlertMessage = TradeItNotification.UserInfoKey.alertMessage.rawValue
     public static let userInfoKeyError = TradeItNotification.UserInfoKey.error.rawValue
     public static let userInfoKeyButton = TradeItNotification.UserInfoKey.button.rawValue
+    public static let userInfoKeyRowType = TradeItNotification.UserInfoKey.rowType.rawValue
+    public static let userInfoKeyRowLabel = TradeItNotification.UserInfoKey.rowType.rawValue
 
     // MARK: Buttons
     public static let buttonPreviewOrder = TradeItNotification.Button.previewOrder.rawValue

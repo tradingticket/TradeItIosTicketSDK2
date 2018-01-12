@@ -147,7 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
     }
 
-    func onDidSelectRowNotification(notification: Notification) {
+    @objc func onDidSelectRowNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
         let rowType = notification.userInfo?[TradeItNotification.UserInfoKey.rowType.rawValue] ?? "NO KEY FOR ROWTYPE"

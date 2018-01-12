@@ -14,7 +14,7 @@ class TradeItTransactionPresenter: NSObject {
     }
     
     func getAmountLabel() -> String {
-        guard let amount = transaction.amount, amount != 0 else {
+        guard let amount = transaction.amount, amount != 0 as NSNumber else {
             return ""
         }
         return NumberFormatter.formatCurrency(amount, currencyCode: self.currencyCode)
@@ -65,7 +65,7 @@ class TradeItTransactionPresenter: NSObject {
     }
 
     func getTransactionQuantityLabel() -> String {
-        guard let quantity = self.transaction.quantity, quantity != 0 else {
+        guard let quantity = self.transaction.quantity, quantity != 0 as NSNumber else {
             return ""
         }
         return  NumberFormatter.formatQuantity(quantity)
@@ -76,7 +76,7 @@ class TradeItTransactionPresenter: NSObject {
     }
 
     func getTransactionPriceLabel() -> String {
-        guard let price = transaction.price, price != 0 else {
+        guard let price = transaction.price, price != 0 as NSNumber else {
             return ""
         }
         return NumberFormatter.formatCurrency(price, currencyCode: self.currencyCode)
@@ -91,7 +91,7 @@ class TradeItTransactionPresenter: NSObject {
     }
 
     func getTransactionCommissionLabel() -> String {
-        guard let commission = transaction.commission, commission != 0 else {
+        guard let commission = transaction.commission, commission != 0 as NSNumber else {
             return ""
         }
         return NumberFormatter.formatCurrency(commission, currencyCode: self.currencyCode)

@@ -1404,7 +1404,6 @@
 				B5AFC1F31F33A6EE0043E20F /* TradeitEmsEnvironments.swift */,
 				B566731E1F6921E90054D2B5 /* TradeItOrderStatusDetails+Helpers.swift */,
 				B56673211F6967140054D2B5 /* String+TradeIt.swift */,
-				B589CEA41FB4B23E0087DAA2 /* TradeItBrokerAccount.swift */,
 				B5D5DE6F1FA1301100E9763C /* TradeItTransaction+Helpers.swift */,
 			);
 			name = Extensions;

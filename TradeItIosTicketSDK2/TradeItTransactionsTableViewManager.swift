@@ -42,7 +42,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         self.transactionsTable?.reloadData()
     }
     
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: {

@@ -1,4 +1,7 @@
 # Changelog
+## [1.1.42]
+##Changed
+- Update relinking method
 
 ## [1.1.41]
 ### Added

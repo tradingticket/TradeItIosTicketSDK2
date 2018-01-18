@@ -17,7 +17,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            print("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            return
         }
 
         self.tableViewManager = TradeItPortfolioAccountDetailsTableViewManager(account: linkedBrokerAccount)
@@ -60,7 +61,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount, let linkedBroker = linkedBrokerAccount.linkedBroker else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            print("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            return
         }
 
         let accountOverviewPromise = Promise<Void> { fulfill, reject in

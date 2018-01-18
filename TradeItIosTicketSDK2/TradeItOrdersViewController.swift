@@ -15,7 +15,8 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         super.viewDidLoad()
         
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+            print("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+            return
         }
         self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
@@ -29,7 +30,8 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
-                preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+                print("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+                return
         }
         
         func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {

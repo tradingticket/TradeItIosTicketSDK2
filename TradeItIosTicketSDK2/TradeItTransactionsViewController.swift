@@ -12,11 +12,10 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            print("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
+            alertMissingRequiredParameter()
             return
         }
         self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount, noResultsBackgroundView: transactionsBackgroundView )
@@ -61,7 +60,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
-                print("TradeItIosTicketSDK ERROR: TradeItTransactionsViewController loaded without setting linkedBrokerAccount.")
+                alertMissingRequiredParameter()
                 return
         }
         
@@ -132,6 +131,18 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         return { alertAction in
             self.transactionsTableViewManager?.filterTransactionHistoryResult(filterType: filterType)
         }
+    }
+
+    private func alertMissingRequiredParameter() {
+        let systemMessage = "TradeItTransactionsViewController loaded without setting linkedBrokerAccount."
+        print("TradeItIosTicketSDK ERROR: \(systemMessage)")
+        self.alertManager.showError(
+            TradeItErrorResult.error(withSystemMessage: systemMessage),
+            onViewController: self,
+            onFinished: {
+                self.closeButtonWasTapped()
+        }
+        )
     }
 }
 

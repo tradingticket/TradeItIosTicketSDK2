@@ -10,12 +10,11 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     
     @IBOutlet weak var ordersTable: UITableView!
     @IBOutlet var orderTableBackgroundView: UIView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            print("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+            alertMissingRequiredParameter()
             return
         }
         self.title = linkedBrokerAccount.accountName
@@ -24,13 +23,13 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.ordersTableViewManager?.ordersTable = self.ordersTable
         self.loadOrders()
     }
-    
+
     // MARK: TradeItOrdersTableDelegate
     
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
-                print("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+                alertMissingRequiredParameter()
                 return
         }
         
@@ -126,5 +125,17 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.refreshRequested {
             activityView.hide(animated: true)
         }
+    }
+
+    private func alertMissingRequiredParameter() {
+        let systemMessage = "TradeItOrdersViewController loaded without setting linkedBrokerAccount."
+        print("TradeItIosTicketSDK ERROR: \(systemMessage)")
+        self.alertManager.showError(
+            TradeItErrorResult.error(withSystemMessage: systemMessage),
+            onViewController: self,
+            onFinished: {
+                self.closeButtonWasTapped()
+            }
+        )
     }
 }

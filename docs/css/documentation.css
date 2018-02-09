@@ -1026,11 +1026,15 @@ body {
 /*iOS SDK documentation customization*/    
 .iosGuideContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
   justify-content: space-between;
   max-width: 1000px;
   padding: 15px 0;
+}
+
+.iosGuideImg {
+  max-width: 65%;
 }
 
 .iosGuideContainer img {

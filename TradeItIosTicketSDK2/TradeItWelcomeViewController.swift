@@ -13,6 +13,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     @IBOutlet weak var spinnerView: UIActivityIndicatorView!
     @IBOutlet weak var featuredBrokerLabel: UILabel!
     @IBOutlet weak var featuredBrokerFallbackLabel: UILabel!
+    @IBOutlet weak var promotionButton: UIButton!
+    @IBOutlet weak var moreBrokersButton: UIButton!
 
     internal weak var delegate: TradeItWelcomeViewControllerDelegate?
     private let alertManager = TradeItAlertManager()

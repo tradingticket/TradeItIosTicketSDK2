@@ -3,8 +3,10 @@
 
 @interface TradeItBrokerListResult : TradeItResult
 
-@property (nullable, copy) NSArray<TradeItBroker> *brokerList;
+@property (nullable, nonatomic, copy) NSArray<TradeItBroker> *brokerList;
 @property (nullable, nonatomic) NSString <Optional> *featuredBrokerLabel;
+@property (nullable, nonatomic) NSString <Optional> *welcomePromotionText;
+@property (nullable, nonatomic) NSString <Optional> *welcomePromotionUrl;
 
 - (NSString * _Nonnull)description;
 

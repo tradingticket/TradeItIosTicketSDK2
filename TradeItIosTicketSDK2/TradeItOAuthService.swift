@@ -126,7 +126,7 @@
         localOnly: Bool,
         onSuccess: @escaping (_ unlinkLoginResult: TradeItUnlinkLoginResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) {
+    ) {
         if localOnly {
             self.connector.deleteLocalLinkedLogin(login)
             let result = TradeItUnlinkLoginResult()

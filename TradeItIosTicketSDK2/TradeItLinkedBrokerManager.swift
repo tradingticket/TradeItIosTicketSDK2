@@ -3,7 +3,6 @@ import PromiseKit
 @objc public class TradeItLinkedBrokerManager: NSObject {
     private var connector: TradeItConnector
     private var sessionProvider: TradeItSessionProvider
-    private var availableBrokersPromise: Promise<[TradeItBroker]>? = nil
     private var featuredBrokerLabelText: String?
     private let brokerService: TradeItBrokerService
     private let oAuthService: TradeItOAuthService
@@ -20,7 +19,7 @@ import PromiseKit
         
         super.init()
 
-        self.availableBrokersPromise = getAvailableBrokersPromise()        
+        _ = brokerService.getAvailableBrokersPromise()
         self.loadLinkedBrokersFromKeychain()
     }
 
@@ -197,10 +196,13 @@ import PromiseKit
         onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        getAvailableBrokersPromise().then { availableBrokers -> Void in
-            onSuccess(availableBrokers)
+        brokerService.getAvailableBrokersPromise().then { brokers, result -> Void in
+            if let featuredBrokerLabelText = result.featuredBrokerLabel {
+                TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
+                self.featuredBrokerLabelText = featuredBrokerLabelText
+            }
+            onSuccess(brokers)
         }.catch { error in
-            self.availableBrokersPromise = nil
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(
                     title: "Could not fetch brokers",
@@ -448,37 +450,6 @@ import PromiseKit
                     message: "Failed to save the linked login to the keychain"
                 )
             )
-        }
-    }
-    
-    private func getAvailableBrokersPromise() -> Promise<[TradeItBroker]> {
-//        TODO: Add locking in case this gets called multiple times
-//        let lockQueue = DispatchQueue(label: "getAvailableBrokersPromiseLock")
-//        lockQueue.sync() { CODE GOES HERE }
-        if let availableBrokersPromise = self.availableBrokersPromise {
-            return availableBrokersPromise
-        } else {
-            let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
-                brokerService.getAvailableBrokers(
-                    userCountryCode: TradeItSDK.userCountryCode,
-                    onSuccess: { availableBrokers, featuredBrokerLabelText in
-                        // TODO: Why are these optional?
-                        if let featuredBrokerLabelText = featuredBrokerLabelText {
-                            TradeItSDK.featuredBrokerLabelText = featuredBrokerLabelText
-                            self.featuredBrokerLabelText = featuredBrokerLabelText
-                        }
-
-                        fulfill(availableBrokers)
-                    }, onFailure: { error in
-                        self.availableBrokersPromise = nil
-                        reject(error)
-                    }
-                )
-            }
-
-            self.availableBrokersPromise = availableBrokersPromise
-
-            return availableBrokersPromise
         }
     }
 

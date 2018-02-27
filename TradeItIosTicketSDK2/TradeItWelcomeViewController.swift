@@ -24,6 +24,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     public var headlineText = TradeItSDK.welcomeScreenHeadlineText
     public var oAuthCallbackUrl: URL?
+    public var promotionText: String?
+    public var promotionUrl: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,18 +77,38 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     // MARK: UIGestureRecognizerDelegate
 
     func handleTap(gestureRecognizer: UIGestureRecognizer) {
-        if let featuredBroker = featuredBroker {
-            self.launchOAuth(forBroker: featuredBroker)
-        }
+        launchFeaturedBroker()
     }
 
     // MARK: IBActions
 
     @IBAction func getStartedButtonWasTapped(_ sender: UIButton) {
-        self.delegate?.getStartedButtonWasTapped(self)
+        if hasFeaturedBroker() {
+            launchFeaturedBroker()
+        } else {
+            launchBrokerSelection()
+        }
+    }
+
+    @IBAction func moreBrokersButtonWasTapped(_ sender: UIButton) {
+        launchBrokerSelection()
     }
 
     // MARK: private methods
+
+    private func hasFeaturedBroker() -> Bool {
+        return featuredBroker != nil
+    }
+
+    private func launchBrokerSelection() {
+        self.delegate?.moreBrokersButtonWasTapped(self)
+    }
+
+    private func launchFeaturedBroker() {
+        if let featuredBroker = featuredBroker {
+            self.launchOAuth(forBroker: featuredBroker)
+        }
+    }
 
     private func launchOAuth(forBroker broker: TradeItBroker) {
         guard let brokerShortName = broker.brokerShortName else { return }
@@ -141,6 +163,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         self.featuredBrokerContainerView.isHidden = false
         self.featuredBrokerLabel.isHidden = false
         self.bulletListView.isHidden = true
+
+        self.configureMoreBrokersButton()
     }
 
     private func hideFeaturedBroker() {
@@ -162,6 +186,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     private func populateBrokers() {
         self.activityView?.label.text = "Loading Brokers"
+        configurePromotionButton()
+        configureMoreBrokersButton()
 
         TradeItSDK.linkedBrokerManager.getAvailableBrokers(
             onSuccess: { availableBrokers in
@@ -170,16 +196,37 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
                 if let broker = (self.brokers.first { $0.isFeaturedForAnyInstrument() }) {
                     self.setFeaturedBroker(featuredBroker: broker)
-                    self.getStartedButton.setTitle("More", for: .normal)
                 }
+
+                self.configurePromotionButton()
             },
             onFailure: { _ in
                 self.activityView?.hide(animated: true)
             }
         )
     }
+
+    private func configurePromotionButton() {
+        if let promotionText = self.promotionText,
+            let promotionUrl = self.promotionUrl {
+            self.promotionButton.setTitle(promotionText, for: .normal)
+            self.promotionButton.isEnabled = true
+            self.promotionButton.isHidden = false
+        } else {
+            self.promotionButton.isEnabled = false
+            self.promotionButton.isHidden = true
+        }
+    }
+
+    private func configureMoreBrokersButton() {
+        if hasFeaturedBroker() {
+            self.moreBrokersButton.isHidden = false
+        } else {
+            self.moreBrokersButton.isHidden = true
+        }
+    }
 }
 
 protocol TradeItWelcomeViewControllerDelegate: class {
-    func getStartedButtonWasTapped(_ fromViewController: TradeItWelcomeViewController)
+    func moreBrokersButtonWasTapped(_ fromViewController: TradeItWelcomeViewController)
 }

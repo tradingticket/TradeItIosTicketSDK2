@@ -125,7 +125,7 @@ class TradeItLinkBrokerUIFlow: NSObject, TradeItWelcomeViewControllerDelegate, L
     
     // MARK: TradeItWelcomeViewControllerDelegate
 
-    func getStartedButtonWasTapped(_ fromWelcomeViewController: TradeItWelcomeViewController) {
+    func moreBrokersButtonWasTapped(_ fromWelcomeViewController: TradeItWelcomeViewController) {
         let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.selectBrokerView) as! TradeItSelectBrokerViewController
 
         selectBrokerViewController.oAuthCallbackUrl = self.oAuthCallbackUrl

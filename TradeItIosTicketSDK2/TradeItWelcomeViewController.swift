@@ -25,7 +25,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     public var headlineText = TradeItSDK.welcomeScreenHeadlineText
     public var oAuthCallbackUrl: URL?
     public var promotionText: String?
-    public var promotionUrl: String?
+    public var promotionUrl: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +90,10 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         }
     }
 
+    @IBAction func promotionButtonWasTapped(_ sender: UIButton) {
+        self.launch(url: promotionUrl)
+    }
+
     @IBAction func moreBrokersButtonWasTapped(_ sender: UIButton) {
         launchBrokerSelection()
     }
@@ -121,12 +125,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
             oAuthCallbackUrl: self.oAuthCallbackUrl!,
             onSuccess: { url in
                 self.activityView?.hide(animated: true)
-                let safariViewController = SFSafariViewController(url: url)
-                self.present(
-                    safariViewController,
-                    animated: true,
-                    completion: nil
-                )
+                self.launch(url: url)
             },
             onFailure: { errorResult in
                 self.alertManager.showError(
@@ -207,8 +206,11 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     }
 
     private func configurePromotionButton() {
+        self.promotionText = "Don't have an eToro account? Don't have an eToro account? Don't have an eToro account?" // DO NOT COMMIT
+        self.promotionUrl = URL(string: "test") // DO NOT COMMIT
+
         if let promotionText = self.promotionText,
-            let promotionUrl = self.promotionUrl {
+            self.promotionUrl != nil {
             self.promotionButton.setTitle(promotionText, for: .normal)
             self.promotionButton.isEnabled = true
             self.promotionButton.isHidden = false
@@ -224,6 +226,12 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         } else {
             self.moreBrokersButton.isHidden = true
         }
+    }
+
+    private func launch(url: URL?) {
+        guard let url = self.url else { return }
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true, completion: nil)
     }
 }
 

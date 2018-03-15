@@ -5,7 +5,8 @@
 + (JSONKeyMapper *)keyMapper
 {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{
-                                                                  @"positionDescription": @"description"
+                                                                  @"positionDescription": @"description",
+                                                                  @"currencyCode": @"currency"
                                                                   }];
 }
 @end

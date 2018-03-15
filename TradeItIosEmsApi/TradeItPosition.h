@@ -33,16 +33,24 @@
 @property (nullable, copy) NSNumber<Optional> *quantity;
 
 // The total gain/loss in dollars for the day for the position
-@property (nullable, copy) NSNumber<Optional> *todayGainLossDollar;
+@property (nullable, copy) NSNumber<Optional> *todayGainLossDollar DEPRECATED_MSG_ATTRIBUTE("Use todayGainLossAbsolute instead.");
+
+// The total gain/loss in currency for the day for the position
+@property (nullable, copy) NSNumber<Optional> *todayGainLossAbsolute;
 
 // The percentage gain/loss for the day for the position
 @property (nullable, copy) NSNumber<Optional> *todayGainLossPercentage;
 
 // The total gain/loss in dollars for the position
-@property (nullable, copy) NSNumber<Optional> *totalGainLossDollar;
+@property (nullable, copy) NSNumber<Optional> *totalGainLossDollar DEPRECATED_MSG_ATTRIBUTE("Use totalGainLossAbsolute instead.");
+
+// The total gain/loss in currency specified for the position
+@property (nullable, copy) NSNumber<Optional> *totalGainLossAbsolute;
 
 // The total percentage of gain/loss for the position
 @property (nullable, copy) NSNumber<Optional> *totalGainLossPercentage;
+
+@property (nullable, copy) NSString<Optional> *exchange;
 
 @property (nullable, copy) NSString<Optional> *currencyCode;
 

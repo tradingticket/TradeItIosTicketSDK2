@@ -138,7 +138,7 @@
                 return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
             let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
-                equityPosition.currencyCode = result.accountBaseCurrency
+                equityPosition.currencyCode = equityPosition.currencyCode ?? result.accountBaseCurrency
                 return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
             }
 

@@ -124,7 +124,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     position.quantity = 12
                     position.symbol = "My special symbol"
                     position.symbolClass = "My special symbol class"
-                    position.todayGainLossDollar = 234
+                    position.todayGainLossAbsolute = 234
                     position.todayGainLossPercentage = 12
                     let linkedBroker = FakeTradeItLinkedBroker(session: FakeTradeItSession(), linkedLogin: TradeItLinkedLogin())
                     account1 = FakeTradeItLinkedBrokerAccount(linkedBroker: linkedBroker, accountName: "My account #1", accountNumber: "123456789", balance: nil, fxBalance: nil, positions: [])

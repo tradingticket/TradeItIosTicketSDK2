@@ -14,10 +14,11 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     @IBOutlet weak var adContainer: UIView!
     @IBOutlet weak var activityButton: UIBarButtonItem!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            alertMissingRequiredParameter()
+            return
         }
 
         self.tableViewManager = TradeItPortfolioAccountDetailsTableViewManager(account: linkedBrokerAccount)
@@ -60,7 +61,8 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount, let linkedBroker = linkedBrokerAccount.linkedBroker else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItPortfolioViewController loaded without setting linkedBrokerAccount.")
+            alertMissingRequiredParameter()
+            return
         }
 
         let accountOverviewPromise = Promise<Void> { fulfill, reject in
@@ -198,6 +200,18 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         }
         order.action = orderAction ?? TradeItOrderActionPresenter.DEFAULT
         return order
+    }
+
+    private func alertMissingRequiredParameter() {
+        let systemMessage = "TradeItPortfolioAccountDetailsViewController.swift loaded without setting linkedBrokerAccount."
+        print("TradeItIosTicketSDK ERROR: \(systemMessage)")
+        self.alertManager.showError(
+            TradeItErrorResult.error(withSystemMessage: systemMessage),
+            onViewController: self,
+            onFinished: {
+                self.closeButtonWasTapped()
+            }
+        )
     }
 
     // MARK: TradeItPortfolioAccountDetailsTableDelegate

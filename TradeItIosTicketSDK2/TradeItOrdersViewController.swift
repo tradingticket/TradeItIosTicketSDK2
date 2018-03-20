@@ -10,12 +10,12 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     
     @IBOutlet weak var ordersTable: UITableView!
     @IBOutlet var orderTableBackgroundView: UIView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
-            preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+            alertMissingRequiredParameter()
+            return
         }
         self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
@@ -23,13 +23,14 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.ordersTableViewManager?.ordersTable = self.ordersTable
         self.loadOrders()
     }
-    
+
     // MARK: TradeItOrdersTableDelegate
     
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount
             , let linkedBroker = linkedBrokerAccount.linkedBroker else {
-                preconditionFailure("TradeItIosTicketSDK ERROR: TradeItOrdersViewController loaded without setting linkedBrokerAccount.")
+                alertMissingRequiredParameter()
+                return
         }
         
         func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {
@@ -124,5 +125,17 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         self.refreshRequested {
             activityView.hide(animated: true)
         }
+    }
+
+    private func alertMissingRequiredParameter() {
+        let systemMessage = "TradeItOrdersViewController loaded without setting linkedBrokerAccount."
+        print("TradeItIosTicketSDK ERROR: \(systemMessage)")
+        self.alertManager.showError(
+            TradeItErrorResult.error(withSystemMessage: systemMessage),
+            onViewController: self,
+            onFinished: {
+                self.closeButtonWasTapped()
+            }
+        )
     }
 }

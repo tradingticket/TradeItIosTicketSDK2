@@ -60,7 +60,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
         }
     }
     
-    override func closeButtonWasTapped(_ sender: UIBarButtonItem) {
+    override func closeButtonWasTapped(_ sender: UIBarButtonItem?) {
             self.dismiss(animated: true, completion: nil)
     }
     

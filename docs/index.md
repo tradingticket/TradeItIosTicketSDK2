@@ -1,5 +1,5 @@
 ---
-title: Home
+title: iOS SDK
 layout: default
 ---
-{% include_relative TradeItIosTicketSDK2.wiki/Home.md %}
+{% include_relative TradeItIosTicketSDK2.wiki/iOS-SDK.md %}

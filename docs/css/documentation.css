@@ -1023,4 +1023,36 @@ body {
   .content blockquote {
     float: none; } }
 
+/*iOS SDK documentation customization*/    
+.iosGuideContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+  max-width: 1000px;
+  padding: 15px 0;
+}
+
+.iosGuideImg {
+  max-width: 65%;
+}
+
+.iosGuideContainer img {
+  max-height: 500px;
+  height: 20%;
+  width: auto;
+  margin-right: 20px;
+}
+
+@media (max-width: 615px) {
+  .iosGuideContainer img {
+    max-height: 400px;
+  }
+}  
+
+@media (max-width: 600px) {
+  .iosGuideContainer img {
+    max-height: 290px;
+  }
+}  
 /*# sourceMappingURL=documentation.css.map */

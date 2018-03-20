@@ -166,7 +166,7 @@ class TradeItLinkedBrokerAccountSpec: QuickSpec {
                     position.quantity = 12
                     position.symbol = "My special symbol"
                     position.symbolClass = "My special symbol class"
-                    position.todayGainLossDollar = 234
+                    position.todayGainLossAbsolute = 234
                     position.todayGainLossPercentage = 12
                     positions = [position]
                     tradeItGetPositionsResult.positions = positions

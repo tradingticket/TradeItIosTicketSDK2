@@ -1,4 +1,9 @@
 # Changelog
+## [1.1.43]
+###Changed
+- Fix crashing when account is unlinked
+- Update TradeItPosition: added new fields currency, exchange, todayGainLossAbsolute, totalGainLossAbsolute. Marked todayGainLossDollar and totalGainLossDollar as deprecated.
+
 ## [1.1.42]
 ##Changed
 - Update relinking method

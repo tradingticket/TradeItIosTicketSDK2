@@ -52,7 +52,7 @@
 
 @property (nullable, copy) NSString<Optional> *exchange;
 
-@property (nullable, copy) NSString<Optional> *currencyCode;
+@property (nonnull, copy) NSString *currencyCode;
 
 @property (nullable, copy) NSString<Optional>  *positionDescription;
 

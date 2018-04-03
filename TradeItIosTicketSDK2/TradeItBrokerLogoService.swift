@@ -23,13 +23,15 @@ class TradeItBrokerLogoService {
                 let logoUrlString = logoData.url,
                 let logoUrl = URL(string: logoUrlString)
                 else {
-                    return print("TradeIt Logo: No broker logo provided for \(broker.shortName ?? "")")
+                    print("TradeIt Logo: No broker logo provided for \(broker.shortName ?? "")")
+                    return onFailure()
                 }
             
             if let cachedImage = self.getCachedLogo(brokerId: brokerId, size: size) {
                 print("TradeIt Logo: Fetching cached logo for \(brokerId)")
                 return onSuccess(cachedImage)
             }
+            
             print("TradeIt Logo: Fetching remote logo for \(brokerId)")
             
             DispatchQueue.global(qos: .userInitiated).async {

@@ -153,10 +153,6 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
-            return 88
-        }
-
         return 50
     }
 
@@ -203,24 +199,21 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var broker: TradeItBroker?
-
-        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
-            broker = self.featuredBrokers[safe: indexPath.row]
-
-            if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
-                cell.populate(withBroker: broker)
-                return cell
-            }
-        } else {
-            broker = self.brokers[safe: indexPath.row]
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
-        cell.textLabel?.text = broker?.brokerLongName
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_SELECT_BROKER_CELL_ID") as? TradeItSelectBrokerTableViewCell ?? TradeItSelectBrokerTableViewCell()
+        
+        guard let broker = getBroker(cellForRowAt: indexPath) else { return UITableViewCell() }
+        
+        cell.populate(withBroker: broker)
         TradeItThemeConfigurator.configure(view: cell)
 
         return cell
+    }
+    
+    private func getBroker(cellForRowAt indexPath: IndexPath) -> TradeItBroker? {
+        if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
+            return self.featuredBrokers[safe: indexPath.row]
+        } else {
+            return self.brokers[safe: indexPath.row]
+        }
     }
 }

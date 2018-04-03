@@ -1,11 +1,10 @@
 import UIKit
 import TradeItIosTicketSDK2
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "exampleapp-test-api-key" // "tradeit-test-api-key"
-    static let ENVIRONMENT = TradeItEmsTestEnv
+    static let ENVIRONMENT = TradeItEmsLocalEnv //TradeItEmsTestEnv
     var window: UIWindow?
 
     override init() {

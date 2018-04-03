@@ -79,6 +79,10 @@
 #import "TradeItPosition.h"
 #import "TradeItFxPosition.h"
 
+// UI Config
+#import "TradeItUiConfigRequest.h"
+#import "TradeItUiConfigResult.h"
+
 // Order status
 #import "TradeItAllOrderStatusRequest.h"
 #import "TradeItAllOrderStatusResult.h"

@@ -3,7 +3,6 @@
 
 @interface TradeItUiConfigResult : TradeItResult
 
-//@property(nonatomic, copy, nonnull) NSString* brokerId;
-@property(nonatomic, copy, nonnull) NSDictionary<NSString *, TradeItUiBrokerConfig *> *uiBrokerConfigs;
+@property (nonatomic, copy, nonnull) NSArray<TradeItUiBrokerConfig> *brokers;
 
 @end

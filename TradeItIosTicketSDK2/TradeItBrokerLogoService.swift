@@ -1,4 +1,5 @@
 import UIKit
+import PromiseKit
 
 enum TradeItBrokerLogoSize: String {
     case small
@@ -14,7 +15,7 @@ class TradeItBrokerLogoService {
         onSuccess: @escaping (UIImage) -> Void,
         onFailure: @escaping () -> Void
     ) {
-        TradeItSDK.uiConfigService.getUiConfigPromise().then({ uiConfig in
+        TradeItSDK.uiConfigService.getUiConfigPromise().then { uiConfig in
             guard let brokerId = broker.shortName,
                 let brokerConfigs = uiConfig.brokers as? [TradeItUiBrokerConfig],
                 let brokerConfig = brokerConfigs.first(where: { $0.brokerId == brokerId }),
@@ -24,34 +25,36 @@ class TradeItBrokerLogoService {
                 let logoUrl = URL(string: logoUrlString)
                 else {
                     print("TradeIt Logo: No broker logo provided for \(broker.shortName ?? "")")
-                    return onFailure()
+                    throw TradeItErrorResult()
                 }
             
             if let cachedImage = self.getCachedLogo(brokerId: brokerId, size: size) {
                 print("TradeIt Logo: Fetching cached logo for \(brokerId)")
-                return onSuccess(cachedImage)
+                return Promise(value: cachedImage)
             }
             
             print("TradeIt Logo: Fetching remote logo for \(brokerId)")
-            
-            DispatchQueue.global(qos: .userInitiated).async {
-                guard let imageData = NSData(contentsOf: logoUrl),
-                    let image = UIImage(data: imageData as Data) else {
-                        print("TradeIt Logo: Broker logo failed to load. \(logoUrl)")
-                        DispatchQueue.main.async(execute: onFailure)
-                        return
-                }
-                
-                DispatchQueue.main.async {
-                    self.setCachedLogo(brokerId: brokerId, size: size, image: image)
-                    onSuccess(image)
+            return Promise<UIImage> { fulfill, reject in
+                DispatchQueue.global(qos: .userInitiated).async {
+                    guard let imageData = NSData(contentsOf: logoUrl),
+                        let image = UIImage(data: imageData as Data)
+                        else {
+                            reject(TradeItErrorResult())
+                            return
+                        }
+                    
+                    DispatchQueue.main.async {
+                        self.setCachedLogo(brokerId: brokerId, size: size, image: image)
+                        fulfill(image)
+                    }
                 }
             }
-        }, onFailure: { _ in
+        }.then { image in
+            onSuccess(image)
+        }.catch { error in
+            print(error)
             onFailure()
-        })
-        
-
+        }
     }
 
     func clearCache() {

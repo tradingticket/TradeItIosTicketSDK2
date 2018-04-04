@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -2526,21 +2527,21 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_SELECT_BROKER_CELL_ID" rowHeight="71" id="jfU-1c-BCs" customClass="TradeItSelectBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="71"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_SELECT_BROKER_CELL_ID" id="jfU-1c-BCs" customClass="TradeItSelectBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfU-1c-BCs" id="fQs-DD-ayY">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jFx-M0-Top">
-                                                    <rect key="frame" x="22" y="8" width="331" height="55"/>
+                                                    <rect key="frame" x="15" y="8" width="345" height="27.5"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Co-j7-iXk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="181" height="55"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="110" height="27.5"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpV-Nv-BP4">
-                                                            <rect key="frame" x="133" y="-4.5" width="64" height="64"/>
+                                                            <rect key="frame" x="140" y="-18.5" width="64" height="64.5"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="64" id="CVr-Ee-cYA"/>
@@ -2548,7 +2549,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ONP-wb-AML">
-                                                            <rect key="frame" x="0.0" y="15" width="331" height="24"/>
+                                                            <rect key="frame" x="0.0" y="2" width="345" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -2560,9 +2561,9 @@
                                                         <constraint firstAttribute="trailing" secondItem="ONP-wb-AML" secondAttribute="trailing" id="Jcj-AQ-shr"/>
                                                         <constraint firstItem="ONP-wb-AML" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="NEj-sl-v2p"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="top" secondItem="jFx-M0-Top" secondAttribute="top" id="T2R-8u-szU"/>
+                                                        <constraint firstItem="9Co-j7-iXk" firstAttribute="width" secondItem="jFx-M0-Top" secondAttribute="height" multiplier="4:1" id="a0j-NG-vX2"/>
                                                         <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerX" secondItem="jFx-M0-Top" secondAttribute="centerX" id="dHw-ln-u9x"/>
                                                         <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="dMN-Qe-hEz"/>
-                                                        <constraint firstAttribute="trailing" secondItem="9Co-j7-iXk" secondAttribute="trailing" constant="150" id="nWn-hi-GO0"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="leading" secondItem="jFx-M0-Top" secondAttribute="leading" id="wi4-bN-vdr"/>
                                                         <constraint firstAttribute="bottom" secondItem="9Co-j7-iXk" secondAttribute="bottom" id="wr2-7x-RMa"/>
                                                     </constraints>
@@ -2571,8 +2572,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="jFx-M0-Top" secondAttribute="bottom" constant="8" id="A72-pF-vxQ"/>
                                                 <constraint firstItem="jFx-M0-Top" firstAttribute="top" secondItem="fQs-DD-ayY" secondAttribute="top" constant="8" id="ASt-U8-4x6"/>
-                                                <constraint firstItem="jFx-M0-Top" firstAttribute="leading" secondItem="fQs-DD-ayY" secondAttribute="leadingMargin" constant="7" id="OhL-bF-bf0"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="jFx-M0-Top" secondAttribute="trailing" constant="7" id="bgR-D4-2Vf"/>
+                                                <constraint firstItem="jFx-M0-Top" firstAttribute="leading" secondItem="fQs-DD-ayY" secondAttribute="leadingMargin" id="OhL-bF-bf0"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="jFx-M0-Top" secondAttribute="trailing" id="bgR-D4-2Vf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -2583,7 +2584,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_HEADER_CELL_ID" textLabel="9qM-5k-X4w" style="IBUITableViewCellStyleDefault" id="KOj-fH-n98">
-                                        <rect key="frame" x="0.0" y="170.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KOj-fH-n98" id="Siy-9x-gJJ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

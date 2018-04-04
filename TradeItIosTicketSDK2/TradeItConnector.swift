@@ -1,3 +1,5 @@
+import PromiseKit
+
 private let LOG_TRAFFIC = false // Set to true to log requests/responses
 
 internal extension TradeItConnector {
@@ -22,6 +24,24 @@ internal extension TradeItConnector {
                 completionBlock(TradeItResultTransformer.transform(targetClassType: targetClassType, json: json))
             } else {
                 completionBlock(result) // Review order or Security question or Error case
+            }
+        }
+    }
+
+    func send<T: TradeItResult>(
+        _ request: URLRequest,
+        targetClassType: T.Type
+    ) -> Promise<T> {
+        return Promise<T> { fulfill, reject in
+            send(request, targetClassType: targetClassType) { result in
+                switch(result) {
+                case let result as T: fulfill(result)
+                case let error as TradeItErrorResult: reject(error)
+                default:
+                    reject(
+                        TradeItErrorResult(title: "Could not retrieve UI config. Please try again.")
+                    )
+                }
             }
         }
     }

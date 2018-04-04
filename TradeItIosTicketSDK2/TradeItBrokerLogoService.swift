@@ -14,7 +14,7 @@ class TradeItBrokerLogoService {
         onSuccess: @escaping (UIImage) -> Void,
         onFailure: @escaping () -> Void
     ) {
-        TradeItSDK.uiConfigService.getUiConfig(onSuccess: { uiConfig in
+        TradeItSDK.uiConfigService.getUiConfigPromise().then({ uiConfig in
             guard let brokerId = broker.shortName,
                 let brokerConfigs = uiConfig.brokers as? [TradeItUiBrokerConfig],
                 let brokerConfig = brokerConfigs.first(where: { $0.brokerId == brokerId }),

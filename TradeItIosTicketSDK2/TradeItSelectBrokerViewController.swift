@@ -9,7 +9,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
 
     private var activityView: MBProgressHUD?
     private var alertManager = TradeItAlertManager()
-    private var brokers: [TradeItBroker] = []
+    private var otherBrokers: [TradeItBroker] = []
     private var featuredBrokers: [TradeItBroker] = []
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
@@ -78,9 +78,9 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
                 for broker in availableBrokers {
                     if broker.isFeaturedForAnyInstrument() {
                         self.featuredBrokers.append(broker)
+                    } else {
+                        self.otherBrokers.append(broker)
                     }
-
-                    self.brokers.append(broker)
                 }
 
                 self.activityView?.hide(animated: true)
@@ -100,9 +100,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     }
 
     private func launchOAuth(forBroker broker: TradeItBroker) {
-        guard let brokerShortName = broker.brokerShortName else {
-            return
-        }
+        guard let brokerShortName = broker.brokerShortName else { return }
 
         self.activityView?.label.text = "Launching broker linking"
         self.activityView?.show(animated: true)
@@ -140,7 +138,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             return self.featuredBrokers[indexPath.row]
         } else {
-            return self.brokers[indexPath.row]
+            return self.otherBrokers[indexPath.row]
         }
     }
 
@@ -161,7 +159,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     func numberOfSections(in tableView: UITableView) -> Int {
         var numSections = 0
         if !self.featuredBrokers.isEmpty { numSections += 1 }
-        if !self.brokers.isEmpty { numSections += 1 }
+        if !self.otherBrokers.isEmpty { numSections += 1 }
 
         return numSections
     }
@@ -195,7 +193,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
             return self.featuredBrokers.count
         }
 
-        return self.brokers.count
+        return self.otherBrokers.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -213,7 +211,7 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             return self.featuredBrokers[safe: indexPath.row]
         } else {
-            return self.brokers[safe: indexPath.row]
+            return self.otherBrokers[safe: indexPath.row]
         }
     }
 }

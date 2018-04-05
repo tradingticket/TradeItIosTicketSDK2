@@ -24,7 +24,7 @@ class TradeItSelectBrokerTableViewCell: UITableViewCell {
         self.setLoadingState()
         self.brokerLabel.text = broker.longName
         TradeItSDK.brokerLogoService.loadLogo(
-            forBroker: broker,
+            forBrokerId: broker.brokerShortName,
             withSize: .small,
             onSuccess: { image in
                 self.brokerLogoImageView.image = image

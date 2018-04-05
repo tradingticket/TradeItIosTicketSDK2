@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1025,22 +1025,38 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="553"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_TABLE_HEADER" textLabel="Ize-Qv-Eyn" style="IBUITableViewCellStyleDefault" id="Mcn-Es-GGn">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_HEADER" id="Mcn-Es-GGn" customClass="TradeItPortfolioHeaderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="47"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mcn-Es-GGn" id="MBa-HH-rXf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="46.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ize-Qv-Eyn">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="46.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KcL-hB-Rmt">
+                                                    <rect key="frame" x="15" y="11" width="345" height="24.5"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zYa-2B-KhO">
+                                                    <rect key="frame" x="15" y="12" width="345" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zYa-2B-KhO" firstAttribute="leading" secondItem="MBa-HH-rXf" secondAttribute="leadingMargin" id="Fjn-yq-K9k"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="KcL-hB-Rmt" secondAttribute="trailing" id="H11-1u-I7n"/>
+                                                <constraint firstItem="KcL-hB-Rmt" firstAttribute="leading" secondItem="MBa-HH-rXf" secondAttribute="leadingMargin" id="IdP-oM-TfS"/>
+                                                <constraint firstAttribute="bottom" secondItem="KcL-hB-Rmt" secondAttribute="bottom" constant="11" id="Vgf-PT-5bv"/>
+                                                <constraint firstItem="KcL-hB-Rmt" firstAttribute="centerY" secondItem="MBa-HH-rXf" secondAttribute="centerY" id="Y9m-HV-cJj"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zYa-2B-KhO" secondAttribute="trailing" id="fKj-fh-J9M"/>
+                                                <constraint firstItem="zYa-2B-KhO" firstAttribute="centerY" secondItem="MBa-HH-rXf" secondAttribute="centerY" id="g0l-o1-qLF"/>
+                                                <constraint firstItem="KcL-hB-Rmt" firstAttribute="top" secondItem="MBa-HH-rXf" secondAttribute="top" constant="11" id="qLb-ez-X7h"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="logo" destination="KcL-hB-Rmt" id="toe-ya-Jit"/>
+                                            <outlet property="title" destination="zYa-2B-KhO" id="1Ba-Jf-jx3"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY" textLabel="KWT-Xo-Bbc" detailTextLabel="tbz-3s-cuq" rowHeight="65" style="IBUITableViewCellStyleSubtitle" id="zTk-S5-rQi">
                                         <rect key="frame" x="0.0" y="102.5" width="375" height="65"/>
@@ -1173,7 +1189,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F85-QD-81c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="-1791"/>
+            <point key="canvasLocation" x="1048.8" y="-1791.4542728635683"/>
         </scene>
         <!--Search-->
         <scene sceneID="dDx-g0-3EY">
@@ -1551,13 +1567,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Sent" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8df-lV-kgX">
-                                <rect key="frame" x="16" y="133" width="343" height="34"/>
+                                <rect key="frame" x="16" y="133" width="343" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPH-hO-aBt">
-                                <rect key="frame" x="16" y="406.5" width="343" height="40"/>
+                                <rect key="frame" x="16" y="406" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.017085177819999998" green="0.56712824110000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="c4s-E2-Mlt"/>
@@ -1577,7 +1593,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiz-kG-4ho">
-                                <rect key="frame" x="16" y="346.5" width="343" height="40"/>
+                                <rect key="frame" x="16" y="346" width="343" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
@@ -1594,20 +1610,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your order to buy 1 share of AAPL at $137.22 has been successfully transmitted to your broker" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aOi-0I-Iyh">
-                                <rect key="frame" x="26" y="191" width="323" height="57.5"/>
+                                <rect key="frame" x="26" y="190.5" width="323" height="57.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/23/45 at 67:89 PM EDT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXe-hs-Myj">
-                                <rect key="frame" x="26" y="272.5" width="323" height="17"/>
+                                <rect key="frame" x="26" y="272" width="323" height="17"/>
                                 <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order #123456789000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uvq-24-htU">
-                                <rect key="frame" x="26" y="294.5" width="323" height="17"/>
+                                <rect key="frame" x="26" y="294" width="323" height="17"/>
                                 <accessibility key="accessibilityConfiguration" identifier="LIGHT_TEXT"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

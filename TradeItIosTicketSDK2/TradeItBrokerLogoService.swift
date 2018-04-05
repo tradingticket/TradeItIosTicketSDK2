@@ -10,13 +10,13 @@ class TradeItBrokerLogoService {
     private var cache: [String: [TradeItBrokerLogoSize: UIImage]] = [:]
 
     func loadLogo(
-        forBroker broker: TradeItBroker,
+        forBrokerId brokerIdOptional: String?,
         withSize size: TradeItBrokerLogoSize,
         onSuccess: @escaping (UIImage) -> Void,
         onFailure: @escaping () -> Void
     ) {
         TradeItSDK.uiConfigService.getUiConfigPromise().then { uiConfig in
-            guard let brokerId = broker.shortName,
+            guard let brokerId = brokerIdOptional,
                 let brokerConfigs = uiConfig.brokers as? [TradeItUiBrokerConfig],
                 let brokerConfig = brokerConfigs.first(where: { $0.brokerId == brokerId }),
                 let logoMetaData = brokerConfig.logos as? [TradeItBrokerLogo],
@@ -24,8 +24,8 @@ class TradeItBrokerLogoService {
                 let logoUrlString = logoData.url,
                 let logoUrl = URL(string: logoUrlString)
                 else {
-                    print("TradeIt Logo: No broker logo provided for \(broker.shortName ?? "")")
-                    throw TradeItErrorResult()
+                    print("TradeIt Logo: No broker logo provided for \(brokerIdOptional ?? "")")
+                    return Promise(error: TradeItErrorResult())
                 }
             
             if let cachedImage = self.getCachedLogo(brokerId: brokerId, size: size) {

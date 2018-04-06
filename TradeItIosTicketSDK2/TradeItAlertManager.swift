@@ -217,7 +217,7 @@ private class TradeItAlertQueue {
     func showNextAlert() {
         if alreadyPresentingAlert || queue.isEmpty { return }
         let alertContext = queue.removeFirst()
-        alreadyPresentingAlert = true
+        alreadyPresentingAlert = true // TODO: Should this be moved up one line to decrease chance of race condition?
 
         if alertContext.onViewController.isViewLoaded && (alertContext.onViewController.view.window != nil) {
             alertContext.onViewController.present(alertContext.alertController, animated: true, completion: nil)

@@ -15,6 +15,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                TradeItBundleProvider.registerBrokerHeaderNibCells(forTableView: newTable)
                 addRefreshControl(toTableView: newTable)
                 _table = newTable
             }

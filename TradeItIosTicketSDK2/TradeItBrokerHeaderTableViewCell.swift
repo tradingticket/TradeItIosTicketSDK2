@@ -1,4 +1,4 @@
-class TradeItPortfolioHeaderTableViewCell: UITableViewCell {
+class TradeItBrokerHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var title: UILabel!
 

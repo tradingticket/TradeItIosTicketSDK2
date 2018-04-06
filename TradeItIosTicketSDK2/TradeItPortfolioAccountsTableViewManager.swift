@@ -83,7 +83,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_HEADER") as? TradeItPortfolioHeaderTableViewCell ?? TradeItPortfolioHeaderTableViewCell()
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_HEADER") as? TradeItBrokerHeaderTableViewCell ?? TradeItBrokerHeaderTableViewCell()
         if section == 0 {
             header.title.text = "Total Value"
         } else {

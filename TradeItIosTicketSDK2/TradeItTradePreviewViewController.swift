@@ -174,7 +174,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func allAcknowledgementsAccepted() -> Bool {
-        return previewCellData.flatMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
+        return previewCellData.compactMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
     }
 
     private func generatePreviewCellData() -> [PreviewCellData] {

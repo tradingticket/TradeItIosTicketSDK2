@@ -505,7 +505,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
-                detailSecondaryText: accountSecondaryText()
+                detailSecondaryText: accountSecondaryText(),
+                linkedBroker: self.order.linkedBrokerAccount?.linkedBroker
             )
         default:
             break

@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1025,7 +1024,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="553"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_PORTFOLIO_HEADER" id="Mcn-Es-GGn" customClass="TradeItPortfolioHeaderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_HEADER" id="Mcn-Es-GGn" customClass="TradeItBrokerHeaderTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="47"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mcn-Es-GGn" id="MBa-HH-rXf">
@@ -2554,7 +2553,7 @@
                                                     <rect key="frame" x="15" y="8" width="345" height="27.5"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Co-j7-iXk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="220" height="27.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="28"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpV-Nv-BP4">
                                                             <rect key="frame" x="140" y="-18.5" width="64" height="64.5"/>
@@ -2577,9 +2576,9 @@
                                                         <constraint firstAttribute="trailing" secondItem="ONP-wb-AML" secondAttribute="trailing" id="Jcj-AQ-shr"/>
                                                         <constraint firstItem="ONP-wb-AML" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="NEj-sl-v2p"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="top" secondItem="jFx-M0-Top" secondAttribute="top" id="T2R-8u-szU"/>
-                                                        <constraint firstItem="9Co-j7-iXk" firstAttribute="width" secondItem="jFx-M0-Top" secondAttribute="height" multiplier="8:1" id="a0j-NG-vX2"/>
                                                         <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerX" secondItem="jFx-M0-Top" secondAttribute="centerX" id="dHw-ln-u9x"/>
                                                         <constraint firstItem="qpV-Nv-BP4" firstAttribute="centerY" secondItem="jFx-M0-Top" secondAttribute="centerY" id="dMN-Qe-hEz"/>
+                                                        <constraint firstAttribute="trailing" secondItem="9Co-j7-iXk" secondAttribute="trailing" id="uiK-OH-ZDR"/>
                                                         <constraint firstItem="9Co-j7-iXk" firstAttribute="leading" secondItem="jFx-M0-Top" secondAttribute="leading" id="wi4-bN-vdr"/>
                                                         <constraint firstAttribute="bottom" secondItem="9Co-j7-iXk" secondAttribute="bottom" id="wr2-7x-RMa"/>
                                                     </constraints>

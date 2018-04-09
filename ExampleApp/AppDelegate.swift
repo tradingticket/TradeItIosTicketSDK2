@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         open url: URL,
         sourceApplication: String?,
-        annotation: Any
+        annotation: Any?
     ) -> Bool {
         print("=====> Received OAuth callback URL: \(url.absoluteString)")
 

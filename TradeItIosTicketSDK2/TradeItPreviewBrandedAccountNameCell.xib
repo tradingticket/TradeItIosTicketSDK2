@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID" id="hiP-02-RsG" customClass="TradeItPreviewBrandedAccountNameCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hiP-02-RsG" id="csI-fC-Lxk">
+                <rect key="frame" x="0.0" y="0.0" width="341" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Account number" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iL0-PU-Cph">
+                        <rect key="frame" x="237" y="11" width="102" height="16"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" button="YES" staticText="YES"/>
+                        </accessibility>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xRZ-8i-od2">
+                        <rect key="frame" x="132" y="8" width="97" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="97" id="67r-LN-l8Q"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXs-Li-jwb">
+                        <rect key="frame" x="16" y="11" width="108" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="JXs-Li-jwb" secondAttribute="bottom" constant="7" id="9is-Jc-cRU"/>
+                    <constraint firstAttribute="topMargin" secondItem="iL0-PU-Cph" secondAttribute="top" id="A2I-u9-Kfj"/>
+                    <constraint firstItem="iL0-PU-Cph" firstAttribute="leading" secondItem="xRZ-8i-od2" secondAttribute="trailing" constant="8" id="E1m-fK-AZ7"/>
+                    <constraint firstItem="xRZ-8i-od2" firstAttribute="centerY" secondItem="iL0-PU-Cph" secondAttribute="centerY" constant="-3" id="Hvo-So-hR0"/>
+                    <constraint firstItem="JXs-Li-jwb" firstAttribute="leading" secondItem="csI-fC-Lxk" secondAttribute="leadingMargin" id="KuB-oT-9cv"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="iL0-PU-Cph" secondAttribute="trailing" constant="-6" id="X8r-eE-TLh"/>
+                    <constraint firstItem="xRZ-8i-od2" firstAttribute="leading" secondItem="JXs-Li-jwb" secondAttribute="trailing" constant="8" id="geQ-lh-LPv"/>
+                    <constraint firstItem="xRZ-8i-od2" firstAttribute="height" secondItem="iL0-PU-Cph" secondAttribute="height" id="kpQ-Xv-gq2"/>
+                    <constraint firstItem="JXs-Li-jwb" firstAttribute="top" secondItem="iL0-PU-Cph" secondAttribute="top" id="txC-lw-1CV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="accountName" destination="iL0-PU-Cph" id="G8y-5l-uy3"/>
+                <outlet property="logo" destination="xRZ-8i-od2" id="dDO-Lu-HYk"/>
+            </connections>
+            <point key="canvasLocation" x="24.5" y="52"/>
+        </tableViewCell>
+    </objects>
+</document>

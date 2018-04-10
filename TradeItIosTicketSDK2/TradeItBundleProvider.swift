@@ -13,4 +13,20 @@
             forCellReuseIdentifier: "TRADE_IT_BROKER_HEADER"
         )
     }
+
+    static func registerPreviewMessageNibCells(forTableView tableView: UITableView) {
+        let bundle = provide()
+        tableView.register(
+            UINib(nibName: "TradeItPreviewMessageTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
+        )
+    }
+
+    static func registerPreviewBrandedAccountNibCells(forTableView tableView: UITableView) {
+        let bundle = provide()
+        tableView.register(
+            UINib(nibName: "TradeItPreviewBrandedAccountNameCell", bundle: bundle),
+            forCellReuseIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID"
+        )
+    }
 }

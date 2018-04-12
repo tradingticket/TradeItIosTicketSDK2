@@ -401,30 +401,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.setTitle()
         self.setPreviewButtonEnablement()
 
-        var ticketRows: [TicketRow] = [
+        let ticketRows: [TicketRow] = [
             .account,
-            .symbol,
-            .marketPrice,
             .orderAction,
+            .symbol,
+            .orderType,
+            .expiration,
+            self.order.userCanDisableMargin() ? .marginType : nil,
             .quantity,
-            .orderType
-        ]
-
-        if self.order.requiresLimitPrice() {
-            ticketRows.append(.limitPrice)
-        }
-
-        if self.order.requiresStopPrice() {
-            ticketRows.append(.stopPrice)
-        }
-        
-        ticketRows.append(.expiration)
-        
-        if self.order.userCanDisableMargin() {
-            ticketRows.append(.marginType)
-        }
-        
-        ticketRows.append(.estimatedCost)
+            self.order.requiresLimitPrice() ? .limitPrice : nil,
+            self.order.requiresStopPrice() ?.stopPrice : nil,
+            .marketPrice,
+            .estimatedCost
+            ].flatMap { $0 }
 
         self.ticketRows = ticketRows
 

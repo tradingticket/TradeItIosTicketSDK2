@@ -433,9 +433,18 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let ticketRow = self.ticketRows[rowIndex]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId) ?? UITableViewCell()
-        cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
+        let label = ticketRow.getTitle(forOrder: self.order)
+        switch cell {
+        case let selectionDetailCell as TradeItSelectionDetailCellTableViewCell:
+            selectionDetailCell.brokerNameTextLabel.text = label
+            break
+        default:
+            cell.textLabel?.text = label
+            break
+        }
+
         cell.selectionStyle = .none
-        
+
         TradeItThemeConfigurator.configure(view: cell)
         
         switch ticketRow {

@@ -13,20 +13,31 @@ class TradeItPreviewBrandedAccountNameCell: UITableViewCell {
     
     func populate(linkedBroker: TradeItLinkedBrokerAccount) {
         self.accountName.text = linkedBroker.getFormattedAccountName()
-        self.brokerName.text = linkedBroker.brokerLongName
+        setBrokerNameAsTextState(brokerName: linkedBroker.brokerLongName ?? "Account")
         TradeItSDK.brokerLogoService.loadLogo(
             forBrokerId: linkedBroker.brokerName,
             withSize: .small,
             onSuccess: { image in
-                let imageWidth = Double(image.cgImage?.width ?? 1)
-                let imageHeight = Double(image.cgImage?.height ?? 1)
-                self.logoWidthConstraint.constant = CGFloat(Double(15) * imageWidth / imageHeight)
-                self.logo.image = image
-                self.brokerName.isHidden = true
+                self.setBrokerNameAsLogoState(logo: image)
             },
-            onFailure: {
-                self.logo.isHidden = true
-            }
+            onFailure: { }
         )
+    }
+    
+    private func setBrokerNameAsTextState(brokerName: String) {
+        self.brokerName.text = brokerName
+        
+        self.logo.isHidden = true
+        self.brokerName?.isHidden = false
+    }
+    
+    private func setBrokerNameAsLogoState(logo: UIImage) {
+        let imageWidth = Double(logo.cgImage?.width ?? 1)
+        let imageHeight = Double(logo.cgImage?.height ?? 1)
+        self.logoWidthConstraint.constant = CGFloat(Double(14) * imageWidth / imageHeight)
+        self.logo.image = logo
+        
+        self.logo.isHidden = false
+        self.brokerName.isHidden = true
     }
 }

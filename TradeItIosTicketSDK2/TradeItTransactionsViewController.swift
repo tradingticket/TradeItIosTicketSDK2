@@ -18,6 +18,9 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             alertMissingRequiredParameter()
             return
         }
+
+        TradeItBundleProvider.registerPreviewBrandedAccountNibCells(forTableView: transactionsTable)
+
         self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount, noResultsBackgroundView: transactionsBackgroundView )
         self.transactionsTableViewManager?.delegate = self
         self.transactionsTableViewManager?.transactionsTable = transactionsTable

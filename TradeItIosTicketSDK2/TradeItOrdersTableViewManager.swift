@@ -4,10 +4,11 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     private var noResultsBackgroundView: UIView
     private var _table: UITableView?
     private var refreshControl: UIRefreshControl?
+    private let linkedBrokerAccount: TradeItLinkedBrokerAccount
     
     private static let SECTION_HEADER_HEIGHT = CGFloat(40)
     private static let GROUP_ORDER_HEADER_HEIGHT = CGFloat(30)
-    
+
     var ordersTable: UITableView? {
         get {
             return _table
@@ -28,8 +29,9 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     weak var delegate: TradeItOrdersTableDelegate?
     
-    init(noResultsBackgroundView: UIView) {
+    init(noResultsBackgroundView: UIView, linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.noResultsBackgroundView = noResultsBackgroundView
+        self.linkedBrokerAccount = linkedBrokerAccount
     }
     
     @objc func initiateRefresh() {
@@ -105,21 +107,43 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if isAccountInfoSection(section) {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
+                return UITableViewCell()
+            }
+            cell.populate(linkedBroker: linkedBrokerAccount)
+            cell.backgroundColor = nil
+
+            return cell
+        }
+
         return self.orderSectionPresenters[safe: section]?.header(forTableView: tableView)
     }
     
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return self.orderSectionPresenters[safe: indexPath.section]?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
+        if isAccountInfoSection(indexPath.section) {
+            return UITableViewCell()
+        } else {
+            return self.orderSectionPresenters[safe: indexPath.section]?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isAccountInfoSection(section) {
+            return 0
+        }
+
         guard let orderSectionPresenter = self.orderSectionPresenters[safe: section] else { return 0 }
         return orderSectionPresenter.numberOfRows()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.orderSectionPresenters.count
+        if self.orderSectionPresenters.isEmpty {
+            return 0
+        }
+
+        return self.orderSectionPresenters.count + 1
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -169,6 +193,9 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     // MARK: Private
+    private func isAccountInfoSection(_ section: Int) -> Bool {
+        return section == 0
+    }
     
     private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()

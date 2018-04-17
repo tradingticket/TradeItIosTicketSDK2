@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,31 +18,24 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="46.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="24W-4r-fXe">
-                        <rect key="frame" x="16" y="11" width="343" height="24.5"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDi-Rz-Flt">
+                        <rect key="frame" x="16" y="11" width="178" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="178" id="0ct-7B-cxR"/>
+                            <constraint firstAttribute="height" constant="25" id="7E8-Wr-xgL"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xz4-B5-rCe">
-                        <rect key="frame" x="16" y="12" width="343" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="Xz4-B5-rCe" secondAttribute="trailing" id="2AN-FF-PpP"/>
-                    <constraint firstItem="24W-4r-fXe" firstAttribute="centerY" secondItem="7bh-Ft-Yr2" secondAttribute="centerY" id="BHR-ay-Tle"/>
-                    <constraint firstItem="Xz4-B5-rCe" firstAttribute="centerY" secondItem="7bh-Ft-Yr2" secondAttribute="centerY" id="Ifs-fw-jip"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="24W-4r-fXe" secondAttribute="trailing" id="Nt0-fu-dbi"/>
-                    <constraint firstItem="24W-4r-fXe" firstAttribute="top" secondItem="7bh-Ft-Yr2" secondAttribute="top" constant="11" id="PpY-Jx-CoD"/>
-                    <constraint firstAttribute="bottom" secondItem="24W-4r-fXe" secondAttribute="bottom" constant="11" id="VIw-Vq-tNo"/>
-                    <constraint firstItem="Xz4-B5-rCe" firstAttribute="leading" secondItem="7bh-Ft-Yr2" secondAttribute="leadingMargin" id="XJq-2b-MN7"/>
-                    <constraint firstItem="24W-4r-fXe" firstAttribute="leading" secondItem="7bh-Ft-Yr2" secondAttribute="leadingMargin" id="aW9-tj-608"/>
+                    <constraint firstItem="XDi-Rz-Flt" firstAttribute="leading" secondItem="7bh-Ft-Yr2" secondAttribute="leading" constant="16" id="Sfh-us-8Ag"/>
+                    <constraint firstItem="XDi-Rz-Flt" firstAttribute="centerY" secondItem="7bh-Ft-Yr2" secondAttribute="centerY" id="rqt-gC-jxX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="logo" destination="24W-4r-fXe" id="n8A-br-usN"/>
-                <outlet property="title" destination="Xz4-B5-rCe" id="pVv-Qa-cIe"/>
+                <outlet property="logo" destination="XDi-Rz-Flt" id="d9F-0I-rkS"/>
+                <outlet property="logoWidthConstraint" destination="0ct-7B-cxR" id="8k4-ZJ-3bp"/>
             </connections>
+            <point key="canvasLocation" x="33.5" y="411.5"/>
         </tableViewCell>
     </objects>
 </document>

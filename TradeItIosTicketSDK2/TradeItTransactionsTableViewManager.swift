@@ -126,6 +126,11 @@ class TransactionHistoryResultPresenter {
     var transactionsFiltered: [TradeItTransaction]
     private var numberOfDays: Int
     private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
+    private var accountBaseCurrency: String {
+        get {
+            return linkedBrokerAccount.accountBaseCurrency
+        }
+    }
     private let linkedBrokerAccount: TradeItLinkedBrokerAccount
 
     init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, linkedBrokerAccount: TradeItLinkedBrokerAccount) {
@@ -144,7 +149,7 @@ class TransactionHistoryResultPresenter {
             , let transaction = self.transactionsFiltered[safe: row] else {
                 return UITableViewCell()
         }
-        cell.populate(withTransaction: transaction, andAccountBasecurrency: getAccountBaseCurrency())
+        cell.populate(withTransaction: transaction, andAccountBasecurrency: self.accountBaseCurrency)
         return cell
     }
 
@@ -174,14 +179,10 @@ class TransactionHistoryResultPresenter {
         return getTransactions(forFilterType: filterType).count
     }
 
-    private func getTransactions(forFilterType filterType: TransactionFilterType) -> [TradeItTransaction]{
+    private func getTransactions(forFilterType filterType: TransactionFilterType) -> [TradeItTransaction] {
         return self.transactions.filter {
-            TradeItTransactionPresenter($0, currencyCode: getAccountBaseCurrency()).belongsToFilter(filter: filterType)
+            TradeItTransactionPresenter($0, currencyCode: self.accountBaseCurrency).belongsToFilter(filter: filterType)
         }
-    }
-
-    private func getAccountBaseCurrency() -> String {
-        return linkedBrokerAccount.accountBaseCurrency
     }
 }
 

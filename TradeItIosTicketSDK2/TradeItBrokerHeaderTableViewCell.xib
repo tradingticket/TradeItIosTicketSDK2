@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,13 +26,22 @@
                             <constraint firstAttribute="height" constant="25" id="7E8-Wr-xgL"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broker name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcq-po-MhQ">
+                        <rect key="frame" x="16" y="13" width="97" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="leadingMargin" secondItem="mcq-po-MhQ" secondAttribute="leading" id="H06-JL-lQy"/>
+                    <constraint firstItem="mcq-po-MhQ" firstAttribute="centerY" secondItem="7bh-Ft-Yr2" secondAttribute="centerY" id="ObH-ya-Xrr"/>
                     <constraint firstItem="XDi-Rz-Flt" firstAttribute="leading" secondItem="7bh-Ft-Yr2" secondAttribute="leading" constant="16" id="Sfh-us-8Ag"/>
                     <constraint firstItem="XDi-Rz-Flt" firstAttribute="centerY" secondItem="7bh-Ft-Yr2" secondAttribute="centerY" id="rqt-gC-jxX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="brokerName" destination="mcq-po-MhQ" id="JJE-0F-Q2g"/>
                 <outlet property="logo" destination="XDi-Rz-Flt" id="d9F-0I-rkS"/>
                 <outlet property="logoWidthConstraint" destination="0ct-7B-cxR" id="8k4-ZJ-3bp"/>
             </connections>

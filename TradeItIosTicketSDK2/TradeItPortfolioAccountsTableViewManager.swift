@@ -87,6 +87,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_HEADER") as? TradeItBrokerHeaderTableViewCell ?? TradeItBrokerHeaderTableViewCell()
         if section == 0 {
             header.textLabel?.text = "Total Value"
+            header.brokerName.isHidden = true
         } else {
             header.populate(linkedBroker: self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker)
         }

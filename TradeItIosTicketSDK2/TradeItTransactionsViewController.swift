@@ -19,7 +19,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             return
         }
 
-        TradeItBundleProvider.registerPreviewBrandedAccountNibCells(forTableView: transactionsTable)
+        TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: transactionsTable)
 
         self.transactionsTableViewManager = TradeItTransactionsTableViewManager(linkedBrokerAccount: linkedBrokerAccount, noResultsBackgroundView: transactionsBackgroundView )
         self.transactionsTableViewManager?.delegate = self

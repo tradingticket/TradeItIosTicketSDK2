@@ -150,7 +150,7 @@ class TransactionHistoryResultPresenter {
 
     func header(forTableView tableView: UITableView, isAccountInfoSection: Bool) -> UIView? {
         if isAccountInfoSection {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
                 return UITableViewCell()
             }
             cell.populate(linkedBroker: linkedBrokerAccount)

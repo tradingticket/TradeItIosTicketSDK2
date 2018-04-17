@@ -22,11 +22,11 @@
         )
     }
 
-    static func registerPreviewBrandedAccountNibCells(forTableView tableView: UITableView) {
+    static func registerBrandedAccountNibCells(forTableView tableView: UITableView) {
         let bundle = provide()
         tableView.register(
-            UINib(nibName: "TradeItPreviewBrandedAccountNameCell", bundle: bundle),
-            forCellReuseIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID"
+            UINib(nibName: "TradeItBrandedAccountNameCell", bundle: bundle),
+            forCellReuseIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID"
         )
     }
 }

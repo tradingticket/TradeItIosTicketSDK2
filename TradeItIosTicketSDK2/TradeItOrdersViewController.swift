@@ -17,7 +17,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             return
         }
 
-        TradeItBundleProvider.registerPreviewBrandedAccountNibCells(forTableView: ordersTable)
+        TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: ordersTable)
 
         self.title = linkedBrokerAccount.accountName
         self.ordersTableViewManager = TradeItOrdersTableViewManager(

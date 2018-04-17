@@ -108,7 +108,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if isAccountInfoSection(section) {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
                 return UITableViewCell()
             }
             cell.populate(linkedBroker: linkedBrokerAccount)

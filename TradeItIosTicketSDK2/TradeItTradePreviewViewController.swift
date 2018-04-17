@@ -63,7 +63,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         updatePlaceOrderButtonStatus()
 
         TradeItBundleProvider.registerPreviewMessageNibCells(forTableView: orderDetailsTable)
-        TradeItBundleProvider.registerPreviewBrandedAccountNibCells(forTableView: orderDetailsTable)
+        TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: orderDetailsTable)
 
         TradeItSDK.adService.populate(
             adContainer: adContainer,
@@ -136,7 +136,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
             return cell
         case let accountNameCellData as BrandedAccountNameCellData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_BRANDED_ACCOUNT_NAME_CELL_ID") as! TradeItPreviewBrandedAccountNameCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as! TradeItPreviewBrandedAccountNameCell
             cell.populate(linkedBroker: accountNameCellData.linkedBroker)
             return cell
         default:

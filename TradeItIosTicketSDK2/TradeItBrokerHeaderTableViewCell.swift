@@ -1,29 +1,32 @@
 class TradeItBrokerHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var logo: UIImageView!
-    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var logoWidthConstraint: NSLayoutConstraint!
 
     func populate(linkedBroker: TradeItLinkedBroker?) {
-        self.title.text = linkedBroker?.brokerLongName
-        self.setFailureState()
+        setBrokerNameAsTextState(brokerName: linkedBroker?.brokerLongName ?? "Unknown broker")
         TradeItSDK.brokerLogoService.loadLogo(
             forBrokerId: linkedBroker?.brokerName,
             withSize: .small,
             onSuccess: { image in
-                self.logo.image = image
-                self.setSuccessfulState()
-            }, onFailure: {
-                self.setFailureState()
-            }
+                self.setBrokerNameAsLogoState(logo: image)
+            }, onFailure: { }
         )
     }
 
-    func setSuccessfulState() {
-        self.logo.isHidden = false
-        self.title.isHidden = true
+    private func setBrokerNameAsTextState(brokerName: String) {
+        textLabel?.text = brokerName
+
+        self.logo.isHidden = true
+        textLabel?.isHidden = false
     }
 
-    func setFailureState() {
-        self.logo.isHidden = true
-        self.title.isHidden = false
+    private func setBrokerNameAsLogoState(logo: UIImage) {
+        let imageWidth = Double(logo.cgImage?.width ?? 1)
+        let imageHeight = Double(logo.cgImage?.height ?? 1)
+        self.logoWidthConstraint.constant = CGFloat(Double(14) * imageWidth / imageHeight)
+        self.logo.image = logo
+
+        self.logo.isHidden = false
+        textLabel?.isHidden = true
     }
 }

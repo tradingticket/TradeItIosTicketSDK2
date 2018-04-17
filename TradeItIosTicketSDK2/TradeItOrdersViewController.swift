@@ -19,7 +19,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
 
         TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: ordersTable)
 
-        self.title = linkedBrokerAccount.accountName
+        self.title = "Orders"
         self.ordersTableViewManager = TradeItOrdersTableViewManager(
             noResultsBackgroundView: orderTableBackgroundView,
             linkedBrokerAccount: linkedBrokerAccount

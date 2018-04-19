@@ -5,7 +5,7 @@ class BrandedTableViewCell: UITableViewCell {
     @IBOutlet weak var logoWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var brokerName: UILabel!
 
-    private let ADJUSTED_LOGO_HEIGHT = 14.0
+    internal var adjustedLogoHeight: Double { return 14.0 }
 
     func setBrokerNameAsTextState(brokerName: String?) {
         self.brokerName.text = brokerName ?? "Unknown Broker"
@@ -15,7 +15,7 @@ class BrandedTableViewCell: UITableViewCell {
     }
 
     func setBrokerNameAsLogoState(logo: UIImage) {
-        let newWidth = calculateAdjustedImageWidth(forImage: logo, andHeight: ADJUSTED_LOGO_HEIGHT)
+        let newWidth = calculateAdjustedImageWidth(forImage: logo, andHeight: adjustedLogoHeight)
         self.logoWidthConstraint.constant = CGFloat(newWidth)
         self.logo.image = logo
 
@@ -28,6 +28,6 @@ class BrandedTableViewCell: UITableViewCell {
         let imageHeight = Double(image.cgImage?.height ?? 1)
         let aspectRatio = imageWidth / imageHeight
 
-        return ADJUSTED_LOGO_HEIGHT * aspectRatio
+        return adjustedLogoHeight * aspectRatio
     }
 }

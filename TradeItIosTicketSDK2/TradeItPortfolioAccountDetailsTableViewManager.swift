@@ -249,7 +249,8 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     private func positionCell(
         forTableView tableView: UITableView,
         forPortfolioPosition position: TradeItPortfolioPosition?,
-        selected: Bool = false) -> UITableViewCell {
+        selected: Bool = false
+    ) -> UITableViewCell {
         if let position = position {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PORTFOLIO_EQUITY_POSITIONS_CELL_ID") as! TradeItPortfolioEquityPositionsTableViewCell
             cell.delegate = self

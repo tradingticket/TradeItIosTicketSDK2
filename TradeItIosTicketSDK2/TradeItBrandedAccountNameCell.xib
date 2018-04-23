@@ -35,7 +35,7 @@
                             <constraint firstAttribute="height" constant="28" id="EOb-5Q-FhW"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Broker name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58j-a5-DPU">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Alt title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58j-a5-DPU">
                         <rect key="frame" x="16" y="14" width="230" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -57,8 +57,8 @@
             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="accountName" destination="iL0-PU-Cph" id="G8y-5l-uy3"/>
-                <outlet property="brokerName" destination="58j-a5-DPU" id="bFS-54-fh8"/>
-                <outlet property="logo" destination="xRZ-8i-od2" id="dDO-Lu-HYk"/>
+                <outlet property="altTitle" destination="58j-a5-DPU" id="oI9-7i-anM"/>
+                <outlet property="logoTitle" destination="xRZ-8i-od2" id="5cg-RL-De4"/>
                 <outlet property="logoWidthConstraint" destination="6iH-qE-1XT" id="z0z-41-MRN"/>
             </connections>
             <point key="canvasLocation" x="24.5" y="57"/>

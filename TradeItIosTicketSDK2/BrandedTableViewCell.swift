@@ -1,26 +1,26 @@
 import UIKit
 
 class BrandedTableViewCell: UITableViewCell {
-    @IBOutlet weak var logo: UIImageView!
+    @IBOutlet weak var logoTitle: UIImageView!
     @IBOutlet weak var logoWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var brokerName: UILabel!
+    @IBOutlet weak var altTitle: UILabel!
 
     var adjustedLogoHeight: Double { return 14.0 }
 
-    func setBrokerNameAsTextState(brokerName: String?) {
-        self.brokerName.text = brokerName ?? "Unknown Broker"
+    func setBrokerNameAsTextState(altTitleText: String) {
+        self.altTitle.text = altTitleText
 
-        self.logo.isHidden = true
-        self.brokerName?.isHidden = false
+        self.logoTitle.isHidden = true
+        self.altTitle?.isHidden = false
     }
 
     func setBrokerNameAsLogoState(logo: UIImage) {
         let newWidth = calculateAdjustedImageWidth(forImage: logo, andHeight: adjustedLogoHeight)
         self.logoWidthConstraint.constant = CGFloat(newWidth)
-        self.logo.image = logo
+        self.logoTitle.image = logo
 
-        self.logo.isHidden = false
-        self.brokerName.isHidden = true
+        self.logoTitle.isHidden = false
+        self.altTitle.isHidden = true
     }
 
     private func calculateAdjustedImageWidth(forImage image: UIImage, andHeight height: Double) -> Double {

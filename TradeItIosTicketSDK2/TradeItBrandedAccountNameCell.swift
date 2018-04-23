@@ -10,7 +10,7 @@ class TradeItPreviewBrandedAccountNameCell: BrandedTableViewCell {
     
     func populate(linkedBroker: TradeItLinkedBrokerAccount) {
         self.accountName.text = linkedBroker.getFormattedAccountName()
-        setBrokerNameAsTextState(brokerName: linkedBroker.brokerLongName ?? "Account")
+        setBrokerNameAsTextState(altTitleText: linkedBroker.brokerLongName ?? "Account")
         TradeItSDK.brokerLogoService.loadLogo(
             forBrokerId: linkedBroker.brokerName,
             withSize: .small,

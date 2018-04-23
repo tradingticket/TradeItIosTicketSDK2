@@ -436,7 +436,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let label = ticketRow.getTitle(forOrder: self.order)
         switch cell {
         case let selectionDetailCell as TradeItSelectionDetailCellTableViewCell:
-            selectionDetailCell.brokerName.text = label
+            selectionDetailCell.altTitle.text = label
             break
         default:
             cell.textLabel?.text = label

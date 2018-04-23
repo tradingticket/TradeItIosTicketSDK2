@@ -41,8 +41,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="brokerName" destination="mcq-po-MhQ" id="JJE-0F-Q2g"/>
-                <outlet property="logo" destination="XDi-Rz-Flt" id="d9F-0I-rkS"/>
+                <outlet property="altTitle" destination="mcq-po-MhQ" id="WHc-PC-48I"/>
+                <outlet property="logoTitle" destination="XDi-Rz-Flt" id="sdb-ix-1Tg"/>
                 <outlet property="logoWidthConstraint" destination="0ct-7B-cxR" id="8k4-ZJ-3bp"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="411.5"/>

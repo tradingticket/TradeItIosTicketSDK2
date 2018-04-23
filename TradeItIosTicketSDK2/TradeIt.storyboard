@@ -415,8 +415,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="accountNameLabel" destination="1VT-aN-xL6" id="IKP-kf-HNy"/>
-                                            <outlet property="brokerName" destination="Jd4-ch-1nL" id="Gy4-bt-JrO"/>
-                                            <outlet property="logo" destination="UR2-wc-dEx" id="fKU-8q-MAe"/>
+                                            <outlet property="altTitle" destination="Jd4-ch-1nL" id="yHF-Hl-aT5"/>
+                                            <outlet property="logoTitle" destination="UR2-wc-dEx" id="BUg-xX-2Nz"/>
                                             <outlet property="logoWidthConstraint" destination="fcZ-OM-lC3" id="2EG-0B-Lgo"/>
                                             <outlet property="totalValueLabel" destination="3iz-mq-V4r" id="H0w-wj-AZr"/>
                                         </connections>

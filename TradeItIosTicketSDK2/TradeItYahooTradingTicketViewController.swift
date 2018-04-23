@@ -53,6 +53,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
+        TicketRow.registerNibCells(forTableView: self.tableView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -470,9 +471,12 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
+            detailCell.textLabel?.isHidden = true
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
-                detailSecondaryText: accountSecondaryText()
+                detailSecondaryText: accountSecondaryText(),
+                altTitleText: ticketRow.getTitle(forOrder: self.order),
+                isBrandingEnabled: false
             )
         }
 
@@ -579,6 +583,15 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             case .account: return "Accounts"
             case .marginType: return "Type"
             }
+        }
+
+        static func registerNibCells(forTableView tableView: UITableView) {
+            let bundle = TradeItBundleProvider.provide()
+
+            tableView.register(
+                UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.selectionDetail.rawValue
+            )
         }
     }
 }

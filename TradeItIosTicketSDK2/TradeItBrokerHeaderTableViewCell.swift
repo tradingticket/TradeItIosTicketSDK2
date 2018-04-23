@@ -1,6 +1,6 @@
 class TradeItBrokerHeaderTableViewCell: BrandedTableViewCell {
     func populate(linkedBroker: TradeItLinkedBroker?) {
-        setBrokerNameAsTextState(brokerName: linkedBroker?.brokerLongName)
+        setBrokerNameAsTextState(altTitleText: linkedBroker?.brokerLongName ?? "Unknown broker")
         TradeItSDK.brokerLogoService.loadLogo(
             forBrokerId: linkedBroker?.brokerName,
             withSize: .small,

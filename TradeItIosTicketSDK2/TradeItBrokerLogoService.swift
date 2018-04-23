@@ -25,7 +25,12 @@ class TradeItBrokerLogoService {
                 let logoUrl = URL(string: logoUrlString)
                 else {
                     print("TradeIt Logo: No broker logo provided for \(brokerIdOptional ?? "")")
-                    return Promise(error: TradeItErrorResult())
+                    return Promise(
+                        error: TradeItErrorResult(
+                            title: "Logo not found",
+                            message: "No logo is available for this broker."
+                        )
+                    )
                 }
             
             if let cachedImage = self.getCachedLogo(brokerId: brokerId, size: size) {
@@ -39,7 +44,12 @@ class TradeItBrokerLogoService {
                     guard let imageData = NSData(contentsOf: logoUrl),
                         let image = UIImage(data: imageData as Data)
                         else {
-                            reject(TradeItErrorResult())
+                            reject(
+                                TradeItErrorResult(
+                                    title: "Failed to load logo",
+                                    message: "The request to load the broker logo failedg."
+                                )
+                            )
                             return
                         }
                     

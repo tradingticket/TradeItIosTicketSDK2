@@ -182,7 +182,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
         if !self.featuredBrokers.isEmpty && indexPath.section == 0 {
             broker = self.featuredBrokers[safe: indexPath.row]
 
-            if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItFeaturedBrokerTableViewCell {
+            if let broker = broker, let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID") as? TradeItSelectBrokerTableViewCell {
                 cell.populate(withBroker: broker)
                 return cell
             }

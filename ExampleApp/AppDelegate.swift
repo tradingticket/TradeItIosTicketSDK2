@@ -1,7 +1,6 @@
 import UIKit
 import TradeItIosTicketSDK2
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "exampleapp-test-api-key" // "tradeit-test-api-key"
@@ -41,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         open url: URL,
         sourceApplication: String?,
-        annotation: Any
+        annotation: Any?
     ) -> Bool {
         print("=====> Received OAuth callback URL: \(url.absoluteString)")
 

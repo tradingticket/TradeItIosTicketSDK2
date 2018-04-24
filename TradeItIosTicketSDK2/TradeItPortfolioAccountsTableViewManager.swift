@@ -15,6 +15,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
             if let newTable = newTable {
                 newTable.dataSource = self
                 newTable.delegate = self
+                TradeItBundleProvider.registerBrokerHeaderNibCells(forTableView: newTable)
                 addRefreshControl(toTableView: newTable)
                 _table = newTable
             }
@@ -83,11 +84,12 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TABLE_HEADER") ?? UITableViewCell()
+        let header = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_BROKER_HEADER") as? TradeItBrokerHeaderTableViewCell ?? TradeItBrokerHeaderTableViewCell()
         if section == 0 {
             header.textLabel?.text = "Total Value"
+            header.altTitle.isHidden = true
         } else {
-            header.textLabel?.text = self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker.brokerLongName
+            header.populate(linkedBroker: self.linkedBrokerSectionPresenters[safe: section - 1]?.linkedBroker)
         }
         TradeItThemeConfigurator.configureTableHeader(header: header)
         return header

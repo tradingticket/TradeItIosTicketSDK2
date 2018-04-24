@@ -5,7 +5,6 @@ import MBProgressHUD
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     var ordersTableViewManager: TradeItOrdersTableViewManager?
     let alertManager = TradeItAlertManager()
-
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     
     @IBOutlet weak var ordersTable: UITableView!
@@ -17,8 +16,14 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             alertMissingRequiredParameter()
             return
         }
-        self.title = linkedBrokerAccount.accountName
-        self.ordersTableViewManager = TradeItOrdersTableViewManager(noResultsBackgroundView: orderTableBackgroundView)
+
+        TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: ordersTable)
+
+        self.title = "Orders"
+        self.ordersTableViewManager = TradeItOrdersTableViewManager(
+            noResultsBackgroundView: orderTableBackgroundView,
+            linkedBrokerAccount: linkedBrokerAccount
+        )
         self.ordersTableViewManager?.delegate = self
         self.ordersTableViewManager?.ordersTable = self.ordersTable
         self.loadOrders()

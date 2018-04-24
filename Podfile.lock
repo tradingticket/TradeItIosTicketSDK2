@@ -3,16 +3,16 @@ PODS:
   - JSONModel (1.7.0)
   - MBProgressHUD (1.0.0)
   - Nimble (5.1.1)
-  - PromiseKit (4.2.2):
-    - PromiseKit/Foundation (= 4.2.2)
-    - PromiseKit/QuartzCore (= 4.2.2)
-    - PromiseKit/UIKit (= 4.2.2)
-  - PromiseKit/CorePromise (4.2.2)
-  - PromiseKit/Foundation (4.2.2):
+  - PromiseKit (4.5.2):
+    - PromiseKit/Foundation (= 4.5.2)
+    - PromiseKit/QuartzCore (= 4.5.2)
+    - PromiseKit/UIKit (= 4.5.2)
+  - PromiseKit/CorePromise (4.5.2)
+  - PromiseKit/Foundation (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.2.2):
+  - PromiseKit/QuartzCore (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.2.2):
+  - PromiseKit/UIKit (4.5.2):
     - PromiseKit/CorePromise
   - Quick (0.10.0)
 
@@ -38,7 +38,7 @@ SPEC CHECKSUMS:
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
-  PromiseKit: 00e8886881f151c7e573d06b437915b0bb2970ec
+  PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
 PODFILE CHECKSUM: 8de6c042a9db9777f64178e4995be9fd85814f2f

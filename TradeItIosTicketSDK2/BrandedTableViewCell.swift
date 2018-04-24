@@ -5,7 +5,7 @@ class BrandedTableViewCell: UITableViewCell {
     @IBOutlet weak var logoWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var brokerName: UILabel!
 
-    internal var adjustedLogoHeight: Double { return 14.0 }
+    var adjustedLogoHeight: Double { return 14.0 }
 
     func setBrokerNameAsTextState(brokerName: String?) {
         self.brokerName.text = brokerName ?? "Unknown Broker"

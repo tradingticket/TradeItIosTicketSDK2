@@ -18,7 +18,7 @@ class TradeItPortfolioAccountDetailsTableViewCell: BrandedTableViewCell {
             withSize: .small,
             onSuccess: { image in
                 self.setBrokerNameAsLogoState(logo: image)
-        },
+            },
             onFailure: { }
         )
         if let totalValue = linkedBrokerAccount.balance?.totalValue {

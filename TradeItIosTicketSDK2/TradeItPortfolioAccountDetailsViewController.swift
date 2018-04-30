@@ -4,7 +4,7 @@ import PromiseKit
 
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
     var tableViewManager: TradeItPortfolioAccountDetailsTableViewManager!
-    var tradingUIFlow = TradeItTradingUIFlow()
+    var equityTradingUIFlow = TradeItEquityTradingUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
     var alertManager = TradeItAlertManager()
     var linkedBrokerAccount: TradeItLinkedBrokerAccount?
@@ -169,7 +169,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     private func tradeActionWasTapped(alert: UIAlertAction) {
         let order = provideOrder(forPortfolioPosition: nil, account: self.linkedBrokerAccount, orderAction: nil)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+        self.equityTradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
     
     private func transactionActionWasTapped(alert: UIAlertAction) {
@@ -218,7 +218,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
 
     func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
         let order = self.provideOrder(forPortfolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
-        self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
+        self.equityTradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
 }
 

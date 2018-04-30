@@ -13,7 +13,7 @@ import UIKit
     var orderNumber: String?
     var order: TradeItOrder?
     var viewControllerProvider = TradeItViewControllerProvider()
-    var tradingUIFlow = TradeItTradingUIFlow()
+    var equityTradingUIFlow = TradeItEquityTradingUIFlow()
 
     // Analytics tracking only
     var broker: String?

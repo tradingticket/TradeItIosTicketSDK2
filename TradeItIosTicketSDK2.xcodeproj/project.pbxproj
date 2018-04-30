@@ -270,7 +270,7 @@
 		75BAAAE41DB7EEB400E5435C /* TradeItTradingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA8F1DB7EEB400E5435C /* TradeItTradingConfirmationViewController.swift */; };
 		75BAAAE51DB7EEB400E5435C /* TradeItTradePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA901DB7EEB400E5435C /* TradeItTradePreviewViewController.swift */; };
 		75BAAAE61DB7EEB400E5435C /* TradeItTradingTicketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA911DB7EEB400E5435C /* TradeItTradingTicketViewController.swift */; };
-		75BAAAE71DB7EEB400E5435C /* TradeItTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */; };
+		75BAAAE71DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA921DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift */; };
 		75BAAAE81DB7EEB400E5435C /* TradeItViewControllerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA931DB7EEB400E5435C /* TradeItViewControllerProvider.swift */; };
 		75BAAAE91DB7EEB400E5435C /* TradeItWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA941DB7EEB400E5435C /* TradeItWelcomeViewController.swift */; };
 		75BAAAEA1DB7EEB400E5435C /* UIColor+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA951DB7EEB400E5435C /* UIColor+TradeIt.swift */; };
@@ -701,7 +701,7 @@
 		FC6E7A111DCD1F8B005225CC /* TradeItBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAB1F1DB7EF2F00E5435C /* TradeItBroker.m */; };
 		FC6E7A121DCD1F8B005225CC /* TradeItErrorResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAB2D1DB7EF2F00E5435C /* TradeItErrorResult.m */; };
 		FC6E7A131DCD1F8B005225CC /* TradeItSymbolSearchTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA8A1DB7EEB400E5435C /* TradeItSymbolSearchTableViewManager.swift */; };
-		FC6E7A141DCD1F8B005225CC /* TradeItTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */; };
+		FC6E7A141DCD1F8B005225CC /* TradeItEquityTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA921DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift */; };
 		FC6E7A151DCD1F8B005225CC /* TradeItPlaceTradeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAB441DB7EF2F00E5435C /* TradeItPlaceTradeRequest.m */; };
 		FC6E7A171DCD1F8B005225CC /* TradeItTradePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA901DB7EEB400E5435C /* TradeItTradePreviewViewController.swift */; };
 		FC6E7A181DCD1F8B005225CC /* TradeItPortfolioPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BAAA7D1DB7EEB400E5435C /* TradeItPortfolioPositionPresenter.swift */; };
@@ -1001,7 +1001,7 @@
 		75BAAA8F1DB7EEB400E5435C /* TradeItTradingConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTradingConfirmationViewController.swift; sourceTree = "<group>"; };
 		75BAAA901DB7EEB400E5435C /* TradeItTradePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTradePreviewViewController.swift; sourceTree = "<group>"; };
 		75BAAA911DB7EEB400E5435C /* TradeItTradingTicketViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTradingTicketViewController.swift; sourceTree = "<group>"; };
-		75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItTradingUIFlow.swift; sourceTree = "<group>"; };
+		75BAAA921DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItEquityTradingUIFlow.swift; sourceTree = "<group>"; };
 		75BAAA931DB7EEB400E5435C /* TradeItViewControllerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItViewControllerProvider.swift; sourceTree = "<group>"; };
 		75BAAA941DB7EEB400E5435C /* TradeItWelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItWelcomeViewController.swift; sourceTree = "<group>"; };
 		75BAAA951DB7EEB400E5435C /* UIColor+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+TradeIt.swift"; sourceTree = "<group>"; };
@@ -1448,7 +1448,7 @@
 		756FAF891DB81D9700D5B112 /* UIFlows */ = {
 			isa = PBXGroup;
 			children = (
-				75BAAA921DB7EEB400E5435C /* TradeItTradingUIFlow.swift */,
+				75BAAA921DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift */,
 				75BAAA641DB7EEB400E5435C /* TradeItLinkBrokerUIFlow.swift */,
 				753850811E13212300F7A066 /* TradeItAccountSelectionUIFlow.swift */,
 				521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */,
@@ -2947,7 +2947,7 @@
 				75BAABAE1DB7EF2F00E5435C /* TradeItErrorResult.m in Sources */,
 				75BAAADF1DB7EEB400E5435C /* TradeItSymbolSearchTableViewManager.swift in Sources */,
 				B5D5DE721FA1303E00E9763C /* TradeItTransaction+Helpers.swift in Sources */,
-				75BAAAE71DB7EEB400E5435C /* TradeItTradingUIFlow.swift in Sources */,
+				75BAAAE71DB7EEB400E5435C /* TradeItEquityTradingUIFlow.swift in Sources */,
 				75BAABC51DB7EF2F00E5435C /* TradeItPlaceTradeRequest.m in Sources */,
 				754200401EF816FA00B15E92 /* TradeItFxTradingUIFlow.swift in Sources */,
 				75BAAAE51DB7EEB400E5435C /* TradeItTradePreviewViewController.swift in Sources */,
@@ -3210,7 +3210,7 @@
 				FC6E7A121DCD1F8B005225CC /* TradeItErrorResult.m in Sources */,
 				FC6E7A131DCD1F8B005225CC /* TradeItSymbolSearchTableViewManager.swift in Sources */,
 				B5D5DE731FA1304000E9763C /* TradeItTransaction+Helpers.swift in Sources */,
-				FC6E7A141DCD1F8B005225CC /* TradeItTradingUIFlow.swift in Sources */,
+				FC6E7A141DCD1F8B005225CC /* TradeItEquityTradingUIFlow.swift in Sources */,
 				FC6E7A151DCD1F8B005225CC /* TradeItPlaceTradeRequest.m in Sources */,
 				754200411EF816FA00B15E92 /* TradeItFxTradingUIFlow.swift in Sources */,
 				FC6E7A171DCD1F8B005225CC /* TradeItTradePreviewViewController.swift in Sources */,

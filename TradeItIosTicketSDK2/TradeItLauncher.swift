@@ -7,7 +7,7 @@ protocol OAuthCompletionListener {
 
 @objc public class TradeItLauncher: NSObject {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
-    let tradingUIFlow = TradeItTradingUIFlow()
+    let equityTradingUIFlow = TradeItEquityTradingUIFlow()
     let fxTradingUIFlow = TradeItFxTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
@@ -168,7 +168,7 @@ protocol OAuthCompletionListener {
         } else {
             deviceManager.authenticateUserWithTouchId(
                 onSuccess: {
-                    self.tradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                    self.equityTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
                 },
                 onFailure: {
                     print("TouchId access denied")

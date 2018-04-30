@@ -2,7 +2,7 @@ import UIKit
 
 class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControllerDelegate {
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
-    private let tradingUIFlow = TradeItTradingUIFlow()
+    private let equityTradingUIFlow = TradeItEquityTradingUIFlow()
     private let fxTradingUIFlow = TradeItFxTradingUIFlow()
     private let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     private let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
@@ -67,7 +67,7 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
             }
         case .trading:
             if let navController = viewController.navigationController {
-                self.tradingUIFlow.pushTradingFlow(
+                self.equityTradingUIFlow.pushTradingFlow(
                     onNavigationController: navController,
                     asRootViewController: true,
                     withOrder: oAuthCallbackUrlParser.order ?? TradeItOrder()

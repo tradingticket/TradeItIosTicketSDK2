@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate, TradeItTradingTicketViewControllerDelegate, TradeItTradePreviewViewControllerDelegate, TradeItTradingConfirmationViewControllerDelegate {
+class TradeItEquityTradingUIFlow: NSObject, TradeItAccountSelectionViewControllerDelegate, TradeItSymbolSearchViewControllerDelegate, TradeItTradingTicketViewControllerDelegate, TradeItTradePreviewViewControllerDelegate, TradeItTradingConfirmationViewControllerDelegate {
 
     let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
     var order = TradeItOrder()

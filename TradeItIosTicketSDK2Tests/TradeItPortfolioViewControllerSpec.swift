@@ -12,7 +12,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
         var accountSummaryViewManager: FakeTradeItPortfolioAccountSummaryViewManager!
         var positionsTableViewManager: FakeTradeItPortfolioPositionsTableViewManager!
         var linkBrokerUIFlow: FakeTradeItLinkBrokerUIFlow!
-        var tradingUIFlow: FakeTradeItTradingUIFlow!
+        var equityTradingUIFlow: FakeTradeItEquityTradingUIFlow!
 
         describe("initialization") {
             beforeEach {
@@ -21,7 +21,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 positionsTableViewManager = FakeTradeItPortfolioPositionsTableViewManager()
                 accountSummaryViewManager = FakeTradeItPortfolioAccountSummaryViewManager()
                 linkBrokerUIFlow = FakeTradeItLinkBrokerUIFlow()
-                tradingUIFlow = FakeTradeItTradingUIFlow()
+                equityTradingUIFlow = FakeTradeItEquityTradingUIFlow()
 
                 window = UIWindow()
                 let bundle = Bundle(identifier: "TradeIt.TradeItIosTicketSDK2")
@@ -36,7 +36,7 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                 controller.positionsTableViewManager = positionsTableViewManager
                 controller.accountSummaryViewManager = accountSummaryViewManager
                 controller.linkBrokerUIFlow = linkBrokerUIFlow
-                controller.tradingUIFlow = tradingUIFlow
+                controller.equityTradingUIFlow = equityTradingUIFlow
                 
                 nav = UINavigationController(rootViewController: controller)
                 
@@ -302,8 +302,8 @@ class TradeItPortfolioViewControllerSpec: QuickSpec {
                     controller.tradeButtonWasTapped(UIButton())
                 }
                 
-                it("calls the tradingUIFlow with a selected account on the ordder param") {
-                    let calls = tradingUIFlow.calls.forMethod("presentTradingFlow(fromViewController:withOrder:)")
+                it("calls the equityTradingUIFlow with a selected account on the ordder param") {
+                    let calls = equityTradingUIFlow.calls.forMethod("presentTradingFlow(fromViewController:withOrder:)")
                     expect(calls.count).to(equal(1))
                     let orderArg = calls[0].args["order"] as! TradeItOrder
                     expect(orderArg.linkedBrokerAccount).to(equal(selectedAccount))

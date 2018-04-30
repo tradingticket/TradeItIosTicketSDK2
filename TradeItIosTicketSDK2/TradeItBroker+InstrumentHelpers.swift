@@ -4,8 +4,8 @@ enum TradeItTradeInstrumentType: String {
     case equities
     case options
     case fx
+    case crypto
 }
-
 
 extension TradeItBroker {
     private var brokerInstrumentsSwiftArray: [TradeItBrokerInstrument]? { // Sigh...
@@ -15,21 +15,19 @@ extension TradeItBroker {
     }
 
     func equityServices() -> TradeItBrokerInstrument? {
-        return brokerInstrumentsSwiftArray?.filter { instrument in
-            return instrument.instrument == TradeItTradeInstrumentType.equities.rawValue
-        }.first
+        return instrumentFor(targetInstrument: .equities)
     }
 
     func fxServices() -> TradeItBrokerInstrument? {
-        return brokerInstrumentsSwiftArray?.filter { instrument in
-            return instrument.instrument == TradeItTradeInstrumentType.fx.rawValue
-        }.first
+        return instrumentFor(targetInstrument: .fx)
     }
 
     func optionsServices() -> TradeItBrokerInstrument? {
-        return brokerInstrumentsSwiftArray?.filter { instrument in
-            return instrument.instrument == TradeItTradeInstrumentType.options.rawValue
-        }.first
+        return instrumentFor(targetInstrument: .options)
+    }
+
+    func cryptoServices() -> TradeItBrokerInstrument? {
+        return instrumentFor(targetInstrument: .crypto)
     }
 
     func isFeaturedForAnyInstrument() -> Bool {
@@ -54,5 +52,11 @@ extension TradeItBroker {
         return brokerInstrumentsSwiftArray?.contains { instrument in
             return instrument.supportsTrading == true
         } ?? false
+    }
+
+    private func instrumentFor(targetInstrument: TradeItTradeInstrumentType) -> TradeItBrokerInstrument? {
+        return brokerInstrumentsSwiftArray?.filter { instrument in
+            return instrument.instrument == targetInstrument.rawValue
+        }.first
     }
 }

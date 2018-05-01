@@ -1,15 +1,4 @@
-public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
-public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
-public typealias TradeItPlaceOrderHandlers = (
-    _ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
-    _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-        _ submitAnswer: @escaping (String) -> Void,
-        _ onCancelSecurityQuestion: @escaping () -> Void
-    ) -> Void,
-    _ onFailure: @escaping (TradeItErrorResult) -> Void
-) -> Void
-
-@objc public class TradeItOrder: NSObject {
+@objc public class TradeItCryptoOrder: NSObject {
     public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
     public var symbol: String?
     public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
@@ -33,15 +22,13 @@ public typealias TradeItPlaceOrderHandlers = (
     public var stopPrice: NSDecimalNumber?
     public var quoteLastPrice: NSDecimalNumber?
 
-    override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))], userDisabledMargin [\(String(describing: self.userDisabledMargin))]" }
+    override public var description: String { return "TradeItCryptoOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))], userDisabledMargin [\(String(describing: self.userDisabledMargin))]" }
 
-    public override init() {
-        super.init()
-    }
-
-    public init(linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
-                symbol: String? = nil,
-                action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT) {
+    public init(
+        linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
+        symbol: String? = nil,
+        action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    ) {
         super.init()
 
         self.linkedBrokerAccount = linkedBrokerAccount
@@ -66,7 +53,7 @@ public typealias TradeItPlaceOrderHandlers = (
         let type = self.type
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
-    
+
     public func userCanDisableMargin() -> Bool {
         return self.linkedBrokerAccount?.userCanDisableMargin ?? false
     }
@@ -92,39 +79,40 @@ public typealias TradeItPlaceOrderHandlers = (
         onSuccess: @escaping (TradeItPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) -> Void {
-        guard let linkedBrokerAccount = linkedBrokerAccount else {
-            return onFailure(
-                TradeItErrorResult(
-                    title: "Missing Linked Broker Account",
-                    message: "A linked broker account must be selected before you preview an order."
-                )
-            )
-        }
-
-        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
-            return onFailure(
-                TradeItErrorResult(
-                    title: "Preview failed",
-                    message: "There was a problem previewing your order. Please try again."
-                )
-            )
-        }
-
-        linkedBrokerAccount.tradeService?.previewTrade(
-            previewPresenter.generateRequest(),
-            onSuccess: { result in
-                onSuccess(
-                    result,
-                    self.generatePlaceOrderCallback(
-                        tradeService: linkedBrokerAccount.tradeService,
-                        previewOrderResult: result
-                    )
-                )
-            }, onFailure: { error in
-                linkedBrokerAccount.linkedBroker?.error = error
-                onFailure(error)
-            }
-        )
+        // TODO
+//        guard let linkedBrokerAccount = linkedBrokerAccount else {
+//            return onFailure(
+//                TradeItErrorResult(
+//                    title: "Missing Linked Broker Account",
+//                    message: "A linked broker account must be selected before you preview an order."
+//                )
+//            )
+//        }
+//
+//        guard let previewPresenter = TradeItOrderPreviewPresenter(order: self) else {
+//            return onFailure(
+//                TradeItErrorResult(
+//                    title: "Preview failed",
+//                    message: "There was a problem previewing your order. Please try again."
+//                )
+//            )
+//        }
+//
+//        linkedBrokerAccount.tradeService?.previewTrade(
+//            previewPresenter.generateRequest(),
+//            onSuccess: { result in
+//                onSuccess(
+//                    result,
+//                    self.generatePlaceOrderCallback(
+//                        tradeService: linkedBrokerAccount.tradeService,
+//                        previewOrderResult: result
+//                    )
+//                )
+//        }, onFailure: { error in
+//            linkedBrokerAccount.linkedBroker?.error = error
+//            onFailure(error)
+//        }
+//        )
     }
 
     public func isValid() -> Bool {

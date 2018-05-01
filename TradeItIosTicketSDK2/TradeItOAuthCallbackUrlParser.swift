@@ -1,6 +1,7 @@
 enum OAuthCallbackDestinationValues: String {
     case trading = "trading"
     case fxTrading = "fxTrading"
+    case cryptoTrading = "cryptoTrading"
     case portfolio = "portfolio"
     case accountSelection = "accountSelection"
 }

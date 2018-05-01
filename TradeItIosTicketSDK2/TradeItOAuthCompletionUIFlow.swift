@@ -82,6 +82,9 @@ class TradeItOAuthCompletionUIFlow: NSObject, TradeItOAuthCompletionViewControll
                     withOrder: TradeItFxOrder()
                 )
             }
+        case .cryptoTrading:
+            // TODO
+            break
         case .accountSelection:
             if let navController = viewController.navigationController {
                 self.accountSelectionUIFlow.pushAccountSelectionFlow(

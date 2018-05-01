@@ -5,8 +5,6 @@ protocol TradeItTradingUIFlow:
     TradeItTradePreviewViewControllerDelegate,
     TradeItTradingConfirmationViewControllerDelegate
 {
-//    associatedtype OrderType
-
     var order: TradeItOrder { get set }
     var viewControllerProvider: TradeItViewControllerProvider { get }
     var previewOrderResult: TradeItPreviewOrderResult? { get set }

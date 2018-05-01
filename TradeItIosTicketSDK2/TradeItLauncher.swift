@@ -9,7 +9,7 @@ protocol OAuthCompletionListener {
     let linkBrokerUIFlow = TradeItLinkBrokerUIFlow()
     let equityTradingUIFlow = TradeItEquityTradingUIFlow()
     let fxTradingUIFlow = TradeItFxTradingUIFlow()
-//    let cryptoTradingUIFlow = TradeItCryptoTradingUIFlow()
+    let cryptoTradingUIFlow = TradeItCryptoTradingUIFlow()
     let accountSelectionUIFlow = TradeItAccountSelectionUIFlow()
     let oAuthCompletionUIFlow = TradeItOAuthCompletionUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
@@ -209,7 +209,7 @@ protocol OAuthCompletionListener {
         } else {
             deviceManager.authenticateUserWithTouchId(
                 onSuccess: {
-//                    self.fxTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
+                    self.cryptoTradingUIFlow.presentTradingFlow(fromViewController: viewController, withOrder: order)
                 },
                 onFailure: {
                     print("TouchId access denied")

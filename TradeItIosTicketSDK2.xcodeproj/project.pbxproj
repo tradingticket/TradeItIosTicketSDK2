@@ -35,6 +35,8 @@
 		52E4AE931E4FA36C006F073A /* URLComponents+TradeIt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */; };
 		750100681F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */; };
 		750100691F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */; };
+		750171922098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */; };
+		750171932098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */; };
 		7503D0D61F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503D0D71F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503EC501F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */; };
@@ -833,6 +835,7 @@
 		52E4AE911E4FA36C006F073A /* URLComponents+TradeIt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLComponents+TradeIt.swift"; sourceTree = "<group>"; };
 		6346D92CEA86B9A6400B3E04 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerLogoService.swift; sourceTree = "<group>"; };
+		750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoTradingUIFlow.swift; sourceTree = "<group>"; };
 		7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclosureIndicator.swift; sourceTree = "<group>"; };
 		7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorFactory.swift; sourceTree = "<group>"; };
 		751059D42097AF76009F1A22 /* TradeItCryptoOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoOrder.swift; sourceTree = "<group>"; };
@@ -1460,6 +1463,7 @@
 				521D2B4D1E551CDE00F7204B /* TradeItOAuthCompletionUIFlow.swift */,
 				7542003F1EF816FA00B15E92 /* TradeItFxTradingUIFlow.swift */,
 				751059D72097B4E3009F1A22 /* TradeItTradingUIFlow.swift */,
+				750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */,
 			);
 			name = UIFlows;
 			sourceTree = "<group>";
@@ -2930,6 +2934,7 @@
 				526E30F91E28B60C00636640 /* TradeItYahooTradingUIFlow.swift in Sources */,
 				75BAABE11DB7EF2F00E5435C /* TradeItResult.m in Sources */,
 				75400ADE1E92C0A60041EEED /* TradeItOAuthDeleteLinkRequest.m in Sources */,
+				750171922098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */,
 				75BAABB41DB7EF2F00E5435C /* TradeItGetPositionsRequest.m in Sources */,
 				7542005E1EF87B3600B15E92 /* TradeItFxTradeService.swift in Sources */,
 				FA103D4B1EE60B97004F0DBB /* TradeItSelectionTableViewManager.swift in Sources */,
@@ -3195,6 +3200,7 @@
 				526E30FA1E28B60C00636640 /* TradeItYahooTradingUIFlow.swift in Sources */,
 				75400ADF1E92C0A60041EEED /* TradeItOAuthDeleteLinkRequest.m in Sources */,
 				FC6E7A031DCD1F8B005225CC /* TradeItResult.m in Sources */,
+				750171932098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */,
 				7542005F1EF87B3600B15E92 /* TradeItFxTradeService.swift in Sources */,
 				FA103D4C1EE60B97004F0DBB /* TradeItSelectionTableViewManager.swift in Sources */,
 				FC6E7A061DCD1F8B005225CC /* TradeItGetPositionsRequest.m in Sources */,

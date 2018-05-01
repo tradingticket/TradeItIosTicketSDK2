@@ -382,7 +382,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="$52,198.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iz-mq-V4r">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="$52,198.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="3iz-mq-V4r">
                                                             <rect key="frame" x="21" y="39.5" width="154.5" height="33.5"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" staticText="YES" header="YES"/>
@@ -397,6 +397,7 @@
                                                         <constraint firstItem="vWH-ox-9pB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xe2-7B-SQW" secondAttribute="top" constant="5" id="BGy-Md-xFE"/>
                                                         <constraint firstItem="vWH-ox-9pB" firstAttribute="trailing" secondItem="3iz-mq-V4r" secondAttribute="trailing" id="HTU-lz-qe1"/>
                                                         <constraint firstAttribute="bottom" secondItem="3iz-mq-V4r" secondAttribute="bottom" constant="4.5" id="MhE-0J-NwW"/>
+                                                        <constraint firstItem="3iz-mq-V4r" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xe2-7B-SQW" secondAttribute="leading" constant="2" id="WiA-G5-lX4"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="3iz-mq-V4r" secondAttribute="trailing" id="nc7-LI-fuy"/>
                                                         <constraint firstItem="3iz-mq-V4r" firstAttribute="top" secondItem="vWH-ox-9pB" secondAttribute="bottom" constant="4" id="qxG-DL-0f9"/>
                                                     </constraints>

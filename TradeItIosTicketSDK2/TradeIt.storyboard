@@ -341,12 +341,12 @@
                                                                 <constraint firstAttribute="height" constant="30" id="r41-ET-4OG"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Individual**cnt1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1VT-aN-xL6">
-                                                            <rect key="frame" x="0.0" y="43.5" width="107.5" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Individual**cnt1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1VT-aN-xL6">
+                                                            <rect key="frame" x="0.0" y="43.5" width="167.5" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="ipf-ST-g7E"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -364,6 +364,7 @@
                                                         <constraint firstItem="Jd4-ch-1nL" firstAttribute="bottom" secondItem="UR2-wc-dEx" secondAttribute="bottom" id="4fr-09-psU"/>
                                                         <constraint firstItem="UR2-wc-dEx" firstAttribute="top" secondItem="aXX-nY-UfC" secondAttribute="top" constant="5" id="GXO-iW-88M"/>
                                                         <constraint firstItem="UR2-wc-dEx" firstAttribute="leading" secondItem="1VT-aN-xL6" secondAttribute="leading" id="MJp-VM-d87"/>
+                                                        <constraint firstAttribute="trailing" secondItem="1VT-aN-xL6" secondAttribute="trailing" constant="2" id="QUi-50-QZ0"/>
                                                         <constraint firstItem="1VT-aN-xL6" firstAttribute="top" secondItem="UR2-wc-dEx" secondAttribute="bottom" constant="8" id="Rr7-Ye-QlF"/>
                                                         <constraint firstAttribute="bottom" secondItem="1VT-aN-xL6" secondAttribute="bottom" constant="8" id="gAr-fh-Ocb"/>
                                                         <constraint firstAttribute="trailing" secondItem="UR2-wc-dEx" secondAttribute="trailing" id="iph-WK-CCe"/>
@@ -381,7 +382,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="$52,198.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iz-mq-V4r">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="$52,198.23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="3iz-mq-V4r">
                                                             <rect key="frame" x="21" y="39.5" width="154.5" height="33.5"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" staticText="YES" header="YES"/>
@@ -396,6 +397,7 @@
                                                         <constraint firstItem="vWH-ox-9pB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xe2-7B-SQW" secondAttribute="top" constant="5" id="BGy-Md-xFE"/>
                                                         <constraint firstItem="vWH-ox-9pB" firstAttribute="trailing" secondItem="3iz-mq-V4r" secondAttribute="trailing" id="HTU-lz-qe1"/>
                                                         <constraint firstAttribute="bottom" secondItem="3iz-mq-V4r" secondAttribute="bottom" constant="4.5" id="MhE-0J-NwW"/>
+                                                        <constraint firstItem="3iz-mq-V4r" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xe2-7B-SQW" secondAttribute="leading" constant="2" id="WiA-G5-lX4"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="3iz-mq-V4r" secondAttribute="trailing" id="nc7-LI-fuy"/>
                                                         <constraint firstItem="3iz-mq-V4r" firstAttribute="top" secondItem="vWH-ox-9pB" secondAttribute="bottom" constant="4" id="qxG-DL-0f9"/>
                                                     </constraints>

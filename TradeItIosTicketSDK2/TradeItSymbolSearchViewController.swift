@@ -1,6 +1,6 @@
 import UIKit
 
-class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class TradeItSymbolSearchViewController: TradeItViewController, SymbolSearchViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var symbolSearchResultsTableView: UITableView!
     @IBOutlet weak var searchTextField: UITextField!

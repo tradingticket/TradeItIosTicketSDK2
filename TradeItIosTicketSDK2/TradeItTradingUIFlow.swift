@@ -1,3 +1,7 @@
+protocol SymbolSearchViewController {
+    var delegate: TradeItSymbolSearchViewControllerDelegate? { get set }
+}
+
 protocol TradeItTradingUIFlow:
     TradeItAccountSelectionViewControllerDelegate,
     TradeItSymbolSearchViewControllerDelegate,
@@ -5,9 +9,19 @@ protocol TradeItTradingUIFlow:
     TradeItTradePreviewViewControllerDelegate,
     TradeItTradingConfirmationViewControllerDelegate
 {
+    associatedtype SymbolSearchVC: SymbolSearchViewController
+
     var order: TradeItOrder { get set }
     var viewControllerProvider: TradeItViewControllerProvider { get }
     var previewOrderResult: TradeItPreviewOrderResult? { get set }
+
+    var symbolSearchStoryboardId: TradeItStoryboardID { get }
+
+    func pushTradingFlow(
+        onNavigationController navController: UINavigationController,
+        asRootViewController: Bool,
+        withOrder order: TradeItOrder
+    )
 
     func presentTradingFlow(
         fromViewController viewController: UIViewController,
@@ -68,14 +82,14 @@ extension TradeItTradingUIFlow {
         var nextStoryboardId: TradeItStoryboardID!
 
         if (order.symbol == nil) {
-            nextStoryboardId = TradeItStoryboardID.symbolSearchView
+            nextStoryboardId = symbolSearchStoryboardId
         } else {
             nextStoryboardId = TradeItStoryboardID.tradingTicketView
         }
 
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: nextStoryboardId)
 
-        if let symbolSearchViewController = nextViewController as? TradeItSymbolSearchViewController {
+        if var symbolSearchViewController = nextViewController as? SymbolSearchViewController {
             symbolSearchViewController.delegate = self
         } else if let tradingTicketViewController = nextViewController as? TradeItTradingTicketViewController {
             tradingTicketViewController.delegate = self
@@ -90,7 +104,7 @@ extension TradeItTradingUIFlow {
     internal func symbolSearchViewController(
         _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
-        ) {
+    ) {
         self.order.symbol = selectedSymbol
 
         let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingTicketView) as! TradeItTradingTicketViewController

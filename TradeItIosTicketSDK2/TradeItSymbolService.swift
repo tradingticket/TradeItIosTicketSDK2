@@ -26,6 +26,33 @@
         })
     }
 
+    // TODO: Consider breaking out to different services that conform to a protocol
+    public func cryptoSymbols(
+        account: TradeItLinkedBrokerAccount,
+        onSuccess: @escaping ([String]) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        let requestData = TradeItCryptoSymbolsRequest()
+        requestData.token = account.linkedBroker?.session.token ?? ""
+        requestData.accountNumber = account.accountNumber
+
+        let request = TradeItRequestFactory.buildJsonRequest(
+            for: requestData,
+            emsAction: "brokermarketdata/getCryptoCurrencyPairs",
+            environment: self.connector.environment
+        )
+
+        self.connector.send(request, targetClassType: TradeItCryptoSymbolsResult.self) { result in
+            if let cryptoSymbolResult = result as? TradeItCryptoSymbolsResult {
+                onSuccess(cryptoSymbolResult.pairs ?? [])
+            } else if let errorResult = result as? TradeItErrorResult {
+                onFailure(errorResult)
+            } else {
+                onFailure(TradeItErrorResult(title: "Symbol lookup failure", message: "Could not fetch supported crypto symbols. Please try again."))
+            }
+        }
+    }
+
     public func fxSymbols(forBroker broker: String, onSuccess: @escaping ([String]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let requestData = TradeItFxSymbolsRequest()
         requestData.broker = broker
@@ -38,7 +65,7 @@
         )
         
         // TODO: Fix this. Our connector doesn't support a way to just get back a string array from JSON.
-        self.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
+        self.connector.sendReturnJSON(request) { result, jsonResponse in
             if let data = jsonResponse?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)),
                 let symbolsTemp = try? JSONSerialization.jsonObject(with: data, options: []) as? [String],
                 let symbols = symbolsTemp {

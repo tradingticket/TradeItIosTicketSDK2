@@ -101,6 +101,8 @@ class TradeItSymbolSearchViewController: TradeItViewController, SymbolSearchView
 }
 
 protocol TradeItSymbolSearchViewControllerDelegate: class {
-    func symbolSearchViewController(_ symbolSearchViewController: TradeItSymbolSearchViewController,
-                                    didSelectSymbol selectedSymbol: String)
+    func symbolSearchViewController(
+        _ symbolSearchViewController: SymbolSearchViewController,
+        didSelectSymbol selectedSymbol: String
+    )
 }

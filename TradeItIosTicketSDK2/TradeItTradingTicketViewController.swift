@@ -218,7 +218,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     func symbolSearchViewController(
-        _ symbolSearchViewController: TradeItSymbolSearchViewController,
+        _ symbolSearchViewController: SymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol
@@ -413,7 +413,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.order.requiresStopPrice() ?.stopPrice : nil,
             .marketPrice,
             .estimatedCost
-            ].flatMap { $0 }
+        ].flatMap { $0 }
 
         self.ticketRows = ticketRows
 

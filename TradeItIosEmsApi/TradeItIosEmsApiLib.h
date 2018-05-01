@@ -67,6 +67,9 @@
 #import "TradeItFxOrderCapabilitiesResult.h"
 #import "TradeItFxQuoteRequest.h"
 
+// Crypto
+#import "TradeItCryptoSymbolsRequest.h"
+
 // Use the BalanceService to get account balance information
 #import "TradeItAccountOverviewRequest.h"
 #import "TradeItAccountOverviewResult.h"

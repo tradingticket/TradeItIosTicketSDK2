@@ -37,6 +37,10 @@
 		750100691F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */; };
 		750171922098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */; };
 		750171932098B2510094B739 /* TradeItCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */; };
+		750171992098E2A80094B739 /* TradeItCryptoSymbolsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7501719A2098E2A80094B739 /* TradeItCryptoSymbolsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7501719B2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */; };
+		7501719C2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */; };
 		7503D0D61F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503D0D71F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503EC501F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */; };
@@ -836,6 +840,8 @@
 		6346D92CEA86B9A6400B3E04 /* Pods_TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerLogoService.swift; sourceTree = "<group>"; };
 		750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoTradingUIFlow.swift; sourceTree = "<group>"; };
+		750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItCryptoSymbolsRequest.h; sourceTree = "<group>"; };
+		750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradeItCryptoSymbolsRequest.m; sourceTree = "<group>"; };
 		7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclosureIndicator.swift; sourceTree = "<group>"; };
 		7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorFactory.swift; sourceTree = "<group>"; };
 		751059D42097AF76009F1A22 /* TradeItCryptoOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoOrder.swift; sourceTree = "<group>"; };
@@ -1893,6 +1899,8 @@
 				B55E70F41F965C0B005BF07D /* TradeItTransactionsHistoryRequest.m */,
 				75F9802A2073F0C90062B799 /* TradeItUiConfigRequest.h */,
 				75F9802B2073F0C90062B799 /* TradeItUiConfigRequest.m */,
+				750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */,
+				750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -2030,6 +2038,7 @@
 				FA80FFB81DECC47A00C54091 /* TradeItOAuthLoginPopupUrlForMobileRequest.h in Headers */,
 				75BAABDE1DB7EF2F00E5435C /* TradeItRequest.h in Headers */,
 				75BAABD81DB7EF2F00E5435C /* TradeItQuote.h in Headers */,
+				750171992098E2A80094B739 /* TradeItCryptoSymbolsRequest.h in Headers */,
 				75BAABE81DB7EF2F00E5435C /* TradeItSymbolLookupCompany.h in Headers */,
 				75BAABC01DB7EF2F00E5435C /* TradeItPlaceTradeOrderInfo.h in Headers */,
 				B55E70EF1F965A93005BF07D /* TradeItTransaction.h in Headers */,
@@ -2123,6 +2132,7 @@
 				FC6E7A281DCD1F8B005225CC /* TradeItRequest.h in Headers */,
 				754200631EFABB0C00B15E92 /* TradeItFxPlaceOrderRequest.h in Headers */,
 				FA80FFC91DF2107A00C54091 /* TradeItOAuthAccessTokenResult.h in Headers */,
+				7501719A2098E2A80094B739 /* TradeItCryptoSymbolsRequest.h in Headers */,
 				FC6E7A291DCD1F8B005225CC /* TradeItQuote.h in Headers */,
 				FC6E7A2B1DCD1F8B005225CC /* TradeItSymbolLookupCompany.h in Headers */,
 				B55E70F01F965A93005BF07D /* TradeItTransaction.h in Headers */,
@@ -2893,6 +2903,7 @@
 				75BAAABF1DB7EEB400E5435C /* TradeItMarketService.swift in Sources */,
 				75BAABBB1DB7EF2F00E5435C /* TradeItKeychain.m in Sources */,
 				754200641EFABB0C00B15E92 /* TradeItFxPlaceOrderRequest.m in Sources */,
+				7501719B2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */,
 				75BAABC11DB7EF2F00E5435C /* TradeItPlaceTradeOrderInfo.m in Sources */,
 				75BAAADE1DB7EEB400E5435C /* TradeItSymbolSearchTableViewCell.swift in Sources */,
 				75BAAADB1DB7EEB400E5435C /* TradeItSelectBrokerViewController.swift in Sources */,
@@ -3159,6 +3170,7 @@
 				FC6E79F01DCD1F8B005225CC /* TradeItSelectBrokerViewController.swift in Sources */,
 				754200651EFABB0C00B15E92 /* TradeItFxPlaceOrderRequest.m in Sources */,
 				FA80FFD31DF2392200C54091 /* TradeItOAuthLoginPopupUrlForTokenUpdateResult.m in Sources */,
+				7501719C2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */,
 				FC6E79F11DCD1F8B005225CC /* TradeItPreviewOrderValueTableViewCell.swift in Sources */,
 				FC6E79F21DCD1F8B005225CC /* TradeItBrokerAccount.m in Sources */,
 				FC6E79F31DCD1F8B005225CC /* TradeItAuthenticationResult.m in Sources */,

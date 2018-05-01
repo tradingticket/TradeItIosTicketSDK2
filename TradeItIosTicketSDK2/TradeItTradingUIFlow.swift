@@ -1,5 +1,6 @@
 protocol SymbolSearchViewController {
     var delegate: TradeItSymbolSearchViewControllerDelegate? { get set }
+    var navigationController: UINavigationController? { get }
 }
 
 protocol TradeItTradingUIFlow:
@@ -102,7 +103,7 @@ extension TradeItTradingUIFlow {
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     internal func symbolSearchViewController(
-        _ symbolSearchViewController: TradeItSymbolSearchViewController,
+        _ symbolSearchViewController: SymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol

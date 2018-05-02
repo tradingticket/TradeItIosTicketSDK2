@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_NUMERIC_INPUT_CELL_ID" id="qF2-Yt-OzS" customClass="TradeItNumericInputCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qF2-Yt-OzS" id="Qxx-BX-YTd">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" textAlignment="right" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="aMU-5N-osz" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                        <rect key="frame" x="239" y="11" width="120" height="28"/>
+                        <color key="backgroundColor" red="0.90588235289999997" green="0.95294117649999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="5e3-sk-Vpf"/>
+                        </constraints>
+                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                        <connections>
+                            <action selector="textFieldDidChange:" destination="qF2-Yt-OzS" eventType="editingChanged" id="olr-vI-egv"/>
+                        </connections>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="aMU-5N-osz" secondAttribute="trailing" id="EE5-q2-XUA"/>
+                    <constraint firstItem="aMU-5N-osz" firstAttribute="top" secondItem="Qxx-BX-YTd" secondAttribute="topMargin" id="Ub2-Yu-0T4"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="aMU-5N-osz" secondAttribute="bottom" id="W2j-oU-wtE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="aMU-5N-osz" id="mq6-Xy-7y4"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

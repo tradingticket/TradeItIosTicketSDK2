@@ -592,6 +592,22 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                 UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
                 forCellReuseIdentifier: CellReuseId.selectionDetail.rawValue
             )
+            tableView.register(
+                UINib(nibName: "YahooReadOnlyTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.readOnly.rawValue
+            )
+            tableView.register(
+                UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.numericInput.rawValue
+            )
+            tableView.register(
+                UINib(nibName: "YahooSelectionTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.selection.rawValue
+            )
+            tableView.register(
+                UINib(nibName: "YahooMarketDataTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.marketData.rawValue
+            )
         }
     }
 }

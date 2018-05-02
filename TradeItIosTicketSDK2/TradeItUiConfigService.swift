@@ -3,12 +3,17 @@ import PromiseKit
 class TradeItUiConfigService: NSObject {
     private let connector: TradeItConnector
     private var uiConfigPromise: Promise<TradeItUiConfigResult>? = nil
+    var isEnabled = true
 
     init(connector: TradeItConnector) {
         self.connector = connector
     }
 
     func getUiConfigPromise() -> Promise<TradeItUiConfigResult> {
+        if !isEnabled {
+            return Promise(value: TradeItUiConfigResult())
+        }
+
         if let uiConfigPromise = self.uiConfigPromise { return uiConfigPromise }
 
         let uiConfigRequest = TradeItUiConfigRequest(apiKey: connector.apiKey)

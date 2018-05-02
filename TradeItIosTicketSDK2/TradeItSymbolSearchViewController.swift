@@ -1,13 +1,13 @@
 import UIKit
 
-class TradeItSymbolSearchViewController: TradeItViewController, SymbolSearchViewController, UITableViewDelegate, UITextFieldDelegate {
+class TradeItSymbolSearchViewController: TradeItViewController, UITableViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var symbolSearchResultsTableView: UITableView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var adContainer: UIView!
 
     weak var delegate: TradeItSymbolSearchViewControllerDelegate?
-    var dataSource = EquitySymbolDataSource()
+    weak var dataSource: SymbolDataSource?
 
     override func viewDidLoad() {
         symbolSearchResultsTableView.dataSource = dataSource
@@ -90,7 +90,7 @@ class TradeItSymbolSearchViewController: TradeItViewController, SymbolSearchView
 
 protocol TradeItSymbolSearchViewControllerDelegate: class {
     func symbolSearchViewController(
-        _ symbolSearchViewController: SymbolSearchViewController,
+        _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     )
 }

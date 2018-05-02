@@ -218,7 +218,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     func symbolSearchViewController(
-        _ symbolSearchViewController: SymbolSearchViewController,
+        _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol

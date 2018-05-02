@@ -10,7 +10,7 @@ class TradeItSymbolSearchTableViewCell: UITableViewCell {
         self.companyNameLabel.textColor = TradeItSDK.theme.textColor
     }
 
-    func populateWith(_ symbolResult: TradeItSymbolLookupCompany) {
+    func populateWith(_ symbolResult: TradeItSymbol) {
         self.symbolLabel.text = symbolResult.symbol
         self.companyNameLabel.text = symbolResult.name
     }

@@ -1,8 +1,3 @@
-protocol SymbolSearchViewController {
-    var delegate: TradeItSymbolSearchViewControllerDelegate? { get set }
-    var navigationController: UINavigationController? { get }
-}
-
 protocol TradeItTradingUIFlow:
     TradeItAccountSelectionViewControllerDelegate,
     TradeItSymbolSearchViewControllerDelegate,
@@ -10,6 +5,8 @@ protocol TradeItTradingUIFlow:
     TradeItTradePreviewViewControllerDelegate,
     TradeItTradingConfirmationViewControllerDelegate
 {
+    associatedtype SymbolSearchDataSource: SymbolDataSource
+
     var order: TradeItOrder { get set }
     var viewControllerProvider: TradeItViewControllerProvider { get }
     var previewOrderResult: TradeItPreviewOrderResult? { get set }
@@ -88,8 +85,9 @@ extension TradeItTradingUIFlow {
 
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: nextStoryboardId)
 
-        if var symbolSearchViewController = nextViewController as? SymbolSearchViewController {
+        if let symbolSearchViewController = nextViewController as? TradeItSymbolSearchViewController {
             symbolSearchViewController.delegate = self
+            symbolSearchViewController.symbolSearchResultsTableView.dataSource = SymbolSearchDataSource(linkedBrokerAccount: linkedBrokerAccount)
         } else if let tradingTicketViewController = nextViewController as? TradeItTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = self.order
@@ -101,7 +99,7 @@ extension TradeItTradingUIFlow {
     // MARK: TradeItSymbolSearchViewControllerDelegate
 
     internal func symbolSearchViewController(
-        _ symbolSearchViewController: SymbolSearchViewController,
+        _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
         self.order.symbol = selectedSymbol
@@ -120,7 +118,7 @@ extension TradeItTradingUIFlow {
         onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
-        ) {
+    ) {
         self.previewOrderResult = previewOrderResult
 
         let nextViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.tradingPreviewView)
@@ -138,7 +136,7 @@ extension TradeItTradingUIFlow {
     internal func invalidAccountSelected(
         onTradingTicketViewController tradingTicketViewController: TradeItTradingTicketViewController,
         withOrder order: TradeItOrder
-        ) {
+    ) {
         guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
             forStoryboardId: TradeItStoryboardID.accountSelectionView
             ) as? TradeItAccountSelectionViewController else {
@@ -233,8 +231,10 @@ extension TradeItTradingUIFlow {
 
         if let accountSelectionViewController = initialViewController as? TradeItAccountSelectionViewController {
             accountSelectionViewController.delegate = self
-        } else if let symbolSearchViewController = initialViewController as? TradeItSymbolSearchViewController {
+        } else if let symbolSearchViewController = initialViewController as? TradeItSymbolSearchViewController,
+            let linkedBrokerAccount = order.linkedBrokerAccount {
             symbolSearchViewController.delegate = self
+            symbolSearchViewController.dataSource = SymbolSearchDataSource(linkedBrokerAccount: linkedBrokerAccount)
         } else if let tradingTicketViewController = initialViewController as? TradeItTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order

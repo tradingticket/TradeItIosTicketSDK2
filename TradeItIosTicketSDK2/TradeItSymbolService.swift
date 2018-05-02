@@ -7,7 +7,7 @@
 
     public func symbolLookup(
         _ searchText: String,
-        onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void,
+        onSuccess: @escaping ([TradeItSymbol]) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
@@ -20,7 +20,7 @@
 
         self.connector.send(request, targetClassType: TradeItSymbolLookupResult.self, withCompletionBlock: { result in
             if let symbolLookupResult = result as? TradeItSymbolLookupResult,
-                let results = symbolLookupResult.results as? [TradeItSymbolLookupCompany] {
+                let results = symbolLookupResult.results as? [TradeItSymbol] {
                 onSuccess(results)
             } else if let errorResult = result as? TradeItErrorResult {
                 onFailure(errorResult)

@@ -1,7 +1,7 @@
 import UIKit
 
 class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate {
-    private var symbolResults: [TradeItSymbolLookupCompany] = []
+    private var symbolResults: [TradeItSymbol] = []
     private var _table: UITableView?
     var symbolResultsTableView: UITableView? {
         get {
@@ -32,7 +32,7 @@ class TradeItSymbolSearchTableViewManager: NSObject, UITableViewDelegate, UITabl
 
     weak var delegate: TradeItSymbolSearchTableViewManagerDelegate?
 
-    func updateSymbolResults(withResults symbolResults: [TradeItSymbolLookupCompany]) {
+    func updateSymbolResults(withResults symbolResults: [TradeItSymbol]) {
         self.symbolResults = symbolResults
         self.symbolResultsTableView?.reloadData()
     }

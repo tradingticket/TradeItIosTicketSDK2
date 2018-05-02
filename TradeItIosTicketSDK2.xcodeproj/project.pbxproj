@@ -41,6 +41,8 @@
 		7501719A2098E2A80094B739 /* TradeItCryptoSymbolsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7501719B2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */; };
 		7501719C2098E2A80094B739 /* TradeItCryptoSymbolsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */; };
+		7501719F2099031F0094B739 /* EquitySymbolDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7501719E2099031F0094B739 /* EquitySymbolDataSource.swift */; };
+		750171A02099031F0094B739 /* EquitySymbolDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7501719E2099031F0094B739 /* EquitySymbolDataSource.swift */; };
 		7503D0D61F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503D0D71F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503EC501F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */; };
@@ -842,6 +844,7 @@
 		750171912098B2510094B739 /* TradeItCryptoTradingUIFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoTradingUIFlow.swift; sourceTree = "<group>"; };
 		750171972098E2A80094B739 /* TradeItCryptoSymbolsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItCryptoSymbolsRequest.h; sourceTree = "<group>"; };
 		750171982098E2A80094B739 /* TradeItCryptoSymbolsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradeItCryptoSymbolsRequest.m; sourceTree = "<group>"; };
+		7501719E2099031F0094B739 /* EquitySymbolDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquitySymbolDataSource.swift; sourceTree = "<group>"; };
 		7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclosureIndicator.swift; sourceTree = "<group>"; };
 		7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorFactory.swift; sourceTree = "<group>"; };
 		751059D42097AF76009F1A22 /* TradeItCryptoOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoOrder.swift; sourceTree = "<group>"; };
@@ -1334,6 +1337,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7501719D209903050094B739 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				7501719E2099031F0094B739 /* EquitySymbolDataSource.swift */,
+			);
+			name = DataSources;
+			sourceTree = "<group>";
+		};
 		756FAEF31DB818CD00D5B112 /* TradeItIosTicketSDK2Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1666,6 +1677,7 @@
 		75BAAA421DB7EEB400E5435C /* TradeItIosTicketSDK2 */ = {
 			isa = PBXGroup;
 			children = (
+				7501719D209903050094B739 /* DataSources */,
 				B5749B491F4643B600FCE1B5 /* Models */,
 				B5AFC1EF1F33A19A0043E20F /* Factories */,
 				FA3B5EA71E1DB91C00C08F6D /* Yahoo */,
@@ -2920,6 +2932,7 @@
 				B59F0CC61EA69D3E00C0F56F /* TradeItSubtitleWithDetailsCellTableViewCell.swift in Sources */,
 				7580B74F1F85737A006F306A /* TradeItPreviewMessage.m in Sources */,
 				521D2B521E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */,
+				7501719F2099031F0094B739 /* EquitySymbolDataSource.swift in Sources */,
 				75AB47461EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */,
 				7570075F1F44CB0900B95044 /* TradeItYahooViewController.swift in Sources */,
 				FAAA86AA1F01623F00015DBE /* TradeItBroker+InstrumentHelpers.swift in Sources */,
@@ -3187,6 +3200,7 @@
 				521D2B531E5C11DF00F7204B /* TradeItOAuthCallbackUrlParser.swift in Sources */,
 				7580B7501F85737A006F306A /* TradeItPreviewMessage.m in Sources */,
 				75AB47471EFEC09D00A8BEC6 /* TradeItFxSymbolsRequest.m in Sources */,
+				750171A02099031F0094B739 /* EquitySymbolDataSource.swift in Sources */,
 				757007601F44CB0900B95044 /* TradeItYahooViewController.swift in Sources */,
 				FAAA86AB1F01623F00015DBE /* TradeItBroker+InstrumentHelpers.swift in Sources */,
 				524116BB1E81DABF00F9C27E /* UpdateTimestampFormatter.swift in Sources */,

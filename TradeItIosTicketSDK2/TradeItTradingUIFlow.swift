@@ -10,8 +10,6 @@ protocol TradeItTradingUIFlow:
     TradeItTradePreviewViewControllerDelegate,
     TradeItTradingConfirmationViewControllerDelegate
 {
-    associatedtype SymbolSearchVC: SymbolSearchViewController
-
     var order: TradeItOrder { get set }
     var viewControllerProvider: TradeItViewControllerProvider { get }
     var previewOrderResult: TradeItPreviewOrderResult? { get set }

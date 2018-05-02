@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1310,7 +1310,6 @@
                         <outlet property="activityIndicator" destination="EO7-43-1uc" id="Dxn-f9-dwt"/>
                         <outlet property="adContainer" destination="CZQ-oG-sSY" id="Y1i-Wg-AV6"/>
                         <outlet property="searchDisplayController" destination="sal-1E-fzg" id="6cs-Ta-0eC"/>
-                        <outlet property="searchResultTableView" destination="JdR-Ln-anI" id="npR-kk-HBs"/>
                         <outlet property="searchTextField" destination="wok-HI-IKv" id="3iz-1Q-Lr5"/>
                         <outlet property="symbolSearchResultsTableView" destination="JdR-Ln-anI" id="jPb-V9-7ui"/>
                     </connections>

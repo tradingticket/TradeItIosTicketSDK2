@@ -5,7 +5,11 @@
         self.connector = connector
     }
 
-    public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    public func symbolLookup(
+        _ searchText: String,
+        onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -75,6 +79,11 @@
                 let errorResult =  TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: jsonString)
                 onFailure(errorResult ?? TradeItErrorResult.error(withSystemMessage: "Failed to fetch FX symbols"))
             }
-        })
+        }
     }
 }
+
+class TradeItCryptoSymbolsResult: TradeItResult {
+    var pairs: [String]?
+}
+

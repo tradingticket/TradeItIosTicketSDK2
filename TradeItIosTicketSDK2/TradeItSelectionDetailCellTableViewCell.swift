@@ -23,7 +23,7 @@ class TradeItSelectionDetailCellTableViewCell: BrandedTableViewCell {
             withSize: .small,
             onSuccess: { image in
                 self.setBrokerNameAsLogoState(logo: image)
-        },
+            },
             onFailure: { }
         )
     }

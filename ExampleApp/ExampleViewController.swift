@@ -426,6 +426,23 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     YahooAction(
+                        label: "Launch Crypto Trading - Buy",
+                        action: {
+                            let order = TradeItCryptoOrder()
+
+                            order.symbol = "BTC/USD"
+                            order.action = .buy
+                            TradeItSDK.yahooLauncher.launchCryptoTrading(
+                                fromViewController: self.advancedViewController,
+                                withOrder: order,
+                                onViewPortfolioTappedHandler: { presentedViewController, linkedBrokerAccount in
+                                    print("=====> GO TO PORTFOLIO \(String(describing: linkedBrokerAccount?.accountNumber))...")
+                                    presentedViewController.dismiss(animated: true)
+                                }
+                            )
+                        }
+                    ),
+                    YahooAction(
                         label: "Manual launchAuthentication",
                         action: {
                             guard let linkedBroker = TradeItSDK.linkedBrokerManager.linkedBrokers[safe: 0] else {

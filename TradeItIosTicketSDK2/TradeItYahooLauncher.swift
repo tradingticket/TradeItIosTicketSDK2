@@ -6,13 +6,16 @@ import SafariServices
     private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
     private var deviceManager = TradeItDeviceManager()
     private let tradingUIFlow = TradeItYahooTradingUIFlow()
+    private let cryptoTradingUIFlow = TradeItYahooCryptoTradingUIFlow()
     private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
     private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
     private let alertManager = TradeItAlertManager()
     
     override internal init() {}
-    
-    @objc public func launchOAuth(fromViewController viewController: UIViewController) {
+
+    @objc public func launchOAuth(
+        fromViewController viewController: UIViewController
+    ) {
         self.launchOAuth(
             fromViewController: viewController,
             oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
@@ -105,6 +108,26 @@ import SafariServices
             onSuccess: {
                 print("Access granted")
                 self.tradingUIFlow.presentTradingFlow(
+                    fromViewController: viewController,
+                    withOrder: order,
+                    onViewPortfolioTappedHandler: onViewPortfolioTappedHandler
+                )
+            },
+            onFailure: {
+                print("Access denied")
+            }
+        )
+    }
+
+    public func launchCryptoTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItCryptoOrder,
+        onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
+    ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                print("Access granted")
+                self.cryptoTradingUIFlow.presentTradingFlow(
                     fromViewController: viewController,
                     withOrder: order,
                     onViewPortfolioTappedHandler: onViewPortfolioTappedHandler

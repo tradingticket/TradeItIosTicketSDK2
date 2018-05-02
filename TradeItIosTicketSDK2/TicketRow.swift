@@ -20,6 +20,8 @@ enum TicketRow {
     case leverage
     case priceType
 
+    // Crypto
+
     private enum CellReuseId: String {
         case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
         case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"

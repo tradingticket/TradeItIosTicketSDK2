@@ -71,7 +71,7 @@ internal class TradeItTradeService: NSObject {
         } else {
             return TradeItErrorResult(
                 title: "Place failed",
-                message: "There was a problem placinging your order. Please try again."
+                message: "There was a problem placing your order. Please try again."
             )
         }
     }

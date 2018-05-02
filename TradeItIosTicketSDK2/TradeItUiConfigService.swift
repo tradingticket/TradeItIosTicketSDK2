@@ -11,9 +11,7 @@ class TradeItUiConfigService: NSObject {
 
     func getUiConfigPromise() -> Promise<TradeItUiConfigResult> {
         if !isEnabled {
-            return Promise { fulfill, reject in
-                fulfill(TradeItUiConfigResult())
-            }
+            return Promise(value: TradeItUiConfigResult())
         }
 
         if let uiConfigPromise = self.uiConfigPromise { return uiConfigPromise }

@@ -28,7 +28,7 @@ class TradeItBrokerLogoService {
                     return Promise(
                         error: TradeItErrorResult(
                             title: "Logo not found",
-                            message: "No logo is available for this broker."
+                            message: "No logo is enabled for this broker."
                         )
                     )
                 }

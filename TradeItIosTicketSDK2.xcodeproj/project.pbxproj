@@ -371,6 +371,20 @@
 		75CCE34E1F043AF300E1061E /* TradeItFxQuoteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCE34A1F043AF200E1061E /* TradeItFxQuoteRequest.m */; };
 		75D191781DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
 		75D191791DFB37E200FF5E0F /* TradeItSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D191771DFB37E200FF5E0F /* TradeItSDK.swift */; };
+		75D841F4209A286A0074D83E /* TradeItYahooCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F3209A286A0074D83E /* TradeItYahooCryptoTradingUIFlow.swift */; };
+		75D841F5209A286A0074D83E /* TradeItYahooCryptoTradingUIFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F3209A286A0074D83E /* TradeItYahooCryptoTradingUIFlow.swift */; };
+		75D841F7209A29310074D83E /* TradeItCryptoOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F6209A29310074D83E /* TradeItCryptoOrder.swift */; };
+		75D841F8209A29310074D83E /* TradeItCryptoOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F6209A29310074D83E /* TradeItCryptoOrder.swift */; };
+		75D841FA209A44120074D83E /* TradeItYahooCryptoTradingTicketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F9209A44120074D83E /* TradeItYahooCryptoTradingTicketViewController.swift */; };
+		75D841FB209A44120074D83E /* TradeItYahooCryptoTradingTicketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D841F9209A44120074D83E /* TradeItYahooCryptoTradingTicketViewController.swift */; };
+		75D841FE209A543D0074D83E /* YahooReadOnlyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D841FD209A543D0074D83E /* YahooReadOnlyTableViewCell.xib */; };
+		75D841FF209A543D0074D83E /* YahooReadOnlyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D841FD209A543D0074D83E /* YahooReadOnlyTableViewCell.xib */; };
+		75D84201209A54B70074D83E /* YahooNumericInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84200209A54B70074D83E /* YahooNumericInputTableViewCell.xib */; };
+		75D84202209A54B70074D83E /* YahooNumericInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84200209A54B70074D83E /* YahooNumericInputTableViewCell.xib */; };
+		75D84204209A54DD0074D83E /* YahooSelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84203209A54DD0074D83E /* YahooSelectionTableViewCell.xib */; };
+		75D84205209A54DD0074D83E /* YahooSelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84203209A54DD0074D83E /* YahooSelectionTableViewCell.xib */; };
+		75D84207209A54F00074D83E /* YahooMarketDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84206209A54F00074D83E /* YahooMarketDataTableViewCell.xib */; };
+		75D84208209A54F00074D83E /* YahooMarketDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D84206209A54F00074D83E /* YahooMarketDataTableViewCell.xib */; };
 		75D94D1D1E7331E200EAE775 /* TradeItPortfolioAccountDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D94D1C1E7331E200EAE775 /* TradeItPortfolioAccountDetailsTableViewCell.swift */; };
 		75D94D1E1E7331E200EAE775 /* TradeItPortfolioAccountDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D94D1C1E7331E200EAE775 /* TradeItPortfolioAccountDetailsTableViewCell.swift */; };
 		75D94D1F1E788C0D00EAE775 /* TradeItSelectionDetailCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */; };
@@ -1103,6 +1117,13 @@
 		75CCE3491F043AF200E1061E /* TradeItFxQuoteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItFxQuoteRequest.h; sourceTree = "<group>"; };
 		75CCE34A1F043AF200E1061E /* TradeItFxQuoteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItFxQuoteRequest.m; sourceTree = "<group>"; };
 		75D191771DFB37E200FF5E0F /* TradeItSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSDK.swift; sourceTree = "<group>"; };
+		75D841F3209A286A0074D83E /* TradeItYahooCryptoTradingUIFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItYahooCryptoTradingUIFlow.swift; sourceTree = "<group>"; };
+		75D841F6209A29310074D83E /* TradeItCryptoOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItCryptoOrder.swift; sourceTree = "<group>"; };
+		75D841F9209A44120074D83E /* TradeItYahooCryptoTradingTicketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItYahooCryptoTradingTicketViewController.swift; sourceTree = "<group>"; };
+		75D841FD209A543D0074D83E /* YahooReadOnlyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YahooReadOnlyTableViewCell.xib; sourceTree = "<group>"; };
+		75D84200209A54B70074D83E /* YahooNumericInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YahooNumericInputTableViewCell.xib; sourceTree = "<group>"; };
+		75D84203209A54DD0074D83E /* YahooSelectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YahooSelectionTableViewCell.xib; sourceTree = "<group>"; };
+		75D84206209A54F00074D83E /* YahooMarketDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YahooMarketDataTableViewCell.xib; sourceTree = "<group>"; };
 		75D94D1C1E7331E200EAE775 /* TradeItPortfolioAccountDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItPortfolioAccountDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		75E2022B1F19428E003660AF /* TradeItBrokerLogo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItBrokerLogo.h; sourceTree = "<group>"; };
 		75E2022C1F19428E003660AF /* TradeItBrokerLogo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItBrokerLogo.m; sourceTree = "<group>"; };
@@ -1735,6 +1756,17 @@
 			path = ExampleAppUITests;
 			sourceTree = "<group>";
 		};
+		75D841FC209A53DB0074D83E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				75D841FD209A543D0074D83E /* YahooReadOnlyTableViewCell.xib */,
+				75D84200209A54B70074D83E /* YahooNumericInputTableViewCell.xib */,
+				75D84203209A54DD0074D83E /* YahooSelectionTableViewCell.xib */,
+				75D84206209A54F00074D83E /* YahooMarketDataTableViewCell.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B5749B491F4643B600FCE1B5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1777,6 +1809,7 @@
 		FA3B5EA71E1DB91C00C08F6D /* Yahoo */ = {
 			isa = PBXGroup;
 			children = (
+				75D841FC209A53DB0074D83E /* Resources */,
 				FA6C432E1F50CA7B00A08451 /* UIFlows */,
 				FA6C432D1F50CA3800A08451 /* Views */,
 				FA6C432C1F50CA1E00A08451 /* ViewControllers */,
@@ -2411,8 +2444,12 @@
 				75FD21C91E68C9F800949A7F /* tradeit_logo.png in Resources */,
 				75BAAAA41DB7EEB400E5435C /* success_icon.png in Resources */,
 				B55CA8A81FB36181001F563B /* list-bullet.png in Resources */,
+				75D84207209A54F00074D83E /* YahooMarketDataTableViewCell.xib in Resources */,
 				75AB473A1EFC63B700A8BEC6 /* TradeItStepperInputCell.xib in Resources */,
+				75D841FE209A543D0074D83E /* YahooReadOnlyTableViewCell.xib in Resources */,
 				B5FDB6811DDE40F700CA558D /* norton.png in Resources */,
+				75D84201209A54B70074D83E /* YahooNumericInputTableViewCell.xib in Resources */,
+				75D84204209A54DD0074D83E /* YahooSelectionTableViewCell.xib in Resources */,
 				75BAAAA51DB7EEB400E5435C /* TradeIt.storyboard in Resources */,
 				BAD1CF732077DF16008BF987 /* TradeItBrokerHeaderTableViewCell.xib in Resources */,
 				753212381E84619700CB0DA1 /* warning.png in Resources */,
@@ -2448,12 +2485,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75D841FF209A543D0074D83E /* YahooReadOnlyTableViewCell.xib in Resources */,
+				75D84205209A54DD0074D83E /* YahooSelectionTableViewCell.xib in Resources */,
+				75D84202209A54B70074D83E /* YahooNumericInputTableViewCell.xib in Resources */,
 				7542005C1EF85B1100B15E92 /* TradeItNumericInputCell.xib in Resources */,
 				7580B7561F8BC2B9006F306A /* TradeItPreviewMessageTableViewCell.xib in Resources */,
 				75EDCEA51DDF559C000739C9 /* norton.png in Resources */,
 				BAD1CF742077DF16008BF987 /* TradeItBrokerHeaderTableViewCell.xib in Resources */,
 				75EDCEA61DDF559C000739C9 /* truste.png in Resources */,
 				754200531EF8583600B15E92 /* TradeItSelectionCellTableViewCell.xib in Resources */,
+				75D84208209A54F00074D83E /* YahooMarketDataTableViewCell.xib in Resources */,
 				FC6E7A691DCD1F8B005225CC /* chevron_up.png in Resources */,
 				FC6E7A6A1DCD1F8B005225CC /* chevron_down.png in Resources */,
 				FA596DE41E1EF425007D48F2 /* TradeItYahoo.storyboard in Resources */,

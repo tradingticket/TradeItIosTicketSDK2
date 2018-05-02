@@ -273,7 +273,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                guard let equityOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                guard let instrumentOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
                     self.alertManager.showAlertWithMessageOnly(
                         onViewController: self,
                         withTitle: "Unsupported Account",
@@ -288,7 +288,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     )
                     return
                 }
-                self.instrumentOrderCapabilities = equityOrderCapabilities
+                self.instrumentOrderCapabilities = instrumentOrderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()

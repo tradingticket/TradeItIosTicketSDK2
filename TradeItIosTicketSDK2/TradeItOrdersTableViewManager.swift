@@ -47,7 +47,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         self.orderSectionPresenters = []
         
         let openOrders = orders.filter { $0.belongsToOpenCategory()}
-        if openOrders.count > 0 {
+        if !openOrders.isEmpty {
             let openOrdersPresenter = getOrdersPresenter(orders: openOrders)
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
@@ -60,7 +60,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         }
         
         let partiallyFilledOrders = orders.filter { $0.belongsToPartiallyFilledCategory() }
-        if partiallyFilledOrders.count > 0 {
+        if !partiallyFilledOrders.isEmpty {
             let partiallyFilledOrdersPresenter = getOrdersPresenter(orders: partiallyFilledOrders)
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
@@ -73,7 +73,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         }
         
         let filledOrders = orders.filter { $0.belongsToFilledCategory() }
-        if filledOrders.count > 0 {
+        if !filledOrders.isEmpty {
             let filledOrdersPresenter = getOrdersPresenter(orders: filledOrders)
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
@@ -85,7 +85,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         }
 
         let otherOrders = orders.filter { $0.belongsToOtherCategory() }
-        if otherOrders.count > 0 {
+        if !otherOrders.isEmpty {
             let otherOrdersPresenter = getOrdersPresenter(orders: otherOrders)
             self.orderSectionPresenters.append(
                 OrderSectionPresenter(
@@ -194,13 +194,13 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
 
     // MARK: Private
     fileprivate enum Section: Int {
-        case accountInfo = 0, firstOrderSection
+        case accountInfo = 0, firstOrderCategory
     }
 
     private func getOrderSectionPresenter(forSection section: Int) -> OrderSectionPresenter? {
-        let zeroIndexedPresenter = section - Section.firstOrderSection.rawValue
+        let indexOfOrderCategory = section - Section.firstOrderCategory.rawValue
 
-        return orderSectionPresenters[safe: zeroIndexedPresenter]
+        return orderSectionPresenters[safe: indexOfOrderCategory]
     }
     
     private func addRefreshControl(toTableView tableView: UITableView) {

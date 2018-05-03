@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TRADING_TICKET_NUMERIC_TOGGLE_INPUT_CELL_ID" id="B9x-7u-Ojd" customClass="TradeItNumericToggleInputCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="B9x-7u-Ojd" id="JNK-zF-FSs">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BM4-wf-lUj">
+                        <rect key="frame" x="188" y="8" width="171" height="33.5"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lbr-7B-RTK" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                <rect key="frame" x="8" y="8.5" width="120" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="DyR-us-0u4"/>
+                                </constraints>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="textFieldDidChange:" destination="B9x-7u-Ojd" eventType="editingChanged" id="i0y-Fu-uQM"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rie-TN-DTb">
+                                <rect key="frame" x="132" y="1.5" width="31" height="30"/>
+                                <state key="normal" title="USD"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90588235289999997" green="0.95294117649999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="rie-TN-DTb" firstAttribute="centerY" secondItem="BM4-wf-lUj" secondAttribute="centerY" id="1Tf-dg-Knv"/>
+                            <constraint firstItem="rie-TN-DTb" firstAttribute="leading" secondItem="lbr-7B-RTK" secondAttribute="trailing" constant="4" id="OVD-27-Pnq"/>
+                            <constraint firstItem="lbr-7B-RTK" firstAttribute="centerY" secondItem="BM4-wf-lUj" secondAttribute="centerY" id="cDF-EJ-RUB"/>
+                            <constraint firstAttribute="trailing" secondItem="rie-TN-DTb" secondAttribute="trailing" constant="8" id="kKl-3c-wCj"/>
+                            <constraint firstItem="lbr-7B-RTK" firstAttribute="leading" secondItem="BM4-wf-lUj" secondAttribute="leading" constant="8" id="mrt-f0-xv2"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="BM4-wf-lUj" secondAttribute="trailing" id="gh2-NU-7R8"/>
+                    <constraint firstItem="BM4-wf-lUj" firstAttribute="top" secondItem="JNK-zF-FSs" secondAttribute="top" constant="8" id="i9p-sD-kvL"/>
+                    <constraint firstAttribute="bottom" secondItem="BM4-wf-lUj" secondAttribute="bottom" constant="8" id="wsq-4X-kXd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="quantityTypeToggle" destination="rie-TN-DTb" id="9PU-zt-JEv"/>
+                <outlet property="textField" destination="lbr-7B-RTK" id="XbI-2k-xAd"/>
+            </connections>
+            <point key="canvasLocation" x="-133.5" y="54"/>
+        </tableViewCell>
+    </objects>
+</document>

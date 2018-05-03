@@ -39,6 +39,10 @@
 		750171A4209B66370094B739 /* TradeItInstrumentActionCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 750171A1209B66370094B739 /* TradeItInstrumentActionCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		750171A5209B66370094B739 /* TradeItInstrumentActionCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171A2209B66370094B739 /* TradeItInstrumentActionCapability.m */; };
 		750171A6209B66370094B739 /* TradeItInstrumentActionCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 750171A2209B66370094B739 /* TradeItInstrumentActionCapability.m */; };
+		750171A8209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750171A7209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib */; };
+		750171A9209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750171A7209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib */; };
+		750171AB209B82D30094B739 /* TradeItNumericToggleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171AA209B82D30094B739 /* TradeItNumericToggleInputCell.swift */; };
+		750171AC209B82D30094B739 /* TradeItNumericToggleInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750171AA209B82D30094B739 /* TradeItNumericToggleInputCell.swift */; };
 		7503D0D61F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503D0D71F58682300D48CF5 /* DisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */; };
 		7503EC501F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */; };
@@ -849,6 +853,8 @@
 		750100671F1D0FB200CC9E56 /* TradeItBrokerLogoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerLogoService.swift; sourceTree = "<group>"; };
 		750171A1209B66370094B739 /* TradeItInstrumentActionCapability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItInstrumentActionCapability.h; sourceTree = "<group>"; };
 		750171A2209B66370094B739 /* TradeItInstrumentActionCapability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradeItInstrumentActionCapability.m; sourceTree = "<group>"; };
+		750171A7209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YahooNumericToggleInputTableViewCell.xib; sourceTree = "<group>"; };
+		750171AA209B82D30094B739 /* TradeItNumericToggleInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItNumericToggleInputCell.swift; sourceTree = "<group>"; };
 		7503D0D51F58682300D48CF5 /* DisclosureIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclosureIndicator.swift; sourceTree = "<group>"; };
 		7503EC4F1F5F3A2F00DA9D8E /* ActivityIndicatorFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorFactory.swift; sourceTree = "<group>"; };
 		75205BB51E52490A00FB2509 /* TradeItSelectionDetailCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItSelectionDetailCellTableViewCell.swift; sourceTree = "<group>"; };
@@ -1769,6 +1775,7 @@
 				75D84200209A54B70074D83E /* YahooNumericInputTableViewCell.xib */,
 				75D84203209A54DD0074D83E /* YahooSelectionTableViewCell.xib */,
 				75D84206209A54F00074D83E /* YahooMarketDataTableViewCell.xib */,
+				750171A7209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1846,6 +1853,7 @@
 			isa = PBXGroup;
 			children = (
 				526E310C1E3ACAC400636640 /* TradeItNumericInputCell.swift */,
+				750171AA209B82D30094B739 /* TradeItNumericToggleInputCell.swift */,
 				FA5852761E401B8300078352 /* TradeItPaddedTextField.swift */,
 				757007551F449BD600B95044 /* LinearGradientView.h */,
 				757007561F449BD600B95044 /* LinearGradientView.m */,
@@ -2456,6 +2464,7 @@
 				B55CA8A81FB36181001F563B /* list-bullet.png in Resources */,
 				75D84207209A54F00074D83E /* YahooMarketDataTableViewCell.xib in Resources */,
 				75AB473A1EFC63B700A8BEC6 /* TradeItStepperInputCell.xib in Resources */,
+				750171A8209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib in Resources */,
 				75D841FE209A543D0074D83E /* YahooReadOnlyTableViewCell.xib in Resources */,
 				B5FDB6811DDE40F700CA558D /* norton.png in Resources */,
 				75D84201209A54B70074D83E /* YahooNumericInputTableViewCell.xib in Resources */,
@@ -2508,6 +2517,7 @@
 				FC6E7A691DCD1F8B005225CC /* chevron_up.png in Resources */,
 				FC6E7A6A1DCD1F8B005225CC /* chevron_down.png in Resources */,
 				FA596DE41E1EF425007D48F2 /* TradeItYahoo.storyboard in Resources */,
+				750171A9209B68290094B739 /* YahooNumericToggleInputTableViewCell.xib in Resources */,
 				754200591EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib in Resources */,
 				FC6E7A6C1DCD1F8B005225CC /* success_icon.png in Resources */,
 				754200561EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib in Resources */,
@@ -2999,6 +3009,7 @@
 				FAD76EC91EF0CA85007FA943 /* TradeItSelectBrokerTableViewCell.swift in Sources */,
 				75BAABAE1DB7EF2F00E5435C /* TradeItErrorResult.m in Sources */,
 				75BAAADF1DB7EEB400E5435C /* TradeItSymbolSearchTableViewManager.swift in Sources */,
+				750171AB209B82D30094B739 /* TradeItNumericToggleInputCell.swift in Sources */,
 				B5D5DE721FA1303E00E9763C /* TradeItTransaction+Helpers.swift in Sources */,
 				75BAAAE71DB7EEB400E5435C /* TradeItTradingUIFlow.swift in Sources */,
 				75BAABC51DB7EF2F00E5435C /* TradeItPlaceTradeRequest.m in Sources */,
@@ -3263,6 +3274,7 @@
 				FAD76ECA1EF0CA85007FA943 /* TradeItSelectBrokerTableViewCell.swift in Sources */,
 				FC6E7A121DCD1F8B005225CC /* TradeItErrorResult.m in Sources */,
 				FC6E7A131DCD1F8B005225CC /* TradeItSymbolSearchTableViewManager.swift in Sources */,
+				750171AC209B82D30094B739 /* TradeItNumericToggleInputCell.swift in Sources */,
 				B5D5DE731FA1304000E9763C /* TradeItTransaction+Helpers.swift in Sources */,
 				FC6E7A141DCD1F8B005225CC /* TradeItTradingUIFlow.swift in Sources */,
 				FC6E7A151DCD1F8B005225CC /* TradeItPlaceTradeRequest.m in Sources */,

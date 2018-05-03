@@ -103,11 +103,11 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.orderSectionPresenters[safe: section]?.title
+        return getOrderSectionPresenter(forSection: section)?.title
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if isAccountInfoSection(section) {
+        if Section(rawValue: section) == Section.accountInfo {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
                 return UITableViewCell()
             }
@@ -117,24 +117,24 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             return cell
         }
 
-        return self.orderSectionPresenters[safe: section]?.header(forTableView: tableView)
+        return getOrderSectionPresenter(forSection: section)?.header(forTableView: tableView)
     }
     
     // MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isAccountInfoSection(indexPath.section) {
+        if Section(rawValue: indexPath.section) == Section.accountInfo {
             return UITableViewCell()
         } else {
-            return self.orderSectionPresenters[safe: indexPath.section]?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
+            return getOrderSectionPresenter(forSection: indexPath.section)?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isAccountInfoSection(section) {
+        if Section(rawValue: section) == Section.accountInfo {
             return 0
         }
 
-        guard let orderSectionPresenter = self.orderSectionPresenters[safe: section] else { return 0 }
+        guard let orderSectionPresenter = getOrderSectionPresenter(forSection: section) else { return 0 }
         return orderSectionPresenter.numberOfRows()
     }
     
@@ -147,7 +147,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row]
+        guard let orderPresenter = getOrderSectionPresenter(forSection: indexPath.section)?.ordersPresenter[safe: indexPath.row]
             , !orderPresenter.isGroupOrderHeader else {
             return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
@@ -155,7 +155,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row]
+        guard let orderPresenter = getOrderSectionPresenter(forSection: indexPath.section)?.ordersPresenter[safe: indexPath.row]
             , !orderPresenter.isGroupOrderHeader else {
                 return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
@@ -168,7 +168,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let cancelAction = UITableViewRowAction(style: .normal, title: "Cancel") { (action, indexPath: IndexPath) in
-            guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row]
+            guard let orderPresenter = self.getOrderSectionPresenter(forSection: indexPath.section)?.ordersPresenter[safe: indexPath.row]
                 , let ordernumber = orderPresenter.getOrderNumber() else {
                     return
             }
@@ -182,7 +182,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard let orderPresenter = self.orderSectionPresenters[safe: indexPath.section]?.ordersPresenter[safe: indexPath.row] else {
+        guard let orderPresenter = getOrderSectionPresenter(forSection: indexPath.section)?.ordersPresenter[safe: indexPath.row] else {
             return false
         }
         return orderPresenter.isCancelable()
@@ -191,10 +191,16 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         // nothing to do but need to be defined to display the actions
     }
-    
+
     // MARK: Private
-    private func isAccountInfoSection(_ section: Int) -> Bool {
-        return section == 0
+    fileprivate enum Section: Int {
+        case accountInfo = 0, firstOrderSection
+    }
+
+    private func getOrderSectionPresenter(forSection section: Int) -> OrderSectionPresenter? {
+        let zeroIndexedPresenter = section - Section.firstOrderSection.rawValue
+
+        return orderSectionPresenters[safe: zeroIndexedPresenter]
     }
     
     private func addRefreshControl(toTableView tableView: UITableView) {

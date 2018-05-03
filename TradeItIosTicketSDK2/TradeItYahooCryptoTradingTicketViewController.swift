@@ -547,6 +547,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         private enum CellReuseId: String {
             case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
             case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
+            case numericToggleInput = "TRADING_TICKET_NUMERIC_TOGGLE_INPUT_CELL_ID"
             case selection = "TRADING_TICKET_SELECTION_CELL_ID"
             case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
             case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
@@ -561,7 +562,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             case .estimatedCost:
                 cellReuseId = .readOnly
             case .quantity, .limitPrice, .stopPrice:
-                cellReuseId = .numericInput
+                cellReuseId = .numericToggleInput
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:
@@ -604,6 +605,10 @@ class TradeItYahooCryptoTradingTicketViewController:
             tableView.register(
                 UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
                 forCellReuseIdentifier: CellReuseId.numericInput.rawValue
+            )
+            tableView.register(
+                UINib(nibName: "YahooNumericToggleInputTableViewCell", bundle: bundle),
+                forCellReuseIdentifier: CellReuseId.numericToggleInput.rawValue
             )
             tableView.register(
                 UINib(nibName: "YahooSelectionTableViewCell", bundle: bundle),

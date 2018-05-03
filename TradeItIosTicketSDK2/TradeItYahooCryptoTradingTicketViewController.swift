@@ -585,7 +585,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             case .orderType: return "Order type"
             case .expiration: return "Time in force"
             case .marketPrice: return "Market price"
-            case .account: return "Accounts"
+            case .account: return "Account"
             case .marginType: return "Type"
             }
         }

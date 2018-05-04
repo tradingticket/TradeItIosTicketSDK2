@@ -66,6 +66,14 @@ import UIKit
             return self._symbolService!
         }
     }
+    
+    private static var _uiConfigService: TradeItUiConfigService?
+    internal static var uiConfigService: TradeItUiConfigService {
+        get {
+            precondition(self._uiConfigService != nil, "ERROR: TradeItSDK.uiConfigService referenced before calling TradeItSDK.configure()!")
+            return self._uiConfigService!
+        }
+    }
 
     private static var _brokerCenterService: TradeItBrokerCenterService?
     public static var brokerCenterService: TradeItBrokerCenterService {
@@ -154,5 +162,6 @@ import UIKit
         self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
         self._symbolService = TradeItSymbolService(connector: connector)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
+        self._uiConfigService = TradeItUiConfigService(connector: connector)
     }
 }

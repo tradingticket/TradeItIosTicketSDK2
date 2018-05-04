@@ -401,30 +401,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.setTitle()
         self.setPreviewButtonEnablement()
 
-        var ticketRows: [TicketRow] = [
+        let ticketRows: [TicketRow] = [
             .account,
-            .symbol,
-            .marketPrice,
             .orderAction,
+            .symbol,
+            .orderType,
+            .expiration,
+            self.order.userCanDisableMargin() ? .marginType : nil,
             .quantity,
-            .orderType
-        ]
-
-        if self.order.requiresLimitPrice() {
-            ticketRows.append(.limitPrice)
-        }
-
-        if self.order.requiresStopPrice() {
-            ticketRows.append(.stopPrice)
-        }
-        
-        ticketRows.append(.expiration)
-        
-        if self.order.userCanDisableMargin() {
-            ticketRows.append(.marginType)
-        }
-        
-        ticketRows.append(.estimatedCost)
+            self.order.requiresLimitPrice() ? .limitPrice : nil,
+            self.order.requiresStopPrice() ?.stopPrice : nil,
+            .marketPrice,
+            .estimatedCost
+            ].flatMap { $0 }
 
         self.ticketRows = ticketRows
 
@@ -444,9 +433,18 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         let ticketRow = self.ticketRows[rowIndex]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: ticketRow.cellReuseId) ?? UITableViewCell()
-        cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
+        let label = ticketRow.getTitle(forOrder: self.order)
+        switch cell {
+        case let selectionDetailCell as TradeItSelectionDetailCellTableViewCell:
+            selectionDetailCell.altTitle.text = label
+            break
+        default:
+            cell.textLabel?.text = label
+            break
+        }
+
         cell.selectionStyle = .none
-        
+
         TradeItThemeConfigurator.configure(view: cell)
         
         switch ticketRow {
@@ -516,7 +514,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
-                detailSecondaryText: accountSecondaryText()
+                detailSecondaryText: accountSecondaryText(),
+                linkedBroker: self.order.linkedBrokerAccount?.linkedBroker
             )
         default:
             break

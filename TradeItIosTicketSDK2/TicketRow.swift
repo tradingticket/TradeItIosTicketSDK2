@@ -52,7 +52,7 @@ enum TicketRow {
 
     func getTitle(forOrder order: TradeItFxOrder) -> String {
         switch self {
-        case .account: return "Account"
+        case .account: return order.linkedBrokerAccount?.brokerLongName ?? "Account"
         case .symbol: return "Symbol"
         case .bid: return "Bid"
         case .orderAction: return "Action"
@@ -68,7 +68,7 @@ enum TicketRow {
         
     func getTitle(forOrder order: TradeItOrder) -> String {
         switch self {
-        case .account: return "Account"
+        case .account: return order.linkedBrokerAccount?.brokerLongName ?? "Account"
         case .symbol: return "Symbol"
         case .marketPrice: return "Market price"
         case .orderAction: return "Action"

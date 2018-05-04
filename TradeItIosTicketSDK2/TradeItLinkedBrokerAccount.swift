@@ -209,14 +209,14 @@
         var formattedAccountName = self.accountName
         var separator = " "
 
-        if formattedAccountNumber.characters.count > 4 {
-            let startIndex = formattedAccountNumber.characters.index(formattedAccountNumber.endIndex, offsetBy: -4)
-            formattedAccountNumber = String(formattedAccountNumber.characters.suffix(from: startIndex))
+        if formattedAccountNumber.count > 4 {
+            let startIndex = formattedAccountNumber.index(formattedAccountNumber.endIndex, offsetBy: -4)
+            formattedAccountNumber = String(formattedAccountNumber.suffix(from: startIndex))
             separator = "**"
         }
 
-        if formattedAccountName.characters.count > 10 {
-            formattedAccountName = String(formattedAccountName.characters.prefix(10))
+        if formattedAccountName.count > 10 {
+            formattedAccountName = String(formattedAccountName.prefix(10))
             separator = "**"
         }
 

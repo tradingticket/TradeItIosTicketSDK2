@@ -119,7 +119,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
         self.featuredBrokerFallbackLabel.text = featuredBroker.brokerLongName
 
         TradeItSDK.brokerLogoService.loadLogo(
-            forBroker: featuredBroker,
+            forBrokerId: featuredBroker.brokerShortName,
             withSize: .large,
             onSuccess: { image in
                 self.featuredBrokerImageView.image = image

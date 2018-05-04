@@ -16,6 +16,8 @@ class TradeItWebViewController: CloseableViewController, UIWebViewDelegate {
         self.webView.loadRequest(URLRequest(url: urlObject))
     }
 
+    // MARK: UIWebViewDelegate
+
     func webViewDidFinishLoad(_ webView: UIWebView) {
         self.navigationItem.title = self.pageTitle;
     }

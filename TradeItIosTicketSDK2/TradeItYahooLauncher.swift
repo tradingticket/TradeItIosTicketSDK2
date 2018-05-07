@@ -5,7 +5,8 @@ import SafariServices
     private let yahooViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
     private var deviceManager = TradeItDeviceManager()
-    private let tradingUIFlow = TradeItYahooTradingUIFlow()
+    private let equityTradingUIFlow = TradeItYahooEquityTradingUIFlow()
+    private let cryptoTradingUIFlow = TradeItYahooCryptoTradingUIFlow()
     private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
     private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
     private let alertManager = TradeItAlertManager()
@@ -106,7 +107,7 @@ import SafariServices
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 print("Access granted")
-                self.tradingUIFlow.presentTradingFlow(
+                self.equityTradingUIFlow.presentTradingFlow(
                     fromViewController: viewController,
                     withOrder: order,
                     onViewPortfolioTappedHandler: onViewPortfolioTappedHandler

@@ -5,7 +5,7 @@ public typealias OnViewPortfolioTappedHandler = ((
     _ linkedBrokerAccount: TradeItLinkedBrokerAccount?
 ) -> Void)
 
-class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
+class TradeItYahooEquityTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
 TradeItYahooTradePreviewViewControllerDelegate {
 
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")

@@ -324,6 +324,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.order.action = TradeItOrderAction(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action).first
         self.order.userDisabledMargin = false
     }
 
@@ -372,7 +373,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             .orderType,
             .expiration,
             .quantity,
-            ]
+        ]
 
         if self.order.requiresLimitPrice() {
             ticketRows.append(.limitPrice)
@@ -415,14 +416,30 @@ class TradeItYahooCryptoTradingTicketViewController:
         case .orderAction:
             cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            (cell as? TradeItNumericInputCell)?.configure(
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 initialValue: self.order.quantity,
-                placeholderText: "Enter shares",
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
-            }
+                },
+                onQuantityTypeToggled: {
+                    guard let supportedOrderQuantityTypes = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action),
+                        let currentOrderQuantityType = self.order.quantityType
+                        else { return }
+
+                    switch currentOrderQuantityType {
+                    case .baseCurrency: self.order.quantityType = .quoteCurrency
+                    case .quoteCurrency: self.order.quantityType = .baseCurrency
+                    default: self.order.quantityType = .quoteCurrency // TODO: do we want this? Do I need to update UI?
+                    }
+
+                    let quantitySymbol = self.order.quantitySymbol
+                    cell?.configure(quantitySymbol: quantitySymbol)
+
+                    // TODO: reload relevant rows
+                }
             )
         case .limitPrice:
             (cell as? TradeItNumericInputCell)?.configure(
@@ -433,7 +450,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
-            }
+                }
             )
         case .stopPrice:
             (cell as? TradeItNumericInputCell)?.configure(
@@ -580,7 +597,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 let action = order.action
                 let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
                 return title
-            case .quantity: return "Shares"
+            case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"
             case .orderType: return "Order type"

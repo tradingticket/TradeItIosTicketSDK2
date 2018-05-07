@@ -2,10 +2,10 @@ import UIKit
 
 class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var textField: TradeItNumberField!
-    @IBOutlet weak var quantityTypeToggle: UIButton!
+    @IBOutlet weak var quantityTypeButton: UIButton!
 
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
-    var onQuantityTypeToggled: ((_ newValue: String) -> Void)?
+    var onQuantityTypeToggled: (() -> Void)?
 
     override func awakeFromNib() {
         self.textField.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
@@ -14,14 +14,14 @@ class TradeItNumericToggleInputCell: UITableViewCell {
 
     func configure(
         initialValue: NSDecimalNumber?,
-        placeholderText: String,
         isPrice: Bool = false,
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
-        onQuantityTypeToggled: @escaping (_ newValue: String) -> Void
+        onQuantityTypeToggled: @escaping () -> Void
     ) {
         self.onValueUpdated = onValueUpdated
-        self.textField.placeholder = placeholderText
+        self.onQuantityTypeToggled = onQuantityTypeToggled
         self.textField.isPrice = isPrice
+//        self.configureQuantityType(placeholderText: placeholderText, buttonText: buttonText)
 
         if let initialValue = initialValue,
             initialValue != NSDecimalNumber.notANumber,
@@ -31,6 +31,13 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         } else {
             self.textField.text = ""
         }
+    }
+
+    func configure(
+        quantitySymbol: String?
+    ) {
+        self.textField.placeholder = "Enter \(quantitySymbol ?? "")"
+        self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
     }
 
     func dismissKeyboard() {
@@ -76,5 +83,11 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         } else {
             self.onValueUpdated?(numericValue)
         }
+    }
+
+    @IBAction func quantityTypeToggled(_ sender: UIButton) {
+        self.textField.text = nil
+        self.onValueUpdated?(nil)
+        self.onQuantityTypeToggled?()
     }
 }

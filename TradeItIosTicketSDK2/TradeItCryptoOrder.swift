@@ -10,8 +10,21 @@
             }
         }
     }
-    var baseSymbol: String?
-    var quoteSymbol: String?
+
+    private var _baseSymbol: String?
+    var baseSymbol: String? {
+        get {
+            return _baseSymbol
+        }
+    }
+
+    private var _quoteSymbol: String?
+    var quoteSymbol: String? {
+        get {
+            return _quoteSymbol
+        }
+    }
+
     var _symbol: String?
     override public var symbol: String? {
         get {
@@ -28,14 +41,14 @@
                     return
                 }
             _symbol = newValue
-            self.baseSymbol = String(baseSymbol)
-            self.quoteSymbol = String(quoteSymbol)
+            self._baseSymbol = String(baseSymbol)
+            self._quoteSymbol = String(quoteSymbol)
         }
     }
 
     private func clearSymbol() {
         _symbol = nil
-        baseSymbol = nil
-        quoteSymbol = nil
+        _baseSymbol = nil
+        _quoteSymbol = nil
     }
 }

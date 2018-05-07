@@ -52,7 +52,7 @@
         return linkedBroker?.positionService
     }
     
-    internal var tradeService: TradeItTradeService? {
+    internal var tradeService: TradeItEquityTradeService? {
         return linkedBroker?.tradeService
     }
     

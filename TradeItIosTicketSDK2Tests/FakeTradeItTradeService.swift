@@ -1,6 +1,6 @@
 @testable import TradeItIosTicketSDK2
 
-class FakeTradeItTradeService: TradeItTradeService {
+class FakeTradeItTradeService: TradeItEquityTradeService {
     let calls = SpyRecorder()
 
     override func previewTrade(_ previewRequest: TradeItPreviewTradeRequest!, withCompletionBlock completionBlock: ((TradeItResult?) -> Void)!) {

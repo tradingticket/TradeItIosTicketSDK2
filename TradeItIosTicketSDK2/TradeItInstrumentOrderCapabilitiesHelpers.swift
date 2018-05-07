@@ -5,7 +5,7 @@ internal enum TradeItInstrumentOrderCapabilityField {
     case actions
 }
 
-internal enum OrderQuantityType: String {
+public enum OrderQuantityType: String {
     case baseCurrency = "BASE_CURRENCY"
     case quoteCurrency = "QUOTE_CURRENCY"
     case shares = "SHARES"

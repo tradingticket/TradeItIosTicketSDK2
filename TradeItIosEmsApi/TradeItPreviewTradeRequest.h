@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "TradeItRequest.h"
+#import "TradeItAuthenticatedRequest.h"
 
-@interface TradeItPreviewTradeRequest : TradeItRequest
+@interface TradeItPreviewTradeRequest : TradeItAuthenticatedRequest
 
 // Set the accountNumber to trade in
 @property (nonatomic, copy) NSString * accountNumber;

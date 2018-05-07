@@ -116,7 +116,7 @@ public typealias TradeItPlaceOrderHandlers = (
             )
         }
 
-        self.tradeService?.previewTrade(
+        self.linkedBrokerAccount?.equityTradeService?.previewTrade(
             previewPresenter.generateRequest(),
             onSuccess: { result in
                 onSuccess(
@@ -189,7 +189,7 @@ public typealias TradeItPlaceOrderHandlers = (
                         onSecurityQuestion(
                             securityQuestion,
                             { securityQuestionAnswer in
-                                self.tradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
+                                self.linkedBrokerAccount?.equityTradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
                             },
                             {
                                 handler(
@@ -208,7 +208,7 @@ public typealias TradeItPlaceOrderHandlers = (
                     }
                 }
             }
-            self.tradeService?.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
+            self.linkedBrokerAccount?.equityTradeService?.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
         }
     }
 }

@@ -106,8 +106,6 @@ internal extension TradeItConnector {
             result = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json)
         } else if result?.isSecurityQuestion() == true {
             result = TradeItResultTransformer.transform(targetClassType: TradeItSecurityQuestionResult.self, json: json)
-        } else if result?.isReviewOrder() == true {
-            result = TradeItResultTransformer.transform(targetClassType: TradeItPreviewOrderResult.self, json: json)
         }
 
         let defaultedResult = result ?? TradeItErrorResult.error(withSystemMessage: "JSON from server does not match the TradeItResult format.")

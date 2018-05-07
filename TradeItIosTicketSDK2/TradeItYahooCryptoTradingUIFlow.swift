@@ -83,19 +83,19 @@ class TradeItYahooCryptoTradingUIFlow:
 
     internal func orderSuccessfullyPreviewed(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        withPreviewOrderResult previewOrderResult: TradeItCryptoPreviewTradeResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     ) {
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
-        if let previewViewController = previewViewController {
-            previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-            previewViewController.previewOrderResult = previewOrderResult
-            previewViewController.placeOrderCallback = placeOrderCallback
-
-            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
-        }
+//        if let previewViewController = previewViewController {
+//            previewViewController.delegate = self
+//            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
+//            previewViewController.previewOrderResult = previewOrderResult
+//            previewViewController.placeOrderCallback = placeOrderCallback
+//
+//            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
+//        }
     }
 
     internal func invalidAccountSelected(

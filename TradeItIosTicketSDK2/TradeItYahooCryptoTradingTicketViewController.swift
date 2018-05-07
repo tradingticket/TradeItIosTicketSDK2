@@ -33,7 +33,7 @@ class TradeItYahooCryptoTradingTicketViewController:
 
         guard let selectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooSelectionView
-            ) as? TradeItYahooSelectionViewController else {
+        ) as? TradeItYahooSelectionViewController else {
                 assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooSelectionViewController from storyboard")
                 return
         }
@@ -42,7 +42,7 @@ class TradeItYahooCryptoTradingTicketViewController:
 
         guard let accountSelectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooAccountSelectionView
-            ) as? TradeItYahooAccountSelectionViewController else {
+        ) as? TradeItYahooAccountSelectionViewController else {
                 assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
                 return
         }
@@ -164,12 +164,12 @@ class TradeItYahooCryptoTradingTicketViewController:
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
-                        self.delegate?.orderSuccessfullyPreviewed(
-                            onTradingTicketViewController: self,
-                            withPreviewOrderResult: previewOrderResult,
-                            placeOrderCallback: placeOrderCallback
-                        )
-                },
+//                        self.delegate?.orderSuccessfullyPreviewed(
+//                            onTradingTicketViewController: self,
+//                            withPreviewOrderResult: previewOrderResult,
+//                            placeOrderCallback: placeOrderCallback
+//                        )
+                    },
                     onFailure: { errorResult in
                         activityView.hide(animated: true)
                         self.alertManager.showAlertWithAction(
@@ -177,7 +177,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                             withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                             onViewController: self
                         )
-                }
+                    }
                 )
         }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
             activityView.hide(animated: true)
@@ -592,7 +592,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             return cellReuseId.rawValue
         }
 
-        func getTitle(forOrder order: TradeItOrder) -> String {
+        func getTitle(forOrder order: TradeItCryptoOrder) -> String {
             switch self {
             case .orderAction: return "Action"
             case .estimatedCost:

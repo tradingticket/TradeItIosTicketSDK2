@@ -8,6 +8,12 @@
 
 #import "TradeItPreviewTradeRequest.h"
 
+#ifdef CARTHAGE
+#import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
+#else
+#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+#endif
+
 @implementation TradeItPreviewTradeRequest
 
 @end

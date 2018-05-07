@@ -164,11 +164,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                 self.order.preview(
                     onSuccess: { previewOrderResult, placeOrderCallback in
                         activityView.hide(animated: true)
-//                        self.delegate?.orderSuccessfullyPreviewed(
-//                            onTradingTicketViewController: self,
-//                            withPreviewOrderResult: previewOrderResult,
-//                            placeOrderCallback: placeOrderCallback
-//                        )
+                        self.delegate?.orderSuccessfullyPreviewed(
+                            onTradingTicketViewController: self,
+                            withPreviewOrderResult: previewOrderResult,
+                            placeOrderCallback: placeOrderCallback
+                        )
                     },
                     onFailure: { errorResult in
                         activityView.hide(animated: true)
@@ -645,7 +645,7 @@ class TradeItYahooCryptoTradingTicketViewController:
 @objc protocol TradeItYahooCryptoTradingTicketViewControllerDelegate {
     func orderSuccessfullyPreviewed(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        withPreviewOrderResult previewOrderResult: TradeItCryptoPreviewTradeResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     )
 

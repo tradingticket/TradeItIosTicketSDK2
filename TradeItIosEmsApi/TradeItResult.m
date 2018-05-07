@@ -18,7 +18,7 @@
 }
 
 - (BOOL)isSuccessful {
-    return [@"SUCCESS" isEqualToString:self.status];
+    return [@"SUCCESS" isEqualToString:self.status] || [@"REVIEW_ORDER" isEqualToString:self.status];
 }
 
 - (BOOL)isSecurityQuestion {

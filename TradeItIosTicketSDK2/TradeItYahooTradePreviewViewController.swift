@@ -3,7 +3,11 @@ import MBProgressHUD
 import BEMCheckBox
 import SafariServices
 
-class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, PreviewMessageDelegate {
+class TradeItYahooTradePreviewViewController:
+    TradeItYahooViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    PreviewMessageDelegate {
 
     private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
 

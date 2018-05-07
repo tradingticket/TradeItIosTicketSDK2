@@ -237,7 +237,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -245,14 +245,14 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.order.linkedBrokerAccount?.getPositions(
             onSuccess: { positions in
                 self.reload(row: .account)
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
                     error: error,
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -298,7 +298,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
                 self.reloadTicketRows()
-        },
+            },
             onSecurityQuestion: { securityQuestion, onAnswerSecurityQuestion, onCancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
@@ -307,7 +307,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     onAnswerSecurityQuestion: onAnswerSecurityQuestion,
                     onCancelSecurityQuestion: onCancelSecurityQuestion
                 )
-        },
+            },
             onFailure: { error in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
@@ -315,7 +315,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
                     onViewController: self
                 )
-        }
+            }
         )
     }
 
@@ -425,8 +425,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    guard let supportedOrderQuantityTypes = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action),
-                        let currentOrderQuantityType = self.order.quantityType
+                    guard let currentOrderQuantityType = self.order.quantityType
                         else { return }
 
                     switch currentOrderQuantityType {
@@ -441,6 +440,8 @@ class TradeItYahooCryptoTradingTicketViewController:
                     // TODO: reload relevant rows
                 }
             )
+            let quantitySymbol = self.order.quantitySymbol
+            cell?.configure(quantitySymbol: quantitySymbol)
         case .limitPrice:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.limitPrice,
@@ -578,8 +579,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                 cellReuseId = .selection
             case .estimatedCost:
                 cellReuseId = .readOnly
-            case .quantity, .limitPrice, .stopPrice:
+            case .quantity:
                 cellReuseId = .numericToggleInput
+            case .limitPrice, .stopPrice:
+                cellReuseId = .numericInput
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:

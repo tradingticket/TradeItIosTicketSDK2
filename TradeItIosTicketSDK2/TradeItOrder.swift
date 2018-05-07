@@ -1,11 +1,13 @@
 public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
-public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
-                                              _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-                                                _ submitAnswer: @escaping (String) -> Void,
-                                                _ onCancelSecurityQuestion: @escaping () -> Void
-                                              ) -> Void,
-                                              _ onFailure: @escaping (TradeItErrorResult) -> Void) -> Void
+public typealias TradeItPlaceOrderHandlers = (
+    _ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+    _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
+        _ submitAnswer: @escaping (String) -> Void,
+        _ onCancelSecurityQuestion: @escaping () -> Void
+    ) -> Void,
+    _ onFailure: @escaping (TradeItErrorResult) -> Void
+) -> Void
 
 @objc public class TradeItOrder: NSObject {
     @objc public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
@@ -31,15 +33,21 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
     @objc public var stopPrice: NSDecimalNumber?
     @objc public var quoteLastPrice: NSDecimalNumber?
 
+    var tradeService: TradeItEquityTradeService? {
+        return linkedBrokerAccount?.equityTradeService
+    }
+
     @objc override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))], userDisabledMargin [\(String(describing: self.userDisabledMargin))]" }
 
     @objc public override init() {
         super.init()
     }
 
-    @objc public init(linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
-                symbol: String? = nil,
-                action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT) {
+    @objc public init(
+        linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
+        symbol: String? = nil,
+        action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    ) {
         super.init()
 
         self.linkedBrokerAccount = linkedBrokerAccount
@@ -108,13 +116,12 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
             )
         }
 
-        linkedBrokerAccount.tradeService?.previewTrade(
+        self.tradeService?.previewTrade(
             previewPresenter.generateRequest(),
             onSuccess: { result in
                 onSuccess(
                     result,
                     self.generatePlaceOrderCallback(
-                        tradeService: linkedBrokerAccount.tradeService,
                         previewOrderResult: result
                     )
                 )
@@ -168,7 +175,9 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
         return value.compare(NSDecimalNumber(value: 0 as Int)) == .orderedDescending
     }
 
-    private func generatePlaceOrderCallback(tradeService: TradeItEquityTradeService?, previewOrderResult: TradeItPreviewOrderResult) -> TradeItPlaceOrderHandlers {
+    private func generatePlaceOrderCallback(
+        previewOrderResult: TradeItPreviewOrderResult
+    ) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onSecurityQuestion, onFailure in
             let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
             let placeResponseHandler = YCombinator { handler in
@@ -180,7 +189,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
                         onSecurityQuestion(
                             securityQuestion,
                             { securityQuestionAnswer in
-                                tradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
+                                self.tradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
                             },
                             {
                                 handler(
@@ -199,7 +208,7 @@ public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPla
                     }
                 }
             }
-            tradeService?.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
+            self.tradeService?.placeTrade(placeOrderRequest, withCompletionBlock: placeResponseHandler)
         }
     }
 }

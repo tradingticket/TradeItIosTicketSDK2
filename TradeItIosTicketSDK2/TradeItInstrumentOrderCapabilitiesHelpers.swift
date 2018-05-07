@@ -5,6 +5,13 @@ internal enum TradeItInstrumentOrderCapabilityField {
     case actions
 }
 
+internal enum OrderQuantityType: String {
+    case baseCurrency = "BASE_CURRENCY"
+    case quoteCurrency = "QUOTE_CURRENCY"
+    case shares = "SHARES"
+    // TODO: Is there another one here?
+}
+
 extension TradeItInstrumentOrderCapabilities {
     func labelFor(field: TradeItInstrumentOrderCapabilityField, value: String?) -> String? {
         return capabilitiesFor(field: field).first { $0.value == value }?.displayLabel
@@ -22,6 +29,12 @@ extension TradeItInstrumentOrderCapabilities {
         let value = value ?? ""
         let capabilities = capabilitiesFor(field: field)
         return capabilities.first { $0.value == value }?.value ?? capabilities.first?.value
+    }
+
+    func supportedOrderQuantityTypesFor(action: TradeItOrderAction) -> [OrderQuantityType] {
+        let capabilities = capabilitiesFor(field: .actions) as? [TradeItInstrumentActionCapability] ?? []
+        let capability = capabilities.first { $0.value == action.rawValue } ?? capabilities.first
+        return capability?.supportedOrderQuantityTypes.flatMap(OrderQuantityType.init) ?? []
     }
 
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {

@@ -1,4 +1,5 @@
-class TradeItEquityTradeService: NSObject {
+// TODO: Make generic?
+)class TradeItEquityTradeService: NSObject {
     private let session: TradeItSession
 
     init(session: TradeItSession) {

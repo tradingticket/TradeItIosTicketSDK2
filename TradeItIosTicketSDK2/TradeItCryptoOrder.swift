@@ -46,6 +46,10 @@
         }
     }
 
+    override var tradeService: TradeItEquityTradeService? {
+        return linkedBrokerAccount?.equityTradeService
+    }
+
     private func clearSymbol() {
         _symbol = nil
         _baseSymbol = nil

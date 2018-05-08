@@ -1,6 +1,6 @@
 import UIKit
 
-public typealias OnViewPortfolioTappedHandler = ((
+@objc public typealias OnViewPortfolioTappedHandler = ((
     _ presentedViewController: UIViewController,
     _ linkedBrokerAccount: TradeItLinkedBrokerAccount?
 ) -> Void)

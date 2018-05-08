@@ -10,11 +10,11 @@ import UIKit
         super.init()
     }
 
-    public override init() {
+    @objc public override init() {
         super.init()
     }
 
-    public func showError(
+    @objc public func showError(
         _ error: TradeItErrorResult,
         onViewController viewController: UIViewController,
         onFinished: @escaping () -> Void = {}
@@ -29,7 +29,7 @@ import UIKit
         )
     }
 
-    public func showAlertWithAction(
+    @objc public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
@@ -45,7 +45,7 @@ import UIKit
     }
 
 
-    public func showAlertWithAction(
+    @objc public func showAlertWithAction(
         error: TradeItErrorResult,
         withLinkedBroker linkedBroker: TradeItLinkedBroker?,
         onViewController viewController: UIViewController,
@@ -130,7 +130,7 @@ import UIKit
         }
     }
 
-    public func promptUserToAnswerSecurityQuestion(
+    @objc public func promptUserToAnswerSecurityQuestion(
         _ securityQuestion: TradeItSecurityQuestionResult,
         onViewController viewController: UIViewController,
         onAnswerSecurityQuestion: @escaping (_ withAnswer: String) -> Void,
@@ -153,7 +153,7 @@ import UIKit
         alertQueue.add(onViewController: viewController, alert: alert)
     }
 
-    public func showAlertWithMessageOnly(
+    @objc public func showAlertWithMessageOnly(
         onViewController viewController: UIViewController,
         withTitle title: String,
         withMessage message: String,

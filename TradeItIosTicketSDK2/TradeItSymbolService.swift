@@ -5,7 +5,7 @@
         self.connector = connector
     }
 
-    public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    @objc public func symbolLookup(_ searchText: String, onSuccess: @escaping ([TradeItSymbolLookupCompany]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let symbolLookupRequest = TradeItSymbolLookupRequest(query: searchText)
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -26,7 +26,7 @@
         })
     }
 
-    public func fxSymbols(forBroker broker: String, onSuccess: @escaping ([String]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    @objc public func fxSymbols(forBroker broker: String, onSuccess: @escaping ([String]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let requestData = TradeItFxSymbolsRequest()
         requestData.broker = broker
         requestData.apiKey = self.connector.apiKey

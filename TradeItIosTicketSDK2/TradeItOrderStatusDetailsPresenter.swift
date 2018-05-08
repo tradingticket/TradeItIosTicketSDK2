@@ -1,4 +1,4 @@
-// TODO: Make these extensions public eventually...
+// TODO: Make these extensions @objc public eventually...
 
 internal extension TradeItPriceInfo {
     var priceTypeEnum: PriceType {
@@ -41,11 +41,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     private var _isGroupOrderHeader: Bool
     private var _isGroupOrderChild: Bool
     
-    public var isGroupOrderHeader: Bool {
+    @objc public var isGroupOrderHeader: Bool {
             return self._isGroupOrderHeader
     }
     
-    public var isGroupOrderChild: Bool {
+    @objc public var isGroupOrderChild: Bool {
         return self._isGroupOrderChild
     }
     

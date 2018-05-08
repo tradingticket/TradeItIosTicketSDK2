@@ -1,8 +1,8 @@
 import PromiseKit
 
 @objc public class TradeItLinkedBroker: NSObject {
-    public var accountsLastUpdated: Date?
-    public var accounts: [TradeItLinkedBrokerAccount] = []
+    @objc public var accountsLastUpdated: Date?
+    @objc public var accounts: [TradeItLinkedBrokerAccount] = []
     private var _error: TradeItErrorResult?
     var error: TradeItErrorResult? {
         set(newError) {
@@ -22,8 +22,8 @@ import PromiseKit
         }
         get { return self._error }
     }
-    public var isAccountLinkDelayedError: Bool = false
-    public var userId: String {
+    @objc public var isAccountLinkDelayedError: Bool = false
+    @objc public var userId: String {
         get {
             return linkedLogin.userId
         }
@@ -32,7 +32,7 @@ import PromiseKit
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
 
-    public var brokerName: String {
+    @objc public var brokerName: String {
         return self.linkedLogin.broker
     }
     
@@ -43,11 +43,11 @@ import PromiseKit
     internal var orderService: TradeItOrderService
     internal var transactionService: TradeItTransactionService
     
-    public var brokerLongName: String {
+    @objc public var brokerLongName: String {
         return self.linkedLogin.brokerLongName
     }
 
-    public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
+    @objc public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
         self.balanceService = TradeItBalanceService(session: session)
@@ -61,7 +61,7 @@ import PromiseKit
         self.setUnauthenticated()
     }
 
-    public func authenticate(
+    @objc public func authenticate(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
@@ -116,7 +116,7 @@ import PromiseKit
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
 
-    public func authenticateIfNeeded(
+    @objc public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
@@ -143,7 +143,7 @@ import PromiseKit
         }
     }
 
-    public func refreshAccountBalances(
+    @objc public func refreshAccountBalances(
         force: Bool = true,
         cacheResult: Bool = true,
         onFinished: @escaping () -> Void
@@ -172,16 +172,16 @@ import PromiseKit
         }
     }
 
-    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
 
-    public func isStillLinked() -> Bool {
+    @objc public func isStillLinked() -> Bool {
         let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
         return linkedBrokers.index(of: self) != nil
     }
 
-    public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
+    @objc public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
         let matchingAccounts = self.accounts.filter { (account: TradeItLinkedBrokerAccount) -> Bool in
             return account.accountNumber == accountNumber
         }
@@ -189,7 +189,7 @@ import PromiseKit
         return matchingAccounts.first
     }
 
-    public func getFxQuote(
+    @objc public func getFxQuote(
         symbol: String,
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void

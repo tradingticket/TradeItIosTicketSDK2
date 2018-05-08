@@ -1,6 +1,6 @@
 import UIKit
 
-public typealias OnOAuthCompletionSuccessHandler = ((
+@objc public typealias OnOAuthCompletionSuccessHandler = ((
     _ presentedViewController: UIViewController,
     _ oAuthCallbackUrl: URL,
     _ linkedBroker: TradeItLinkedBroker?

@@ -7,7 +7,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     @IBOutlet weak var adContainer: UIView!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
-    public weak var delegate: TradeItTradingTicketViewControllerDelegate?
+    @objc public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
     internal var order = TradeItOrder()
 

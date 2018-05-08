@@ -9,7 +9,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     @IBOutlet weak var marketDataLabel: UILabel!
     @IBOutlet weak var adContainer: UIView!
 
-    public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
+    @objc public weak var delegate: TradeItFxTradingTicketViewControllerDelegate?
 
     internal var order = TradeItFxOrder()
 

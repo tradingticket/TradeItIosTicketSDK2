@@ -19,8 +19,8 @@ class TradeItYahooTradePreviewViewController:
     @IBOutlet weak var actionButtonWidthConstraint: NSLayoutConstraint!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
-    var previewOrderResult: TradeItPreviewOrderResult?
-    var placeOrderResult: TradeItPlaceOrderResult?
+    var previewOrderResult: TradeItPreviewOrderResult? // TODO: REMOVE
+//    var placeOrderResult: TradeItPlaceOrderResult?  // TODO: REMOVE
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
@@ -100,8 +100,6 @@ class TradeItYahooTradePreviewViewController:
                             constant: 0
                         )
                         NSLayoutConstraint.activate([self.actionButtonWidthConstraint])
-                        
-                        self.placeOrderResult = placeOrderResult
 
                         self.title = "Order confirmation"
 
@@ -111,6 +109,13 @@ class TradeItYahooTradePreviewViewController:
                         self.actionButton.enable()
                         self.actionButton.setTitle(self.actionButtonTitleTextGoToOrders, for: .normal)
 
+                        self.dataSource = EquityPreviewDataSource(
+                            previewMessageDelegate: self,
+                            linkedBrokerAccount: self.linkedBrokerAccount,
+                            previewOrderResult: self.previewOrderResult,
+                            placeOrderResult: placeOrderResult
+                        )
+                        self.orderDetailsTable.dataSource = self.dataSource
                         self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
 
                         activityView.hide(animated: true)
@@ -175,7 +180,7 @@ class TradeItYahooTradePreviewViewController:
     }
 
     @IBAction func actionButtonTapped(_ sender: UIButton) {
-        if self.placeOrderResult != nil {
+        if self.dataSource?.isOrderPlaced == true {
             self.fireButtonTapEventNotification(view: .submitted, button: .viewOrderStatus)
             if let navigationController = self.navigationController {
                 guard let ordersViewController = self.tradeItViewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.ordersView) as? TradeItOrdersViewController else { return }
@@ -194,7 +199,6 @@ class TradeItYahooTradePreviewViewController:
         _ = navigationController?.popViewController(animated: true)
     }
 
-    
     // MARK: PreviewMessageDelegate
 
     func acknowledgementWasChanged() {

@@ -4,24 +4,28 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
     var isOrderPlaced: Bool {
         get { return placeOrderResult != nil }
     }
+    var placeOrderResult: TradeItPlaceOrderResult? {
+        didSet {
+            self.generatePreviewCellData(withWarningsAndAcknowledgment: false)
+        }
+    }
     private var previewCellData = [PreviewCellData]()
-    private let linkedBrokerAccount: TradeItLinkedBrokerAccount
+    private let linkedBrokerAccount: TradeItLinkedBrokerAccount?
     private let orderCapabilities: TradeItInstrumentOrderCapabilities? // TODO: Does this need to be optional?
     private let previewOrderResult: TradeItPreviewOrderResult?
-    private let placeOrderResult: TradeItPlaceOrderResult?
+    private let _placeOrderResult: TradeItPlaceOrderResult?
     private weak var delegate: PreviewMessageDelegate?
 
     init(
         previewMessageDelegate delegate: PreviewMessageDelegate,
-        linkedBrokerAccount: TradeItLinkedBrokerAccount,
-        previewOrderResult: TradeItPreviewOrderResult?,
-        placeOrderResult: TradeItPlaceOrderResult? = nil
+        linkedBrokerAccount: TradeItLinkedBrokerAccount?,
+        previewOrderResult: TradeItPreviewOrderResult?
     ) {
         self.delegate = delegate
         self.linkedBrokerAccount = linkedBrokerAccount
         self.previewOrderResult = previewOrderResult
-        self.placeOrderResult = placeOrderResult
-        self.orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
+        self._placeOrderResult = nil
+        self.orderCapabilities = self.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" }.first
         super.init()
         self.generatePreviewCellData()
     }
@@ -68,7 +72,7 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
         var cells = [PreviewCellData]()
 
         cells += [
-            ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
+            ValueCellData(label: "Account", value: linkedBrokerAccount?.getFormattedAccountName() ?? "")
         ] as [PreviewCellData]
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(
@@ -90,7 +94,7 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
             ] as [PreviewCellData]
 
-        if self.linkedBrokerAccount.userCanDisableMargin {
+        if self.linkedBrokerAccount?.userCanDisableMargin == true {
             cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
         }
 
@@ -123,6 +127,6 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
     }
 
     private func formatCurrency(_ value: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
+        return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount?.accountBaseCurrency)
     }
 }

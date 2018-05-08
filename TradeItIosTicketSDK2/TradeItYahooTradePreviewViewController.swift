@@ -19,8 +19,6 @@ class TradeItYahooTradePreviewViewController:
     @IBOutlet weak var actionButtonWidthConstraint: NSLayoutConstraint!
 
     var linkedBrokerAccount: TradeItLinkedBrokerAccount!
-    var previewOrderResult: TradeItPreviewOrderResult? // TODO: REMOVE
-//    var placeOrderResult: TradeItPlaceOrderResult?  // TODO: REMOVE
     var placeOrderCallback: TradeItPlaceOrderHandlers?
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
@@ -40,11 +38,6 @@ class TradeItYahooTradePreviewViewController:
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)
 
-        self.dataSource = EquityPreviewDataSource(
-            previewMessageDelegate: self,
-            linkedBrokerAccount: self.linkedBrokerAccount,
-            previewOrderResult: previewOrderResult
-        )
         self.orderDetailsTable.dataSource = self.dataSource
         self.orderDetailsTable.delegate = self
         let bundle = TradeItBundleProvider.provide()
@@ -109,12 +102,7 @@ class TradeItYahooTradePreviewViewController:
                         self.actionButton.enable()
                         self.actionButton.setTitle(self.actionButtonTitleTextGoToOrders, for: .normal)
 
-                        self.dataSource = EquityPreviewDataSource(
-                            previewMessageDelegate: self,
-                            linkedBrokerAccount: self.linkedBrokerAccount,
-                            previewOrderResult: self.previewOrderResult,
-                            placeOrderResult: placeOrderResult
-                        )
+                        self.dataSource?.placeOrderResult = placeOrderResult
                         self.orderDetailsTable.dataSource = self.dataSource
                         self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
 

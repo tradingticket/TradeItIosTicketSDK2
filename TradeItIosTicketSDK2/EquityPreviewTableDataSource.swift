@@ -92,32 +92,29 @@ class CryptoPreviewTableDataSource: PreviewCellFactory {
             ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
         ] as [PreviewCellData]
 
-//        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
-//            orderDetails: orderDetails,
-//            orderCapabilities: orderCapabilities
-//        )
-//
-//        if let orderNumber = self.placeOrderResult?.orderNumber {
-//            cells += [
-//                ValueCellData(label: "Order #", value: orderNumber)
-//                ] as [PreviewCellData]
-//        }
-//
-//        cells += [
-//            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
-//            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-//            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-//            ValueCellData(label: "Price", value: orderDetails.orderPrice),
-//            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-//            ] as [PreviewCellData]
-//
-//        if self.linkedBrokerAccount.userCanDisableMargin {
-//            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
-//        }
-//
-//        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-//            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
-//        }
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
+            orderAction: orderDetails.orderAction,
+            orderExpiration: orderDetails.orderExpiration,
+            orderCapabilities: orderCapabilities
+        )
+
+        if let orderNumber = self.placeOrderResult?.orderNumber {
+            cells += [
+                ValueCellData(label: "Order #", value: orderNumber)
+                ] as [PreviewCellData]
+        }
+
+        cells += [
+            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
+            ValueCellData(label: "Symbol", value: orderDetails.orderPair),
+            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity ?? 0.0)), // TODO: Fix default
+            ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Fix default
+            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
+            ] as [PreviewCellData]
+
+        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
+            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel ?? "Commission", value: self.formatCurrency(estimatedOrderCommission)))
+        }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
             let action = TradeItOrderAction(value: orderDetails.orderAction)
@@ -171,7 +168,8 @@ class EquityPreviewTableDataSource: PreviewCellFactory {
         ] as [PreviewCellData]
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(
-            orderDetails: orderDetails,
+            orderAction: orderDetails.orderAction,
+            orderExpiration: orderDetails.orderExpiration,
             orderCapabilities: orderCapabilities
         )
 
@@ -190,7 +188,7 @@ class EquityPreviewTableDataSource: PreviewCellFactory {
         ] as [PreviewCellData]
 
         if self.linkedBrokerAccount.userCanDisableMargin {
-            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
+            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetails.userDisabledMargin)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {

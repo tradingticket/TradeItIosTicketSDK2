@@ -33,9 +33,10 @@ class TradeItCryptoPreviewTradeDetails: JSONModel {
     var warnings: [TradeItPreviewMessage]?
 
     override static func propertyIsOptional(_ propertyName: String) -> Bool {
-        return [
-            "orderStopPrice",
-            "orderLimitPrice"
+        return ![
+            "orderPair",
+            "orderQuantity",
+            "orderQuantityType"
         ].contains(propertyName)
     }
 }

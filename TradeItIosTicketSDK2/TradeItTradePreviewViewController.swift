@@ -19,9 +19,9 @@ internal class MessageCellData: PreviewCellData {
 
 internal class ValueCellData: PreviewCellData {
     let label: String
-    let value: String
+    let value: String?
 
-    init(label: String, value: String) {
+    init(label: String, value: String?) {
         self.label = label
         self.value = value
     }
@@ -199,7 +199,11 @@ class TradeItTradePreviewViewController:
         
         cells += generateMessageCellData()
 
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
+            orderAction: orderDetails.orderAction,
+            orderExpiration: orderDetails.orderExpiration,
+            orderCapabilities: orderCapabilities
+        )
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
@@ -209,7 +213,7 @@ class TradeItTradePreviewViewController:
         ] as [PreviewCellData]
 
         if self.linkedBrokerAccount.userCanDisableMargin {
-            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
+            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetails.userDisabledMargin)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {

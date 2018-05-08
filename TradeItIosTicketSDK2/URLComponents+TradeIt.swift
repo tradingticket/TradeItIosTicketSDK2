@@ -1,5 +1,5 @@
 extension URLComponents {
-    @objc public func queryStringValue(forKey key: String) -> String? {
+    public func queryStringValue(forKey key: String) -> String? {
         if let queryItems = self.queryItems,
             let value = queryItems.filter({ $0.name == key }).first?.value {
             return value
@@ -8,7 +8,7 @@ extension URLComponents {
         }
     }
 
-    @objc public mutating func addOrUpdateQueryStringValue(forKey key: String, value: String?) {
+    public mutating func addOrUpdateQueryStringValue(forKey key: String, value: String?) {
         var queryItems = self.queryItems ?? [URLQueryItem]()
 
         for (index, queryItem) in queryItems.enumerated() {

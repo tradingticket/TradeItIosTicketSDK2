@@ -1,6 +1,6 @@
-@objc public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
-@objc public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
-@objc public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
+public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
+public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
+public typealias TradeItPlaceOrderHandlers = (_ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
                                               _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
                                                 _ submitAnswer: @escaping (String) -> Void,
                                                 _ onCancelSecurityQuestion: @escaping () -> Void
@@ -31,7 +31,7 @@
     @objc public var stopPrice: NSDecimalNumber?
     @objc public var quoteLastPrice: NSDecimalNumber?
 
-    override @objc public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))], userDisabledMargin [\(String(describing: self.userDisabledMargin))]" }
+    @objc override public var description: String { return "TradeItOrder: account [\(self.linkedBrokerAccount?.accountName ?? "")/\(self.linkedBrokerAccount?.accountNumber ?? "")], symbol [\(self.symbol ?? "")], action [\(String(describing: self.action.rawValue))], type [\(String(describing:self.type.rawValue))], expiration [\(String(describing: self.expiration.rawValue))], quantity [\(String(describing: self.quantity))], limitPrice [\(String(describing: self.limitPrice))], stopPrice [\(String(describing: self.stopPrice))], quote [\(String(describing: self.quoteLastPrice))], userDisabledMargin [\(String(describing: self.userDisabledMargin))]" }
 
     @objc public override init() {
         super.init()

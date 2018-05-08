@@ -17,15 +17,15 @@ import UIKit
     @objc public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor
     @objc public var warningSecondaryColor: UIColor = UIColor.white
 
-    override @objc public init() {
+    @objc override public init() {
         super.init()
     }
 
-    static @objc public func light() -> TradeItTheme {
+    @objc static public func light() -> TradeItTheme {
         return TradeItTheme()
     }
 
-    static @objc public func dark() -> TradeItTheme {
+    @objc static public func dark() -> TradeItTheme {
         let theme = TradeItTheme()
 
         theme.textColor = UIColor.white
@@ -47,7 +47,7 @@ import UIKit
         return theme
     }
 
-    static @objc public func bb() -> TradeItTheme {
+    @objc static public func bb() -> TradeItTheme {
         let theme = TradeItTheme()
 
         theme.interactivePrimaryColor = UIColor(red: 0.156862745, green: 0.0, blue: 0.843137255, alpha: 1.0)

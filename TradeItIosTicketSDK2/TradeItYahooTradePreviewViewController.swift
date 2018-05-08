@@ -54,11 +54,6 @@ class TradeItYahooTradePreviewViewController:
         self.fireViewEventNotification(view: .preview, title: self.title)
     }
 
-    private func updateOrderDetailsTable(withWarningsAndAcknowledgment: Bool = true) {
-        self.dataSource?.generatePreviewCellData(withWarningsAndAcknowledgment: withWarningsAndAcknowledgment)
-        self.orderDetailsTable.reloadData()
-    }
-
     // MARK: IBActions
 
     private func submitOrder() {
@@ -103,8 +98,7 @@ class TradeItYahooTradePreviewViewController:
                         self.actionButton.setTitle(self.actionButtonTitleTextGoToOrders, for: .normal)
 
                         self.dataSource?.placeOrderResult = placeOrderResult
-                        self.orderDetailsTable.dataSource = self.dataSource
-                        self.updateOrderDetailsTable(withWarningsAndAcknowledgment: false)
+                        self.orderDetailsTable.reloadData()
 
                         activityView.hide(animated: true)
 

@@ -1,20 +1,26 @@
 import UIKit
 
 class EquityPreviewDataSource: NSObject, UITableViewDataSource {
+    var isOrderPlaced: Bool {
+        get { return placeOrderResult != nil }
+    }
     private var previewCellData = [PreviewCellData]()
     private let linkedBrokerAccount: TradeItLinkedBrokerAccount
     private let orderCapabilities: TradeItInstrumentOrderCapabilities? // TODO: Does this need to be optional?
     private let previewOrderResult: TradeItPreviewOrderResult?
+    private let placeOrderResult: TradeItPlaceOrderResult?
     private weak var delegate: PreviewMessageDelegate?
 
     init(
         previewMessageDelegate delegate: PreviewMessageDelegate,
         linkedBrokerAccount: TradeItLinkedBrokerAccount,
-        previewOrderResult: TradeItPreviewOrderResult?
+        previewOrderResult: TradeItPreviewOrderResult?,
+        placeOrderResult: TradeItPlaceOrderResult? = nil
     ) {
         self.delegate = delegate
         self.linkedBrokerAccount = linkedBrokerAccount
         self.previewOrderResult = previewOrderResult
+        self.placeOrderResult = placeOrderResult
         self.orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
         super.init()
         self.generatePreviewCellData()
@@ -70,6 +76,12 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
             orderCapabilities: orderCapabilities
         )
 
+        if let orderNumber = self.placeOrderResult?.orderNumber {
+            cells += [
+                ValueCellData(label: "Order #", value: orderNumber)
+            ] as [PreviewCellData]
+        }
+
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
@@ -104,7 +116,7 @@ class EquityPreviewDataSource: NSObject, UITableViewDataSource {
     }
 
     // MARK: Private
-    
+
     private func generateMessageCellData() -> [PreviewCellData] {
         guard let messages = previewOrderResult?.orderDetails?.warnings else { return [] }
         return messages.map(MessageCellData.init)

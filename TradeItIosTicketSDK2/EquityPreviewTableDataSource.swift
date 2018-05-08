@@ -1,6 +1,13 @@
 import UIKit
 
-class EquityPreviewTableDataSource: NSObject, UITableViewDataSource {
+protocol PreviewTableDataSource: class, UITableViewDataSource {
+    var isOrderPlaced: Bool { get }
+    var placeOrderResult: TradeItPlaceOrderResult? { get set }
+    func generatePreviewCellData(withWarningsAndAcknowledgment: Bool)
+    func allAcknowledgementsAccepted() -> Bool
+}
+
+class EquityPreviewTableDataSource: NSObject, PreviewTableDataSource {
     var isOrderPlaced: Bool {
         get { return placeOrderResult != nil }
     }
@@ -28,6 +35,62 @@ class EquityPreviewTableDataSource: NSObject, UITableViewDataSource {
         self.orderCapabilities = self.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" }.first
         super.init()
         self.generatePreviewCellData()
+    }
+
+    // MARK: PreviewTableDataSource
+
+    func generatePreviewCellData(withWarningsAndAcknowledgment: Bool = true) {
+        guard let orderDetails = previewOrderResult?.orderDetails
+            else { return }
+
+        var cells = [PreviewCellData]()
+
+        cells += [
+            ValueCellData(label: "Account", value: linkedBrokerAccount?.getFormattedAccountName() ?? "")
+        ] as [PreviewCellData]
+
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
+            orderDetails: orderDetails,
+            orderCapabilities: orderCapabilities
+        )
+
+        if let orderNumber = self.placeOrderResult?.orderNumber {
+            cells += [
+                ValueCellData(label: "Order #", value: orderNumber)
+            ] as [PreviewCellData]
+        }
+
+        cells += [
+            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
+            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
+            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
+            ValueCellData(label: "Price", value: orderDetails.orderPrice),
+            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
+        ] as [PreviewCellData]
+
+        if self.linkedBrokerAccount?.userCanDisableMargin == true {
+            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
+        }
+
+        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
+            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
+        }
+
+        if let estimatedTotalValue = orderDetails.estimatedTotalValue {
+            let action = TradeItOrderAction(value: orderDetails.orderAction)
+            let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
+            cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
+        }
+
+        if withWarningsAndAcknowledgment {
+            cells += generateMessageCellData()
+        }
+
+        self.previewCellData = cells
+    }
+
+    func allAcknowledgementsAccepted() -> Bool {
+        return previewCellData.flatMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
     }
 
     // MARK: UITableViewDataSource
@@ -61,62 +124,6 @@ class EquityPreviewTableDataSource: NSObject, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
-    }
-
-    // MARK: TODO
-
-    func generatePreviewCellData(withWarningsAndAcknowledgment: Bool = true) {
-        guard let orderDetails = previewOrderResult?.orderDetails
-            else { return }
-
-        var cells = [PreviewCellData]()
-
-        cells += [
-            ValueCellData(label: "Account", value: linkedBrokerAccount?.getFormattedAccountName() ?? "")
-        ] as [PreviewCellData]
-
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
-            orderDetails: orderDetails,
-            orderCapabilities: orderCapabilities
-        )
-
-        if let orderNumber = self.placeOrderResult?.orderNumber {
-            cells += [
-                ValueCellData(label: "Order #", value: orderNumber)
-            ] as [PreviewCellData]
-        }
-
-        cells += [
-            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
-            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "Price", value: orderDetails.orderPrice),
-            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
-
-        if self.linkedBrokerAccount?.userCanDisableMargin == true {
-            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
-        }
-
-        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
-        }
-
-        if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            let action = TradeItOrderAction(value: orderDetails.orderAction)
-            let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
-            cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
-        }
-
-        if withWarningsAndAcknowledgment {
-            cells += generateMessageCellData()
-        }
-
-        self.previewCellData = cells
-    }
-
-    func allAcknowledgementsAccepted() -> Bool {
-        return previewCellData.flatMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
     }
 
     // MARK: Private

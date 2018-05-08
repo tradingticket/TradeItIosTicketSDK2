@@ -10,8 +10,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         #selector(cut(_:))
     ]
 
-    public var maxDecimalPlaces = 4
-    public var isPrice = false
+    @objc public var maxDecimalPlaces = 4
+    @objc public var isPrice = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,7 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
 
     // MARK: UITextField
 
-    override public func canPerformAction(
+    override @objc public func canPerformAction(
         _ action: Selector,
         withSender sender: Any?
     ) -> Bool {

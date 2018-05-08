@@ -1,18 +1,18 @@
 @objc public class TradeItFxOrder: NSObject {
-    public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
-    public var symbol: String?
-    public var amount: NSDecimalNumber?
-    public var actionType: String?
-    public var priceType: String? {
+    @objc public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    @objc public var symbol: String?
+    @objc public var amount: NSDecimalNumber?
+    @objc public var actionType: String?
+    @objc public var priceType: String? {
         didSet {
             if !requiresRate() {
                 rate = nil
             }
         }
     }
-    public var expirationType: String?
-    public var rate: NSDecimalNumber?
-    public var leverage: NSNumber?
+    @objc public var expirationType: String?
+    @objc public var rate: NSDecimalNumber?
+    @objc public var leverage: NSNumber?
 
     func isValid() -> Bool {
         return validateAmount()
@@ -25,7 +25,7 @@
         return NSNumber.init(integerLiteral: 10)
     }
 
-    public func place(
+    @objc public func place(
         onSuccess: @escaping (TradeItFxPlaceOrderResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
@@ -54,11 +54,11 @@
         )
     }
 
-    public func requiresRate() -> Bool {
+    @objc public func requiresRate() -> Bool {
         return priceType?.contains("limit") == true
     }
 
-    public func requiresExpiration() -> Bool {
+    @objc public func requiresExpiration() -> Bool {
         return priceType?.contains("limit") == true
     }
 

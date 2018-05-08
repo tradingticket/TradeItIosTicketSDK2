@@ -1,4 +1,4 @@
-public enum TradeItErrorCode: Int {
+@objc public enum TradeItErrorCode: Int {
     case systemError = 100
     case brokerExecutionError = 200
     case brokerLinkError = 300
@@ -10,7 +10,7 @@ public enum TradeItErrorCode: Int {
 }
 
 extension TradeItErrorResult: Error {
-    public var errorCode: TradeItErrorCode? {
+    @objc public var errorCode: TradeItErrorCode? {
         get {
             if let code = self.code?.intValue {
                 return TradeItErrorCode(rawValue: code)
@@ -23,12 +23,12 @@ extension TradeItErrorResult: Error {
             self.code = new?.rawValue as NSNumber?
         }
     }
-    public var title: String {
+    @objc public var title: String {
         get {
             return self.shortMessage ?? ""
         }
     }
-    public var message: String {
+    @objc public var message: String {
         get {
             let messages = (self.longMessages as? [String]) ?? []
             return messages.joined(separator: "\n\n")
@@ -45,7 +45,7 @@ extension TradeItErrorResult: Error {
         self.code = NSDecimalNumber(value: code.rawValue)
     }
     
-    public static func error(withSystemMessage systemMessage: String) -> TradeItErrorResult {
+    @objc public static func error(withSystemMessage systemMessage: String) -> TradeItErrorResult {
             let errorResult = TradeItErrorResult()
             errorResult.status = "ERROR"
             errorResult.errorCode = .systemError
@@ -55,7 +55,7 @@ extension TradeItErrorResult: Error {
             return errorResult
     }
     
-    public static func tradeError(withSystemMessage systemMessage: String) -> TradeItErrorResult {
+    @objc public static func tradeError(withSystemMessage systemMessage: String) -> TradeItErrorResult {
         let errorResult = TradeItErrorResult()
         errorResult.status = "ERROR"
         errorResult.errorCode = .brokerExecutionError
@@ -65,7 +65,7 @@ extension TradeItErrorResult: Error {
         return errorResult
     }
     
-    public func requiresRelink() -> Bool {
+    @objc public func requiresRelink() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
@@ -73,7 +73,7 @@ extension TradeItErrorResult: Error {
         return [TradeItErrorCode.brokerLinkError, TradeItErrorCode.oauthError].contains(errorCode)
     }
 
-    public func requiresAuthentication() -> Bool {
+    @objc public func requiresAuthentication() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
@@ -81,7 +81,7 @@ extension TradeItErrorResult: Error {
         return [TradeItErrorCode.brokerAccountError, TradeItErrorCode.sessionError, TradeItErrorCode.accountNotAvailable].contains(errorCode)
     }
     
-    public func isAccountLinkDelayedError() -> Bool {
+    @objc public func isAccountLinkDelayedError() -> Bool {
         guard let integerCode = self.code?.intValue
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }

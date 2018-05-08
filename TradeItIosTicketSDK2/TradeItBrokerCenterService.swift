@@ -7,7 +7,7 @@
         self.environment = environment
     }
 
-    public func getUrl() -> String {
+    @objc public func getUrl() -> String {
         return TradeItRequestFactory.getHostForEnvironment(environment) + "brokerCenter?apiKey=\(apiKey)"
     }
 }

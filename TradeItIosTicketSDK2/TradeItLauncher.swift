@@ -22,7 +22,7 @@ protocol OAuthCompletionListener {
         TradeItSDK.uiConfigService.isEnabled = true
     }
 
-    public func handleOAuthCallback(
+    @objc public func handleOAuthCallback(
         onTopmostViewController topMostViewController: UIViewController,
         oAuthCallbackUrl: URL
     ) {
@@ -63,7 +63,7 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchPortfolio(fromViewController viewController: UIViewController) {
+    @objc public func launchPortfolio(fromViewController viewController: UIViewController) {
         // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {
             var oAuthCallbackUrl = TradeItSDK.oAuthCallbackUrl
@@ -96,7 +96,7 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchPortfolio(
+    @objc public func launchPortfolio(
         fromViewController viewController: UIViewController,
         forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount?
     ) {
@@ -116,7 +116,7 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchPortfolio(
+    @objc public func launchPortfolio(
         fromViewController viewController: UIViewController,
         forAccountNumber accountNumber: String
     ) {
@@ -133,7 +133,7 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchTrading(
+    @objc public func launchTrading(
         fromViewController viewController: UIViewController,
         withOrder order: TradeItOrder = TradeItOrder()
     ) {
@@ -179,7 +179,7 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchFxTrading(
+    @objc public func launchFxTrading(
         fromViewController viewController: UIViewController,
         withOrder order: TradeItFxOrder = TradeItFxOrder()
     ) {
@@ -219,7 +219,7 @@ protocol OAuthCompletionListener {
         }
     }
 
-    public func launchAccountManagement(fromViewController viewController: UIViewController) {
+    @objc public func launchAccountManagement(fromViewController viewController: UIViewController) {
         deviceManager.authenticateUserWithTouchId(
             onSuccess: {
                 let navController = self.viewControllerProvider.provideNavigationController(withRootViewStoryboardId: TradeItStoryboardID.brokerManagementView)
@@ -232,7 +232,7 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchBrokerLinking(fromViewController viewController: UIViewController) {
+    @objc public func launchBrokerLinking(fromViewController viewController: UIViewController) {
         let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
 
         self.launchBrokerLinking(
@@ -241,7 +241,7 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchRelinking(
+    @objc public func launchRelinking(
         fromViewController viewController: UIViewController,
         forLinkedBroker linkedBroker: TradeItLinkedBroker
     ) {
@@ -254,7 +254,7 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchBrokerLinking(
+    @objc public func launchBrokerLinking(
         fromViewController viewController: UIViewController,
         showWelcomeScreen: Bool=false,
         showOpenAccountButton: Bool=true
@@ -269,13 +269,13 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchBrokerCenter(fromViewController viewController: UIViewController) {
+    @objc public func launchBrokerCenter(fromViewController viewController: UIViewController) {
         guard let url = URL(string: TradeItSDK.brokerCenterService.getUrl()) else { return }
         let safariViewController = SFSafariViewController(url: url)
         viewController.present(safariViewController, animated: true, completion: nil)
     }
 
-    public func launchAccountSelection(
+    @objc public func launchAccountSelection(
         fromViewController viewController: UIViewController,
         title: String? = nil,
         onSelected: @escaping (TradeItLinkedBrokerAccount) -> Void
@@ -315,7 +315,7 @@ protocol OAuthCompletionListener {
         }
     }
     
-    public func launchOrders(
+    @objc public func launchOrders(
         fromViewController viewController: UIViewController,
         forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
         ) {
@@ -334,7 +334,7 @@ protocol OAuthCompletionListener {
         )
     }
 
-    public func launchTransactions(
+    @objc public func launchTransactions(
         fromViewController viewController: UIViewController,
         forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
         ) {

@@ -5,7 +5,7 @@ import Foundation
 }
 
 @objc public class DefaultRequestFactory: NSObject, RequestFactory {
-    public func buildPostRequest(
+    @objc public func buildPostRequest(
         forUrl url: URL,
         jsonPostBody: String,
         headers: [String : String]

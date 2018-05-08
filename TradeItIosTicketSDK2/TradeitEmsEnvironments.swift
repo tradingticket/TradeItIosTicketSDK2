@@ -1,6 +1,6 @@
 extension TradeitEmsEnvironments : Hashable {
     
-    public var hashValue : Int {
+    @objc public var hashValue : Int {
         return Int(self.rawValue)
     }
     

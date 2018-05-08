@@ -1,31 +1,31 @@
 import UIKit
 
 @objc public class TradeItTheme: NSObject {
-    public var textColor: UIColor = UIColor.darkText
-    public var warningTextColor: UIColor = UIColor.tradeItSellRedColor
+    @objc public var textColor: UIColor = UIColor.darkText
+    @objc public var warningTextColor: UIColor = UIColor.tradeItSellRedColor
 
-    public var backgroundColor: UIColor = UIColor.white
+    @objc public var backgroundColor: UIColor = UIColor.white
 
-    public var tableHeaderBackgroundColor: UIColor = UIColor(red: 0.94, green: 0.94, blue: 0.96, alpha: 1.0)
-    public var tableHeaderTextColor: UIColor = UIColor(red: 0.49, green: 0.49, blue: 0.51, alpha: 1.0)
-    public var tableBackgroundPrimaryColor: UIColor = UIColor.white
-    public var tableBackgroundSecondaryColor: UIColor = UIColor.groupTableViewBackground
+    @objc public var tableHeaderBackgroundColor: UIColor = UIColor(red: 0.94, green: 0.94, blue: 0.96, alpha: 1.0)
+    @objc public var tableHeaderTextColor: UIColor = UIColor(red: 0.49, green: 0.49, blue: 0.51, alpha: 1.0)
+    @objc public var tableBackgroundPrimaryColor: UIColor = UIColor.white
+    @objc public var tableBackgroundSecondaryColor: UIColor = UIColor.groupTableViewBackground
 
-    public var interactivePrimaryColor: UIColor = UIButton().tintColor
-    public var interactiveSecondaryColor: UIColor = UIColor.white
+    @objc public var interactivePrimaryColor: UIColor = UIButton().tintColor
+    @objc public var interactiveSecondaryColor: UIColor = UIColor.white
 
-    public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor
-    public var warningSecondaryColor: UIColor = UIColor.white
+    @objc public var warningPrimaryColor: UIColor = UIColor.tradeItDeepRoseColor
+    @objc public var warningSecondaryColor: UIColor = UIColor.white
 
-    override public init() {
+    override @objc public init() {
         super.init()
     }
 
-    static public func light() -> TradeItTheme {
+    static @objc public func light() -> TradeItTheme {
         return TradeItTheme()
     }
 
-    static public func dark() -> TradeItTheme {
+    static @objc public func dark() -> TradeItTheme {
         let theme = TradeItTheme()
 
         theme.textColor = UIColor.white
@@ -47,7 +47,7 @@ import UIKit
         return theme
     }
 
-    static public func bb() -> TradeItTheme {
+    static @objc public func bb() -> TradeItTheme {
         let theme = TradeItTheme()
 
         theme.interactivePrimaryColor = UIColor(red: 0.156862745, green: 0.0, blue: 0.843137255, alpha: 1.0)

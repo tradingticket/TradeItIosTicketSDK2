@@ -14,14 +14,14 @@ import SafariServices
         TradeItSDK.uiConfigService.isEnabled = false
     }
     
-    public func launchOAuth(fromViewController viewController: UIViewController) {
+    @objc public func launchOAuth(fromViewController viewController: UIViewController) {
         self.launchOAuth(
             fromViewController: viewController,
             oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
         )
     }
 
-    public func launchOAuth(
+    @objc public func launchOAuth(
         fromViewController viewController: UIViewController,
         oAuthCallbackUrl: URL
     ) {
@@ -32,7 +32,7 @@ import SafariServices
         )
     }
 
-    public func launchRelinking(
+    @objc public func launchRelinking(
         fromViewController viewController: UIViewController,
         forLinkedBroker linkedBroker: TradeItLinkedBroker
     ) {
@@ -43,7 +43,7 @@ import SafariServices
         )
     }
 
-    public func launchRelinking(
+    @objc public func launchRelinking(
         fromViewController viewController: UIViewController,
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         oAuthCallbackUrl: URL
@@ -55,7 +55,7 @@ import SafariServices
         )
     }
 
-    public func handleOAuthCallback(
+    @objc public func handleOAuthCallback(
         onTopmostViewController topMostViewController: UIViewController,
         oAuthCallbackUrl: URL,
         onOAuthCompletionSuccessHandler: OnOAuthCompletionSuccessHandler? = nil
@@ -98,7 +98,7 @@ import SafariServices
         }
     }
 
-    public func launchTrading(
+    @objc public func launchTrading(
         fromViewController viewController: UIViewController,
         withOrder order: TradeItOrder,
         onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
@@ -118,7 +118,7 @@ import SafariServices
         )
     }
     
-    public func launchAuthentication(
+    @objc public func launchAuthentication(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         onViewController viewController: UIViewController,
         onCompletion: @escaping () -> Void
@@ -145,7 +145,7 @@ import SafariServices
         )
     }
 
-    public func launchOrders(
+    @objc public func launchOrders(
         fromViewController viewController: UIViewController,
         forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {
@@ -164,7 +164,7 @@ import SafariServices
         )
     }
 
-    public func launchTransactions(
+    @objc public func launchTransactions(
         fromViewController viewController: UIViewController,
         forLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
     ) {

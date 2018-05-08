@@ -1,11 +1,11 @@
-public typealias RawValue = String
+@objc public typealias RawValue = String
 
 @objc public enum TradeItOrderExpiration: Int, RawRepresentable {
     case goodForDay
     case goodUntilCanceled
     case unknown
     
-    public var rawValue: RawValue {
+    @objc public var rawValue: RawValue {
         switch self {
         case .goodForDay:
             return "day"
@@ -16,11 +16,11 @@ public typealias RawValue = String
         }
     }
     
-    public init?(rawValue: RawValue) {
+    @objc public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    public init(value: RawValue?) {
+    @objc public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "day":
@@ -41,7 +41,7 @@ public typealias RawValue = String
     case stopLimit
     case unknown
     
-    public var rawValue: RawValue {
+    @objc public var rawValue: RawValue {
         switch self {
         case .market:
             return "market"
@@ -56,11 +56,11 @@ public typealias RawValue = String
         }
     }
     
-    public init?(rawValue: RawValue) {
+    @objc public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    public init(value: RawValue?) {
+    @objc public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "market":
@@ -85,7 +85,7 @@ public typealias RawValue = String
     case sellShort
     case unknown
     
-    public var rawValue: RawValue {
+    @objc public var rawValue: RawValue {
         switch self {
         case .buy:
             return "buy"
@@ -100,11 +100,11 @@ public typealias RawValue = String
         }
     }
     
-    public init?(rawValue: RawValue) {
+    @objc public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    public init(value: RawValue?) {
+    @objc public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "buy":

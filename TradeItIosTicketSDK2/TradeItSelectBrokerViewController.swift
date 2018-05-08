@@ -13,8 +13,8 @@ class TradeItSelectBrokerViewController: CloseableViewController, UITableViewDel
     private var featuredBrokers: [TradeItBroker] = []
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider()
 
-    public var oAuthCallbackUrl: URL?
-    public var showOpenAccountButton: Bool = true
+    @objc public var oAuthCallbackUrl: URL?
+    @objc public var showOpenAccountButton: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()

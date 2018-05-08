@@ -8,8 +8,8 @@ import PromiseKit
     private let brokerService: TradeItBrokerService
     private let oAuthService: TradeItOAuthService
 
-    public var linkedBrokers: [TradeItLinkedBroker] = []
-    public weak var oAuthDelegate: TradeItOAuthDelegate?
+    @objc public var linkedBrokers: [TradeItLinkedBroker] = []
+    @objc public weak var oAuthDelegate: TradeItOAuthDelegate?
 
     init(connector: TradeItConnector) {
         self.connector = connector
@@ -24,7 +24,7 @@ import PromiseKit
         self.loadLinkedBrokersFromKeychain()
     }
 
-    public func getOAuthLoginPopupUrl(
+    @objc public func getOAuthLoginPopupUrl(
         withBroker broker: String,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -37,7 +37,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupUrl(
+    @objc public func getOAuthLoginPopupUrl(
         withBroker broker: String,
         oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
@@ -51,7 +51,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(
+    @objc public func getOAuthLoginPopupForTokenUpdateUrl(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -64,7 +64,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(
+    @objc public func getOAuthLoginPopupForTokenUpdateUrl(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         oAuthCallbackUrl: URL,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
@@ -80,7 +80,7 @@ import PromiseKit
         )
     }
 
-    public func completeOAuth(
+    @objc public func completeOAuth(
         withOAuthVerifier oAuthVerifier: String,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -158,7 +158,7 @@ import PromiseKit
         )
     }
 
-    public func authenticateAll(
+    @objc public func authenticateAll(
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
@@ -183,7 +183,7 @@ import PromiseKit
         _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
+    @objc public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
         let promises = self.getAllAuthenticatedLinkedBrokers().map { linkedBroker in
             return Promise<Void> { fulfill, reject in
                 linkedBroker.refreshAccountBalances(force: force, onFinished: fulfill)
@@ -193,7 +193,7 @@ import PromiseKit
         let _ = when(resolved: promises).always(execute: onFinished)
     }
 
-    public func getAvailableBrokers(
+    @objc public func getAvailableBrokers(
         onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
@@ -210,39 +210,39 @@ import PromiseKit
         }
     }
 
-    public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.linkedBrokers.flatMap { $0.accounts }
     }
 
-    public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAccounts().filter { $0.isEnabled }
     }
     
-    public func getAllAuthenticatedAndEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllAuthenticatedAndEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAuthenticatedLinkedBrokers().flatMap { $0.accounts }.filter { $0.isEnabled }
     }
 
-    public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
     
-    public func getAllDisplayableLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllDisplayableLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0 || $0.isAccountLinkDelayedError}
     }
     
-    public func getAllActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter {$0.isAccountLinkDelayedError}
     }
 
-    public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
+    @objc public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error != nil }
     }
 
-    public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error == nil }
     }
 
-    public func unlinkBroker(
+    @objc public func unlinkBroker(
         _ linkedBroker: TradeItLinkedBroker,
         onSuccess: @escaping () -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -270,11 +270,11 @@ import PromiseKit
         )
     }
 
-    public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
+    @objc public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
     
-    public func syncLocal(
+    @objc public func syncLocal(
         withRemoteLinkedBrokers remoteLinkedBrokers: [LinkedBrokerData],
         onFailure: @escaping (TradeItErrorResult) -> Void,
         onFinished: @escaping () -> Void
@@ -500,7 +500,7 @@ import PromiseKit
 
     // MARK: Debugging
 
-    public func printLinkedBrokers() {
+    @objc public func printLinkedBrokers() {
         print("\n\n=====> LINKED BROKERS:")
 
         self.linkedBrokers.forEach { linkedBroker in
@@ -529,7 +529,7 @@ import PromiseKit
     let accounts: [LinkedBrokerAccountData]
     let isLinkActivationPending: Bool
     
-    public init(
+    @objc public init(
         userId: String,
         userToken: String,
         broker: String,
@@ -552,7 +552,7 @@ import PromiseKit
     let baseCurrency: String
     let userCanDisableMargin: Bool
     
-    public init(
+    @objc public init(
         name: String,
         number: String,
         baseCurrency: String,

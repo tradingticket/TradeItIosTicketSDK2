@@ -91,7 +91,12 @@ class TradeItYahooCryptoTradingUIFlow:
         if let previewViewController = previewViewController {
             previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-//            previewViewController.previewOrderResult = previewOrderResult
+//            let cells = CryptoPreviewTableDataSource(
+//                previewMessageDelegate: previewViewController,
+//                linkedBrokerAccount: self.order.linkedBrokerAccount,
+//                previewOrderResult: previewOrderResult
+//            )
+//            previewViewController.dataSource = dataSource
             previewViewController.placeOrderCallback = placeOrderCallback
 
             tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)

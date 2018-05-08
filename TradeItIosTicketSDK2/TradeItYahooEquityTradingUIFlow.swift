@@ -90,16 +90,21 @@ TradeItYahooTradePreviewViewControllerDelegate {
     ) {
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
-        if let previewViewController = previewViewController {
+        if let previewViewController = previewViewController,
+            let linkedBrokerAccount = self.order.linkedBrokerAccount {
             previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
+            previewViewController.linkedBrokerAccount = linkedBrokerAccount
             previewViewController.placeOrderCallback = placeOrderCallback
-            let dataSource = EquityPreviewTableDataSource(
+            let factory = EquityPreviewTableDataSource(
                 previewMessageDelegate: previewViewController,
-                linkedBrokerAccount: self.order.linkedBrokerAccount,
+                linkedBrokerAccount: linkedBrokerAccount,
                 previewOrderResult: previewOrderResult
             )
-            previewViewController.dataSource = dataSource
+
+            previewViewController.dataSource = PreviewTableDataSource(
+                delegate: previewViewController,
+                factory: factory
+            )
             tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
         }
     }

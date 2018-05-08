@@ -96,7 +96,7 @@ class TradeItYahooTradePreviewViewController:
                         self.actionButton.enable()
                         self.actionButton.setTitle(self.actionButtonTitleTextGoToOrders, for: .normal)
 
-                        self.dataSource?.placeOrderResult = placeOrderResult
+                        self.dataSource?.update(placeOrderResult: placeOrderResult)
                         self.orderDetailsTable.reloadData()
 
                         activityView.hide(animated: true)

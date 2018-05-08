@@ -94,7 +94,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
             previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
             previewViewController.placeOrderCallback = placeOrderCallback
-            let dataSource = EquityPreviewDataSource(
+            let dataSource = EquityPreviewTableDataSource(
                 previewMessageDelegate: previewViewController,
                 linkedBrokerAccount: self.order.linkedBrokerAccount,
                 previewOrderResult: previewOrderResult

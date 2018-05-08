@@ -3,7 +3,6 @@ import MBProgressHUD
 import BEMCheckBox
 import SafariServices
 
-// TODO: Move DataSource
 // TODO: Make sure QUANTITY TYPE works
 class TradeItYahooTradePreviewViewController:
     TradeItYahooViewController,
@@ -23,7 +22,7 @@ class TradeItYahooTradePreviewViewController:
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
-    var dataSource: EquityPreviewDataSource? // TODO: Make protocol and pass in for crypto support
+    var dataSource: EquityPreviewTableDataSource? // TODO: Make protocol and pass in for crypto support
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
     private let actionButtonTitleTextGoToOrders = "View order status"

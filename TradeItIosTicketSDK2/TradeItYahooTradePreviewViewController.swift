@@ -22,7 +22,7 @@ class TradeItYahooTradePreviewViewController:
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
-    var dataSource: EquityPreviewTableDataSource? // TODO: Make protocol and pass in for crypto support
+    var dataSource: PreviewTableDataSource?
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
     private let actionButtonTitleTextGoToOrders = "View order status"

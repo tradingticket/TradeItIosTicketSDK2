@@ -35,7 +35,11 @@ internal class BrandedAccountNameCellData: PreviewCellData {
     }
 }
 
-class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, PreviewMessageDelegate {
+class TradeItTradePreviewViewController:
+    TradeItViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    PreviewMessageDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var adContainer: UIView!

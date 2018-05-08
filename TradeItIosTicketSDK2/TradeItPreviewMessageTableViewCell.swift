@@ -16,7 +16,7 @@ class TradeItPreviewMessageTableViewCell: UITableViewCell {
     var cellData: MessageCellData?
     internal weak var delegate: PreviewMessageDelegate?
 
-    func populate(withCellData cellData: MessageCellData, andDelegate delegate: PreviewMessageDelegate) {
+    func populate(withCellData cellData: MessageCellData, andDelegate delegate: PreviewMessageDelegate?) {
         self.cellData = cellData
         self.message.text = cellData.message.message
         if cellData.message.requiresAcknowledgement {

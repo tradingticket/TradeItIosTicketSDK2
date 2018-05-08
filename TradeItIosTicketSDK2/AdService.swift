@@ -26,7 +26,7 @@ import UIKit
     case preview
 
     // Woe is me - Obj-C backwards compatibility
-    @objc public static func labelFor(_ pageType: TradeItAdPageType) -> String {
+    public static func labelFor(_ pageType: TradeItAdPageType) -> String {
         switch(pageType) {
         case .homepage: return "homepage"
         case .confirmation: return "confirmation"
@@ -49,7 +49,7 @@ import UIKit
     case content2
 
     // Woe is me - Obj-C backwards compatibility
-    @objc public static func labelFor(_ position: TradeItAdPosition) -> String {
+    public static func labelFor(_ position: TradeItAdPosition) -> String {
         switch(position) {
         case .top: return "top"
         case .bottom: return "bot"

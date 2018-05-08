@@ -1,6 +1,6 @@
 import AdSupport
 
-@objc public class TradeItSession {
+public class TradeItSession {
     let connector: TradeItConnector
     var token: String?
 

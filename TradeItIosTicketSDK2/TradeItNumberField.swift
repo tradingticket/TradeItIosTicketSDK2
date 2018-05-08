@@ -25,7 +25,7 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
 
     // MARK: UITextField
 
-    override @objc public func canPerformAction(
+    override public func canPerformAction(
         _ action: Selector,
         withSender sender: Any?
     ) -> Bool {

@@ -20,7 +20,7 @@
     @objc public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
 
     private weak var _linkedBroker: TradeItLinkedBroker?
-    internal(set) @objc public var linkedBroker: TradeItLinkedBroker? {
+    @objc public internal(set) var linkedBroker: TradeItLinkedBroker? {
         get {
             return _linkedBroker
         }

@@ -1,11 +1,11 @@
-@objc public typealias RawValue = String
+public typealias RawValue = String
 
 @objc public enum TradeItOrderExpiration: Int, RawRepresentable {
     case goodForDay
     case goodUntilCanceled
     case unknown
     
-    @objc public var rawValue: RawValue {
+    public var rawValue: RawValue {
         switch self {
         case .goodForDay:
             return "day"
@@ -16,11 +16,11 @@
         }
     }
     
-    @objc public init?(rawValue: RawValue) {
+    public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    @objc public init(value: RawValue?) {
+    public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "day":
@@ -41,7 +41,7 @@
     case stopLimit
     case unknown
     
-    @objc public var rawValue: RawValue {
+    public var rawValue: RawValue {
         switch self {
         case .market:
             return "market"
@@ -56,11 +56,11 @@
         }
     }
     
-    @objc public init?(rawValue: RawValue) {
+    public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    @objc public init(value: RawValue?) {
+    public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "market":
@@ -85,7 +85,7 @@
     case sellShort
     case unknown
     
-    @objc public var rawValue: RawValue {
+    public var rawValue: RawValue {
         switch self {
         case .buy:
             return "buy"
@@ -100,11 +100,11 @@
         }
     }
     
-    @objc public init?(rawValue: RawValue) {
+    public init?(rawValue: RawValue) {
         self.init(value: rawValue)
     }
     
-    @objc public init(value: RawValue?) {
+    public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
         case "buy":

@@ -43,17 +43,17 @@
 }
 
 // NOTE: If you are adding anything to TradeItNotification you must also add it to TradeItNotificationConstants which provides Obj-C helpers
-@objc public struct TradeItNotification {
-    @objc public struct Name {
-        @objc public static let alertShown = NSNotification.Name(rawValue: "alertShown")
-        @objc public static let viewDidAppear = NSNotification.Name(rawValue: "viewDidAppear")
-        @objc public static let didLink = NSNotification.Name(rawValue: "TradeItSDKDidLink")
-        @objc public static let didUnlink = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
-        @objc public static let buttonTapped = NSNotification.Name(rawValue: "buttonTapped")
-        @objc public static let didSelectRow = NSNotification.Name(rawValue: "didSelectRow")
+public struct TradeItNotification {
+    public struct Name {
+        public static let alertShown = NSNotification.Name(rawValue: "alertShown")
+        public static let viewDidAppear = NSNotification.Name(rawValue: "viewDidAppear")
+        public static let didLink = NSNotification.Name(rawValue: "TradeItSDKDidLink")
+        public static let didUnlink = NSNotification.Name(rawValue: "TradeItSDKDidUnlink")
+        public static let buttonTapped = NSNotification.Name(rawValue: "buttonTapped")
+        public static let didSelectRow = NSNotification.Name(rawValue: "didSelectRow")
     }
 
-    @objc public enum UserInfoKey: String {
+    public enum UserInfoKey: String {
         case view
         case viewTitle
         case alertTitle
@@ -64,7 +64,7 @@
         case rowLabel
     }
 
-    @objc public enum Button: String {
+    public enum Button: String {
         case previewOrder
         case submitOrder
         case editOrder
@@ -74,7 +74,7 @@
         case linkFailed
     }
 
-    @objc public enum View: String {
+    public enum View: String {
         case brokerOAuth
         case linkCompletion
         case trading
@@ -87,7 +87,7 @@
         case selectBroker
     }
 
-    @objc public enum RowType: String {
+    public enum RowType: String {
         case broker
         case featuredBroker
     }

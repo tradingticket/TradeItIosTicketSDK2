@@ -47,7 +47,7 @@ import PromiseKit
         return self.linkedLogin.brokerLongName
     }
 
-    @objc public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
+    public init(session: TradeItSession, linkedLogin: TradeItLinkedLogin) {
         self.session = session
         self.linkedLogin = linkedLogin
         self.balanceService = TradeItBalanceService(session: session)

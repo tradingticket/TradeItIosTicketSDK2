@@ -28,8 +28,8 @@ class TradeItOrderPriceTypePresenter {
     static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.limit, .stopMarket, .stopLimit]
 }
 
-@objc public class TradeItOrderActionPresenter {
-    @objc public static let DEFAULT: TradeItOrderAction = .buy
+public class TradeItOrderActionPresenter {
+    public static let DEFAULT: TradeItOrderAction = .buy
     static let ACTIONS: [TradeItOrderAction] = [.buy, .sell, .buyToCover, .sellShort]
     static let SELL_ACTIONS: [TradeItOrderAction] = [.sell, .sellShort]
 }

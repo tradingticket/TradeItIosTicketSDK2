@@ -88,15 +88,19 @@ class TradeItYahooCryptoTradingUIFlow:
     ) {
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
-        if let previewViewController = previewViewController {
+        if let previewViewController = previewViewController,
+            let linkedBrokerAccount = self.order.linkedBrokerAccount {
             previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-//            let cells = CryptoPreviewTableDataSource(
-//                previewMessageDelegate: previewViewController,
-//                linkedBrokerAccount: self.order.linkedBrokerAccount,
-//                previewOrderResult: previewOrderResult
-//            )
-//            previewViewController.dataSource = dataSource
+            previewViewController.linkedBrokerAccount = linkedBrokerAccount
+            let factory = CryptoPreviewTableDataSource(
+                previewMessageDelegate: previewViewController,
+                linkedBrokerAccount: linkedBrokerAccount,
+                previewOrderResult: previewOrderResult
+            )
+            previewViewController.dataSource = PreviewTableDataSource(
+                delegate: previewViewController,
+                factory: factory
+            )
             previewViewController.placeOrderCallback = placeOrderCallback
 
             tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)

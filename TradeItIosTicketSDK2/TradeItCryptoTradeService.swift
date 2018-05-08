@@ -17,30 +17,37 @@ class TradeItCryptoPreviewTradeResult: TradeItResult {
     var orderDetails: TradeItCryptoPreviewTradeDetails?
 }
 
-class TradeItCryptoPreviewTradeDetails {
-    var estimatedTotalValue: NSDecimalNumber?
-    var estimatedOrderValue: NSDecimalNumber?
-    var estimatedOrderCommission: NSDecimalNumber?
+class TradeItCryptoPreviewTradeDetails: JSONModel {
+    var estimatedTotalValue: NSNumber?
+    var estimatedOrderValue: NSNumber?
+    var estimatedOrderCommission: NSNumber?
     var orderPriceType: String?
-    var orderLimitPrice: NSDecimalNumber?
-    var orderStopPrice: NSDecimalNumber?
+    var orderLimitPrice: NSNumber?
+    var orderStopPrice: NSNumber?
     var orderAction: String?
     var orderPair: String?
     var orderExpiration: String?
-    var orderQuantity: NSDecimalNumber?
+    var orderQuantity: NSNumber?
     var orderQuantityType: String?
     var orderCommissionLabel: String?
     var warnings: [TradeItPreviewMessage]?
+
+    override static func propertyIsOptional(_ propertyName: String) -> Bool {
+        return [
+            "orderStopPrice",
+            "orderLimitPrice"
+        ].contains(propertyName)
+    }
 }
 
 class TradeItCryptoPreviewTradeRequest: TradeItAuthenticatedRequest {
     var accountNumber: String?
     var orderAction: String?
-    var orderQuantity: NSDecimalNumber?
+    var orderQuantity: NSNumber?
     var orderPair: String?
     var orderPriceType: String?
-    var orderLimitPrice: NSDecimalNumber?
-    var orderStopPrice: NSDecimalNumber?
+    var orderLimitPrice: NSNumber?
+    var orderStopPrice: NSNumber?
     var orderExpiration: String?
     var orderQuantityType: String?
 }

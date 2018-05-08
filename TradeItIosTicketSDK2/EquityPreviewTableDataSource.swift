@@ -1,6 +1,6 @@
 import UIKit
 
-class EquityPreviewDataSource: NSObject, UITableViewDataSource {
+class EquityPreviewTableDataSource: NSObject, UITableViewDataSource {
     var isOrderPlaced: Bool {
         get { return placeOrderResult != nil }
     }

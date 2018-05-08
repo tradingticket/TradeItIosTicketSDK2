@@ -3,10 +3,11 @@ import MBProgressHUD
 import BEMCheckBox
 import SafariServices
 
+// TODO: Move DataSource
+// TODO: Make sure QUANTITY TYPE works
 class TradeItYahooTradePreviewViewController:
     TradeItYahooViewController,
     UITableViewDelegate,
-    UITableViewDataSource,
     PreviewMessageDelegate {
 
     private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
@@ -21,10 +22,10 @@ class TradeItYahooTradePreviewViewController:
     var previewOrderResult: TradeItPreviewOrderResult?
     var placeOrderResult: TradeItPlaceOrderResult?
     var placeOrderCallback: TradeItPlaceOrderHandlers?
-    var previewCellData = [PreviewCellData]()
     let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     var orderCapabilities: TradeItInstrumentOrderCapabilities?
     weak var delegate: TradeItYahooTradePreviewViewControllerDelegate?
+    var dataSource: EquityPreviewDataSource? // TODO: Make protocol and pass in for crypto support
 
     private let actionButtonTitleTextSubmitOrder = "Submit order"
     private let actionButtonTitleTextGoToOrders = "View order status"
@@ -38,13 +39,16 @@ class TradeItYahooTradePreviewViewController:
         self.statusLabel.text = "Order details"
         self.statusLabel.textColor = UIColor.yahooTextColor
         self.actionButton.setTitle(self.actionButtonTitleTextSubmitOrder, for: .normal)
-        self.orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
-        self.previewCellData = self.generatePreviewCellData()
-        
-        orderDetailsTable.dataSource = self
-        orderDetailsTable.delegate = self
+
+        self.dataSource = EquityPreviewDataSource(
+            previewMessageDelegate: self,
+            linkedBrokerAccount: self.linkedBrokerAccount,
+            previewOrderResult: previewOrderResult
+        )
+        self.orderDetailsTable.dataSource = self.dataSource
+        self.orderDetailsTable.delegate = self
         let bundle = TradeItBundleProvider.provide()
-        orderDetailsTable.register(
+        self.orderDetailsTable.register(
             UINib(nibName: "TradeItPreviewMessageTableViewCell", bundle: bundle),
             forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
         )
@@ -58,7 +62,7 @@ class TradeItYahooTradePreviewViewController:
     }
 
     private func updateOrderDetailsTable(withWarningsAndAcknowledgment: Bool = true) {
-        self.previewCellData = self.generatePreviewCellData(withWarningsAndAcknowledgment: withWarningsAndAcknowledgment)
+        self.dataSource?.generatePreviewCellData(withWarningsAndAcknowledgment: withWarningsAndAcknowledgment)
         self.orderDetailsTable.reloadData()
     }
 
@@ -83,7 +87,7 @@ class TradeItYahooTradePreviewViewController:
 
                 placeOrderCallback(
                     { placeOrderResult in
-                        //Remove the editOrderButton and expand the action button
+                        // Remove the editOrderButton and expand the action button
                         self.navigationController?.viewControllers = [self]
                         self.editOrderButton.removeFromSuperview()
                         self.actionButtonWidthConstraint = NSLayoutConstraint(
@@ -190,38 +194,6 @@ class TradeItYahooTradePreviewViewController:
         _ = navigationController?.popViewController(animated: true)
     }
 
-    // MARK: UITableViewDataSource
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return previewCellData.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = previewCellData[indexPath.row]
-
-        switch cellData {
-        case let messageCellData as MessageCellData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_MESSAGE_CELL_ID") as! TradeItPreviewMessageTableViewCell
-            cell.populate(withCellData: messageCellData, andDelegate: self)
-            return cell
-        case let valueCellData as ValueCellData:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_PREVIEW_CELL_ID") ?? UITableViewCell()
-            cell.textLabel?.text = valueCellData.label
-            cell.detailTextLabel?.text = valueCellData.value
-
-            return cell
-        default:
-            return UITableViewCell()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
     
     // MARK: PreviewMessageDelegate
 
@@ -246,72 +218,11 @@ class TradeItYahooTradePreviewViewController:
     // MARK: Private
     
     private func updatePlaceOrderButtonStatus() {
-        if allAcknowledgementsAccepted() {
+        if self.dataSource?.allAcknowledgementsAccepted() == true {
             self.actionButton.enable()
         } else {
             self.actionButton.disable()
         }
-    }
-    
-    private func allAcknowledgementsAccepted() -> Bool {
-        return previewCellData.compactMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
-    }
-    
-    private func generatePreviewCellData(withWarningsAndAcknowledgment: Bool = true) -> [PreviewCellData] {
-        guard let linkedBrokerAccount = linkedBrokerAccount,
-            let orderDetails = previewOrderResult?.orderDetails
-            else { return [] }
-
-        var cells = [PreviewCellData]()
-
-        cells += [
-            ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
-        ] as [PreviewCellData]
-
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
-
-        if let orderNumber = self.placeOrderResult?.orderNumber {
-            cells += [
-                ValueCellData(label: "Order #", value: orderNumber)
-            ] as [PreviewCellData]
-        }
-
-        cells += [
-            ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
-            ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "Price", value: orderDetails.orderPrice),
-            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-        ] as [PreviewCellData]
-
-        if self.linkedBrokerAccount.userCanDisableMargin {
-            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
-        }
-
-        if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
-        }
-
-        if let estimatedTotalValue = orderDetails.estimatedTotalValue {
-            let action = TradeItOrderAction(value: orderDetails.orderAction)
-            let title = "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
-            cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
-        }
-        
-        if withWarningsAndAcknowledgment {
-            cells += generateMessageCellData()
-        }
-
-        return cells
-    }
-
-    private func generateMessageCellData() -> [PreviewCellData] {
-        guard let messages = previewOrderResult?.orderDetails?.warnings else { return [] }
-        return messages.map(MessageCellData.init)
-    }
-
-    private func formatCurrency(_ value: NSNumber) -> String {
-        return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
     }
 }
 

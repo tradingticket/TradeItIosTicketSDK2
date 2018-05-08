@@ -88,14 +88,14 @@ class TradeItYahooCryptoTradingUIFlow:
     ) {
         let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
 
-//        if let previewViewController = previewViewController {
-//            previewViewController.delegate = self
-//            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
+        if let previewViewController = previewViewController {
+            previewViewController.delegate = self
+            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
 //            previewViewController.previewOrderResult = previewOrderResult
-//            previewViewController.placeOrderCallback = placeOrderCallback
-//
-//            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
-//        }
+            previewViewController.placeOrderCallback = placeOrderCallback
+
+            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
+        }
     }
 
     internal func invalidAccountSelected(

@@ -64,16 +64,16 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             return
         }
 
-        let accountOverviewPromise = Promise<Void> { fulfill, reject in
+        let accountOverviewPromise = Promise<Void> { seal in
             linkedBrokerAccount.getAccountOverview(
                 cacheResult: true,
                 onSuccess: { _ in
                     self.tableViewManager.updateAccount(withAccount: linkedBrokerAccount)
-                    fulfill(())
+                    seal.fulfill(())
                 },
                 onFailure: { error in
                     self.tableViewManager.updateAccount(withAccount: nil)
-                    reject(error)
+                    seal.reject(error)
                 }
             )
         }
@@ -93,11 +93,10 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             }
         ).then { _ in
             return when(fulfilled: accountOverviewPromise, positionsAndQuotesPromise)
-        }.then { _, positions in
-            self.tableViewManager.updatePositions(withPositions: positions)
-        }.always {
-            onRefreshComplete()
-        }.catch { error in
+        }.done { results in
+            return self.tableViewManager.updatePositions(withPositions: results.1)
+        }.ensure(onRefreshComplete)
+        .catch { error in
             if let tradeItError = linkedBroker.error {
                 self.alertManager.showAlertWithAction(error: tradeItError, withLinkedBroker: linkedBroker, onViewController: self)
             }
@@ -107,14 +106,12 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     // MARK: Private
 
     private func positionsPromise(linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Promise<[TradeItPortfolioPosition]> {
-        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+        return Promise<[TradeItPortfolioPosition]> { seal in
             linkedBrokerAccount.getPositions(
-                onSuccess: { positions in
-                    fulfill(positions)
-                },
+                onSuccess: seal.fulfill,
                 onFailure: { error in
                     self.tableViewManager.updatePositions(withPositions: nil)
-                    reject(error)
+                    seal.reject(error)
                 }
             )
         }
@@ -125,10 +122,10 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             .filter { $0.position?.lastPrice == nil }
             .compactMap { $0.position?.symbol }
 
-        return Promise<[TradeItPortfolioPosition]> { fulfill, reject in
+        return Promise<[TradeItPortfolioPosition]> { seal in
             guard !symbols.isEmpty,
                 let getQuotes = TradeItSDK.marketDataService.getQuotes
-                else { return fulfill(portfolioPositions) }
+                else { return seal.fulfill(portfolioPositions) }
 
             getQuotes(
                 symbols,
@@ -141,9 +138,9 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
                         return portfolioPosition
                     }
 
-                    fulfill(portfolioPositionsWithQuotes)
+                    seal.fulfill(portfolioPositionsWithQuotes)
                 },
-                reject
+                seal.reject
             )
         }
     }

@@ -184,6 +184,8 @@
 		7591A9181EFB0C77008EB943 /* TradeItFxOrderLegResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7591A9151EFB0C77008EB943 /* TradeItFxOrderLegResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7591A9191EFB0C77008EB943 /* TradeItFxOrderLegResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7591A9161EFB0C77008EB943 /* TradeItFxOrderLegResult.m */; };
 		7591A91A1EFB0C77008EB943 /* TradeItFxOrderLegResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7591A9161EFB0C77008EB943 /* TradeItFxOrderLegResult.m */; };
+		759FA1DB20A3584F00A4AD07 /* TradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FA1DA20A3584F00A4AD07 /* TradeService.swift */; };
+		759FA1DC20A3584F00A4AD07 /* TradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FA1DA20A3584F00A4AD07 /* TradeService.swift */; };
 		75A333621E8AE0EC00716F4C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A333611E8AE0EC00716F4C /* main.m */; };
 		75A333651E8AE0EC00716F4C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A333641E8AE0EC00716F4C /* AppDelegate.m */; };
 		75A333681E8AE0EC00716F4C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A333671E8AE0EC00716F4C /* ViewController.m */; };
@@ -963,6 +965,7 @@
 		7591A9101EFB09F0008EB943 /* TradeItFxOrderInfoResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItFxOrderInfoResult.m; sourceTree = "<group>"; };
 		7591A9151EFB0C77008EB943 /* TradeItFxOrderLegResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItFxOrderLegResult.h; sourceTree = "<group>"; };
 		7591A9161EFB0C77008EB943 /* TradeItFxOrderLegResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItFxOrderLegResult.m; sourceTree = "<group>"; };
+		759FA1DA20A3584F00A4AD07 /* TradeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeService.swift; sourceTree = "<group>"; };
 		75A3335E1E8AE0EC00716F4C /* ExampleAppObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleAppObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75A333611E8AE0EC00716F4C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		75A333631E8AE0EC00716F4C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1633,6 +1636,7 @@
 				B5B33F431F967A0600DD9038 /* TradeItTransactionService.swift */,
 				75F980242073ECFE0062B799 /* TradeItUiConfigService.swift */,
 				75AC863620A0C85900F5C196 /* TradeItCryptoTradeService.swift */,
+				759FA1DA20A3584F00A4AD07 /* TradeService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2851,6 +2855,7 @@
 				FAE77F4A1EB3AA0E005E90EB /* TradeItYahooOAuthCompletionViewController.swift in Sources */,
 				75BAAAD11DB7EEB400E5435C /* TradeItPortfolioPosition.swift in Sources */,
 				75BAAAC71DB7EEB400E5435C /* TradeItPortfolioBalanceEquityPresenter.swift in Sources */,
+				759FA1DB20A3584F00A4AD07 /* TradeService.swift in Sources */,
 				FA4CC9421E42BC5A00C268A4 /* TradeItYahooTradePreviewViewController.swift in Sources */,
 				7591A90D1EFAD4E8008EB943 /* TradeItFxPlaceOrderResult.m in Sources */,
 				7586DF231F210B1D004768D9 /* TradeItPositionService.swift in Sources */,
@@ -3124,6 +3129,7 @@
 				751DF50B1EBB7173008339D9 /* TradeItYahooOAuthCompletionViewController.swift in Sources */,
 				FA4CC9431E42BC5A00C268A4 /* TradeItYahooTradePreviewViewController.swift in Sources */,
 				FC6E799A1DCD1F8B005225CC /* TradeItBrokerManagementTableViewCell.swift in Sources */,
+				759FA1DC20A3584F00A4AD07 /* TradeService.swift in Sources */,
 				FA5852801E413B2900078352 /* TradeItSelectionViewController.swift in Sources */,
 				7591A90E1EFAD4E8008EB943 /* TradeItFxPlaceOrderResult.m in Sources */,
 				7586DF241F210B1D004768D9 /* TradeItPositionService.swift in Sources */,

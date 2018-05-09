@@ -39,7 +39,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
     }
 
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         self.textField.resignFirstResponder()
     }
 

@@ -1,5 +1,5 @@
 class MarginPresenter {
-    public static let LABELS = [CASH_LABEL, MARGIN_LABEL]
+    @objc public static let LABELS = [CASH_LABEL, MARGIN_LABEL]
     private static let CASH_LABEL = "Cash"
     private static let MARGIN_LABEL = "Margin"
 

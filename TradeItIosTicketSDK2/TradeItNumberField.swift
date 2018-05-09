@@ -10,8 +10,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         #selector(cut(_:))
     ]
 
-    public var maxDecimalPlaces = 4
-    public var isPrice = false
+    @objc public var maxDecimalPlaces = 4
+    @objc public var isPrice = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)

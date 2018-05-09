@@ -6,7 +6,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
-    public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
+    @objc public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
     internal var order = TradeItOrder()
 

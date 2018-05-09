@@ -1,6 +1,6 @@
 @objc public class TradeItPortfolioPosition : NSObject {
-    public var position: TradeItPosition?
-    public var fxPosition: TradeItFxPosition?
+    @objc public var position: TradeItPosition?
+    @objc public var fxPosition: TradeItFxPosition?
     var quote: TradeItQuote?
     unowned var linkedBrokerAccount: TradeItLinkedBrokerAccount
 

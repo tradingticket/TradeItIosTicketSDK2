@@ -168,38 +168,36 @@ import PromiseKit
         onFinished: @escaping () -> Void
     ) {
         let promises = self.getAllDisplayableLinkedBrokers().map { linkedBroker in
-            return Promise<Void> { fulfill, reject in
+            return Promise<Void> { seal in
                 linkedBroker.authenticateIfNeeded(
-                    onSuccess: fulfill,
+                    onSuccess: seal.fulfill,
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { tradeItErrorResult in
                         onFailure(tradeItErrorResult, linkedBroker)
-                        fulfill(())
+                        seal.fulfill(())
                     }
                 )
             }
         }
 
-        _ = when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).done { _ in onFinished() }
     }
 
     @objc public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
         let promises = self.getAllAuthenticatedLinkedBrokers().map { linkedBroker in
-            return Promise<Void> { fulfill, reject in
-                linkedBroker.refreshAccountBalances(force: force, onFinished: fulfill)
+            return Promise<Void> { seal in
+                linkedBroker.refreshAccountBalances(force: force, onFinished: seal.fulfill)
             }
         }
 
-        let _ = when(resolved: promises).always(execute: onFinished)
+        let _ = when(resolved: promises).done { _ in onFinished() }
     }
 
     @objc public func getAvailableBrokers(
         onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        getAvailableBrokersPromise().then { availableBrokers -> Void in
-            onSuccess(availableBrokers)
-        }.catch { error in
+        getAvailableBrokersPromise().done(onSuccess).catch { error in
             self.availableBrokersPromise = nil
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(
@@ -458,7 +456,7 @@ import PromiseKit
         if let availableBrokersPromise = self.availableBrokersPromise {
             return availableBrokersPromise
         } else {
-            let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
+            let availableBrokersPromise = Promise<[TradeItBroker]> { seal in
                 brokerService.getAvailableBrokers(
                     userCountryCode: TradeItSDK.userCountryCode,
                     onSuccess: { availableBrokers, featuredBrokerLabelText in
@@ -468,10 +466,10 @@ import PromiseKit
                             self.featuredBrokerLabelText = featuredBrokerLabelText
                         }
 
-                        fulfill(availableBrokers)
+                        seal.fulfill(availableBrokers)
                     }, onFailure: { error in
                         self.availableBrokersPromise = nil
-                        reject(error)
+                        seal.reject(error)
                     }
                 )
             }

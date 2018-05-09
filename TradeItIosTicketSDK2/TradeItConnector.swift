@@ -32,14 +32,17 @@ internal extension TradeItConnector {
         _ request: URLRequest,
         targetClassType: T.Type
     ) -> Promise<T> {
-        return Promise<T> { fulfill, reject in
+        return Promise<T> { seal in
             send(request, targetClassType: targetClassType) { result in
                 switch(result) {
-                case let result as T: fulfill(result)
-                case let error as TradeItErrorResult: reject(error)
+                case let result as T: seal.fulfill(result)
+                case let error as TradeItErrorResult: seal.reject(error)
                 default:
-                    reject(
-                        TradeItErrorResult(title: "Could not retrieve UI config. Please try again.")
+                    seal.reject(
+                        TradeItErrorResult(
+                            title: "Connection to the server failed.",
+                            message: "Please try again."
+                        )
                     )
                 }
             }

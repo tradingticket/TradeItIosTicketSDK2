@@ -15,7 +15,7 @@ class TradeItBrokerLogoService {
         onSuccess: @escaping (UIImage) -> Void,
         onFailure: @escaping () -> Void
     ) {
-        TradeItSDK.uiConfigService.getUiConfigPromise().then { uiConfig in
+        TradeItSDK.uiConfigService.getUiConfigPromise().then { uiConfig -> Promise<UIImage> in
             guard let brokerId = brokerIdOptional,
                 let brokerConfigs = uiConfig.brokers as? [TradeItUiBrokerConfig],
                 let brokerConfig = brokerConfigs.first(where: { $0.brokerId == brokerId }),
@@ -35,16 +35,16 @@ class TradeItBrokerLogoService {
             
             if let cachedImage = self.getCachedLogo(brokerId: brokerId, size: size) {
                 print("TradeIt Logo: Fetching cached logo for \(brokerId)")
-                return Promise(value: cachedImage)
+                return Promise.value(cachedImage)
             }
             
             print("TradeIt Logo: Fetching remote logo for \(brokerId)")
-            return Promise<UIImage> { fulfill, reject in
+            return Promise<UIImage> { seal in
                 DispatchQueue.global(qos: .userInitiated).async {
                     guard let imageData = NSData(contentsOf: logoUrl),
                         let image = UIImage(data: imageData as Data)
                         else {
-                            reject(
+                            seal.reject(
                                 TradeItErrorResult(
                                     title: "Failed to load logo",
                                     message: "The request to load the broker logo failedg."
@@ -55,11 +55,11 @@ class TradeItBrokerLogoService {
                     
                     DispatchQueue.main.async {
                         self.setCachedLogo(brokerId: brokerId, size: size, image: image)
-                        fulfill(image)
+                        seal.fulfill(image)
                     }
                 }
             }
-        }.then { image in
+        }.done { image in
             onSuccess(image)
         }.catch { error in
             print(error)

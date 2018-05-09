@@ -10,7 +10,7 @@ def testing_pods
 end
 
 def app_pods
-  pod 'PromiseKit', '~> 4.4'
+  pod 'PromiseKit', '~> 6.0'
   pod 'MBProgressHUD', '~> 1.1.0'
   pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'

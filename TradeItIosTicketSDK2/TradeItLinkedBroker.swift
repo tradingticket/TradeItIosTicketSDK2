@@ -150,23 +150,23 @@ import PromiseKit
         cacheResult: Bool = true,
         onFinished: @escaping () -> Void
     ) {
-        let promises = accounts.filter { account in
+        let promises: [Promise<Void>] = accounts.filter { account in
             return force || (account.balance == nil && account.fxBalance == nil)
         }.map { account in
-            return Promise<Void> { fulfill, reject in
+            return Promise<Void> { (seal: Resolver<Void>) -> Void in
                 account.getAccountOverview(
                     cacheResult: false, // Cache at the end so we don't cache the entire linked broker multiple times
                     onSuccess: { _ in
-                        fulfill(())
+                        seal.fulfill(())
                     },
                     onFailure: { errorResult in
-                        fulfill(())
+                        seal.fulfill(())
                     }
                 )
             }
         }
 
-        _ = when(resolved: promises).always {
+        _ = when(resolved: promises).done { _ in
             if cacheResult {
                 TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
             }
@@ -246,11 +246,11 @@ import PromiseKit
         _ submitAnswer: @escaping (String) -> Void,
         _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void) -> Promise<Void>{
-        return Promise<Void> { fulfill, reject in
+        return Promise<Void> { seal in
             self.authenticateIfNeeded(
-                onSuccess: fulfill,
+                onSuccess: seal.fulfill,
                 onSecurityQuestion: onSecurityQuestion,
-                onFailure: reject
+                onFailure: seal.reject
             )
         }
     }

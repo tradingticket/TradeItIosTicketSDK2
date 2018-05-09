@@ -1,10 +1,8 @@
 # Changelog
-## [1.1.44]
-### Added
-- Added broker branding to TradeIt screens
 
+## [2.0.7]
 ### Changed
-- Fixed issue with ExampleApp deep linking in Xcode 9.3 
+- Added @objc annotation to public interface
 
 ## [1.1.43]
 ### Changed

@@ -179,22 +179,24 @@ class TradeItYahooCryptoTradingTicketViewController:
                         )
                     }
                 )
-        }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-            activityView.hide(animated: true)
-            self.alertManager.promptUserToAnswerSecurityQuestion(
-                securityQuestion,
-                onViewController: self,
-                onAnswerSecurityQuestion: answerSecurityQuestion,
-                onCancelSecurityQuestion: cancelSecurityQuestion
-            )
-        }, onFailure: { errorResult in
-            activityView.hide(animated: true)
-            self.alertManager.showAlertWithAction(
-                error: errorResult,
-                withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
-                onViewController: self
-            )
-        }
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+                activityView.hide(animated: true)
+                self.alertManager.promptUserToAnswerSecurityQuestion(
+                    securityQuestion,
+                    onViewController: self,
+                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                    onCancelSecurityQuestion: cancelSecurityQuestion
+                )
+            },
+            onFailure: { errorResult in
+                activityView.hide(animated: true)
+                self.alertManager.showAlertWithAction(
+                    error: errorResult,
+                    withLinkedBroker: self.order.linkedBrokerAccount?.linkedBroker,
+                    onViewController: self
+                )
+            }
         )
     }
 
@@ -203,7 +205,7 @@ class TradeItYahooCryptoTradingTicketViewController:
     func accountSelectionViewController(
         _ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
         didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
-        ) {
+    ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
         self.selectedAccountChanged = true
         _ = self.navigationController?.popViewController(animated: true)
@@ -230,7 +232,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.order.linkedBrokerAccount?.getAccountOverview(
             onSuccess: { accountOverview in
                 self.reload(row: .account)
-        },
+            },
             onFailure: { error in
                 self.alertManager.showAlertWithAction(
                     error: error,

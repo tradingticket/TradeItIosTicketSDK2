@@ -1,7 +1,7 @@
 PODS:
   - BEMCheckBox (1.4.1)
   - JSONModel (1.7.0)
-  - MBProgressHUD (1.0.0)
+  - MBProgressHUD (1.1.0)
   - Nimble (7.0.3)
   - PromiseKit (4.5.2):
     - PromiseKit/Foundation (= 4.5.2)
@@ -19,7 +19,7 @@ PODS:
 DEPENDENCIES:
   - BEMCheckBox (~> 1.4.1)
   - JSONModel (~> 1.7.0)
-  - MBProgressHUD (~> 1.0.0)
+  - MBProgressHUD (~> 1.1.0)
   - Nimble (~> 7.0.1)
   - PromiseKit (~> 4.4)
   - Quick (~> 0.10.0)
@@ -36,11 +36,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
-  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
   PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: f0c5fdef85088f03a1751354253d340d0025ede0
+PODFILE CHECKSUM: 6f5e317a2f7e88e84ceeeece4d87ddb7c384aa1a
 
 COCOAPODS: 1.5.0

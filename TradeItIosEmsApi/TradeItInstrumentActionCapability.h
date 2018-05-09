@@ -6,6 +6,6 @@
 
 @interface TradeItInstrumentActionCapability : TradeItInstrumentCapability
 
-@property (nonatomic, copy, nonnull) NSArray<NSString *>* supportedOrderQuantityTypes;
+@property (nonatomic, copy, nonnull) NSArray<NSString *> *supportedOrderQuantityTypes;
 
 @end

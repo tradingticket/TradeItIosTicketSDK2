@@ -35,7 +35,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
         if let orderNumber = self.placeOrderResult?.orderNumber {
             cells += [
                 ValueCellData(label: "Order #", value: orderNumber)
-                ] as [PreviewCellData]
+            ] as [PreviewCellData]
         }
 
         cells += [
@@ -44,7 +44,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity ?? 0.0)), // TODO: Fix default
             ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Fix default
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
+        ] as [PreviewCellData]
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: orderDetails.orderCommissionLabel ?? "Commission", value: self.formatCurrency(estimatedOrderCommission)))

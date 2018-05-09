@@ -9,7 +9,7 @@ class EquityPreviewCellFactory: PreviewCellFactory {
         previewMessageDelegate delegate: PreviewMessageDelegate,
         linkedBrokerAccount: TradeItLinkedBrokerAccount,
         previewOrderResult: TradeItPreviewOrderResult
-        ) {
+    ) {
         self.delegate = delegate
         self.linkedBrokerAccount = linkedBrokerAccount
         self.previewOrderResult = previewOrderResult
@@ -24,7 +24,7 @@ class EquityPreviewCellFactory: PreviewCellFactory {
 
         cells += [
             ValueCellData(label: "Account", value: linkedBrokerAccount.getFormattedAccountName())
-            ] as [PreviewCellData]
+        ] as [PreviewCellData]
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(
             orderAction: orderDetails.orderAction,
@@ -44,7 +44,7 @@ class EquityPreviewCellFactory: PreviewCellFactory {
             ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-            ] as [PreviewCellData]
+        ] as [PreviewCellData]
 
         if self.linkedBrokerAccount.userCanDisableMargin {
             cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetails.userDisabledMargin)))

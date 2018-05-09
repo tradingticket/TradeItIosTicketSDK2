@@ -29,4 +29,32 @@
             forCellReuseIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID"
         )
     }
+
+    static func registerYahooNibCells(forTableView tableView: UITableView) {
+        let bundle = provide()
+        tableView.register(
+            UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.selectionDetail.rawValue
+        )
+        tableView.register(
+            UINib(nibName: "YahooReadOnlyTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.readOnly.rawValue
+        )
+        tableView.register(
+            UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.numericInput.rawValue
+        )
+        tableView.register(
+            UINib(nibName: "YahooNumericToggleInputTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.numericToggleInput.rawValue
+        )
+        tableView.register(
+            UINib(nibName: "YahooSelectionTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.selection.rawValue
+        )
+        tableView.register(
+            UINib(nibName: "YahooMarketDataTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: CellReuseId.marketData.rawValue
+        )
+    }
 }

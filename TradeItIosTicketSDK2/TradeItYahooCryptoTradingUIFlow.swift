@@ -92,7 +92,7 @@ class TradeItYahooCryptoTradingUIFlow:
             let linkedBrokerAccount = self.order.linkedBrokerAccount {
             previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = linkedBrokerAccount
-            let factory = CryptoPreviewTableDataSource(
+            let factory = CryptoPreviewCellFactory(
                 previewMessageDelegate: previewViewController,
                 linkedBrokerAccount: linkedBrokerAccount,
                 previewOrderResult: previewOrderResult

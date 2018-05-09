@@ -427,13 +427,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    guard let currentOrderQuantityType = self.order.quantityType
-                        else { return }
-
-                    switch currentOrderQuantityType {
-                    case .baseCurrency: self.order.quantityType = .quoteCurrency
-                    case .quoteCurrency: self.order.quantityType = .baseCurrency
-                    default: self.order.quantityType = .quoteCurrency // TODO: do we want this? Do I need to update UI?
+                    switch self.order.quantityType {
+                    case .some(.baseCurrency): self.order.quantityType = .quoteCurrency
+                    case .some(.quoteCurrency): self.order.quantityType = .baseCurrency
+                    default: self.order.quantityType = .baseCurrency
                     }
 
                     let quantitySymbol = self.order.quantitySymbol

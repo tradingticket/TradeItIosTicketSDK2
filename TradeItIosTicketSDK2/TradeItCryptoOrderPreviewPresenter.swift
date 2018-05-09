@@ -20,7 +20,7 @@ class TradeItCryptoOrderPreviewPresenter {
         request.orderPair = order.symbol
         request.orderLimitPrice = order.limitPrice
         request.orderStopPrice = order.stopPrice
-        request.orderQuantityType = order.quantityType?.rawValue // TRIPLE CHECK THIS WORKS
+        request.orderQuantityType = order.quantityType?.rawValue
 
         return request
     }

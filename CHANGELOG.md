@@ -1,4 +1,9 @@
 # Changelog
+
+## [2.0.7]
+### Changed
+- Added @objc annotation to public interface
+
 ## [1.1.43]
 ###Changed
 - Fix crashing when account is unlinked

@@ -537,7 +537,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
-        ) {
+    ) {
         guard let orderCapabilities = self.instrumentOrderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)

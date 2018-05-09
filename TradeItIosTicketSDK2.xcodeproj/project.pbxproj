@@ -239,6 +239,8 @@
 		75AC865120A32E5A00F5C196 /* EquityPreviewTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AC864F20A32E5600F5C196 /* EquityPreviewTableDataSource.swift */; };
 		75AC865320A32F1200F5C196 /* EquityPreviewCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AC865220A32F1200F5C196 /* EquityPreviewCellFactory.swift */; };
 		75AC865420A32F1200F5C196 /* EquityPreviewCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AC865220A32F1200F5C196 /* EquityPreviewCellFactory.swift */; };
+		75AC865620A336AA00F5C196 /* CellReuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AC865520A336AA00F5C196 /* CellReuseId.swift */; };
+		75AC865720A336AA00F5C196 /* CellReuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AC865520A336AA00F5C196 /* CellReuseId.swift */; };
 		75B093A91ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
 		75B093AA1ED4AB6B00A72514 /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B093A81ED4AB6B00A72514 /* AdService.swift */; };
 		75B857B31DD222ED003AB7AB /* TradeItBrokerCenterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */; };
@@ -996,6 +998,7 @@
 		75AC864C20A32C5500F5C196 /* PreviewCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCellFactory.swift; sourceTree = "<group>"; };
 		75AC864F20A32E5600F5C196 /* EquityPreviewTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EquityPreviewTableDataSource.swift; sourceTree = "<group>"; };
 		75AC865220A32F1200F5C196 /* EquityPreviewCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquityPreviewCellFactory.swift; sourceTree = "<group>"; };
+		75AC865520A336AA00F5C196 /* CellReuseId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReuseId.swift; sourceTree = "<group>"; };
 		75B093A81ED4AB6B00A72514 /* AdService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdService.swift; sourceTree = "<group>"; };
 		75B857B21DD222ED003AB7AB /* TradeItBrokerCenterService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItBrokerCenterService.swift; sourceTree = "<group>"; };
 		75BAA98B1DB7EA7A00E5435C /* TradeItIosTicketSDK2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TradeItIosTicketSDK2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1605,6 +1608,7 @@
 				B55210AD1FA0E9570050CEC5 /* TradeItTransactionTableViewCell.swift */,
 				B5E9C06E1FC4EA4800A52801 /* TradeItTransactionTableViewHeader.swift */,
 				A72FFB252086699E001F3411 /* BrandedTableViewCell.swift */,
+				75AC865520A336AA00F5C196 /* CellReuseId.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2875,6 +2879,7 @@
 				75ECEC1F1F6C735100939BF6 /* TradeItPreviewMessageLink.m in Sources */,
 				B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */,
 				75BAAADA1DB7EEB400E5435C /* TradeItQuotePresenter.swift in Sources */,
+				75AC865620A336AA00F5C196 /* CellReuseId.swift in Sources */,
 				FA5852771E401B8300078352 /* TradeItPaddedTextField.swift in Sources */,
 				7586DF291F211513004768D9 /* TradeItSession.swift in Sources */,
 				75BAAAA21DB7EEB400E5435C /* NSCoder+TradeIt.swift in Sources */,
@@ -3147,6 +3152,7 @@
 				FC6E79AC1DCD1F8B005225CC /* TradeItQuotePresenter.swift in Sources */,
 				75ECEC201F6C735100939BF6 /* TradeItPreviewMessageLink.m in Sources */,
 				FA5852781E401B8300078352 /* TradeItPaddedTextField.swift in Sources */,
+				75AC865720A336AA00F5C196 /* CellReuseId.swift in Sources */,
 				FC6E79AE1DCD1F8B005225CC /* NSCoder+TradeIt.swift in Sources */,
 				FC6E79AF1DCD1F8B005225CC /* TradeItBundleProvider.swift in Sources */,
 				7586DF2A1F211513004768D9 /* TradeItSession.swift in Sources */,

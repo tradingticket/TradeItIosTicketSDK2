@@ -58,7 +58,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
-        TicketRow.registerNibCells(forTableView: self.tableView)
+        TradeItBundleProvider.registerYahooNibCells(forTableView: self.tableView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -562,15 +562,6 @@ class TradeItYahooCryptoTradingTicketViewController:
         case marginType
         case estimatedCost
 
-        private enum CellReuseId: String {
-            case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
-            case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
-            case numericToggleInput = "TRADING_TICKET_NUMERIC_TOGGLE_INPUT_CELL_ID"
-            case selection = "TRADING_TICKET_SELECTION_CELL_ID"
-            case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
-            case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
-        }
-
         var cellReuseId: String {
             var cellReuseId: CellReuseId
 
@@ -609,35 +600,6 @@ class TradeItYahooCryptoTradingTicketViewController:
             case .account: return "Account"
             case .marginType: return "Type"
             }
-        }
-
-        static func registerNibCells(forTableView tableView: UITableView) {
-            let bundle = TradeItBundleProvider.provide()
-
-            tableView.register(
-                UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.selectionDetail.rawValue
-            )
-            tableView.register(
-                UINib(nibName: "YahooReadOnlyTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.readOnly.rawValue
-            )
-            tableView.register(
-                UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.numericInput.rawValue
-            )
-            tableView.register(
-                UINib(nibName: "YahooNumericToggleInputTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.numericToggleInput.rawValue
-            )
-            tableView.register(
-                UINib(nibName: "YahooSelectionTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.selection.rawValue
-            )
-            tableView.register(
-                UINib(nibName: "YahooMarketDataTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.marketData.rawValue
-            )
         }
     }
 }

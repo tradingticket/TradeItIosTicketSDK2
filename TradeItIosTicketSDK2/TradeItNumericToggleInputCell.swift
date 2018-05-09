@@ -21,7 +21,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.onValueUpdated = onValueUpdated
         self.onQuantityTypeToggled = onQuantityTypeToggled
         self.textField.isPrice = isPrice
-//        self.configureQuantityType(placeholderText: placeholderText, buttonText: buttonText)
 
         if let initialValue = initialValue,
             initialValue != NSDecimalNumber.notANumber,

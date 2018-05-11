@@ -17,8 +17,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
     }
 
     func generateCellData() -> [PreviewCellData] {
-        guard let orderDetails = previewOrderResult.orderDetails
-            else { return [] }
+        let orderDetails = previewOrderResult.orderDetails
 
         var cells = [PreviewCellData]()
 
@@ -41,13 +40,13 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderPair),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity ?? 0.0)), // TODO: Fix default
-            ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Fix default
+            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
+            ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Figure out optionality here
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
-            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel ?? "Commission", value: self.formatCurrency(estimatedOrderCommission)))
+            cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))
         }
 
         if let estimatedTotalValue = orderDetails.estimatedTotalValue {
@@ -66,7 +65,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
     // MARK: Private
 
     private func generateMessageCellData() -> [PreviewCellData] {
-        guard let messages = previewOrderResult.orderDetails?.warnings else { return [] }
+        guard let messages = previewOrderResult.orderDetails.warnings else { return [] }
         return messages.map(MessageCellData.init)
     }
 

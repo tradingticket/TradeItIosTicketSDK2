@@ -215,9 +215,7 @@
         previewOrderResult: TradeItCryptoPreviewTradeResult
     ) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onSecurityQuestion, onFailure in
-            guard let orderId = previewOrderResult.orderId
-                else { return onFailure(TradeItErrorResult.tradeError(withSystemMessage: "Error placing order. No orderId was provided.")) }
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: orderId)
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
             let placeResponseHandler = YCombinator { handler in
                 { (result: TradeItResult?) in
                     switch result {

@@ -30,7 +30,7 @@ extension TradeService {
         _ data: Self.PreviewTradeRequest,
         onSuccess: @escaping (Self.PreviewTradeResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) {
+    ) {
         data.token = self.session.token
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -55,7 +55,7 @@ extension TradeService {
     func placeTrade(
         _ data: TradeItPlaceTradeRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
-        ) {
+    ) {
         data.token = self.session.token
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -86,7 +86,7 @@ extension TradeService {
     private func parsePlaceTradeResponse(
         _ placeTradeResult: TradeItResult,
         _ json: String?
-        ) -> TradeItResult {
+    ) -> TradeItResult {
         guard let json = json else { return TradeItErrorResult.error(withSystemMessage: "No data returned from server") }
 
         if let securityQuestionResult = placeTradeResult as? TradeItSecurityQuestionResult {
@@ -96,7 +96,7 @@ extension TradeService {
         } else if let placeTradeResult = TradeItResultTransformer.transform(
             targetClassType: Self.PlaceTradeResult.self,
             json: json
-            ) {
+        ) {
             return placeTradeResult
         } else {
             return TradeItErrorResult(

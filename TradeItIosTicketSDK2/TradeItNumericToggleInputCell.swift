@@ -37,6 +37,8 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     ) {
         self.textField.placeholder = "Enter \(quantitySymbol ?? "")"
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
+        self.textField.text = nil
+        self.onValueUpdated?(nil)
     }
 
     @objc func dismissKeyboard() {
@@ -85,8 +87,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     }
 
     @IBAction func quantityTypeToggled(_ sender: UIButton) {
-        self.textField.text = nil
-        self.onValueUpdated?(nil)
         self.onQuantityTypeToggled?()
     }
 }

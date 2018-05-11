@@ -427,11 +427,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    switch self.order.quantityType {
-                    case .some(.baseCurrency): self.order.quantityType = .quoteCurrency
-                    case .some(.quoteCurrency): self.order.quantityType = .baseCurrency
-                    default: self.order.quantityType = .baseCurrency
-                    }
+                    let supportedOrderQuantityTypes = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action)
+                    let currentIndex = supportedOrderQuantityTypes?.index(of: self.order.quantityType ?? supportedOrderQuantityTypes?.first ?? .baseCurrency) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % (supportedOrderQuantityTypes?.count ?? 1) // TODO: check for 0? How do we handle that?
+                    let nextOrderQuantityType = supportedOrderQuantityTypes?[nextIndex] ?? supportedOrderQuantityTypes?.first ?? .baseCurrency
+                    self.order.quantityType = nextOrderQuantityType
 
                     let quantitySymbol = self.order.quantitySymbol
                     cell?.configure(quantitySymbol: quantitySymbol)

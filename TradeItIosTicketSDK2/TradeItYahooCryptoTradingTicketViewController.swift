@@ -428,8 +428,13 @@ class TradeItYahooCryptoTradingTicketViewController:
                 },
                 onQuantityTypeToggled: {
                     let supportedOrderQuantityTypes = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action)
+
+                    guard let supportedOrderQuantityTypeCount = supportedOrderQuantityTypes?.count,
+                        supportedOrderQuantityTypeCount > 0
+                        else { return }
+
                     let currentIndex = supportedOrderQuantityTypes?.index(of: self.order.quantityType ?? supportedOrderQuantityTypes?.first ?? .baseCurrency) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % (supportedOrderQuantityTypes?.count ?? 1) // TODO: check for 0? How do we handle that?
+                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypeCount
                     let nextOrderQuantityType = supportedOrderQuantityTypes?[nextIndex] ?? supportedOrderQuantityTypes?.first ?? .baseCurrency
 
                     if self.order.quantityType != nextOrderQuantityType {
@@ -439,7 +444,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                         cell?.configure(quantitySymbol: quantitySymbol)
                     }
 
-                    // TODO: reload relevant rows
+                    // TODO: reload relevant rows?
                 }
             )
             let quantitySymbol = self.order.quantitySymbol

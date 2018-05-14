@@ -419,8 +419,8 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             let cell = cell as? TradeItNumericToggleInputCell
+            let quantitySymbol = self.order.quantitySymbol
             cell?.configure(
-                initialValue: self.order.quantity,
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
@@ -441,14 +441,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                         self.order.quantityType = nextOrderQuantityType
 
                         let quantitySymbol = self.order.quantitySymbol
-                        cell?.configure(quantitySymbol: quantitySymbol)
+                        cell?.configureQuantityType(quantitySymbol: quantitySymbol, quantity: nil)
                     }
-
-                    // TODO: reload relevant rows?
                 }
             )
-            let quantitySymbol = self.order.quantitySymbol
-            cell?.configure(quantitySymbol: quantitySymbol)
+            cell?.configureQuantityType(quantitySymbol: quantitySymbol, quantity: self.order.quantity)
         case .limitPrice:
             (cell as? TradeItNumericInputCell)?.configure(
                 initialValue: self.order.limitPrice,
@@ -469,7 +466,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
-            }
+                }
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }

@@ -13,7 +13,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     }
 
     func configure(
-        initialValue: NSDecimalNumber?,
         isPrice: Bool = false,
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
         onQuantityTypeToggled: @escaping () -> Void
@@ -21,24 +20,16 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.onValueUpdated = onValueUpdated
         self.onQuantityTypeToggled = onQuantityTypeToggled
         self.textField.isPrice = isPrice
-
-        if let initialValue = initialValue,
-            initialValue != NSDecimalNumber.notANumber,
-            initialValue.compare(NSDecimalNumber.zero) != ComparisonResult.orderedSame
-        {
-            self.textField.text = "\(initialValue)"
-        } else {
-            self.textField.text = ""
-        }
     }
 
-    func configure(
-        quantitySymbol: String?
+    func configureQuantityType(
+        quantitySymbol: String?,
+        quantity: NSDecimalNumber?
     ) {
         self.textField.placeholder = "Enter \(quantitySymbol ?? "")"
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
-        self.textField.text = nil
-        self.onValueUpdated?(nil)
+        self.textField.text = quantity?.stringValue
+        self.onValueUpdated?(quantity)
     }
 
     @objc func dismissKeyboard() {

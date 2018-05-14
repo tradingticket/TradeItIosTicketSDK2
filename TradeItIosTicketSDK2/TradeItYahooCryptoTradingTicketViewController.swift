@@ -487,7 +487,8 @@ class TradeItYahooCryptoTradingTicketViewController:
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency)
+                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency
+                )
             }
 
             cell.detailTextLabel?.text = estimateChangeText
@@ -529,7 +530,7 @@ class TradeItYahooCryptoTradingTicketViewController:
 
         let positionMatchingSymbol = positions.filter { portfolioPosition in
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
-            }.first
+        }.first
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
         return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)

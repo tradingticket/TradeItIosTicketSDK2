@@ -447,9 +447,8 @@ class TradeItYahooCryptoTradingTicketViewController:
             )
             cell?.configureQuantityType(quantitySymbol: quantitySymbol, quantity: self.order.quantity)
         case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
@@ -457,17 +456,17 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(quantitySymbol: self.order.quoteSymbol, quantity: self.order.limitPrice)
         case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setReviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(quantitySymbol: self.order.quoteSymbol, quantity: self.order.stopPrice)
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
@@ -574,10 +573,8 @@ class TradeItYahooCryptoTradingTicketViewController:
                 cellReuseId = .selection
             case .estimatedCost:
                 cellReuseId = .readOnly
-            case .quantity:
+            case .quantity, .limitPrice, .stopPrice:
                 cellReuseId = .numericToggleInput
-            case .limitPrice, .stopPrice:
-                cellReuseId = .numericInput
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:

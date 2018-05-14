@@ -15,7 +15,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     func configure(
         isPrice: Bool = false,
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
-        onQuantityTypeToggled: @escaping () -> Void
+        onQuantityTypeToggled: (() -> Void)? = nil
     ) {
         self.onValueUpdated = onValueUpdated
         self.onQuantityTypeToggled = onQuantityTypeToggled

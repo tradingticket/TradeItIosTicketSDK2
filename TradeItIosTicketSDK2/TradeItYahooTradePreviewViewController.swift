@@ -48,7 +48,6 @@ class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITabl
         updatePlaceOrderButtonStatus()
     }
 
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.fireViewEventNotification(view: .preview, title: self.title)

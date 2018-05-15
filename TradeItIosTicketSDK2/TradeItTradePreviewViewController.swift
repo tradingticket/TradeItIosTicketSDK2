@@ -27,6 +27,14 @@ internal class ValueCellData: PreviewCellData {
     }
 }
 
+internal class BrandedAccountNameCellData: PreviewCellData {
+    let linkedBroker: TradeItLinkedBrokerAccount
+
+    init(linkedBroker: TradeItLinkedBrokerAccount) {
+        self.linkedBroker = linkedBroker
+    }
+}
+
 class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, PreviewMessageDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
@@ -54,11 +62,8 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         
         updatePlaceOrderButtonStatus()
 
-        let bundle = TradeItBundleProvider.provide()
-        orderDetailsTable.register(
-            UINib(nibName: "TradeItPreviewMessageTableViewCell", bundle: bundle),
-            forCellReuseIdentifier: "PREVIEW_MESSAGE_CELL_ID"
-        )
+        TradeItBundleProvider.registerPreviewMessageNibCells(forTableView: orderDetailsTable)
+        TradeItBundleProvider.registerBrandedAccountNibCells(forTableView: orderDetailsTable)
 
         TradeItSDK.adService.populate(
             adContainer: adContainer,
@@ -130,6 +135,10 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
             let cell = tableView.dequeueReusableCell(withIdentifier: "PREVIEW_ORDER_VALUE_CELL_ID") as! TradeItPreviewOrderValueTableViewCell
             cell.populate(withLabel: valueCellData.label, andValue: valueCellData.value)
             return cell
+        case let accountNameCellData as BrandedAccountNameCellData:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as! TradeItPreviewBrandedAccountNameCell
+            cell.populate(linkedBroker: accountNameCellData.linkedBroker)
+            return cell
         default:
             return UITableViewCell()
         }
@@ -180,13 +189,17 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     private func generatePreviewCellData() -> [PreviewCellData] {
         guard let orderDetails = previewOrderResult?.orderDetails else { return [] }
 
-        var cells: [PreviewCellData] = generateMessageCellData()
+        var cells: [PreviewCellData] = [
+            BrandedAccountNameCellData(linkedBroker: self.linkedBrokerAccount),
+        ]
+        
+        cells += generateMessageCellData()
 
         let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
-            ValueCellData(label: "Quantity", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
+            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]

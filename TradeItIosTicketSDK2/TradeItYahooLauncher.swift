@@ -10,7 +10,9 @@ import SafariServices
     private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
     private let alertManager = TradeItAlertManager()
     
-    override internal init() {}
+    override internal init() {
+        TradeItSDK.uiConfigService.isEnabled = false
+    }
     
     @objc public func launchOAuth(fromViewController viewController: UIViewController) {
         self.launchOAuth(

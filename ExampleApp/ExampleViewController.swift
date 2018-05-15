@@ -13,12 +13,14 @@ class Action {
     init(
         label: String,
         action: @escaping () -> Void,
-        oAuthCallbackUrl: String = "tradeItExampleScheme://completeOAuth"
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeOAuth",
+        isUiConfigServiceEnabled: Bool = true
     ) {
         self.label = label
         self.action = {
             TradeItSDK.oAuthCallbackUrl = URL(string: oAuthCallbackUrl)!
             action()
+            TradeItSDK.uiConfigService.isEnabled = isUiConfigServiceEnabled
         }
     }
 }
@@ -27,12 +29,14 @@ class YahooAction: Action {
     override init(
         label: String,
         action: @escaping () -> Void,
-        oAuthCallbackUrl: String = "tradeItExampleScheme://completeYahooOAuth"
+        oAuthCallbackUrl: String = "tradeItExampleScheme://completeYahooOAuth",
+        isUiConfigServiceEnabled: Bool = false
     ) {
         super.init(
             label: label,
             action: action,
-            oAuthCallbackUrl: oAuthCallbackUrl
+            oAuthCallbackUrl: oAuthCallbackUrl,
+            isUiConfigServiceEnabled: isUiConfigServiceEnabled
         )
     }
 }

@@ -18,7 +18,9 @@ protocol OAuthCompletionListener {
     static var accountSelectionCallback: ((TradeItLinkedBrokerAccount) -> Void)? // Ew, gross. No other way to do this.
     static var accountSelectionTitle: String? // Ew, gross. No other way to do this.
 
-    override internal init() {}
+    override internal init() {
+        TradeItSDK.uiConfigService.isEnabled = true
+    }
 
     @objc public func handleOAuthCallback(
         onTopmostViewController topMostViewController: UIViewController,

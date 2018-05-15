@@ -1,16 +1,22 @@
 # Changelog
-
 ## [2.0.7]
 ### Changed
 - Added @objc annotation to public interface
 
+## [1.1.44]
+### Added
+- Added broker branding to TradeIt screens
+
+### Changed
+- Fixed issue with ExampleApp deep linking in Xcode 9.3 
+
 ## [1.1.43]
-###Changed
+### Changed
 - Fix crashing when account is unlinked
 - Update TradeItPosition: added new fields currency, exchange, todayGainLossAbsolute, totalGainLossAbsolute. Marked todayGainLossDollar and totalGainLossDollar as deprecated.
 
 ## [1.1.42]
-##Changed
+### Changed
 - Update relinking method
 
 ## [1.1.41]
@@ -20,7 +26,6 @@
 ### Changed
 
 ### Removed
-
 
 ## [1.1.40]
 ### Added

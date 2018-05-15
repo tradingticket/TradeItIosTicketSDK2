@@ -15,7 +15,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
             }
         }
     }
-    private static let HEADER_HEIGHT = CGFloat(30)
+    private static let HEADER_HEIGHT = CGFloat(40)
     private static let CELL_HEIGHT = CGFloat(65)
     var transactionHistoryResultPresenter: TransactionHistoryResultPresenter?
     private var linkedBrokerAccount: TradeItLinkedBrokerAccount
@@ -28,7 +28,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func updateTransactionHistoryResult(_ transactionHistoryResult: TradeItTransactionsHistoryResult) {
-        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, accountBaseCurrency: self.linkedBrokerAccount.accountBaseCurrency)
+        self.transactionHistoryResultPresenter = TransactionHistoryResultPresenter(transactionHistoryResult, linkedBrokerAccount: self.linkedBrokerAccount)
         if let transactions = transactionHistoryResult.transactionHistoryDetailsList, !transactions.isEmpty {
             self.transactionsTable?.backgroundView =  nil
         } else {
@@ -66,7 +66,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         guard let transactions = self.transactionHistoryResultPresenter?.transactionsFiltered, transactions.count > 0 else {
             return 0
         }
-        return 1
+        return 2
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -78,7 +78,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.transactionHistoryResultPresenter?.header(forTableView: tableView)
+        return self.transactionHistoryResultPresenter?.header(forTableView: tableView, isAccountInfoSection: isAccountInfoSection(section))
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -86,14 +86,26 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isAccountInfoSection(section) {
+            return 0
+        }
+
         return self.transactionHistoryResultPresenter?.numberOfRows() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return self.transactionHistoryResultPresenter?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
+        if isAccountInfoSection(indexPath.section) {
+            return UITableViewCell()
+        } else {
+            return self.transactionHistoryResultPresenter?.cell(forTableView: tableView, andRow: indexPath.row) ?? UITableViewCell()
+        }
     }
     
     // MARK: private
+    private func isAccountInfoSection(_ section: Int) -> Bool {
+        return section == 0
+    }
+
     private func addRefreshControl(toTableView tableView: UITableView) {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
@@ -113,13 +125,18 @@ class TransactionHistoryResultPresenter {
     private var transactions: [TradeItTransaction]
     var transactionsFiltered: [TradeItTransaction]
     private var numberOfDays: Int
-    private var accountBaseCurrency: String
     private var filterType: TransactionFilterType = TransactionFilterType.ALL_TRANSACTIONS
+    private var accountBaseCurrency: String {
+        get {
+            return linkedBrokerAccount.accountBaseCurrency
+        }
+    }
+    private let linkedBrokerAccount: TradeItLinkedBrokerAccount
 
-    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, accountBaseCurrency: String) {
+    init(_ transactionHistoryResult: TradeItTransactionsHistoryResult, linkedBrokerAccount: TradeItLinkedBrokerAccount) {
         self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
         self.transactionsFiltered = self.transactions
-        self.accountBaseCurrency = accountBaseCurrency
+        self.linkedBrokerAccount = linkedBrokerAccount
         self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
     }
 
@@ -136,12 +153,22 @@ class TransactionHistoryResultPresenter {
         return cell
     }
 
-    func header(forTableView tableView: UITableView) -> UIView? {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_HEADER_ID") as? TradeItTransactionTableViewHeader else {
-            return UITableViewCell()
+    func header(forTableView tableView: UITableView, isAccountInfoSection: Bool) -> UIView? {
+        if isAccountInfoSection {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "BRANDED_ACCOUNT_NAME_CELL_ID") as? TradeItPreviewBrandedAccountNameCell else {
+                return UITableViewCell()
+            }
+            cell.populate(linkedBroker: linkedBrokerAccount)
+            cell.backgroundColor = nil
+
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_TRANSACTION_HEADER_ID") as? TradeItTransactionTableViewHeader else {
+                return UITableViewCell()
+            }
+            cell.populate(numberOfDays: self.numberOfDays, filterType: self.filterType)
+            return cell
         }
-        cell.populate(numberOfDays: self.numberOfDays, filterType: self.filterType)
-        return cell
     }
 
     func filterTransactions(filterType: TransactionFilterType) {
@@ -152,9 +179,9 @@ class TransactionHistoryResultPresenter {
         return getTransactions(forFilterType: filterType).count
     }
 
-    private func getTransactions(forFilterType filterType: TransactionFilterType) -> [TradeItTransaction]{
+    private func getTransactions(forFilterType filterType: TransactionFilterType) -> [TradeItTransaction] {
         return self.transactions.filter {
-            TradeItTransactionPresenter($0, currencyCode: accountBaseCurrency).belongsToFilter(filter: filterType)
+            TradeItTransactionPresenter($0, currencyCode: self.accountBaseCurrency).belongsToFilter(filter: filterType)
         }
     }
 }

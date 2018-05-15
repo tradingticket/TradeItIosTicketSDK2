@@ -1,11 +1,12 @@
-class CryptoPreviewCellFactory: PreviewCellFactory {
+class CryptoPreviewCellFactory: TradingPreviewCellFactory {
+    typealias PreviewOrderResultType = TradeItCryptoPreviewTradeResult
     private let linkedBrokerAccount: TradeItLinkedBrokerAccount
     private let orderCapabilities: TradeItInstrumentOrderCapabilities?
     private let previewOrderResult: TradeItCryptoPreviewTradeResult
     var placeOrderResult: TradeItPlaceOrderResult?
     private weak var delegate: PreviewMessageDelegate?
 
-    init(
+    required init(
         previewMessageDelegate delegate: PreviewMessageDelegate,
         linkedBrokerAccount: TradeItLinkedBrokerAccount,
         previewOrderResult: TradeItCryptoPreviewTradeResult

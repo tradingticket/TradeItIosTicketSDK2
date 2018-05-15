@@ -1,6 +1,6 @@
 import PromiseKit
 
-private let LOG_TRAFFIC = false // Set to true to log requests/responses
+private let LOG_TRAFFIC = true // Set to true to log requests/responses
 
 internal extension TradeItConnector {
     func userToken(fromKeychainId keychainId: String) -> String? {

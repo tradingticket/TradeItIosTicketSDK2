@@ -7,10 +7,10 @@ class PreviewTableDataSource: NSObject, UITableViewDataSource {
         }
     }
     private var previewCellData: [PreviewCellData]
-    private var factory: PreviewCellFactory
+    private var factory: TradingPreviewCellFactory
     private weak var delegate: PreviewMessageDelegate?
 
-    init(delegate: PreviewMessageDelegate, factory: PreviewCellFactory) {
+    init(delegate: PreviewMessageDelegate, factory: TradingPreviewCellFactory) {
         self.delegate = delegate
         self.factory = factory
         self.previewCellData = factory.generateCellData()

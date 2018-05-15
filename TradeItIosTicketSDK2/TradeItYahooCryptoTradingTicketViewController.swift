@@ -606,15 +606,18 @@ class TradeItYahooCryptoTradingTicketViewController:
     }
 }
 
-protocol TradeItYahooCryptoTradingTicketViewControllerDelegate: class {
+protocol TradeItYahooTradingTicketViewControllerDelegate: class {
+    associatedtype PreviewTradeResultType: TradeItResult
+    associatedtype OrderType: NSObject
+
     func orderSuccessfullyPreviewed(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItCryptoPreviewTradeResult,
+        withPreviewOrderResult previewOrderResult: Self.PreviewTradeResultType,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     )
 
     func invalidAccountSelected(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
-        withOrder order: TradeItCryptoOrder
+        withOrder order: Self.OrderType
     )
 }

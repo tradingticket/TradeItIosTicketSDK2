@@ -1,14 +1,20 @@
+protocol Order {
+    var linkedBrokerAccount: { get }
+}
+
 protocol YahooTradingUIFlow:
-    TradeItYahooCryptoTradingTicketViewControllerDelegate,
+    TradeItYahooTradingTicketViewControllerDelegate,
     TradeItYahooAccountSelectionViewControllerDelegate,
     TradeItYahooTradePreviewViewControllerDelegate {
+    associatedtype TradingPreviewCellFactoryType: TradingPreviewCellFactory
+    associatedtype OrderType: Order
     var onViewPortfolioTappedHandler: OnViewPortfolioTappedHandler? { get set }
-    var order: TradeItCryptoOrder { get set }
+    var order: Self.OrderType { get set }
     var viewControllerProvider: TradeItViewControllerProvider { get }
 
     func presentTradingFlow(
         fromViewController viewController: UIViewController,
-        withOrder order: TradeItCryptoOrder,
+        withOrder order: Self.OrderType,
         onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
     )
 
@@ -43,7 +49,7 @@ protocol YahooTradingUIFlow:
 extension YahooTradingUIFlow {
     func presentTradingFlow(
         fromViewController viewController: UIViewController,
-        withOrder order: TradeItCryptoOrder = TradeItCryptoOrder(),
+        withOrder order: Self.OrderType = Self.OrderType.init(),
         onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
     ) {
         self.order = order
@@ -87,10 +93,11 @@ extension YahooTradingUIFlow {
             let linkedBrokerAccount = self.order.linkedBrokerAccount {
             previewViewController.delegate = self
             previewViewController.linkedBrokerAccount = linkedBrokerAccount
-            let factory = CryptoPreviewCellFactory(
+
+            let factory = Self.TradingPreviewCellFactoryType.init(
                 previewMessageDelegate: previewViewController,
                 linkedBrokerAccount: linkedBrokerAccount,
-                previewOrderResult: previewOrderResult
+                previewOrderResult: previewOrderResult// as TradeItResult // TODO: Fix
             )
             previewViewController.dataSource = PreviewTableDataSource(
                 delegate: previewViewController,
@@ -104,7 +111,7 @@ extension YahooTradingUIFlow {
 
     func invalidAccountSelected(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
-        withOrder order: TradeItCryptoOrder
+        withOrder order: Self.OrderType
     ) {
         guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(
             forStoryboardId: TradeItStoryboardID.yahooAccountSelectionView
@@ -137,7 +144,7 @@ extension YahooTradingUIFlow {
 
     // MARK: Private
 
-    private func initializeLinkedAccount(forOrder order: TradeItCryptoOrder) {
+    private func initializeLinkedAccount(forOrder order: Self.OrderType) {
         if order.linkedBrokerAccount == nil {
             let enabledAccounts = TradeItSDK.linkedBrokerManager.getAllEnabledAccounts()
             if enabledAccounts.count == 1 {
@@ -146,7 +153,7 @@ extension YahooTradingUIFlow {
         }
     }
 
-    private func getInitialViewController(forOrder order: TradeItCryptoOrder) -> UIViewController {
+    private func getInitialViewController(forOrder order: Self.OrderType) -> UIViewController {
         var initialStoryboardId: TradeItStoryboardID!
 
         self.initializeLinkedAccount(forOrder: order)

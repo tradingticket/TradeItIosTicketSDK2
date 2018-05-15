@@ -1,11 +1,12 @@
-class EquityPreviewCellFactory: PreviewCellFactory {
+class EquityPreviewCellFactory: TradingPreviewCellFactory {
+    typealias PreviewOrderResultType = TradeItPreviewOrderResult
     private let linkedBrokerAccount: TradeItLinkedBrokerAccount
     private let orderCapabilities: TradeItInstrumentOrderCapabilities?
     private let previewOrderResult: TradeItPreviewOrderResult
     var placeOrderResult: TradeItPlaceOrderResult?
     private weak var delegate: PreviewMessageDelegate?
 
-    init(
+    required init(
         previewMessageDelegate delegate: PreviewMessageDelegate,
         linkedBrokerAccount: TradeItLinkedBrokerAccount,
         previewOrderResult: TradeItPreviewOrderResult

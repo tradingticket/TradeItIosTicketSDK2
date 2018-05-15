@@ -6,7 +6,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
-    @objc public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
+    weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
 
     internal var order = TradeItOrder()
 
@@ -577,17 +577,4 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             }
         }
     }
-}
-
-@objc protocol TradeItYahooTradingTicketViewControllerDelegate {
-    func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
-        placeOrderCallback: @escaping TradeItPlaceOrderHandlers
-    )
-
-    func invalidAccountSelected(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
-        withOrder order: TradeItOrder
-    )
 }

@@ -502,8 +502,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText(),
-                altTitleText: ticketRow.getTitle(forOrder: self.order),
-                isBrandingEnabled: false
+                altTitleText: ticketRow.getTitle(forOrder: self.order)
             )
         }
 

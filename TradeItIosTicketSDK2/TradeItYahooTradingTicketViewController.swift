@@ -288,7 +288,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     )
                     return
                 }
-                self.equityOrderCapabilities = equityOrderCapabilities
+                self.equityOrderCapabilities = instrumentOrderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()

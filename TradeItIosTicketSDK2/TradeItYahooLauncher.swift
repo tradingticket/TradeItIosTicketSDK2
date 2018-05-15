@@ -118,6 +118,26 @@ import SafariServices
             }
         )
     }
+
+    @objc public func launchCryptoTrading(
+        fromViewController viewController: UIViewController,
+        withOrder order: TradeItCryptoOrder,
+        onViewPortfolioTappedHandler: @escaping OnViewPortfolioTappedHandler
+    ) {
+        deviceManager.authenticateUserWithTouchId(
+            onSuccess: {
+                print("Access granted")
+                self.cryptoTradingUIFlow.presentTradingFlow(
+                    fromViewController: viewController,
+                    withOrder: order,
+                    onViewPortfolioTappedHandler: onViewPortfolioTappedHandler
+                )
+            },
+            onFailure: {
+                print("Access denied")
+            }
+        )
+    }
     
     @objc public func launchAuthentication(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,

@@ -112,7 +112,9 @@ class TradeItYahooAccountSelectionViewController: TradeItYahooViewController, Tr
     }
 }
 
-@objc protocol TradeItYahooAccountSelectionViewControllerDelegate {
-    func accountSelectionViewController(_ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
-                                        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount)
+protocol TradeItYahooAccountSelectionViewControllerDelegate: class {
+    func accountSelectionViewController(
+        _ accountSelectionViewController: TradeItYahooAccountSelectionViewController,
+        didSelectLinkedBrokerAccount linkedBrokerAccount: TradeItLinkedBrokerAccount
+    )
 }

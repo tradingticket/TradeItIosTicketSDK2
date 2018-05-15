@@ -606,7 +606,7 @@ class TradeItYahooCryptoTradingTicketViewController:
     }
 }
 
-@objc protocol TradeItYahooCryptoTradingTicketViewControllerDelegate {
+protocol TradeItYahooCryptoTradingTicketViewControllerDelegate: class {
     func orderSuccessfullyPreviewed(
         onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItCryptoPreviewTradeResult,

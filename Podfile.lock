@@ -23,7 +23,7 @@ DEPENDENCIES:
   - Quick (~> 0.10.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - BEMCheckBox
     - JSONModel
     - MBProgressHUD
@@ -41,4 +41,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: aff26f4abf7e983ef8c938a52b3ca27cf218b3d3
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

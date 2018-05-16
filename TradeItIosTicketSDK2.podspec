@@ -2,6 +2,7 @@ Pod::Spec.new do |s|
   s.name             = 'TradeItIosTicketSDK2'
   s.version          = '2.0.7'
   s.summary          = 'Trade It iOS Ticket SDK 2'
+  s.static_framework = true
 
   s.description      = <<-DESC
   The Trade It iOS Ticket SDK to integrate live trading, portfolio and account management in to an app.
@@ -25,7 +26,7 @@ Pod::Spec.new do |s|
   }
 
   s.frameworks = 'UIKit'
-  s.dependency 'PromiseKit', '~> 4.0'
+  s.dependency 'PromiseKit', '~> 6.0'
   s.dependency 'MBProgressHUD', '~> 1.0.0'
   s.dependency 'JSONModel', '~> 1.7.0'
   s.dependency 'BEMCheckBox', '~> 1.4.1'

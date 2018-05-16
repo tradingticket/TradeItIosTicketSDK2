@@ -8,7 +8,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     var onQuantityTypeToggled: (() -> Void)?
 
     override func awakeFromNib() {
-        self.textField.padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         self.addDoneButtonToKeyboard()
     }
 

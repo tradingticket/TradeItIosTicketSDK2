@@ -1,6 +1,13 @@
 import UIKit
 import SafariServices
 
+@objc public protocol YahooLauncherDelegate {
+
+    func yahooLauncherDidSelectLearnMore(
+        fromViewController viewController: UIViewController
+    )
+}
+
 @objc public class TradeItYahooLauncher: NSObject {
     private let yahooViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
     private let tradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeIt")
@@ -9,7 +16,9 @@ import SafariServices
     private let oAuthCompletionUIFlow = TradeItYahooOAuthCompletionUIFlow()
     private let linkBrokerUIFlow = TradeItYahooLinkBrokerUIFlow()
     private let alertManager = TradeItAlertManager()
-    
+
+    weak var delegate: YahooLauncherDelegate?
+
     override internal init() {
         TradeItSDK.uiConfigService.isEnabled = false
     }
@@ -17,18 +26,21 @@ import SafariServices
     @objc public func launchOAuth(fromViewController viewController: UIViewController) {
         self.launchOAuth(
             fromViewController: viewController,
-            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl
+            oAuthCallbackUrl: TradeItSDK.oAuthCallbackUrl,
+            delegate: nil
         )
     }
 
     @objc public func launchOAuth(
         fromViewController viewController: UIViewController,
-        oAuthCallbackUrl: URL
+        oAuthCallbackUrl: URL,
+        delegate: YahooLauncherDelegate?
     ) {
         self.linkBrokerUIFlow.presentLinkBrokerFlow(
             fromViewController: viewController,
             showWelcomeScreen: false,
-            oAuthCallbackUrl: oAuthCallbackUrl
+            oAuthCallbackUrl: oAuthCallbackUrl,
+            delegate: delegate
         )
     }
 

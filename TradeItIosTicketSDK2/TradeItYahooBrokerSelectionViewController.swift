@@ -11,6 +11,8 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     private var featuredBrokers: [TradeItBroker] = []
     internal var oAuthCallbackUrl: URL?
 
+    weak var delegate: YahooLauncherDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +31,10 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.fireViewEventNotification(view: .selectBroker, title: self.title)
+    }
+
+    @IBAction func learnMoreTapped(sender: UIButton) {
+        delegate?.yahooLauncherDidSelectLearnMore(fromViewController: self)
     }
 
     // MARK: Private

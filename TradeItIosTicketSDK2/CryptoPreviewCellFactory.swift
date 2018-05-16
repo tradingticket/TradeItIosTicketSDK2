@@ -40,8 +40,11 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderPair),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
-            ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Figure out optionality here
+            ValueCellData(
+                label: labelForQuantity(symbolPair: orderDetails.orderPair, orderQuantityTypeString: orderDetails.orderQuantityType),
+                value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)
+            ),
+            ValueCellData(label: "Price", value: NumberFormatter.formatQuantity(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Figure out optionality here
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
 
@@ -63,6 +66,29 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
     }
 
     // MARK: Private
+
+    private func labelForQuantity(symbolPair: String, orderQuantityTypeString: String) -> String {
+        if let symbol = symbolFor(symbolPair: symbolPair, orderQuantityTypeString: orderQuantityTypeString) {
+            return "Amount in \(symbol)"
+        } else {
+            return "Amount"
+        }
+    }
+
+    private func symbolFor(symbolPair: String, orderQuantityTypeString: String) -> String? {
+        let symbolPair = symbolPair.split(separator: "/")
+        guard let quantityType = OrderQuantityType.init(rawValue: orderQuantityTypeString),
+            let baseSymbol = symbolPair.first,
+            let quoteSymbol = symbolPair.last,
+            symbolPair.count == 2
+            else { return nil }
+
+        switch quantityType {
+        case .baseCurrency: return String(baseSymbol)
+        case .quoteCurrency: return String(quoteSymbol)
+        default: return nil
+        }
+    }
 
     private func generateMessageCellData() -> [PreviewCellData] {
         guard let messages = previewOrderResult.orderDetails.warnings else { return [] }

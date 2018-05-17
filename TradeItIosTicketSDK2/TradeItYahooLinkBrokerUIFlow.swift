@@ -49,14 +49,15 @@ import SafariServices
         showOpenAccountButton: Bool = true,
         oAuthCallbackUrl: URL,
         delegate: YahooLauncherDelegate?
-        ) {
+    ) {
         self.delegate = delegate
 
-        self .presentLinkBrokerFlow(
+        self.presentLinkBrokerFlow(
             fromViewController: viewController,
             showWelcomeScreen: showWelcomeScreen,
             showOpenAccountButton: showOpenAccountButton,
-            oAuthCallbackUrl: oAuthCallbackUrl)
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     func presentLinkBrokerFlow(

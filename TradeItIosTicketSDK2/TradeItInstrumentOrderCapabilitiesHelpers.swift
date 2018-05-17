@@ -34,7 +34,7 @@ extension TradeItInstrumentOrderCapabilities {
     func supportedOrderQuantityTypesFor(action: TradeItOrderAction) -> [OrderQuantityType] {
         let capabilities = capabilitiesFor(field: .actions) as? [TradeItInstrumentActionCapability] ?? []
         let capability = capabilities.first { $0.value == action.rawValue } ?? capabilities.first
-        return capability?.supportedOrderQuantityTypes.flatMap(OrderQuantityType.init) ?? []
+        return capability?.supportedOrderQuantityTypes.compactMap(OrderQuantityType.init) ?? []
     }
 
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {

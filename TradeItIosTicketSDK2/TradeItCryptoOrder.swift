@@ -117,8 +117,8 @@
 
     public func estimatedChange() -> NSDecimalNumber? {
         var optionalPrice: NSDecimalNumber?
-        let type = self.type
-        switch type {
+
+        switch self.type {
         case .market: optionalPrice = quoteLastPrice
         case .limit: optionalPrice = limitPrice
         case .stopLimit: optionalPrice = limitPrice
@@ -126,10 +126,20 @@
         case .unknown: optionalPrice = 0.0
         }
 
-        guard let quantity = quantity , quantity != NSDecimalNumber.notANumber else { return nil }
-        guard let price = optionalPrice , price != NSDecimalNumber.notANumber else { return nil }
+        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber,
+            let quantityType = quantityType
+            else { return nil }
 
-        return price.multiplying(by: quantity)
+        switch quantityType {
+        case .quoteCurrency: return quantity
+        case .baseCurrency:
+            if let price = optionalPrice, price != NSDecimalNumber.notANumber {
+                return price.multiplying(by: quantity)
+            } else {
+                return nil
+            }
+        default: return nil
+        }
     }
 
     func preview(
@@ -163,10 +173,10 @@
                         previewOrderResult: result
                     )
                 )
-        }, onFailure: { error in
-            linkedBrokerAccount.linkedBroker?.error = error
-            onFailure(error)
-        }
+            }, onFailure: { error in
+                linkedBrokerAccount.linkedBroker?.error = error
+                onFailure(error)
+            }
         )
     }
 

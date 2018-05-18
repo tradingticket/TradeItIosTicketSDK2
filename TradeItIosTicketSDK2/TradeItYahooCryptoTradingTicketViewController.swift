@@ -343,7 +343,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.quote = nil
         self.order.quoteLastPrice = nil
         self.reload(row: .marketPrice)
-        self.reload(row: .estimatedCost)
+        self.reload(row: .estimatedChange)
     }
 
     private func updateMarketData() {
@@ -354,11 +354,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.quote = quote
                     self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
                     self.reload(row: .marketPrice)
-                    self.reload(row: .estimatedCost)
-            },
+                    self.reload(row: .estimatedChange)
+                },
                 onFailure: { error in
                     self.clearMarketData()
-            }
+                }
             )
         } else {
             self.clearMarketData()
@@ -391,7 +391,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             ticketRows.append(.marginType)
         }
 
-        ticketRows.append(.estimatedCost)
+        ticketRows.append(.estimatedChange)
 
         self.ticketRows = ticketRows
 
@@ -423,7 +423,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
@@ -452,7 +452,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -462,7 +462,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -481,17 +481,14 @@ class TradeItYahooCryptoTradingTicketViewController:
             )
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
-        case .estimatedCost:
-            var estimateChangeText = "N/A"
+        case .estimatedChange:
+            var estimatedChangeText = "N/A"
 
             if let estimatedChange = order.estimatedChange() {
-                estimateChangeText = NumberFormatter.formatCurrency(
-                    estimatedChange,
-                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency
-                )
+                estimatedChangeText = NumberFormatter.formatQuantity(estimatedChange)
             }
 
-            cell.detailTextLabel?.text = estimateChangeText
+            cell.detailTextLabel?.text = estimatedChangeText
         case .orderType:
             cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
@@ -563,7 +560,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         case stopPrice
         case marketPrice
         case marginType
-        case estimatedCost
+        case estimatedChange
 
         var cellReuseId: String {
             var cellReuseId: CellReuseId
@@ -571,7 +568,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             switch self {
             case .orderAction, .orderType, .expiration, .marginType:
                 cellReuseId = .selection
-            case .estimatedCost:
+            case .estimatedChange:
                 cellReuseId = .readOnly
             case .quantity, .limitPrice, .stopPrice:
                 cellReuseId = .numericToggleInput
@@ -587,11 +584,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         func getTitle(forOrder order: TradeItCryptoOrder) -> String {
             switch self {
             case .orderAction: return "Action"
-            case .estimatedCost:
-                let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let action = order.action
-                let title = "Estimated \(sellActions.contains(action) ? "proceeds" : "cost")"
-                return title
+            case .estimatedChange: return "Estimated \(order.quantitySymbol ?? "")"
             case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"

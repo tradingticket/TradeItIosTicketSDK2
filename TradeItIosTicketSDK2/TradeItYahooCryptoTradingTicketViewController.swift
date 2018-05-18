@@ -590,7 +590,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             case .estimatedCost:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
                 let action = order.action
-                let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
+                let title = "Estimated \(sellActions.contains(action) ? "proceeds" : "cost")"
                 return title
             case .quantity: return "Amount"
             case .limitPrice: return "Limit"

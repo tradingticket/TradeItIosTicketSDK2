@@ -43,10 +43,16 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
             ValueCellData(
                 label: labelForQuantity(symbolPair: orderDetails.orderPair, orderQuantityTypeString: orderDetails.orderQuantityType),
                 value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)
-            ),
-            ValueCellData(label: "Price", value: NumberFormatter.formatQuantity(orderDetails.estimatedOrderValue ?? 0.0)), // TODO: Figure out optionality here
-            ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
-        ] as [PreviewCellData]
+            )
+        ]
+
+        if let estimatedOrderValue = orderDetails.estimatedOrderValue {
+            cells.append(
+                ValueCellData(label: "Price", value: NumberFormatter.formatCurrency(estimatedOrderValue))
+            )
+        }
+
+        cells.append(ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel()))
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {
             cells.append(ValueCellData(label: orderDetails.orderCommissionLabel, value: self.formatCurrency(estimatedOrderCommission)))

@@ -58,7 +58,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
 
         if let accountSelectionViewController = initialViewController as? TradeItYahooAccountSelectionViewController {
             accountSelectionViewController.delegate = self
-        } else if let tradingTicketViewController = initialViewController as? TradeItYahooTradingTicketViewController {
+        } else if let tradingTicketViewController = initialViewController as? TradeItYahooEquityTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
         }
@@ -74,7 +74,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
 
-        if let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingTicketView) as? TradeItYahooTradingTicketViewController {
+        if let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingTicketView) as? TradeItYahooEquityTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
             accountSelectionViewController.navigationController?.setViewControllers([tradingTicketViewController], animated: true)
@@ -84,7 +84,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
     // MARK: TradeItYahooTradingTicketViewControllerDelegate
 
     internal func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooEquityTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     ) {
@@ -110,7 +110,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
     }
 
     internal func invalidAccountSelected(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooEquityTradingTicketViewController,
         withOrder order: TradeItOrder
     ) {
         guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(

@@ -418,6 +418,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         case .orderAction:
             cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
+            guard let instrumentOrderCapabilities = self.instrumentOrderCapabilities else { return UITableViewCell() }
             let cell = cell as? TradeItNumericToggleInputCell
             let quantitySymbol = self.order.quantitySymbol
             cell?.configure(
@@ -427,15 +428,14 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    let supportedOrderQuantityTypes = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action)
+                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
 
-                    guard let supportedOrderQuantityTypeCount = supportedOrderQuantityTypes?.count,
-                        supportedOrderQuantityTypeCount > 0
+                    guard supportedOrderQuantityTypes.count > 0
                         else { return }
 
-                    let currentIndex = supportedOrderQuantityTypes?.index(of: self.order.quantityType ?? supportedOrderQuantityTypes?.first ?? .baseCurrency) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypeCount
-                    let nextOrderQuantityType = supportedOrderQuantityTypes?[nextIndex] ?? supportedOrderQuantityTypes?.first ?? .baseCurrency
+                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = supportedOrderQuantityTypes[safe: nextIndex] ?? supportedOrderQuantityTypes.first ?? .baseCurrency
 
                     if self.order.quantityType != nextOrderQuantityType {
                         self.order.quantityType = nextOrderQuantityType
@@ -445,7 +445,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                         cell?.configureQuantityType(
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
-                            maxDecimalPlaces: self.instrumentOrderCapabilities?.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType) ?? 0
+                            maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
 )
                     }
                 }
@@ -453,7 +453,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
                 quantity: self.order.quantity,
-                maxDecimalPlaces: self.instrumentOrderCapabilities?.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType) ?? 0
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
             )
         case .limitPrice:
             let cell = cell as? TradeItNumericToggleInputCell

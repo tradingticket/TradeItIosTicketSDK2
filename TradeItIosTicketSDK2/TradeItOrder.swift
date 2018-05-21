@@ -59,17 +59,14 @@ public typealias TradeItPlaceOrderHandlers = (
     }
 
     @objc public func requiresLimitPrice() -> Bool {
-        let type = self.type
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
     @objc public func requiresStopPrice() -> Bool {
-        let type = self.type
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
     @objc public func requiresExpiration() -> Bool {
-        let type = self.type
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
     

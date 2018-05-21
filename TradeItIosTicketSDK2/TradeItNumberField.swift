@@ -62,6 +62,8 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
     ) -> Bool {
         if string == "" { return true }
 
+        if string == "." && maxDecimalPlaces == 0 { return false }
+
         let currentText: NSString = textField.text as NSString? ?? ""
         let resultText = currentText.replacingCharacters(in: range, with: string)
         let components = resultText.components(separatedBy: CharacterSet(charactersIn: ",."))

@@ -17,7 +17,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
-    private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
     
     private var ticketRows = [TicketRow]()
 
@@ -255,7 +255,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -273,7 +273,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                guard let instrumentOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                guard let orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
                     self.alertManager.showAlertWithMessageOnly(
                         onViewController: self,
                         withTitle: "Unsupported Account",
@@ -288,7 +288,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     )
                     return
                 }
-                self.equityOrderCapabilities = instrumentOrderCapabilities
+                self.orderCapabilities = orderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -316,9 +316,10 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
 
     
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.equityOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.equityOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.equityOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
+        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.quantityType = self.orderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action).first
         self.order.userDisabledMargin = false
     }
 
@@ -335,7 +336,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         self.quote = nil
         self.order.quoteLastPrice = nil
         self.reload(row: .marketPrice)
-        self.reload(row: .estimatedCost)
+        self.reload(row: .estimatedChange)
     }
 
     private func updateMarketData() {
@@ -346,7 +347,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     self.quote = quote
                     self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
                     self.reload(row: .marketPrice)
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                 },
                 onFailure: { error in
                     self.clearMarketData()
@@ -383,7 +384,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             ticketRows.append(.marginType)
         }
         
-        ticketRows.append(.estimatedCost)
+        ticketRows.append(.estimatedChange)
 
         self.ticketRows = ticketRows
         
@@ -406,18 +407,46 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
 
+        guard let orderCapabilities = self.orderCapabilities else { return cell }
+
         switch ticketRow {
         case .orderAction:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
+            cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.quantity,
-                placeholderText: "Enter shares",
+            let cell = cell as? TradeItNumericToggleInputCell
+            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "$"
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
+                },
+                onQuantityTypeToggled: {
+                    let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
+
+                    guard supportedOrderQuantityTypes.count > 0 else { return }
+
+                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .shares) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = supportedOrderQuantityTypes[safe: nextIndex] ?? supportedOrderQuantityTypes.first ?? .shares
+
+                    if self.order.quantityType != nextOrderQuantityType {
+                        self.order.quantityType = nextOrderQuantityType
+
+                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "$"
+                        self.order.quantity = nil
+                        cell?.configureQuantityType(
+                            quantitySymbol: quantitySymbol,
+                            quantity: self.order.quantity,
+                            maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
+                        )
+                    }
                 }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: quantitySymbol,
+                quantity: self.order.quantity,
+                maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
             )
         case .limitPrice:
             (cell as? TradeItNumericInputCell)?.configure(
@@ -426,7 +455,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -437,7 +466,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
@@ -455,7 +484,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             )
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
-        case .estimatedCost:
+        case .estimatedChange:
             var estimateChangeText = "N/A"
 
             if let estimatedChange = order.estimatedChange() {
@@ -467,9 +496,9 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
+            cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
+            cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.textLabel?.isHidden = true
@@ -515,7 +544,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
-        guard let orderCapabilities = self.equityOrderCapabilities else { return }
+        guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
@@ -537,7 +566,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         case stopPrice
         case marketPrice
         case marginType
-        case estimatedCost
+        case estimatedChange
 
         var cellReuseId: String {
             var cellReuseId: CellReuseId
@@ -545,10 +574,10 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             switch self {
             case .orderAction, .orderType, .expiration, .marginType:
                 cellReuseId = .selection
-            case .estimatedCost:
+            case .estimatedChange:
                 cellReuseId = .readOnly
             case .quantity, .limitPrice, .stopPrice:
-                cellReuseId = .numericInput
+                cellReuseId = .numericToggleInput
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:
@@ -561,12 +590,12 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         func getTitle(forOrder order: TradeItOrder) -> String {
             switch self {
             case .orderAction: return "Action"
-            case .estimatedCost:
+            case .estimatedChange:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
                 let action = order.action 
                 let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
                 return title
-            case .quantity: return "Shares"
+            case .quantity: return "Quantity"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"
             case .orderType: return "Order type"

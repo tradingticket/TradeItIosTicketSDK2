@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BM4-wf-lUj">
-                        <rect key="frame" x="179" y="8" width="180" height="33.5"/>
+                        <rect key="frame" x="171" y="8" width="188" height="33.5"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lbr-7B-RTK" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                 <rect key="frame" x="8" y="8.5" width="120" height="17"/>
@@ -35,11 +35,11 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rie-TN-DTb">
-                                <rect key="frame" x="132" y="1.5" width="40" height="30"/>
+                                <rect key="frame" x="132" y="1.5" width="48" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="nQZ-4c-t1y"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="48" id="xJY-6d-rn4"/>
                                 </constraints>
-                                <state key="normal" title="USD"/>
+                                <state key="normal" title="Shares"/>
                                 <connections>
                                     <action selector="quantityTypeToggled:" destination="B9x-7u-Ojd" eventType="touchUpInside" id="TKU-Ky-Fai"/>
                                 </connections>

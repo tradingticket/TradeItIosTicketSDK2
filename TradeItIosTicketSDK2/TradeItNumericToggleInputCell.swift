@@ -12,22 +12,23 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     }
 
     func configure(
-        isPrice: Bool = false,
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
         onQuantityTypeToggled: (() -> Void)? = nil
     ) {
         self.onValueUpdated = onValueUpdated
         self.onQuantityTypeToggled = onQuantityTypeToggled
-        self.textField.isPrice = isPrice
+        self.textField.isPrice = false
     }
 
     func configureQuantityType(
         quantitySymbol: String?,
-        quantity: NSDecimalNumber?
+        quantity: NSDecimalNumber?,
+        maxDecimalPlaces: Int
     ) {
         self.textField.placeholder = "Enter \(quantitySymbol ?? "")"
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
         self.textField.text = quantity?.stringValue
+        self.textField.maxDecimalPlaces = maxDecimalPlaces
         self.onValueUpdated?(quantity)
     }
 

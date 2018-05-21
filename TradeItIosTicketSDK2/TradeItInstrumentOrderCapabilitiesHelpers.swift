@@ -9,7 +9,7 @@ public enum OrderQuantityType: String {
     case baseCurrency = "BASE_CURRENCY"
     case quoteCurrency = "QUOTE_CURRENCY"
     case shares = "SHARES"
-    // TODO: Is there another one here?
+    case totalValue = "TOTAL_VALUE"
 }
 
 extension TradeItInstrumentOrderCapabilities {
@@ -35,6 +35,15 @@ extension TradeItInstrumentOrderCapabilities {
         let capabilities = capabilitiesFor(field: .actions) as? [TradeItInstrumentActionCapability] ?? []
         let capability = capabilities.first { $0.value == action.rawValue } ?? capabilities.first
         return capability?.supportedOrderQuantityTypes.compactMap(OrderQuantityType.init) ?? []
+    }
+
+    func maxDecimalPlacesFor(orderQuantityType: OrderQuantityType?) -> Int {
+        // TODO: API needs to provide this configuration. Setting to 8 for BTC case.
+        switch orderQuantityType {
+        case .some(.baseCurrency): return 8
+        case .some(.shares): return 0
+        default: return 2
+        }
     }
 
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {

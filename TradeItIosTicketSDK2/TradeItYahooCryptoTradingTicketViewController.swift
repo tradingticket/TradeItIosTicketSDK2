@@ -441,22 +441,34 @@ class TradeItYahooCryptoTradingTicketViewController:
                         self.order.quantityType = nextOrderQuantityType
 
                         let quantitySymbol = self.order.quantitySymbol
-                        cell?.configureQuantityType(quantitySymbol: quantitySymbol, quantity: nil)
+                        self.order.quantity = nil
+                        cell?.configureQuantityType(
+                            quantitySymbol: quantitySymbol,
+                            quantity: self.order.quantity,
+                            maxDecimalPlaces: self.instrumentOrderCapabilities?.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType) ?? 0
+)
                     }
                 }
             )
-            cell?.configureQuantityType(quantitySymbol: quantitySymbol, quantity: self.order.quantity)
+            cell?.configureQuantityType(
+                quantitySymbol: quantitySymbol,
+                quantity: self.order.quantity,
+                maxDecimalPlaces: self.instrumentOrderCapabilities?.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType) ?? 0
+            )
         case .limitPrice:
             let cell = cell as? TradeItNumericToggleInputCell
             cell?.configure(
-                isPrice: true,
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
-            cell?.configureQuantityType(quantitySymbol: self.order.quoteSymbol, quantity: self.order.limitPrice)
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.quoteSymbol,
+                quantity: self.order.limitPrice,
+                maxDecimalPlaces: 2
+            )
         case .stopPrice:
             let cell = cell as? TradeItNumericToggleInputCell
             cell?.configure(
@@ -466,7 +478,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 }
             )
-            cell?.configureQuantityType(quantitySymbol: self.order.quoteSymbol, quantity: self.order.stopPrice)
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.quoteSymbol,
+                quantity: self.order.stopPrice,
+                maxDecimalPlaces: 2
+            )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)

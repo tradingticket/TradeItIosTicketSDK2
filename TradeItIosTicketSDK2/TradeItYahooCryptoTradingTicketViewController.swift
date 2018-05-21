@@ -291,7 +291,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                                 onTradingTicketViewController: self,
                                 withOrder: self.order
                             )
-                    }
+                        }
                     )
                     return
                 }
@@ -414,11 +414,12 @@ class TradeItYahooCryptoTradingTicketViewController:
         cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
 
+        guard let instrumentOrderCapabilities = self.instrumentOrderCapabilities else { return cell }
+
         switch ticketRow {
         case .orderAction:
-            cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            guard let instrumentOrderCapabilities = self.instrumentOrderCapabilities else { return UITableViewCell() }
             let cell = cell as? TradeItNumericToggleInputCell
             let quantitySymbol = self.order.quantitySymbol
             cell?.configure(
@@ -430,8 +431,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 onQuantityTypeToggled: {
                     let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
 
-                    guard supportedOrderQuantityTypes.count > 0
-                        else { return }
+                    guard supportedOrderQuantityTypes.count > 0 else { return }
 
                     let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
                     let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
@@ -446,7 +446,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
                             maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
-)
+                        )
                     }
                 }
             )
@@ -467,7 +467,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell?.configureQuantityType(
                 quantitySymbol: self.order.quoteSymbol,
                 quantity: self.order.limitPrice,
-                maxDecimalPlaces: 2
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .stopPrice:
             let cell = cell as? TradeItNumericToggleInputCell
@@ -481,7 +481,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             cell?.configureQuantityType(
                 quantitySymbol: self.order.quoteSymbol,
                 quantity: self.order.stopPrice,
-                maxDecimalPlaces: 2
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
@@ -506,9 +506,9 @@ class TradeItYahooCryptoTradingTicketViewController:
 
             cell.detailTextLabel?.text = estimatedChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.instrumentOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.textLabel?.isHidden = true

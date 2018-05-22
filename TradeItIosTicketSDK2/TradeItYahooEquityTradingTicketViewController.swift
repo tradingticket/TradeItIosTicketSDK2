@@ -414,7 +414,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             let cell = cell as? TradeItNumericToggleInputCell
-            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "$"
+            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "USD"
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
@@ -433,42 +433,51 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     if self.order.quantityType != nextOrderQuantityType {
                         self.order.quantityType = nextOrderQuantityType
 
-                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "$"
+                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "USD"
                         self.order.quantity = nil
                         cell?.configureQuantityType(
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
-                            maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
+                            maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                            showToggle: supportedOrderQuantityTypes.count > 1
                         )
                     }
                 }
             )
+            let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
                 quantity: self.order.quantity,
-                maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
+                maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                showToggle: supportedOrderQuantityTypes.count > 1
             )
         case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(
+                quantitySymbol: "USD",
+                quantity: self.order.limitPrice,
+                maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
+            )
         case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: "USD",
+                quantity: self.order.stopPrice,
+                maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
@@ -595,7 +604,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 let action = order.action 
                 let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
                 return title
-            case .quantity: return "Quantity"
+            case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"
             case .orderType: return "Order type"

@@ -445,15 +445,18 @@ class TradeItYahooCryptoTradingTicketViewController:
                         cell?.configureQuantityType(
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
-                            maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
+                            maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                            showToggle: supportedOrderQuantityTypes.count > 1
                         )
                     }
                 }
             )
+            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
                 quantity: self.order.quantity,
-                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType)
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                showToggle: supportedOrderQuantityTypes.count > 1
             )
         case .limitPrice:
             let cell = cell as? TradeItNumericToggleInputCell

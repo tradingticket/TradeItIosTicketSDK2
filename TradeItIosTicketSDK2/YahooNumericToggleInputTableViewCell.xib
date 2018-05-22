@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,13 +21,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BM4-wf-lUj">
-                        <rect key="frame" x="163" y="8" width="196" height="33.5"/>
+                        <rect key="frame" x="179.5" y="8" width="187.5" height="33.5"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter value" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lbr-7B-RTK" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="8" y="9" width="120" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="DyR-us-0u4"/>
-                                </constraints>
+                                <rect key="frame" x="8" y="9" width="103.5" height="17"/>
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -35,7 +33,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rie-TN-DTb">
-                                <rect key="frame" x="132" y="2" width="48" height="30"/>
+                                <rect key="frame" x="115.5" y="2" width="48" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="48" id="xJY-6d-rn4"/>
                                 </constraints>
@@ -45,7 +43,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVA-hY-OgP" customClass="DisclosureIndicator" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                <rect key="frame" x="181" y="2" width="15" height="30"/>
+                                <rect key="frame" x="164.5" y="2" width="15" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="15" id="po5-Sb-8KN"/>
@@ -59,19 +57,21 @@
                             <constraint firstItem="rVA-hY-OgP" firstAttribute="centerY" secondItem="BM4-wf-lUj" secondAttribute="centerY" id="YKl-JQ-X2H"/>
                             <constraint firstItem="lbr-7B-RTK" firstAttribute="centerY" secondItem="BM4-wf-lUj" secondAttribute="centerY" id="cDF-EJ-RUB"/>
                             <constraint firstItem="rVA-hY-OgP" firstAttribute="leading" secondItem="rie-TN-DTb" secondAttribute="trailing" constant="1" id="cMk-Qk-l5Y"/>
-                            <constraint firstAttribute="trailing" secondItem="rVA-hY-OgP" secondAttribute="trailing" id="jL0-QF-X2G"/>
+                            <constraint firstAttribute="trailing" secondItem="rVA-hY-OgP" secondAttribute="trailing" constant="8" id="jL0-QF-X2G"/>
                             <constraint firstItem="lbr-7B-RTK" firstAttribute="leading" secondItem="BM4-wf-lUj" secondAttribute="leading" constant="8" id="mrt-f0-xv2"/>
                             <constraint firstItem="rVA-hY-OgP" firstAttribute="height" secondItem="rie-TN-DTb" secondAttribute="height" id="tny-Pd-tcL"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="BM4-wf-lUj" secondAttribute="trailing" id="gh2-NU-7R8"/>
+                    <constraint firstItem="BM4-wf-lUj" firstAttribute="width" secondItem="JNK-zF-FSs" secondAttribute="width" multiplier="0.5" id="7ui-m3-ZZ4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="BM4-wf-lUj" secondAttribute="trailing" constant="-8" id="gh2-NU-7R8"/>
                     <constraint firstItem="BM4-wf-lUj" firstAttribute="top" secondItem="JNK-zF-FSs" secondAttribute="top" constant="8" id="i9p-sD-kvL"/>
                     <constraint firstAttribute="bottom" secondItem="BM4-wf-lUj" secondAttribute="bottom" constant="8" id="wsq-4X-kXd"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="disclosureIndicatorWidthConstraint" destination="po5-Sb-8KN" id="MsE-9Z-29u"/>
                 <outlet property="quantityTypeButton" destination="rie-TN-DTb" id="jMV-3P-Gea"/>
                 <outlet property="textField" destination="lbr-7B-RTK" id="XbI-2k-xAd"/>
             </connections>

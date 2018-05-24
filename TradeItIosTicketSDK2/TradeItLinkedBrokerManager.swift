@@ -84,7 +84,7 @@ import PromiseKit
         withOAuthVerifier oAuthVerifier: String,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) -> Void {
+    ) -> Void {
         self.oAuthService.getOAuthAccessToken(
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { oAuthAccessTokenResult in

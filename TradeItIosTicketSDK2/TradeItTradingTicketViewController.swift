@@ -413,7 +413,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.order.requiresStopPrice() ?.stopPrice : nil,
             .marketPrice,
             .estimatedCost
-            ].flatMap { $0 }
+        ].flatMap { $0 }
 
         self.ticketRows = ticketRows
 

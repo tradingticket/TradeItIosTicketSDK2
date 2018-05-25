@@ -128,14 +128,13 @@
             else { return nil }
 
         switch quantityType {
-        case .quoteCurrency: return quantity
-        case .baseCurrency:
+        case .quoteCurrency, .totalPrice: return quantity
+        case .baseCurrency, .shares:
             if let price = optionalPrice, price != NSDecimalNumber.notANumber {
                 return price.multiplying(by: quantity)
             } else {
                 return nil
             }
-        default: return nil
         }
     }
 

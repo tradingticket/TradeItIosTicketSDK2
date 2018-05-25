@@ -39,10 +39,7 @@ internal extension TradeItConnector {
                 case let error as TradeItErrorResult: seal.reject(error)
                 default:
                     seal.reject(
-                        TradeItErrorResult(
-                            title: "Connection to the server failed.",
-                            message: "Please try again."
-                        )
+                        TradeItErrorResult.error(withSystemMessage: "The server returned a response that could not deserialize to the requested type: \(targetClassType.classForCoder())")
                     )
                 }
             }

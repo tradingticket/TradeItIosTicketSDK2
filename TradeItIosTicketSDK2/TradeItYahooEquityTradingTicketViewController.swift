@@ -417,7 +417,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
             let cell = cell as? TradeItNumericToggleInputCell
-            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "USD"
+            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
@@ -439,7 +439,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     if self.order.quantityType != nextOrderQuantityType {
                         self.order.quantityType = nextOrderQuantityType
 
-                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : "USD"
+                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
                         self.order.quantity = nil
                         cell?.configureQuantityType(
                             quantitySymbol: quantitySymbol,
@@ -470,7 +470,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: "USD",
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.limitPrice,
                 maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -484,7 +484,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: "USD",
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.stopPrice,
                 maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -540,7 +540,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying Power"
+        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying power"
         let buyingPowerValue = NumberFormatter.formatCurrency(buyingPower, currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
         return buyingPowerLabel + ": " + buyingPowerValue
     }
@@ -611,7 +611,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             case .estimatedChange:
                 let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
                 let action = order.action 
-                let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
+                let title = "Estimated \(sellActions.contains(action) ? "proceeds" : "cost")"
                 return title
             case .quantity: return "Amount"
             case .limitPrice: return "Limit"

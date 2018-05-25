@@ -86,8 +86,7 @@ public typealias TradeItPlaceOrderHandlers = (
         case .unknown: optionalPrice = 0.0
         }
 
-        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber//,
-//            let quantityType = quantityType
+        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber
             else { return nil }
 
         switch quantityType {

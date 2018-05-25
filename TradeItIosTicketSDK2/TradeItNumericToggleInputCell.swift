@@ -32,11 +32,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
         self.onValueUpdated?(quantity)
-        if showToggle {
-            self.disclosureIndicatorWidthConstraint.constant = 15
-        } else {
-            self.disclosureIndicatorWidthConstraint.constant = 0
-        }
+        self.disclosureIndicatorWidthConstraint.constant = showToggle ? 15 : 0
     }
 
     @objc func dismissKeyboard() {

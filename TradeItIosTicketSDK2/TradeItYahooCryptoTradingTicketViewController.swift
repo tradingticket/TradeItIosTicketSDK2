@@ -512,7 +512,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         case .estimatedChange:
             var estimatedChangeText = "N/A"
 
-            if let estimatedChange = order.estimatedChange() { // TODO: BASED OFF ORDER QUANTITY TYPE
+            if let estimatedChange = order.estimatedChange() {
                 estimatedChangeText = NumberFormatter.formatQuantity(estimatedChange)
             }
 
@@ -544,7 +544,7 @@ class TradeItYahooCryptoTradingTicketViewController:
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying Power"
+        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying power"
         let buyingPowerValue = NumberFormatter.formatCurrency(buyingPower, currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
         return buyingPowerLabel + ": " + buyingPowerValue
     }

@@ -30,11 +30,10 @@ extension TradeItInstrumentOrderCapabilities {
         return capabilities.first { $0.value == value }?.value ?? capabilities.first?.value
     }
 
-    func supportedOrderQuantityTypesFor(action: TradeItOrderAction) -> [OrderQuantityType] {
-        let capabilities = self.actions
-        let capability = capabilities.first { $0.value == action.rawValue } ?? capabilities.first
-        let supportedQuantityTypes = capability?.supportedOrderQuantityTypes ?? []
-        return supportedQuantityTypes.compactMap(OrderQuantityType.init)
+    func supportedOrderQuantityTypesFor(action: TradeItOrderAction, priceType: TradeItOrderPriceType) -> [OrderQuantityType] {
+        let actionQuantityTypes = supportedOrderQuantityTypesFor(capabilities: self.actions, value: action.rawValue)
+        let priceTypeQuantityTypes = supportedOrderQuantityTypesFor(capabilities: self.priceTypes, value: priceType.rawValue)
+        return actionQuantityTypes.filter(priceTypeQuantityTypes.contains)
     }
 
     func maxDecimalPlacesFor(orderQuantityType: OrderQuantityType?) -> Int {
@@ -44,6 +43,12 @@ extension TradeItInstrumentOrderCapabilities {
         case .some(.shares): return 0
         default: return 2
         }
+    }
+
+    private func supportedOrderQuantityTypesFor(capabilities: [TradeItInstrumentCapability], value: String) -> [OrderQuantityType] {
+        let capability = capabilities.first { $0.value == value } ?? capabilities.first
+        let supportedQuantityTypes = capability?.supportedOrderQuantityTypes ?? []
+        return supportedQuantityTypes.compactMap(OrderQuantityType.init)
     }
 
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {

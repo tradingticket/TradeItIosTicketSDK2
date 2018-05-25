@@ -326,7 +326,10 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.order.action = TradeItOrderAction(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
-        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(action: self.order.action).first
+        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(
+            action: self.order.action,
+            priceType: self.order.type
+        ).first
         self.order.userDisabledMargin = false
     }
 
@@ -429,7 +432,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
+                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(
+                        action: self.order.action,
+                        priceType: self.order.type
+                    )
 
                     guard supportedOrderQuantityTypes.count > 0 else { return }
 
@@ -451,7 +457,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                     }
                 }
             )
-            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(action: self.order.action)
+            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(
+                action: self.order.action,
+                priceType: self.order.type
+            )
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
                 quantity: self.order.quantity,

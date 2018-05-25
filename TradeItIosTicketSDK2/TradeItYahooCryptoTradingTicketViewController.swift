@@ -437,7 +437,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                         priceType: self.order.type
                     )
 
-                    guard supportedOrderQuantityTypes.count > 0 else { return }
+                    if supportedOrderQuantityTypes.count == 0 { return }
 
                     let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
                     let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count

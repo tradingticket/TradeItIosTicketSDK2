@@ -29,7 +29,7 @@ public typealias TradeItPlaceOrderHandlers = (
     @objc public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
     @objc public var userDisabledMargin = false
     @objc public var quantity: NSDecimalNumber?
-    public var quantityType: OrderQuantityType?
+    internal var quantityType: OrderQuantityType? // Set to internal to get this out - will make enum obj-c compatible later
     @objc public var limitPrice: NSDecimalNumber?
     @objc public var stopPrice: NSDecimalNumber?
     @objc public var quoteLastPrice: NSDecimalNumber?

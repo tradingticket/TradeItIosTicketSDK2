@@ -1,7 +1,6 @@
 internal enum TradeItInstrumentOrderCapabilityField {
     case priceTypes
     case expirationTypes
-    case orderTypes
     case actions
 }
 
@@ -32,9 +31,10 @@ extension TradeItInstrumentOrderCapabilities {
     }
 
     func supportedOrderQuantityTypesFor(action: TradeItOrderAction) -> [OrderQuantityType] {
-        let capabilities = capabilitiesFor(field: .actions) as? [TradeItInstrumentActionCapability] ?? []
+        let capabilities = self.actions
         let capability = capabilities.first { $0.value == action.rawValue } ?? capabilities.first
-        return capability?.supportedOrderQuantityTypes.compactMap(OrderQuantityType.init) ?? []
+        let supportedQuantityTypes = capability?.supportedOrderQuantityTypes ?? []
+        return supportedQuantityTypes.compactMap(OrderQuantityType.init)
     }
 
     func maxDecimalPlacesFor(orderQuantityType: OrderQuantityType?) -> Int {
@@ -48,10 +48,9 @@ extension TradeItInstrumentOrderCapabilities {
 
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {
         switch field {
-        case .priceTypes: return self.priceTypes as? [TradeItInstrumentCapability] ?? []
-        case .actions: return self.actions as? [TradeItInstrumentCapability] ?? []
-        case .expirationTypes: return self.expirationTypes as? [TradeItInstrumentCapability] ?? []
-        case .orderTypes: return self.orderTypes as? [TradeItInstrumentCapability] ?? []
+        case .priceTypes: return self.priceTypes
+        case .actions: return self.actions
+        case .expirationTypes: return self.expirationTypes
         }
     }
 }

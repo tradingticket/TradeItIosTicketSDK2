@@ -24,15 +24,6 @@ DEPENDENCIES:
   - PromiseKit (~> 4.0)
   - Quick (~> 0.10.0)
 
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - BEMCheckBox
-    - JSONModel
-    - MBProgressHUD
-    - Nimble
-    - PromiseKit
-    - Quick
-
 SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
@@ -43,4 +34,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8de6c042a9db9777f64178e4995be9fd85814f2f
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.4.0

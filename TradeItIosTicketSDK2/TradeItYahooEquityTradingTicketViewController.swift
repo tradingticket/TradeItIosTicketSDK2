@@ -322,7 +322,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         self.order.quantityType = self.orderCapabilities?.supportedOrderQuantityTypesFor(
             action: self.order.action,
             priceType: self.order.type
-        ).first
+        ).first ?? .shares
         self.order.userDisabledMargin = false
     }
 
@@ -432,7 +432,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
 
                     if supportedOrderQuantityTypes.count == 0 { return }
 
-                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .shares) as Int? ?? 0
+                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
                     let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
                     let nextOrderQuantityType = supportedOrderQuantityTypes[safe: nextIndex] ?? supportedOrderQuantityTypes.first ?? .shares
 

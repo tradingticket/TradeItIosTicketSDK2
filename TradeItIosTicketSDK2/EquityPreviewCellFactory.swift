@@ -41,7 +41,10 @@ class EquityPreviewCellFactory: PreviewCellFactory {
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
+            ValueCellData(
+                label: labelForQuantity(linkedBrokerAccount: linkedBrokerAccount, orderQuantityTypeString: orderDetails.orderQuantityType),
+                value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)
+            ),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
@@ -68,6 +71,15 @@ class EquityPreviewCellFactory: PreviewCellFactory {
     }
 
     // MARK: Private
+
+    private func labelForQuantity(linkedBrokerAccount: TradeItLinkedBrokerAccount, orderQuantityTypeString: String) -> String {
+        guard let quantityType = OrderQuantityType.init(rawValue: orderQuantityTypeString) else { return "Amount" }
+
+        switch quantityType {
+        case .totalPrice: return "Amount in \(linkedBrokerAccount.accountBaseCurrency)"
+        default: return "Amount"
+        }
+    }
 
     private func generateMessageCellData() -> [PreviewCellData] {
         guard let messages = previewOrderResult.orderDetails?.warnings else { return [] }

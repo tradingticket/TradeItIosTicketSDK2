@@ -512,7 +512,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         case .estimatedChange:
             var estimatedChangeText = "N/A"
 
-            if let estimatedChange = order.estimatedChange() {
+            if let estimatedChange = order.estimatedChange() { // TODO: BASED OFF ORDER QUANTITY TYPE
                 estimatedChangeText = NumberFormatter.formatQuantity(estimatedChange)
             }
 

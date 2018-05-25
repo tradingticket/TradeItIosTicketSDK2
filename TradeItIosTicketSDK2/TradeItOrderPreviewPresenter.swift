@@ -17,6 +17,7 @@ class TradeItOrderPreviewPresenter {
         request.orderPriceType = order.type.rawValue
         request.orderExpiration = order.expiration.rawValue
         request.orderQuantity = quantity()
+        request.orderQuantityType = order.quantityType.rawValue
         request.orderSymbol = symbol()
         request.orderLimitPrice = order.limitPrice
         request.orderStopPrice = order.stopPrice

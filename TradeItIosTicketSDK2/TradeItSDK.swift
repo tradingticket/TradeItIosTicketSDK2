@@ -82,6 +82,17 @@ import UIKit
             return self._brokerCenterService!
         }
     }
+    
+    internal static var _streamingMarketDataService: StreamingMarketDataService?
+    public static var streamingMarketDataService: StreamingMarketDataService? {
+        get {
+            return self._streamingMarketDataService
+        }
+        
+        set(new) {
+            self._streamingMarketDataService = new
+        }
+    }
 
     internal static var _marketDataService: MarketDataService?
     @objc public static var marketDataService: MarketDataService {

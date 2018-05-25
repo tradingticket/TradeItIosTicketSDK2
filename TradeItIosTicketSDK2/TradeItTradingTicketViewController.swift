@@ -17,6 +17,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
     private let marketDataService = TradeItSDK.marketDataService
+    private let streamingMarketDataService = TradeItSDK.streamingMarketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
 
@@ -25,6 +26,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
 
     private var selectedAccountChanged: Bool = true
+    
+    private lazy var updateQuotePrice: (TradeItQuote) -> Void = { quote in
+        self.quote = quote
+        self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
+        self.reload(row: .marketPrice)
+        self.reload(row: .estimatedCost)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +94,16 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.initializeTicket()
         } else {
             self.reloadTicketRows()
+            if let streamingMarketDataService = streamingMarketDataService,
+                let symbol = self.order.symbol {
+                streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: { self.clearMarketData() })
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if let streamingMarketDataService = streamingMarketDataService {
+            streamingMarketDataService.stopUpdatingQuote()
         }
     }
 
@@ -372,21 +390,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .marketPrice)
         self.reload(row: .estimatedCost)
 
-        if let symbol = self.order.symbol {
-            self.marketDataService.getQuote(
-                symbol: symbol,
-                onSuccess: { quote in
-                    self.quote = quote
-                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
-                    self.reload(row: .marketPrice)
-                    self.reload(row: .estimatedCost)
-                },
-                onFailure: { error in
-                    self.clearMarketData()
-                }
-            )
-        } else {
+        guard let symbol = self.order.symbol else {
             self.clearMarketData()
+            return
+        }
+        
+        if let streamingMarketDataService = streamingMarketDataService {
+            streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: { self.clearMarketData() })
+        } else {
+            self.marketDataService.getQuote(symbol: symbol, onSuccess: updateQuotePrice, onFailure: { _ in self.clearMarketData() })
         }
     }
 

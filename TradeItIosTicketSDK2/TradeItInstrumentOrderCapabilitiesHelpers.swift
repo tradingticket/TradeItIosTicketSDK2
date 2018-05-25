@@ -9,7 +9,7 @@ public enum OrderQuantityType: String {
     case baseCurrency = "BASE_CURRENCY"
     case quoteCurrency = "QUOTE_CURRENCY"
     case shares = "SHARES"
-    case totalValue = "TOTAL_VALUE"
+    case totalPrice = "TOTAL_PRICE"
 }
 
 extension TradeItInstrumentOrderCapabilities {

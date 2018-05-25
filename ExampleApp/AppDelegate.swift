@@ -234,3 +234,44 @@ class DummyMarketDataService: MarketDataService {
         onFailure(error)
     }
 }
+
+// Only implement this protocol if you need to stream your own market data
+class DummyStreamingMarketDataService: StreamingMarketDataService {
+    var timer: Timer?
+    var lastPrice = 2000.0
+    var onUpdate: ((TradeItQuote) -> Void)?
+    
+    @objc func updateQuote() {
+        let price = Double("\(arc4random_uniform(8000)).\(arc4random_uniform(99))")
+        
+        let quote = TradeItQuote()
+        quote.companyName = "Bitcoin"
+        quote.lastPrice = NSNumber(value: lastPrice)
+        quote.bidPrice = NSNumber(value: price!)
+        quote.askPrice = NSNumber(value: price!)
+        quote.change = NSNumber(value: lastPrice - price!)
+        quote.pctChange = 0
+        quote.dateTime = "12:34:56"
+        onUpdate!(quote)
+        
+        lastPrice = price!
+    }
+    
+    func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
+        self.onUpdate = onUpdate
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(self.updateQuote),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    func stopUpdatingQuote() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    
+}

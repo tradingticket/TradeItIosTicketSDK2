@@ -12,6 +12,16 @@
     )
 }
 
+@objc public protocol StreamingMarketDataService {
+    @objc func startUpdatingQuote(
+        forSymbol symbol: String,
+        onUpdate: @escaping (TradeItQuote) -> Void,
+        onFailure: @escaping () -> Void
+    )
+    
+    @objc func stopUpdatingQuote()
+}
+
 class TradeItMarketService: MarketDataService {
     let connector: TradeItConnector
 

@@ -326,8 +326,8 @@ class TradeItYahooCryptoTradingTicketViewController:
         self.order.action = TradeItOrderAction(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
-        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypesFor(
-            action: self.order.action,
+        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypes(
+            forAction: self.order.action,
             priceType: self.order.type
         ).first
         self.order.userDisabledMargin = false
@@ -432,12 +432,12 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(
-                        action: self.order.action,
+                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypes(
+                        forAction: self.order.action,
                         priceType: self.order.type
                     )
 
-                    if supportedOrderQuantityTypes.count == 0 { return }
+                    if supportedOrderQuantityTypes.isEmpty { return }
 
                     let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
                     let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
@@ -457,8 +457,8 @@ class TradeItYahooCryptoTradingTicketViewController:
                     }
                 }
             )
-            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypesFor(
-                action: self.order.action,
+            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypes(
+                forAction: self.order.action,
                 priceType: self.order.type
             )
             cell?.configureQuantityType(

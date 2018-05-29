@@ -30,9 +30,9 @@ extension TradeItInstrumentOrderCapabilities {
         return capabilities.first { $0.value == value }?.value ?? capabilities.first?.value
     }
 
-    func supportedOrderQuantityTypesFor(action: TradeItOrderAction, priceType: TradeItOrderPriceType) -> [OrderQuantityType] {
-        let actionQuantityTypes = supportedOrderQuantityTypesFor(capabilities: self.actions, value: action.rawValue)
-        let priceTypeQuantityTypes = supportedOrderQuantityTypesFor(capabilities: self.priceTypes, value: priceType.rawValue)
+    func supportedOrderQuantityTypes(forAction action: TradeItOrderAction, priceType: TradeItOrderPriceType) -> [OrderQuantityType] {
+        let actionQuantityTypes = supportedOrderQuantityTypes(forCapabilities: self.actions, andValue: action.rawValue)
+        let priceTypeQuantityTypes = supportedOrderQuantityTypes(forCapabilities: self.priceTypes, andValue: priceType.rawValue)
         return actionQuantityTypes.filter(priceTypeQuantityTypes.contains)
     }
 
@@ -45,7 +45,7 @@ extension TradeItInstrumentOrderCapabilities {
         }
     }
 
-    private func supportedOrderQuantityTypesFor(capabilities: [TradeItInstrumentCapability], value: String) -> [OrderQuantityType] {
+    private func supportedOrderQuantityTypes(forCapabilities capabilities: [TradeItInstrumentCapability], andValue value: String) -> [OrderQuantityType] {
         let capability = capabilities.first { $0.value == value } ?? capabilities.first
         let supportedQuantityTypes = capability?.supportedOrderQuantityTypes ?? []
         return supportedQuantityTypes.compactMap(OrderQuantityType.init)

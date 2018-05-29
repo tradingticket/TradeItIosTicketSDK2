@@ -511,9 +511,8 @@
                                     <rect key="frame" x="0.0" y="259.5" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Oz-wQ-uV2">
-                                            <rect key="frame" x="148" y="0.0" width="78" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Oz-wQ-uV2">
+                                            <rect key="frame" x="148" y="-2" width="78" height="30"/>
                                             <state key="normal" title="Learn more"/>
                                             <connections>
                                                 <action selector="learnMoreTappedWithSender:" destination="aYb-Eg-UIn" eventType="touchUpInside" id="LF8-4r-06Z"/>
@@ -521,6 +520,10 @@
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="6Oz-wQ-uV2" firstAttribute="centerX" secondItem="pS9-hd-gAk" secondAttribute="centerX" id="5B7-WR-Oag"/>
+                                        <constraint firstItem="6Oz-wQ-uV2" firstAttribute="centerY" secondItem="pS9-hd-gAk" secondAttribute="centerY" constant="-8" id="tlE-Pa-0h5"/>
+                                    </constraints>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID" id="dDI-Sa-7IC">

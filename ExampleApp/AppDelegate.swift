@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             environment: AppDelegate.ENVIRONMENT,
             userCountryCode: "US"
         )
-        TradeItSDK.streamingMarketDataService = DummyStreamingMarketDataService()
+        
         TradeItSDK.welcomeScreenHeadlineText = "This Welcome screen headline text is configurable in the SDK!"
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):

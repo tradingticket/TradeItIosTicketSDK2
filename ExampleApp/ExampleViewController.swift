@@ -331,6 +331,19 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     Action(
                         label: "test",
                         action: self.test
+                    ),
+                    Action(
+                        label: "Toggle Market Data Streaming Service",
+                        action: {
+                            TradeItSDK.streamingMarketDataService = TradeItSDK.streamingMarketDataService == nil ?
+                                DummyStreamingMarketDataService() : nil
+                            self.alertManager.showAlertWithMessageOnly(
+                                onViewController: self.advancedViewController,
+                                withTitle: "Toggle Market Data Streaming Service",
+                                withMessage: "Market Data Streaming Service is now: \(TradeItSDK.streamingMarketDataService != nil ? "on" : "off")",
+                                withActionTitle: "OK"
+                            )
+                        }
                     )
                 ]
             ),

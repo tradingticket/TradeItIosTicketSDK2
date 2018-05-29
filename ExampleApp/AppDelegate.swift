@@ -236,11 +236,12 @@ class DummyMarketDataService: MarketDataService {
 }
 
 // Only implement this protocol if you need to stream your own market data
-class DummyStreamingMarketDataService: StreamingMarketDataService {
+public class DummyStreamingMarketDataService: StreamingMarketDataService {
     private var timer: Timer?
     private var onUpdate: ((TradeItQuote) -> Void)?
+    private var price = 500
     
-    func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
+    public func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
         self.onUpdate = onUpdate
         timer = Timer.scheduledTimer(
             timeInterval: 1,
@@ -251,19 +252,26 @@ class DummyStreamingMarketDataService: StreamingMarketDataService {
         )
     }
     
-    func stopUpdatingQuote() {
+    public func stopUpdatingQuote() {
         timer?.invalidate()
         timer = nil
     }
     
-    @objc func timerDidFire() {
+    @objc private func timerDidFire() {
+        let priceChange = generateRandomValue(lowerBound: -25, upperBound: 25)
+        self.price = self.price + priceChange
+        
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = NSNumber(value: arc4random_uniform(100) + 1)
-        quote.change = 42.1337
+        quote.lastPrice = NSNumber(value: price)
+        quote.change = NSNumber(value: priceChange)
         quote.pctChange = -123.456
         quote.dateTime = "12:34:56"
         
         onUpdate?(quote)
+    }
+    
+    private func generateRandomValue(lowerBound: Int, upperBound: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(upperBound - lowerBound + 1))) + lowerBound
     }
 }

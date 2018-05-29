@@ -26,7 +26,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
 
     private var selectedAccountChanged: Bool = true
-    private var selectedSymbolChanged: Bool = true
     
     private lazy var updateQuotePrice: (TradeItQuote) -> Void = { quote in
         self.quote = quote
@@ -34,6 +33,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .marketPrice, animation: .none)
         self.reload(row: .estimatedCost, animation: .none)
     }
+    private var selectedSymbolChanged: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,19 +91,12 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             return
         }
         
-        if !self.selectedSymbolChanged {
-            if let streamingMarketDataService = streamingMarketDataService,
-                let symbol = self.order.symbol {
-                streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
-            }
-        }
-
         if self.selectedAccountChanged {
             self.initializeTicket()
         } else {
             self.reloadTicketRows()
+            self.resumeQuoteStreaming()
         }
-        
         self.selectedSymbolChanged = false
     }
     
@@ -245,10 +238,10 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
+        self.selectedSymbolChanged = true
         self.order.symbol = selectedSymbol
         self.clearMarketData()
         self.updateMarketData()
-        self.selectedSymbolChanged = true
         _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
@@ -600,6 +593,12 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
         
         self.navigationController?.pushViewController(selectionViewController, animated: true)
+    }
+    
+    private func resumeQuoteStreaming() {
+        if streamingMarketDataService != nil && !self.selectedSymbolChanged {
+            self.updateMarketData()
+        }
     }
 }
 

@@ -26,12 +26,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
 
     private var selectedAccountChanged: Bool = true
+    private var selectedSymbolChanged: Bool = true
     
     private lazy var updateQuotePrice: (TradeItQuote) -> Void = { quote in
         self.quote = quote
         self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
-        self.reload(row: .marketPrice)
-        self.reload(row: .estimatedCost)
+        self.reload(row: .marketPrice, animation: .none)
+        self.reload(row: .estimatedCost, animation: .none)
     }
 
     override func viewDidLoad() {
@@ -89,16 +90,21 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             )
             return
         }
+        
+        if !self.selectedSymbolChanged {
+            if let streamingMarketDataService = streamingMarketDataService,
+                let symbol = self.order.symbol {
+                streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
+            }
+        }
 
         if self.selectedAccountChanged {
             self.initializeTicket()
         } else {
             self.reloadTicketRows()
-            if let streamingMarketDataService = streamingMarketDataService,
-                let symbol = self.order.symbol {
-                streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: { self.clearMarketData() })
-            }
         }
+        
+        self.selectedSymbolChanged = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -242,6 +248,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.order.symbol = selectedSymbol
         self.clearMarketData()
         self.updateMarketData()
+        self.selectedSymbolChanged = true
         _ = symbolSearchViewController.navigationController?.popViewController(animated: true)
     }
 
@@ -396,7 +403,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
         
         if let streamingMarketDataService = streamingMarketDataService {
-            streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: { self.clearMarketData() })
+            streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
         } else {
             self.marketDataService.getQuote(symbol: symbol, onSuccess: updateQuotePrice, onFailure: { _ in self.clearMarketData() })
         }
@@ -431,14 +438,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         self.tableView.reloadData()
     }
-
-    private func reload(row: TicketRow) {
+    
+    private func reload(row: TicketRow, animation: UITableViewRowAnimation = .automatic) {
         guard let indexOfRow = self.ticketRows.index(of: row) else {
             return
         }
 
         let indexPath = IndexPath.init(row: indexOfRow, section: 0)
-        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.tableView.reloadRows(at: [indexPath], with: animation)
     }
 
     private func provideCell(rowIndex: Int) -> UITableViewCell {

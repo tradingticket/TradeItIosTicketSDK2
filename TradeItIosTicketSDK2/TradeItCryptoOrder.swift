@@ -1,7 +1,7 @@
 @objc public class TradeItCryptoOrder: NSObject {
-    public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
-    public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
-    public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT {
+    @objc public var linkedBrokerAccount: TradeItLinkedBrokerAccount?
+    @objc public var action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
+    @objc public var type: TradeItOrderPriceType = TradeItOrderPriceTypePresenter.DEFAULT {
         didSet {
             if !requiresExpiration() {
                 expiration = TradeItOrderExpirationPresenter.DEFAULT
@@ -14,13 +14,13 @@
             }
         }
     }
-    public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
-    public var userDisabledMargin = false
-    public var quantity: NSDecimalNumber?
-    public var limitPrice: NSDecimalNumber?
-    public var stopPrice: NSDecimalNumber?
-    public var quoteLastPrice: NSDecimalNumber?
-    public var quantityType: OrderQuantityType?
+    @objc public var expiration: TradeItOrderExpiration = TradeItOrderExpirationPresenter.DEFAULT
+    @objc public var userDisabledMargin = false
+    @objc public var quantity: NSDecimalNumber?
+    @objc public var limitPrice: NSDecimalNumber?
+    @objc public var stopPrice: NSDecimalNumber?
+    @objc public var quoteLastPrice: NSDecimalNumber?
+    internal var quantityType: OrderQuantityType? // Set to internal to get this out - will make enum obj-c compatible later
 
     var quantitySymbol: String? {
         get {
@@ -47,7 +47,7 @@
     }
 
     var _symbol: String?
-    public var symbol: String? {
+    @objc public var symbol: String? {
         get {
             return _symbol
         }
@@ -81,7 +81,7 @@
         super.init()
     }
 
-    public init(
+    @objc public init(
         linkedBrokerAccount: TradeItLinkedBrokerAccount? = nil,
         symbol: String? = nil,
         action: TradeItOrderAction = TradeItOrderActionPresenter.DEFAULT
@@ -96,23 +96,23 @@
         }
     }
 
-    public func requiresLimitPrice() -> Bool {
+    @objc public func requiresLimitPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.LIMIT_TYPES.contains(type)
     }
 
-    public func requiresStopPrice() -> Bool {
+    @objc public func requiresStopPrice() -> Bool {
         return TradeItOrderPriceTypePresenter.STOP_TYPES.contains(type)
     }
 
-    public func requiresExpiration() -> Bool {
+    @objc public func requiresExpiration() -> Bool {
         return TradeItOrderPriceTypePresenter.EXPIRATION_TYPES.contains(type)
     }
 
-    public func userCanDisableMargin() -> Bool {
+    @objc public func userCanDisableMargin() -> Bool {
         return self.linkedBrokerAccount?.userCanDisableMargin ?? false
     }
 
-    public func estimatedChange() -> NSDecimalNumber? {
+    @objc public func estimatedChange() -> NSDecimalNumber? {
         var optionalPrice: NSDecimalNumber?
 
         switch self.type {
@@ -138,7 +138,7 @@
         }
     }
 
-    func preview(
+    @objc func preview(
         onSuccess: @escaping (TradeItCryptoPreviewTradeResult, @escaping TradeItPlaceOrderHandlers) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) -> Void {
@@ -176,7 +176,7 @@
         )
     }
 
-    public func isValid() -> Bool {
+    @objc public func isValid() -> Bool {
         return validateQuantity()
             && validateOrderPriceType()
             && symbol != nil

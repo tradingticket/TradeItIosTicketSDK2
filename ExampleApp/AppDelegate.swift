@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             environment: AppDelegate.ENVIRONMENT,
             userCountryCode: "US"
         )
-
+        TradeItSDK.streamingMarketDataService = DummyStreamingMarketDataService()
         TradeItSDK.welcomeScreenHeadlineText = "This Welcome screen headline text is configurable in the SDK!"
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
@@ -237,32 +237,15 @@ class DummyMarketDataService: MarketDataService {
 
 // Only implement this protocol if you need to stream your own market data
 class DummyStreamingMarketDataService: StreamingMarketDataService {
-    var timer: Timer?
-    var lastPrice = 2000.0
-    var onUpdate: ((TradeItQuote) -> Void)?
-    
-    @objc func updateQuote() {
-        let price = Double("\(arc4random_uniform(8000)).\(arc4random_uniform(99))")
-        
-        let quote = TradeItQuote()
-        quote.companyName = "Bitcoin"
-        quote.lastPrice = NSNumber(value: lastPrice)
-        quote.bidPrice = NSNumber(value: price!)
-        quote.askPrice = NSNumber(value: price!)
-        quote.change = NSNumber(value: lastPrice - price!)
-        quote.pctChange = 0
-        quote.dateTime = "12:34:56"
-        onUpdate!(quote)
-        
-        lastPrice = price!
-    }
+    private var timer: Timer?
+    private var onUpdate: ((TradeItQuote) -> Void)?
     
     func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
         self.onUpdate = onUpdate
         timer = Timer.scheduledTimer(
             timeInterval: 1,
             target: self,
-            selector: #selector(self.updateQuote),
+            selector: #selector(self.timerDidFire),
             userInfo: nil,
             repeats: true
         )
@@ -273,5 +256,14 @@ class DummyStreamingMarketDataService: StreamingMarketDataService {
         timer = nil
     }
     
-    
+    @objc func timerDidFire() {
+        let quote = TradeItQuote()
+        quote.companyName = "LOL"
+        quote.lastPrice = NSNumber(value: arc4random_uniform(100) + 1)
+        quote.change = 42.1337
+        quote.pctChange = -123.456
+        quote.dateTime = "12:34:56"
+        
+        onUpdate?(quote)
+    }
 }

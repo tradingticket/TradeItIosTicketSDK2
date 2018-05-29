@@ -33,7 +33,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .marketPrice, animation: .none)
         self.reload(row: .estimatedCost, animation: .none)
     }
-    private var selectedSymbolChanged: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,15 +94,15 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.initializeTicket()
         } else {
             self.reloadTicketRows()
-            self.resumeQuoteStreaming()
         }
-        self.selectedSymbolChanged = false
+        
+        if let symbol = self.order.symbol {
+            streamingMarketDataService?.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        if let streamingMarketDataService = streamingMarketDataService {
-            streamingMarketDataService.stopUpdatingQuote()
-        }
+        streamingMarketDataService?.stopUpdatingQuote()
     }
 
     // MARK: UITableViewDelegate
@@ -238,7 +237,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         _ symbolSearchViewController: TradeItSymbolSearchViewController,
         didSelectSymbol selectedSymbol: String
     ) {
-        self.selectedSymbolChanged = true
         self.order.symbol = selectedSymbol
         self.clearMarketData()
         self.updateMarketData()
@@ -395,9 +393,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             return
         }
         
-        if let streamingMarketDataService = streamingMarketDataService {
-            streamingMarketDataService.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
-        } else {
+        if streamingMarketDataService == nil {
             self.marketDataService.getQuote(symbol: symbol, onSuccess: updateQuotePrice, onFailure: { _ in self.clearMarketData() })
         }
     }
@@ -593,12 +589,6 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
         
         self.navigationController?.pushViewController(selectionViewController, animated: true)
-    }
-    
-    private func resumeQuoteStreaming() {
-        if streamingMarketDataService != nil && !self.selectedSymbolChanged {
-            self.updateMarketData()
-        }
     }
 }
 

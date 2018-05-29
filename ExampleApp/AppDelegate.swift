@@ -236,12 +236,12 @@ class DummyMarketDataService: MarketDataService {
 }
 
 // Only implement this protocol if you need to stream your own market data
-public class DummyStreamingMarketDataService: StreamingMarketDataService {
+class DummyStreamingMarketDataService: StreamingMarketDataService {
     private var timer: Timer?
     private var onUpdate: ((TradeItQuote) -> Void)?
     private var price = 500
     
-    public func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
+    func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
         self.onUpdate = onUpdate
         timer = Timer.scheduledTimer(
             timeInterval: 1,
@@ -252,7 +252,7 @@ public class DummyStreamingMarketDataService: StreamingMarketDataService {
         )
     }
     
-    public func stopUpdatingQuote() {
+    func stopUpdatingQuote() {
         timer?.invalidate()
         timer = nil
     }

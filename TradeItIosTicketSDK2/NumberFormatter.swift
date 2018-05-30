@@ -2,7 +2,13 @@ class NumberFormatter: NSObject {
     private static let currencyFormatter = Foundation.NumberFormatter()
     private static let quantityFormatter = Foundation.NumberFormatter()
     
-    static func formatCurrency(_ number: NSNumber, minimumFractionDigits: Int = 2, maximumFractionDigits: Int = 2, displayVariance: Bool = false, currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE) -> String {
+    static func formatCurrency(
+        _ number: NSNumber,
+        minimumFractionDigits: Int = 2,
+        maximumFractionDigits: Int = 2,
+        displayVariance: Bool = false,
+        currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE
+    ) -> String {
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = currencyCode
         currencyFormatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)

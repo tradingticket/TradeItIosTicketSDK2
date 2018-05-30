@@ -107,7 +107,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
-            cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()), currencyCode: nil)
+            cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()))
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
             TradeItThemeConfigurator.configure(view: cell)
             return cell

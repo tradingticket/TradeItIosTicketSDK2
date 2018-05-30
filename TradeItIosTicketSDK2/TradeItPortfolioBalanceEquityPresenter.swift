@@ -44,7 +44,7 @@ class TradeItPortfolioBalanceEquityPresenter {
         var dayReturnString = ""
 
         if let dayAbsoluteReturn = self.balance?.dayAbsoluteReturn {
-            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, displayVariance: true, currencyCode: balance?.accountBaseCurrency)
+            dayReturnString = NumberFormatter.formatCurrency(dayAbsoluteReturn, displayVariance: true)
         }
 
         if let dayPercentReturn = self.balance?.dayPercentReturn {

@@ -10,10 +10,12 @@
 
 @implementation TradeItPlaceTradeRequest
 
-- (id)initWithOrderId:(NSString *) orderId {
+- (id)initWithOrderId:(NSString *) orderId
+andInterAppAddressCallback:(NSString *) interAppAddressCallback {
     self = [super init];
     if (self) {
         self.orderId = orderId;
+        self.interAppAddressCallback = interAppAddressCallback;
     }
     return self;
 }

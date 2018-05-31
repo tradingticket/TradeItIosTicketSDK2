@@ -71,6 +71,8 @@
 #import "TradeItFxOrderCapabilities.h"
 #import "TradeItFxOrderCapabilitiesResult.h"
 #import "TradeItFxQuoteRequest.h"
+#import "TradeItVerifyOAuthURLResult.h"
+#import "TradeItComplete1FARequest.h"
 
 // Use the BalanceService to get account balance information
 #import "TradeItAccountOverviewRequest.h"

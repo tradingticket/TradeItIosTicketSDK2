@@ -62,13 +62,10 @@ class TradeItTradePreviewViewController:
                 activityView.hide(animated: true)
                 self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
             },
-            { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                self.alertManager.promptUserToAnswerSecurityQuestion(
-                    securityQuestion,
-                    onViewController: self,
-                    onAnswerSecurityQuestion: answerSecurityQuestion,
-                    onCancelSecurityQuestion: cancelSecurityQuestion
-                )
+            { url, complete1FA in
+                self.tradeSecurityHandler = complete1FA
+                let safariViewController = SFSafariViewController(url: url)
+                self.present(safariViewController, animated: true, completion: nil)
             },
             { error in
                 activityView.hide(animated: true)
@@ -86,6 +83,18 @@ class TradeItTradePreviewViewController:
                 )
             }
         )
+    }
+
+    private var tradeSecurityHandler: (() -> Void)?
+    internal func handleTradeSecurityResponse() {
+        if let tradeSecurityHandler = self.tradeSecurityHandler {
+            tradeSecurityHandler()
+        } else {
+            return self.alertManager.showError(
+                TradeItErrorResult.tradeError(withSystemMessage: "Trade could not be submitted please try again."),
+                onViewController: self
+            )
+        }
     }
 
     // MARK: UITableViewDataSource

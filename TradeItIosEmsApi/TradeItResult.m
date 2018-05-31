@@ -25,6 +25,10 @@
     return [@"INFORMATION_NEEDED" isEqualToString:self.status];
 }
 
+- (BOOL)isVerify1FA {
+    return [@"VERIFY_1FA" isEqualToString:self.status];
+}
+
 - (BOOL)isReviewOrder {
     return [@"REVIEW_ORDER" isEqualToString:self.status];
 }

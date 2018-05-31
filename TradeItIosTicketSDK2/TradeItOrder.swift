@@ -2,9 +2,8 @@ public typealias TradeItPlaceOrderResult = TradeItPlaceTradeResult
 public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
 public typealias TradeItPlaceOrderHandlers = (
     _ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
-    _ onSecurityQuestion: @escaping (TradeItSecurityQuestionResult,
-        _ submitAnswer: @escaping (String) -> Void,
-        _ onCancelSecurityQuestion: @escaping () -> Void
+    _ onVerifyUrl: @escaping (URL,
+        _ complete1FA: @escaping () -> Void,
     ) -> Void,
     _ onFailure: @escaping (TradeItErrorResult) -> Void
 ) -> Void
@@ -220,27 +219,26 @@ public typealias TradeItPlaceOrderHandlers = (
     private func generatePlaceOrderCallback(
         previewOrderResult: TradeItPreviewOrderResult
     ) -> TradeItPlaceOrderHandlers {
-        return { onSuccess, onSecurityQuestion, onFailure in
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
+        return { onSuccess, onVerifyUrl, onFailure in
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId, andInterAppAddressCallback: TradeItSDK.verify1FACallbackUrl.absoluteString)
             let placeResponseHandler = YCombinator { handler in
                 { (result: TradeItResult?) in
                     switch result {
                     case let placeOrderResult as TradeItPlaceOrderResult:
                         onSuccess(placeOrderResult)
-                    case let securityQuestion as TradeItSecurityQuestionResult:
-                        onSecurityQuestion(
-                            securityQuestion,
-                            { securityQuestionAnswer in
-                                self.linkedBrokerAccount?.equityTradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
-                            },
-                            {
-                                handler(
-                                    TradeItErrorResult(
-                                        title: "Authentication failed",
-                                        message: "The security question was canceled.",
-                                        code: .sessionError
-                                    )
+                    case let verifyOAuthURLResult as TradeItVerifyOAuthURLResult:
+                        guard let oAuthUrl = verifyOAuthURLResult.oAuthUrl() else {
+                            onFailure(
+                                TradeItErrorResult(
+                                    title: "Received empty OAuth verify popup URL"
                                 )
+                            )
+                            return
+                        }
+                        onVerifyUrl(
+                            oAuthUrl,
+                            {
+                                tradeService?.complete1FA(completionBlock: handler)
                             }
                         )
                     case let errorResult as TradeItErrorResult:

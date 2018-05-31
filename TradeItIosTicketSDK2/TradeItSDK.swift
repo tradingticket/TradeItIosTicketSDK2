@@ -110,6 +110,18 @@ import UIKit
         }
     }
 
+    private static var _verify1FACallbackUrl: URL?
+    public static var verify1FACallbackUrl: URL {
+        get {
+            precondition(self._verify1FACallbackUrl != nil, "ERROR: TradeItSDK.verify1FACallbackUrl accessed without being set in TradeItSDK.configure()!")
+            return self._verify1FACallbackUrl!
+        }
+
+        set(new) {
+            self._verify1FACallbackUrl = new
+        }
+    }
+
     private static var _isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
     @objc public static var isDeviceJailbroken: Bool {
         get {
@@ -126,12 +138,14 @@ import UIKit
     @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
+        verify1FACallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv
     ) {
         // We need this version of the configure method because Obj-C does not generate methods that allow for  omitting optional arguments with defaults, e.g. marketDataService
         self.configure(
             apiKey: apiKey,
             oAuthCallbackUrl: oAuthCallbackUrl,
+            verify1FACallbackUrl: verify1FACallbackUrl,
             environment: environment,
             marketDataService: nil,
             requestFactory: nil
@@ -141,6 +155,7 @@ import UIKit
     @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
+        verify1FACallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
@@ -158,6 +173,7 @@ import UIKit
         self._apiKey = apiKey
         self._environment = environment
         self._oAuthCallbackUrl = oAuthCallbackUrl
+        self.verify1FACallbackUrl = verify1FACallbackUrl
         self.userCountryCode = userCountryCode
 
         let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)

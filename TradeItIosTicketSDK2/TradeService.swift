@@ -68,15 +68,12 @@ extension TradeService {
         })
     }
 
-    func answerSecurityQuestionPlaceOrder(
-        _ answer: String,
-        withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
-        ) {
-        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, andAnswer: answer)
+    func complete1FA(completionBlock: @escaping (TradeItResult) -> Void) {
+        let complete1FARequest = TradeItComplete1FARequest(token: self.session.token)
         let request = TradeItRequestFactory.buildJsonRequest(
-            for: secRequest,
-            emsAction: "user/answerSecurityQuestion",
-            environment: self.session.connector.environment
+                for: complete1FARequest,
+                emsAction: "user/complete1FA",
+                environment: self.session.connector.environment
         )
         self.session.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
             completionBlock(self.parsePlaceTradeResponse(result, jsonResponse))
@@ -88,9 +85,9 @@ extension TradeService {
         _ json: String?
     ) -> TradeItResult {
         guard let json = json else { return TradeItErrorResult.error(withSystemMessage: "No data returned from server") }
-
-        if let securityQuestionResult = placeTradeResult as? TradeItSecurityQuestionResult {
-            return securityQuestionResult
+        
+        if let verifyOAuthResult = placeTradeResult as? TradeItVerifyOAuthURLResult {
+            return verifyOAuthResult
         } else if let error = placeTradeResult as? TradeItErrorResult {
             return error
         } else if let placeTradeResult = TradeItResultTransformer.transform(

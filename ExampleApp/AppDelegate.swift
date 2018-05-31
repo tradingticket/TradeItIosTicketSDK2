@@ -11,6 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TradeItSDK.configure(
             apiKey: AppDelegate.API_KEY,
             oAuthCallbackUrl: URL(string: "tradeItExampleScheme://completeOAuth")!,
+            verify1FACallbackUrl: URL(string: "tradeItExampleScheme://complete1FA")!,
             environment: AppDelegate.ENVIRONMENT,
             userCountryCode: "US"
         )
@@ -45,16 +46,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("=====> Received OAuth callback URL: \(url.absoluteString)")
 
         let MANUAL_HOST = "manualCompleteOAuth"
+        let VERIFY_1FA = "complete1FA"
 
         // Check for the intended url.scheme, url.host, and url.path before proceeding
         if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
             urlComponents.scheme == "tradeitexamplescheme",
             let host = urlComponents.host,
-            let queryItems = urlComponents.queryItems,
-            let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
+            let queryItems = urlComponents.queryItems {
 
             if host == MANUAL_HOST {
-                self.completeManualOAuth(oAuthVerifier: oAuthVerifier)
+                if let oAuthVerifier = queryItems.filter({ $0.name == "oAuthVerifier" }).first?.value {
+                    self.completeManualOAuth(oAuthVerifier: oAuthVerifier)
+                }
+            } else if host == VERIFY_1FA {
+                self.handleExampleVerify1FA(verify1FACallbackUrl: url, host: host)
             } else {
                 self.handleExampleOAuth(oAuthCallbackUrl: url, host: host)
             }
@@ -208,6 +213,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 )
             default:
                 print("=====> ERROR: Received unknown OAuth callback URL host: \(host)")
+            }
+        }
+    }
+
+    private func handleExampleVerify1FA(verify1FACallbackUrl: URL, host: String) {
+        let VERIFY_1FA = "complete1FA"
+        if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topViewController.presentedViewController {
+                topViewController = presentedViewController
+            }
+
+            if let navController = topViewController as? UINavigationController,
+                let navTopViewController = navController.topViewController {
+                topViewController = navTopViewController
+            }
+
+            switch host {
+            case VERIFY_1FA:
+                TradeItSDK.launcher.handleVerify1FACallback(
+                    onTopmostViewController: topViewController,
+                    verify1FACallbackUrl: verify1FACallbackUrl
+                )
+            default:
+                print("=====> ERROR: Received unknown verify 1 FA callback URL host: \(host)")
             }
         }
     }

@@ -63,6 +63,31 @@ protocol OAuthCompletionListener {
         }
     }
 
+    @objc public func handleVerify1FACallback(
+        onTopmostViewController topMostViewController: UIViewController,
+        verify1FACallbackUrl: URL
+    ) {
+        print("=====> handleVerify1FACallback: \(verify1FACallbackUrl.absoluteString)")
+
+        var originalViewController: UIViewController?
+
+        // Check for the OAuth "popup" screen
+        if topMostViewController is SFSafariViewController {
+            originalViewController = topMostViewController.presentingViewController
+        }
+
+        if let tradeItTradePreviewViewController = originalViewController?.childViewControllers.last as? TradeItTradePreviewViewController {
+            if let originalViewController = originalViewController {
+                originalViewController.dismiss(
+                    animated: true,
+                    completion: {
+                        tradeItTradePreviewViewController.handleTradeSecurityResponse()
+                    }
+                )
+            }
+        }
+    }
+
     @objc public func launchPortfolio(fromViewController viewController: UIViewController) {
         // If user has no linked brokers, set OAuth callback destination and show welcome flow instead
         if (TradeItSDK.linkedBrokerManager.linkedBrokers.count == 0) {

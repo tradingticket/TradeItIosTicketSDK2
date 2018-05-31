@@ -43,6 +43,8 @@
 
 - (BOOL)isSecurityQuestion;
 
+- (BOOL)isVerify1FA;
+
 - (BOOL)isReviewOrder;
 
 - (BOOL)isError;

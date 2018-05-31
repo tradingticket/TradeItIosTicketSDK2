@@ -134,6 +134,17 @@ import SafariServices
                 )
             }
         }
+
+        if let cancelOrderViewController = originalViewController?.childViewControllers.last as? TradeItOrdersViewController {
+            if let originalViewController = originalViewController {
+                originalViewController.dismiss(
+                    animated: true,
+                    completion: {
+                        cancelOrderViewController.handleCancelOrderSecurityResponse()
+                    }
+                )
+            }
+        }
     }
 
     @objc public func launchTrading(

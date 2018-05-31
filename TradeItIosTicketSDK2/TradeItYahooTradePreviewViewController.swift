@@ -102,13 +102,10 @@ class TradeItYahooTradePreviewViewController:
 
                         self.fireViewEventNotification(view: .submitted)
                     },
-                    { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                        self.alertManager.promptUserToAnswerSecurityQuestion(
-                            securityQuestion,
-                            onViewController: self,
-                            onAnswerSecurityQuestion: answerSecurityQuestion,
-                            onCancelSecurityQuestion: cancelSecurityQuestion
-                        )
+                    { url, complete1FA in
+                        self.tradeSecurityHandler = complete1FA
+                        let safariViewController = SFSafariViewController(url: url)
+                        self.present(safariViewController, animated: true, completion: nil)
                     },
                     { errorResult in
                         activityView.hide(animated: true)
@@ -200,7 +197,20 @@ class TradeItYahooTradePreviewViewController:
     }
     
     // MARK: Private
-    
+
+    private var tradeSecurityHandler: (() -> Void)?
+    internal func handleTradeSecurityResponse() {
+        if let tradeSecurityHandler = self.tradeSecurityHandler {
+            tradeSecurityHandler()
+        } else {
+            return self.alertManager.showError(
+                TradeItErrorResult.tradeError(withSystemMessage: "Trade could not be submitted please try again."),
+                onViewController: self
+            )
+        }
+
+    }
+
     private func updatePlaceOrderButtonStatus() {
         if self.dataSource?.allAcknowledgementsAccepted() == true {
             self.actionButton.enable()

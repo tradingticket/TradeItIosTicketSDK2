@@ -180,20 +180,20 @@
     @objc public func cancelOrder(
         orderNumber: String,
         onSuccess: @escaping () -> Void,
-        onSecurityQuestion: @escaping (
-            TradeItSecurityQuestionResult,
-            _ submitAnswer: @escaping (String) -> Void,
-            _ onCancelSecurityQuestion: @escaping () -> Void
+        onVerifyUrl: @escaping (
+            URL,
+            _ complete1FA: @escaping () -> Void,
         ) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        let request = TradeItCancelOrderRequest()
+        let request = TradeItCancelOrderRequest(interAppAddressCallback: TradeItSDK.verify1FACallbackUrl.absoluteString)
+    
         request.accountNumber = self.accountNumber
         request.orderNumber = orderNumber
         self.orderService?.cancelOrder(
             request,
             onSuccess: onSuccess,
-            onSecurityQuestion: onSecurityQuestion,
+            onVerifyUrl: onVerifyUrl,
             onFailure: { error in
                 self.setError(error)
                 onFailure(error)

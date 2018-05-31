@@ -36,10 +36,9 @@ internal class TradeItOrderService: NSObject {
     func cancelOrder(
         _ data: TradeItCancelOrderRequest,
         onSuccess: @escaping () -> Void,
-        onSecurityQuestion: @escaping (
-            TradeItSecurityQuestionResult,
-            _ submitAnswer: @escaping (String) -> Void,
-            _ onCancelSecurityQuestion: @escaping () -> Void
+        onVerifyUrl: @escaping (
+                            URL,
+                            _ complete1FA: @escaping () -> Void
         ) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
         ) {
@@ -54,24 +53,23 @@ internal class TradeItOrderService: NSObject {
         let cancelOrderResponseHandler = YCombinator { handler in
             { (result: TradeItResult?) in
                 switch result {
-                case _ as TradeItAllOrderStatusResult:
-                    onSuccess()
-                case let securityQuestion as TradeItSecurityQuestionResult:
-                    onSecurityQuestion(
-                        securityQuestion,
-                        { securityQuestionAnswer in
-                            self.answerSecurityQuestionCancelOrder(securityQuestionAnswer, withCompletionBlock: handler)
-                        },
-                        {
-                            handler(
-                                TradeItErrorResult(
-                                    title: "Authentication failed",
-                                    message: "The security question was canceled.",
-                                    code: .sessionError
-                                )
+                case let verifyOAuthURLResult as TradeItVerifyOAuthURLResult:
+                    guard let oAuthUrl = verifyOAuthURLResult.oAuthUrl() else {
+                        onFailure(
+                            TradeItErrorResult(
+                                title: "Received empty OAuth verify popup URL"
                             )
+                        )
+                        return
+                    }
+                    onVerifyUrl(
+                        oAuthUrl,
+                        {
+                            self.complete1FA(completionBlock: handler)
                         }
                     )
+                case _ as TradeItAllOrderStatusResult:
+                    onSuccess()
                 case let errorResult as TradeItErrorResult:
                     onFailure(errorResult)
                 default:
@@ -84,14 +82,15 @@ internal class TradeItOrderService: NSObject {
             cancelOrderResponseHandler(result)
         }
     }
-    
-    func answerSecurityQuestionCancelOrder(_ answer: String, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
-        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, andAnswer: answer)
+
+    func complete1FA(completionBlock: @escaping (TradeItResult) -> Void) {
+        let complete1FARequest = TradeItComplete1FARequest(token: self.session.token)
         let request = TradeItRequestFactory.buildJsonRequest(
-            for: secRequest,
-            emsAction: "user/answerSecurityQuestion",
+            for: complete1FARequest,
+            emsAction: "user/complete1FA",
             environment: self.session.connector.environment
         )
+
         self.session.connector.send(request, targetClassType: TradeItAllOrderStatusResult.self) { result in
             completionBlock(
                 result ?? TradeItErrorResult.tradeError(withSystemMessage: "Error canceling order.")

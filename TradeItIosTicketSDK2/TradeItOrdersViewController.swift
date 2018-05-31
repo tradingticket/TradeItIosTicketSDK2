@@ -1,6 +1,7 @@
 import UIKit
 import PromiseKit
 import MBProgressHUD
+import SafariServices
 
 class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDelegate {
     var ordersTableViewManager: TradeItOrdersTableViewManager?
@@ -90,13 +91,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                     activityView.hide(animated: true)
                     self.loadOrders()
                 },
-                onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
-                    self.alertManager.promptUserToAnswerSecurityQuestion(
-                        securityQuestion,
-                        onViewController: self,
-                        onAnswerSecurityQuestion: answerSecurityQuestion,
-                        onCancelSecurityQuestion: cancelSecurityQuestion
-                    )
+                onVerifyUrl: { url, complete1FA in
+                    self.cancelOrderSecurityHandler = complete1FA
+                    let safariViewController = SFSafariViewController(url: url)
+                    self.present(safariViewController, animated: true, completion: nil)
                 },
                 onFailure: { error in
                     activityView.hide(animated: true)
@@ -121,7 +119,19 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             onCancelActionTapped: {}
         )
     }
-    
+
+    private var cancelOrderSecurityHandler: (() -> Void)?
+    internal func handleCancelOrderSecurityResponse() {
+        if let cancelOrderSecurityHandler = self.cancelOrderSecurityHandler {
+            cancelOrderSecurityHandler()
+        } else {
+            return self.alertManager.showError(
+                TradeItErrorResult.error(withSystemMessage: "Canceling order could not be submitted please try again."),
+                onViewController: self
+            )
+        }
+    }
+
     // MARK: private
 
     private func loadOrders() {

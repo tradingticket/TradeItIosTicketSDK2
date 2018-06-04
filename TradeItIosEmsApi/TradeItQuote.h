@@ -37,10 +37,10 @@
 @property (nullable, copy) NSNumber<Optional> *pctChange;
 
 // The day's lowest traded price
-@property (nullable, copy) NSNumber *low;
+@property (nullable, copy) NSNumber<Optional> *low;
 
 // The day's highest traded price
-@property (nullable, copy) NSNumber *high;
+@property (nullable, copy) NSNumber<Optional> *high;
 
 // total trading volume for the day
 @property (nullable, copy) NSNumber<Optional> *volume;

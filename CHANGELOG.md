@@ -1,4 +1,13 @@
 # Changelog
+## [2.0.8]
+### Added
+- Yahoo crypto ticket
+- Add streaming data protocol to add streaming market data to the trading ticket
+- Support fractional shares on equity ticket
+- Adds learn more button to Yahoo broker selection
+
+### Changed
+- Updated PromiseKit to ~> 6.0
 
 ## [2.0.7]
 ### Changed

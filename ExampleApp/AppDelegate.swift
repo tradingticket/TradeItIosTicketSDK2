@@ -265,7 +265,7 @@ class DummyStreamingMarketDataService: StreamingMarketDataService {
         quote.companyName = "LOL"
         quote.lastPrice = NSNumber(value: price)
         quote.change = NSNumber(value: priceChange)
-        quote.pctChange = -123.456
+        quote.pctChange = NSNumber(value: -123.456)
         quote.dateTime = "12:34:56"
         
         onUpdate?(quote)

@@ -264,6 +264,8 @@ class DummyStreamingMarketDataService: StreamingMarketDataService {
         let quote = TradeItQuote()
         quote.companyName = "LOL"
         quote.lastPrice = NSNumber(value: price)
+        quote.bidPrice = NSNumber(value: price - 1)
+        quote.askPrice = NSNumber(value: price + 1)
         quote.change = NSNumber(value: priceChange)
         quote.pctChange = NSNumber(value: -123.456)
         quote.dateTime = "12:34:56"

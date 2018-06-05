@@ -461,7 +461,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency)
+                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency
+                )
             }
 
             cell.detailTextLabel?.text = estimateChangeText

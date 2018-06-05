@@ -502,7 +502,8 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             if let estimatedChange = order.estimatedChange() {
                 estimateChangeText = NumberFormatter.formatCurrency(
                     estimatedChange,
-                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
+                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
+                )
             }
 
             cell.detailTextLabel?.text = estimateChangeText

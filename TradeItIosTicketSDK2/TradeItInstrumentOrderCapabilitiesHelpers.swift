@@ -39,9 +39,9 @@ extension TradeItInstrumentOrderCapabilities {
     func maxDecimalPlacesFor(orderQuantityType: OrderQuantityType?) -> Int {
         // TODO: API needs to provide this configuration. Setting to 8 for BTC case.
         switch orderQuantityType {
-        case .some(.baseCurrency): return 8
-        case .some(.shares): return 0
-        default: return 2
+        case .some(.baseCurrency), .some(.quoteCurrency): return 8
+        case .some(.totalPrice), .some(.shares): return 4
+        case .none: return 4
         }
     }
 

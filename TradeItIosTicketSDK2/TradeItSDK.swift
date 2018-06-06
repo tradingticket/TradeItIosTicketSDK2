@@ -83,7 +83,7 @@ import UIKit
         }
     }
     
-    public static var streamingMarketDataService: StreamingMarketDataService?
+    @objc public static var streamingMarketDataService: StreamingMarketDataService?
 
     internal static var _marketDataService: MarketDataService?
     @objc public static var marketDataService: MarketDataService {

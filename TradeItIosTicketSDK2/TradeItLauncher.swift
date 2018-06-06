@@ -232,15 +232,6 @@ protocol OAuthCompletionListener {
         )
     }
 
-    @objc public func launchBrokerLinking(fromViewController viewController: UIViewController) {
-        let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
-
-        self.launchBrokerLinking(
-            fromViewController: viewController,
-            showWelcomeScreen: showWelcomeScreen
-        )
-    }
-
     @objc public func launchRelinking(
         fromViewController viewController: UIViewController,
         forLinkedBroker linkedBroker: TradeItLinkedBroker
@@ -251,6 +242,15 @@ protocol OAuthCompletionListener {
             inViewController: viewController,
             linkedBroker: linkedBroker,
             oAuthCallbackUrl: oAuthCallbackUrl
+        )
+    }
+
+    @objc public func launchBrokerLinking(fromViewController viewController: UIViewController) {
+        let showWelcomeScreen = TradeItSDK.linkedBrokerManager.linkedBrokers.count > 0
+
+        self.launchBrokerLinking(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen
         )
     }
 

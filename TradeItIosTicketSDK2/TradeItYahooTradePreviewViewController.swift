@@ -103,9 +103,11 @@ class TradeItYahooTradePreviewViewController:
                         self.fireViewEventNotification(view: .submitted)
                     },
                     { url, complete1FA in
-                        self.tradeSecurityHandler = complete1FA
-                        let safariViewController = SFSafariViewController(url: url)
-                        self.present(safariViewController, animated: true, completion: nil)
+                        activityView.hide(animated: true)
+                        self.alertManager.showError(
+                            TradeItErrorResult.tradeError(withSystemMessage: "completeTradeChallenge is not implemented"),
+                            onViewController: self
+                        )
                     },
                     { errorResult in
                         activityView.hide(animated: true)
@@ -197,19 +199,6 @@ class TradeItYahooTradePreviewViewController:
     }
     
     // MARK: Private
-
-    private var tradeSecurityHandler: (() -> Void)?
-    internal func handleTradeSecurityResponse() {
-        if let tradeSecurityHandler = self.tradeSecurityHandler {
-            tradeSecurityHandler()
-        } else {
-            return self.alertManager.showError(
-                TradeItErrorResult.tradeError(withSystemMessage: "Trade could not be submitted please try again."),
-                onViewController: self
-            )
-        }
-
-    }
 
     private func updatePlaceOrderButtonStatus() {
         if self.dataSource?.allAcknowledgementsAccepted() == true {

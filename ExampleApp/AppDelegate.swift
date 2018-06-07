@@ -219,7 +219,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func handleExampleVerify1FA(verify1FACallbackUrl: URL, host: String) {
         let VERIFY_1FA = "complete1FA"
-        let YAHOO_HOST = "completeYahoo1FA"
         if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
             while let presentedViewController = topViewController.presentedViewController {
                 topViewController = presentedViewController
@@ -233,11 +232,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             switch host {
             case VERIFY_1FA:
                 TradeItSDK.launcher.handleVerify1FACallback(
-                    onTopmostViewController: topViewController,
-                    verify1FACallbackUrl: verify1FACallbackUrl
-                )
-            case YAHOO_HOST:
-                TradeItSDK.yahooLauncher.handleVerify1FACallback(
                     onTopmostViewController: topViewController,
                     verify1FACallbackUrl: verify1FACallbackUrl
                 )

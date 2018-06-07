@@ -188,14 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let YAHOO_HOST = "completeYahooOAuth"
 
         if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
-            while let presentedViewController = topViewController.presentedViewController {
-                topViewController = presentedViewController
-            }
-
-            if let navController = topViewController as? UINavigationController,
-                let navTopViewController = navController.topViewController {
-                topViewController = navTopViewController
-            }
+            topViewController = getTopViewController(viewController: topViewController)
 
             switch host {
             case EXAMPLE_HOST:
@@ -220,15 +213,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func handleExampleVerify1FA(verify1FACallbackUrl: URL, host: String) {
         let VERIFY_1FA = "complete1FA"
         if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
-            while let presentedViewController = topViewController.presentedViewController {
-                topViewController = presentedViewController
-            }
-
-            if let navController = topViewController as? UINavigationController,
-                let navTopViewController = navController.topViewController {
-                topViewController = navTopViewController
-            }
-
+            topViewController = getTopViewController(viewController: topViewController)
+            
             switch host {
             case VERIFY_1FA:
                 TradeItSDK.launcher.handleVerify1FACallback(
@@ -239,6 +225,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("=====> ERROR: Received unknown verify 1 FA callback URL host: \(host)")
             }
         }
+    }
+
+    private func getTopViewController(viewController: UIViewController) -> UIViewController {
+        var topViewController = viewController
+        while let presentedViewController = topViewController.presentedViewController {
+            topViewController = presentedViewController
+        }
+
+        if let navController = topViewController as? UINavigationController,
+            let navTopViewController = navController.topViewController {
+            topViewController = navTopViewController
+        }
+        return topViewController
     }
 }
 

@@ -91,8 +91,8 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
                     activityView.hide(animated: true)
                     self.loadOrders()
                 },
-                onVerifyUrl: { url, complete1FA in
-                    self.cancelOrderSecurityHandler = complete1FA
+                onVerifyUrl: { url, completeCancelOrderChallenge in
+                    self.cancelOrderSecurityHandler = completeCancelOrderChallenge
                     let safariViewController = SFSafariViewController(url: url)
                     self.present(safariViewController, animated: true, completion: nil)
                 },
@@ -126,7 +126,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             cancelOrderSecurityHandler()
         } else {
             return self.alertManager.showError(
-                TradeItErrorResult.error(withSystemMessage: "Canceling order could not be submitted please try again."),
+                TradeItErrorResult(
+                    title: "Canceling order failed",
+                    message: "Your cancel order request could not be submitted. Please try again."
+                ),
                 onViewController: self
             )
         }

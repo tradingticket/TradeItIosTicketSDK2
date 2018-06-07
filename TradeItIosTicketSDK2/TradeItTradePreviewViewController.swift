@@ -62,8 +62,8 @@ class TradeItTradePreviewViewController:
                 activityView.hide(animated: true)
                 self.delegate?.orderSuccessfullyPlaced(onTradePreviewViewController: self, withPlaceOrderResult: result)
             },
-            { url, complete1FA in
-                self.tradeSecurityHandler = complete1FA
+            { url, completeTradeChallenge in
+                self.tradeSecurityHandler = completeTradeChallenge
                 let safariViewController = SFSafariViewController(url: url)
                 self.present(safariViewController, animated: true, completion: nil)
             },

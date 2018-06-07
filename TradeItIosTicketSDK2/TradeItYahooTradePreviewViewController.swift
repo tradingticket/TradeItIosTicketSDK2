@@ -102,7 +102,7 @@ class TradeItYahooTradePreviewViewController:
 
                         self.fireViewEventNotification(view: .submitted)
                     },
-                    { url, complete1FA in
+                    { url, completeTradeChallenge in
                         activityView.hide(animated: true)
                         self.alertManager.showError(
                             TradeItErrorResult.tradeError(withSystemMessage: "completeTradeChallenge is not implemented"),

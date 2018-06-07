@@ -36,10 +36,7 @@ internal class TradeItOrderService: NSObject {
     func cancelOrder(
         _ data: TradeItCancelOrderRequest,
         onSuccess: @escaping () -> Void,
-        onVerifyUrl: @escaping (
-                            URL,
-                            _ complete1FA: @escaping () -> Void
-        ) -> Void,
+        onVerifyUrl: @escaping (URL, _ completeCancelOrderChallenge: @escaping () -> Void) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
         ) {
         data.token = self.session.token
@@ -65,7 +62,7 @@ internal class TradeItOrderService: NSObject {
                     onVerifyUrl(
                         oAuthUrl,
                         {
-                            self.complete1FA(completionBlock: handler)
+                            self.completeCancelOrderChallenge(completionBlock: handler)
                         }
                     )
                 case _ as TradeItAllOrderStatusResult:
@@ -83,7 +80,7 @@ internal class TradeItOrderService: NSObject {
         }
     }
 
-    func complete1FA(completionBlock: @escaping (TradeItResult) -> Void) {
+    func completeCancelOrderChallenge(completionBlock: @escaping (TradeItResult) -> Void) {
         let complete1FARequest = TradeItComplete1FARequest(token: self.session.token)
         let request = TradeItRequestFactory.buildJsonRequest(
             for: complete1FARequest,
@@ -93,7 +90,7 @@ internal class TradeItOrderService: NSObject {
 
         self.session.connector.send(request, targetClassType: TradeItAllOrderStatusResult.self) { result in
             completionBlock(
-                result ?? TradeItErrorResult.tradeError(withSystemMessage: "Error canceling order.")
+                result ?? TradeItErrorResult.error(withSystemMessage: "Error canceling order.")
             )
         }
     }

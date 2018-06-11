@@ -556,8 +556,11 @@ class TradeItYahooCryptoTradingTicketViewController:
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
         }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
-        return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)
+        guard let sharesOwned = positionMatchingSymbol?.position?.quantity,
+            let symbol = self.order.baseSymbol
+            else { return "" }
+        
+        return "\(symbol) owned: \(NumberFormatter.formatQuantity(sharesOwned))"
     }
 
     private func pushOrderCapabilitiesSelection(

@@ -64,7 +64,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
             cells.append(ValueCellData(label: title, value: formatCurrency(estimatedTotalValue)))
         }
 
-        if self.placeOrderResult != nil {
+        if self.placeOrderResult == nil {
             cells += generateMessageCellData()
         }
 

@@ -416,8 +416,25 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         case .orderAction:
             cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            let cell = cell as? TradeItNumericToggleInputCell
+            let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypes(
+                forAction: self.order.action,
+                priceType: self.order.type
+            )
+            
+            if supportedOrderQuantityTypes.isEmpty {
+                let errorResult = TradeItErrorResult(
+                    title: "Order Quantity Type Error",
+                    message: "No valid quantity type found for this action",
+                    code: TradeItErrorCode.systemError
+                )
+                self.alertManager.showError(errorResult, onViewController: self)
+                return cell
+            }
+            
+            self.order.quantityType = supportedOrderQuantityTypes.contains(self.order.quantityType) ? self.order.quantityType : supportedOrderQuantityTypes[0]
             let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
+            
+            let cell = cell as? TradeItNumericToggleInputCell
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
@@ -449,10 +466,6 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                         )
                     }
                 }
-            )
-            let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypes(
-                forAction: self.order.action,
-                priceType: self.order.type
             )
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,

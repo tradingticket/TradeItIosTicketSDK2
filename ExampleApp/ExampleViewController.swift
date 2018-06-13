@@ -630,7 +630,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                 TradeItSDK.linkedBrokerManager.linkedBrokers.forEach {
                     $0.authenticate(
                         onSuccess: {
-                            print("Successfuly linked broker")
+                            print("Successfully linked broker")
                         },
                         onSecurityQuestion: {
                             securityQuestion,
@@ -644,7 +644,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                                 )
                         },
                         onFailure: { errorResult in
-                            print("Failed to link broker(\(String(describing: errorResult.code)): \(errorResult.message)")
+                            print("Failed to link broker (\(String(describing: errorResult.code)): \(errorResult.message)")
                         }
                     )
                 }

@@ -23,10 +23,10 @@ class NumberFormatter: NSObject {
         return formattedCurrency ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
-    static func formatQuantity(_ number: NSNumber) -> String {
+    static func formatQuantity(_ number: NSNumber, maxDecimalPlaces: Int = 2) -> String {
         quantityFormatter.numberStyle = .decimal
         quantityFormatter.minimumFractionDigits = 0
-        quantityFormatter.maximumFractionDigits = 2
+        quantityFormatter.maximumFractionDigits = maxDecimalPlaces
         return quantityFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     

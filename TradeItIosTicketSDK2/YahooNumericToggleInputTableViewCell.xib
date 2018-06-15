@@ -71,6 +71,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="disclosureIndicator" destination="rVA-hY-OgP" id="mxh-e2-71c"/>
                 <outlet property="disclosureIndicatorWidthConstraint" destination="po5-Sb-8KN" id="MsE-9Z-29u"/>
                 <outlet property="quantityTypeButton" destination="rie-TN-DTb" id="jMV-3P-Gea"/>
                 <outlet property="textField" destination="lbr-7B-RTK" id="XbI-2k-xAd"/>

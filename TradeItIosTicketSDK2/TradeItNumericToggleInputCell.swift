@@ -4,6 +4,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var textField: TradeItNumberField!
     @IBOutlet weak var quantityTypeButton: UIButton!
     @IBOutlet weak var disclosureIndicatorWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var disclosureIndicator: DisclosureIndicator!
 
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
     var onQuantityTypeToggled: (() -> Void)?
@@ -31,8 +32,12 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
-        self.onValueUpdated?(quantity)
-        self.disclosureIndicatorWidthConstraint.constant = showToggle ? 15 : 0
+        if showToggle {
+            self.disclosureIndicatorWidthConstraint.constant = 15
+            self.disclosureIndicator.setNeedsDisplay()
+        } else {
+            self.disclosureIndicatorWidthConstraint.constant = 0
+        }
     }
 
     @objc func dismissKeyboard() {

@@ -43,7 +43,7 @@ class EquityPreviewCellFactory: PreviewCellFactory {
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
             ValueCellData(
                 label: labelForQuantity(linkedBrokerAccount: linkedBrokerAccount, orderQuantityTypeString: orderDetails.orderQuantityType),
-                value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)
+                value: formatQuantity(rawQuantityType: orderDetails.orderQuantityType, quantity: orderDetails.orderQuantity)
             ),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
@@ -71,6 +71,15 @@ class EquityPreviewCellFactory: PreviewCellFactory {
     }
 
     // MARK: Private
+    
+    private func formatQuantity(rawQuantityType: String, quantity: NSNumber) -> String {
+        if let quantityType = OrderQuantityType(rawValue: rawQuantityType),
+            let maxDecimal = orderCapabilities?.maxDecimalPlacesFor(orderQuantityType: quantityType) {
+            return NumberFormatter.formatQuantity(quantity, maxDecimalPlaces: maxDecimal)
+        } else {
+            return quantity.stringValue
+        }
+    }
 
     private func labelForQuantity(linkedBrokerAccount: TradeItLinkedBrokerAccount, orderQuantityTypeString: String) -> String {
         guard let quantityType = OrderQuantityType.init(rawValue: orderQuantityTypeString) else { return "Amount" }

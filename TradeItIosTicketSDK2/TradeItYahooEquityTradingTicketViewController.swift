@@ -18,6 +18,11 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
     private var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var supportedOrderQuantityTypes: [OrderQuantityType] {
+        get {
+            return self.orderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+        }
+    }
     
     private var ticketRows = [TicketRow]()
 
@@ -86,12 +91,14 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         case .orderAction:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
+                self.updateOrderQuantityTypeConstraints()
             }
             
             self.fireViewEventNotification(view: .selectActionType, title: self.selectionViewController.title)
         case .orderType:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
+                self.updateOrderQuantityTypeConstraints()
             }
 
             self.fireViewEventNotification(view: .selectOrderType, title: self.selectionViewController.title)
@@ -425,16 +432,11 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypes(
-                        forAction: self.order.action,
-                        priceType: self.order.type
-                    )
+                    if self.supportedOrderQuantityTypes.isEmpty { return }
 
-                    if supportedOrderQuantityTypes.count == 0 { return }
-
-                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
-                    let nextOrderQuantityType = supportedOrderQuantityTypes[safe: nextIndex] ?? supportedOrderQuantityTypes.first ?? .shares
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .shares
 
                     if self.order.quantityType != nextOrderQuantityType {
                         self.order.quantityType = nextOrderQuantityType
@@ -445,14 +447,10 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
                             maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
-                            showToggle: supportedOrderQuantityTypes.count > 1
+                            showToggle: self.supportedOrderQuantityTypes.count > 1
                         )
                     }
                 }
-            )
-            let supportedOrderQuantityTypes = orderCapabilities.supportedOrderQuantityTypes(
-                forAction: self.order.action,
-                priceType: self.order.type
             )
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
@@ -572,6 +570,14 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         }
         
         self.navigationController?.pushViewController(selectionViewController, animated: true)
+    }
+
+    private func updateOrderQuantityTypeConstraints() {
+        if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
+            self.order.quantity = nil
+            self.order.quantityType = supportedOrderQuantityTypes.first ?? .shares
+            self.reload(row: .quantity)
+        }
     }
 
     enum TicketRow {

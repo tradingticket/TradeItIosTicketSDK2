@@ -31,7 +31,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
-        self.onValueUpdated?(quantity)
         self.disclosureIndicatorWidthConstraint.constant = showToggle ? 15 : 0
     }
 

@@ -61,7 +61,9 @@ class TradeItLinkedBrokerCache {
     }
     
     private func removeOldCache(linkedBroker: TradeItLinkedBroker) {
-        if let userDefault = UserDefaults(suiteName: TradeItLinkedBrokerCache.suiteName), let _ = userDefault.dictionary(forKey: TradeItLinkedBrokerCache.OLD_LINKED_BROKER_CACHE_KEY) {
+        if let userDefault = UserDefaults(suiteName: TradeItLinkedBrokerCache.suiteName),
+            let _ = userDefault.dictionary(forKey: TradeItLinkedBrokerCache.OLD_LINKED_BROKER_CACHE_KEY)
+        {
             userDefault.removeObject(forKey: TradeItLinkedBrokerCache.OLD_LINKED_BROKER_CACHE_KEY)
             userDefault.synchronize()
         }

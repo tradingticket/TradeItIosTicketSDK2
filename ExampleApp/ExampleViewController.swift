@@ -605,33 +605,18 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
 
     private func manualSyncLinkedBrokers() {
         let remoteBrokersToSync = [
-            LinkedBrokerData(
-                userId: "2c215022213205844b7c",
-                userToken: "oEK4OYY8FLfLoloQWTbHufznKI5VSjJTKRz2vj%2B%2BPf6Adpf0xyJqdF%2BpmYP0VMm%2B3mfhBdJbuFNSjtk9uVfH9EmgfY1x%2Bdqtf0K70JCCnRqUye6QRczBt%2Bl8eHydsyWCVSWwKsKP24gpNHYL9L6afA%3D%3D",
+            LinkedBrokerData( // dummy
+                userId: "8091528839474618b3ac",
+                userToken: "1cnfDaldPirJd%2Fx%2FoY%2B0Yiifv5VInjitqLeeOdnbhYrfNI9zah0ShW25%2Fb%2FaW6gjb9dLE9Sl2Jjp%2Ba1UZ8y%2FQYD8cg3y%2FbDFOfloy6y3DlRruu%2FHpE0DqJJHGXjqBH778yuBek5jz%2BYlEo4oCJQiWg%3D%3D",
                 broker: "Dummy",
                 brokerLongName: "Dummy Broker",
-                accounts: [],
-                isLinkActivationPending: true
+                accounts: []
             ),
-            LinkedBrokerData(
-                userId: "6ad15022323164871cf9",
-                userToken: "bA3VZKHdizvmaD%2B15pIXkBR44dqL3vhXkonPpm4NkXm9iJfc17JCj0fYAFCRIt25YdsADXPOfCWnpAqi4QZHrK8sogIvd2L418w95OVgRt0dGPJEixHDd1BVMWZ9BSYgDwDznrOXd5QYoNXMlMZWPQ%3D%3D",
+            LinkedBrokerData( // dummySecurity
+                userId: "2c715289128670019caa",
+                userToken: "BsBCjg%2BKbSZ%2Fz9E2ipGcsEyoBW6V8oeybjVYozCjb6ClF0af56DvuDPa1bFi8Sm5eWPoXGD8PpLuCtcnf%2FugTVaJxoaobtAJknBew%2FkFWK6PV%2BRbHW6hXFMUtWp%2BUMjpkQbW6XNEz9NGoYF%2BzCYGzg%3D%3D",
                 broker: "Dummy",
                 brokerLongName: "Dummy Broker",
-                accounts: [
-                    LinkedBrokerAccountData(
-                        name: "Individual Account",
-                        number: "SINGLE-ACCT-0001",
-                        baseCurrency: "USD",
-                        userCanDisableMargin: false
-                    )
-                ]
-            ),
-            LinkedBrokerData(
-                userId: "3741499971984583d2f1",
-                userToken: "ecwzVqxPiTtgalvlgPQOofmaxc%2BVj1JWnl8UfTwnXlMS8lQgNJ8zevAWAR1hcflBkyJ0V%2FWCuxvQdCe1vowLOcX7Hj9vpADuQfuBppFo1faGCV7q9UEjr0J4F8OhlFhgL2SwRLRz0uD411DokfX86g%3D%3D",
-                broker: "dummyFx",
-                brokerLongName: "Dummy Fx Broker",
                 accounts: []
             )
         ]
@@ -642,6 +627,27 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
             },
             onFinished: {
                 print("=====> MANUALLY SYNC LINKED BROKERS!")
+                TradeItSDK.linkedBrokerManager.linkedBrokers.forEach {
+                    $0.authenticate(
+                        onSuccess: {
+                            print("Successfully linked broker")
+                        },
+                        onSecurityQuestion: {
+                            securityQuestion,
+                            answerSecurityQuestion,
+                            cancelSecurityQuestion in
+                                self.alertManager.promptUserToAnswerSecurityQuestion(
+                                    securityQuestion,
+                                    onViewController: self,
+                                    onAnswerSecurityQuestion: answerSecurityQuestion,
+                                    onCancelSecurityQuestion: cancelSecurityQuestion
+                                )
+                        },
+                        onFailure: { errorResult in
+                            print("Failed to link broker (\(String(describing: errorResult.code)): \(errorResult.message)")
+                        }
+                    )
+                }
                 TradeItSDK.linkedBrokerManager.printLinkedBrokers()
             }
         )

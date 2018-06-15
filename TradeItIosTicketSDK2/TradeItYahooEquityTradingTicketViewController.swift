@@ -326,10 +326,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
         self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
         self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
-        self.order.quantityType = self.orderCapabilities?.supportedOrderQuantityTypes(
-            forAction: self.order.action,
-            priceType: self.order.type
-        ).first ?? .shares
+        self.order.quantityType = self.supportedOrderQuantityTypes.first ?? .shares
         self.order.userDisabledMargin = false
     }
 

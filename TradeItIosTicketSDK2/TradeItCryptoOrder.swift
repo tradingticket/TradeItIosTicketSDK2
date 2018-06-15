@@ -20,13 +20,13 @@
     @objc public var limitPrice: NSDecimalNumber?
     @objc public var stopPrice: NSDecimalNumber?
     @objc public var quoteLastPrice: NSDecimalNumber?
-    internal var quantityType: OrderQuantityType? // Set to internal to get this out - will make enum obj-c compatible later
+    internal var quantityType: OrderQuantityType = .quoteCurrency // Set to internal to get this out - will make enum obj-c compatible later
 
     var quantitySymbol: String? {
         get {
             switch quantityType {
-            case .some(.baseCurrency): return baseSymbol
-            case .some(.quoteCurrency): return quoteSymbol
+            case .baseCurrency: return baseSymbol
+            case .quoteCurrency: return quoteSymbol
             default: return nil
             }
         }
@@ -123,8 +123,7 @@
         case .unknown: optionalPrice = 0.0
         }
 
-        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber,
-            let quantityType = quantityType
+        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber
             else { return nil }
 
         switch quantityType {

@@ -22,7 +22,12 @@ class TradeItYahooCryptoTradingTicketViewController:
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
-    private var instrumentOrderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var supportedOrderQuantityTypes: [OrderQuantityType] {
+        get {
+            return self.orderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+        }
+    }
 
     private var ticketRows = [TicketRow]()
 
@@ -262,7 +267,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.instrumentOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -295,7 +300,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                     )
                     return
                 }
-                self.instrumentOrderCapabilities = instrumentOrderCapabilities
+                self.orderCapabilities = instrumentOrderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -323,13 +328,10 @@ class TradeItYahooCryptoTradingTicketViewController:
 
 
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.instrumentOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
-        self.order.quantityType = self.instrumentOrderCapabilities?.supportedOrderQuantityTypes(
-            forAction: self.order.action,
-            priceType: self.order.type
-        ).first
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
+        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.quantityType = self.supportedOrderQuantityTypes.first ?? .quoteCurrency
         self.order.userDisabledMargin = false
     }
 
@@ -417,7 +419,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
 
-        guard let instrumentOrderCapabilities = self.instrumentOrderCapabilities else { return cell }
+        guard let instrumentOrderCapabilities = self.orderCapabilities else { return cell }
 
         switch ticketRow {
         case .orderAction:
@@ -432,16 +434,11 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.setReviewButtonEnablement()
                 },
                 onQuantityTypeToggled: {
-                    let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypes(
-                        forAction: self.order.action,
-                        priceType: self.order.type
-                    )
+                    if self.supportedOrderQuantityTypes.isEmpty { return }
 
-                    if supportedOrderQuantityTypes.isEmpty { return }
-
-                    let currentIndex = supportedOrderQuantityTypes.index(of: self.order.quantityType ?? supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % supportedOrderQuantityTypes.count
-                    let nextOrderQuantityType = supportedOrderQuantityTypes[safe: nextIndex] ?? supportedOrderQuantityTypes.first ?? .baseCurrency
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = self.self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency
 
                     if self.order.quantityType != nextOrderQuantityType {
                         self.order.quantityType = nextOrderQuantityType
@@ -452,14 +449,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                             quantitySymbol: quantitySymbol,
                             quantity: self.order.quantity,
                             maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
-                            showToggle: supportedOrderQuantityTypes.count > 1
+                            showToggle: self.supportedOrderQuantityTypes.count > 1
                         )
                     }
                 }
-            )
-            let supportedOrderQuantityTypes = instrumentOrderCapabilities.supportedOrderQuantityTypes(
-                forAction: self.order.action,
-                priceType: self.order.type
             )
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,
@@ -569,7 +562,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
-        guard let orderCapabilities = self.instrumentOrderCapabilities else { return }
+        guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
@@ -579,6 +572,14 @@ class TradeItYahooCryptoTradingTicketViewController:
         }
 
         self.navigationController?.pushViewController(selectionViewController, animated: true)
+    }
+
+    private func updateOrderQuantityTypeConstraints() {
+        if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
+            self.order.quantity = nil
+            self.order.quantityType = supportedOrderQuantityTypes.first ?? .shares
+            self.reload(row: .quantity)
+        }
     }
 
     enum TicketRow {

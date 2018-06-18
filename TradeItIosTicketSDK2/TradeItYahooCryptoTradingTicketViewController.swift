@@ -21,7 +21,7 @@ class TradeItYahooCryptoTradingTicketViewController:
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
-    private var quote: TradeItQuote?
+    private var cryptoQuote: TradeItCryptoQuoteResult?
     private var orderCapabilities: TradeItInstrumentOrderCapabilities?
     private var supportedOrderQuantityTypes: [OrderQuantityType] {
         get {
@@ -345,31 +345,35 @@ class TradeItYahooCryptoTradingTicketViewController:
     }
 
     private func clearMarketData() {
-        self.quote = nil
+        self.cryptoQuote = nil
         self.order.quoteLastPrice = nil
         self.reload(row: .marketPrice)
         self.reload(row: .estimatedChange)
     }
-
+    
     private func updateMarketData() {
-        if let symbol = self.order.symbol {
-            self.marketDataService.getQuote(
-                symbol: symbol,
-                onSuccess: { quote in
-                    self.quote = quote
-                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
+        if let symbol = self.order.symbol  {
+            let request = TradeItCryptoQuoteRequest()
+            request.accountNumber =   self.order.linkedBrokerAccount?.accountNumber
+            request.pair = symbol
+            
+            self.order.linkedBrokerAccount?.cryptoMarketDataService?.getCryptoQuote(
+                request,
+                onSuccess: { quotesResult in
+                    self.cryptoQuote = quotesResult
+                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quotesResult.last)
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedChange)
-                },
+            },
                 onFailure: { error in
                     self.clearMarketData()
-                }
+            }
             )
         } else {
             self.clearMarketData()
         }
     }
-
+    
     private func reloadTicketRows() {
         self.setTitle()
         self.setReviewButtonEnablement()
@@ -492,13 +496,10 @@ class TradeItYahooCryptoTradingTicketViewController:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
             marketCell.configure(
-                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
-                detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
-                subtitleDetailsLabel: quotePresenter.formatChange(
-                    change: quote?.change,
-                    percentChange: quote?.pctChange
-                ),
-                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+                subtitleLabel: "",
+                detailsLabel: quotePresenter.formatCurrency(cryptoQuote?.last),
+                subtitleDetailsLabel: "",
+                subtitleDetailsLabelColor: UIColor.black
             )
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)

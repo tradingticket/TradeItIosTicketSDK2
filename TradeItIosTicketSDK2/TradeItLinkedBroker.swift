@@ -43,6 +43,7 @@ import PromiseKit
     internal var cryptoTradeService: TradeItCryptoTradeService
     internal var orderService: TradeItOrderService
     internal var transactionService: TradeItTransactionService
+    internal var cryptoMarketDataService: TradeItCryptoMarketDataService
     
     @objc public var brokerLongName: String {
         return self.linkedLogin.brokerLongName
@@ -58,6 +59,7 @@ import PromiseKit
         self.cryptoTradeService = TradeItCryptoTradeService(session: session)
         self.orderService = TradeItOrderService(session: session)
         self.transactionService = TradeItTransactionService(session: session)
+        self.cryptoMarketDataService = TradeItCryptoMarketDataService(session: session)
         super.init()
         
         self.setUnauthenticated()

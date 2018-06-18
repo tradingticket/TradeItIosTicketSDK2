@@ -6,8 +6,8 @@ internal class TradeItCryptoMarketDataService: NSObject {
     }
     
     func getCryptoQuote(
-        _ cryptoMarketDataRequest: TradeItCryptoQuotesRequest,
-        onSuccess: @escaping (TradeItCryptoQuotesResult) -> Void,
+        _ cryptoMarketDataRequest: TradeItCryptoQuoteRequest,
+        onSuccess: @escaping (TradeItCryptoQuoteResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
         ) {
         cryptoMarketDataRequest.token = self.session.token
@@ -18,9 +18,9 @@ internal class TradeItCryptoMarketDataService: NSObject {
             environment: self.session.connector.environment
         )
         
-        self.session.connector.send(request, targetClassType: TradeItCryptoQuotesResult.self) { result in
+        self.session.connector.send(request, targetClassType: TradeItCryptoQuoteResult.self) { result in
             switch (result) {
-            case let result as TradeItCryptoQuotesResult: onSuccess(result)
+            case let result as TradeItCryptoQuoteResult: onSuccess(result)
             case let error as TradeItErrorResult: onFailure(error)
             default:
                 onFailure(TradeItErrorResult(

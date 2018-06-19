@@ -16,7 +16,7 @@ import UIKit
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
-    
+
     static func configurePreviewMessageCellLink(link: UIButton) {
         link.setTitleColor(TradeItSDK.theme.interactivePrimaryColor, for: .normal)
         link.titleLabel?.font = link.titleLabel?.font.withSize(12)

@@ -65,8 +65,6 @@
 		754200531EF8583600B15E92 /* TradeItSelectionCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754200511EF8583600B15E92 /* TradeItSelectionCellTableViewCell.xib */; };
 		754200551EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754200541EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib */; };
 		754200561EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754200541EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib */; };
-		754200581EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754200571EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib */; };
-		754200591EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754200571EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib */; };
 		7542005B1EF85B1100B15E92 /* TradeItNumericInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7542005A1EF85B1100B15E92 /* TradeItNumericInputCell.xib */; };
 		7542005C1EF85B1100B15E92 /* TradeItNumericInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7542005A1EF85B1100B15E92 /* TradeItNumericInputCell.xib */; };
 		7542005E1EF87B3600B15E92 /* TradeItFxTradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7542005D1EF87B3600B15E92 /* TradeItFxTradeService.swift */; };
@@ -894,7 +892,6 @@
 		7542004E1EF853F900B15E92 /* TradeItReadOnlyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItReadOnlyTableViewCell.xib; sourceTree = "<group>"; };
 		754200511EF8583600B15E92 /* TradeItSelectionCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItSelectionCellTableViewCell.xib; sourceTree = "<group>"; };
 		754200541EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItSelectionDetailCellTableViewCell.xib; sourceTree = "<group>"; };
-		754200571EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItSubtitleWithDetailsCellTableViewCell.xib; sourceTree = "<group>"; };
 		7542005A1EF85B1100B15E92 /* TradeItNumericInputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeItNumericInputCell.xib; sourceTree = "<group>"; };
 		7542005D1EF87B3600B15E92 /* TradeItFxTradeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItFxTradeService.swift; sourceTree = "<group>"; };
 		754200601EFABB0C00B15E92 /* TradeItFxPlaceOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItFxPlaceOrderRequest.h; sourceTree = "<group>"; };
@@ -1587,7 +1584,6 @@
 				7542004E1EF853F900B15E92 /* TradeItReadOnlyTableViewCell.xib */,
 				754200511EF8583600B15E92 /* TradeItSelectionCellTableViewCell.xib */,
 				754200541EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib */,
-				754200571EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib */,
 				7542005A1EF85B1100B15E92 /* TradeItNumericInputCell.xib */,
 				75AB47391EFC63B700A8BEC6 /* TradeItStepperInputCell.xib */,
 				7580B7541F8BC2B9006F306A /* TradeItPreviewMessageTableViewCell.xib */,
@@ -2551,7 +2547,6 @@
 				7542004F1EF853F900B15E92 /* TradeItReadOnlyTableViewCell.xib in Resources */,
 				7542005B1EF85B1100B15E92 /* TradeItNumericInputCell.xib in Resources */,
 				7580B7551F8BC2B9006F306A /* TradeItPreviewMessageTableViewCell.xib in Resources */,
-				754200581EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2591,7 +2586,6 @@
 				FC6E7A6A1DCD1F8B005225CC /* chevron_down.png in Resources */,
 				FA596DE41E1EF425007D48F2 /* TradeItYahoo.storyboard in Resources */,
 				750171A9209B68290094B739 /* TradeItNumericToggleInputTableViewCell.xib in Resources */,
-				754200591EF85AE500B15E92 /* TradeItSubtitleWithDetailsCellTableViewCell.xib in Resources */,
 				FC6E7A6C1DCD1F8B005225CC /* success_icon.png in Resources */,
 				754200561EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib in Resources */,
 				754200501EF853F900B15E92 /* TradeItReadOnlyTableViewCell.xib in Resources */,

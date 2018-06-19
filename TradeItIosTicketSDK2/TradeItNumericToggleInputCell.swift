@@ -5,7 +5,8 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var quantityTypeButton: UIButton!
     @IBOutlet weak var disclosureIndicatorWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var disclosureIndicator: DisclosureIndicator!
-
+    @IBOutlet weak var toggleView: UIView!
+    
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
     var onQuantityTypeToggled: (() -> Void)?
 
@@ -28,7 +29,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         maxDecimalPlaces: Int,
         showToggle: Bool = false
     ) {
-        self.textField.placeholder = "Enter"
         self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces

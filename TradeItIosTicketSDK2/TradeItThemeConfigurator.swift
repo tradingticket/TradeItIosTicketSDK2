@@ -16,10 +16,25 @@ import UIKit
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
-
+    
     static func configurePreviewMessageCellLink(link: UIButton) {
         link.setTitleColor(TradeItSDK.theme.interactivePrimaryColor, for: .normal)
         link.titleLabel?.font = link.titleLabel?.font.withSize(12)
+    }
+
+    static func configureNumericToggleInput(toggleInput: TradeItNumericToggleInputCell) {
+        toggleInput.backgroundColor = TradeItSDK.theme.backgroundColor
+        toggleInput.toggleView.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
+        toggleInput.quantityTypeButton.tintColor = TradeItSDK.theme.interactivePrimaryColor
+        if let label = toggleInput.textLabel {
+            self.styleLabel(label)
+        }
+        
+        toggleInput.textField.attributedPlaceholder = NSAttributedString(
+            string: toggleInput.textField.placeholder ?? "",
+            attributes: [NSAttributedStringKey.foregroundColor: TradeItSDK.theme.textColor.withAlphaComponent(0.4)]
+        )
+        toggleInput.textField.textColor = TradeItSDK.theme.textColor
     }
 
     static func configureTableHeader(header: UIView?, groupedStyle: Bool = true) {

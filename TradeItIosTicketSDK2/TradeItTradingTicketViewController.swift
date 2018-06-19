@@ -33,6 +33,11 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .marketPrice, animation: .none)
         self.reload(row: .estimatedCost, animation: .none)
     }
+    private var supportedOrderQuantityTypes: [OrderQuantityType] {
+        get {
+            return self.equityOrderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,12 +123,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .orderAction:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
+                self.updateOrderQuantityTypeConstraints()
             }
         case .orderType:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
                 let orderExpirationValue = self.equityOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
+                self.updateOrderQuantityTypeConstraints()
             }
         case .expiration:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
@@ -452,54 +459,95 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
 
         cell.selectionStyle = .none
-
-        TradeItThemeConfigurator.configure(view: cell)
+        
+        if let toggle = cell as? TradeItNumericToggleInputCell {
+            TradeItThemeConfigurator.configureNumericToggleInput(toggleInput: toggle)
+        } else {
+            TradeItThemeConfigurator.configure(view: cell)
+        }
+        
+        guard let equityOrderCapabilities = self.equityOrderCapabilities else { return cell }
         
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
+            cell.detailTextLabel?.text = equityOrderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.quantity,
-                placeholderText: "Enter shares",
+            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
+            
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedCost) // todo or .estimatedChange
                     self.setPreviewButtonEnablement()
-                }
+            },
+                onQuantityTypeToggled: {
+                    if self.supportedOrderQuantityTypes.isEmpty { return }
+                    
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .shares
+                    
+                    if self.order.quantityType != nextOrderQuantityType {
+                        self.order.quantityType = nextOrderQuantityType
+                        
+                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
+                        self.order.quantity = nil
+                        cell?.configureQuantityType(
+                            quantitySymbol: quantitySymbol,
+                            quantity: self.order.quantity,
+                            maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                            showToggle: self.supportedOrderQuantityTypes.count > 1
+                        )
+                    }
+            }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: quantitySymbol,
+                quantity: self.order.quantity,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                showToggle: supportedOrderQuantityTypes.count > 1
             )
         case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-                }
+            }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                quantity: self.order.limitPrice,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-                }
+            }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                quantity: self.order.stopPrice,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
-            
             marketCell.configure(
-                subtitleLabel: bidAskPriceText(),
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
                 detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
-                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabel: quotePresenter.formatChange(
+                    change: quote?.change,
+                    percentChange: quote?.pctChange
+                ),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
         case .marginType:
@@ -521,22 +569,16 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
+            detailCell.textLabel?.isHidden = true
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText(),
-                linkedBroker: self.order.linkedBrokerAccount?.linkedBroker
+                altTitleText: ticketRow.getTitle(forOrder: self.order)
             )
         default:
             break
         }
         return cell
-    }
-
-    private func bidAskPriceText() -> String? {
-        guard let bidPrice = self.quote?.bidPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        guard let askPrice = self.quote?.askPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        
-        return "Bid: " + valueOrUnavailable(bidPrice) + " Ask: " + valueOrUnavailable(askPrice)
     }
 
     private func valueOrUnavailable(_ value: NSNumber) -> String {
@@ -571,6 +613,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
         return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
+    }
+    
+    private func updateOrderQuantityTypeConstraints() {
+        if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
+            self.order.quantity = nil
+            self.order.quantityType = supportedOrderQuantityTypes.first ?? .shares
+            self.reload(row: .quantity)
+        }
     }
     
     private func pushOrderCapabilitiesSelection(

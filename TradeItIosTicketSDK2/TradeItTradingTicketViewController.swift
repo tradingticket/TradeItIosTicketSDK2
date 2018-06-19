@@ -517,7 +517,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            }
+                }
             )
             cell?.configureQuantityType(
                 quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
@@ -531,7 +531,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            }
+                }
             )
             cell?.configureQuantityType(
                 quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,

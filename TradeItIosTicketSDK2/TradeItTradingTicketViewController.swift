@@ -480,7 +480,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reload(row: .estimatedCost) // todo or .estimatedChange
+                    self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
             },
                 onQuantityTypeToggled: {

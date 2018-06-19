@@ -448,6 +448,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                             showToggle: self.supportedOrderQuantityTypes.count > 1
                         )
                     }
+                    self.reload(row: .estimatedChange)
                 }
             )
             cell?.configureQuantityType(

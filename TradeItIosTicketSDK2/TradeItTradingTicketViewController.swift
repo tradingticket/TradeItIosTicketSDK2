@@ -502,6 +502,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                             showToggle: self.supportedOrderQuantityTypes.count > 1
                         )
                     }
+                    self.reload(row: .estimatedCost)
                 }
             )
             cell?.configureQuantityType(

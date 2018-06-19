@@ -482,7 +482,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
-            },
+                },
                 onQuantityTypeToggled: {
                     if self.supportedOrderQuantityTypes.isEmpty { return }
                     
@@ -502,7 +502,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                             showToggle: self.supportedOrderQuantityTypes.count > 1
                         )
                     }
-            }
+                }
             )
             cell?.configureQuantityType(
                 quantitySymbol: quantitySymbol,

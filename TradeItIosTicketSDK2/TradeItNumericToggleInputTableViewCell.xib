@@ -23,6 +23,7 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="lbr-7B-RTK" customClass="TradeItNumberField" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                 <rect key="frame" x="8" y="8.5" width="103.5" height="17"/>
+                                <accessibility key="accessibilityConfiguration" identifier="NO_BACKGROUND"/>
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
@@ -32,6 +33,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rie-TN-DTb">
                                 <rect key="frame" x="115.5" y="2" width="48" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="48" id="xJY-6d-rn4"/>
                                 </constraints>
@@ -49,6 +51,10 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90588235289999997" green="0.95294117649999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" adjustable="YES"/>
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="rie-TN-DTb" firstAttribute="centerY" secondItem="BM4-wf-lUj" secondAttribute="centerY" id="1Tf-dg-Knv"/>
                             <constraint firstItem="rie-TN-DTb" firstAttribute="leading" secondItem="lbr-7B-RTK" secondAttribute="trailing" constant="4" id="OVD-27-Pnq"/>

@@ -319,7 +319,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                guard let equityOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                guard let orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
                     self.alertManager.showAlertWithMessageOnly(
                         onViewController: self,
                         withTitle: "Unsupported Account",
@@ -334,7 +334,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     )
                     return
                 }
-                self.equityOrderCapabilities = equityOrderCapabilities
+                self.equityOrderCapabilities = orderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -460,11 +460,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
         cell.selectionStyle = .none
         
-        if let toggle = cell as? TradeItNumericToggleInputCell {
-            TradeItThemeConfigurator.configureNumericToggleInput(toggleInput: toggle)
-        } else {
-            TradeItThemeConfigurator.configure(view: cell)
-        }
+        TradeItThemeConfigurator.configure(view: cell)
         
         guard let equityOrderCapabilities = self.equityOrderCapabilities else { return cell }
         

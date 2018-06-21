@@ -364,10 +364,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quotesResult.last)
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedChange)
-            },
+                },
                 onFailure: { error in
                     self.clearMarketData()
-            }
+                }
             )
         } else {
             self.clearMarketData()

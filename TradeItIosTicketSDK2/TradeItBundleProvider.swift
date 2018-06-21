@@ -41,10 +41,6 @@
             forCellReuseIdentifier: CellReuseId.readOnly.rawValue
         )
         tableView.register(
-            UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
-            forCellReuseIdentifier: CellReuseId.numericInput.rawValue
-        )
-        tableView.register(
             UINib(nibName: "TradeItNumericToggleInputTableViewCell", bundle: bundle),
             forCellReuseIdentifier: CellReuseId.numericToggleInput.rawValue
         )

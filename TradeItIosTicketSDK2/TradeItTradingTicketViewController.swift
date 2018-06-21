@@ -23,7 +23,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private var ticketRows = [TicketRow]()
 
-    private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
 
     private var selectedAccountChanged: Bool = true
     
@@ -35,7 +35,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     }
     private var supportedOrderQuantityTypes: [OrderQuantityType] {
         get {
-            return self.equityOrderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+            return self.orderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
         }
     }
 
@@ -128,7 +128,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .orderType:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
-                let orderExpirationValue = self.equityOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
+                let orderExpirationValue = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
                 self.updateOrderQuantityTypeConstraints()
             }
@@ -301,7 +301,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -334,7 +334,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     )
                     return
                 }
-                self.equityOrderCapabilities = orderCapabilities
+                self.orderCapabilities = orderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -362,19 +362,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private func setOrderDefaults() {
         self.order.action = TradeItOrderAction(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .actions,
                 value: self.order.action.rawValue
             )
         )
         self.order.type = TradeItOrderPriceType(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .priceTypes,
                 value: self.order.type.rawValue
             )
         )
         self.order.expiration = TradeItOrderExpiration(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .expirationTypes,
                 value: self.order.expiration.rawValue
             )
@@ -462,7 +462,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         
         TradeItThemeConfigurator.configure(view: cell)
         
-        guard let equityOrderCapabilities = self.equityOrderCapabilities else { return cell }
+        guard let equityOrderCapabilities = self.orderCapabilities else { return cell }
         
         switch ticketRow {
         case .symbol:
@@ -561,9 +561,9 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.textLabel?.isHidden = true
@@ -626,7 +626,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
-        guard let orderCapabilities = self.equityOrderCapabilities else { return }
+        guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)

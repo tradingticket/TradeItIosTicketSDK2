@@ -5,7 +5,6 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var quantityTypeButton: UIButton!
     @IBOutlet weak var disclosureIndicatorWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var disclosureIndicator: DisclosureIndicator!
-    @IBOutlet weak var toggleView: UIView!
     
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
     var onQuantityTypeToggled: (() -> Void)?

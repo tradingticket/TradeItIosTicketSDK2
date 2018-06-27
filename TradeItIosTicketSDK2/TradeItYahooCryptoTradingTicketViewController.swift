@@ -496,7 +496,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
             marketCell.configure(
-                subtitleLabel: "",
+                subtitleLabel: quotePresenter.formatTimestamp(cryptoQuote?.dateTime),
                 detailsLabel: quotePresenter.formatCurrency(cryptoQuote?.last),
                 subtitleDetailsLabel: "",
                 subtitleDetailsLabelColor: UIColor.black

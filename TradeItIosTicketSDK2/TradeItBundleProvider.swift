@@ -41,11 +41,7 @@
             forCellReuseIdentifier: CellReuseId.readOnly.rawValue
         )
         tableView.register(
-            UINib(nibName: "YahooNumericInputTableViewCell", bundle: bundle),
-            forCellReuseIdentifier: CellReuseId.numericInput.rawValue
-        )
-        tableView.register(
-            UINib(nibName: "YahooNumericToggleInputTableViewCell", bundle: bundle),
+            UINib(nibName: "TradeItNumericToggleInputTableViewCell", bundle: bundle),
             forCellReuseIdentifier: CellReuseId.numericToggleInput.rawValue
         )
         tableView.register(
@@ -53,7 +49,7 @@
             forCellReuseIdentifier: CellReuseId.selection.rawValue
         )
         tableView.register(
-            UINib(nibName: "YahooMarketDataTableViewCell", bundle: bundle),
+            UINib(nibName: "TradeItMarketDataTableViewCell", bundle: bundle),
             forCellReuseIdentifier: CellReuseId.marketData.rawValue
         )
     }

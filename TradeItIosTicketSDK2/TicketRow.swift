@@ -29,7 +29,7 @@ enum TicketRow {
         case .estimatedCost:
             cellReuseId = .readOnly
         case .quantity, .limitPrice, .stopPrice, .amount:
-            cellReuseId = .numericInput
+            cellReuseId = .numericToggleInput
         case .marketPrice, .bid:
             cellReuseId = .marketData
         case .account:
@@ -63,7 +63,7 @@ enum TicketRow {
         case .symbol: return "Symbol"
         case .marketPrice: return "Market price"
         case .orderAction: return "Action"
-        case .quantity: return "Shares"
+        case .quantity: return "Amount"
         case .orderType: return "Order type"
         case .limitPrice: return "Limit"
         case .stopPrice: return "Stop"
@@ -92,12 +92,16 @@ enum TicketRow {
             forCellReuseIdentifier: "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
         )
         tableView.register(
-            UINib(nibName: "TradeItSubtitleWithDetailsCellTableViewCell", bundle: bundle),
+            UINib(nibName: "TradeItMarketDataTableViewCell", bundle: bundle),
             forCellReuseIdentifier: "TRADING_TICKET_MARKET_DATA_CELL_ID"
         )
         tableView.register(
             UINib(nibName: "TradeItNumericInputCell", bundle: bundle),
             forCellReuseIdentifier: "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
+        )
+        tableView.register(
+            UINib(nibName: "TradeItNumericToggleInputTableViewCell", bundle: bundle),
+            forCellReuseIdentifier: "TRADING_TICKET_NUMERIC_TOGGLE_INPUT_CELL_ID"
         )
         tableView.register(
             UINib(nibName: "TradeItStepperInputCell", bundle: bundle),

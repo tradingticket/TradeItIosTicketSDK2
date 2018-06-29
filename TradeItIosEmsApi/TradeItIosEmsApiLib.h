@@ -71,7 +71,6 @@
 #import "TradeItFxQuoteRequest.h"
 
 // Use the BalanceService to get account balance information
-#import "TradeItAccountOverviewRequest.h"
 #import "TradeItAccountOverviewResult.h"
 #import "TradeItAccountOverview.h"
 #import "TradeItFxAccountOverview.h"

@@ -9,7 +9,7 @@ import Foundation
         forUrl url: URL,
         jsonPostBody: String,
         headers: [String : String]
-        ) -> URLRequest {
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpBody = jsonPostBody.data(using: .utf8)
         request.httpMethod = "POST"
@@ -23,6 +23,7 @@ import Foundation
 // the RequestFactory protocol? Need to think of a better name.
 class TradeItRequestFactory: NSObject {
     static var requestFactory: RequestFactory = DefaultRequestFactory()
+    static let jsonEncoder = JSONEncoder()
     
     static func setRequestFactory(requestFactory: RequestFactory) {
         TradeItRequestFactory.requestFactory = requestFactory
@@ -34,18 +35,29 @@ class TradeItRequestFactory: NSObject {
         TradeItEmsLocalEnv: "https://localhost:8080/"
     ]
     
-    static func buildJsonRequest(for requestObject: JSONModel, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
+    static func buildJsonRequest(for data: JSONModel, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
+        let encodedData = data.toJSONString() ?? ""
+        return buildRequest(for: encodedData, emsAction: emsAction, environment: env)
+    }
+
+    static func buildJsonRequest<T: Encodable>(for data: T, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
+        let encodedData = try? jsonEncoder.encode(data)
+        // Note: This sucks. We go from Data -> String -> Data because `RequestFactory` interface requires a String
+        let encodedDataString = String(data: encodedData ?? Data(), encoding: String.Encoding.utf8) ?? ""
+        return buildRequest(for: encodedDataString, emsAction: emsAction, environment: env)
+    }
+
+    private static func buildRequest(for data: String, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
         let userAgent: String = TradeItUserAgentProvider.getUserAgent()
-        let requestJsonString = requestObject.toJSONString() ?? ""
         let baseURL = TradeItRequestFactory.getBaseUrl(forEnvironment: env)
         guard let url = URL(string: emsAction, relativeTo: baseURL) else {
             preconditionFailure("TradeItIosTicketSDK ERROR building json request with url: \(baseURL?.absoluteString ?? ""), action: \(emsAction)")
         }
         let headers: [String: String] = ["Accept": "application/json", "Content-Type": "application/json", "User-Agent": userAgent]
-        let request: URLRequest = TradeItRequestFactory.requestFactory.buildPostRequest(forUrl: url, jsonPostBody: requestJsonString, headers: headers)
+        let request: URLRequest = TradeItRequestFactory.requestFactory.buildPostRequest(forUrl: url, jsonPostBody: data, headers: headers)
         return request
     }
-    
+
     static func setHost(_ host: String, forEnvironment env: TradeitEmsEnvironments) {
         TradeItRequestFactory.envToHostDict[env] = host
     }

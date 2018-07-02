@@ -373,7 +373,7 @@ class TradeItYahooCryptoTradingTicketViewController:
             self.clearMarketData()
         }
     }
-    
+
     private func reloadTicketRows() {
         self.setTitle()
         self.setReviewButtonEnablement()

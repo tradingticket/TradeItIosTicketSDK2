@@ -9,6 +9,6 @@
 @property (nonatomic, copy) NSNumber<Optional> * _Nonnull volume;
 @property (nonatomic, copy) NSNumber<Optional> * _Nonnull dayLow;
 @property (nonatomic, copy) NSNumber<Optional> * _Nonnull dayHigh;
-@property (nullable, copy) NSString<Optional> *dateTime;
+@property (nonatomic, copy) NSString<Optional> * _Nonnull dateTime;
 
 @end

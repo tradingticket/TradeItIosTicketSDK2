@@ -5,7 +5,11 @@
 #ifdef CARTHAGE
     #import <TradeItIosTicketSDK2Carthage/TradeItIosTicketSDK2Carthage-Swift.h>
 #else
-    #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+    #if __has_include("TradeItIosTicketSDK2-Swift.h")
+        #import "TradeItIosTicketSDK2-Swift.h"
+    #else
+        #import <TradeItIosTicketSDK2/TradeItIosTicketSDK2-Swift.h>
+    #endif
 #endif
 
 @implementation TradeItUserAgentProvider

@@ -21,6 +21,8 @@
  */
 @property (nonatomic, nonnull, copy) NSNumber *orderQuantity;
 
+@property (nonatomic, nonnull, copy) NSString *orderQuantityType;
+
 /**
  *  The expiration passed into order. Values are either Day or 'Good Till Cancelled'
  */

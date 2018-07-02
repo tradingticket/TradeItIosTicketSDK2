@@ -6,12 +6,12 @@ use_frameworks!
 
 def testing_pods
   pod 'Quick', '~> 0.10.0'
-  pod 'Nimble', '~> 5.1.1'
+  pod 'Nimble', '~> 7.0.1'
 end
 
 def app_pods
-  pod 'PromiseKit', '~> 4.0'
-  pod 'MBProgressHUD', '~> 1.0.0'
+  pod 'PromiseKit', '~> 6.2.8'
+  pod 'MBProgressHUD', '~> 1.1.0'
   pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'
 end

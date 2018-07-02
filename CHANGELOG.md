@@ -1,10 +1,17 @@
 # Changelog
-## [1.1.44]
+## [2.0.8]
 ### Added
-- Added broker branding to TradeIt screens
+- Yahoo crypto ticket
+- Add streaming data protocol to add streaming market data to the trading ticket
+- Support fractional shares on equity ticket
+- Adds learn more button to Yahoo broker selection
 
 ### Changed
-- Fixed issue with ExampleApp deep linking in Xcode 9.3 
+- Updated PromiseKit to ~> 6.0
+
+## [2.0.7]
+### Changed
+- Added @objc annotation to public interface
 
 ## [1.1.43]
 ### Changed

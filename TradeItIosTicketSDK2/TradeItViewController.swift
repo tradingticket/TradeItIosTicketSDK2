@@ -2,7 +2,7 @@ import UIKit
 
 class TradeItViewController: CloseableViewController {
 
-    public var enableThemeOnLoad: Bool = true
+    @objc public var enableThemeOnLoad: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()

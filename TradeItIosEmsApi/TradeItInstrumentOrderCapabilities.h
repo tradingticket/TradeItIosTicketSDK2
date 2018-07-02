@@ -10,10 +10,9 @@
 @property (nonatomic, copy) NSString * _Nonnull instrument;
 @property (nonatomic, copy) NSString<Optional> * _Nullable tradeItSymbol;
 @property (nonatomic, copy) NSNumber<Optional> * _Nullable precision;
-@property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable actions;
-@property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable expirationTypes;
-@property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable priceTypes;
-@property (nonatomic, copy) NSArray<Optional, TradeItInstrumentCapability> * _Nullable orderTypes;
+@property (nonatomic, copy, nonnull) NSArray<TradeItInstrumentCapability *> <TradeItInstrumentCapability> *actions;
+@property (nonatomic, copy, nonnull) NSArray<TradeItInstrumentCapability *> <TradeItInstrumentCapability> *expirationTypes;
+@property (nonatomic, copy, nonnull) NSArray<TradeItInstrumentCapability *> <TradeItInstrumentCapability> *priceTypes;
 @property (nonatomic) BOOL symbolSpecific;
 
 @end

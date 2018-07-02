@@ -3,16 +3,15 @@ public typealias RawValue = String
 @objc public enum TradeItOrderExpiration: Int, RawRepresentable {
     case goodForDay
     case goodUntilCanceled
+    case fillOrKill
     case unknown
     
     public var rawValue: RawValue {
         switch self {
-        case .goodForDay:
-            return "day"
-        case .goodUntilCanceled:
-            return "gtc"
-        default:
-            return "unknown"
+        case .goodForDay: return "day"
+        case .goodUntilCanceled: return "gtc"
+        case .fillOrKill: return "fok"
+        default: return "unknown"
         }
     }
     
@@ -23,12 +22,10 @@ public typealias RawValue = String
     public init(value: RawValue?) {
         let rawValue = value ?? "unknown"
         switch rawValue {
-        case "day":
-            self = .goodForDay
-        case "gtc":
-            self = .goodUntilCanceled
-        default:
-            self = .unknown
+        case "day": self = .goodForDay
+        case "gtc": self = .goodUntilCanceled
+        case "fok": self = .fillOrKill
+        default: self = .unknown
         }
     }
 

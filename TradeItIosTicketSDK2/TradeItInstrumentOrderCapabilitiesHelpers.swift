@@ -1,8 +1,14 @@
 internal enum TradeItInstrumentOrderCapabilityField {
     case priceTypes
     case expirationTypes
-    case orderTypes
     case actions
+}
+
+public enum OrderQuantityType: String {
+    case baseCurrency = "BASE_CURRENCY"
+    case quoteCurrency = "QUOTE_CURRENCY"
+    case shares = "SHARES"
+    case totalPrice = "TOTAL_PRICE"
 }
 
 extension TradeItInstrumentOrderCapabilities {
@@ -24,12 +30,32 @@ extension TradeItInstrumentOrderCapabilities {
         return capabilities.first { $0.value == value }?.value ?? capabilities.first?.value
     }
 
+    func supportedOrderQuantityTypes(forAction action: TradeItOrderAction, priceType: TradeItOrderPriceType) -> [OrderQuantityType] {
+        let actionQuantityTypes = supportedOrderQuantityTypes(forCapabilities: self.actions, andValue: action.rawValue)
+        let priceTypeQuantityTypes = supportedOrderQuantityTypes(forCapabilities: self.priceTypes, andValue: priceType.rawValue)
+        return actionQuantityTypes.filter(priceTypeQuantityTypes.contains)
+    }
+
+    func maxDecimalPlacesFor(orderQuantityType: OrderQuantityType?) -> Int {
+        // TODO: API needs to provide this configuration. Setting to 8 for BTC case.
+        switch orderQuantityType {
+        case .some(.baseCurrency), .some(.quoteCurrency): return 8
+        case .some(.totalPrice), .some(.shares): return 4
+        case .none: return 4
+        }
+    }
+
+    private func supportedOrderQuantityTypes(forCapabilities capabilities: [TradeItInstrumentCapability], andValue value: String) -> [OrderQuantityType] {
+        let capability = capabilities.first { $0.value == value } ?? capabilities.first
+        let supportedQuantityTypes = capability?.supportedOrderQuantityTypes ?? []
+        return supportedQuantityTypes.compactMap(OrderQuantityType.init)
+    }
+
     private func capabilitiesFor(field: TradeItInstrumentOrderCapabilityField) -> [TradeItInstrumentCapability] {
         switch field {
-        case .priceTypes: return self.priceTypes as? [TradeItInstrumentCapability] ?? []
-        case .actions: return self.actions as? [TradeItInstrumentCapability] ?? []
-        case .expirationTypes: return self.expirationTypes as? [TradeItInstrumentCapability] ?? []
-        case .orderTypes: return self.orderTypes as? [TradeItInstrumentCapability] ?? []
+        case .priceTypes: return self.priceTypes
+        case .actions: return self.actions
+        case .expirationTypes: return self.expirationTypes
         }
     }
 }

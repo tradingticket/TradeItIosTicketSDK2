@@ -3,31 +3,31 @@ import UIKit
 @objc public class TradeItSDK: NSObject {
     // MARK: Settable properties
 
-    public static var theme: TradeItTheme = TradeItTheme.light()
-    public static var isPortfolioEnabled = true
-    public static var isAdServiceEnabled = false
-    public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
-    public static var adService: AdService = DefaultAdService()
-    public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
-    public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
-    public static var activityViewFactory: ActivityIndicatorFactory = DefaultActivityIndicatorFactory()
+    @objc public static var theme: TradeItTheme = TradeItTheme.light()
+    @objc public static var isPortfolioEnabled = true
+    @objc public static var isAdServiceEnabled = false
+    @objc public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
+    @objc public static var adService: AdService = DefaultAdService()
+    @objc public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
+    @objc public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
+    @objc public static var activityViewFactory: ActivityIndicatorFactory = DefaultActivityIndicatorFactory()
 
     // MARK: Non-settable properties
 
     internal static var brokerLogoService = TradeItBrokerLogoService()
     private static var configured = false
 
-    public static let launcher = TradeItLauncher()
-    public static let yahooLauncher = TradeItYahooLauncher()
+    @objc public static let launcher = TradeItLauncher()
+    @objc public static let yahooLauncher = TradeItYahooLauncher()
 
     @available(*, deprecated, message: "Use TradeItNotification.Name.didLink (Swift) or TradeItNotificationConstants.nameDidLink (Obj-C) instead.")
-    public static var didLinkNotificationName: NSNotification.Name {
+    @objc public static var didLinkNotificationName: NSNotification.Name {
         get {
             return TradeItNotification.Name.didLink
         }
     }
     @available(*, deprecated, message: "Use TradeItNotification.Name.didUnlink (Swift) or TradeItNotificationConstants.nameDidUnlink (Obj-C) instead.")
-    public static var didUnlinkNotificationName: NSNotification.Name {
+    @objc public static var didUnlinkNotificationName: NSNotification.Name {
         get {
             return TradeItNotification.Name.didUnlink
         }
@@ -36,7 +36,7 @@ import UIKit
     internal static let linkedBrokerCache = TradeItLinkedBrokerCache()
 
     private static var _apiKey: String?
-    public static var apiKey: String {
+    @objc public static var apiKey: String {
         get {
             precondition(self._apiKey != nil, "ERROR: TradeItSDK.apiKey accessed before calling TradeItSDK.configure()!")
             return self._apiKey!
@@ -44,7 +44,7 @@ import UIKit
     }
 
     private static var _environment: TradeitEmsEnvironments?
-    public static var environment: TradeitEmsEnvironments {
+    @objc public static var environment: TradeitEmsEnvironments {
         get {
             precondition(self._environment != nil, "ERROR: TradeItSDK.environment accessed before calling TradeItSDK.configure()!")
             return self._environment!
@@ -52,7 +52,7 @@ import UIKit
     }
 
     internal static var _linkedBrokerManager: TradeItLinkedBrokerManager?
-    public static var linkedBrokerManager: TradeItLinkedBrokerManager {
+    @objc public static var linkedBrokerManager: TradeItLinkedBrokerManager {
         get {
             precondition(self._linkedBrokerManager != nil, "ERROR: TradeItSDK.linkedBrokerManager referenced before calling TradeItSDK.configure()!")
             return self._linkedBrokerManager!
@@ -60,7 +60,7 @@ import UIKit
     }
 
     internal static var _symbolService: TradeItSymbolService?
-    public static var symbolService: TradeItSymbolService {
+    @objc public static var symbolService: TradeItSymbolService {
         get {
             precondition(self._symbolService != nil, "ERROR: TradeItSDK.symbolService referenced before calling TradeItSDK.configure()!")
             return self._symbolService!
@@ -76,15 +76,17 @@ import UIKit
     }
 
     private static var _brokerCenterService: TradeItBrokerCenterService?
-    public static var brokerCenterService: TradeItBrokerCenterService {
+    @objc public static var brokerCenterService: TradeItBrokerCenterService {
         get {
             precondition(self._brokerCenterService != nil, "ERROR: TradeItSDK.brokerCenterService referenced before calling TradeItSDK.configure()!")
             return self._brokerCenterService!
         }
     }
+    
+    @objc public static var streamingMarketDataService: StreamingMarketDataService?
 
     internal static var _marketDataService: MarketDataService?
-    public static var marketDataService: MarketDataService {
+    @objc public static var marketDataService: MarketDataService {
         get {
             precondition(self._marketDataService != nil, "ERROR: TradeItSDK.marketDataService referenced before initializing!")
             return self._marketDataService!
@@ -96,7 +98,7 @@ import UIKit
     }
 
     private static var _oAuthCallbackUrl: URL?
-    public static var oAuthCallbackUrl: URL {
+    @objc public static var oAuthCallbackUrl: URL {
         get {
             precondition(self._oAuthCallbackUrl != nil, "ERROR: TradeItSDK.oAuthCallbackUrl accessed without being set in TradeItSDK.configure()!")
             return self._oAuthCallbackUrl!
@@ -108,19 +110,19 @@ import UIKit
     }
 
     private static var _isDeviceJailbroken = TradeItDeviceManager.isDeviceJailBroken()
-    public static var isDeviceJailbroken: Bool {
+    @objc public static var isDeviceJailbroken: Bool {
         get {
             return _isDeviceJailbroken
         }
     }
     
-    public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
+    @objc public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
         TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
 
     // MARK: Initializers
 
-    public static func configure(
+    @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv
@@ -135,7 +137,7 @@ import UIKit
         )
     }
 
-    public static func configure(
+    @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,

@@ -11,6 +11,8 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     private var featuredBrokers: [TradeItBroker] = []
     internal var oAuthCallbackUrl: URL?
 
+    weak var delegate: YahooLauncherDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +31,10 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.fireViewEventNotification(view: .selectBroker, title: self.title)
+    }
+
+    @IBAction func learnMoreTapped(sender: UIButton) {
+        delegate?.yahooLauncherDidSelectLearnMore(fromViewController: self)
     }
 
     // MARK: Private
@@ -192,7 +198,7 @@ class TradeItYahooBrokerSelectionViewController: TradeItYahooViewController, UIT
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_YAHOO_BROKER_SELECTION_CELL_ID") ?? UITableViewCell()
         cell.textLabel?.text = broker?.brokerLongName
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
 
         return cell
     }

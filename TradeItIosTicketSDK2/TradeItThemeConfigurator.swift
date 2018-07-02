@@ -68,6 +68,8 @@ import UIKit
         default:
             if check(view: view, hasTrait: UIAccessibilityTraitSelected) {
                 view.backgroundColor = TradeItSDK.theme.tableBackgroundSecondaryColor
+            } else if check(view: view, hasTrait: UIAccessibilityTraitAdjustable) {
+                view.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
             }
             break
         }
@@ -111,19 +113,21 @@ import UIKit
     }
 
     private static func styleTextField(_ input: UITextField) {
-        input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
-        input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.2).cgColor
-        input.layer.borderWidth = 1
-
-        if !self.SQUARE_TEXT_FIELD_IDENTIFIERS.contains(input.accessibilityIdentifier ?? "") {
-            input.layer.cornerRadius = 4
-            input.layer.masksToBounds = true
+        if input.accessibilityIdentifier != "NO_BACKGROUND" {
+            input.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
+            input.layer.borderColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.2).cgColor
+            input.layer.borderWidth = 1
+            
+            if !self.SQUARE_TEXT_FIELD_IDENTIFIERS.contains(input.accessibilityIdentifier ?? "") {
+                input.layer.cornerRadius = 4
+                input.layer.masksToBounds = true
+            }
         }
 
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",
-            attributes: [NSForegroundColorAttributeName: TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.8)]
+            attributes: [NSAttributedStringKey.foregroundColor: TradeItSDK.theme.textColor.withAlphaComponent(0.4)]
         )
         input.setNeedsLayout()
         input.layoutIfNeeded()

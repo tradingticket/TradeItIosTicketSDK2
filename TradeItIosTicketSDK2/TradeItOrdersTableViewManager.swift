@@ -34,7 +34,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         self.linkedBrokerAccount = linkedBrokerAccount
     }
     
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl?.beginRefreshing()
         self.delegate?.refreshRequested(
             onRefreshComplete: {

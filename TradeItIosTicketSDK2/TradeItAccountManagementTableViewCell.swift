@@ -23,7 +23,7 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
         }
     }
     
-    func accountEnabledSwitchWasTapped(sender: UISwitch!) {
+    @objc func accountEnabledSwitchWasTapped(sender: UISwitch!) {
             self.selectedBrokerAccount.isEnabled =  self.accountSwitch.isOn
     }
 }

@@ -24,7 +24,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     
     weak var delegate: TradeItPortfolioAccountsTableDelegate?
 
-    func initiateRefresh() {
+    @objc func initiateRefresh() {
         self.refreshControl.beginRefreshing()
         self.delegate?.authenticateAll()
     }

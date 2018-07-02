@@ -17,14 +17,27 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     private var accountSelectionViewController: TradeItAccountSelectionViewController!
     private var symbolSearchViewController: TradeItSymbolSearchViewController!
     private let marketDataService = TradeItSDK.marketDataService
+    private let streamingMarketDataService = TradeItSDK.streamingMarketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
     private var quote: TradeItQuote?
 
     private var ticketRows = [TicketRow]()
 
-    private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
 
     private var selectedAccountChanged: Bool = true
+    
+    private lazy var updateQuotePrice: (TradeItQuote) -> Void = { quote in
+        self.quote = quote
+        self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
+        self.reload(row: .marketPrice, animation: .none)
+        self.reload(row: .estimatedCost, animation: .none)
+    }
+    private var supportedOrderQuantityTypes: [OrderQuantityType] {
+        get {
+            return self.orderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,12 +94,20 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             )
             return
         }
-
+        
         if self.selectedAccountChanged {
             self.initializeTicket()
         } else {
             self.reloadTicketRows()
         }
+        
+        if let symbol = self.order.symbol {
+            streamingMarketDataService?.startUpdatingQuote(forSymbol: symbol, onUpdate: updateQuotePrice, onFailure: self.clearMarketData)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        streamingMarketDataService?.stopUpdatingQuote()
     }
 
     // MARK: UITableViewDelegate
@@ -102,12 +123,14 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .orderAction:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
+                self.updateOrderQuantityTypeConstraints()
             }
         case .orderType:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
                 self.order.type = TradeItOrderPriceType(value: selection)
-                let orderExpirationValue = self.equityOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
+                let orderExpirationValue = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: nil) ?? TradeItOrderActionPresenter.DEFAULT.rawValue
                 self.order.expiration = TradeItOrderExpiration(value: orderExpirationValue)
+                self.updateOrderQuantityTypeConstraints()
             }
         case .expiration:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
@@ -278,7 +301,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -296,7 +319,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                guard let equityOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                guard let orderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
                     self.alertManager.showAlertWithMessageOnly(
                         onViewController: self,
                         withTitle: "Unsupported Account",
@@ -311,7 +334,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     )
                     return
                 }
-                self.equityOrderCapabilities = equityOrderCapabilities
+                self.orderCapabilities = orderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -339,19 +362,19 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
     private func setOrderDefaults() {
         self.order.action = TradeItOrderAction(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .actions,
                 value: self.order.action.rawValue
             )
         )
         self.order.type = TradeItOrderPriceType(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .priceTypes,
                 value: self.order.type.rawValue
             )
         )
         self.order.expiration = TradeItOrderExpiration(
-            value: self.equityOrderCapabilities?.defaultValueFor(
+            value: self.orderCapabilities?.defaultValueFor(
                 field: .expirationTypes,
                 value: self.order.expiration.rawValue
             )
@@ -372,21 +395,13 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.reload(row: .marketPrice)
         self.reload(row: .estimatedCost)
 
-        if let symbol = self.order.symbol {
-            self.marketDataService.getQuote(
-                symbol: symbol,
-                onSuccess: { quote in
-                    self.quote = quote
-                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
-                    self.reload(row: .marketPrice)
-                    self.reload(row: .estimatedCost)
-                },
-                onFailure: { error in
-                    self.clearMarketData()
-                }
-            )
-        } else {
+        guard let symbol = self.order.symbol else {
             self.clearMarketData()
+            return
+        }
+        
+        if streamingMarketDataService == nil {
+            self.marketDataService.getQuote(symbol: symbol, onSuccess: updateQuotePrice, onFailure: { _ in self.clearMarketData() })
         }
     }
 
@@ -413,20 +428,20 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             self.order.requiresStopPrice() ?.stopPrice : nil,
             .marketPrice,
             .estimatedCost
-            ].flatMap { $0 }
+        ].compactMap { $0 }
 
         self.ticketRows = ticketRows
 
         self.tableView.reloadData()
     }
-
-    private func reload(row: TicketRow) {
+    
+    private func reload(row: TicketRow, animation: UITableViewRowAnimation = .automatic) {
         guard let indexOfRow = self.ticketRows.index(of: row) else {
             return
         }
 
         let indexPath = IndexPath.init(row: indexOfRow, section: 0)
-        self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.tableView.reloadRows(at: [indexPath], with: animation)
     }
 
     private func provideCell(rowIndex: Int) -> UITableViewCell {
@@ -444,54 +459,92 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         }
 
         cell.selectionStyle = .none
-
+        
         TradeItThemeConfigurator.configure(view: cell)
+        
+        guard let equityOrderCapabilities = self.orderCapabilities else { return cell }
         
         switch ticketRow {
         case .symbol:
             cell.detailTextLabel?.text = self.order.symbol
         case .orderAction:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
+            cell.detailTextLabel?.text = equityOrderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.quantity,
-                placeholderText: "Enter shares",
+            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
+            
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
+                },
+                onQuantityTypeToggled: {
+                    if self.supportedOrderQuantityTypes.isEmpty { return }
+                    
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .shares
+                    
+                    if self.order.quantityType != nextOrderQuantityType {
+                        self.order.quantityType = nextOrderQuantityType
+                        
+                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
+                        self.order.quantity = nil
+                        cell?.configureQuantityType(
+                            quantitySymbol: quantitySymbol,
+                            quantity: self.order.quantity,
+                            maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                            showToggle: self.supportedOrderQuantityTypes.count > 1
+                        )
+                    }
+                    self.reload(row: .estimatedCost)
                 }
             )
+            cell?.configureQuantityType(
+                quantitySymbol: quantitySymbol,
+                quantity: self.order.quantity,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                showToggle: supportedOrderQuantityTypes.count > 1
+            )
         case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                quantity: self.order.limitPrice,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
+            )
         case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                quantity: self.order.stopPrice,
+                maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
+            )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
-            
             marketCell.configure(
-                subtitleLabel: bidAskPriceText(),
+                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
                 detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
-                subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
+                subtitleDetailsLabel: quotePresenter.formatChange(
+                    change: quote?.change,
+                    percentChange: quote?.pctChange
+                ),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
         case .marginType:
@@ -508,27 +561,21 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
 
             cell.detailTextLabel?.text = estimateChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
+            cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
+            detailCell.textLabel?.isHidden = true
             detailCell.configure(
                 detailPrimaryText: self.order.linkedBrokerAccount?.getFormattedAccountName(),
                 detailSecondaryText: accountSecondaryText(),
-                linkedBroker: self.order.linkedBrokerAccount?.linkedBroker
+                altTitleText: ticketRow.getTitle(forOrder: self.order)
             )
         default:
             break
         }
         return cell
-    }
-
-    private func bidAskPriceText() -> String? {
-        guard let bidPrice = self.quote?.bidPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        guard let askPrice = self.quote?.askPrice else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        
-        return "Bid: " + valueOrUnavailable(bidPrice) + " Ask: " + valueOrUnavailable(askPrice)
     }
 
     private func valueOrUnavailable(_ value: NSNumber) -> String {
@@ -561,8 +608,16 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
             }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
+        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
         return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
+    }
+    
+    private func updateOrderQuantityTypeConstraints() {
+        if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
+            self.order.quantity = nil
+            self.order.quantityType = supportedOrderQuantityTypes.first ?? .shares
+            self.reload(row: .quantity)
+        }
     }
     
     private func pushOrderCapabilitiesSelection(
@@ -571,7 +626,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
-        guard let orderCapabilities = self.equityOrderCapabilities else { return }
+        guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)

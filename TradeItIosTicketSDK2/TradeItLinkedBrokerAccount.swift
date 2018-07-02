@@ -1,26 +1,26 @@
 @objc public class TradeItLinkedBrokerAccount: NSObject {
-    public var brokerName: String? {
+    @objc public var brokerName: String? {
         return self.linkedBroker?.brokerName
     }
-    public var brokerLongName: String? {
+    @objc public var brokerLongName: String? {
         return self.linkedBroker?.brokerLongName
     }
     
-    public var accountName = ""
-    public var accountNumber = ""
-    public var accountIndex = ""
-    public var accountBaseCurrency = ""
-    public var userCanDisableMargin: Bool
-    public var balanceLastUpdated: Date?
-    public var balance: TradeItAccountOverview?
-    public var fxBalance: TradeItFxAccountOverview?
-    public var positions: [TradeItPortfolioPosition] = []
-    public var orders: [TradeItOrderStatusDetails] = []
-    public var transactionsHistoryResult: TradeItTransactionsHistoryResult?
-    public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
+    @objc public var accountName = ""
+    @objc public var accountNumber = ""
+    @objc public var accountIndex = ""
+    @objc public var accountBaseCurrency = ""
+    @objc public var userCanDisableMargin: Bool
+    @objc public var balanceLastUpdated: Date?
+    @objc public var balance: TradeItAccountOverview?
+    @objc public var fxBalance: TradeItFxAccountOverview?
+    @objc public var positions: [TradeItPortfolioPosition] = []
+    @objc public var orders: [TradeItOrderStatusDetails] = []
+    @objc public var transactionsHistoryResult: TradeItTransactionsHistoryResult?
+    @objc public var orderCapabilities: [TradeItInstrumentOrderCapabilities] = []
 
     private weak var _linkedBroker: TradeItLinkedBroker?
-    internal(set) public var linkedBroker: TradeItLinkedBroker? {
+    @objc public internal(set) var linkedBroker: TradeItLinkedBroker? {
         get {
             return _linkedBroker
         }
@@ -31,7 +31,7 @@
     }
 
     private var _enabled = true
-    public var isEnabled: Bool {
+    @objc public var isEnabled: Bool {
         get {
             return _enabled
         }
@@ -52,12 +52,16 @@
         return linkedBroker?.positionService
     }
     
-    internal var tradeService: TradeItTradeService? {
-        return linkedBroker?.tradeService
+    internal var equityTradeService: TradeItEquityTradeService? {
+        return linkedBroker?.equityTradeService
     }
     
     internal var fxTradeService: TradeItFxTradeService? {
         return linkedBroker?.fxTradeService
+    }
+
+    internal var cryptoTradeService: TradeItCryptoTradeService? {
+        return linkedBroker?.cryptoTradeService
     }
     
     private var orderService: TradeItOrderService? {
@@ -109,7 +113,7 @@
         )
     }
 
-    public func getAccountOverview(cacheResult: Bool = true,
+    @objc public func getAccountOverview(cacheResult: Bool = true,
                                    onSuccess: @escaping (TradeItAccountOverview?) -> Void,
                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
@@ -130,7 +134,7 @@
         })
     }
 
-    public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    @objc public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
 
         self.positionService?.getPositions(request, onSuccess: { result in
@@ -156,7 +160,7 @@
         })
     }
 
-    public func getAllOrderStatus(onSuccess: @escaping ([TradeItOrderStatusDetails]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+    @objc public func getAllOrderStatus(onSuccess: @escaping ([TradeItOrderStatusDetails]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAllOrderStatusRequest()
         request.accountNumber = self.accountNumber
         
@@ -168,15 +172,17 @@
             onFailure(error)
         })
     }
-    
-    public func cancelOrder(orderNumber: String,
-                            onSuccess: @escaping () -> Void,
-                            onSecurityQuestion: @escaping (
-                                TradeItSecurityQuestionResult,
-                                _ submitAnswer: @escaping (String) -> Void,
-                                _ onCancelSecurityQuestion: @escaping () -> Void
-                            ) -> Void,
-                            onFailure: @escaping (TradeItErrorResult) -> Void) {
+
+    @objc public func cancelOrder(
+        orderNumber: String,
+        onSuccess: @escaping () -> Void,
+        onSecurityQuestion: @escaping (
+            TradeItSecurityQuestionResult,
+            _ submitAnswer: @escaping (String) -> Void,
+            _ onCancelSecurityQuestion: @escaping () -> Void
+        ) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let request = TradeItCancelOrderRequest()
         request.accountNumber = self.accountNumber
         request.orderNumber = orderNumber
@@ -190,8 +196,11 @@
             }
         )
     }
-    
-    public func getTransactionsHistory(onSuccess: @escaping (TradeItTransactionsHistoryResult) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
+
+    @objc public func getTransactionsHistory(
+        onSuccess: @escaping (TradeItTransactionsHistoryResult) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
         let request = TradeItTransactionsHistoryRequest()
         request.accountNumber = self.accountNumber
         
@@ -204,7 +213,7 @@
         })
     }
     
-    public func getFormattedAccountName() -> String {
+    @objc public func getFormattedAccountName() -> String {
         var formattedAccountNumber = self.accountNumber
         var formattedAccountName = self.accountName
         var separator = " "

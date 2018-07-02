@@ -8,8 +8,8 @@ import PromiseKit
     private let brokerService: TradeItBrokerService
     private let oAuthService: TradeItOAuthService
 
-    public var linkedBrokers: [TradeItLinkedBroker] = []
-    public weak var oAuthDelegate: TradeItOAuthDelegate?
+    @objc public var linkedBrokers: [TradeItLinkedBroker] = []
+    @objc public weak var oAuthDelegate: TradeItOAuthDelegate?
 
     init(connector: TradeItConnector) {
         self.connector = connector
@@ -24,7 +24,7 @@ import PromiseKit
         self.loadLinkedBrokersFromKeychain()
     }
 
-    public func getOAuthLoginPopupUrl(
+    @objc public func getOAuthLoginPopupUrl(
         withBroker broker: String,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -37,7 +37,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupUrl(
+    @objc public func getOAuthLoginPopupUrl(
         withBroker broker: String,
         oAuthCallbackUrl: URL = TradeItSDK.oAuthCallbackUrl,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
@@ -51,7 +51,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(
+    @objc public func getOAuthLoginPopupForTokenUpdateUrl(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -64,7 +64,7 @@ import PromiseKit
         )
     }
 
-    public func getOAuthLoginPopupForTokenUpdateUrl(
+    @objc public func getOAuthLoginPopupForTokenUpdateUrl(
         forLinkedBroker linkedBroker: TradeItLinkedBroker,
         oAuthCallbackUrl: URL,
         onSuccess: @escaping (_ oAuthLoginPopupUrl: URL) -> Void,
@@ -80,11 +80,11 @@ import PromiseKit
         )
     }
 
-    public func completeOAuth(
+    @objc public func completeOAuth(
         withOAuthVerifier oAuthVerifier: String,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
-        ) -> Void {
+    ) -> Void {
         self.oAuthService.getOAuthAccessToken(
             withOAuthVerifier: oAuthVerifier,
             onSuccess: { oAuthAccessTokenResult in
@@ -158,48 +158,46 @@ import PromiseKit
         )
     }
 
-    public func authenticateAll(
+    @objc public func authenticateAll(
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
             _ submitAnswer: @escaping (String) -> Void,
             _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void,
-        onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_ in },
+        onFailure: @escaping (TradeItErrorResult, TradeItLinkedBroker) -> Void = {_,_  in },
         onFinished: @escaping () -> Void
     ) {
         let promises = self.getAllDisplayableLinkedBrokers().map { linkedBroker in
-            return Promise<Void> { fulfill, reject in
+            return Promise<Void> { seal in
                 linkedBroker.authenticateIfNeeded(
-                    onSuccess: fulfill,
+                    onSuccess: seal.fulfill,
                     onSecurityQuestion: onSecurityQuestion,
                     onFailure: { tradeItErrorResult in
                         onFailure(tradeItErrorResult, linkedBroker)
-                        fulfill()
+                        seal.fulfill(())
                     }
                 )
             }
         }
 
-        _ = when(resolved: promises).always(execute: onFinished)
+        _ = when(resolved: promises).done { _ in onFinished() }
     }
 
-    public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
+    @objc public func refreshAccountBalances(force: Bool = true, onFinished: @escaping () -> Void) {
         let promises = self.getAllAuthenticatedLinkedBrokers().map { linkedBroker in
-            return Promise<Void> { fulfill, reject in
-                linkedBroker.refreshAccountBalances(force: force, onFinished: fulfill)
+            return Promise<Void> { seal in
+                linkedBroker.refreshAccountBalances(force: force, onFinished: seal.fulfill)
             }
         }
 
-        let _ = when(resolved: promises).always(execute: onFinished)
+        let _ = when(resolved: promises).done { _ in onFinished() }
     }
 
-    public func getAvailableBrokers(
+    @objc public func getAvailableBrokers(
         onSuccess: @escaping (_ availableBrokers: [TradeItBroker]) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        getAvailableBrokersPromise().then { availableBrokers -> Void in
-            onSuccess(availableBrokers)
-        }.catch { error in
+        getAvailableBrokersPromise().done(onSuccess).catch { error in
             self.availableBrokersPromise = nil
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(
@@ -210,39 +208,39 @@ import PromiseKit
         }
     }
 
-    public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.linkedBrokers.flatMap { $0.accounts }
     }
 
-    public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAccounts().filter { $0.isEnabled }
     }
     
-    public func getAllAuthenticatedAndEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getAllAuthenticatedAndEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.getAllAuthenticatedLinkedBrokers().flatMap { $0.accounts }.filter { $0.isEnabled }
     }
 
-    public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllEnabledLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0}
     }
     
-    public func getAllDisplayableLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllDisplayableLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0 || $0.isAccountLinkDelayedError}
     }
     
-    public func getAllActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter {$0.isAccountLinkDelayedError}
     }
 
-    public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
+    @objc public func getAllLinkedBrokersInError() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error != nil }
     }
 
-    public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
+    @objc public func getAllAuthenticatedLinkedBrokers() -> [TradeItLinkedBroker] {
         return self.linkedBrokers.filter { $0.error == nil }
     }
 
-    public func unlinkBroker(
+    @objc public func unlinkBroker(
         _ linkedBroker: TradeItLinkedBroker,
         onSuccess: @escaping () -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -270,17 +268,17 @@ import PromiseKit
         )
     }
 
-    public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
+    @objc public func getLinkedBroker(forUserId userId: String?) -> TradeItLinkedBroker? {
         return self.linkedBrokers.filter({ $0.linkedLogin.userId == userId }).first
     }
     
-    public func syncLocal(
+    @objc public func syncLocal(
         withRemoteLinkedBrokers remoteLinkedBrokers: [LinkedBrokerData],
         onFailure: @escaping (TradeItErrorResult) -> Void,
         onFinished: @escaping () -> Void
     ) {
         // Add missing linkedBrokers
-        let localUserIds = self.linkedBrokers.flatMap { $0.linkedLogin.userId }
+        let localUserIds: [String] = self.linkedBrokers.compactMap { $0.linkedLogin.userId }
         let remoteLinkedBrokersToAdd = remoteLinkedBrokers.filter { !localUserIds.contains($0.userId) }
 
         remoteLinkedBrokersToAdd.forEach { remoteBrokerData in
@@ -292,7 +290,7 @@ import PromiseKit
         }
 
         // Remove non existing linkedBrokers
-        let remoteUserIds = remoteLinkedBrokers.flatMap { $0.userId }
+        let remoteUserIds: [String] = remoteLinkedBrokers.compactMap { $0.userId }
         let linkedBrokersToRemove = self.linkedBrokers.filter {
             !remoteUserIds.contains($0.linkedLogin.userId)
         }
@@ -339,7 +337,7 @@ import PromiseKit
 
     private func syncAccounts(localLinkedBroker: TradeItLinkedBroker, remoteLinkedBroker: LinkedBrokerData) {
         // Add missing accounts
-        let localAccountNumbers = localLinkedBroker.accounts.flatMap { $0.accountNumber }
+        let localAccountNumbers: [String] = localLinkedBroker.accounts.compactMap { $0.accountNumber }
         let remoteAccountsToAdd = remoteLinkedBroker.accounts.filter { !localAccountNumbers.contains($0.number) }
 
         remoteAccountsToAdd.forEach { remoteAccount in
@@ -348,7 +346,7 @@ import PromiseKit
         }
 
         // Remove missing accounts
-        let remoteAccountNumbers = remoteLinkedBroker.accounts.flatMap { $0.number }
+        let remoteAccountNumbers: [String] = remoteLinkedBroker.accounts.compactMap { $0.number }
         let localAccountsToRemove = localLinkedBroker.accounts.filter { !remoteAccountNumbers.contains($0.accountNumber) }
 
         localAccountsToRemove.forEach { localAccountToRemove in
@@ -458,7 +456,7 @@ import PromiseKit
         if let availableBrokersPromise = self.availableBrokersPromise {
             return availableBrokersPromise
         } else {
-            let availableBrokersPromise = Promise<[TradeItBroker]> { fulfill, reject in
+            let availableBrokersPromise = Promise<[TradeItBroker]> { seal in
                 brokerService.getAvailableBrokers(
                     userCountryCode: TradeItSDK.userCountryCode,
                     onSuccess: { availableBrokers, featuredBrokerLabelText in
@@ -468,10 +466,10 @@ import PromiseKit
                             self.featuredBrokerLabelText = featuredBrokerLabelText
                         }
 
-                        fulfill(availableBrokers)
+                        seal.fulfill(availableBrokers)
                     }, onFailure: { error in
                         self.availableBrokersPromise = nil
-                        reject(error)
+                        seal.reject(error)
                     }
                 )
             }
@@ -500,7 +498,7 @@ import PromiseKit
 
     // MARK: Debugging
 
-    public func printLinkedBrokers() {
+    @objc public func printLinkedBrokers() {
         print("\n\n=====> LINKED BROKERS:")
 
         self.linkedBrokers.forEach { linkedBroker in
@@ -529,7 +527,7 @@ import PromiseKit
     let accounts: [LinkedBrokerAccountData]
     let isLinkActivationPending: Bool
     
-    public init(
+    @objc public init(
         userId: String,
         userToken: String,
         broker: String,
@@ -552,7 +550,7 @@ import PromiseKit
     let baseCurrency: String
     let userCanDisableMargin: Bool
     
-    public init(
+    @objc public init(
         name: String,
         number: String,
         baseCurrency: String,

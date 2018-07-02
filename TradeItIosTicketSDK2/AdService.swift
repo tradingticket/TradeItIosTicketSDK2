@@ -61,7 +61,7 @@ import UIKit
 
 @objc public class DefaultAdService: NSObject, AdService {
 
-    public func populate(
+    @objc public func populate(
         adContainer: UIView,
         rootViewController: UIViewController,
         pageType: TradeItAdPageType,

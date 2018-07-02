@@ -24,7 +24,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
     private var linkState: LinkState = .linking
 
-    public override func viewDidLoad() {
+    @objc public override func viewDidLoad() {
         super.viewDidLoad()
 
         precondition(self.oAuthCallbackUrlParser != nil, "TradeItSDK ERROR: oAuthCallbackUrl not set before loading TradeItOAuthCompletionViewController")

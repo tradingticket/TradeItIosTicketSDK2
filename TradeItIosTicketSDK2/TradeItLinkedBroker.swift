@@ -1,8 +1,8 @@
 import PromiseKit
 
 @objc public class TradeItLinkedBroker: NSObject {
-    public var accountsLastUpdated: Date?
-    public var accounts: [TradeItLinkedBrokerAccount] = []
+    @objc public var accountsLastUpdated: Date?
+    @objc public var accounts: [TradeItLinkedBrokerAccount] = []
     private var _error: TradeItErrorResult?
     var error: TradeItErrorResult? {
         set(newError) {
@@ -22,8 +22,8 @@ import PromiseKit
         }
         get { return self._error }
     }
-    public var isAccountLinkDelayedError: Bool = false
-    public var userId: String {
+    @objc public var isAccountLinkDelayedError: Bool = false
+    @objc public var userId: String {
         get {
             return linkedLogin.userId
         }
@@ -32,18 +32,19 @@ import PromiseKit
     var session: TradeItSession
     var linkedLogin: TradeItLinkedLogin
 
-    public var brokerName: String {
+    @objc public var brokerName: String {
         return self.linkedLogin.broker
     }
     
     internal var balanceService: TradeItBalanceService
     internal var positionService: TradeItPositionService
-    internal var tradeService: TradeItTradeService
+    internal var equityTradeService: TradeItEquityTradeService
     internal var fxTradeService: TradeItFxTradeService
+    internal var cryptoTradeService: TradeItCryptoTradeService
     internal var orderService: TradeItOrderService
     internal var transactionService: TradeItTransactionService
     
-    public var brokerLongName: String {
+    @objc public var brokerLongName: String {
         return self.linkedLogin.brokerLongName
     }
 
@@ -52,8 +53,9 @@ import PromiseKit
         self.linkedLogin = linkedLogin
         self.balanceService = TradeItBalanceService(session: session)
         self.positionService = TradeItPositionService(session: session)
-        self.tradeService = TradeItTradeService(session: session)
+        self.equityTradeService = TradeItEquityTradeService(session: session)
         self.fxTradeService = TradeItFxTradeService(session: session)
+        self.cryptoTradeService = TradeItCryptoTradeService(session: session)
         self.orderService = TradeItOrderService(session: session)
         self.transactionService = TradeItTransactionService(session: session)
         super.init()
@@ -61,7 +63,7 @@ import PromiseKit
         self.setUnauthenticated()
     }
 
-    public func authenticate(
+    @objc public func authenticate(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
@@ -116,7 +118,7 @@ import PromiseKit
         self.session.authenticate(linkedLogin, withCompletionBlock: authenticationResponseHandler)
     }
 
-    public func authenticateIfNeeded(
+    @objc public func authenticateIfNeeded(
         onSuccess: @escaping () -> Void,
         onSecurityQuestion: @escaping (
             TradeItSecurityQuestionResult,
@@ -143,28 +145,28 @@ import PromiseKit
         }
     }
 
-    public func refreshAccountBalances(
+    @objc public func refreshAccountBalances(
         force: Bool = true,
         cacheResult: Bool = true,
         onFinished: @escaping () -> Void
     ) {
-        let promises = accounts.filter { account in
+        let promises: [Promise<Void>] = accounts.filter { account in
             return force || (account.balance == nil && account.fxBalance == nil)
         }.map { account in
-            return Promise<Void> { fulfill, reject in
+            return Promise<Void> { (seal: Resolver<Void>) -> Void in
                 account.getAccountOverview(
                     cacheResult: false, // Cache at the end so we don't cache the entire linked broker multiple times
                     onSuccess: { _ in
-                        fulfill()
+                        seal.fulfill(())
                     },
                     onFailure: { errorResult in
-                        fulfill()
+                        seal.fulfill(())
                     }
                 )
             }
         }
 
-        _ = when(resolved: promises).always {
+        _ = when(resolved: promises).done { _ in
             if cacheResult {
                 TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
             }
@@ -172,16 +174,16 @@ import PromiseKit
         }
     }
 
-    public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
+    @objc public func getEnabledAccounts() -> [TradeItLinkedBrokerAccount] {
         return self.accounts.filter { return $0.isEnabled }
     }
 
-    public func isStillLinked() -> Bool {
+    @objc public func isStillLinked() -> Bool {
         let linkedBrokers = TradeItSDK.linkedBrokerManager.linkedBrokers
         return linkedBrokers.index(of: self) != nil
     }
 
-    public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
+    @objc public func findAccount(byAccountNumber accountNumber: String) -> TradeItLinkedBrokerAccount? {
         let matchingAccounts = self.accounts.filter { (account: TradeItLinkedBrokerAccount) -> Bool in
             return account.accountNumber == accountNumber
         }
@@ -189,7 +191,7 @@ import PromiseKit
         return matchingAccounts.first
     }
 
-    public func getFxQuote(
+    @objc public func getFxQuote(
         symbol: String,
         onSuccess: @escaping (TradeItQuote) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
@@ -244,11 +246,11 @@ import PromiseKit
         _ submitAnswer: @escaping (String) -> Void,
         _ onCancelSecurityQuestion: @escaping () -> Void
         ) -> Void) -> Promise<Void>{
-        return Promise<Void> { fulfill, reject in
+        return Promise<Void> { seal in
             self.authenticateIfNeeded(
-                onSuccess: fulfill,
+                onSuccess: seal.fulfill,
                 onSecurityQuestion: onSecurityQuestion,
-                onFailure: reject
+                onFailure: seal.reject
             )
         }
     }

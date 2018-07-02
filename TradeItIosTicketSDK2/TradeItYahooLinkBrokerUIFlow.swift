@@ -13,6 +13,8 @@ import SafariServices
     }
     var oAuthCallbackUrl: URL?
 
+    weak var delegate: YahooLauncherDelegate?
+
     override internal init() {
         super.init()
     }
@@ -26,18 +28,36 @@ import SafariServices
     ) {
         self.oAuthCallbackUrl = oAuthCallbackUrl
 
-        guard let selectBrokerViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .yahooBrokerSelectionView) as? TradeItYahooBrokerSelectionViewController else {
+        guard let brokerSelectionViewController = self.viewControllerProvider.provideViewController(forStoryboardId: .yahooBrokerSelectionView) as? TradeItYahooBrokerSelectionViewController else {
             print("TradeItSDK ERROR: Could not instantiate TradeItYahooBrokerSelectionViewController from storyboard!")
             return
         }
 
-        selectBrokerViewController.oAuthCallbackUrl = oAuthCallbackUrl
+        brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
+        brokerSelectionViewController.delegate = self.delegate
 
         if (asRootViewController) {
-            navController.setViewControllers([selectBrokerViewController], animated: true)
+            navController.setViewControllers([brokerSelectionViewController], animated: true)
         } else {
-            navController.pushViewController(selectBrokerViewController, animated: true)
+            navController.pushViewController(brokerSelectionViewController, animated: true)
         }
+    }
+
+    func presentLinkBrokerFlow(
+        fromViewController viewController: UIViewController,
+        showWelcomeScreen: Bool = true,
+        showOpenAccountButton: Bool = true,
+        oAuthCallbackUrl: URL,
+        delegate: YahooLauncherDelegate?
+    ) {
+        self.delegate = delegate
+
+        self.presentLinkBrokerFlow(
+            fromViewController: viewController,
+            showWelcomeScreen: showWelcomeScreen,
+            showOpenAccountButton: showOpenAccountButton,
+            oAuthCallbackUrl: oAuthCallbackUrl
+        )
     }
 
     func presentLinkBrokerFlow(
@@ -55,6 +75,8 @@ import SafariServices
         }
 
         brokerSelectionViewController.oAuthCallbackUrl = oAuthCallbackUrl
+        brokerSelectionViewController.delegate = self.delegate
+        
         navController.pushViewController(brokerSelectionViewController, animated: false)
         viewController.present(navController, animated: true, completion: nil)
     }

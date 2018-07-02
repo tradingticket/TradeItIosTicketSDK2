@@ -41,9 +41,18 @@
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    UIViewController *viewController = [self.window.rootViewController presentedViewController];
 
-    [TradeItSDK.launcher handleOAuthCallbackOnTopmostViewController:viewController oAuthCallbackUrl:url];
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    if ([topController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navController = (UINavigationController*)topController;
+        topController = navController.topViewController;
+    }
+
+    [TradeItSDK.launcher handleOAuthCallbackOnTopmostViewController:topController oAuthCallbackUrl:url];
     return YES;
 }
 

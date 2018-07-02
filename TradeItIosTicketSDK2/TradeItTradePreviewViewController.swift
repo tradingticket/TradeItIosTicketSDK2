@@ -19,9 +19,9 @@ internal class MessageCellData: PreviewCellData {
 
 internal class ValueCellData: PreviewCellData {
     let label: String
-    let value: String
+    let value: String?
 
-    init(label: String, value: String) {
+    init(label: String, value: String?) {
         self.label = label
         self.value = value
     }
@@ -35,7 +35,11 @@ internal class BrandedAccountNameCellData: PreviewCellData {
     }
 }
 
-class TradeItTradePreviewViewController: TradeItViewController, UITableViewDelegate, UITableViewDataSource, PreviewMessageDelegate {
+class TradeItTradePreviewViewController:
+    TradeItViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    PreviewMessageDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var placeOrderButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
@@ -183,7 +187,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
     }
 
     private func allAcknowledgementsAccepted() -> Bool {
-        return previewCellData.flatMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
+        return previewCellData.compactMap { $0 as? MessageCellData }.filter { !$0.isValid() }.count == 0
     }
 
     private func generatePreviewCellData() -> [PreviewCellData] {
@@ -195,7 +199,11 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         
         cells += generateMessageCellData()
 
-        let orderDetailsPresenter = TradeItOrderDetailsPresenter(orderDetails: orderDetails, orderCapabilities: orderCapabilities)
+        let orderDetailsPresenter = TradeItOrderDetailsPresenter(
+            orderAction: orderDetails.orderAction,
+            orderExpiration: orderDetails.orderExpiration,
+            orderCapabilities: orderCapabilities
+        )
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
@@ -205,7 +213,7 @@ class TradeItTradePreviewViewController: TradeItViewController, UITableViewDeleg
         ] as [PreviewCellData]
 
         if self.linkedBrokerAccount.userCanDisableMargin {
-            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetailsPresenter.userDisabledMargin)))
+            cells.append(ValueCellData(label: "Type", value: MarginPresenter.labelFor(value: orderDetails.userDisabledMargin)))
         }
 
         if let estimatedOrderCommission = orderDetails.estimatedOrderCommission {

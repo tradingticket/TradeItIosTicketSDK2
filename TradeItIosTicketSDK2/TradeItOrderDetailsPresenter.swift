@@ -1,22 +1,24 @@
 class TradeItOrderDetailsPresenter {
-    private var orderDetails: TradeItPreviewTradeOrderDetails
-    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    private let orderAction: String?
+    private let orderExpiration: String?
+    private let orderCapabilities: TradeItInstrumentOrderCapabilities?
 
-    var userDisabledMargin: Bool {
-        return self.orderDetails.userDisabledMargin
-    }
-
-    init(orderDetails: TradeItPreviewTradeOrderDetails, orderCapabilities: TradeItInstrumentOrderCapabilities?) {
-        self.orderDetails = orderDetails
+    init(
+        orderAction: String?,
+        orderExpiration: String?,
+        orderCapabilities: TradeItInstrumentOrderCapabilities?
+    ) {
+        self.orderAction = orderAction
+        self.orderExpiration = orderExpiration
         self.orderCapabilities = orderCapabilities
     }    
     
     func getOrderExpirationLabel() -> String {
-        return self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.orderDetails.orderExpiration) ?? "Unknown"
+        return self.orderCapabilities?.labelFor(field: .expirationTypes, value: self.orderExpiration) ?? "Unknown"
     }
     
     func getOrderActionLabel() -> String {
-        return self.orderCapabilities?.labelFor(field: .actions, value: self.orderDetails.orderAction) ?? "Unknown"
+        return self.orderCapabilities?.labelFor(field: .actions, value: self.orderAction) ?? "Unknown"
     }
 }
 
@@ -28,8 +30,8 @@ class TradeItOrderPriceTypePresenter {
     static let EXPIRATION_TYPES: [TradeItOrderPriceType] = [.limit, .stopMarket, .stopLimit]
 }
 
-class TradeItOrderActionPresenter {
-    static let DEFAULT: TradeItOrderAction = .buy
+public class TradeItOrderActionPresenter {
+    public static let DEFAULT: TradeItOrderAction = .buy
     static let ACTIONS: [TradeItOrderAction] = [.buy, .sell, .buyToCover, .sellShort]
     static let SELL_ACTIONS: [TradeItOrderAction] = [.sell, .sellShort]
 }

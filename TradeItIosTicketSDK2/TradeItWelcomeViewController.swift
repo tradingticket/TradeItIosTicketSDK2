@@ -20,8 +20,8 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
     private var activityView: MBProgressHUD?
     private var featuredBroker: TradeItBroker?
 
-    public var headlineText = TradeItSDK.welcomeScreenHeadlineText
-    public var oAuthCallbackUrl: URL?
+    @objc public var headlineText = TradeItSDK.welcomeScreenHeadlineText
+    @objc public var oAuthCallbackUrl: URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ class TradeItWelcomeViewController: TradeItViewController, UIGestureRecognizerDe
 
     // MARK: UIGestureRecognizerDelegate
 
-    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
         if let featuredBroker = featuredBroker {
             self.launchOAuth(forBroker: featuredBroker)
         }

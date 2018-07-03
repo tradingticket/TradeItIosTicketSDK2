@@ -2,13 +2,13 @@
 
 @interface TradeItCryptoQuoteResult : TradeItResult
 
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull ask;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull bid;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull open;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull last;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull volume;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull dayLow;
-@property (nonatomic, copy) NSNumber<Optional> * _Nonnull dayHigh;
-@property (nonatomic, copy) NSString<Optional> * _Nonnull dateTime;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * ask;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * bid;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * open;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * last;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * volume;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * dayLow;
+@property (nonatomic, copy, nullable) NSNumber<Optional> * dayHigh;
+@property (nonatomic, copy, nullable) NSString<Optional> * dateTime;
 
 @end

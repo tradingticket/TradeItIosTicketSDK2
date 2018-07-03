@@ -440,7 +440,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 onQuantityTypeToggled: {
                     if self.supportedOrderQuantityTypes.isEmpty { return }
 
-                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency) as Int? ?? 0
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
                     let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
                     let nextOrderQuantityType = self.self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency
 

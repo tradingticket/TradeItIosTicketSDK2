@@ -1,6 +1,5 @@
 enum CellReuseId: String {
     case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
-    case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
     case numericToggleInput = "TRADING_TICKET_NUMERIC_TOGGLE_INPUT_CELL_ID"
     case stepperInput = "TRADING_TICKET_STEPPER_INPUT_CELL_ID"
     case selection = "TRADING_TICKET_SELECTION_CELL_ID"

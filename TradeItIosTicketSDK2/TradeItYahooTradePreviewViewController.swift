@@ -3,7 +3,6 @@ import MBProgressHUD
 import BEMCheckBox
 import SafariServices
 
-// TODO: Make sure QUANTITY TYPE works
 class TradeItYahooTradePreviewViewController:
     TradeItYahooViewController,
     UITableViewDelegate,

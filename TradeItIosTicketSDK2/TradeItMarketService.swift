@@ -73,7 +73,6 @@ class TradeItMarketService: MarketDataService {
                 onFailure(TradeItErrorResult(title: "Market data failure", message: "Could not fetch quotes. Please try again."))
             }
         })
-
     }
 
     private func getEndpoint(forRequest request: TradeItQuotesRequest) -> String? {

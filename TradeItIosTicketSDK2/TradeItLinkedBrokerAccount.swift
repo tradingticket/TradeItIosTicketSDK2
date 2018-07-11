@@ -64,6 +64,10 @@
         return linkedBroker?.cryptoTradeService
     }
     
+    internal var cryptoMarketDataService: TradeItCryptoMarketDataService? {
+        return linkedBroker?.cryptoMarketDataService
+    }
+    
     private var orderService: TradeItOrderService? {
         return linkedBroker?.orderService
     }

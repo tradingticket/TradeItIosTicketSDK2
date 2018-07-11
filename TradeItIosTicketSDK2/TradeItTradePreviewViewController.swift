@@ -2,39 +2,6 @@ import UIKit
 import MBProgressHUD
 import SafariServices
 
-@objc internal protocol PreviewCellData {}
-
-internal class MessageCellData: PreviewCellData {
-    let message: TradeItPreviewMessage
-    var isAcknowledged = false
-
-    init(message: TradeItPreviewMessage) {
-        self.message = message
-    }
-
-    func isValid() -> Bool {
-        return !message.requiresAcknowledgement || isAcknowledged
-    }
-}
-
-internal class ValueCellData: PreviewCellData {
-    let label: String
-    let value: String?
-
-    init(label: String, value: String?) {
-        self.label = label
-        self.value = value
-    }
-}
-
-internal class BrandedAccountNameCellData: PreviewCellData {
-    let linkedBroker: TradeItLinkedBrokerAccount
-
-    init(linkedBroker: TradeItLinkedBrokerAccount) {
-        self.linkedBroker = linkedBroker
-    }
-}
-
 class TradeItTradePreviewViewController:
     TradeItViewController,
     UITableViewDelegate,

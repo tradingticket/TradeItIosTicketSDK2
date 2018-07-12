@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             environment: AppDelegate.ENVIRONMENT,
             userCountryCode: "US"
         )
-
+        
         TradeItSDK.welcomeScreenHeadlineText = "This Welcome screen headline text is configurable in the SDK!"
 
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
@@ -112,20 +112,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
     }
 
-    func onAlertShownNotification(notification: Notification) {
+    @objc func onAlertShownNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let alertTitle = notification.userInfo?[TradeItNotification.UserInfoKey.alertTitle.rawValue] ?? "NO KEY FOR ALERT TITLE"
         let alertMessage = notification.userInfo?[TradeItNotification.UserInfoKey.alertMessage.rawValue] ?? "NO KEY FOR ALERT MESSAGE"
         print("=====> ALERT SHOWN: VIEW: \(view), TITLE: \(alertTitle), MESSAGE: \(alertMessage)")
     }
 
-    func onViewDidAppearNotification(notification: Notification) {
+    @objc func onViewDidAppearNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
         print("=====> VIEW APPEARED: \(view), TITLE: \(viewTitle)")
     }
 
-    func didLink(notification: Notification) {
+    @objc func didLink(notification: Notification) {
         print("TradeItSDK: didLink notification")
         guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
             return print("No linkedBroker passed with notification")
@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(linkedBroker.brokerName)
     }
 
-    func didUnlink(notification: Notification) {
+    @objc func didUnlink(notification: Notification) {
         print("TradeItSDK: didUnlink notification")
         guard let linkedBroker = notification.userInfo?["linkedBroker"] as? TradeItLinkedBroker else {
             return print("No linkedBroker passed with notification")
@@ -141,13 +141,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(linkedBroker.brokerName)
     }
 
-    func onButtonTappedNotification(notification: Notification) {
+    @objc func onButtonTappedNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let button = notification.userInfo?[TradeItNotification.UserInfoKey.button.rawValue] ?? "NO KEY FOR BUTTON"
         print("=====> BUTTON TAPPED: VIEW: \(view), BUTTON: \(button)")
     }
 
-    func onDidSelectRowNotification(notification: Notification) {
+    @objc func onDidSelectRowNotification(notification: Notification) {
         let view = notification.userInfo?[TradeItNotification.UserInfoKey.view.rawValue] ?? "NO KEY FOR VIEW"
         let viewTitle = notification.userInfo?[TradeItNotification.UserInfoKey.viewTitle.rawValue] ?? "NO KEY FOR VIEW TITLE"
         let rowType = notification.userInfo?[TradeItNotification.UserInfoKey.rowType.rawValue] ?? "NO KEY FOR ROWTYPE"
@@ -223,14 +223,57 @@ class DummyMarketDataService: MarketDataService {
         // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = 1337.42
-        quote.change = 42.1337
-        quote.pctChange = -123.456
+        quote.lastPrice = 1337.42 as NSNumber
+        quote.change = 42.1337 as NSNumber
+        quote.pctChange = -123.456 as NSNumber
         quote.dateTime = "12:34:56"
         onSuccess(quote)
 
         // OR if failed to get market data, create an error
         let error = TradeItErrorResult.error(withSystemMessage: "Some technical reason for failure")
         onFailure(error)
+    }
+}
+
+// Only implement this protocol if you need to stream your own market data
+class DummyStreamingMarketDataService: StreamingMarketDataService {
+    private var timer: Timer?
+    private var onUpdate: ((TradeItQuote) -> Void)?
+    private var price = 500
+    
+    func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
+        self.onUpdate = onUpdate
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(self.timerDidFire),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    func stopUpdatingQuote() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    @objc private func timerDidFire() {
+        let priceChange = generateRandomValue(lowerBound: -25, upperBound: 25)
+        self.price = self.price + priceChange
+        
+        let quote = TradeItQuote()
+        quote.companyName = "LOL"
+        quote.lastPrice = NSNumber(value: price)
+        quote.bidPrice = NSNumber(value: price - 1)
+        quote.askPrice = NSNumber(value: price + 1)
+        quote.change = NSNumber(value: priceChange)
+        quote.pctChange = NSNumber(value: -123.456)
+        quote.dateTime = "12:34:56"
+        
+        onUpdate?(quote)
+    }
+    
+    private func generateRandomValue(lowerBound: Int, upperBound: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(upperBound - lowerBound + 1))) + lowerBound
     }
 }

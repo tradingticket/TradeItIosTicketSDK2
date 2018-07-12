@@ -51,7 +51,7 @@ class TradeItAccountSelectionViewController: TradeItViewController, TradeItAccou
             isRootScreen = (navStackCount == 1)
         }
         
-        let accountIndexes = authenticatedEnabledBrokers.flatMap { $0.accountIndex }
+        let accountIndexes = authenticatedEnabledBrokers.compactMap { $0.accountIndex } as [String]
         let selectedAccountIndex = self.selectedLinkedBrokerAccount?.accountIndex ?? ""
         if authenticatedEnabledBrokers.isEmpty || isRootScreen || !accountIndexes.contains(selectedAccountIndex) {
             self.createCloseButton()

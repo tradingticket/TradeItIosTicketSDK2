@@ -2,26 +2,31 @@ class NumberFormatter: NSObject {
     private static let currencyFormatter = Foundation.NumberFormatter()
     private static let quantityFormatter = Foundation.NumberFormatter()
     
-    static func formatCurrency(_ number: NSNumber, minimumFractionDigits: Int = 2, maximumFractionDigits: Int = 2, displayVariance: Bool = false, currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE) -> String {
+    static func formatCurrency(
+        _ number: NSNumber,
+        minimumFractionDigits: Int = 2,
+        maximumFractionDigits: Int = 2,
+        displayVariance: Bool = false,
+        currencyCode: String? = TradeItPresenter.DEFAULT_CURRENCY_CODE
+    ) -> String {
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = currencyCode
         currencyFormatter.currencySymbol = overrideCurrencySymbol(forCurrencyCode: currencyCode)
-        if displayVariance {
-            currencyFormatter.positivePrefix = "+" + currencyFormatter.currencySymbol
-            currencyFormatter.negativePrefix = "-" + currencyFormatter.currencySymbol
-        } else {
-            currencyFormatter.positivePrefix = nil
-            currencyFormatter.negativePrefix = nil
-        }
         currencyFormatter.minimumFractionDigits = minimumFractionDigits
         currencyFormatter.maximumFractionDigits = maximumFractionDigits
-        return currencyFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
+        var formattedCurrency = currencyFormatter.string(from: number)
+        if displayVariance,
+            number.doubleValue > 0.0,
+            let unwrappedFormattedCurrency = formattedCurrency {
+            formattedCurrency = "+\(unwrappedFormattedCurrency)"
+        }
+        return formattedCurrency ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
-    
-    static func formatQuantity(_ number: NSNumber) -> String {
+
+    static func formatQuantity(_ number: NSNumber, maxDecimalPlaces: Int = 2) -> String {
         quantityFormatter.numberStyle = .decimal
         quantityFormatter.minimumFractionDigits = 0
-        quantityFormatter.maximumFractionDigits = 2
+        quantityFormatter.maximumFractionDigits = maxDecimalPlaces
         return quantityFormatter.string(from: number) ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
     

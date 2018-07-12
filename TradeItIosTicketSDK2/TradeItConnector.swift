@@ -1,7 +1,5 @@
 import PromiseKit
 
-private let LOG_TRAFFIC = false // Set to true to log requests/responses
-
 internal extension TradeItConnector {
     func userToken(fromKeychainId keychainId: String) -> String? {
         return TradeItKeychain.getStringForKey(keychainId)
@@ -32,14 +30,14 @@ internal extension TradeItConnector {
         _ request: URLRequest,
         targetClassType: T.Type
     ) -> Promise<T> {
-        return Promise<T> { fulfill, reject in
+        return Promise<T> { seal in
             send(request, targetClassType: targetClassType) { result in
                 switch(result) {
-                case let result as T: fulfill(result)
-                case let error as TradeItErrorResult: reject(error)
+                case let result as T: seal.fulfill(result)
+                case let error as TradeItErrorResult: seal.reject(error)
                 default:
-                    reject(
-                        TradeItErrorResult(title: "Could not retrieve UI config. Please try again.")
+                    seal.reject(
+                        TradeItErrorResult.error(withSystemMessage: "The server returned a response that could not deserialize to the requested type: \(targetClassType.classForCoder())")
                     )
                 }
             }
@@ -62,7 +60,7 @@ internal extension TradeItConnector {
             return
         }
         
-        if LOG_TRAFFIC {
+        if TradeItSDK.debug {
             let requestBodyString = String(data: request.httpBody ?? Data(), encoding: String.Encoding.utf8)
             print("\n===== REQUEST =====\n\(request.url?.absoluteString ?? "NO URL!")\n\(requestBodyString ?? "NO BODY!")\n")
         }
@@ -71,7 +69,7 @@ internal extension TradeItConnector {
             self.session.dataTask(
                 with: request,
                 completionHandler: { data, response, error in
-                    if LOG_TRAFFIC {
+                    if TradeItSDK.debug {
                         let responseBodyString = String(data: data ?? Data(), encoding: String.Encoding.utf8)
                         print("\n===== RESPONSE =====\n\(request.url?.absoluteString ?? "NO URL!")\n\(responseBodyString ?? "NO BODY!")\n")
                         if let error = error {
@@ -106,8 +104,6 @@ internal extension TradeItConnector {
             result = TradeItResultTransformer.transform(targetClassType: TradeItErrorResult.self, json: json)
         } else if result?.isSecurityQuestion() == true {
             result = TradeItResultTransformer.transform(targetClassType: TradeItSecurityQuestionResult.self, json: json)
-        } else if result?.isReviewOrder() == true {
-            result = TradeItResultTransformer.transform(targetClassType: TradeItPreviewOrderResult.self, json: json)
         }
 
         let defaultedResult = result ?? TradeItErrorResult.error(withSystemMessage: "JSON from server does not match the TradeItResult format.")

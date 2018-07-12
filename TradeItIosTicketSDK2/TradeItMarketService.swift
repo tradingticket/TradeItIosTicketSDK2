@@ -12,6 +12,16 @@
     )
 }
 
+@objc public protocol StreamingMarketDataService {
+    @objc func startUpdatingQuote(
+        forSymbol symbol: String,
+        onUpdate: @escaping (TradeItQuote) -> Void,
+        onFailure: @escaping () -> Void
+    )
+    
+    @objc func stopUpdatingQuote()
+}
+
 class TradeItMarketService: MarketDataService {
     let connector: TradeItConnector
 
@@ -63,7 +73,6 @@ class TradeItMarketService: MarketDataService {
                 onFailure(TradeItErrorResult(title: "Market data failure", message: "Could not fetch quotes. Please try again."))
             }
         })
-
     }
 
     private func getEndpoint(forRequest request: TradeItQuotesRequest) -> String? {

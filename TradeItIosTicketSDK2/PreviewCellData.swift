@@ -1,0 +1,1 @@
+@objc internal protocol PreviewCellData {}

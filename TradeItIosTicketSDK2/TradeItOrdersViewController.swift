@@ -39,10 +39,10 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
         }
         
         func ordersPromise() -> Promise<[TradeItOrderStatusDetails]> {
-            return Promise<[TradeItOrderStatusDetails]> { fulfill, reject in
+            return Promise<[TradeItOrderStatusDetails]> { seal in
                 linkedBrokerAccount.getAllOrderStatus(
-                    onSuccess: fulfill,
-                    onFailure: reject
+                    onSuccess: seal.fulfill,
+                    onFailure: seal.reject
                 )
             }
         }
@@ -58,9 +58,9 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
             }
         ).then { _ in
             return ordersPromise()
-        }.then { orders in
+        }.done { orders in
             self.ordersTableViewManager?.updateOrders(orders)
-        }.always {
+        }.ensure {
             onRefreshComplete()
         }.catch { error in
             let error = error as? TradeItErrorResult ??

@@ -5,7 +5,7 @@ class TradeItPreviewOrderValueTableViewCell: UITableViewCell {
         TradeItThemeConfigurator.configure(view: self)
     }
 
-    func populate(withLabel label: String, andValue value: String) {
+    func populate(withLabel label: String, andValue value: String?) {
         self.textLabel?.text = label
         self.detailTextLabel?.text = value
     }

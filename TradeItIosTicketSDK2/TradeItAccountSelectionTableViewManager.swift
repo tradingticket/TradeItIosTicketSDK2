@@ -34,7 +34,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         self.accountsTable?.reloadData()
     }
 
-    func initiateRefresh(animated: Bool = true) {
+    @objc func initiateRefresh(animated: Bool = true) {
         if animated {
             self.refreshControl?.beginRefreshing()
         }

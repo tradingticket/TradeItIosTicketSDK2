@@ -68,10 +68,10 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
         }
         
         func transactionsPromise() -> Promise<TradeItTransactionsHistoryResult> {
-            return Promise<TradeItTransactionsHistoryResult> { fulfill, reject in
+            return Promise<TradeItTransactionsHistoryResult> { seal in
                 linkedBrokerAccount.getTransactionsHistory(
-                    onSuccess: fulfill,
-                    onFailure: reject
+                    onSuccess: seal.fulfill,
+                    onFailure: seal.reject
                 )
             }
         }
@@ -87,11 +87,10 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
             }
         ).then { _ in
             return transactionsPromise()
-        }.then { transactionsHistoryResult in
+        }.done { transactionsHistoryResult in
             self.transactionsTableViewManager?.updateTransactionHistoryResult(transactionsHistoryResult) // TODO order by date desc or check the server order
-        }.always {
-            onRefreshComplete()
-        }.catch { error in
+        }.ensure(onRefreshComplete)
+        .catch { error in
             let error = error as? TradeItErrorResult ??
                 TradeItErrorResult(
                     title: "Fetching transactions failed",

@@ -5,7 +5,7 @@ public typealias OnViewPortfolioTappedHandler = ((
     _ linkedBrokerAccount: TradeItLinkedBrokerAccount?
 ) -> Void)
 
-class TradeItYahooTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
+class TradeItYahooEquityTradingUIFlow: NSObject, TradeItYahooTradingTicketViewControllerDelegate, TradeItYahooAccountSelectionViewControllerDelegate,
 TradeItYahooTradePreviewViewControllerDelegate {
 
     private let viewControllerProvider: TradeItViewControllerProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
@@ -58,7 +58,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
 
         if let accountSelectionViewController = initialViewController as? TradeItYahooAccountSelectionViewController {
             accountSelectionViewController.delegate = self
-        } else if let tradingTicketViewController = initialViewController as? TradeItYahooTradingTicketViewController {
+        } else if let tradingTicketViewController = initialViewController as? TradeItYahooEquityTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
         }
@@ -74,7 +74,7 @@ TradeItYahooTradePreviewViewControllerDelegate {
     ) {
         self.order.linkedBrokerAccount = linkedBrokerAccount
 
-        if let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingTicketView) as? TradeItYahooTradingTicketViewController {
+        if let tradingTicketViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingTicketView) as? TradeItYahooEquityTradingTicketViewController {
             tradingTicketViewController.delegate = self
             tradingTicketViewController.order = order
             accountSelectionViewController.navigationController?.setViewControllers([tradingTicketViewController], animated: true)
@@ -84,24 +84,32 @@ TradeItYahooTradePreviewViewControllerDelegate {
     // MARK: TradeItYahooTradingTicketViewControllerDelegate
 
     internal func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooEquityTradingTicketViewController,
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     ) {
-        let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
+        guard let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController,
+            let linkedBrokerAccount = self.order.linkedBrokerAccount
+            else { return }
 
-        if let previewViewController = previewViewController {
-            previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = self.order.linkedBrokerAccount
-            previewViewController.previewOrderResult = previewOrderResult
-            previewViewController.placeOrderCallback = placeOrderCallback
+        previewViewController.delegate = self
+        previewViewController.linkedBrokerAccount = linkedBrokerAccount
+        previewViewController.placeOrderCallback = placeOrderCallback
+        let factory = EquityPreviewCellFactory(
+            previewMessageDelegate: previewViewController,
+            linkedBrokerAccount: linkedBrokerAccount,
+            previewOrderResult: previewOrderResult
+        )
 
-            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
-        }
+        previewViewController.dataSource = PreviewTableDataSource(
+            delegate: previewViewController,
+            factory: factory
+        )
+        tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
     }
 
     internal func invalidAccountSelected(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooEquityTradingTicketViewController,
         withOrder order: TradeItOrder
     ) {
         guard let accountSelectionViewController = self.viewControllerProvider.provideViewController(

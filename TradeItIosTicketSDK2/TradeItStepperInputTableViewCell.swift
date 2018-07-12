@@ -33,7 +33,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
         }
     }
 
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         self.textField.resignFirstResponder()
     }
 

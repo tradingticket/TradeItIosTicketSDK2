@@ -44,11 +44,16 @@
 #import "TradeItQuotesRequest.h"
 #import "TradeItQuotesResult.h"
 #import "TradeItQuote.h"
+#import "TradeItCryptoQuoteResult.h"
+#import "TradeItCryptoQuoteRequest.h"                                                                                                  
 
 // Use the TradeService to preview and place trades
 #import "TradeItPreviewTradeRequest.h"
 #import "TradeItPreviewTradeOrderDetails.h"
 #import "TradeItPreviewTradeResult.h"
+#import "TradeItCryptoPreviewTradeRequest.h"
+#import "TradeItCryptoPreviewTradeDetails.h"
+#import "TradeItCryptoPreviewTradeResult.h"
 #import "TradeItPreviewMessage.h"
 #import "TradeItPreviewMessageLink.h"
 #import "TradeItPlaceTradeRequest.h"

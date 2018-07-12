@@ -1,14 +1,19 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
+class TradeItYahooCryptoTradingTicketViewController:
+    TradeItYahooViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    TradeItYahooAccountSelectionViewControllerDelegate
+{
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
 
-    public weak var delegate: TradeItYahooTradingTicketViewControllerDelegate?
+    public weak var delegate: TradeItYahooCryptoTradingTicketViewControllerDelegate?
 
-    internal var order = TradeItOrder()
+    internal var order = TradeItCryptoOrder()
 
     private let alertManager = TradeItAlertManager(linkBrokerUIFlow: TradeItYahooLinkBrokerUIFlow())
     private let viewProvider = TradeItViewControllerProvider(storyboardName: "TradeItYahoo")
@@ -16,9 +21,14 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     private var accountSelectionViewController: TradeItYahooAccountSelectionViewController!
     private let marketDataService = TradeItSDK.marketDataService
     private var keyboardOffsetContraintManager: TradeItKeyboardOffsetConstraintManager?
-    private var quote: TradeItQuote?
-    private var equityOrderCapabilities: TradeItInstrumentOrderCapabilities?
-    
+    private var cryptoQuote: TradeItCryptoQuoteResult?
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
+    private var supportedOrderQuantityTypes: [OrderQuantityType] {
+        get {
+            return self.orderCapabilities?.supportedOrderQuantityTypes(forAction: self.order.action, priceType: self.order.type) ?? []
+        }
+    }
+
     private var ticketRows = [TicketRow]()
 
     private var selectedAccountChanged: Bool = true
@@ -29,8 +39,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let selectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooSelectionView
         ) as? TradeItYahooSelectionViewController else {
-            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooSelectionViewController from storyboard")
-            return
+                assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooSelectionViewController from storyboard")
+                return
         }
 
         self.selectionViewController = selectionViewController
@@ -38,8 +48,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         guard let accountSelectionViewController = self.viewProvider.provideViewController(
             forStoryboardId: .yahooAccountSelectionView
         ) as? TradeItYahooAccountSelectionViewController else {
-            assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
-            return
+                assertionFailure("TradeItSDK ERROR: Could not instantiate TradeItYahooAccountSelectionViewController from storyboard")
+                return
         }
 
         accountSelectionViewController.delegate = self
@@ -53,7 +63,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
-        TicketRow.registerNibCells(forTableView: self.tableView)
+        TradeItBundleProvider.registerYahooNibCells(forTableView: self.tableView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -87,7 +97,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .actions, value: self.order.action.rawValue) { selection in
                 self.order.action = TradeItOrderAction(value: selection)
             }
-            
+
             self.fireViewEventNotification(view: .selectActionType, title: self.selectionViewController.title)
         case .orderType:
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .priceTypes, value: self.order.type.rawValue) { selection in
@@ -99,7 +109,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             self.pushOrderCapabilitiesSelection(ticketRow: ticketRow, field: .expirationTypes, value: self.order.expiration.rawValue) { selection in
                 self.order.expiration = TradeItOrderExpiration(value: selection)
             }
-            
+
             self.fireViewEventNotification(view: .selectExpirationType, title: self.selectionViewController.title)
         case .marginType:
             self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order)
@@ -174,7 +184,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                         )
                     }
                 )
-            }, onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
+            },
+            onSecurityQuestion: { securityQuestion, answerSecurityQuestion, cancelSecurityQuestion in
                 activityView.hide(animated: true)
                 self.alertManager.promptUserToAnswerSecurityQuestion(
                     securityQuestion,
@@ -182,7 +193,8 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     onAnswerSecurityQuestion: answerSecurityQuestion,
                     onCancelSecurityQuestion: cancelSecurityQuestion
                 )
-            }, onFailure: { errorResult in
+            },
+            onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.alertManager.showAlertWithAction(
                     error: errorResult,
@@ -220,7 +232,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
         self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
     }
-    
+
     private func updateAccountOverview() {
         self.order.linkedBrokerAccount?.getAccountOverview(
             onSuccess: { accountOverview in
@@ -255,7 +267,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         var title = "Trade"
 
         if self.order.action != TradeItOrderAction.unknown
-            , let actionType = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
+            , let actionType = self.orderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue) {
             title = actionType
         }
 
@@ -265,7 +277,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
         self.title = title
     }
-    
+
     private func initializeTicket() {
         let activityView = MBProgressHUD.showAdded(to: self.view, animated: true)
         activityView.label.text = "Authenticating"
@@ -273,11 +285,11 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         self.order.linkedBrokerAccount?.linkedBroker?.authenticateIfNeeded(
             onSuccess: {
                 activityView.hide(animated: true)
-                guard let equityOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "equities" })?.first else {
+                guard let instrumentOrderCapabilities = (self.order.linkedBrokerAccount?.orderCapabilities.filter { $0.instrument == "crypto" })?.first else {
                     self.alertManager.showAlertWithMessageOnly(
                         onViewController: self,
                         withTitle: "Unsupported Account",
-                        withMessage: "The selected account does not support trading stocks. Please choose another account.",
+                        withMessage: "The selected account does not support trading crypto. Please choose another account.",
                         withActionTitle: "OK",
                         onAlertActionTapped: {
                             self.delegate?.invalidAccountSelected(
@@ -288,7 +300,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
                     )
                     return
                 }
-                self.equityOrderCapabilities = equityOrderCapabilities
+                self.orderCapabilities = instrumentOrderCapabilities
                 self.setOrderDefaults()
                 self.updateMarketData()
                 self.handleSelectedAccountChange()
@@ -314,11 +326,12 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         )
     }
 
-    
+
     private func setOrderDefaults() {
-        self.order.action = TradeItOrderAction(value: self.equityOrderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
-        self.order.type = TradeItOrderPriceType(value: self.equityOrderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
-        self.order.expiration = TradeItOrderExpiration(value: self.equityOrderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.action = TradeItOrderAction(value: self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.action.rawValue))
+        self.order.type = TradeItOrderPriceType(value: self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.type.rawValue))
+        self.order.expiration = TradeItOrderExpiration(value: self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expiration.rawValue))
+        self.order.quantityType = self.supportedOrderQuantityTypes.first ?? .quoteCurrency
         self.order.userDisabledMargin = false
     }
 
@@ -332,21 +345,25 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
     }
 
     private func clearMarketData() {
-        self.quote = nil
+        self.cryptoQuote = nil
         self.order.quoteLastPrice = nil
         self.reload(row: .marketPrice)
-        self.reload(row: .estimatedCost)
+        self.reload(row: .estimatedChange)
     }
-
+    
     private func updateMarketData() {
-        if let symbol = self.order.symbol {
-            self.marketDataService.getQuote(
-                symbol: symbol,
-                onSuccess: { quote in
-                    self.quote = quote
-                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
+        if let symbol = self.order.symbol  {
+            let request = TradeItCryptoQuoteRequest()
+            request.accountNumber =   self.order.linkedBrokerAccount?.accountNumber
+            request.pair = symbol
+            
+            self.order.linkedBrokerAccount?.cryptoMarketDataService?.getCryptoQuote(
+                request,
+                onSuccess: { quotesResult in
+                    self.cryptoQuote = quotesResult
+                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quotesResult.last)
                     self.reload(row: .marketPrice)
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                 },
                 onFailure: { error in
                     self.clearMarketData()
@@ -378,15 +395,15 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         }
 
         ticketRows.append(.marketPrice)
-        
+
         if self.order.userCanDisableMargin() {
             ticketRows.append(.marginType)
         }
-        
-        ticketRows.append(.estimatedCost)
+
+        ticketRows.append(.estimatedChange)
 
         self.ticketRows = ticketRows
-        
+
         self.tableView.reloadData()
     }
 
@@ -406,69 +423,98 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         cell.textLabel?.text = ticketRow.getTitle(forOrder: self.order)
         cell.selectionStyle = .none
 
+        guard let instrumentOrderCapabilities = self.orderCapabilities else { return cell }
+
         switch ticketRow {
         case .orderAction:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .actions, value: self.order.action.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.quantity,
-                placeholderText: "Enter shares",
+            let cell = cell as? TradeItNumericToggleInputCell
+            let quantitySymbol = self.order.quantitySymbol
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.quantity = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
+                },
+                onQuantityTypeToggled: {
+                    if self.supportedOrderQuantityTypes.isEmpty { return }
+
+                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
+                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
+                    let nextOrderQuantityType = self.self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency
+
+                    if self.order.quantityType != nextOrderQuantityType {
+                        self.order.quantityType = nextOrderQuantityType
+
+                        let quantitySymbol = self.order.quantitySymbol
+                        self.order.quantity = nil
+                        cell?.configureQuantityType(
+                            quantitySymbol: quantitySymbol,
+                            quantity: self.order.quantity,
+                            maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                            showToggle: self.supportedOrderQuantityTypes.count > 1
+                        )
+                    }
                 }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: quantitySymbol,
+                quantity: self.order.quantity,
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
+                showToggle: supportedOrderQuantityTypes.count > 1
             )
         case .limitPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.limitPrice,
-                placeholderText: "Enter limit price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.limitPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
             )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.quoteSymbol,
+                quantity: self.order.limitPrice,
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
+            )
         case .stopPrice:
-            (cell as? TradeItNumericInputCell)?.configure(
-                initialValue: self.order.stopPrice,
-                placeholderText: "Enter stop price",
-                isPrice: true,
+            let cell = cell as? TradeItNumericToggleInputCell
+            cell?.configure(
                 onValueUpdated: { newValue in
                     self.order.stopPrice = newValue
-                    self.reload(row: .estimatedCost)
+                    self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 }
+            )
+            cell?.configureQuantityType(
+                quantitySymbol: self.order.quoteSymbol,
+                quantity: self.order.stopPrice,
+                maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
         case .marketPrice:
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             let quotePresenter = TradeItQuotePresenter(self.order.linkedBrokerAccount?.accountBaseCurrency)
             marketCell.configure(
-                subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
-                detailsLabel: quotePresenter.formatCurrency(quote?.lastPrice),
-                subtitleDetailsLabel: quotePresenter.formatChange(
-                    change: quote?.change,
-                    percentChange: quote?.pctChange
-                ),
-                subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
+                subtitleLabel: quotePresenter.formatTimestamp(cryptoQuote?.dateTime),
+                detailsLabel: quotePresenter.formatCurrency(cryptoQuote?.last),
+                subtitleDetailsLabel: "",
+                subtitleDetailsLabelColor: UIColor.black
             )
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
-        case .estimatedCost:
-            var estimateChangeText = "N/A"
+        case .estimatedChange:
+            var estimatedChangeText = "N/A"
 
             if let estimatedChange = order.estimatedChange() {
-                estimateChangeText = NumberFormatter.formatCurrency(
-                    estimatedChange,
-                    currencyCode: order.linkedBrokerAccount?.accountBaseCurrency)
+                estimatedChangeText = NumberFormatter.formatQuantity(estimatedChange)
             }
 
-            cell.detailTextLabel?.text = estimateChangeText
+            cell.detailTextLabel?.text = estimatedChangeText
         case .orderType:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
-            cell.detailTextLabel?.text = self.equityOrderCapabilities?.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
+            cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .expirationTypes, value: self.order.expiration.rawValue)
         case .account:
             guard let detailCell = cell as? TradeItSelectionDetailCellTableViewCell else { return cell }
             detailCell.textLabel?.isHidden = true
@@ -492,7 +538,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
 
     private func buyingPowerText() -> String? {
         guard let buyingPower = self.order.linkedBrokerAccount?.balance?.buyingPower else { return nil }
-        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying Power"
+        let buyingPowerLabel = self.order.linkedBrokerAccount?.balance?.buyingPowerLabel?.capitalized ?? "Buying power"
         let buyingPowerValue = NumberFormatter.formatCurrency(buyingPower, currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency)
         return buyingPowerLabel + ": " + buyingPowerValue
     }
@@ -504,17 +550,20 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
         }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
-        return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)
+        guard let sharesOwned = positionMatchingSymbol?.position?.quantity,
+            let symbol = self.order.baseSymbol
+            else { return "" }
+        
+        return "\(symbol) owned: \(NumberFormatter.formatQuantity(sharesOwned))"
     }
-    
+
     private func pushOrderCapabilitiesSelection(
         ticketRow: TicketRow,
         field: TradeItInstrumentOrderCapabilityField,
         value: String?,
         onSelected: @escaping (String?) -> Void
     ) {
-        guard let orderCapabilities = self.equityOrderCapabilities else { return }
+        guard let orderCapabilities = self.orderCapabilities else { return }
         self.selectionViewController.title = "Select " + ticketRow.getTitle(forOrder: self.order).lowercased()
         self.selectionViewController.initialSelection = orderCapabilities.labelFor(field: field, value: value)
         self.selectionViewController.selections = orderCapabilities.labelsFor(field: field)
@@ -522,8 +571,16 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             onSelected(orderCapabilities.valueFor(field: field, label: selection))
             _ = self.navigationController?.popViewController(animated: true)
         }
-        
+
         self.navigationController?.pushViewController(selectionViewController, animated: true)
+    }
+
+    private func updateOrderQuantityTypeConstraints() {
+        if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
+            self.order.quantity = nil
+            self.order.quantityType = supportedOrderQuantityTypes.first ?? .shares
+            self.reload(row: .quantity)
+        }
     }
 
     enum TicketRow {
@@ -536,15 +593,7 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
         case stopPrice
         case marketPrice
         case marginType
-        case estimatedCost
-
-        private enum CellReuseId: String {
-            case readOnly = "TRADING_TICKET_READ_ONLY_CELL_ID"
-            case numericInput = "TRADING_TICKET_NUMERIC_INPUT_CELL_ID"
-            case selection = "TRADING_TICKET_SELECTION_CELL_ID"
-            case selectionDetail = "TRADING_TICKET_SELECTION_DETAIL_CELL_ID"
-            case marketData = "TRADING_TICKET_MARKET_DATA_CELL_ID"
-        }
+        case estimatedChange
 
         var cellReuseId: String {
             var cellReuseId: CellReuseId
@@ -552,10 +601,10 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             switch self {
             case .orderAction, .orderType, .expiration, .marginType:
                 cellReuseId = .selection
-            case .estimatedCost:
+            case .estimatedChange:
                 cellReuseId = .readOnly
             case .quantity, .limitPrice, .stopPrice:
-                cellReuseId = .numericInput
+                cellReuseId = .numericToggleInput
             case .marketPrice:
                 cellReuseId = .marketData
             case .account:
@@ -565,45 +614,32 @@ class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITab
             return cellReuseId.rawValue
         }
 
-        func getTitle(forOrder order: TradeItOrder) -> String {
+        func getTitle(forOrder order: TradeItCryptoOrder) -> String {
             switch self {
             case .orderAction: return "Action"
-            case .estimatedCost:
-                let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let action = order.action 
-                let title = "Estimated \(sellActions.contains(action) ? "Proceeds" : "Cost")"
-                return title
-            case .quantity: return "Shares"
+            case .estimatedChange: return "Estimated \(order.quantitySymbol ?? "")"
+            case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"
             case .orderType: return "Order type"
             case .expiration: return "Time in force"
             case .marketPrice: return "Market price"
-            case .account: return "Accounts"
+            case .account: return "Account"
             case .marginType: return "Type"
             }
-        }
-
-        static func registerNibCells(forTableView tableView: UITableView) {
-            let bundle = TradeItBundleProvider.provide()
-
-            tableView.register(
-                UINib(nibName: "TradeItSelectionDetailCellTableViewCell", bundle: bundle),
-                forCellReuseIdentifier: CellReuseId.selectionDetail.rawValue
-            )
         }
     }
 }
 
-@objc protocol TradeItYahooTradingTicketViewControllerDelegate {
+@objc protocol TradeItYahooCryptoTradingTicketViewControllerDelegate {
     func orderSuccessfullyPreviewed(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
-        withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
+        withPreviewOrderResult previewOrderResult: TradeItCryptoPreviewTradeResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     )
 
     func invalidAccountSelected(
-        onTradingTicketViewController tradingTicketViewController: TradeItYahooTradingTicketViewController,
-        withOrder order: TradeItOrder
+        onTradingTicketViewController tradingTicketViewController: TradeItYahooCryptoTradingTicketViewController,
+        withOrder order: TradeItCryptoOrder
     )
 }

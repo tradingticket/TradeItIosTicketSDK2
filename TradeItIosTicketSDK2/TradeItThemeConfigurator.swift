@@ -54,7 +54,7 @@ import UIKit
 
     private static func configureTheme(view: UIView, groupedStyle: Bool) {
         switch view {
-        case let button as UIButton: styleButton(button)
+        case let button as UIButton: return styleButton(button)
         case let input as UITextField: styleTextField(input)
         case let imageView as UIImageView: styleImage(imageView)
         case let label as UILabel: styleLabel(label)

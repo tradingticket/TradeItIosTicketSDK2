@@ -88,25 +88,24 @@ TradeItYahooTradePreviewViewControllerDelegate {
         withPreviewOrderResult previewOrderResult: TradeItPreviewOrderResult,
         placeOrderCallback: @escaping TradeItPlaceOrderHandlers
     ) {
-        let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController
+        guard let previewViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.yahooTradingPreviewView) as? TradeItYahooTradePreviewViewController,
+            let linkedBrokerAccount = self.order.linkedBrokerAccount
+            else { return }
 
-        if let previewViewController = previewViewController,
-            let linkedBrokerAccount = self.order.linkedBrokerAccount {
-            previewViewController.delegate = self
-            previewViewController.linkedBrokerAccount = linkedBrokerAccount
-            previewViewController.placeOrderCallback = placeOrderCallback
-            let factory = EquityPreviewCellFactory(
-                previewMessageDelegate: previewViewController,
-                linkedBrokerAccount: linkedBrokerAccount,
-                previewOrderResult: previewOrderResult
-            )
+        previewViewController.delegate = self
+        previewViewController.linkedBrokerAccount = linkedBrokerAccount
+        previewViewController.placeOrderCallback = placeOrderCallback
+        let factory = EquityPreviewCellFactory(
+            previewMessageDelegate: previewViewController,
+            linkedBrokerAccount: linkedBrokerAccount,
+            previewOrderResult: previewOrderResult
+        )
 
-            previewViewController.dataSource = PreviewTableDataSource(
-                delegate: previewViewController,
-                factory: factory
-            )
-            tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
-        }
+        previewViewController.dataSource = PreviewTableDataSource(
+            delegate: previewViewController,
+            factory: factory
+        )
+        tradingTicketViewController.navigationController?.pushViewController(previewViewController, animated: true)
     }
 
     internal func invalidAccountSelected(

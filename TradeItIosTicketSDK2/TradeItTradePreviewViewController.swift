@@ -2,39 +2,6 @@ import UIKit
 import MBProgressHUD
 import SafariServices
 
-@objc internal protocol PreviewCellData {}
-
-internal class MessageCellData: PreviewCellData {
-    let message: TradeItPreviewMessage
-    var isAcknowledged = false
-
-    init(message: TradeItPreviewMessage) {
-        self.message = message
-    }
-
-    func isValid() -> Bool {
-        return !message.requiresAcknowledgement || isAcknowledged
-    }
-}
-
-internal class ValueCellData: PreviewCellData {
-    let label: String
-    let value: String?
-
-    init(label: String, value: String?) {
-        self.label = label
-        self.value = value
-    }
-}
-
-internal class BrandedAccountNameCellData: PreviewCellData {
-    let linkedBroker: TradeItLinkedBrokerAccount
-
-    init(linkedBroker: TradeItLinkedBrokerAccount) {
-        self.linkedBroker = linkedBroker
-    }
-}
-
 class TradeItTradePreviewViewController:
     TradeItViewController,
     UITableViewDelegate,
@@ -207,7 +174,10 @@ class TradeItTradePreviewViewController:
         cells += [
             ValueCellData(label: "Action", value: orderDetailsPresenter.getOrderActionLabel()),
             ValueCellData(label: "Symbol", value: orderDetails.orderSymbol),
-            ValueCellData(label: "Shares", value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)),
+            ValueCellData(
+                label: labelForQuantity(linkedBrokerAccount: linkedBrokerAccount, orderQuantityTypeString: orderDetails.orderQuantityType),
+                value: formatQuantity(rawQuantityType: orderDetails.orderQuantityType, quantity: orderDetails.orderQuantity)
+            ),
             ValueCellData(label: "Price", value: orderDetails.orderPrice),
             ValueCellData(label: "Time in force", value: orderDetailsPresenter.getOrderExpirationLabel())
         ] as [PreviewCellData]
@@ -227,6 +197,24 @@ class TradeItTradePreviewViewController:
         }
 
         return cells
+    }
+
+    private func formatQuantity(rawQuantityType: String, quantity: NSNumber) -> String {
+        if let quantityType = OrderQuantityType(rawValue: rawQuantityType),
+            let maxDecimal = orderCapabilities?.maxDecimalPlacesFor(orderQuantityType: quantityType) {
+            return NumberFormatter.formatQuantity(quantity, maxDecimalPlaces: maxDecimal)
+        } else {
+            return quantity.stringValue
+        }
+    }
+
+    private func labelForQuantity(linkedBrokerAccount: TradeItLinkedBrokerAccount, orderQuantityTypeString: String) -> String {
+        guard let quantityType = OrderQuantityType.init(rawValue: orderQuantityTypeString) else { return "Amount" }
+
+        switch quantityType {
+        case .totalPrice: return "Amount in \(linkedBrokerAccount.accountBaseCurrency)"
+        default: return "Amount"
+        }
     }
 
     private func generateMessageCellData() -> [PreviewCellData] {

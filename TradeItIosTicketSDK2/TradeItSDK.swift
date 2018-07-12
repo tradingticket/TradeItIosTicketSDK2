@@ -11,6 +11,7 @@ import UIKit
     @objc public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
     @objc public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
     @objc public static var activityViewFactory: ActivityIndicatorFactory = DefaultActivityIndicatorFactory()
+    @objc public static var debug: Bool = false
 
     // MARK: Non-settable properties
 

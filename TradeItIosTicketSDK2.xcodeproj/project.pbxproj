@@ -182,6 +182,7 @@
 		7591A9181EFB0C77008EB943 /* TradeItFxOrderLegResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 7591A9151EFB0C77008EB943 /* TradeItFxOrderLegResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7591A9191EFB0C77008EB943 /* TradeItFxOrderLegResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7591A9161EFB0C77008EB943 /* TradeItFxOrderLegResult.m */; };
 		7591A91A1EFB0C77008EB943 /* TradeItFxOrderLegResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 7591A9161EFB0C77008EB943 /* TradeItFxOrderLegResult.m */; };
+		7596779320F7929C0076977F /* TradeItCryptoMarketDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0F2C67E20D7FECF00C26D22 /* TradeItCryptoMarketDataService.swift */; };
 		759FA1DB20A3584F00A4AD07 /* TradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FA1DA20A3584F00A4AD07 /* TradeService.swift */; };
 		759FA1DC20A3584F00A4AD07 /* TradeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FA1DA20A3584F00A4AD07 /* TradeService.swift */; };
 		759FA1DF20A38DA900A4AD07 /* TradeItCryptoPreviewTradeRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 759FA1DD20A38DA900A4AD07 /* TradeItCryptoPreviewTradeRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3423,6 +3424,7 @@
 				FC6E7A131DCD1F8B005225CC /* TradeItSymbolSearchTableViewManager.swift in Sources */,
 				750171AC209B82D30094B739 /* TradeItNumericToggleInputCell.swift in Sources */,
 				B5D5DE731FA1304000E9763C /* TradeItTransaction+Helpers.swift in Sources */,
+				7596779320F7929C0076977F /* TradeItCryptoMarketDataService.swift in Sources */,
 				FC6E7A141DCD1F8B005225CC /* TradeItTradingUIFlow.swift in Sources */,
 				75AC864E20A32C5500F5C196 /* PreviewCellFactory.swift in Sources */,
 				FC6E7A151DCD1F8B005225CC /* TradeItPlaceTradeRequest.m in Sources */,

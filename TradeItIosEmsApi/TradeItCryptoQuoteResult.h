@@ -1,4 +1,4 @@
-#import <TradeItIosTicketSDK2/TradeItIosTicketSDK2.h>
+#import "TradeItResult.h"
 
 @interface TradeItCryptoQuoteResult : TradeItResult
 

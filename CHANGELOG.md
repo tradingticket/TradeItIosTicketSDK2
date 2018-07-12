@@ -1,4 +1,9 @@
 # Changelog
+## [2.0.9]
+### Added
+- TradeItSDK.debug option to print logs to console
+- Fractional shares support to TradeIt screens
+
 ## [2.0.8]
 ### Added
 - Yahoo crypto ticket

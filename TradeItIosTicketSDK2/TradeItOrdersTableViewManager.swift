@@ -219,6 +219,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
      * Buidling an array of  TradeItOrderStatusDetailsPresenter in order to add a row for group order header
     **/
     private func getOrdersPresenter(orders: [TradeItOrderStatusDetails], isGroupOrderChild: Bool = false) -> [TradeItOrderStatusDetailsPresenter] {
+        let orderCapabilities = self.linkedBrokerAccount.orderCapabilities.filter { $0.instrument == "equities" }.first
         var ordersPresenterInSection: [TradeItOrderStatusDetailsPresenter] = []
         orders.forEach { order in
             if let groupOrders = order.groupOrders, order.isGroupOrder() {
@@ -226,7 +227,8 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                     TradeItOrderStatusDetailsPresenter(
                         orderStatusDetails: order,
                         orderLeg: nil,
-                        isGroupOrderHeader: true
+                        isGroupOrderHeader: true,
+                        orderCapabilities: orderCapabilities
                     )
                 )
                 ordersPresenterInSection.append(contentsOf: getOrdersPresenter(orders: groupOrders, isGroupOrderChild: true))
@@ -238,7 +240,8 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
                                 orderStatusDetails: order,
                                 orderLeg: orderLeg,
                                 isGroupOrderHeader: false,
-                                isGroupOrderChild: isGroupOrderChild
+                                isGroupOrderChild: isGroupOrderChild,
+                                orderCapabilities: orderCapabilities
                             )
                     })
                 }

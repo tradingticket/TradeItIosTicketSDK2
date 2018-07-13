@@ -40,6 +40,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     private var orderLeg: TradeItOrderLeg?
     private var _isGroupOrderHeader: Bool
     private var _isGroupOrderChild: Bool
+    private var orderCapabilities: TradeItInstrumentOrderCapabilities?
     
     @objc public var isGroupOrderHeader: Bool {
             return self._isGroupOrderHeader
@@ -49,11 +50,12 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         return self._isGroupOrderChild
     }
     
-    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg?, isGroupOrderHeader: Bool = false, isGroupOrderChild: Bool = false) {
+    init(orderStatusDetails: TradeItOrderStatusDetails, orderLeg: TradeItOrderLeg?, isGroupOrderHeader: Bool = false, isGroupOrderChild: Bool = false, orderCapabilities: TradeItInstrumentOrderCapabilities?) {
         self.orderStatusDetails = orderStatusDetails
         self.orderLeg = orderLeg
         self._isGroupOrderHeader = isGroupOrderHeader
         self._isGroupOrderChild = isGroupOrderChild
+        self.orderCapabilities = orderCapabilities
     }
     
     func getOrderNumber() -> String? {
@@ -129,13 +131,17 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
     
     func getFormattedExpiration() -> String {
         let orderStatus = self.orderStatusDetails.orderStatusEnum
-
+        let orderExpirationValue = self.orderStatusDetails.orderExpiration ?? ""
         switch orderStatus  {
         case .filled:
             let timestamp = getFormattedTimestamp(timestamp: self.orderLeg?.fills?[safe: 0]?.timestamp ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER)
             return "Filled at \(timestamp)"
         default:
-            return formatEnum(string: self.orderStatusDetails.orderExpiration)
+            let expirationTypes = self.orderCapabilities?.expirationTypes as? [TradeItInstrumentCapability]
+            let expirationLabel = expirationTypes?.filter { $0.value == orderExpirationValue.lowercased() }
+                .first?
+                .displayLabel ?? formatEnum(string: orderExpirationValue)
+            return expirationLabel
         }
     }
     

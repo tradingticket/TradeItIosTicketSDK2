@@ -18,11 +18,6 @@ protocol TradeService {
         _ data: TradeItPlaceTradeRequest,
         withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
     )
-
-    func answerSecurityQuestionPlaceOrder(
-        _ answer: String,
-        withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
-    )
 }
 
 extension TradeService {

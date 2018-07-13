@@ -3,7 +3,7 @@ public typealias TradeItPreviewOrderResult = TradeItPreviewTradeResult
 public typealias TradeItPlaceOrderHandlers = (
     _ onSuccess: @escaping (TradeItPlaceOrderResult) -> Void,
     _ onVerifyUrl: @escaping (URL,
-        _ completeTradeChallenge: @escaping () -> Void,
+        _ completeTradeChallenge: @escaping () -> Void
     ) -> Void,
     _ onFailure: @escaping (TradeItErrorResult) -> Void
 ) -> Void
@@ -238,7 +238,7 @@ public typealias TradeItPlaceOrderHandlers = (
                         onVerifyUrl(
                             oAuthUrl,
                             {
-                                tradeService?.complete1FA(completionBlock: handler)
+                                self.tradeService?.complete1FA(completionBlock: handler)
                             }
                         )
                     case let errorResult as TradeItErrorResult:

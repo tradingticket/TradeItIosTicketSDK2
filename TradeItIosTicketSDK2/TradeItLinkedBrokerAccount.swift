@@ -182,7 +182,7 @@
         onSuccess: @escaping () -> Void,
         onVerifyUrl: @escaping (
             URL,
-            _ complete1FA: @escaping () -> Void,
+            _ complete1FA: @escaping () -> Void
         ) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {

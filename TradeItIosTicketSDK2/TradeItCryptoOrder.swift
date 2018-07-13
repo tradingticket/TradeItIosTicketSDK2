@@ -248,28 +248,12 @@
         previewOrderResult: TradeItCryptoPreviewTradeResult
     ) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onSecurityQuestion, onFailure in
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId, andInterAppAddressCallback: "")
             let placeResponseHandler = YCombinator { handler in
                 { (result: TradeItResult?) in
                     switch result {
                     case let placeOrderResult as TradeItPlaceOrderResult:
                         onSuccess(placeOrderResult)
-                    case let securityQuestion as TradeItSecurityQuestionResult:
-                        onSecurityQuestion(
-                            securityQuestion,
-                            { securityQuestionAnswer in
-                                self.linkedBrokerAccount?.cryptoTradeService?.answerSecurityQuestionPlaceOrder(securityQuestionAnswer, withCompletionBlock: handler)
-                            },
-                            {
-                                handler(
-                                    TradeItErrorResult(
-                                        title: "Authentication failed",
-                                        message: "The security question was canceled.",
-                                        code: .sessionError
-                                    )
-                                )
-                            }
-                        )
                     case let errorResult as TradeItErrorResult:
                         onFailure(errorResult)
                     default:

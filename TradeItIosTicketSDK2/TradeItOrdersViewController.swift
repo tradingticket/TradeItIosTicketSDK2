@@ -11,8 +11,7 @@ class TradeItOrdersViewController: TradeItViewController, TradeItOrdersTableDele
     @IBOutlet weak var ordersTable: UITableView!
     @IBOutlet var orderTableBackgroundView: UIView!
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
             alertMissingRequiredParameter()
             return

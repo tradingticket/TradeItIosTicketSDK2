@@ -225,7 +225,7 @@ import PromiseKit
     }
     
     @objc public func getAllDisplayableLinkedBrokers() -> [TradeItLinkedBroker] {
-        return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0 || $0.isAccountLinkDelayedError}
+        return self.linkedBrokers.filter { $0.getEnabledAccounts().count > 0 || $0.error?.requiresAuthentication() == true }
     }
     
     @objc public func getAllActivationInProgressLinkedBrokers() -> [TradeItLinkedBroker] {

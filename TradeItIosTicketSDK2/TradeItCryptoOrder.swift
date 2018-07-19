@@ -32,6 +32,16 @@
         }
     }
 
+    var estimateSymbol: String? {
+        get {
+            switch quantityType {
+            case .baseCurrency: return quoteSymbol
+            case .quoteCurrency: return baseSymbol
+            default: return nil
+            }
+        }
+    }
+
     private var _baseSymbol: String?
     var baseSymbol: String? {
         get {
@@ -112,28 +122,35 @@
         return self.linkedBrokerAccount?.userCanDisableMargin ?? false
     }
 
-    @objc public func estimatedChange() -> NSDecimalNumber? {
-        var optionalPrice: NSDecimalNumber?
+    @objc public func estimatedChange() -> String? {
+        var optionalTargetPrice: NSDecimalNumber?
 
         switch self.type {
-        case .market: optionalPrice = quoteLastPrice
-        case .limit: optionalPrice = limitPrice
-        case .stopLimit: optionalPrice = limitPrice
-        case .stopMarket: optionalPrice = stopPrice
-        case .unknown: optionalPrice = 0.0
+        case .market: optionalTargetPrice = quoteLastPrice
+        case .limit: optionalTargetPrice = limitPrice
+        case .stopLimit: optionalTargetPrice = limitPrice
+        case .stopMarket: optionalTargetPrice = stopPrice
+        case .unknown: optionalTargetPrice = 0.0
         }
 
-        guard let quantity = quantity, quantity != NSDecimalNumber.notANumber
+        guard let quantity = quantity,
+            let targetPrice = optionalTargetPrice,
+            quantity != NSDecimalNumber.notANumber,
+            targetPrice != NSDecimalNumber.notANumber,
+            targetPrice != NSDecimalNumber.zero
             else { return nil }
 
         switch quantityType {
-        case .quoteCurrency, .totalPrice: return quantity
+        case .quoteCurrency, .totalPrice:
+            return NumberFormatter.formatQuantity(
+                quantity.dividing(by: targetPrice),
+                maxDecimalPlaces: 6
+            )
         case .baseCurrency, .shares:
-            if let price = optionalPrice, price != NSDecimalNumber.notANumber {
-                return price.multiplying(by: quantity)
-            } else {
-                return nil
-            }
+            return NumberFormatter.formatQuantity(
+                quantity.multiplying(by: targetPrice),
+                maxDecimalPlaces: 6
+            )
         }
     }
 

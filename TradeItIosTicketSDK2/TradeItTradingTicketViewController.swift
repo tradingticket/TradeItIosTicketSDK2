@@ -550,16 +550,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
         case .estimatedCost:
-            var estimateChangeText = "N/A"
-
-            if let estimatedChange = order.estimatedChange() {
-                estimateChangeText = NumberFormatter.formatCurrency(
-                    estimatedChange,
-                    currencyCode: self.order.linkedBrokerAccount?.accountBaseCurrency
-                )
-            }
-
-            cell.detailTextLabel?.text = estimateChangeText
+            cell.detailTextLabel?.text = order.estimatedChange() ?? "N/A"
         case .orderType:
             cell.detailTextLabel?.text = self.orderCapabilities?.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:

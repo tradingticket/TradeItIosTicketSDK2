@@ -122,7 +122,7 @@
         return self.linkedBrokerAccount?.userCanDisableMargin ?? false
     }
 
-    @objc public func estimatedChange() -> String? {
+    @objc public func estimatedChange() -> NSDecimalNumber? {
         var optionalTargetPrice: NSDecimalNumber?
 
         switch self.type {
@@ -141,14 +141,23 @@
             else { return nil }
 
         switch quantityType {
+        case .quoteCurrency, .totalPrice: return quantity.dividing(by: targetPrice)
+        case .baseCurrency, .shares: return quantity.multiplying(by: targetPrice)
+        }
+    }
+
+    func formattedEstimatedChange() -> String? {
+        guard let estimatedChange = estimatedChange() else { return nil }
+
+        switch quantityType {
         case .quoteCurrency, .totalPrice:
             return NumberFormatter.formatQuantity(
-                quantity.dividing(by: targetPrice),
+                estimatedChange,
                 maxDecimalPlaces: 6
             )
         case .baseCurrency, .shares:
             return NumberFormatter.formatQuantity(
-                quantity.multiplying(by: targetPrice),
+                estimatedChange,
                 maxDecimalPlaces: 6
             )
         }

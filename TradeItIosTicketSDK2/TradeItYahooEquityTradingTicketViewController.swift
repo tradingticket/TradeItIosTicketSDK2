@@ -500,7 +500,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
         case .estimatedChange:
-            cell.detailTextLabel?.text = order.estimatedChange() ?? "N/A"
+            cell.detailTextLabel?.text = order.formattedEstimatedChange() ?? "N/A"
         case .orderType:
             cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:

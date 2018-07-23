@@ -504,13 +504,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         case .marginType:
             cell.detailTextLabel?.text = MarginPresenter.labelFor(value: self.order.userDisabledMargin)
         case .estimatedChange:
-            var estimatedChangeText = "N/A"
-
-            if let estimatedChange = order.estimatedChange() {
-                estimatedChangeText = NumberFormatter.formatQuantity(estimatedChange)
-            }
-
-            cell.detailTextLabel?.text = estimatedChangeText
+            cell.detailTextLabel?.text = order.formattedEstimatedChange() ?? "N/A"
         case .orderType:
             cell.detailTextLabel?.text = instrumentOrderCapabilities.labelFor(field: .priceTypes, value: self.order.type.rawValue)
         case .expiration:
@@ -617,7 +611,7 @@ class TradeItYahooCryptoTradingTicketViewController:
         func getTitle(forOrder order: TradeItCryptoOrder) -> String {
             switch self {
             case .orderAction: return "Action"
-            case .estimatedChange: return "Estimated \(order.quantitySymbol ?? "")"
+            case .estimatedChange: return "Estimated \(order.estimateSymbol ?? "")"
             case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"

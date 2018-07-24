@@ -32,11 +32,18 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         self.quantityTypeButton.setTitle(label, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
+        self.textField.attributedPlaceholder = NSAttributedString(
+            string: "Enter",
+            attributes: [NSAttributedStringKey.foregroundColor: UIColor.gray]
+        )
+
         if showToggle {
             self.disclosureIndicatorWidthConstraint.constant = 15
             self.disclosureIndicator.setNeedsDisplay()
+            self.quantityTypeButton.setTitleColor(TradeItSDK.theme.interactivePrimaryColor, for: .normal)
         } else {
             self.disclosureIndicatorWidthConstraint.constant = 0
+            self.quantityTypeButton.setTitleColor(UIColor.gray, for: .normal)
         }
     }
 

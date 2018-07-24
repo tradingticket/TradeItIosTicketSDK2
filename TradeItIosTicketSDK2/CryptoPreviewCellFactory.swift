@@ -42,7 +42,7 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
             ValueCellData(label: "Symbol", value: orderDetails.orderPair),
             ValueCellData(
                 label: labelForQuantity(symbolPair: orderDetails.orderPair, orderQuantityTypeString: orderDetails.orderQuantityType),
-                value: NumberFormatter.formatQuantity(orderDetails.orderQuantity)
+                value: formatQuantity(rawQuantityType: orderDetails.orderQuantityType, quantity: orderDetails.orderQuantity)
             )
         ]
 
@@ -103,5 +103,14 @@ class CryptoPreviewCellFactory: PreviewCellFactory {
 
     private func formatCurrency(_ value: NSNumber) -> String {
         return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
+    }
+
+    private func formatQuantity(rawQuantityType: String, quantity: NSNumber) -> String {
+        if let quantityType = OrderQuantityType(rawValue: rawQuantityType),
+            let maxDecimal = orderCapabilities?.maxDecimalPlacesFor(orderQuantityType: quantityType) {
+            return NumberFormatter.formatQuantity(quantity, maxDecimalPlaces: maxDecimal)
+        } else {
+            return quantity.stringValue
+        }
     }
 }

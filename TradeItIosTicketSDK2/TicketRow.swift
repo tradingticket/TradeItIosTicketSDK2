@@ -69,11 +69,8 @@ enum TicketRow {
         case .stopPrice: return "Stop"
         case .expiration: return "Time in force"
         case .marginType: return "Type"
-        case .estimatedCost:
-            let action = order.action 
-            return "Estimated \(TradeItOrderActionPresenter.SELL_ACTIONS.contains(action) ? "proceeds" : "cost")"
-        default:
-            return "Unknown"
+        case .estimatedCost: return "Estimated \(order.estimateLabel ?? "")"
+        default: return "Unknown"
         }
     }
 

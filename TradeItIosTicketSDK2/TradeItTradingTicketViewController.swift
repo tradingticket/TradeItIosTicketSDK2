@@ -479,7 +479,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                     self.reload(row: .estimatedCost)
                     self.setPreviewButtonEnablement()
                 },
-                onQuantityTypeToggled: {
+                onQuantityTypeTapped: {
                     if self.supportedOrderQuantityTypes.isEmpty { return }
                     
                     let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
@@ -492,7 +492,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                         let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
                         self.order.quantity = nil
                         cell?.configureQuantityType(
-                            quantitySymbol: quantitySymbol,
+                            label: quantitySymbol,
                             quantity: self.order.quantity,
                             maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
                             showToggle: self.supportedOrderQuantityTypes.count > 1
@@ -502,7 +502,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: quantitySymbol,
+                label: quantitySymbol,
                 quantity: self.order.quantity,
                 maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
                 showToggle: supportedOrderQuantityTypes.count > 1
@@ -517,7 +517,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                label: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.limitPrice,
                 maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -531,7 +531,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                label: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.stopPrice,
                 maxDecimalPlaces: equityOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )

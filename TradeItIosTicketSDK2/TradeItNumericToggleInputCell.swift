@@ -8,7 +8,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var toggleView: UIView!
     
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
-    var onQuantityTypeToggled: (() -> Void)?
+    var onQuantityTypeTapped: (() -> Void)?
 
     override func awakeFromNib() {
         self.addDoneButtonToKeyboard()
@@ -16,20 +16,20 @@ class TradeItNumericToggleInputCell: UITableViewCell {
 
     func configure(
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
-        onQuantityTypeToggled: (() -> Void)? = nil
+        onQuantityTypeTapped: (() -> Void)? = nil
     ) {
         self.onValueUpdated = onValueUpdated
-        self.onQuantityTypeToggled = onQuantityTypeToggled
+        self.onQuantityTypeTapped = onQuantityTypeTapped
         self.textField.isPrice = false
     }
 
     func configureQuantityType(
-        quantitySymbol: String?,
+        label: String?,
         quantity: NSDecimalNumber?,
         maxDecimalPlaces: Int,
         showToggle: Bool = false
     ) {
-        self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
+        self.quantityTypeButton.setTitle(label, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
         if showToggle {
@@ -85,7 +85,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         }
     }
 
-    @IBAction func quantityTypeToggled(_ sender: UIButton) {
-        self.onQuantityTypeToggled?()
+    @IBAction func quantityTypeToggled(_ sender: UIButton) { // TODO: Rename
+        self.onQuantityTypeTapped?()
     }
 }

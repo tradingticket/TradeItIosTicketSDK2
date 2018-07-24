@@ -34,6 +34,26 @@ public typealias TradeItPlaceOrderHandlers = (
     @objc public var stopPrice: NSDecimalNumber?
     @objc public var quoteLastPrice: NSDecimalNumber?
 
+    var estimateLabel: String? {
+        get {
+            switch quantityType {
+            case .shares: return self.linkedBrokerAccount?.accountBaseCurrency
+            case .totalPrice: return "shares"
+            default: return nil
+            }
+        }
+    }
+
+    var quantityTypeLabel: String? {
+        get {
+            switch quantityType {
+            case .shares: return "Shares"
+            case .totalPrice: return self.linkedBrokerAccount?.accountBaseCurrency
+            default: return nil
+            }
+        }
+    }
+
     var tradeService: TradeItEquityTradeService? {
         return linkedBrokerAccount?.equityTradeService
     }

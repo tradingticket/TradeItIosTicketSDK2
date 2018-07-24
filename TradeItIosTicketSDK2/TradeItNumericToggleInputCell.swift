@@ -96,7 +96,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         }
     }
 
-    @IBAction func quantityTypeToggled(_ sender: UIButton) { // TODO: Rename
+    @IBAction func quantityTypeTapped(_ sender: UIButton) {
         self.onQuantityTypeTapped?()
     }
 }

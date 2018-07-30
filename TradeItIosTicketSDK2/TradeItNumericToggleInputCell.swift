@@ -8,7 +8,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     @IBOutlet weak var toggleView: UIView!
     
     var onValueUpdated: ((_ newValue: NSDecimalNumber?) -> Void)?
-    var onQuantityTypeToggled: (() -> Void)?
+    var onQuantityTypeTapped: (() -> Void)?
 
     override func awakeFromNib() {
         self.addDoneButtonToKeyboard()
@@ -16,27 +16,38 @@ class TradeItNumericToggleInputCell: UITableViewCell {
 
     func configure(
         onValueUpdated: @escaping (_ newValue: NSDecimalNumber?) -> Void,
-        onQuantityTypeToggled: (() -> Void)? = nil
+        onQuantityTypeTapped: (() -> Void)? = nil
     ) {
         self.onValueUpdated = onValueUpdated
-        self.onQuantityTypeToggled = onQuantityTypeToggled
+        self.onQuantityTypeTapped = onQuantityTypeTapped
         self.textField.isPrice = false
     }
 
     func configureQuantityType(
-        quantitySymbol: String?,
+        label: String?,
         quantity: NSDecimalNumber?,
         maxDecimalPlaces: Int,
         showToggle: Bool = false
     ) {
-        self.quantityTypeButton.setTitle(quantitySymbol, for: .normal)
+        self.quantityTypeButton.setTitle(label, for: .normal)
         self.textField.text = quantity?.stringValue
         self.textField.maxDecimalPlaces = maxDecimalPlaces
+
         if showToggle {
             self.disclosureIndicatorWidthConstraint.constant = 15
             self.disclosureIndicator.setNeedsDisplay()
+            self.quantityTypeButton.isHidden = false
+            self.textField.attributedPlaceholder = NSAttributedString(
+                string: "Enter",
+                attributes: [NSAttributedStringKey.foregroundColor: UIColor.gray]
+            )
         } else {
             self.disclosureIndicatorWidthConstraint.constant = 0
+            self.quantityTypeButton.isHidden = true
+            self.textField.attributedPlaceholder = NSAttributedString(
+                string: "Enter \(label ?? "")",
+                attributes: [NSAttributedStringKey.foregroundColor: UIColor.gray]
+            )
         }
     }
 
@@ -85,7 +96,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         }
     }
 
-    @IBAction func quantityTypeToggled(_ sender: UIButton) {
-        self.onQuantityTypeToggled?()
+    @IBAction func quantityTypeTapped(_ sender: UIButton) {
+        self.onQuantityTypeTapped?()
     }
 }

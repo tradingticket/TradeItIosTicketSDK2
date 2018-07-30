@@ -117,6 +117,8 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 _ = self.navigationController?.popViewController(animated: true)
             }
             self.navigationController?.pushViewController(selectionViewController, animated: true)
+        case .quantity:
+            self.pushOrderQuantityTypeSelection()
         default:
             return
         }
@@ -420,8 +422,6 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         case .orderAction:
             cell.detailTextLabel?.text = orderCapabilities.labelFor(field: .actions, value: self.order.action.rawValue)
         case .quantity:
-            let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
-            
             let cell = cell as? TradeItNumericToggleInputCell
             cell?.configure(
                 onValueUpdated: { newValue in
@@ -429,30 +429,10 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                     self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 },
-                onQuantityTypeToggled: {
-                    if self.supportedOrderQuantityTypes.isEmpty { return }
-
-                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
-                    let nextOrderQuantityType = self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .shares
-
-                    if self.order.quantityType != nextOrderQuantityType {
-                        self.order.quantityType = nextOrderQuantityType
-
-                        let quantitySymbol = self.order.quantityType == OrderQuantityType.shares ? "Shares" : self.order.linkedBrokerAccount?.accountBaseCurrency
-                        self.order.quantity = nil
-                        cell?.configureQuantityType(
-                            quantitySymbol: quantitySymbol,
-                            quantity: self.order.quantity,
-                            maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
-                            showToggle: self.supportedOrderQuantityTypes.count > 1
-                        )
-                    }
-                    self.reload(row: .estimatedChange)
-                }
+                onQuantityTypeTapped: self.pushOrderQuantityTypeSelection
             )
             cell?.configureQuantityType(
-                quantitySymbol: quantitySymbol,
+                label: self.order.quantityTypeLabel,
                 quantity: self.order.quantity,
                 maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
                 showToggle: supportedOrderQuantityTypes.count > 1
@@ -467,7 +447,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                label: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.limitPrice,
                 maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -481,7 +461,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.linkedBrokerAccount?.accountBaseCurrency,
+                label: self.order.linkedBrokerAccount?.accountBaseCurrency,
                 quantity: self.order.stopPrice,
                 maxDecimalPlaces: orderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -562,6 +542,22 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         self.navigationController?.pushViewController(selectionViewController, animated: true)
     }
 
+    private func pushOrderQuantityTypeSelection() {
+        if self.supportedOrderQuantityTypes.count <= 1 { return }
+
+        self.selectionViewController.title = "Select quantity type"
+
+        self.selectionViewController.initialSelection = self.order.quantityTypeLabel
+        self.selectionViewController.selections = ["Shares", self.order.linkedBrokerAccount?.accountBaseCurrency].compactMap { $0 }
+        self.selectionViewController.onSelected = { selection in
+            let selectedQuantityType = selection == "Shares" ? OrderQuantityType.shares : OrderQuantityType.totalPrice
+            self.order.quantityType = selectedQuantityType
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+
+        self.navigationController?.pushViewController(self.selectionViewController, animated: true)
+    }
+
     private func updateOrderQuantityTypeConstraints() {
         if !supportedOrderQuantityTypes.contains(self.order.quantityType) {
             self.order.quantity = nil
@@ -604,11 +600,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         func getTitle(forOrder order: TradeItOrder) -> String {
             switch self {
             case .orderAction: return "Action"
-            case .estimatedChange:
-                let sellActions: [TradeItOrderAction] = [.sell, .sellShort]
-                let action = order.action 
-                let title = "Estimated \(sellActions.contains(action) ? "proceeds" : "cost")"
-                return title
+            case .estimatedChange: return "Estimated \(order.estimateLabel ?? "")"
             case .quantity: return "Amount"
             case .limitPrice: return "Limit"
             case .stopPrice: return "Stop"

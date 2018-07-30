@@ -63,7 +63,7 @@
         }
 
         set(newValue) {
-            guard let symbolPair = newValue?.split(separator: "/"),
+            guard let symbolPair = newValue?.components(separatedBy: ["/", "-"]),
                 let baseSymbol = symbolPair.first,
                 let quoteSymbol = symbolPair.last,
                 symbolPair.count == 2

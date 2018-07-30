@@ -120,6 +120,8 @@ class TradeItYahooCryptoTradingTicketViewController:
                 _ = self.navigationController?.popViewController(animated: true)
             }
             self.navigationController?.pushViewController(selectionViewController, animated: true)
+        case .quantity:
+            self.pushOrderQuantityTypeSelection()
         default:
             return
         }
@@ -437,29 +439,10 @@ class TradeItYahooCryptoTradingTicketViewController:
                     self.reload(row: .estimatedChange)
                     self.setReviewButtonEnablement()
                 },
-                onQuantityTypeToggled: {
-                    if self.supportedOrderQuantityTypes.isEmpty { return }
-
-                    let currentIndex = self.supportedOrderQuantityTypes.index(of: self.order.quantityType) as Int? ?? 0
-                    let nextIndex = (currentIndex + 1) % self.supportedOrderQuantityTypes.count
-                    let nextOrderQuantityType = self.self.supportedOrderQuantityTypes[safe: nextIndex] ?? self.supportedOrderQuantityTypes.first ?? .baseCurrency
-
-                    if self.order.quantityType != nextOrderQuantityType {
-                        self.order.quantityType = nextOrderQuantityType
-
-                        let quantitySymbol = self.order.quantitySymbol
-                        self.order.quantity = nil
-                        cell?.configureQuantityType(
-                            quantitySymbol: quantitySymbol,
-                            quantity: self.order.quantity,
-                            maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
-                            showToggle: self.supportedOrderQuantityTypes.count > 1
-                        )
-                    }
-                }
+                onQuantityTypeTapped: self.pushOrderQuantityTypeSelection
             )
             cell?.configureQuantityType(
-                quantitySymbol: quantitySymbol,
+                label: quantitySymbol,
                 quantity: self.order.quantity,
                 maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: self.order.quantityType),
                 showToggle: supportedOrderQuantityTypes.count > 1
@@ -474,7 +457,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.quoteSymbol,
+                label: self.order.quoteSymbol,
                 quantity: self.order.limitPrice,
                 maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -488,7 +471,7 @@ class TradeItYahooCryptoTradingTicketViewController:
                 }
             )
             cell?.configureQuantityType(
-                quantitySymbol: self.order.quoteSymbol,
+                label: self.order.quoteSymbol,
                 quantity: self.order.stopPrice,
                 maxDecimalPlaces: instrumentOrderCapabilities.maxDecimalPlacesFor(orderQuantityType: .quoteCurrency)
             )
@@ -567,6 +550,22 @@ class TradeItYahooCryptoTradingTicketViewController:
         }
 
         self.navigationController?.pushViewController(selectionViewController, animated: true)
+    }
+
+    private func pushOrderQuantityTypeSelection() {
+        if self.supportedOrderQuantityTypes.count <= 1 { return }
+
+        self.selectionViewController.title = "Select quantity type"
+
+        self.selectionViewController.initialSelection = self.order.quantitySymbol
+        self.selectionViewController.selections = [self.order.baseSymbol, self.order.quoteSymbol].compactMap { $0 }
+        self.selectionViewController.onSelected = { selection in
+            let selectedQuantityType = selection == self.order.baseSymbol ? OrderQuantityType.baseCurrency : OrderQuantityType.quoteCurrency
+            self.order.quantityType = selectedQuantityType
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+
+        self.navigationController?.pushViewController(self.selectionViewController, animated: true)
     }
 
     private func updateOrderQuantityTypeConstraints() {

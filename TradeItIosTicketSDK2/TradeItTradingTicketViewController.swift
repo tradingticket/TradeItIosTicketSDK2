@@ -6,6 +6,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     @IBOutlet weak var previewOrderButton: UIButton!
     @IBOutlet weak var adContainer: UIView!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var marketDataLabel: UILabel!
 
     public weak var delegate: TradeItTradingTicketViewControllerDelegate?
 
@@ -72,6 +73,12 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.tableFooterView = UIView()
         TicketRow.registerNibCells(forTableView: self.tableView)
 
+        if self.order.linkedBrokerAccount?.linkedBroker?.brokerName == "CIMB" {
+            marketDataLabel.isHidden = true
+        } else {
+            marketDataLabel.isHidden = false
+        }
+        
         TradeItSDK.adService.populate(
             adContainer: adContainer,
             rootViewController: self,

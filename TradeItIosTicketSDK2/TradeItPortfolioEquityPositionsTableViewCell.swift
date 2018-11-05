@@ -97,6 +97,12 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     // MARK: private
 
     private func updateTradeButtonVisibility() {
+        guard let _ = self.selectedPosition?.linkedBrokerAccount.orderCapabilities(forInstrument: TradeItTradeInstrumentType.equities) else {
+            self.buyButton.isHidden = true
+            self.sellButton.isHidden = true
+            return
+        }
+        
         if self.selectedPosition?.position?.instrumentType() == TradeItPositionInstrumentType.EQUITY_OR_ETF {
             self.buyButton.isHidden = false
             self.sellButton.isHidden = false

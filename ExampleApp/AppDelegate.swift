@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // To set a custom API base URL/host (only if you need the app to connect through a proxy/middle-tier):
         // TradeItSDK.set(host: "https://example.com:1234/myAPI/", forEnvironment: AppDelegate.ENVIRONMENT)
 
+        // Enable helpful development features like request/response logging
+        TradeItSDK.debug = true
+
         super.init()
     }
 

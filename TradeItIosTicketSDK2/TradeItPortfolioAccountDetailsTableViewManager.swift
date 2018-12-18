@@ -223,6 +223,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return indexPath.section == SECTIONS.positions.rawValue &&
             self.positions?[safe: indexPath.row]?.position?.instrumentType() == .EQUITY_OR_ETF &&
+            self.positions?[safe: indexPath.row]?.linkedBrokerAccount.orderCapabilities(forInstrument: TradeItTradeInstrumentType.equities) != nil &&
             self.selectedPositionIndex != indexPath.row
     }
     

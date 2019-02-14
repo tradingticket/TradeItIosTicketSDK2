@@ -56,4 +56,6 @@
 
 @property (nullable, copy) NSString<Optional>  *positionDescription;
 
+@property (nonatomic) BOOL isProxyVoteEligible;
+
 @end

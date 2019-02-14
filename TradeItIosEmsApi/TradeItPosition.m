@@ -9,4 +9,11 @@
                                                                   @"currencyCode": @"currency"
                                                                   }];
 }
+
++(BOOL)propertyIsOptional:(NSString*)isProxyVoteEligible {
+    if ([isProxyVoteEligible isEqualToString: @"isProxyVoteEligible"]) {
+        return YES;
+    }
+    return NO;
+}
 @end

@@ -68,6 +68,10 @@
         return linkedBroker?.cryptoMarketDataService
     }
     
+    internal var proxyVoteService: TradeItProxyVoteService? {
+        return linkedBroker?.proxyVoteService
+    }
+    
     private var orderService: TradeItOrderService? {
         return linkedBroker?.orderService
     }

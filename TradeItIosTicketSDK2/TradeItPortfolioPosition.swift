@@ -42,4 +42,34 @@
             return
         }
     }
+    
+    func getProxyVoteUrl(
+        onSuccess: @escaping (String?) -> Void,
+        onFailure: @escaping (TradeItErrorResult) -> Void
+    ) {
+        guard let symbol = self.position?.symbol,
+            let isProxyVoteEligible = self.position?.isProxyVoteEligible,
+            isProxyVoteEligible,
+            let proxyVoteService = linkedBrokerAccount.proxyVoteService else {
+                let error = TradeItErrorResult(
+                    title: "Fetching proxy vote url failed",
+                    message: "Position is not eligible to proxy voting. Please try again."
+                )
+                onFailure(error)
+                return
+        }
+        let request = TradeItGetProxyVoteUrlRequest(
+            accountNumber: self.linkedBrokerAccount.accountNumber,
+            symbol: symbol
+        )
+        
+        proxyVoteService.getProxyVoteUrl(
+            request,
+            onSuccess: { result in
+                onSuccess(result.proxyVoteUrl)
+            },
+            onFailure: onFailure
+        )
+        
+    }
 }

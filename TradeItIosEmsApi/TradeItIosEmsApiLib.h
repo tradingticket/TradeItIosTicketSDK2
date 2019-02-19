@@ -104,6 +104,10 @@
 
 #import "TradeItBrokerListResult.h"
 
+// Proxy vote
+#import "TradeItGetProxyVoteUrlRequest.h"
+#import "TradeItGetProxyVoteUrlResult.h"
+
 // EMS API Util classes
 #import "TradeItTypeDefs.h"
 #import "TradeItUserAgentProvider.h"

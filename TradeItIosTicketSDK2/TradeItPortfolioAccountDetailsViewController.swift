@@ -3,6 +3,7 @@ import MBProgressHUD
 import PromiseKit
 
 class TradeItPortfolioAccountDetailsViewController: TradeItViewController, TradeItPortfolioAccountDetailsTableDelegate {
+    
     var tableViewManager: TradeItPortfolioAccountDetailsTableViewManager!
     var tradingUIFlow = TradeItTradingUIFlow()
     let viewControllerProvider = TradeItViewControllerProvider()
@@ -13,7 +14,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var adContainer: UIView!
     @IBOutlet weak var activityButton: UIBarButtonItem!
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let linkedBrokerAccount = self.linkedBrokerAccount else {
@@ -57,7 +58,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         
         self.present(alertController, animated: true, completion: nil)
     }
-
+    
     func refreshRequested(onRefreshComplete: @escaping () -> Void) {
         guard let linkedBrokerAccount = self.linkedBrokerAccount, let linkedBroker = linkedBrokerAccount.linkedBroker else {
             alertMissingRequiredParameter()
@@ -102,7 +103,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
             }
         }
     }
-
+    
     // MARK: Private
 
     private func positionsPromise(linkedBrokerAccount: TradeItLinkedBrokerAccount) -> Promise<[TradeItPortfolioPosition]> {
@@ -216,6 +217,24 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
         let order = self.provideOrder(forPortfolioPosition: portfolioPosition, account: portfolioPosition?.linkedBrokerAccount, orderAction: orderAction)
         self.tradingUIFlow.presentTradingFlow(fromViewController: self, withOrder: order)
     }
+    
+    func proxyVoteWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?) {
+        portfolioPosition?.getProxyVoteUrl(
+            onSuccess: { result in
+                guard let url = result else {
+                    return
+                }
+                let webViewController = self.viewControllerProvider.provideViewController(forStoryboardId: TradeItStoryboardID.webView) as! TradeItWebViewController
+                webViewController.pageTitle = "Proxy voting"
+                webViewController.url = url
+                self.navigationController?.pushViewController(webViewController, animated: true)
+            },
+            onFailure: { error in
+                self.alertManager.showError(error, onViewController: self)
+            }
+        )
+    }
+
 }
 
 fileprivate enum SupportedService: String {

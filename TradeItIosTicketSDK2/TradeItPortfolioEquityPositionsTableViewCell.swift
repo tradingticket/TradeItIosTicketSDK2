@@ -7,7 +7,8 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBOutlet weak var avgCostLabelValue: UILabel!
     
     @IBOutlet weak var chevron: UIImageView!
-
+    @IBOutlet weak var proxyVoteImg: UIImageView!
+    
     @IBOutlet weak var dayReturnLabel: UILabel!
     @IBOutlet weak var totalReturnLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
@@ -32,7 +33,7 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     private let chevronDownImage = UIImage(named: "chevron_down",
                                            in: Bundle(for: TradeItPortfolioEquityPositionsTableViewCell.self),
                                            compatibleWith: nil)
-
+    
     override func awakeFromNib() {
         TradeItThemeConfigurator.configure(view: self)
     }
@@ -67,6 +68,8 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
         self.bidAskLabel.text = "\(presenter.getFormattedBid()) / \(presenter.getFormattedAsk())"
 
         self.updateTradeButtonVisibility()
+        
+        self.updateProxyVoteImageVisibility()
     }
 
     internal func showPositionDetails(_ show: Bool) {
@@ -92,6 +95,10 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
     @IBAction func sellButtonWasTapped(_ sender: AnyObject) {
         self.delegate?.tradeButtonWasTapped(forPortFolioPosition: self.selectedPosition, orderAction: .sell)
     }
+    
+    @objc func tappedProxyVote() {
+        self.delegate?.proxyVoteWasTapped(forPortFolioPosition: self.selectedPosition)
+    }
 
 
     // MARK: private
@@ -105,8 +112,20 @@ class TradeItPortfolioEquityPositionsTableViewCell: UITableViewCell {
             self.sellButton.isHidden = true
         }
     }
+    
+    private func updateProxyVoteImageVisibility() {
+        guard let isProxyVoteEligible = self.selectedPosition?.position?.isProxyVoteEligible, isProxyVoteEligible else {
+            self.proxyVoteImg.isHidden = true
+            return
+        }
+        self.proxyVoteImg.isHidden = false
+        let tapProxyVote = UITapGestureRecognizer(target: self, action: #selector(TradeItPortfolioEquityPositionsTableViewCell.tappedProxyVote))
+        self.proxyVoteImg.addGestureRecognizer(tapProxyVote)
+        self.proxyVoteImg.isUserInteractionEnabled = true
+    }
 }
 
 protocol TradeItPortfolioPositionsTableViewCellDelegate: class {
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
+    func proxyVoteWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?)
 }

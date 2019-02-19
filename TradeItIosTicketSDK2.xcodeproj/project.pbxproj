@@ -524,6 +524,18 @@
 		B5749B551F46475300FCE1B5 /* CachedLinkedBrokerAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = B5749B531F46475300FCE1B5 /* CachedLinkedBrokerAccount.m */; };
 		B57ABA301DBEA9C1009B82A3 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */; };
 		B57ABA321DBEAA39009B82A3 /* TradeItDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */; };
+		B57E16902215AD4800FCD21F /* TradeItProxyVoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E168F2215AD4800FCD21F /* TradeItProxyVoteService.swift */; };
+		B57E16912215AD4800FCD21F /* TradeItProxyVoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E168F2215AD4800FCD21F /* TradeItProxyVoteService.swift */; };
+		B57E16942215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = B57E16922215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B57E16952215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = B57E16922215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B57E16962215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E16932215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m */; };
+		B57E16972215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E16932215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m */; };
+		B57E169A2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B57E16982215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B57E169B2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B57E16982215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B57E169C2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E16992215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m */; };
+		B57E169D2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m in Sources */ = {isa = PBXBuildFile; fileRef = B57E16992215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m */; };
+		B57E169F2217038500FCD21F /* outline_assignment_black_18dp.png in Resources */ = {isa = PBXBuildFile; fileRef = B57E169E2217038500FCD21F /* outline_assignment_black_18dp.png */; };
+		B57E16A02217038500FCD21F /* outline_assignment_black_18dp.png in Resources */ = {isa = PBXBuildFile; fileRef = B57E169E2217038500FCD21F /* outline_assignment_black_18dp.png */; };
 		B58BC7241DDBA6780079ED8B /* TradeItWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */; };
 		B58BC7271DDBBE260079ED8B /* TradeItUserAgentProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B58BC7251DDBBE260079ED8B /* TradeItUserAgentProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B58BC7281DDBBE260079ED8B /* TradeItUserAgentProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B58BC7261DDBBE260079ED8B /* TradeItUserAgentProvider.m */; };
@@ -1244,6 +1256,12 @@
 		B5749B531F46475300FCE1B5 /* CachedLinkedBrokerAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedLinkedBrokerAccount.m; sourceTree = "<group>"; };
 		B57ABA2F1DBEA9C1009B82A3 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		B57ABA311DBEAA39009B82A3 /* TradeItDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItDeviceManager.swift; sourceTree = "<group>"; };
+		B57E168F2215AD4800FCD21F /* TradeItProxyVoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeItProxyVoteService.swift; sourceTree = "<group>"; };
+		B57E16922215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItGetProxyVoteUrlRequest.h; sourceTree = "<group>"; };
+		B57E16932215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradeItGetProxyVoteUrlRequest.m; sourceTree = "<group>"; };
+		B57E16982215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TradeItGetProxyVoteUrlResult.h; sourceTree = "<group>"; };
+		B57E16992215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TradeItGetProxyVoteUrlResult.m; sourceTree = "<group>"; };
+		B57E169E2217038500FCD21F /* outline_assignment_black_18dp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = outline_assignment_black_18dp.png; sourceTree = "<group>"; };
 		B58BC7231DDBA6780079ED8B /* TradeItWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TradeItWebViewController.swift; sourceTree = "<group>"; };
 		B58BC7251DDBBE260079ED8B /* TradeItUserAgentProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeItUserAgentProvider.h; sourceTree = "<group>"; };
 		B58BC7261DDBBE260079ED8B /* TradeItUserAgentProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeItUserAgentProvider.m; sourceTree = "<group>"; };
@@ -1594,6 +1612,7 @@
 		756FAF8C1DB81EC500D5B112 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B57E169E2217038500FCD21F /* outline_assignment_black_18dp.png */,
 				75D84206209A54F00074D83E /* TradeItMarketDataTableViewCell.xib */,
 				750171A7209B68290094B739 /* TradeItNumericToggleInputTableViewCell.xib */,
 				BAD1CF75207813CB008BF987 /* TradeItBrandedAccountNameCell.xib */,
@@ -1674,6 +1693,7 @@
 				75AC863620A0C85900F5C196 /* TradeItCryptoTradeService.swift */,
 				759FA1DA20A3584F00A4AD07 /* TradeService.swift */,
 				E0F2C67E20D7FECF00C26D22 /* TradeItCryptoMarketDataService.swift */,
+				B57E168F2215AD4800FCD21F /* TradeItProxyVoteService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2027,6 +2047,8 @@
 				759FA1DE20A38DA900A4AD07 /* TradeItCryptoPreviewTradeRequest.m */,
 				E09C598720D46227003991E2 /* TradeItCryptoQuoteRequest.h */,
 				E09C598820D46227003991E2 /* TradeItCryptoQuoteRequest.m */,
+				B57E16922215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h */,
+				B57E16932215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -2086,6 +2108,8 @@
 				759FA1EA20A5CF0500A4AD07 /* TradeItCryptoPreviewTradeResult.m */,
 				E09C598120D4522D003991E2 /* TradeItCryptoQuoteResult.h */,
 				E09C598220D4522D003991E2 /* TradeItCryptoQuoteResult.m */,
+				B57E16982215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h */,
+				B57E16992215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -2201,6 +2225,7 @@
 				75F9802C2073F0C90062B799 /* TradeItUiConfigRequest.h in Headers */,
 				B55E70E91F9659E6005BF07D /* TradeItTransactionsHistoryResult.h in Headers */,
 				75BAABF01DB7EF2F00E5435C /* TradeItTypeDefs.h in Headers */,
+				B57E169A2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h in Headers */,
 				FA80FFC01DF202EB00C54091 /* TradeItOAuthAccessTokenRequest.h in Headers */,
 				759FA1DF20A38DA900A4AD07 /* TradeItCryptoPreviewTradeRequest.h in Headers */,
 				75BAABDA1DB7EF2F00E5435C /* TradeItQuotesRequest.h in Headers */,
@@ -2222,6 +2247,7 @@
 				75BAAB8B1DB7EF2F00E5435C /* TradeItAccountOverviewRequest.h in Headers */,
 				75BAABA71DB7EF2F00E5435C /* TradeItBrokerListRequest.h in Headers */,
 				75AB475F1F001A7D00A8BEC6 /* TradeItFxOrderCapabilities.h in Headers */,
+				B57E16942215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h in Headers */,
 				75BAAB891DB7EF2F00E5435C /* TradeItAccountOverview.h in Headers */,
 				759FA1E520A38F1200A4AD07 /* TradeItCryptoPreviewTradeDetails.h in Headers */,
 				75BAAB9B1DB7EF2F00E5435C /* TradeItAuthLinkResult.h in Headers */,
@@ -2300,6 +2326,7 @@
 				75F9802D2073F0C90062B799 /* TradeItUiConfigRequest.h in Headers */,
 				B55E70EA1F9659E6005BF07D /* TradeItTransactionsHistoryResult.h in Headers */,
 				FC6E7A391DCD1F8B005225CC /* TradeItBrokerAccount.h in Headers */,
+				B57E169B2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.h in Headers */,
 				FC6E7A3A1DCD1F8B005225CC /* TradeItTypeDefs.h in Headers */,
 				759FA1E020A38DA900A4AD07 /* TradeItCryptoPreviewTradeRequest.h in Headers */,
 				FC6E7A3C1DCD1F8B005225CC /* TradeItQuotesRequest.h in Headers */,
@@ -2321,6 +2348,7 @@
 				FC6E7A4E1DCD1F8B005225CC /* TradeItAccountOverviewRequest.h in Headers */,
 				FC6E7A4F1DCD1F8B005225CC /* TradeItBrokerListRequest.h in Headers */,
 				75AB47601F001A7D00A8BEC6 /* TradeItFxOrderCapabilities.h in Headers */,
+				B57E16952215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.h in Headers */,
 				FC6E7A501DCD1F8B005225CC /* TradeItAccountOverview.h in Headers */,
 				759FA1E620A38F1200A4AD07 /* TradeItCryptoPreviewTradeDetails.h in Headers */,
 				FC6E7A511DCD1F8B005225CC /* TradeItAuthLinkResult.h in Headers */,
@@ -2568,6 +2596,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57E169F2217038500FCD21F /* outline_assignment_black_18dp.png in Resources */,
 				BAD1CF76207813CB008BF987 /* TradeItBrandedAccountNameCell.xib in Resources */,
 				B5FDB6821DDE40F700CA558D /* truste.png in Resources */,
 				75BAAA9A1DB7EEB400E5435C /* chevron_up.png in Resources */,
@@ -2628,6 +2657,7 @@
 				FC6E7A6A1DCD1F8B005225CC /* chevron_down.png in Resources */,
 				FA596DE41E1EF425007D48F2 /* TradeItYahoo.storyboard in Resources */,
 				750171A9209B68290094B739 /* TradeItNumericToggleInputTableViewCell.xib in Resources */,
+				B57E16A02217038500FCD21F /* outline_assignment_black_18dp.png in Resources */,
 				FC6E7A6C1DCD1F8B005225CC /* success_icon.png in Resources */,
 				754200561EF85A2800B15E92 /* TradeItSelectionDetailCellTableViewCell.xib in Resources */,
 				754200501EF853F900B15E92 /* TradeItReadOnlyTableViewCell.xib in Resources */,
@@ -2946,6 +2976,7 @@
 				75BAAADA1DB7EEB400E5435C /* TradeItQuotePresenter.swift in Sources */,
 				75AC865620A336AA00F5C196 /* CellReuseId.swift in Sources */,
 				FA5852771E401B8300078352 /* TradeItPaddedTextField.swift in Sources */,
+				B57E16902215AD4800FCD21F /* TradeItProxyVoteService.swift in Sources */,
 				7586DF291F211513004768D9 /* TradeItSession.swift in Sources */,
 				75BAAAA21DB7EEB400E5435C /* NSCoder+TradeIt.swift in Sources */,
 				FA3B5EA91E1DB97900C08F6D /* TradeItYahooLauncher.swift in Sources */,
@@ -3000,6 +3031,7 @@
 				7586DF2C1F2129E2004768D9 /* TradeItResultTransformer.swift in Sources */,
 				75BAABE31DB7EF2F00E5435C /* TradeItSecurityQuestionRequest.m in Sources */,
 				75AB47671F003AA000A8BEC6 /* TradeItFxOrderCapabilitiesResult.m in Sources */,
+				B57E16962215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m in Sources */,
 				75BAABB01DB7EF2F00E5435C /* TradeItFxAccountOverview.m in Sources */,
 				75BAAAA91DB7EEB400E5435C /* TradeItAccountSelectionTableViewCell.swift in Sources */,
 				75BAABB21DB7EF2F00E5435C /* TradeItFxPosition.m in Sources */,
@@ -3098,6 +3130,7 @@
 				75AB475B1EFF2AEA00A8BEC6 /* TradeItInstrumentOrderCapabilitiesHelpers.swift in Sources */,
 				75BAABED1DB7EF2F00E5435C /* TradeItSymbolLookupResult.m in Sources */,
 				755D7EB52072D5DC000A3897 /* TradeItUiConfigResult.m in Sources */,
+				B57E169C2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m in Sources */,
 				75F5AFBC1F2161A70089027A /* TradeItBrokerService.swift in Sources */,
 				75BAAAA71DB7EEB400E5435C /* TradeItAccountManagementTableViewManager.swift in Sources */,
 				B5C379FB1F60361000D1EE83 /* TradeItOrdersTableViewManager.swift in Sources */,
@@ -3232,6 +3265,7 @@
 				75ECEC201F6C735100939BF6 /* TradeItPreviewMessageLink.m in Sources */,
 				FA5852781E401B8300078352 /* TradeItPaddedTextField.swift in Sources */,
 				75AC865720A336AA00F5C196 /* CellReuseId.swift in Sources */,
+				B57E16912215AD4800FCD21F /* TradeItProxyVoteService.swift in Sources */,
 				FC6E79AE1DCD1F8B005225CC /* NSCoder+TradeIt.swift in Sources */,
 				FC6E79AF1DCD1F8B005225CC /* TradeItBundleProvider.swift in Sources */,
 				7586DF2A1F211513004768D9 /* TradeItSession.swift in Sources */,
@@ -3286,6 +3320,7 @@
 				FC6E79D11DCD1F8B005225CC /* TradeItFxPosition.m in Sources */,
 				75AB47681F003AA000A8BEC6 /* TradeItFxOrderCapabilitiesResult.m in Sources */,
 				FC6E79D21DCD1F8B005225CC /* TradeItAccountSelectionViewController.swift in Sources */,
+				B57E16972215AF4C00FCD21F /* TradeItGetProxyVoteUrlRequest.m in Sources */,
 				FC6E79D41DCD1F8B005225CC /* TradeItDeviceManager.swift in Sources */,
 				75E202301F19428E003660AF /* TradeItBrokerLogo.m in Sources */,
 				B5BEEFAE1F20096300BAC0DF /* UIView+TradeIt.swift in Sources */,
@@ -3384,6 +3419,7 @@
 				FC6E79FC1DCD1F8B005225CC /* TradeItViewController.swift in Sources */,
 				FC6E79FE1DCD1F8B005225CC /* TradeItPreviewTradeRequest.m in Sources */,
 				75AB475C1EFF2AEA00A8BEC6 /* TradeItInstrumentOrderCapabilitiesHelpers.swift in Sources */,
+				B57E169D2215B15300FCD21F /* TradeItGetProxyVoteUrlResult.m in Sources */,
 				FC6E79FF1DCD1F8B005225CC /* TradeItOrder.swift in Sources */,
 				755D7EB62072D5DC000A3897 /* TradeItUiConfigResult.m in Sources */,
 				75F5AFBD1F2161A70089027A /* TradeItBrokerService.swift in Sources */,

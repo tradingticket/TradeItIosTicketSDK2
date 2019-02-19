@@ -1,6 +1,7 @@
 import UIKit
 
 class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDelegate, UITableViewDataSource, TradeItPortfolioPositionsTableViewCellDelegate {
+    
     private enum SECTIONS: Int {
         case accountDetails = 0
         case positions
@@ -243,6 +244,10 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
     func tradeButtonWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?) {
         self.delegate?.tradeButtonWasTapped(forPortfolioPosition: portfolioPosition, orderAction: orderAction)
     }
+    
+    func proxyVoteWasTapped(forPortFolioPosition portfolioPosition: TradeItPortfolioPosition?) {
+        self.delegate?.proxyVoteWasTapped(forPortfolioPosition: portfolioPosition)
+    }
 
     // MARK: Private
 
@@ -308,4 +313,5 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
 protocol TradeItPortfolioAccountDetailsTableDelegate: class {
     func tradeButtonWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?, orderAction: TradeItOrderAction?)
     func refreshRequested(onRefreshComplete: @escaping () -> Void)
+    func proxyVoteWasTapped(forPortfolioPosition portfolioPosition: TradeItPortfolioPosition?)
 }

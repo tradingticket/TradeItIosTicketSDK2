@@ -53,7 +53,7 @@
             let proxyVoteService = linkedBrokerAccount.proxyVoteService else {
                 let error = TradeItErrorResult(
                     title: "Fetching proxy vote url failed",
-                    message: "Position is not eligible to proxy voting. Please try again."
+                    message: "This position is not eligible to proxy voting. Please try again."
                 )
                 onFailure(error)
                 return

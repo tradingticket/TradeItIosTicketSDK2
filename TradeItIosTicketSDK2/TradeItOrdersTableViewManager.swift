@@ -151,7 +151,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             , !orderPresenter.isGroupOrderHeader else {
             return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -159,7 +159,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
             , !orderPresenter.isGroupOrderHeader else {
                 return TradeItOrdersTableViewManager.GROUP_ORDER_HEADER_HEIGHT
         }
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -188,7 +188,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         return orderPresenter.isCancelable()
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // nothing to do but need to be defined to display the actions
     }
 
@@ -209,7 +209,7 @@ class TradeItOrdersTableViewManager: NSObject, UITableViewDelegate, UITableViewD
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
-            for: UIControlEvents.valueChanged
+            for: UIControl.Event.valueChanged
         )
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl

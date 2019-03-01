@@ -112,7 +112,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
-            for: UIControlEvents.valueChanged
+            for: UIControl.Event.valueChanged
         )
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl

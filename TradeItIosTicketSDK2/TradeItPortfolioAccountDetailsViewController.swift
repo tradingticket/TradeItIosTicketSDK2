@@ -42,7 +42,7 @@ class TradeItPortfolioAccountDetailsViewController: TradeItViewController, Trade
     }
     
     @IBAction func activityTapped(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
         self.brokerSupportedService.forEach { (supportedService, handler) in
             let action = UIAlertAction(title: supportedService.getActionTitle(), style: .default, handler: handler)
             alertController.addAction(action)

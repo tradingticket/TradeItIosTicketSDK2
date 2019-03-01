@@ -66,9 +66,9 @@ import UIKit
         case let activityIndicator as UIActivityIndicatorView:
             activityIndicator.color = TradeItSDK.theme.interactivePrimaryColor
         default:
-            if check(view: view, hasTrait: UIAccessibilityTraitSelected) {
+            if check(view: view, hasTrait: UIAccessibilityTraits.selected) {
                 view.backgroundColor = TradeItSDK.theme.tableBackgroundSecondaryColor
-            } else if check(view: view, hasTrait: UIAccessibilityTraitAdjustable) {
+            } else if check(view: view, hasTrait: UIAccessibilityTraits.adjustable) {
                 view.backgroundColor = TradeItSDK.theme.interactivePrimaryColor.withAlphaComponent(0.1)
             }
             break
@@ -127,7 +127,7 @@ import UIKit
         input.textColor = TradeItSDK.theme.textColor
         input.attributedPlaceholder = NSAttributedString(
             string: input.placeholder ?? "",
-            attributes: [NSAttributedStringKey.foregroundColor: TradeItSDK.theme.textColor.withAlphaComponent(0.4)]
+            attributes: [NSAttributedString.Key.foregroundColor: TradeItSDK.theme.textColor.withAlphaComponent(0.4)]
         )
         input.setNeedsLayout()
         input.layoutIfNeeded()
@@ -158,11 +158,11 @@ import UIKit
     }
 
     private static func styleLabel(_ label: UILabel) {
-        if check(view: label, hasTrait: UIAccessibilityTraitButton) {
+        if check(view: label, hasTrait: UIAccessibilityTraits.button) {
             label.textColor = TradeItSDK.theme.interactivePrimaryColor
         } else if label.accessibilityIdentifier == "LIGHT_TEXT" {
             label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.3)
-        } else if check(view: label, hasTrait: UIAccessibilityTraitHeader) {
+        } else if check(view: label, hasTrait: UIAccessibilityTraits.header) {
             label.textColor = TradeItSDK.theme.textColor.withAlphaComponent(0.55)
         } else {
             label.textColor = TradeItSDK.theme.textColor
@@ -170,6 +170,6 @@ import UIKit
     }
 
     private static func check(view: UIView, hasTrait trait: UIAccessibilityTraits) -> Bool {
-        return view.accessibilityTraits & trait != 0
+        return view.accessibilityTraits.rawValue & trait.rawValue != 0
     }
 }

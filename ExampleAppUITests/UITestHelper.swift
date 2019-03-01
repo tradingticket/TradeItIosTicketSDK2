@@ -238,7 +238,7 @@ extension XCTestCase {
         waitForElementToDisappear(ezLoadingActivity)
         let tableView = app.tables.element(boundBy: 0)
         XCTAssertTrue(tableView.cells.count > 0)
-        let cell = tableView.cells.element(boundBy: UInt(rowNum)) // index 0 is header
+        let cell = tableView.cells.element(boundBy: rowNum) // index 0 is header
         cell.tap()
     }
     

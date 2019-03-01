@@ -226,16 +226,16 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
             self.selectedPositionIndex != indexPath.row
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // nothing to do but need to be defined to display the actions
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     // MARK: TradeItPortfolioPositionsTableViewCellDelegate
@@ -297,7 +297,7 @@ class TradeItPortfolioAccountDetailsTableViewManager: NSObject, UITableViewDeleg
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
-            for: UIControlEvents.valueChanged
+            for: UIControl.Event.valueChanged
         )
         TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)

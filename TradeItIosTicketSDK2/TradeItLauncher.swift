@@ -38,8 +38,8 @@ protocol OAuthCompletionListener {
         }
 
         // Check for the Broker Selection or Welcome screen
-        if originalViewController?.childViewControllers.first is TradeItSelectBrokerViewController
-            || originalViewController?.childViewControllers.first is TradeItWelcomeViewController {
+        if originalViewController?.children.first is TradeItSelectBrokerViewController
+            || originalViewController?.children.first is TradeItWelcomeViewController {
             originalViewController = originalViewController?.presentingViewController
         }
 

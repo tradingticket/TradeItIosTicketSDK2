@@ -580,7 +580,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
 
         if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
         cell?.textLabel?.text = sections?[indexPath.section].actions[indexPath.row].label

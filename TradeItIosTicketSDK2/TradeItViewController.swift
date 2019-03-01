@@ -21,7 +21,7 @@ class TradeItViewController: CloseableViewController {
         containerView.backgroundColor = .white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(containerView)
-        self.view.sendSubview(toBack: containerView)
+        self.view.sendSubviewToBack(containerView)
         self.view.addConstraints([
             containerView.heightAnchor.constraint(equalToConstant: self.view.frame.height - navigationBarHeight),
             containerView.widthAnchor.constraint(equalTo: self.view.widthAnchor),

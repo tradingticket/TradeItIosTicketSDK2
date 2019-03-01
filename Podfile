@@ -12,7 +12,6 @@ end
 def app_pods
   pod 'PromiseKit/CorePromise', '~> 6.8.3'
   pod 'MBProgressHUD', '~> 1.1.0'
-  pod 'JSONModel', '~> 1.7.0'
   pod 'BEMCheckBox', '~> 1.4.1'
 end
 

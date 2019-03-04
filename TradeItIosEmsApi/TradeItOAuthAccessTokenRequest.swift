@@ -1,4 +1,4 @@
-class TradeItOAuthAccessTokenRequest: TradeItRequest {
+class TradeItOAuthAccessTokenRequest: TradeItRequest, Codable {
     var apiKey: String
     var oAuthVerifier: String
     

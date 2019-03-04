@@ -12,14 +12,14 @@ class TradeItCryptoOrderPreviewPresenter {
     func generateRequest() -> TradeItCryptoPreviewTradeRequest {
         let request = TradeItCryptoPreviewTradeRequest()
 
-        request.accountNumber = order.linkedBrokerAccount?.accountNumber
+        request.accountNumber = order.linkedBrokerAccount?.accountNumber ?? ""
         request.orderAction = order.action.rawValue
         request.orderPriceType = order.type.rawValue
         request.orderExpiration = order.expiration.rawValue
-        request.orderQuantity = quantity()
-        request.orderPair = order.symbol
-        request.orderLimitPrice = order.limitPrice
-        request.orderStopPrice = order.stopPrice
+        request.orderQuantity = quantity().doubleValue
+        request.orderPair = order.symbol ?? ""
+        request.orderLimitPrice = order.limitPrice?.doubleValue
+        request.orderStopPrice = order.stopPrice?.doubleValue
         request.orderQuantityType = order.quantityType.rawValue
 
         return request

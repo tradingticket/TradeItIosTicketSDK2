@@ -11,7 +11,7 @@ class TradeItQuotePresenter: NSObject {
         self.maximumFractionDigits = maximumFractionDigits
     }
 
-    func formatCurrency(_ value: NSNumber?) -> String? {
+    func formatCurrency(_ value: Double?) -> String? {
         guard let value = value, value != 0 else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
         return NumberFormatter.formatCurrency(
             value,
@@ -21,7 +21,7 @@ class TradeItQuotePresenter: NSObject {
         )
     }
 
-    func formatChange(change: NSNumber?, percentChange: NSNumber?) -> String? {
+    func formatChange(change: Double?, percentChange: Double?) -> String? {
         var result = ""
 
         if let change = change, change != 0 {
@@ -44,13 +44,13 @@ class TradeItQuotePresenter: NSObject {
         return timestamp ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
     }
 
-    static func numberToDecimalNumber(_ value: NSNumber?) -> NSDecimalNumber? {
+    static func numberToDecimalNumber(_ value: Double?) -> NSDecimalNumber? {
         guard let value = value else { return nil }
-        return NSDecimalNumber(decimal: value.decimalValue)
+        return NSDecimalNumber(decimal: Decimal(value))
     }
 
-    static func getChangeLabelColor(changeValue: NSNumber?) -> UIColor {
+    static func getChangeLabelColor(changeValue: Double?) -> UIColor {
         guard let change = changeValue else { return TradeItSDK.theme.textColor }
-        return TradeItPresenter.stockChangeColor(change.doubleValue)
+        return TradeItPresenter.stockChangeColor(change)
     }
 }

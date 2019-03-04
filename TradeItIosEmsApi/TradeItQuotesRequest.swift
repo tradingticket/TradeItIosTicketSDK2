@@ -1,13 +1,18 @@
-class TradeItQuotesRequest: TradeItRequest {
+class TradeItQuotesRequest: TradeItRequest, Codable {
     
     var symbol: String?
-    var broker: String?
     var symbols: String?
+    var broker: String?
     var apiKey: String
     var suffixMarket: String?
     
     init(symbol: String, apiKey: String) {
         self.symbol = symbol
+        self.apiKey = apiKey
+    }
+    
+    init(symbols: [String], apiKey: String) {
+        self.symbols = symbols.joined(separator: ",")
         self.apiKey = apiKey
     }
     

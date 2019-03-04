@@ -1,4 +1,4 @@
 class TradeItAuthLinkResult: TradeItResult {
-    var userId: String
-    var userToken: String
+    var userId: String = ""
+    var userToken: String = ""
 }

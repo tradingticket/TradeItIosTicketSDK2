@@ -1,5 +1,5 @@
-class TradeItCryptoQuoteRequest: TradeItRequest {
-    var token: String
-    var accountNumber: String
-    var pair: String
+class TradeItCryptoQuoteRequest: TradeItRequest, Codable {
+    var token: String = ""
+    var accountNumber: String = ""
+    var pair: String = ""
 }

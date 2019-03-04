@@ -1,3 +1,3 @@
 class TradeItFxOrderCapabilities: TradeItInstrumentOrderCapabilities {
-    var leverageOptions: [Double]?
+    var leverageOptions: [Int]?
 }

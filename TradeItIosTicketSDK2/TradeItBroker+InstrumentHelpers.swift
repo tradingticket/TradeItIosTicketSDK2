@@ -10,7 +10,7 @@ enum TradeItTradeInstrumentType: String {
 extension TradeItBroker {
     private var brokerInstrumentsSwiftArray: [TradeItBrokerInstrument]? { // Sigh...
         get {
-            return self.brokerInstruments as? [TradeItBrokerInstrument]
+            return self.brokerInstruments
         }
     }
 

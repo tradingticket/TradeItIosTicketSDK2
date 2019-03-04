@@ -15,7 +15,7 @@ class TradeItPortfolioAccountTableViewCell: UITableViewCell {
         self.accountNameLabel.text = account.getFormattedAccountName()
         self.totalValueLabel.text = presenter.getFormattedTotalValue() ?? TradeItPresenter.MISSING_DATA_PLACEHOLDER
         self.returnLabel.text = presenter.getFormattedDayReturnWithPercentage()
-        self.returnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn?.doubleValue)
+        self.returnLabel.textColor = TradeItPresenter.stockChangeColor(account.balance?.dayAbsoluteReturn)
         self.setStyleForAccountState(account: account)
     }
 

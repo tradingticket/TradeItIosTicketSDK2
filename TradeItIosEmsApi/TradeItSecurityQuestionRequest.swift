@@ -1,4 +1,4 @@
-class TradeItSecurityQuestionRequest: TradeItRequest {
+class TradeItSecurityQuestionRequest: TradeItRequest, Codable {
     var token: String?
     var securityAnswer: String
     

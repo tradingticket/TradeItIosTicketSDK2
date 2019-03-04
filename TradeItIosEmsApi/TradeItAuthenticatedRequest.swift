@@ -1,3 +1,3 @@
-class TradeItAuthenticatedRequest: TradeItRequest {
-    var token: String
+class TradeItAuthenticatedRequest: TradeItRequest, Codable {
+    var token: String = ""
 }

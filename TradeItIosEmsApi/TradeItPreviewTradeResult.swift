@@ -1,4 +1,4 @@
-class TradeItPreviewTradeResult: TradeItResult {
+public class TradeItPreviewTradeResult: TradeItResult {
     var warningsList: [String]?
     var ackWarningsList: [String]?
     var orderId: String?

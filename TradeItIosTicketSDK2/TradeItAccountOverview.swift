@@ -1,4 +1,4 @@
-class TradeItAccountOverview: Codable {
+@objc public class TradeItAccountOverview: NSObject, Codable {
     var totalValue: Double?
     var availableCash: Double?
     var buyingPower: Double?

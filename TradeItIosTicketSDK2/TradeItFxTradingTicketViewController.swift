@@ -114,7 +114,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         case .leverage:
             self.selectionViewController.title = "Select leverage"
             self.selectionViewController.initialSelection = self.order.leverage?.stringValue
-            self.selectionViewController.selections = self.orderCapabilities?.leverageOptions?.map { $0.stringValue } ?? []
+            self.selectionViewController.selections = self.orderCapabilities?.leverageOptions?.map { String($0) } ?? []
             self.selectionViewController.onSelected = { selection in
                 if let selectionInt = Int(selection) {
                     let selectionNumber = NSNumber(value: selectionInt)
@@ -331,7 +331,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
         self.order.actionType = self.orderCapabilities?.defaultValueFor(field: .actions, value: self.order.actionType)
         self.order.priceType = self.orderCapabilities?.defaultValueFor(field: .priceTypes, value: self.order.priceType)
         self.order.expirationType = self.orderCapabilities?.defaultValueFor(field: .expirationTypes, value: self.order.expirationType)
-        self.order.leverage = self.orderCapabilities?.leverageOptions?.first
+        if let leverage = self.orderCapabilities?.leverageOptions?.first {
+            self.order.leverage = NSNumber(value: leverage)
+        } else {
+            self.order.leverage = nil
+        }
     }
 
     private func setPlaceOrderButtonEnablement() {
@@ -412,8 +416,8 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
 
         let quotePresenter = TradeItQuotePresenter(
             "",
-            minimumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4,
-            maximumFractionDigits: self.orderCapabilities?.precision?.intValue ?? 4
+            minimumFractionDigits: self.orderCapabilities?.precision ?? 4,
+            maximumFractionDigits: self.orderCapabilities?.precision ?? 4
         )
 
         switch ticketRow {
@@ -431,11 +435,11 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
                 }
             )
         case .rate:
-            let initialValue = quotePresenter.formatCurrency(self.order.rate)
+            let initialValue = quotePresenter.formatCurrency(self.order.rate?.doubleValue)
             (cell as? TradeItStepperInputTableViewCell)?.configure(
                 initialValue: initialValue,
                 placeholderText: "Enter rate",
-                maxDecimalPlaces: self.orderCapabilities?.precision?.intValue,
+                maxDecimalPlaces: self.orderCapabilities?.precision,
                 onValueUpdated: { newValue in
                     self.order.rate = newValue
                     self.setPlaceOrderButtonEnablement()
@@ -445,7 +449,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
             guard let marketCell = cell as? TradeItSubtitleWithDetailsCellTableViewCell else { return cell }
             marketCell.configure(
                 subtitleLabel: quotePresenter.formatTimestamp(quote?.dateTime),
-                detailsLabel: quote?.bidPrice?.stringValue,
+                detailsLabel: quote?.bidPrice != nil ? String(quote!.bidPrice!) : nil,
                 subtitleDetailsLabel: quotePresenter.formatChange(change: quote?.change, percentChange: quote?.pctChange),
                 subtitleDetailsLabelColor: TradeItQuotePresenter.getChangeLabelColor(changeValue: quote?.change)
             )
@@ -536,7 +540,7 @@ class TradeItFxTradingTicketViewController: TradeItViewController, UITableViewDa
     }
 
     private func handleValidationError(_ error: TradeItErrorResult) {
-        guard let errorFields = error.errorFields as? [String] else { return }
+        guard let errorFields = error.errorFields else { return }
 
         if (errorFields.contains("symbol")) {
             self.order.symbol = nil

@@ -1,4 +1,4 @@
-class TradeItBrokerListRequest: TradeItRequest {
+class TradeItBrokerListRequest: TradeItRequest, Codable {
     var apiKey: String
     var countryCode: String?
     

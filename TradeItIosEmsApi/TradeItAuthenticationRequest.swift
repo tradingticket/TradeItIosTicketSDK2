@@ -1,4 +1,4 @@
-class TradeItAuthenticationRequest: TradeItRequest {
+class TradeItAuthenticationRequest: TradeItRequest, Codable {
     
     var userToken: String
     var userId: String

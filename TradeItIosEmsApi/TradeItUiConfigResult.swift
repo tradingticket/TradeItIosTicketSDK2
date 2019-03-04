@@ -1,3 +1,3 @@
 class TradeItUiConfigResult: TradeItResult {
-    var brokers: [TradeItUiBrokerConfig]
+    var brokers: [TradeItUiBrokerConfig] = []
 }

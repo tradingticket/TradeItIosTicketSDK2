@@ -15,7 +15,7 @@ extension TradeItOAuthAccessTokenResult {
     
     func buildActivationTimeTradeItErrorResult() -> TradeItErrorResult {
         let shortMessage = self.shortMessage ?? ""
-        let longMessages = (self.longMessages as? [String]) ?? []
+        let longMessages = self.longMessages ?? []
         let longMessage = longMessages.first ?? ""
         return TradeItErrorResult(title: shortMessage, message: longMessage, code: TradeItErrorCode.accountNotAvailable)
     }

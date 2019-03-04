@@ -1,4 +1,4 @@
-class TradeItPlaceTradeResult: TradeItResult {
+public class TradeItPlaceTradeResult: TradeItResult {
     var confirmationMessage: String?
     var orderNumber: String?
     var timestamp: String?

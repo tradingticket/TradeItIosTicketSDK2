@@ -1,20 +1,17 @@
 class TradeItResultTransformer {
-    static func transform<T: JSONModel>(targetClassType: T.Type, json: String?) -> T? {
-        var error: JSONModelError? = nil
-        let result = T.init(string: json, error: &error)
-
-        if let error = error {
-            print("TradeItResultTransformer")
-            print("- Expected class: \(T.self)")
-            print("- Server response: \(json ?? "")")
-            print("- JSONModel response: \(error)")
-            return nil
-        } else if let result = result {
+    static let jsonDecoder = JSONDecoder()
+    static func transform<T: Codable>(targetClassType: T.Type, json: String?) -> T? {
+        do {
+            guard let data = json?.data(using: .utf8) else {
+                return nil
+            }
+            let result = try jsonDecoder.decode(targetClassType, from: data)
             return result
-        } else {
+        } catch {
             print("TradeItResultTransformer")
             print("- Expected class: \(T.self)")
             print("- Server response: \(json ?? "")")
+            print("- Json error: \(error)")
             return nil
         }
     }

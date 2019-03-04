@@ -2,6 +2,6 @@ import UIKit
 
 class TradeItPreviewMessage: Codable {
     var message: String?
-    var requiresAcknowledgment: Bool
+    var requiresAcknowledgement: Bool
     var links: [TradeItPreviewMessageLink]
 }

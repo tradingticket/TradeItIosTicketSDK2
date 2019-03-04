@@ -1,9 +1,13 @@
-class TradeItBroker: Codable {
+@objc public class TradeItBroker: NSObject, Codable {
     var shortName: String?
     var longName: String?
     var brokerInstruments: [TradeItBrokerInstrument]?
-    var brokerShortName: String?
-    var brokerLongName: String?
+    var brokerShortName: String? {
+        return shortName
+    }
+    var brokerLongName: String? {
+        return longName
+    }
     var logos: [TradeItBrokerLogo]?
     
     private enum CodingKeys: String, CodingKey {
@@ -11,13 +15,5 @@ class TradeItBroker: Codable {
         case longName
         case brokerInstruments
         case logos
-    }
-    
-    func getBrokerShortName() -> String? {
-        return shortName
-    }
-    
-    func getBrokerLongName() -> String? {
-        return longName
     }
 }

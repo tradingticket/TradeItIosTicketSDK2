@@ -7,14 +7,14 @@ class TradeItKeychain: NSObject {
         var query: [AnyHashable : Any] = [:]
         
         query[kSecClass] = kSecClassGenericPassword
-        query[kSecAttrAccount] = account
+        query[kSecAttrAccount] = account as NSString?
         query[kSecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
         
         var error: OSStatus = SecItemCopyMatching(query as CFDictionary, nil)
         if error == errSecSuccess {
             // do update
             var attributesToUpdate: [AnyHashable : Any] = [:]
-            if let data = inputString?.data(using: .utf8) {
+            if let data = (inputString as NSString?)?.data(using: String.Encoding.utf8.rawValue) {
                 attributesToUpdate = [kSecValueData : data]
             }
             
@@ -22,7 +22,7 @@ class TradeItKeychain: NSObject {
             assert(error == errSecSuccess, String(format: "SecItemUpdate failed: %i", Int(error)))
         } else if error == errSecItemNotFound {
             // do add
-            query[kSecValueData] = inputString?.data(using: .utf8)
+            query[kSecValueData] = (inputString as NSString?)?.data(using: String.Encoding.utf8.rawValue)
             
             error = SecItemAdd(query as CFDictionary, nil)
             assert(error == errSecSuccess, String(format: "SecItemAdd failed: %i", Int(error)))
@@ -37,21 +37,20 @@ class TradeItKeychain: NSObject {
         var query: [AnyHashable : Any] = [:]
         
         query[kSecClass] = kSecClassGenericPassword
-        query[kSecAttrAccount] = account
+        query[kSecAttrAccount] = account as NSString?
         query[kSecReturnData] = kCFBooleanTrue
         
         var dataFromKeychain: CFTypeRef? = nil
-        
         let error: OSStatus = SecItemCopyMatching(query as CFDictionary, &dataFromKeychain)
         
-        var stringToReturn: String? = nil
+        var stringToReturn: NSString? = nil
         if error == errSecSuccess {
-            if let dataFromKeychain = dataFromKeychain {
-                stringToReturn = String(data: dataFromKeychain.data, encoding: .utf8)
+            if let dataFromKeychain = dataFromKeychain as? NSData {
+                stringToReturn = NSString(data: dataFromKeychain as Data, encoding: String.Encoding.utf8.rawValue)
             }
         }
         
-        return stringToReturn
+        return stringToReturn as String?
     }
     
     static func deleteString(forKey account: String?) {
@@ -60,7 +59,7 @@ class TradeItKeychain: NSObject {
         var query: [AnyHashable : Any] = [:]
         
         query[kSecClass] = kSecClassGenericPassword
-        query[kSecAttrAccount] = account
+        query[kSecAttrAccount] = (account as NSString?)
         
         let status: OSStatus = SecItemDelete(query as CFDictionary)
         if status != errSecSuccess {

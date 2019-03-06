@@ -5,5 +5,4 @@
     var actions: [TradeItInstrumentCapability]
     var expirationTypes: [TradeItInstrumentCapability]
     var priceTypes: [TradeItInstrumentCapability]
-    var symbolSpecific: String
 }

@@ -221,7 +221,7 @@ public typealias TradeItPlaceOrderHandlers = (
         previewOrderResult: TradeItPreviewOrderResult
     ) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onSecurityQuestion, onFailure in
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId ?? "")
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
             let placeResponseHandler = YCombinator { handler in
                 { (result: TradeItResult?) in
                     switch result {

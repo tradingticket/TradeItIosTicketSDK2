@@ -23,15 +23,13 @@ class TradeItUserAgentProvider: NSObject {
     }()
     
     private static func getSysInfo(byName typeSpecifier: String?) -> String? {
-        var size: size_t
+        var size: size_t = 0
         sysctlbyname(typeSpecifier, nil, &size, nil, 0)
         
-        let answer = malloc(size)
-        sysctlbyname(typeSpecifier, answer, &size, nil, 0)
+        var answer = [CChar](repeating: 0,  count: size)
+        sysctlbyname(typeSpecifier, &answer, &size, nil, 0)
         
-        let results = String(cString: &answer, encoding: .utf8)
-        
-        free(answer)
+        let results = String(cString: answer, encoding: .utf8)
         return results
     }
     

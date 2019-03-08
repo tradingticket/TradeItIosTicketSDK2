@@ -2999,7 +2999,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BA2C2105E6203F11E285CA10 /* Pods-ExampleAppObjC.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = ExampleAppObjC/ExampleAppObjC.entitlements;
@@ -3017,7 +3017,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2B27B3A7477FE6887DA81749 /* Pods-ExampleAppObjC.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "${inherited}";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = ExampleAppObjC/ExampleAppObjC.entitlements;

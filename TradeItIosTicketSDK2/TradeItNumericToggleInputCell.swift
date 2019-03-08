@@ -39,14 +39,14 @@ class TradeItNumericToggleInputCell: UITableViewCell {
             self.quantityTypeButton.isHidden = false
             self.textField.attributedPlaceholder = NSAttributedString(
                 string: "Enter",
-                attributes: [NSAttributedStringKey.foregroundColor: UIColor.gray]
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
             )
         } else {
             self.disclosureIndicatorWidthConstraint.constant = 0
             self.quantityTypeButton.isHidden = true
             self.textField.attributedPlaceholder = NSAttributedString(
                 string: "Enter \(label ?? "")",
-                attributes: [NSAttributedStringKey.foregroundColor: UIColor.gray]
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
             )
         }
     }
@@ -62,14 +62,14 @@ class TradeItNumericToggleInputCell: UITableViewCell {
         doneToolbar.barStyle = UIBarStyle.default
 
         let flexSpace = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
             target: nil,
             action: nil
         )
 
         let doneBarButtonItem: UIBarButtonItem  = UIBarButtonItem(
             title: "Done",
-            style: UIBarButtonItemStyle.done,
+            style: UIBarButtonItem.Style.done,
             target: self,
             action: #selector(self.dismissKeyboard)
         )

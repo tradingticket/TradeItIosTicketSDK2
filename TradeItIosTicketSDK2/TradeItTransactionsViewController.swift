@@ -30,7 +30,7 @@ class TradeItTransactionsViewController: TradeItViewController, TradeItTransacti
     // MARK: IBAction
     
     @IBAction func filterButtonWasTapped(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
 
         let allTransactionsAction = provideTransactionsUIAlertAction(filterType: .ALL_TRANSACTIONS)
         alertController.addAction(allTransactionsAction)

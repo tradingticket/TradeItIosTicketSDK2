@@ -10,7 +10,7 @@ class TradeItSelectBrokerTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let spinner = UIActivityIndicatorView(style: .gray)
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.startAnimating()
         self.spinnerContainerView.addSubview(spinner)

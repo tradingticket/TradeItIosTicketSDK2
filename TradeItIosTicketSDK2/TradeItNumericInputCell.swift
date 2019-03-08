@@ -41,14 +41,14 @@ class TradeItNumericInputCell: UITableViewCell {
         doneToolbar.barStyle = UIBarStyle.default
 
         let flexSpace = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
             target: nil,
             action: nil
         )
 
         let doneBarButtonItem: UIBarButtonItem  = UIBarButtonItem(
             title: "Done",
-            style: UIBarButtonItemStyle.done,
+            style: UIBarButtonItem.Style.done,
             target: self,
             action: #selector(self.dismissKeyboard)
         )

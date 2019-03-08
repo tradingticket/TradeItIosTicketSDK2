@@ -29,7 +29,7 @@ class TradeItYahooNavigationController: UINavigationController {
     private func addNavigationGradientView(_ subview: UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(subview)
-        self.view.sendSubview(toBack: subview)
+        self.view.sendSubviewToBack(subview)
         self.view.addConstraints([
             subview.topAnchor.constraint(equalTo: self.view.topAnchor),
             subview.widthAnchor.constraint(equalTo: self.view.widthAnchor),

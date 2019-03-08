@@ -437,7 +437,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.reloadData()
     }
     
-    private func reload(row: TicketRow, animation: UITableViewRowAnimation = .automatic) {
+    private func reload(row: TicketRow, animation: UITableView.RowAnimation = .automatic) {
         guard let indexOfRow = self.ticketRows.index(of: row) else {
             return
         }

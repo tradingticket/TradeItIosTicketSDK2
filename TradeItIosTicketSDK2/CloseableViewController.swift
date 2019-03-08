@@ -23,7 +23,7 @@ class CloseableViewController: UIViewController {
         if self.navigationItem.leftBarButtonItem == nil {
             let closeButtonItem = UIBarButtonItem(
                 title: closeButtonTitle(),
-                style: UIBarButtonItemStyle.plain,
+                style: UIBarButtonItem.Style.plain,
                 target: self,
                 action: #selector(closeButtonWasTapped(_:))
             )

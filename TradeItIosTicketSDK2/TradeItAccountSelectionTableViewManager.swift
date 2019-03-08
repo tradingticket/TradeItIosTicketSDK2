@@ -109,7 +109,7 @@ class TradeItAccountSelectionTableViewManager: NSObject, UITableViewDelegate, UI
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self,
                                  action: #selector(initiateRefresh),
-                                 for: UIControlEvents.valueChanged)
+                                 for: UIControl.Event.valueChanged)
         TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl

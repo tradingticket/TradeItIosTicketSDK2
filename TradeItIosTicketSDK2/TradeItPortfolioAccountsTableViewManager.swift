@@ -119,11 +119,11 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     // MARK: Private
@@ -134,7 +134,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
-            for: UIControlEvents.valueChanged
+            for: UIControl.Event.valueChanged
         )
         tableView.addSubview(refreshControl)
     }

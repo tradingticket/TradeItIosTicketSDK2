@@ -100,12 +100,12 @@ class TradeItFxPlaceOrderPresenter {
 
     func generateRequest() -> TradeItFxPlaceOrderRequest {
         let orderLeg = TradeItFxOrderLeg()
-        orderLeg.pair = order.symbol
-        orderLeg.action = order.actionType
-        orderLeg.priceType = order.priceType
-        orderLeg.amount = amount()
-        orderLeg.rate = order.rate
-        orderLeg.leverage = order.leverage
+        orderLeg.pair = order.symbol ?? ""
+        orderLeg.action = order.actionType ?? ""
+        orderLeg.priceType = order.priceType ?? ""
+        orderLeg.amount = amount().doubleValue
+        orderLeg.rate = order.rate?.doubleValue
+        orderLeg.leverage = order.leverage?.doubleValue
 
         let fxOrderInfoInput = TradeItFxOrderInfoInput()
         fxOrderInfoInput.orderType = "SINGLE"

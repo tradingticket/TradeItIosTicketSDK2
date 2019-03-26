@@ -93,8 +93,8 @@ class TradeItFxTradingUIFlow: TradeItAccountSelectionViewControllerDelegate, Tra
 
         if let tradingConfirmationViewController = nextViewController as? TradeItTradingConfirmationViewController {
             tradingConfirmationViewController.delegate = self
-            let orderLeg = placeOrderResult.orderInfoOutput?.orderLegs.first as? TradeItFxOrderLegResult? ?? TradeItFxOrderLegResult()
-            tradingConfirmationViewController.orderNumber = orderLeg?.orderNumber
+            let orderLeg = placeOrderResult.orderInfoOutput?.orderLegs.first ?? TradeItFxOrderLegResult()
+            tradingConfirmationViewController.orderNumber = orderLeg.orderNumber
             tradingConfirmationViewController.timestamp = placeOrderResult.timestamp
             tradingConfirmationViewController.confirmationMessage = placeOrderResult.confirmationMessage
 

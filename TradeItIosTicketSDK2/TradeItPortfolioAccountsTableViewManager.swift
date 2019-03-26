@@ -107,7 +107,7 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TRADE_IT_PORTFOLIO_ACCOUNTS_SUMMARY") ?? UITableViewCell()
-            cell.textLabel?.text = NumberFormatter.formatCurrency(NSNumber(value: self.totalValue()))
+            cell.textLabel?.text = NumberFormatter.formatCurrency(self.totalValue())
             cell.detailTextLabel?.text = "\(self.numberOfAccounts()) Combined Accounts"
             TradeItThemeConfigurator.configure(view: cell)
             return cell
@@ -139,14 +139,14 @@ class TradeItPortfolioAccountsTableViewManager: NSObject, UITableViewDelegate, U
         tableView.addSubview(refreshControl)
     }
 
-    private func totalValue() -> Float {
-        var totalAccountsValue: Float = 0
+    private func totalValue() -> Double {
+        var totalAccountsValue: Double = 0
         for sectionPresenter in linkedBrokerSectionPresenters {
             for account in sectionPresenter.linkedBroker.getEnabledAccounts() {
                 if let balance = account.balance, let totalValue = balance.totalValue {
-                    totalAccountsValue += totalValue.floatValue
+                    totalAccountsValue += totalValue
                 } else if let fxBalance = account.fxBalance, let totalValueUSD = fxBalance.totalValueUSD {
-                    totalAccountsValue += totalValueUSD.floatValue
+                    totalAccountsValue += totalValueUSD
                 }
             }
         }

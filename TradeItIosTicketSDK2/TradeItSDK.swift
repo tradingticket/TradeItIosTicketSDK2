@@ -126,7 +126,7 @@ import UIKit
     @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
-        environment: TradeitEmsEnvironments = TradeItEmsProductionEnv
+        environment: TradeitEmsEnvironments = TradeitEmsEnvironments.tradeItEmsProductionEnv
     ) {
         // We need this version of the configure method because Obj-C does not generate methods that allow for  omitting optional arguments with defaults, e.g. marketDataService
         self.configure(
@@ -141,7 +141,7 @@ import UIKit
     @objc public static func configure(
         apiKey: String,
         oAuthCallbackUrl: URL,
-        environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
+        environment: TradeitEmsEnvironments = TradeitEmsEnvironments.tradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
         requestFactory: RequestFactory? = nil
@@ -160,7 +160,7 @@ import UIKit
         self._oAuthCallbackUrl = oAuthCallbackUrl
         self.userCountryCode = userCountryCode
 
-        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion._2)
         self._linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
         self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
         self._symbolService = TradeItSymbolService(connector: connector)

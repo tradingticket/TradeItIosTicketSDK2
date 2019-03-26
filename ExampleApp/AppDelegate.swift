@@ -4,7 +4,7 @@ import TradeItIosTicketSDK2
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let API_KEY = "exampleapp-test-api-key" // "tradeit-test-api-key"
-    static let ENVIRONMENT = TradeItEmsTestEnv
+    static let ENVIRONMENT = TradeitEmsEnvironments.tradeItEmsTestEnv
     var window: UIWindow?
 
     override init() {
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         open url: URL,
         sourceApplication: String?,
-        annotation: Any?
+        annotation: Any
     ) -> Bool {
         print("=====> Received OAuth callback URL: \(url.absoluteString)")
 
@@ -226,9 +226,9 @@ class DummyMarketDataService: MarketDataService {
         // Get market data and populate TradeItQuote
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = 1337.42 as NSNumber
-        quote.change = 42.1337 as NSNumber
-        quote.pctChange = -123.456 as NSNumber
+        quote.lastPrice = 1337.42
+        quote.change = 42.1337
+        quote.pctChange = -123.456
         quote.dateTime = "12:34:56"
         onSuccess(quote)
 
@@ -242,7 +242,7 @@ class DummyMarketDataService: MarketDataService {
 class DummyStreamingMarketDataService: StreamingMarketDataService {
     private var timer: Timer?
     private var onUpdate: ((TradeItQuote) -> Void)?
-    private var price = 500
+    private var price = 500.0 as Double
     
     func startUpdatingQuote(forSymbol symbol: String, onUpdate: @escaping (TradeItQuote) -> Void, onFailure: @escaping () -> Void) {
         self.onUpdate = onUpdate
@@ -261,16 +261,16 @@ class DummyStreamingMarketDataService: StreamingMarketDataService {
     }
     
     @objc private func timerDidFire() {
-        let priceChange = generateRandomValue(lowerBound: -25, upperBound: 25)
+        let priceChange = Double(generateRandomValue(lowerBound: -25, upperBound: 25))
         self.price = self.price + priceChange
         
         let quote = TradeItQuote()
         quote.companyName = "LOL"
-        quote.lastPrice = NSNumber(value: price)
-        quote.bidPrice = NSNumber(value: price - 1)
-        quote.askPrice = NSNumber(value: price + 1)
-        quote.change = NSNumber(value: priceChange)
-        quote.pctChange = NSNumber(value: -123.456)
+        quote.lastPrice = price
+        quote.bidPrice = price - 1
+        quote.askPrice = price + 1
+        quote.change = priceChange
+        quote.pctChange = -123.456
         quote.dateTime = "12:34:56"
         
         onUpdate?(quote)

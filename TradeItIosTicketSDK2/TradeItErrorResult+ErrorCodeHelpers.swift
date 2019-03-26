@@ -12,7 +12,7 @@
 extension TradeItErrorResult: Error {
     public var errorCode: TradeItErrorCode? {
         get {
-            if let code = self.code?.intValue {
+            if let code = self.code {
                 return TradeItErrorCode(rawValue: code)
             } else {
                 return nil
@@ -20,7 +20,7 @@ extension TradeItErrorResult: Error {
         }
 
         set(new) {
-            self.code = new?.rawValue as NSNumber?
+            self.code = new?.rawValue
         }
     }
     @objc public var title: String {
@@ -30,7 +30,7 @@ extension TradeItErrorResult: Error {
     }
     @objc public var message: String {
         get {
-            let messages = (self.longMessages as? [String]) ?? []
+            let messages = self.longMessages ?? []
             return messages.joined(separator: "\n\n")
         }
     }
@@ -42,7 +42,7 @@ extension TradeItErrorResult: Error {
         self.shortMessage = title
         self.longMessages = [message]
         self.systemMessage = message
-        self.code = NSDecimalNumber(value: code.rawValue)
+        self.code = code.rawValue
     }
     
     @objc public static func error(withSystemMessage systemMessage: String) -> TradeItErrorResult {
@@ -66,7 +66,7 @@ extension TradeItErrorResult: Error {
     }
     
     @objc public func requiresRelink() -> Bool {
-        guard let integerCode = self.code?.intValue
+        guard let integerCode = self.code
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
@@ -74,7 +74,7 @@ extension TradeItErrorResult: Error {
     }
 
     @objc public func requiresAuthentication() -> Bool {
-        guard let integerCode = self.code?.intValue
+        guard let integerCode = self.code
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
 
@@ -82,7 +82,7 @@ extension TradeItErrorResult: Error {
     }
     
     @objc public func isAccountLinkDelayedError() -> Bool {
-        guard let integerCode = self.code?.intValue
+        guard let integerCode = self.code
             , let errorCode = TradeItErrorCode(rawValue: integerCode)
             else { return false }
         return TradeItErrorCode.accountNotAvailable == errorCode

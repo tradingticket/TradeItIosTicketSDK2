@@ -16,7 +16,7 @@
 
         self.connector.send(request, targetClassType: TradeItSymbolLookupResult.self, withCompletionBlock: { result in
             if let symbolLookupResult = result as? TradeItSymbolLookupResult,
-                let results = symbolLookupResult.results as? [TradeItSymbolLookupCompany] {
+                let results = symbolLookupResult.results {
                 onSuccess(results)
             } else if let errorResult = result as? TradeItErrorResult {
                 onFailure(errorResult)

@@ -72,12 +72,12 @@ class EquityPreviewCellFactory: PreviewCellFactory {
 
     // MARK: Private
     
-    private func formatQuantity(rawQuantityType: String, quantity: NSNumber) -> String {
+    private func formatQuantity(rawQuantityType: String, quantity: Double) -> String {
         if let quantityType = OrderQuantityType(rawValue: rawQuantityType),
             let maxDecimal = orderCapabilities?.maxDecimalPlacesFor(orderQuantityType: quantityType) {
             return NumberFormatter.formatQuantity(quantity, maxDecimalPlaces: maxDecimal)
         } else {
-            return quantity.stringValue
+            return String(quantity)
         }
     }
 
@@ -95,7 +95,7 @@ class EquityPreviewCellFactory: PreviewCellFactory {
         return messages.map(MessageCellData.init)
     }
 
-    private func formatCurrency(_ value: NSNumber) -> String {
+    private func formatCurrency(_ value: Double) -> String {
         return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
     }
 }

@@ -1,6 +1,6 @@
 protocol TradeItPortfolioPositionPresenter {
     func getQuote() -> TradeItQuote?
-    func getQuantity() -> NSNumber?
+    func getQuantity() -> Double?
     func getFormattedSymbol() -> String
     func getHoldingType() -> String?
     func getCurrencyCode() -> String
@@ -13,7 +13,7 @@ extension TradeItPortfolioPositionPresenter {
         return formatCurrency(bidPrice)
     }
 
-    func formatCurrency(_ currency: NSNumber) -> String {
+    func formatCurrency(_ currency: Double) -> String {
         return NumberFormatter.formatCurrency(currency, currencyCode: getCurrencyCode())
     }
 
@@ -26,21 +26,21 @@ extension TradeItPortfolioPositionPresenter {
 
     func getFormattedSpread() -> String {
         guard let quote = getQuote()
-            , let high = quote.high?.floatValue
-            , let low = quote.low?.floatValue
+            , let high = quote.high
+            , let low = quote.low
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
-        return formatCurrency(NSNumber(value: high - low))
+        return formatCurrency(high - low)
     }
 
     func getFormattedTotalValue() -> String {
-        guard let lastPrice = getQuote()?.lastPrice?.floatValue
-            , let quantity = getQuantity()?.floatValue
+        guard let lastPrice = getQuote()?.lastPrice
+            , let quantity = getQuantity()
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
 
         let total = quantity * lastPrice
 
-        return formatCurrency(NSNumber(value: total))
+        return formatCurrency(total)
     }
 
     func getFormattedDayHighLow() -> String {

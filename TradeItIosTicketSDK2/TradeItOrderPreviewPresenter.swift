@@ -12,15 +12,15 @@ class TradeItOrderPreviewPresenter {
     func generateRequest() -> TradeItPreviewTradeRequest {
         let request = TradeItPreviewTradeRequest()
 
-        request.accountNumber = order.linkedBrokerAccount?.accountNumber
+        request.accountNumber = order.linkedBrokerAccount?.accountNumber ?? ""
         request.orderAction = order.action.rawValue
         request.orderPriceType = order.type.rawValue
         request.orderExpiration = order.expiration.rawValue
-        request.orderQuantity = quantity()
+        request.orderQuantity = quantity().doubleValue
         request.orderQuantityType = order.quantityType.rawValue
         request.orderSymbol = symbol()
-        request.orderLimitPrice = order.limitPrice
-        request.orderStopPrice = order.stopPrice
+        request.orderLimitPrice = order.limitPrice?.doubleValue
+        request.orderStopPrice = order.stopPrice?.doubleValue
         request.userDisabledMargin = order.userDisabledMargin
         return request
     }

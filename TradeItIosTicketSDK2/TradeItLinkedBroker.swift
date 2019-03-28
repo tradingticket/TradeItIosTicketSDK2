@@ -39,7 +39,6 @@ import PromiseKit
     internal var balanceService: TradeItBalanceService
     internal var positionService: TradeItPositionService
     internal var equityTradeService: TradeItEquityTradeService
-    internal var fxTradeService: TradeItFxTradeService
     internal var cryptoTradeService: TradeItCryptoTradeService
     internal var orderService: TradeItOrderService
     internal var transactionService: TradeItTransactionService
@@ -55,7 +54,6 @@ import PromiseKit
         self.balanceService = TradeItBalanceService(session: session)
         self.positionService = TradeItPositionService(session: session)
         self.equityTradeService = TradeItEquityTradeService(session: session)
-        self.fxTradeService = TradeItFxTradeService(session: session)
         self.cryptoTradeService = TradeItCryptoTradeService(session: session)
         self.orderService = TradeItOrderService(session: session)
         self.transactionService = TradeItTransactionService(session: session)

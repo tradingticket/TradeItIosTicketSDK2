@@ -40,22 +40,6 @@ enum TicketRow {
 
         return cellReuseId.rawValue
     }
-
-    func getTitle(forOrder order: TradeItFxOrder) -> String {
-        switch self {
-        case .account: return order.linkedBrokerAccount?.brokerLongName ?? "Account"
-        case .symbol: return "Symbol"
-        case .bid: return "Bid"
-        case .orderAction: return "Action"
-        case .priceType: return "Price type"
-        case .rate: return "Rate"
-        case .amount: return "Amount"
-        case .leverage: return "Leverage"
-        case .expiration: return "Time in force"
-        default:
-            return "Unknown"
-        }
-    }
         
     func getTitle(forOrder order: TradeItOrder) -> String {
         switch self {

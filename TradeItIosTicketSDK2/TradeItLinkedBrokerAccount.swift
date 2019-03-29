@@ -55,10 +55,6 @@
     internal var equityTradeService: TradeItEquityTradeService? {
         return linkedBroker?.equityTradeService
     }
-    
-    internal var fxTradeService: TradeItFxTradeService? {
-        return linkedBroker?.fxTradeService
-    }
 
     internal var cryptoTradeService: TradeItCryptoTradeService? {
         return linkedBroker?.cryptoTradeService

@@ -103,12 +103,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "FX Trading",
-                        action: {
-                            TradeItSDK.launcher.launchFxTrading(fromViewController: self)
-                        }
-                    ),
-                    Action(
                         label: "Manage accounts",
                         action: {
                             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)

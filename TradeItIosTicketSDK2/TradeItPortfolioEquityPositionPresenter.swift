@@ -16,7 +16,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
         return symbol
     }
 
-    func getQuantity() -> NSNumber? {
+    func getQuantity() -> Double? {
         return self.position?.quantity
     }
 
@@ -40,7 +40,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     func getFormattedTotalReturnColor() -> UIColor {
         guard let totalGainLossAbsolute = self.position?.totalGainLossAbsolute
             else { return UIColor.lightText }
-        return TradeItPresenter.stockChangeColor(totalGainLossAbsolute.doubleValue)
+        return TradeItPresenter.stockChangeColor(totalGainLossAbsolute)
     }
     
     func returnPercent() -> String {
@@ -53,8 +53,8 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     func getAvgCost() -> String {
         guard let cost = self.position?.costbasis, let quantity = getQuantity() , quantity != 0
             else { return TradeItPresenter.MISSING_DATA_PLACEHOLDER }
-        let avgCost = cost.floatValue / quantity.floatValue
-        return formatCurrency(NSDecimalNumber(value: avgCost))
+        let avgCost = cost / quantity
+        return formatCurrency(avgCost)
     }
 
     func getLastPrice() -> String {
@@ -74,7 +74,7 @@ class TradeItPortfolioEquityPositionPresenter: TradeItPortfolioPositionPresenter
     }
     
     func getFormattedDayChangeColor() -> UIColor {
-        return TradeItPresenter.stockChangeColor(position?.todayGainLossAbsolute?.doubleValue)
+        return TradeItPresenter.stockChangeColor(position?.todayGainLossAbsolute)
     }
 
     func getHoldingType() -> String? {

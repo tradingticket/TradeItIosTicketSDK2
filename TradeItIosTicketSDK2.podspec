@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'TradeItIosTicketSDK2/**/*.{swift,h,m}',
-    'TradeItIosEmsApi/**/*.{h,m}'
+    'TradeItIosEmsApi/**/*.{swift,h,m}'
 
   s.resource_bundles = {
     'TradeItIosTicketSDK2' => [
@@ -25,8 +25,7 @@ Pod::Spec.new do |s|
   }
 
   s.frameworks = 'UIKit'
-  s.dependency 'PromiseKit', '~> 6.2.8'
-  s.dependency 'MBProgressHUD', '~> 1.0.0'
-  s.dependency 'JSONModel', '~> 1.7.0'
+  s.dependency 'PromiseKit', '~> 6.8.4'
+  s.dependency 'MBProgressHUD', '~> 1.1.0'
   s.dependency 'BEMCheckBox', '~> 1.4.1'
 end

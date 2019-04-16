@@ -7,7 +7,7 @@ class TradeItAccountManagementTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         TradeItThemeConfigurator.configure(view: self)
         self.accessoryView = self.accountSwitch
-        self.accountSwitch.addTarget(self, action: #selector(accountEnabledSwitchWasTapped(sender:)), for: UIControlEvents.valueChanged)
+        self.accountSwitch.addTarget(self, action: #selector(accountEnabledSwitchWasTapped(sender:)), for: UIControl.Event.valueChanged)
     }
 
     func populate(_ linkedBrokerAccount: TradeItLinkedBrokerAccount) {

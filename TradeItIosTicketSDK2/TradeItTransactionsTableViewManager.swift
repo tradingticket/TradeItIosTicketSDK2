@@ -112,7 +112,7 @@ class TradeItTransactionsTableViewManager: NSObject, UITableViewDelegate, UITabl
         refreshControl.addTarget(
             self,
             action: #selector(initiateRefresh),
-            for: UIControlEvents.valueChanged
+            for: UIControl.Event.valueChanged
         )
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
@@ -137,7 +137,7 @@ class TransactionHistoryResultPresenter {
         self.transactions = transactionHistoryResult.transactionHistoryDetailsList?.sorted{ ($0.date ?? "01/01/1970") > ($1.date ?? "01/01/1970") } ?? []
         self.transactionsFiltered = self.transactions
         self.linkedBrokerAccount = linkedBrokerAccount
-        self.numberOfDays = transactionHistoryResult.numberOfDaysHistory.intValue
+        self.numberOfDays = transactionHistoryResult.numberOfDaysHistory
     }
 
     func numberOfRows() -> Int {

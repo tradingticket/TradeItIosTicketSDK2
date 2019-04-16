@@ -16,6 +16,17 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.12</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>tradeItExampleIdentifier</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tradeItExampleObjCScheme</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>2.0.12</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -33,17 +44,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>tradeItExampleIdentifier</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tradeItExampleObjCScheme</string>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>

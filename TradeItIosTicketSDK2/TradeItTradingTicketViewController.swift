@@ -29,7 +29,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
     
     private lazy var updateQuotePrice: (TradeItQuote) -> Void = { quote in
         self.quote = quote
-        self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quote.lastPrice)
+        self.order.quoteLastPrice = quote.lastPrice != nil ? NSDecimalNumber(decimal: Decimal(quote.lastPrice!)) : nil
         self.reload(row: .marketPrice, animation: .none)
         self.reload(row: .estimatedCost, animation: .none)
     }
@@ -437,7 +437,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         self.tableView.reloadData()
     }
     
-    private func reload(row: TicketRow, animation: UITableViewRowAnimation = .automatic) {
+    private func reload(row: TicketRow, animation: UITableView.RowAnimation = .automatic) {
         guard let indexOfRow = self.ticketRows.index(of: row) else {
             return
         }
@@ -549,7 +549,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
         return cell
     }
 
-    private func valueOrUnavailable(_ value: NSNumber) -> String {
+    private func valueOrUnavailable(_ value: Double) -> String {
         if (value == 0.0) {
             return "Unavailable"
         } else {
@@ -579,7 +579,7 @@ class TradeItTradingTicketViewController: TradeItViewController, UITableViewData
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
             }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
+        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0
         return "Shares Owned: " + NumberFormatter.formatQuantity(sharesOwned)
     }
     

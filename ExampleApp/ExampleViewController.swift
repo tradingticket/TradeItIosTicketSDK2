@@ -103,12 +103,6 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     ),
                     Action(
-                        label: "FX Trading",
-                        action: {
-                            TradeItSDK.launcher.launchFxTrading(fromViewController: self)
-                        }
-                    ),
-                    Action(
                         label: "Manage accounts",
                         action: {
                             TradeItSDK.launcher.launchAccountManagement(fromViewController: self)
@@ -580,7 +574,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
         var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
 
         if cell == nil {
-            cell = UITableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: cellIdentifier)
         }
 
         cell?.textLabel?.text = sections?[indexPath.section].actions[indexPath.row].label
@@ -828,7 +822,7 @@ class ExampleViewController: UIViewController, UITableViewDataSource, UITableVie
                     brokersUnlinked += 1
                 },
                 onFailure: { errorResult in
-                    print("=====> Error unlinking broker(\(linkedBroker.userId)): \(errorResult.code ?? 0 as NSNumber), \(errorResult.shortMessage ?? ""), \(errorResult.longMessages?.first ?? "")")
+                    print("=====> Error unlinking broker(\(linkedBroker.userId)): \(errorResult.code ?? 0), \(errorResult.shortMessage ?? ""), \(errorResult.longMessages?.first ?? "")")
                 }
             )
         }

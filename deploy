@@ -14,7 +14,7 @@ LATEST_GIT_TAG=`git describe --tags --abbrev=0`
 BUNDLE_VERSION=`xcrun agvtool what-version | grep -Eo "\d+\.\d+\.\d+"`
 POD_VERSION=`grep "s.version[ ]\+=" TradeItIosTicketSDK2.podspec | grep -Eo "\d+\.\d+\.\d+"`
 
-if  [[ "$BUNDLE_VERSION" != "$POD_VERSION" && "$BUNDLE_VERSION" != "$LATEST_GIT_TAG" ]]; then
+if  [[ "$BUNDLE_VERSION" != "$POD_VERSION" || "$BUNDLE_VERSION" != "$LATEST_GIT_TAG" ]]; then
   echo "Mismatch between bundle version ${BUNDLE_VERSION}, pod version ${POD_VERSION}, and ${LATEST_GIT_TAG}!!!. Rectify versions/tag before running the deploy script..."
   exit 1
 fi

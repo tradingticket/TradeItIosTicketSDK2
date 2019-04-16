@@ -70,7 +70,7 @@ class TradeItYahooAccountSelectionTableViewManager: TradeItYahooViewController, 
 
             if linkedBrokerPresenter.isAccountLinkDelayedError() {
                 let cell = tableView.cellForRow(at: indexPath)
-                let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+                let activityView = UIActivityIndicatorView(style: .gray)
                 activityView.startAnimating()
                 cell?.accessoryView = activityView
                 guard let error = linkedBrokerPresenter.linkedBroker.error else { return }
@@ -135,7 +135,7 @@ class TradeItYahooAccountSelectionTableViewManager: TradeItYahooViewController, 
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.addTarget(self,
                                  action: #selector(refreshControlActivated),
-                                 for: UIControlEvents.valueChanged)
+                                 for: UIControl.Event.valueChanged)
         TradeItThemeConfigurator.configure(view: refreshControl)
         tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl

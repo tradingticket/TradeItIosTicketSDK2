@@ -14,13 +14,13 @@ class TradeItAlertProvider {
         let alertController = UIAlertController(
             title: alertTitle,
             message: alertMessage,
-            preferredStyle: UIAlertControllerStyle.alert
+            preferredStyle: UIAlertController.Style.alert
         )
 
         if showCancelAction, let onCanceledActionTapped = onCanceledActionTapped {
             let cancelAction = UIAlertAction(
                 title: alertCancelTitle,
-                style: UIAlertActionStyle.default) { action in
+                style: UIAlertAction.Style.default) { action in
                     onCanceledActionTapped()
             }
 
@@ -29,7 +29,7 @@ class TradeItAlertProvider {
 
         let alertAction = UIAlertAction(
             title: alertActionTitle,
-            style: UIAlertActionStyle.default
+            style: UIAlertAction.Style.default
         ) { action in
                 onAlertActionTapped()
             }
@@ -50,12 +50,12 @@ class TradeItAlertProvider {
         let alertController = UIAlertController(
             title: alertTitle,
             message: alertMessage,
-            preferredStyle: UIAlertControllerStyle.alert
+            preferredStyle: UIAlertController.Style.alert
         )
 
         let cancelAction = UIAlertAction(
             title: "Cancel",
-            style: UIAlertActionStyle.default
+            style: UIAlertAction.Style.default
         ) { action in
                 onCancelSecurityQuestion()
         }

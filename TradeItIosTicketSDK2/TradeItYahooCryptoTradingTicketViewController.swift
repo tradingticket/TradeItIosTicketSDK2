@@ -356,14 +356,14 @@ class TradeItYahooCryptoTradingTicketViewController:
     private func updateMarketData() {
         if let symbol = self.order.symbol  {
             let request = TradeItCryptoQuoteRequest()
-            request.accountNumber =   self.order.linkedBrokerAccount?.accountNumber
+            request.accountNumber =   self.order.linkedBrokerAccount?.accountNumber ?? ""
             request.pair = symbol
             
             self.order.linkedBrokerAccount?.cryptoMarketDataService?.getCryptoQuote(
                 request,
                 onSuccess: { quotesResult in
                     self.cryptoQuote = quotesResult
-                    self.order.quoteLastPrice = TradeItQuotePresenter.numberToDecimalNumber(quotesResult.last)
+                    self.order.quoteLastPrice = quotesResult.last != nil ? NSDecimalNumber(decimal: Decimal(quotesResult.last!)) : nil
                     self.reload(row: .marketPrice)
                     self.reload(row: .estimatedChange)
                 },

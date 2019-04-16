@@ -55,10 +55,6 @@
     internal var equityTradeService: TradeItEquityTradeService? {
         return linkedBroker?.equityTradeService
     }
-    
-    internal var fxTradeService: TradeItFxTradeService? {
-        return linkedBroker?.fxTradeService
-    }
 
     internal var cryptoTradeService: TradeItCryptoTradeService? {
         return linkedBroker?.cryptoTradeService
@@ -142,14 +138,14 @@
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
 
         self.positionService?.getPositions(request, onSuccess: { result in
-            guard let equityPositions = result.positions as? [TradeItPosition] else {
+            guard let equityPositions = result.positions else {
                 return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
             let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
                 return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
             }
 
-            guard let fxPositions = result.fxPositions as? [TradeItFxPosition] else {
+            guard let fxPositions = result.fxPositions else {
                 return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
             let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in

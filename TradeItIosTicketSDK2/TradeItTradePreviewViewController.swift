@@ -116,11 +116,11 @@ class TradeItTradePreviewViewController:
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 
     // MARK: PreviewMessageDelegate
@@ -199,12 +199,12 @@ class TradeItTradePreviewViewController:
         return cells
     }
 
-    private func formatQuantity(rawQuantityType: String, quantity: NSNumber) -> String {
+    private func formatQuantity(rawQuantityType: String, quantity: Double) -> String {
         if let quantityType = OrderQuantityType(rawValue: rawQuantityType),
             let maxDecimal = orderCapabilities?.maxDecimalPlacesFor(orderQuantityType: quantityType) {
             return NumberFormatter.formatQuantity(quantity, maxDecimalPlaces: maxDecimal)
         } else {
-            return quantity.stringValue
+            return String(quantity)
         }
     }
 
@@ -222,7 +222,7 @@ class TradeItTradePreviewViewController:
         return messages.map(MessageCellData.init)
     }
 
-    private func formatCurrency(_ value: NSNumber) -> String {
+    private func formatCurrency(_ value: Double) -> String {
         return NumberFormatter.formatCurrency(value, currencyCode: self.linkedBrokerAccount.accountBaseCurrency)
     }
 }

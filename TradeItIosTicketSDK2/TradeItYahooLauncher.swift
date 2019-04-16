@@ -85,7 +85,7 @@ import SafariServices
         }
 
         // Check for the broker selection screen
-        if originalViewController?.childViewControllers.first is TradeItYahooBrokerSelectionViewController {
+        if originalViewController?.children.first is TradeItYahooBrokerSelectionViewController {
             originalViewController = originalViewController?.presentingViewController
         }
 

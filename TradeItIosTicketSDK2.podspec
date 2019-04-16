@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'TradeItIosTicketSDK2/**/*.{swift,h,m}',
-    'TradeItIosEmsApi/**/*.{h,m}'
+    'TradeItIosEmsApi/**/*.{swift,h,m}'
 
   s.resource_bundles = {
     'TradeItIosTicketSDK2' => [

@@ -9,7 +9,7 @@ DEPENDENCIES:
   - BEMCheckBox (~> 1.4.1)
   - MBProgressHUD (~> 1.1.0)
   - Nimble (~> 7.0.1)
-  - PromiseKit/CorePromise (~> 6.8.3)
+  - PromiseKit/CorePromise (~> 6.8.4)
   - Quick (~> 0.10.0)
 
 SPEC REPOS:
@@ -27,6 +27,6 @@ SPEC CHECKSUMS:
   PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
-PODFILE CHECKSUM: bd336500539d52bbb696e3905190b45ae3b8650c
+PODFILE CHECKSUM: 36fff7c4d1af9614cc5710fd90bd6eaeecf8dbb1
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

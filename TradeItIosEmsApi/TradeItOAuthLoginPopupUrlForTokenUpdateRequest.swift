@@ -1,4 +1,4 @@
-class TradeItOAuthLoginPopupUrlForTokenUpdateRequest: TradeItRequest, Codable {
+class TradeItOAuthLoginPopupUrlForTokenUpdateRequest: TradeItRequest {
     
     var apiKey: String
     var broker: String

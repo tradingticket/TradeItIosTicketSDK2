@@ -1,9 +1,9 @@
-class TradeItGetPositionsRequest: TradeItRequest, Codable {
+class TradeItGetPositionsRequest: TradeItRequest {
     var accountNumber: String?
     var page: Int?
-    var token: String?
+    var token
     
     init(accountNumber: String) {
-        self.accountNumber = accountNumber
+        self.accountNumber = accountnumber
     }
 }

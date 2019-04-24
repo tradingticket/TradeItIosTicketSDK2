@@ -1,4 +1,4 @@
-public class TradeItLinkedLogin: Codable {
+class TradeItLinkedLogin: Codable {
     var label: String
     var broker: String
     var brokerLongName: String

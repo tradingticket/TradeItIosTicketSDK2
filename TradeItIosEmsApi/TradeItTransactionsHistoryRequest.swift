@@ -1,4 +1,4 @@
-class TradeItTransactionsHistoryRequest: TradeItRequest, Codable {
+class TradeItTransactionsHistoryRequest: TradeItRequest {
     var token: String?
     var accountNumber: String?
 }

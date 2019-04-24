@@ -147,7 +147,7 @@
     }
 
     func formattedEstimatedChange() -> String? {
-        guard let estimatedChange = estimatedChange()?.doubleValue else { return nil }
+        guard let estimatedChange = estimatedChange() else { return nil }
 
         switch quantityType {
         case .quoteCurrency, .totalPrice:

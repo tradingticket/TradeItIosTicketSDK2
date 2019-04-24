@@ -1,4 +1,4 @@
-class TradeItFxSymbolsRequest: TradeItRequest, Codable {
-    var apiKey: String = ""
-    var broker: String = ""
+class TradeItFxSymbolsRequest: TradeItRequest {
+    var apiKey: String
+    var broker: String
 }

@@ -1,4 +1,4 @@
-@objc public class TradeItTransactionsHistoryResult: TradeItResult {
-    var numberOfDaysHistory: Int = 0
+class TradeItTransactionsHistoryResult: TradeItResult {
+    var numberOfDaysHistory: Int
     var transactionHistoryDetailsList: [TradeItTransaction]?
 }

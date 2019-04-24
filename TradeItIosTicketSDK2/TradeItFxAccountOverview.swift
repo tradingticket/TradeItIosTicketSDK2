@@ -1,4 +1,5 @@
-@objc public class TradeItFxAccountOverview: NSObject, Codable {
+class TradeItFxAccountOverview: Codable {
+    
     var totalValueBaseCurrency: Double?
     var totalValueUSD: Double?
     var buyingPowerBaseCurrency: Double?

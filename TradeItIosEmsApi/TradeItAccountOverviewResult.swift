@@ -1,4 +1,4 @@
 class TradeItAccountOverviewResult: TradeItResult {
-    var accountOverview: TradeItAccountOverview?
+    var accountOverview: TradeItAcccountOverview?
     var fxAccountOverview: TradeItFxAccountOverview?
 }

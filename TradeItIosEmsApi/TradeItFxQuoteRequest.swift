@@ -1,4 +1,4 @@
-class TradeItFxQuoteRequest: TradeItRequest, Codable {
+class TradeItFxQuoteRequest: TradeItRequest {
     var token: String?
     var symbol: String?
 }

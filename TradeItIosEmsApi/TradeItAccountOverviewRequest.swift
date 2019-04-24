@@ -1,6 +1,6 @@
-class TradeItAccountOverviewRequest: TradeItRequest, Codable {
+class TradeItAccountOverviewRequest: TradeItRequest {
     
-    var accountNumber: String
+    var accountnumber: String
     var token: String?
     
     init(accountNumber: String) {

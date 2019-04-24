@@ -98,11 +98,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
         switch orderPriceType {
         case .stopLimit, .stop:
-            let stopPrice = self.orderLeg?.priceInfo?.stopPrice ?? 0
-            description = "Trigger: \(stopPrice == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
+            let stopPrice = self.orderLeg?.priceInfo?.stopPrice ?? 0 as NSNumber
+            description = "Trigger: \(stopPrice == 0 as NSNumber ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(stopPrice))"
             break
         case .trailingStopDollar:
-            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPriceDollars = getFormattedPrice(price: trailPrice)
 
             if (action == .buy) {
@@ -112,7 +112,7 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
             }
             break
         case .trailingStopPercent:
-            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0
+            let trailPrice = self.orderLeg?.priceInfo?.trailPrice ?? 0 as NSNumber
             let trailPricePercentage = getFormattedPercentage(percentage: trailPrice)
 
             if (action == .buy) {
@@ -214,11 +214,11 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
 
     private func quantityDescription() -> String {
         var description = ""
-        let orderedQuantity = self.orderLeg?.orderedQuantity ?? 0
+        let orderedQuantity = self.orderLeg?.orderedQuantity ?? 0 as NSNumber
 
         if (self.orderStatusDetails.orderStatusEnum == .partFilled) {
-            let filledQuantity = self.orderLeg?.filledQuantity ?? 0
-            let remainingShares = orderedQuantity - filledQuantity
+            let filledQuantity = self.orderLeg?.filledQuantity ?? 0 as NSNumber
+            let remainingShares = NSNumber(value: orderedQuantity.floatValue - filledQuantity.floatValue)
             description += " \(getFormattedQuantity(quantity: remainingShares)) remaining of"
         }
 
@@ -238,15 +238,15 @@ class TradeItOrderStatusDetailsPresenter: NSObject {
         return string.lowercased().replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter()
     }
     
-    private func getFormattedQuantity(quantity: Double) -> String {
+    private func getFormattedQuantity(quantity: NSNumber) -> String {
         return quantity == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : "\(quantity)"
     }
     
-    private func getFormattedPrice(price: Double) -> String {
+    private func getFormattedPrice(price: NSNumber) -> String {
         return price == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatCurrency(price)
     }
     
-    private func getFormattedPercentage(percentage: Double) -> String {
+    private func getFormattedPercentage(percentage: NSNumber) -> String {
         return percentage == 0 ? TradeItPresenter.MISSING_DATA_PLACEHOLDER : NumberFormatter.formatSimplePercentage(percentage)
     }
     

@@ -10,7 +10,7 @@ internal class TradeItCryptoMarketDataService: NSObject {
         onSuccess: @escaping (TradeItCryptoQuoteResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        cryptoMarketDataRequest.token = self.session.token ?? ""
+        cryptoMarketDataRequest.token = self.session.token
         
         let request = TradeItRequestFactory.buildJsonRequest(
             for: cryptoMarketDataRequest,

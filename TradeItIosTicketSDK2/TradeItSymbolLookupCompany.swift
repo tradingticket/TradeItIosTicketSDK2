@@ -1,4 +1,4 @@
-@objc public class TradeItSymbolLookupCompany: NSObject, Codable {
+class TradeItSymbolLookupCompany: Codable {
     var symbol: String?
     var name: String?
 }

@@ -1,4 +1,4 @@
-class TradeItOAuthDeleteLinkRequest: TradeItRequest, Codable {
+class TradeItOAuthDeleteLinkRequest: TradeItRequest {
     var apiKey: String
     var userId: String
     var userToken: String?

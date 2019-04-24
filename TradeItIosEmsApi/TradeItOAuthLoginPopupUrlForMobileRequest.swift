@@ -1,4 +1,4 @@
-class TradeItOAuthLoginPopupUrlForMobileRequest: TradeItRequest, Codable {
+class TradeItOAuthLoginPopupUrlForMobileRequest: TradeItRequest {
     var apiKey: String
     var broker: String
     var interAppAddressCallback: String

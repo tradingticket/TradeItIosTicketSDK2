@@ -6,5 +6,5 @@ class TradeItCryptoQuoteResult: TradeItResult {
     var volume: Double?
     var dayLow: Double?
     var dayHigh: Double?
-    var dateTime: String?
+    var dateTime: Double?
 }

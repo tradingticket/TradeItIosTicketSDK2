@@ -1,4 +1,4 @@
-class TradeItSymbolLookupRequest: TradeItRequest, Codable {
+class TradeItSymbolLookupRequest: TradeItRequest {
     var query: String
     var token: String?
     

@@ -1,4 +1,4 @@
-@objc public class TradeItOrderStatusDetails: NSObject, Codable {
+class TradeItOrderStatusDetails: Codable {
     var orderNumber: String?
     var orderExpiration: String?
     var orderType: String?
@@ -6,5 +6,5 @@
     var orderLegs: [TradeItOrderLeg]?
     var groupOrderId: String?
     var groupOrderType: String?
-    var groupOrders: [TradeItOrderStatusDetails]?
+    var grouOrders: [TradeItOrderStatusDetails]?
 }

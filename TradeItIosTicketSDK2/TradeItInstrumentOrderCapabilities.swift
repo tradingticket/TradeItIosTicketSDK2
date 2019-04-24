@@ -1,7 +1,7 @@
-@objc public class TradeItInstrumentOrderCapabilities: NSObject, Codable {
+class TradeItInstrumentOrderCapabilities: Codable {
     var instrument: String
     var tradeItSymbol: String?
-    var precision: Int?
+    var precision: Double?
     var actions: [TradeItInstrumentCapability]
     var expirationTypes: [TradeItInstrumentCapability]
     var priceTypes: [TradeItInstrumentCapability]

@@ -22,7 +22,6 @@ import Foundation
 // TODO: Why is this a RequestFactory when it does not implement
 // the RequestFactory protocol? Need to think of a better name.
 class TradeItRequestFactory: NSObject {
-    static let JSON_ENCODER = JSONEncoder()
     static var requestFactory: RequestFactory = DefaultRequestFactory()
     
     static func setRequestFactory(requestFactory: RequestFactory) {
@@ -30,20 +29,14 @@ class TradeItRequestFactory: NSObject {
     }
     
     private static var envToHostDict: [TradeitEmsEnvironments: String] = [
-        .tradeItEmsProductionEnv : "https://ems.tradingticket.com/",
-        .tradeItEmsTestEnv: "https://ems.qa.tradingticket.com/",
-        .tradeItEmsLocalEnv: "https://localhost:8080/"
+        TradeItEmsProductionEnv : "https://ems.tradingticket.com/",
+        TradeItEmsTestEnv: "https://ems.qa.tradingticket.com/",
+        TradeItEmsLocalEnv: "https://localhost:8080/"
     ]
     
-    static func buildJsonRequest<T : Codable>(for requestObject: T, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
-        let userAgent: String = TradeItUserAgentProvider.userAgent
-        var requestJsonString = ""
-        do {
-            let jsonData = try JSON_ENCODER.encode(requestObject)
-            requestJsonString = String(data: jsonData, encoding: .utf8) ?? ""
-        } catch {
-            preconditionFailure("TradeItIosTicketSDK ERROR building json request for \(requestObject), error:  \(error)")
-        }
+    static func buildJsonRequest(for requestObject: JSONModel, emsAction: String, environment env: TradeitEmsEnvironments) -> URLRequest {
+        let userAgent: String = TradeItUserAgentProvider.getUserAgent()
+        let requestJsonString = requestObject.toJSONString() ?? ""
         let baseURL = TradeItRequestFactory.getBaseUrl(forEnvironment: env)
         guard let url = URL(string: emsAction, relativeTo: baseURL) else {
             preconditionFailure("TradeItIosTicketSDK ERROR building json request with url: \(baseURL?.absoluteString ?? ""), action: \(emsAction)")
@@ -69,7 +62,7 @@ class TradeItRequestFactory: NSObject {
     
     // MARK: Private
     private static func getBaseUrl(forEnvironment env: TradeitEmsEnvironments) -> URL? {
-        let version: TradeItEmsApiVersion = TradeItEmsApiVersion._2
+        let version: TradeItEmsApiVersion = TradeItEmsApiVersion_2
         return TradeItRequestFactory.getBaseUrl(forEnvironment: env, version: version)
     }
     
@@ -82,9 +75,9 @@ class TradeItRequestFactory: NSObject {
     
     private static func getApiPrefix(for version: TradeItEmsApiVersion) -> String {
         switch version {
-        case TradeItEmsApiVersion._1:
+        case TradeItEmsApiVersion_1:
             return "api/v1/"
-        case TradeItEmsApiVersion._2:
+        case TradeItEmsApiVersion_2:
             return "api/v2/"
         default:
             print("Invalid version \(version) - directing to v2 by default")

@@ -12,8 +12,5 @@ class TradeItBrokerAccount: Codable {
         self.accountNumber = accountNumber
         self.name = name
         self.tradable = tradable
-        self.userCanDisableMargin = false
-        self.orderCapabilities = []
-        self.accountIndex = ""
     }
 }

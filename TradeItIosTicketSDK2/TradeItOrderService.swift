@@ -86,7 +86,7 @@ internal class TradeItOrderService: NSObject {
     }
     
     func answerSecurityQuestionCancelOrder(_ answer: String, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
-        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, securityAnswer: answer)
+        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, andAnswer: answer)
         let request = TradeItRequestFactory.buildJsonRequest(
             for: secRequest,
             emsAction: "user/answerSecurityQuestion",

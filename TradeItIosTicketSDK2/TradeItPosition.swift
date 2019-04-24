@@ -1,4 +1,4 @@
-@objc public class TradeItPosition: NSObject, Codable {
+class TradeItPosition: Codable {
     var symbol: String?
     var symbolClass: String?
     var holdingType: String?

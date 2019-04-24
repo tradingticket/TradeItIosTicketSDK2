@@ -125,12 +125,12 @@ public typealias TradeItPlaceOrderHandlers = (
         switch quantityType {
         case .quoteCurrency, .totalPrice:
             return NumberFormatter.formatQuantity(
-                estimatedChange.doubleValue,
+                estimatedChange,
                 maxDecimalPlaces: 6
             )
         case .baseCurrency, .shares:
             return NumberFormatter.formatCurrency(
-                estimatedChange.doubleValue,
+                estimatedChange,
                 currencyCode: self.linkedBrokerAccount?.accountBaseCurrency
             )
         }
@@ -221,7 +221,7 @@ public typealias TradeItPlaceOrderHandlers = (
         previewOrderResult: TradeItPreviewOrderResult
     ) -> TradeItPlaceOrderHandlers {
         return { onSuccess, onSecurityQuestion, onFailure in
-            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId ?? "")
+            let placeOrderRequest = TradeItPlaceTradeRequest(orderId: previewOrderResult.orderId)
             let placeResponseHandler = YCombinator { handler in
                 { (result: TradeItResult?) in
                     switch result {

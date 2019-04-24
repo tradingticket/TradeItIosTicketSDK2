@@ -26,7 +26,6 @@ class TradeItPreviewTradeOrderDetails: Codable {
         self.orderSymbol = ""
         self.orderAction = ""
         self.orderQuantity = 0.0
-        self.orderQuantityType = ""
         self.orderExpiration = ""
         self.orderPrice = ""
         self.orderValueLabel = ""
@@ -43,7 +42,5 @@ class TradeItPreviewTradeOrderDetails: Codable {
         self.estimatedOrderValue = nil
         self.estimatedOrderCommission = nil
         self.estimatedTotalValue = nil
-        self.userDisabledMargin = false
-        self.warnings = []
     }
 }

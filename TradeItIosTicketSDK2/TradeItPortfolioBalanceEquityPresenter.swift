@@ -58,12 +58,12 @@ class TradeItPortfolioBalanceEquityPresenter {
 
     func getDayReturnChangeColor() -> UIColor {
         let value = self.balance?.dayAbsoluteReturn ?? self.balance?.dayPercentReturn
-        return TradeItPresenter.stockChangeColor(value)
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
     }
 
     func getTotalReturnChangeColor() -> UIColor {
         let value = self.balance?.totalAbsoluteReturn ?? self.balance?.totalPercentReturn
-        return TradeItPresenter.stockChangeColor(value)
+        return TradeItPresenter.stockChangeColor(value?.doubleValue)
     }
 
     func getFormattedAvailableCash() -> String? {

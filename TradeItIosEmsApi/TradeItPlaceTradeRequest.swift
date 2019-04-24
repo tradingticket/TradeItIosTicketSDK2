@@ -1,8 +1,8 @@
 class TradeItPlaceTradeRequest: TradeItRequest, Codable {
-    var orderId: Int?
+    var orderId: String?
     var token: String?
     
-    init(orderId: Int) {
+    init(orderId: String) {
         self.orderId = orderId
     }
 }

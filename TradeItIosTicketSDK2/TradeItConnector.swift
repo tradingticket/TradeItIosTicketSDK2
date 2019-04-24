@@ -166,7 +166,7 @@ class TradeItConnector: NSObject {
         
         accounts.removeAll { toRemove.contains($0)}
         
-        TradeItConnector.userDefaults()?.set(accounts, forKey: TradeItConnector.BROKER_LIST_KEYNAME)
+        TradeItConnector.userDefaultsVar?.set(accounts, forKey: TradeItConnector.BROKER_LIST_KEYNAME)
     }
     
     func userToken(fromKeychainId keychainId: String) -> String? {

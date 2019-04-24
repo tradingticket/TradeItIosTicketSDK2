@@ -1,8 +1,8 @@
 public class TradeItResult: NSObject, Codable {
     var status: String?
     var token: String?
-    public var shortMessage: String?
-    public var longMessages: [String]?
+    var shortMessage: String?
+    var longMessages: [String]?
     
     func isSuccessful() -> Bool {
         return ["SUCCESS", "REVIEW_ORDER"].contains(self.status)

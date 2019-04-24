@@ -18,7 +18,7 @@ typedef void (^ _Nonnull PlaceOrder)(
     [super viewDidLoad];
     [TradeItSDK configureWithApiKey:@"exampleapp-test-api-key"
                    oAuthCallbackUrl:[NSURL URLWithString:@"tradeItExampleObjCScheme://completeOAuth"]
-                        environment:TradeitEmsEnvironmentsTradeItEmsTestEnv];
+                        environment:TradeItEmsTestEnv];
 }
 
 - (IBAction)linkBrokerTapped:(UIButton *)sender {

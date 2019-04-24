@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 
 #import "TradeItTypeDefs.h"
+#import "TradeItAuthenticationInfo.h"
 #import "TradeItResult.h"
 #import "TradeItAuthLinkResult.h"
 #import "TradeItUpdateLinkResult.h"
+#import "TradeItLinkedLogin.h"
+#import "TradeItBroker.h"
 
 /**
    Main class to manage the connection settings to the Trade It Execution Management System (EMS). And the account linking and storing of the userToken used for establishing the session

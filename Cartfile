@@ -1,3 +1,4 @@
 github "Boris-Em/BEMCheckBox" ~> 1.4.1
+github "JSONModel/JSONModel" ~> 1.7.0
 github "jdg/MBProgressHUD" ~> 1.0.0
 github "mxcl/PromiseKit" ~> 6.8.4

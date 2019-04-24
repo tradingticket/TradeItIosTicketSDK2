@@ -62,7 +62,6 @@
 #import "TradeItPlaceTradeOrderInfoPrice.h"
 #import "TradeItSymbolLookupCompany.h"
 #import "TradeItSymbolLookupResult.h"
-#import "TradeItFxPlaceOrderRequest.h"
 #import "TradeItFxOrderInfoInput.h"
 #import "TradeItFxOrderLeg.h"
 #import "TradeItFxPlaceOrderResult.h"

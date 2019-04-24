@@ -10,7 +10,7 @@ class TradeItBrokerService {
         onSuccess: @escaping ([TradeItBroker], String?) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        let data = TradeItBrokerListRequest(apiKey: self.connector.apiKey, countryCode: userCountryCode)
+        let data = TradeItBrokerListRequest(apiKey: self.connector.apiKey, userCountryCode: userCountryCode)
 
         let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
@@ -20,7 +20,7 @@ class TradeItBrokerService {
 
         self.connector.send(request, targetClassType: TradeItBrokerListResult.self) { result in
             if let result = result as? TradeItBrokerListResult,
-                let brokerList = result.brokerList {
+                let brokerList = result.brokerList as? [TradeItBroker] {
                 onSuccess(brokerList, result.featuredBrokerLabel)
             } else if let error = result as? TradeItErrorResult {
                 onFailure(error)

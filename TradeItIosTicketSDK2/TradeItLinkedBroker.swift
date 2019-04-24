@@ -78,7 +78,7 @@ import PromiseKit
                 case let authenticationResult as TradeItAuthenticationResult:
                     self.clearError()
 
-                    let accounts = authenticationResult.accounts ?? []
+                    let accounts = authenticationResult.accounts as! [TradeItBrokerAccount]
 
                     self.updateLinkedBrokerAccounts(fromBrokerAccounts: accounts)
 
@@ -211,7 +211,7 @@ import PromiseKit
             targetClassType: TradeItQuotesResult.self,
             withCompletionBlock: { result in
                 if let quotesResult = result as? TradeItQuotesResult,
-                    let quote = quotesResult.quotes?.first {
+                    let quote = quotesResult.quotes?.first as? TradeItQuote {
                     onSuccess(quote)
                 } else if let errorResult = result as? TradeItErrorResult {
                     onFailure(errorResult)
@@ -265,7 +265,7 @@ import PromiseKit
                 existingAccount.accountIndex = account.accountIndex
                 existingAccount.accountBaseCurrency = account.accountBaseCurrency
                 existingAccount.userCanDisableMargin = account.userCanDisableMargin
-                existingAccount.orderCapabilities = account.orderCapabilities
+                existingAccount.orderCapabilities = account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? []
                 return existingAccount
             } else {
                 return TradeItLinkedBrokerAccount(
@@ -278,7 +278,7 @@ import PromiseKit
                     balance: nil,
                     fxBalance: nil,
                     positions: [],
-                    orderCapabilities: account.orderCapabilities,
+                    orderCapabilities: account.orderCapabilities as? [TradeItInstrumentOrderCapabilities] ?? [],
                     isEnabled: true
                 )
             }

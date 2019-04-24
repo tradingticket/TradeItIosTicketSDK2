@@ -13,8 +13,8 @@ public class TradeItSession {
         let authRequest = TradeItAuthenticationRequest(
             userToken: userToken,
             userId: linkedLogin.userId,
-            apiKey: connector.apiKey,
-            advertisingId: getAdvertisingId()
+            andApiKey: connector.apiKey,
+            andAdvertisingId: getAdvertisingId()
         )
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -22,9 +22,9 @@ public class TradeItSession {
             emsAction: "user/authenticate",
             environment: connector.environment
         )
-        
-        self.connector.send(request, targetClassType: TradeItAuthenticationResult.self, withCompletionBlock: { result in
-            completionBlock(self.parseAuthResponse(result))
+
+        self.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
+            completionBlock(self.parseAuthResponse(result, jsonResponse))
         })
     }
 
@@ -37,20 +37,22 @@ public class TradeItSession {
     }
 
     func answerSecurityQuestion(_ answer: String, withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void) {
-        let secRequest = TradeItSecurityQuestionRequest(token: self.token, securityAnswer: answer)
+        let secRequest = TradeItSecurityQuestionRequest(token: self.token, andAnswer: answer)
         let request = TradeItRequestFactory.buildJsonRequest(
             for: secRequest,
             emsAction: "user/answerSecurityQuestion",
             environment: connector.environment
         )
 
-        self.connector.send(request, targetClassType: TradeItAuthenticationResult.self, withCompletionBlock: { result in
-            completionBlock(self.parseAuthResponse(result))
+        self.connector.sendReturnJSON(request, withCompletionBlock: { result, jsonResponse in
+            completionBlock(self.parseAuthResponse(result, jsonResponse))
         })
     }
 
-    private func parseAuthResponse(_ authenticationResult: TradeItResult?) -> TradeItResult {
-        if let authenticationResult = authenticationResult as? TradeItAuthenticationResult {
+    private func parseAuthResponse(_ authenticationResult: TradeItResult, _ json: String?) -> TradeItResult {
+        guard let json = json else { return TradeItErrorResult.error(withSystemMessage: "No data returned from server") }
+
+        if let authenticationResult = TradeItResultTransformer.transform(targetClassType: TradeItAuthenticationResult.self, json: json) {
             self.token = authenticationResult.token
             return authenticationResult
         } else if let securityQuestionResult = authenticationResult as? TradeItSecurityQuestionResult {

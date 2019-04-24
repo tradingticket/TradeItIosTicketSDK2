@@ -23,7 +23,7 @@
         self.connector.send(request, targetClassType: TradeItOAuthLoginPopupUrlForMobileResult.self) { result in
             switch (result) {
             case let result as TradeItOAuthLoginPopupUrlForMobileResult:
-                guard let oAuthUrl = result.oAuthUrl else {
+                guard let oAuthUrl = result.oAuthUrl() else {
                     onFailure(
                         TradeItErrorResult(
                             title: "Received empty URL for broker linking"
@@ -69,7 +69,7 @@
         self.connector.send(request, targetClassType: TradeItOAuthLoginPopupUrlForTokenUpdateResult.self) { result in
             switch result {
             case let oAuthLoginPopupUrlForTokenUpdateResult as TradeItOAuthLoginPopupUrlForTokenUpdateResult:
-                guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl else {
+                guard let oAuthUrl = oAuthLoginPopupUrlForTokenUpdateResult.oAuthUrl() else {
                     onFailure(
                         TradeItErrorResult(
                             title: "Received empty OAuth token update popup URL"

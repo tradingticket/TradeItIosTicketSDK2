@@ -31,7 +31,7 @@ extension TradeService {
         onSuccess: @escaping (Self.PreviewTradeResult) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) {
-        data.token = self.session.token ?? ""
+        data.token = self.session.token
 
         let request = TradeItRequestFactory.buildJsonRequest(
             for: data,
@@ -72,7 +72,7 @@ extension TradeService {
         _ answer: String,
         withCompletionBlock completionBlock: @escaping (TradeItResult) -> Void
         ) {
-        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, securityAnswer: answer)
+        let secRequest = TradeItSecurityQuestionRequest(token: self.session.token, andAnswer: answer)
         let request = TradeItRequestFactory.buildJsonRequest(
             for: secRequest,
             emsAction: "user/answerSecurityQuestion",

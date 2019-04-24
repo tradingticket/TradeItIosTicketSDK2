@@ -125,12 +125,12 @@ public typealias TradeItPlaceOrderHandlers = (
         switch quantityType {
         case .quoteCurrency, .totalPrice:
             return NumberFormatter.formatQuantity(
-                estimatedChange.doubleValue,
+                estimatedChange,
                 maxDecimalPlaces: 6
             )
         case .baseCurrency, .shares:
             return NumberFormatter.formatCurrency(
-                estimatedChange.doubleValue,
+                estimatedChange,
                 currencyCode: self.linkedBrokerAccount?.accountBaseCurrency
             )
         }

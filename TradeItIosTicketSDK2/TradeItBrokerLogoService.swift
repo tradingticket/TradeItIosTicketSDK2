@@ -17,8 +17,10 @@ class TradeItBrokerLogoService {
     ) {
         TradeItSDK.uiConfigService.getUiConfigPromise().then { uiConfig -> Promise<UIImage> in
             guard let brokerId = brokerIdOptional,
-                let brokerConfig = uiConfig.brokers.first(where: { $0.brokerId == brokerId }),
-                let logoData = brokerConfig.logos.first(where: { $0.name == size.rawValue }),
+                let brokerConfigs = uiConfig.brokers as? [TradeItUiBrokerConfig],
+                let brokerConfig = brokerConfigs.first(where: { $0.brokerId == brokerId }),
+                let logoMetaData = brokerConfig.logos as? [TradeItBrokerLogo],
+                let logoData = logoMetaData.first(where: { $0.name == size.rawValue }),
                 let logoUrlString = logoData.url,
                 let logoUrl = URL(string: logoUrlString)
                 else {

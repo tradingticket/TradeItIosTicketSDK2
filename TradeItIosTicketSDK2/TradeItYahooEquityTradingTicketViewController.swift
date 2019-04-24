@@ -520,7 +520,7 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
             TradeItPortfolioEquityPositionPresenter(portfolioPosition).getFormattedSymbol() == self.order.symbol
         }.first
 
-        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0.0
+        let sharesOwned = positionMatchingSymbol?.position?.quantity ?? 0 as NSNumber
         return "Shares owned: " + NumberFormatter.formatQuantity(sharesOwned)
     }
     

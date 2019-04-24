@@ -54,7 +54,7 @@ class TradeItMarketService: MarketDataService {
     ) {
         let quoteRequest = TradeItQuotesRequest(
             symbols: symbols,
-            apiKey: self.connector.apiKey
+            andApiKey: self.connector.apiKey
         )
 
         let request = TradeItRequestFactory.buildJsonRequest(
@@ -65,7 +65,7 @@ class TradeItMarketService: MarketDataService {
 
         self.connector.send(request, targetClassType: TradeItQuotesResult.self, withCompletionBlock: { result in
             if let quotesResult = result as? TradeItQuotesResult,
-                let quotes = quotesResult.quotes {
+                let quotes = quotesResult.quotes as? [TradeItQuote] {
                 onSuccess(quotes)
             } else if let errorResult = result as? TradeItErrorResult {
                 onFailure(errorResult)

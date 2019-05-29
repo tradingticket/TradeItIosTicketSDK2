@@ -87,7 +87,7 @@ class TradeItNumericToggleInputCell: UITableViewCell {
     // MARK: IBActions
 
     @IBAction func textFieldDidChange(_ sender: TradeItNumberField) {
-        let numericValue = NSDecimalNumber.init(string: sender.text)
+        let numericValue = NSDecimalNumber.init(string: sender.text, locale: Locale.current)
 
         if numericValue == NSDecimalNumber.notANumber {
             self.onValueUpdated?(nil)

@@ -44,7 +44,7 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let numericValue = NSDecimalNumber.init(string: textField.text)
+        let numericValue = NSDecimalNumber.init(string: textField.text, locale: Locale.current)
 
         if (numericValue == NSDecimalNumber.notANumber ||
             numericValue.compare(NSDecimalNumber.zero) == ComparisonResult.orderedSame
@@ -67,7 +67,7 @@ class TradeItNumberField: TradeItPaddedTextField, UITextFieldDelegate {
         let currentText: NSString = textField.text as NSString? ?? ""
         let resultText = currentText.replacingCharacters(in: range, with: string)
         let components = resultText.components(separatedBy: CharacterSet(charactersIn: ",."))
-        let numericValue = NSDecimalNumber.init(string: resultText)
+        let numericValue = NSDecimalNumber.init(string: resultText, locale: Locale.current)
 
         // Has at most one decimal point
         guard components.count <= 2 else { return false }

@@ -40,7 +40,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
     // MARK: IBActions
 
     @IBAction func textFieldDidChange(_ sender: TradeItNumberField) {
-        let numericValue = NSDecimalNumber.init(string: sender.text)
+        let numericValue = NSDecimalNumber.init(string: sender.text, locale: Locale.current)
 
         if numericValue == NSDecimalNumber.notANumber {
             self.onValueUpdated?(nil)
@@ -50,7 +50,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
     }
 
     @IBAction func incrementButtonTapped(_ sender: UIButton) {
-        let numericValue = NSDecimalNumber.init(string: self.textField.text)
+        let numericValue = NSDecimalNumber.init(string: self.textField.text, locale: Locale.current)
 
         if numericValue != NSDecimalNumber.notANumber {
             let newValue = numericValue.adding(stepSizeToChange(numericValue))
@@ -60,7 +60,7 @@ class TradeItStepperInputTableViewCell: UITableViewCell {
     }
 
     @IBAction func decrementButtonTapped(_ sender: UIButton) {
-        let numericValue = NSDecimalNumber.init(string: self.textField.text)
+        let numericValue = NSDecimalNumber.init(string: self.textField.text, locale: Locale.current)
 
         if numericValue != NSDecimalNumber.notANumber {
             let newValue = numericValue.subtracting(stepSizeToChange(numericValue))

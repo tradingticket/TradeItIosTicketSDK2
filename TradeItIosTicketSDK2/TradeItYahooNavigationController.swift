@@ -20,4 +20,8 @@ class TradeItYahooNavigationController: UINavigationController {
         let textAttributes = [NSAttributedStringKey.foregroundColor:UIColor.black]
         self.navigationBar.titleTextAttributes = textAttributes
     }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.default
+    }
 }

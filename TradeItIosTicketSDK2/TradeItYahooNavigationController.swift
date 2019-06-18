@@ -13,28 +13,11 @@ class TradeItYahooNavigationController: UINavigationController {
     }
 
     private func setupFuji() {
-        self.navigationBar.barStyle = .black
-        self.navigationBar.tintColor = .white
-        let blankImage = UIImage()
-        self.navigationBar.setBackgroundImage(blankImage, for: .default)
-        self.navigationBar.shadowImage = blankImage
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.barTintColor = .white
+        self.navigationBar.tintColor = UIColor(red: 24/255, green: 143/255, blue: 1, alpha: 1)
 
-        let gradientView = TopGradientView(frame: self.view.frame)
-        addNavigationGradientView(gradientView)
-
-        let colorGradientView = LinearGradientView()
-        addNavigationGradientView(colorGradientView)
-    }
-    
-    private func addNavigationGradientView(_ subview: UIView) {
-        subview.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(subview)
-        self.view.sendSubviewToBack(subview)
-        self.view.addConstraints([
-            subview.topAnchor.constraint(equalTo: self.view.topAnchor),
-            subview.widthAnchor.constraint(equalTo: self.view.widthAnchor),
-            subview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            subview.heightAnchor.constraint(equalToConstant: self.navigationBarHeight)
-        ])
+        let textAttributes = [NSAttributedStringKey.foregroundColor:UIColor.black]
+        self.navigationBar.titleTextAttributes = textAttributes
     }
 }

@@ -80,6 +80,10 @@ class TradeItYahooEquityTradingTicketViewController: TradeItYahooViewController,
         }
     }
 
+    override func closeButtonTitle() -> String {
+        return "Cancel"
+    }
+
     // MARK: UITableViewDelegate
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

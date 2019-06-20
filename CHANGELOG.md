@@ -1,4 +1,9 @@
 # Changelog
+## [2.0.16]
+### Changed
+- Fix decimal numbers separator issue for european region
+- Fix overlapping text in transactions screen
+
 ## [2.0.9]
 ### Added
 - TradeItSDK.debug option to print logs to console

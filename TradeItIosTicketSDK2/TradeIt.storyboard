@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1749,7 +1749,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="64.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EAn-E8-eca">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Transaction Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EAn-E8-eca">
                                                     <rect key="frame" x="15" y="10" width="131.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1761,7 +1761,7 @@
                                                     <color key="textColor" red="0.53725868460000004" green="0.53724819420000003" blue="0.53725534679999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrC-hB-m5t">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalCompressionResistancePriority="749" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VrC-hB-m5t">
                                                     <rect key="frame" x="264.5" y="33.5" width="67.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                                     <color key="textColor" red="0.53725868460000004" green="0.53724819420000003" blue="0.53725534679999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1779,9 +1779,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="0ru-1v-C1e" secondAttribute="trailing" constant="10" id="3xj-mI-0z6"/>
                                                 <constraint firstItem="EAn-E8-eca" firstAttribute="leading" secondItem="U2a-dF-wME" secondAttribute="leading" constant="15" id="5hD-xq-jsY"/>
                                                 <constraint firstItem="tQQ-VR-30w" firstAttribute="top" secondItem="EAn-E8-eca" secondAttribute="bottom" constant="3" id="DXx-xG-9l0"/>
+                                                <constraint firstItem="VrC-hB-m5t" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tQQ-VR-30w" secondAttribute="trailing" constant="2" id="Iup-Rl-Z4U"/>
                                                 <constraint firstItem="VrC-hB-m5t" firstAttribute="centerY" secondItem="tQQ-VR-30w" secondAttribute="centerY" id="T6I-Pr-Qbw"/>
                                                 <constraint firstItem="0ru-1v-C1e" firstAttribute="centerY" secondItem="EAn-E8-eca" secondAttribute="centerY" id="VHZ-qO-OuV"/>
                                                 <constraint firstItem="tQQ-VR-30w" firstAttribute="leading" secondItem="EAn-E8-eca" secondAttribute="leading" id="X7Q-N5-sJW"/>
+                                                <constraint firstItem="0ru-1v-C1e" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EAn-E8-eca" secondAttribute="trailing" constant="2" id="adZ-T1-6GJ"/>
                                                 <constraint firstItem="EAn-E8-eca" firstAttribute="top" secondItem="U2a-dF-wME" secondAttribute="top" constant="10" id="gpG-hA-12Y"/>
                                             </constraints>
                                         </tableViewCellContentView>

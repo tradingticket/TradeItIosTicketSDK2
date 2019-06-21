@@ -17,7 +17,7 @@ class TradeItYahooNavigationController: UINavigationController {
         self.navigationBar.barTintColor = .white
         self.navigationBar.tintColor = UIColor(red: 24/255, green: 143/255, blue: 1, alpha: 1)
 
-        let textAttributes = [NSAttributedStringKey.foregroundColor:UIColor.black]
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
         self.navigationBar.titleTextAttributes = textAttributes
     }
 

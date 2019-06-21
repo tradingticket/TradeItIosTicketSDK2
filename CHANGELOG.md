@@ -1,4 +1,8 @@
 # Changelog
+## [2.0.17]
+### Changed
+- Set light mode on Yahoo Finance screens
+
 ## [2.0.16]
 ### Changed
 - Fix decimal numbers separator issue for european region
